@@ -1,0 +1,438 @@
+import type { Subject } from '@/types'
+import { letterLevels }         from './content/letters'
+import { numberLevels }         from './content/numbers'
+import { colorLevels }          from './content/colors'
+import { animalLevels }         from './content/animals'
+import { foodLevels }           from './content/food'
+import { familyLevels }         from './content/family'
+import { phonicsLevels }        from './content/phonics'
+import { bodyLevels }           from './content/body-parts'
+import { verbLevels }           from './content/action-verbs'
+import { sentenceLevels }       from './content/simple-sentences'
+// ── Beginner Grammar ────────────────────────────────────────────────────────
+import { pronounsLevels }       from './content/pronouns'
+import { toBeLevels }           from './content/to-be'
+import { articlesLevels }       from './content/articles'
+import { demonstrativesLevels } from './content/demonstratives'
+import { toHaveLevels }         from './content/to-have'
+import { possAdjLevels }        from './content/poss-adj'
+import { nounsPluralLevels }    from './content/nouns-plural'
+import { prepPlaceLevels }      from './content/prep-place'
+import { prepTimeLevels }       from './content/prep-time'
+import { thereIsLevels }        from './content/there-is'
+import { imperativeLevels }     from './content/imperative'
+// ── Intermediate Grammar ─────────────────────────────────────────────────────
+import { canCouldLevels }       from './content/can-could'
+import { presentSimpleLevels }  from './content/present-simple'
+import { presentProgLevels }    from './content/present-prog'
+import { simpleVsProgLevels }   from './content/simple-vs-prog'
+import { adjAdverbsLevels }     from './content/adj-adverbs'
+// ── Advanced Grammar ─────────────────────────────────────────────────────────
+import { pastBeLevels }         from './content/past-be'
+import { pastSimpleLevels }     from './content/past-simple'
+import { futureWillLevels }     from './content/future-will'
+import { goingToLevels }        from './content/going-to'
+import { reviewTensesLevels }   from './content/review-tenses'
+
+export const SUBJECTS: Subject[] = [
+  // ── BEGINNER ───────────────────────────────────────────────────────────────
+  {
+    id: 'letters',
+    title: 'Letters (ABC)',
+    hebrewTitle: 'אותיות',
+    emoji: '🔤',
+    color: 'bg-blue-100',
+    textColor: 'text-blue-700',
+    borderColor: 'border-blue-300',
+    category: 'beginner',
+    levels: letterLevels,
+  },
+  {
+    id: 'numbers',
+    title: 'Numbers',
+    hebrewTitle: 'מספרים',
+    emoji: '🔢',
+    color: 'bg-green-100',
+    textColor: 'text-green-700',
+    borderColor: 'border-green-300',
+    category: 'beginner',
+    levels: numberLevels,
+  },
+  {
+    id: 'colors',
+    title: 'Colors',
+    hebrewTitle: 'צבעים',
+    emoji: '🎨',
+    color: 'bg-pink-100',
+    textColor: 'text-pink-700',
+    borderColor: 'border-pink-300',
+    category: 'beginner',
+    levels: colorLevels,
+  },
+  {
+    id: 'animals',
+    title: 'Animals',
+    hebrewTitle: 'חיות',
+    emoji: '🐾',
+    color: 'bg-orange-100',
+    textColor: 'text-orange-700',
+    borderColor: 'border-orange-300',
+    category: 'beginner',
+    levels: animalLevels,
+  },
+  {
+    id: 'food',
+    title: 'Food',
+    hebrewTitle: 'אוכל',
+    emoji: '🍕',
+    color: 'bg-yellow-100',
+    textColor: 'text-yellow-700',
+    borderColor: 'border-yellow-300',
+    category: 'beginner',
+    levels: foodLevels,
+  },
+  {
+    id: 'family',
+    title: 'Family',
+    hebrewTitle: 'משפחה',
+    emoji: '👨‍👩‍👧‍👦',
+    color: 'bg-rose-100',
+    textColor: 'text-rose-700',
+    borderColor: 'border-rose-300',
+    category: 'beginner',
+    levels: familyLevels,
+  },
+  {
+    id: 'phonics',
+    title: 'Phonics',
+    hebrewTitle: 'פונטיקה',
+    emoji: '🔊',
+    color: 'bg-teal-100',
+    textColor: 'text-teal-700',
+    borderColor: 'border-teal-300',
+    category: 'beginner',
+    levels: phonicsLevels,
+  },
+  // ── INTERMEDIATE ──────────────────────────────────────────────────────────
+  {
+    id: 'body',
+    title: 'Body Parts',
+    hebrewTitle: 'חלקי הגוף',
+    emoji: '🦴',
+    color: 'bg-purple-100',
+    textColor: 'text-purple-700',
+    borderColor: 'border-purple-300',
+    category: 'intermediate',
+    levels: bodyLevels,
+  },
+  {
+    id: 'verbs',
+    title: 'Action Verbs',
+    hebrewTitle: 'פעלים',
+    emoji: '🏃',
+    color: 'bg-red-100',
+    textColor: 'text-red-700',
+    borderColor: 'border-red-300',
+    category: 'intermediate',
+    levels: verbLevels,
+  },
+  // ── ADVANCED ──────────────────────────────────────────────────────────────
+  {
+    id: 'sentences',
+    title: 'Simple Sentences',
+    hebrewTitle: 'משפטים פשוטים',
+    emoji: '💬',
+    color: 'bg-teal-100',
+    textColor: 'text-teal-700',
+    borderColor: 'border-teal-300',
+    category: 'advanced',
+    levels: sentenceLevels,
+  },
+  // ── BEGINNER GRAMMAR ──────────────────────────────────────────────────────
+  {
+    id: 'pronouns',
+    title: 'Pronouns',
+    hebrewTitle: 'כינויי גוף',
+    emoji: '👤',
+    color: 'bg-indigo-100',
+    textColor: 'text-indigo-700',
+    borderColor: 'border-indigo-300',
+    category: 'beginner-grammar',
+    levels: pronounsLevels,
+  },
+  {
+    id: 'to-be',
+    title: 'To Be: am / is / are',
+    hebrewTitle: 'פועל "להיות"',
+    emoji: '🙋',
+    color: 'bg-sky-100',
+    textColor: 'text-sky-700',
+    borderColor: 'border-sky-300',
+    category: 'beginner-grammar',
+    levels: toBeLevels,
+  },
+  {
+    id: 'articles',
+    title: 'Articles: a / an / the',
+    hebrewTitle: 'מילות יידוע',
+    emoji: '🔖',
+    color: 'bg-amber-100',
+    textColor: 'text-amber-700',
+    borderColor: 'border-amber-300',
+    category: 'beginner-grammar',
+    levels: articlesLevels,
+  },
+  {
+    id: 'demonstratives',
+    title: 'This / That / These / Those',
+    hebrewTitle: 'כינויי רמז',
+    emoji: '👉',
+    color: 'bg-cyan-100',
+    textColor: 'text-cyan-700',
+    borderColor: 'border-cyan-300',
+    category: 'beginner-grammar',
+    levels: demonstrativesLevels,
+  },
+  {
+    id: 'to-have',
+    title: 'To Have: have / has',
+    hebrewTitle: 'פועל "יש לי"',
+    emoji: '🎁',
+    color: 'bg-lime-100',
+    textColor: 'text-lime-700',
+    borderColor: 'border-lime-300',
+    category: 'beginner-grammar',
+    levels: toHaveLevels,
+  },
+  {
+    id: 'poss-adj',
+    title: 'Possessive Adjectives',
+    hebrewTitle: 'שמות גוף קנייניים',
+    emoji: '🏷️',
+    color: 'bg-violet-100',
+    textColor: 'text-violet-700',
+    borderColor: 'border-violet-300',
+    category: 'beginner-grammar',
+    levels: possAdjLevels,
+  },
+  {
+    id: 'nouns-plural',
+    title: 'Nouns: Singular & Plural',
+    hebrewTitle: 'שמות עצם — יחיד ורבים',
+    emoji: '📦',
+    color: 'bg-fuchsia-100',
+    textColor: 'text-fuchsia-700',
+    borderColor: 'border-fuchsia-300',
+    category: 'beginner-grammar',
+    levels: nounsPluralLevels,
+  },
+  {
+    id: 'prep-place',
+    title: 'Prepositions of Place',
+    hebrewTitle: 'מילות יחס של מיקום',
+    emoji: '📍',
+    color: 'bg-emerald-100',
+    textColor: 'text-emerald-700',
+    borderColor: 'border-emerald-300',
+    category: 'beginner-grammar',
+    levels: prepPlaceLevels,
+  },
+  {
+    id: 'prep-time',
+    title: 'Prepositions of Time',
+    hebrewTitle: 'מילות יחס של זמן',
+    emoji: '⏰',
+    color: 'bg-slate-100',
+    textColor: 'text-slate-700',
+    borderColor: 'border-slate-300',
+    category: 'beginner-grammar',
+    levels: prepTimeLevels,
+  },
+  {
+    id: 'there-is',
+    title: 'There is / There are',
+    hebrewTitle: 'יש / אין',
+    emoji: '📌',
+    color: 'bg-stone-100',
+    textColor: 'text-stone-700',
+    borderColor: 'border-stone-300',
+    category: 'beginner-grammar',
+    levels: thereIsLevels,
+  },
+  {
+    id: 'imperative',
+    title: 'The Imperative',
+    hebrewTitle: 'צורת ציווי',
+    emoji: '📢',
+    color: 'bg-zinc-100',
+    textColor: 'text-zinc-700',
+    borderColor: 'border-zinc-300',
+    category: 'beginner-grammar',
+    levels: imperativeLevels,
+  },
+  // ── INTERMEDIATE GRAMMAR ──────────────────────────────────────────────────
+  {
+    id: 'can-could',
+    title: 'Can / Could',
+    hebrewTitle: 'יכול / יכול היה',
+    emoji: '💪',
+    color: 'bg-orange-100',
+    textColor: 'text-orange-700',
+    borderColor: 'border-orange-300',
+    category: 'intermediate-grammar',
+    levels: canCouldLevels,
+  },
+  {
+    id: 'present-simple',
+    title: 'Present Simple',
+    hebrewTitle: 'הווה פשוט',
+    emoji: '🔄',
+    color: 'bg-blue-100',
+    textColor: 'text-blue-700',
+    borderColor: 'border-blue-300',
+    category: 'intermediate-grammar',
+    levels: presentSimpleLevels,
+  },
+  {
+    id: 'present-prog',
+    title: 'Present Progressive',
+    hebrewTitle: 'הווה מתמשך',
+    emoji: '⏱️',
+    color: 'bg-green-100',
+    textColor: 'text-green-700',
+    borderColor: 'border-green-300',
+    category: 'intermediate-grammar',
+    levels: presentProgLevels,
+  },
+  {
+    id: 'simple-vs-prog',
+    title: 'Simple vs Progressive',
+    hebrewTitle: 'הווה פשוט לעומת מתמשך',
+    emoji: '↔️',
+    color: 'bg-teal-100',
+    textColor: 'text-teal-700',
+    borderColor: 'border-teal-300',
+    category: 'intermediate-grammar',
+    levels: simpleVsProgLevels,
+  },
+  {
+    id: 'adj-adverbs',
+    title: 'Adjectives & Adverbs',
+    hebrewTitle: 'שמות תואר ותואר הפועל',
+    emoji: '📐',
+    color: 'bg-yellow-100',
+    textColor: 'text-yellow-700',
+    borderColor: 'border-yellow-300',
+    category: 'intermediate-grammar',
+    levels: adjAdverbsLevels,
+  },
+  // ── ADVANCED GRAMMAR ──────────────────────────────────────────────────────
+  {
+    id: 'past-be',
+    title: 'To Be Past: was / were',
+    hebrewTitle: 'עבר של "להיות"',
+    emoji: '⏪',
+    color: 'bg-purple-100',
+    textColor: 'text-purple-700',
+    borderColor: 'border-purple-300',
+    category: 'advanced-grammar',
+    levels: pastBeLevels,
+  },
+  {
+    id: 'past-simple',
+    title: 'Past Simple',
+    hebrewTitle: 'עבר פשוט',
+    emoji: '📅',
+    color: 'bg-red-100',
+    textColor: 'text-red-700',
+    borderColor: 'border-red-300',
+    category: 'advanced-grammar',
+    levels: pastSimpleLevels,
+  },
+  {
+    id: 'future-will',
+    title: 'Future: Will',
+    hebrewTitle: 'עתיד עם will',
+    emoji: '🔮',
+    color: 'bg-indigo-100',
+    textColor: 'text-indigo-700',
+    borderColor: 'border-indigo-300',
+    category: 'advanced-grammar',
+    levels: futureWillLevels,
+  },
+  {
+    id: 'going-to',
+    title: 'Future: Be Going To',
+    hebrewTitle: 'עתיד עם going to',
+    emoji: '📋',
+    color: 'bg-pink-100',
+    textColor: 'text-pink-700',
+    borderColor: 'border-pink-300',
+    category: 'advanced-grammar',
+    levels: goingToLevels,
+  },
+  {
+    id: 'review-tenses',
+    title: 'Review of Tenses',
+    hebrewTitle: 'סיכום זמנים',
+    emoji: '🎯',
+    color: 'bg-rose-100',
+    textColor: 'text-rose-700',
+    borderColor: 'border-rose-300',
+    category: 'advanced-grammar',
+    levels: reviewTensesLevels,
+  },
+]
+
+export const getSubject = (id: string) => SUBJECTS.find(s => s.id === id)
+
+export const CATEGORIES = [
+  {
+    id: 'beginner',
+    title: 'Beginner',
+    hebrewTitle: 'מתחיל',
+    emoji: '🌱',
+    color: 'from-green-400 to-emerald-500',
+    description: 'Start here! Letters, numbers, colors and more.',
+  },
+  {
+    id: 'intermediate',
+    title: 'Intermediate',
+    hebrewTitle: 'בינוני',
+    emoji: '🌟',
+    color: 'from-blue-400 to-indigo-500',
+    description: 'Build sentences and learn action words.',
+  },
+  {
+    id: 'advanced',
+    title: 'Advanced',
+    hebrewTitle: 'מתקדם',
+    emoji: '🚀',
+    color: 'from-purple-600 to-pink-600',
+    description: 'Read and write full English sentences.',
+  },
+  {
+    id: 'beginner-grammar',
+    title: 'Beginner Grammar',
+    hebrewTitle: 'דקדוק למתחילים',
+    emoji: '📝',
+    color: 'from-indigo-400 to-sky-500',
+    description: 'Pronouns, to be, articles, prepositions and more.',
+  },
+  {
+    id: 'intermediate-grammar',
+    title: 'Intermediate Grammar',
+    hebrewTitle: 'דקדוק בינוני',
+    emoji: '⚙️',
+    color: 'from-teal-400 to-cyan-500',
+    description: 'Can/could, present tenses, adjectives and adverbs.',
+  },
+  {
+    id: 'advanced-grammar',
+    title: 'Advanced Grammar',
+    hebrewTitle: 'דקדוק מתקדם',
+    emoji: '🏆',
+    color: 'from-violet-500 to-purple-600',
+    description: 'Past simple, future tenses and review of all tenses.',
+  },
+]

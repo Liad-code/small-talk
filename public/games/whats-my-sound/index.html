@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's My Sound?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Comic+Neue:wght@400;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Comic Neue', cursive;
+      background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #e0f7fa 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px;
+    }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      color: #00796b;
+      text-shadow: 2px 2px 0 #fff;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #555;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      width: 100%;
+      max-width: 420px;
+      background: #b2dfdb;
+      border-radius: 20px;
+      height: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #26a69a, #00796b);
+      border-radius: 20px;
+      transition: width 0.4s ease;
+    }
+
+    /* Score bar */
+    .score-bar {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      background: white;
+      padding: 8px 24px;
+      border-radius: 50px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 18px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #333;
+    }
+
+    /* Question card */
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      border: 4px solid #80cbc4;
+      padding: 28px 24px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .question-label {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    /* Emoji + speak button row */
+    .emoji-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .big-emoji {
+      font-size: 5rem;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .speak-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 3px solid #26a69a;
+      background: white;
+      font-size: 1.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: #26a69a;
+      flex-shrink: 0;
+    }
+    .speak-btn:hover { background: #26a69a; color: white; transform: scale(1.1); }
+    .speak-btn.playing {
+      background: #26a69a; color: white;
+      animation: pulse 0.8s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(38,166,154,0.4); }
+      50%      { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(38,166,154,0); }
+    }
+
+    /* Letter choices */
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .choice-btn {
+      padding: 18px 10px;
+      border-radius: 18px;
+      border: 3px solid #b2dfdb;
+      background: white;
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      color: #333;
+    }
+    .choice-btn:hover:not(:disabled) {
+      border-color: #26a69a;
+      background: #e0f7fa;
+      transform: scale(1.06);
+    }
+    .choice-btn.correct {
+      background: #c8e6c9; border-color: #388e3c; color: #2e7d32;
+      animation: pop 0.35s ease;
+    }
+    .choice-btn.wrong {
+      background: #ffcdd2; border-color: #c62828; color: #c62828;
+      animation: shake 0.4s ease;
+    }
+    @keyframes pop   { 0%{transform:scale(1)} 50%{transform:scale(1.18)} 100%{transform:scale(1)} }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+    /* Feedback flash */
+    .feedback {
+      min-height: 28px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      margin-top: 16px;
+      color: #2e7d32;
+    }
+    .feedback.wrong { color: #c62828; }
+
+    /* Results screen */
+    .results {
+      display: none;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      border: 4px solid #80cbc4;
+      padding: 36px 28px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .results.show { display: block; animation: popIn 0.5s ease; }
+    @keyframes popIn { 0%{transform:scale(0.6);opacity:0} 100%{transform:scale(1);opacity:1} }
+
+    .results h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      color: #00796b;
+      margin-bottom: 8px;
+    }
+    .results .trophy { font-size: 4.5rem; display: block; margin-bottom: 8px; }
+    .results .score-display {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: #26a69a;
+      margin-bottom: 4px;
+    }
+    .results .stars { font-size: 2rem; margin-bottom: 18px; display: block; }
+
+    .play-again-btn {
+      display: inline-block;
+      padding: 14px 38px;
+      background: linear-gradient(135deg, #26a69a, #00796b);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(38,166,154,0.3);
+      transition: all 0.2s;
+    }
+    .play-again-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(38,166,154,0.4); }
+
+    /* Confetti */
+    .confetti-piece {
+      position: fixed; width: 10px; height: 10px; border-radius: 2px;
+      animation: fall linear forwards; pointer-events: none; z-index: 999;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-10vh) rotate(0deg);   opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    @media (max-width: 400px) {
+      h1 { font-size: 1.7rem; }
+      .big-emoji { font-size: 4rem; }
+      .choice-btn { font-size: 1.6rem; padding: 14px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>What's My Sound? 🔊</h1>
+  <div class="subtitle">Hear the word — tap the letter it starts with!</div>
+
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <div class="score-bar">
+    <span>⭐ Score: <span id="scoreDisplay">0</span></span>
+    <span>❓ <span id="qNum">1</span> / <span id="qTotal">10</span></span>
+  </div>
+
+  <!-- Question card -->
+  <div class="card" id="questionCard">
+    <div class="question-label">What letter does this start with?</div>
+    <div class="emoji-row">
+      <div class="big-emoji" id="emoji">🍎</div>
+      <button class="speak-btn" id="speakBtn" onclick="speakCurrent()" title="Hear the word">🔊</button>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Results screen -->
+  <div class="results" id="results">
+    <span class="trophy" id="trophyIcon">🏆</span>
+    <h2 id="resultsTitle">Amazing!</h2>
+    <div class="score-display" id="resultsScore"></div>
+    <span class="stars" id="resultsStars"></span>
+    <button class="play-again-btn" onclick="restartGame()">Play Again! 🔄</button>
+  </div>
+
+  <script>
+    // ── Word bank: emoji, word, starting letter ─────────────────────────────
+    const WORD_BANK = [
+      { emoji: '🍎', word: 'Apple',    letter: 'A' },
+      { emoji: '🐻', word: 'Bear',     letter: 'B' },
+      { emoji: '🐱', word: 'Cat',      letter: 'C' },
+      { emoji: '🐶', word: 'Dog',      letter: 'D' },
+      { emoji: '🐘', word: 'Elephant', letter: 'E' },
+      { emoji: '🐟', word: 'Fish',     letter: 'F' },
+      { emoji: '🦒', word: 'Giraffe',  letter: 'G' },
+      { emoji: '🏠', word: 'House',    letter: 'H' },
+      { emoji: '🧊', word: 'Ice',      letter: 'I' },
+      { emoji: '🧃', word: 'Juice',    letter: 'J' },
+      { emoji: '🪁', word: 'Kite',     letter: 'K' },
+      { emoji: '🦁', word: 'Lion',     letter: 'L' },
+      { emoji: '🌙', word: 'Moon',     letter: 'M' },
+      { emoji: '🪺', word: 'Nest',     letter: 'N' },
+      { emoji: '🍊', word: 'Orange',   letter: 'O' },
+      { emoji: '🐧', word: 'Penguin',  letter: 'P' },
+      { emoji: '👑', word: 'Queen',    letter: 'Q' },
+      { emoji: '🌈', word: 'Rainbow',  letter: 'R' },
+      { emoji: '⭐', word: 'Star',     letter: 'S' },
+      { emoji: '🐯', word: 'Tiger',    letter: 'T' },
+      { emoji: '☂️', word: 'Umbrella', letter: 'U' },
+      { emoji: '🎻', word: 'Violin',   letter: 'V' },
+      { emoji: '🐳', word: 'Whale',    letter: 'W' },
+      { emoji: '🦓', word: 'Zebra',    letter: 'Z' },
+    ];
+
+    const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const TOTAL_QUESTIONS = 10;
+
+    let questions     = [];
+    let currentIdx    = 0;
+    let score         = 0;
+    let correct       = 0;
+    let answered      = false;
+
+    // ── TTS ─────────────────────────────────────────────────────────────────
+    function speak(word, btnEl) {
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(word);
+      utter.lang  = 'en-US';
+      utter.rate  = 0.75;
+      utter.pitch = 1.1;
+      utter.volume = 1;
+      const voices = window.speechSynthesis.getVoices();
+      const voice  = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
+                  || voices.find(v => v.lang.startsWith('en-US'))
+                  || voices.find(v => v.lang.startsWith('en'));
+      if (voice) utter.voice = voice;
+      if (btnEl) {
+        btnEl.classList.add('playing');
+        utter.onend  = () => btnEl.classList.remove('playing');
+        utter.onerror = () => btnEl.classList.remove('playing');
+      }
+      window.speechSynthesis.speak(utter);
+    }
+
+    if (window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+
+    function speakCurrent() {
+      speak(questions[currentIdx].word, document.getElementById('speakBtn'));
+    }
+
+    // ── Game logic ───────────────────────────────────────────────────────────
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function pickDistractors(correctLetter, count) {
+      const pool = ALL_LETTERS.filter(l => l !== correctLetter);
+      return shuffle(pool).slice(0, count);
+    }
+
+    function buildQuestions() {
+      return shuffle([...WORD_BANK]).slice(0, TOTAL_QUESTIONS).map(item => ({
+        ...item,
+        options: shuffle([item.letter, ...pickDistractors(item.letter, 3)]),
+      }));
+    }
+
+    function startGame() {
+      questions  = buildQuestions();
+      currentIdx = 0;
+      score      = 0;
+      correct    = 0;
+      answered   = false;
+      document.getElementById('results').classList.remove('show');
+      document.getElementById('questionCard').style.display = '';
+      document.getElementById('scoreDisplay').textContent = 0;
+      document.getElementById('qTotal').textContent = TOTAL_QUESTIONS;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q = questions[currentIdx];
+
+      // Progress
+      const pct = (currentIdx / TOTAL_QUESTIONS) * 100;
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('qNum').textContent = currentIdx + 1;
+
+      // Emoji
+      document.getElementById('emoji').textContent = q.emoji;
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('feedback').className = 'feedback';
+
+      // Choices
+      const container = document.getElementById('choices');
+      container.innerHTML = '';
+      q.options.forEach(letter => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = letter;
+        btn.onclick = () => handleAnswer(letter, btn);
+        container.appendChild(btn);
+      });
+
+      // Auto-speak after a short delay
+      setTimeout(speakCurrent, 400);
+    }
+
+    function handleAnswer(letter, btnEl) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[currentIdx];
+      const isCorrect = letter === q.letter;
+
+      // Disable all buttons
+      document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        btnEl.classList.add('correct');
+        score += 10;
+        correct++;
+        document.getElementById('scoreDisplay').textContent = score;
+        document.getElementById('feedback').textContent = '✅ Correct! ' + q.word + ' starts with ' + q.letter + '!';
+        document.getElementById('feedback').className = 'feedback';
+        speak(q.word, null);
+      } else {
+        btnEl.classList.add('wrong');
+        // Highlight the correct one
+        document.querySelectorAll('.choice-btn').forEach(b => {
+          if (b.textContent === q.letter) b.classList.add('correct');
+        });
+        document.getElementById('feedback').textContent = '❌ ' + q.word + ' starts with ' + q.letter + '!';
+        document.getElementById('feedback').className = 'feedback wrong';
+      }
+
+      setTimeout(() => {
+        currentIdx++;
+        if (currentIdx >= TOTAL_QUESTIONS) {
+          showResults();
+        } else {
+          showQuestion();
+        }
+      }, 1200);
+    }
+
+    function showResults() {
+      window.speechSynthesis.cancel();
+      document.getElementById('progressFill').style.width = '100%';
+      document.getElementById('questionCard').style.display = 'none';
+
+      const pct = Math.round((correct / TOTAL_QUESTIONS) * 100);
+      const stars = pct >= 90 ? '⭐⭐⭐' : pct >= 60 ? '⭐⭐' : '⭐';
+      const trophy = pct >= 90 ? '🏆' : pct >= 60 ? '🎉' : '💪';
+      const title  = pct >= 90 ? 'Amazing!' : pct >= 60 ? 'Well Done!' : 'Keep Practising!';
+
+      document.getElementById('trophyIcon').textContent  = trophy;
+      document.getElementById('resultsTitle').textContent = title;
+      document.getElementById('resultsScore').textContent = correct + ' / ' + TOTAL_QUESTIONS + ' correct  (' + pct + '%)';
+      document.getElementById('resultsStars').textContent = stars;
+      document.getElementById('results').classList.add('show');
+
+      if (pct >= 60) launchConfetti();
+
+      // ── Report score to the parent platform ────────────────────────────────
+      window.parent.postMessage({ type: 'GAME_COMPLETE', score: pct }, '*');
+    }
+
+    function restartGame() {
+      startGame();
+    }
+
+    function launchConfetti() {
+      const colors = ['#26a69a','#00796b','#4dd0e1','#f9a825','#e91e63','#7b1fa2'];
+      for (let i = 0; i < 60; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.animationDelay = Math.random() * 0.5 + 's';
+        piece.style.width = (6 + Math.random() * 8) + 'px';
+        piece.style.height = (6 + Math.random() * 8) + 'px';
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4500);
+      }
+    }
+
+    // Start!
+    startGame();
+  </script>
+</body>
+</html>

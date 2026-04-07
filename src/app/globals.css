@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #6C63FF;
+  --color-secondary: #FF6584;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-nunito), sans-serif;
+  background: linear-gradient(160deg, #FFF6EE 0%, #F0F4FF 55%, #FFF0F8 100%);
+  min-height: 100vh;
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-baloo), cursive;
+}
+
+/* ── Kid-friendly button base ───────────────────────────────── */
+.btn-kid {
+  @apply font-bold rounded-2xl px-6 py-3 text-white shadow-lg
+         transition-all duration-150 active:scale-95 cursor-pointer
+         select-none;
+}
+
+/* ── Word card ───────────────────────────────────────────────── */
+.word-card {
+  @apply bg-white rounded-3xl shadow-md border-4 p-5
+         flex flex-col items-center gap-2 text-center
+         transition-all duration-200 hover:scale-105 hover:shadow-xl;
+}
+
+/* ── Quiz option button ──────────────────────────────────────── */
+.quiz-option {
+  @apply w-full text-left p-4 rounded-2xl border-2 border-gray-200
+         bg-white font-bold text-lg
+         transition-all duration-150
+         active:scale-95 cursor-pointer;
+}
+.quiz-option:hover {
+  border-color: #6C63FF;
+  background-color: #f5f3ff;
+}
+.quiz-option.correct {
+  @apply border-green-400 bg-green-50 text-green-700;
+}
+.quiz-option.wrong {
+  @apply border-red-400 bg-red-50 text-red-700;
+}
+
+/* ── 3D subject card ─────────────────────────────────────────── */
+.card-3d {
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.12), 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s ease;
+}
+.card-3d:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 0 rgba(0, 0, 0, 0.12), 0 18px 32px rgba(0, 0, 0, 0.11);
+}
+.card-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Mascot float ────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-10px) rotate(1.5deg); }
+  66%       { transform: translateY(-5px) rotate(-1deg); }
+}
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ── Sparkle twinkle ─────────────────────────────────────────── */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50%       { opacity: 0.4; transform: scale(0.7) rotate(25deg); }
+}
+.twinkle { animation: twinkle 2.4s ease-in-out infinite; }
+.twinkle-delay-1 { animation: twinkle 2.4s ease-in-out 0.6s infinite; }
+.twinkle-delay-2 { animation: twinkle 2.4s ease-in-out 1.2s infinite; }
+.twinkle-delay-3 { animation: twinkle 2.4s ease-in-out 1.8s infinite; }
+
+/* ── Star animation ──────────────────────────────────────────── */
+@keyframes star-pop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.3) rotate(10deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.star-animate {
+  animation: star-pop 0.5s ease-out forwards;
+}
+
+/* ── Bounce in ───────────────────────────────────────────────── */
+@keyframes bounce-in {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.1); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+.bounce-in {
+  animation: bounce-in 0.4s ease-out;
+}
+
+/* ── Slide up stagger ────────────────────────────────────────── */
+@keyframes slide-up {
+  0%   { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+.slide-up        { animation: slide-up 0.5s ease-out both; }
+.slide-up-delay1 { animation: slide-up 0.5s ease-out 0.1s both; }
+.slide-up-delay2 { animation: slide-up 0.5s ease-out 0.2s both; }
+.slide-up-delay3 { animation: slide-up 0.5s ease-out 0.3s both; }
+
+/* ── Shake ───────────────────────────────────────────────────── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+/* ── Progress bar fill ───────────────────────────────────────── */
+.progress-fill {
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Legacy card-pop (kept for other pages) ──────────────────── */
+.card-pop {
+  @apply transition-transform duration-200 hover:scale-105;
+}
+
+/* ── Hide scrollbar but keep scroll ─────────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

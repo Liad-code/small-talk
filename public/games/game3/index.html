@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║           SMALL TALK — EXTERNAL GAME SLOT #3                ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  HOW TO USE THIS FILE                                        ║
+  ║                                                              ║
+  ║  1. Delete everything between the two "YOUR GAME" markers    ║
+  ║     below and paste your own HTML/CSS/JS game there.         ║
+  ║                                                              ║
+  ║  2. Keep the <script> block at the bottom — that's the       ║
+  ║     bridge that sends scores back to the platform.           ║
+  ║                                                              ║
+  ║  3. In your game code, call sendScore(points) when the       ║
+  ║     player finishes. Example: sendScore(80) for 80 points.   ║
+  ║     Score range: 0–100. ≥60 = 2 stars, ≥80 = 3 stars.       ║
+  ║                                                              ║
+  ║  4. The platform passes subject/level in the URL:            ║
+  ║     ?subject=animals&level=1                                 ║
+  ║     Read them with: const p = new URLSearchParams(...)       ║
+  ║     You can use these to load the right vocabulary.          ║
+  ║                                                              ║
+  ║  5. Update GAME_INFO in:                                     ║
+  ║     src/app/games/[gameId]/page.tsx                          ║
+  ║     Change 'game3' title, emoji, and description.            ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game 3</title>
+
+  <!-- ════════════════════════════════════════════════════════
+       PLACEHOLDER STYLES — replace or delete when adding your game
+       ════════════════════════════════════════════════════════ -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e8fff0 0%, #e8f0ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.12);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .emoji { font-size: 5rem; line-height: 1; margin-bottom: 1rem; }
+    h1 { font-size: 1.75rem; font-weight: 900; color: #059669; margin-bottom: 0.5rem; }
+    .subtitle { color: #6b7280; font-size: 1rem; line-height: 1.5; margin-bottom: 1.5rem; }
+    .file-path {
+      background: #f3f4f6;
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #374151;
+      margin-bottom: 1.5rem;
+    }
+    .steps {
+      text-align: left;
+      background: #f0fdf4;
+      border: 2px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .steps li { color: #166534; font-size: 0.9rem; margin-bottom: 0.4rem; line-height: 1.4; }
+    .test-btn {
+      background: #059669;
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.1s, background 0.2s;
+    }
+    .test-btn:hover { background: #047857; transform: scale(1.03); }
+    .test-btn:active { transform: scale(0.97); }
+    .feedback {
+      margin-top: 1rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #16a34a;
+      min-height: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ▼▼▼▼▼▼▼▼▼▼▼▼  START: YOUR GAME CODE GOES HERE  ▼▼▼▼▼▼▼▼▼▼▼▼ -->
+
+  <div class="card">
+    <div class="emoji">🚀</div>
+    <h1>Game 3 — Placeholder</h1>
+    <p class="subtitle">
+      Paste your game's HTML/CSS/JS code in place of this placeholder block.
+    </p>
+
+    <div class="file-path">public/games/game3/index.html</div>
+
+    <div class="steps">
+      <ol style="padding-left:1.25rem">
+        <li>Delete this placeholder &lt;div class="card"&gt; block</li>
+        <li>Paste your game HTML here</li>
+        <li>Call <strong>sendScore(pts)</strong> when your game ends</li>
+        <li>Keep the bridge &lt;script&gt; at the bottom</li>
+      </ol>
+    </div>
+
+    <button class="test-btn" onclick="testBridge()">
+      🧪 Test Score Bridge (sends 75 pts)
+    </button>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- ▲▲▲▲▲▲▲▲▲▲▲▲  END: YOUR GAME CODE GOES HERE    ▲▲▲▲▲▲▲▲▲▲▲▲ -->
+
+
+  <!-- ════════════════════════════════════════════════════════════════
+       KEEP THIS SCRIPT — postMessage bridge to the Small Talk platform
+       Call sendScore(points) anywhere in your game when the player finishes.
+       points = 0–100. The platform converts this to stars (≥60 → 2★, ≥80 → 3★).
+       ════════════════════════════════════════════════════════════════ -->
+  <script>
+    // Read subject + level from URL so your game can load the right words
+    const params  = new URLSearchParams(window.location.search);
+    const subject = params.get('subject') || 'animals';
+    const level   = parseInt(params.get('level') || '1', 10);
+
+    // Call this when the player finishes your game
+    function sendScore(points) {
+      window.parent.postMessage(
+        { type: 'GAME_COMPLETE', score: Math.max(0, Math.min(100, points)) },
+        '*'
+      );
+    }
+
+    // Test helper — remove once your game is wired up
+    function testBridge() {
+      sendScore(75);
+      document.getElementById('feedback').textContent =
+        '✅ Message sent! Check the platform — score should appear above.';
+    }
+  </script>
+
+</body>
+</html>

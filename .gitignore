@@ -1,0 +1,24 @@
+# Next.js
+.next/
+out/
+
+# Claude Code internal files
+.claude/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.suo
+*.user
