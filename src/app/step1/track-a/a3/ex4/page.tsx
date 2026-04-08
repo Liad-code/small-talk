@@ -55,7 +55,6 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
           const done = matched.has(letter)
 
           return (
-            {/* The entire pot+lid compound is the drop target for mobile ease */}
             <div
               key={letter}
               data-drop-target="true"
