@@ -114,7 +114,7 @@ export default function Step1HubPage() {
       <section className="text-center py-8 px-4 relative overflow-hidden">
         <div className="text-6xl mb-3">🐣</div>
         <h1 className="font-display text-4xl sm:text-5xl font-bold text-amber-700 mb-2">
-          One Step
+          Step 1
         </h1>
         <p className="text-xl font-bold text-amber-600 mb-1">For complete beginners!</p>
         <p className="text-lg font-bold text-amber-500" dir="rtl">לתלמידים מתחילים</p>

@@ -12,7 +12,7 @@ interface Props {
   groupId: string
   exerciseId: string
   groupColor?: string           // Tailwind gradient e.g. 'from-red-400 to-orange-500'
-  children: (onComplete: () => void) => React.ReactNode
+  children: (onComplete: () => void, resetKey: number) => React.ReactNode
 }
 
 function playHappySound() {
@@ -92,7 +92,7 @@ export function ExerciseShell({
       {/* Exercise body */}
       <div className="flex-1 relative">
         <div key={key} className="h-full">
-          {children(onComplete)}
+          {children(onComplete, key)}
         </div>
       </div>
 

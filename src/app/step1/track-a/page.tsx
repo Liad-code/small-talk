@@ -5,7 +5,7 @@ import { useStep1Progress } from '@/hooks/useStep1Progress'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
 
 const EXERCISES = ['ex1', 'ex2', 'ex3a', 'ex3b', 'ex3c']
-const EXERCISE_LABELS = ['Drag to Square', 'Bubble Pop', 'Match Pairs', 'Flower & Pot', 'Maze Paths']
+const EXERCISE_LABELS = ['Drag to Square', 'Bubble Pop', 'Match Pairs', 'Bouquet Flowers', 'Maze Paths']
 const EXERCISE_EMOJIS = ['🧲', '🫧', '🔗', '🌸', '🌀']
 
 const A3_EXERCISES = [
@@ -91,7 +91,7 @@ export default function TrackAPage() {
                           no-underline flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-bold
                           ${isExerciseDone('A', group.id, ex)
                             ? 'bg-green-100 border-2 border-green-400 text-green-700'
-                            : 'bg-white border-2 border-gray-200 text-gray-600 hover:border-primary hover:text-primary'}
+                            : `${group.bgColor} border-2 ${group.borderColor} ${group.textColor} hover:opacity-80`}
                           transition-colors
                         `}
                       >

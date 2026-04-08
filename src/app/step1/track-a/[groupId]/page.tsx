@@ -1,6 +1,5 @@
 'use client'
 import Link from 'next/link'
-import { use } from 'react'
 import { Header } from '@/components/layout/Header'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
@@ -9,7 +8,7 @@ const EXERCISES = [
   { id: 'ex1', label: 'Drag to Square', emoji: '🧲', hebrewLabel: 'גרור לריבוע הנכון' },
   { id: 'ex2', label: 'Bubble Pop', emoji: '🫧', hebrewLabel: 'פוצץ את בועת הסבון הנכונה' },
   { id: 'ex3a', label: 'Match Pairs', emoji: '🔗', hebrewLabel: 'התאמה — עמודה ימין ושמאל' },
-  { id: 'ex3b', label: 'Flower & Pot', emoji: '🌸', hebrewLabel: 'התאמה — פרח ועציץ' },
+  { id: 'ex3b', label: 'Bouquet Flowers', emoji: '🌸', hebrewLabel: 'התאמה — פרח ועציץ' },
   { id: 'ex3c', label: 'Maze Paths', emoji: '🌀', hebrewLabel: 'עקוב אחרי הדרך' },
 ]
 

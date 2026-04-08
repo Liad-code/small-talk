@@ -385,8 +385,8 @@ export const SUBJECTS: Subject[] = [
   // ── STEP 1 ────────────────────────────────────────────────────────────────
   {
     id: 'step1',
-    title: 'Step 1 — One Step',
-    hebrewTitle: 'שלב ראשון — One Step',
+    title: 'Step 1',
+    hebrewTitle: 'שלב ראשון',
     emoji: '🐣',
     color: 'bg-amber-100',
     textColor: 'text-amber-700',
@@ -450,8 +450,8 @@ export const CATEGORIES = [
   },
   {
     id: 'step1',
-    title: 'Step 1 — One Step',
-    hebrewTitle: 'שלב ראשון — מתחילים',
+    title: 'Step 1',
+    hebrewTitle: 'שלב ראשון',
     emoji: '🐣',
     color: 'from-amber-400 to-orange-400',
     description: 'Letters, sounds and first words — voice-based for complete beginners.',
