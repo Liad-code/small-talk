@@ -33,7 +33,8 @@ export interface Subject {
   color: string        // Tailwind bg class
   textColor: string    // Tailwind text class
   borderColor: string  // Tailwind border class
-  category: 'beginner' | 'intermediate' | 'advanced' | 'beginner-grammar' | 'intermediate-grammar' | 'advanced-grammar'
+  category: 'beginner' | 'intermediate' | 'advanced' | 'beginner-grammar' | 'intermediate-grammar' | 'advanced-grammar' | 'step1'
+  href?: string   // optional override link (used for step1 which has its own routing)
   levels: SubjectLevel[]
 }
 

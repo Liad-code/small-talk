@@ -142,3 +142,25 @@ body {
 /* ── Hide scrollbar but keep scroll ─────────────────────────── */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Step 1 drag-and-drop ────────────────────────────────────── */
+.dragging {
+  opacity: 0.88;
+  filter: drop-shadow(0 8px 18px rgba(108,99,255,0.4));
+}
+
+.drop-hover {
+  border-color: #6C63FF !important;
+  background-color: #f5f3ff !important;
+  transform: scale(1.06);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+@keyframes drop-success {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+.drop-success {
+  animation: drop-success 0.35s ease-out;
+}

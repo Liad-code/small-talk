@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
-import { useProgress } from '@/hooks/useProgress'
+import { useCombinedStars } from '@/hooks/useCombinedStars'
 import { useMute } from '@/hooks/useMute'
 
 export function Header() {
-  const { totalStars } = useProgress()
+  const totalStars = useCombinedStars()
   const { muted, toggleMute } = useMute()
 
   return (
@@ -40,7 +40,7 @@ export function Header() {
           {/* Mute toggle */}
           <button
             onClick={toggleMute}
-            className="w-10 h-10 flex items-center justify-center rounded-2xl
+            className="w-11 h-11 flex items-center justify-center rounded-2xl
                        bg-white border-2 border-gray-200 text-xl
                        hover:border-primary hover:bg-purple-50
                        active:scale-90 transition-all duration-150 cursor-pointer select-none"

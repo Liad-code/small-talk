@@ -382,6 +382,19 @@ export const SUBJECTS: Subject[] = [
     category: 'advanced-grammar',
     levels: reviewTensesLevels,
   },
+  // ── STEP 1 ────────────────────────────────────────────────────────────────
+  {
+    id: 'step1',
+    title: 'Step 1 — One Step',
+    hebrewTitle: 'שלב ראשון — One Step',
+    emoji: '🐣',
+    color: 'bg-amber-100',
+    textColor: 'text-amber-700',
+    borderColor: 'border-amber-400',
+    category: 'step1',
+    href: '/step1',
+    levels: [],
+  },
 ]
 
 export const getSubject = (id: string) => SUBJECTS.find(s => s.id === id)
@@ -434,5 +447,13 @@ export const CATEGORIES = [
     emoji: '🏆',
     color: 'from-violet-500 to-purple-600',
     description: 'Past simple, future tenses and review of all tenses.',
+  },
+  {
+    id: 'step1',
+    title: 'Step 1 — One Step',
+    hebrewTitle: 'שלב ראשון — מתחילים',
+    emoji: '🐣',
+    color: 'from-amber-400 to-orange-400',
+    description: 'Letters, sounds and first words — voice-based for complete beginners.',
   },
 ]

@@ -105,10 +105,12 @@ export default function HomePage() {
                   // Alternate subtle tilt direction for a hand-placed feel
                   const tiltClass = idx % 2 === 0 ? 'hover:rotate-1' : 'hover:-rotate-1'
 
+                  const href = subject.href ?? `/subject/${subject.id}`
+
                   return (
                     <Link
                       key={subject.id}
-                      href={`/subject/${subject.id}`}
+                      href={href}
                       className={`
                         ${subject.color} border-4 ${subject.borderColor}
                         rounded-3xl p-4 flex flex-col items-center gap-2.5 text-center
@@ -130,17 +132,25 @@ export default function HomePage() {
                         </div>
                       </div>
 
-                      {/* Progress bar */}
+                      {/* Progress bar / explore prompt */}
                       <div className="w-full">
-                        <div className="w-full bg-white/70 rounded-full h-2.5 mb-1">
-                          <div
-                            className="h-full rounded-full bg-current progress-fill"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                        <div className="text-xs text-gray-500 font-bold">
-                          {doneCount}/{totalLevels} levels
-                        </div>
+                        {totalLevels > 0 ? (
+                          <>
+                            <div className="w-full bg-white/70 rounded-full h-2.5 mb-1">
+                              <div
+                                className="h-full rounded-full bg-current progress-fill"
+                                style={{ width: `${pct}%` }}
+                              />
+                            </div>
+                            <div className="text-xs text-gray-500 font-bold">
+                              {doneCount}/{totalLevels} levels
+                            </div>
+                          </>
+                        ) : (
+                          <div className={`text-xs font-bold ${subject.textColor}`}>
+                            Start here! →
+                          </div>
+                        )}
                       </div>
                     </Link>
                   )
