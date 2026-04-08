@@ -2,6 +2,7 @@ export interface TrackDItem {
   word: string
   emoji: string
   ttsText?: string   // override if TTS needs a different phrase
+  dayNum?: number    // for days category: ordinal position in week
 }
 
 export interface TrackDCategory {
@@ -62,9 +63,13 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     id: 'days', title: 'Days of the Week', hebrewTitle: 'ימות השבוע', emoji: '📅',
     color: 'from-purple-400 to-violet-500', bgColor: 'bg-purple-50', borderColor: 'border-purple-400', textColor: 'text-purple-700',
     items: [
-      { word: 'Sunday', emoji: '🌟' }, { word: 'Monday', emoji: '📚' }, { word: 'Tuesday', emoji: '✏️' },
-      { word: 'Wednesday', emoji: '🎨' }, { word: 'Thursday', emoji: '🎵' },
-      { word: 'Friday', emoji: '🎉' }, { word: 'Saturday', emoji: '🛌' },
+      { word: 'Sunday',    emoji: '📅', dayNum: 1 },
+      { word: 'Monday',    emoji: '📅', dayNum: 2 },
+      { word: 'Tuesday',   emoji: '📅', dayNum: 3 },
+      { word: 'Wednesday', emoji: '📅', dayNum: 4 },
+      { word: 'Thursday',  emoji: '📅', dayNum: 5 },
+      { word: 'Friday',    emoji: '📅', dayNum: 6 },
+      { word: 'Saturday',  emoji: '📅', dayNum: 7 },
     ],
   },
   {
@@ -76,11 +81,12 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     ],
   },
   {
-    id: 'body', title: 'Body', hebrewTitle: 'אברי הגוף', emoji: '🦴',
+    id: 'body', title: 'Body', hebrewTitle: 'אברי הגוף', emoji: '🧒',
     color: 'from-orange-400 to-red-400', bgColor: 'bg-orange-50', borderColor: 'border-orange-400', textColor: 'text-orange-700',
     items: [
-      { word: 'hands', emoji: '🤚' }, { word: 'body', emoji: '🧍' },
-      { word: 'legs', emoji: '🦵' }, { word: 'head', emoji: '🧠' },
+      { word: 'hands', emoji: '🙌' }, { word: 'body', emoji: '🧍' },
+      { word: 'legs', emoji: '🦵' }, { word: 'head', emoji: '👦' },
+      { word: 'hair', emoji: '💇' },
     ],
   },
   {
@@ -111,11 +117,13 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     ],
   },
   {
-    id: 'prepositions', title: 'Prepositions', hebrewTitle: 'מילות יחס', emoji: '📍',
+    id: 'prepositions', title: 'Prepositions', hebrewTitle: 'מילות יחס', emoji: '📦',
     color: 'from-indigo-400 to-blue-500', bgColor: 'bg-indigo-50', borderColor: 'border-indigo-400', textColor: 'text-indigo-700',
     items: [
-      { word: 'in', emoji: '📦' }, { word: 'on', emoji: '🪑' },
-      { word: 'under', emoji: '⬇️' }, { word: 'next to', emoji: '👫' },
+      { word: 'in',      emoji: '📦', ttsText: 'in'      },
+      { word: 'on',      emoji: '🟫', ttsText: 'on'      },
+      { word: 'under',   emoji: '⬇️', ttsText: 'under'   },
+      { word: 'next to', emoji: '↔️', ttsText: 'next to' },
     ],
   },
   {
@@ -146,8 +154,8 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     id: 'actions', title: 'Actions', hebrewTitle: 'פעולות', emoji: '🏃',
     color: 'from-orange-400 to-red-500', bgColor: 'bg-orange-50', borderColor: 'border-orange-400', textColor: 'text-orange-700',
     items: [
-      { word: 'drink', emoji: '🥤' }, { word: 'eat', emoji: '🍽️' }, { word: 'sleep', emoji: '💤' },
-      { word: 'run', emoji: '🏃' }, { word: 'jump', emoji: '🦘' }, { word: 'dance', emoji: '💃' },
+      { word: 'drink', emoji: '🥤' }, { word: 'eat', emoji: '😋' }, { word: 'sleep', emoji: '😴' },
+      { word: 'run', emoji: '🏃' }, { word: 'jump', emoji: '🤸' }, { word: 'dance', emoji: '💃' },
     ],
   },
   {

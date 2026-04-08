@@ -7,6 +7,14 @@ import { TRACK_D_CATEGORIES, TrackDItem } from '@/data/step1/trackDCategories'
 import { ConfettiOverlay } from '@/components/step1/ConfettiOverlay'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
+import { VocabBubblePop } from '@/components/step1/trackD/VocabBubblePop'
+import { Pick3Exercise } from '@/components/step1/trackD/Pick3Exercise'
+import { SeasonsSort } from '@/components/step1/trackD/SeasonsSort'
+import { DaysOrder } from '@/components/step1/trackD/DaysOrder'
+import { DaysNumberMatch } from '@/components/step1/trackD/DaysNumberMatch'
+import { FruitsBasket } from '@/components/step1/trackD/FruitsBasket'
+import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline'
+import { PrepositionsBallInBox } from '@/components/step1/trackD/PrepositionsBallInBox'
 
 function playHappySound() {
   try {
@@ -25,7 +33,27 @@ function playHappySound() {
   } catch { /* audio unavailable */ }
 }
 
-type Tab = 'flashcards' | 'quiz'
+// Categories that have extra tab 1 (bubblepop)
+const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
+// Categories that have pick3 exercise
+const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
+
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-basket' | 'clothesline' | 'prepositions-ball'
+
+function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
+  const tabs: { id: Tab; label: string; emoji: string }[] = []
+  if (HAS_BUBBLEPOP.has(categoryId)) tabs.push({ id: 'bubblepop', label: 'Bubble Pop', emoji: '🫧' })
+  if (HAS_PICK3.has(categoryId)) tabs.push({ id: 'pick3', label: 'Pick 3', emoji: '🎯' })
+  if (categoryId === 'seasons') tabs.push({ id: 'seasons-sort', label: 'Sort', emoji: '🗂️' })
+  if (categoryId === 'days') {
+    tabs.push({ id: 'days-order', label: 'Order', emoji: '🔢' })
+    tabs.push({ id: 'days-match', label: 'Match', emoji: '🔗' })
+  }
+  if (categoryId === 'fruits') tabs.push({ id: 'fruits-basket', label: 'Basket', emoji: '🧺' })
+  if (categoryId === 'clothes') tabs.push({ id: 'clothesline', label: 'Clothesline', emoji: '🧺' })
+  if (categoryId === 'prepositions') tabs.push({ id: 'prepositions-ball', label: 'Ball & Box', emoji: '📦' })
+  return tabs
+}
 
 export default function CategoryPage({ params }: { params: { categoryId: string } }) {
   const { categoryId } = params
@@ -35,7 +63,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   const [tab, setTab] = useState<Tab>('flashcards')
 
   // ── Flashcard state ──────────────────────────────────────────
-  const [fcIdx, setFcIdx] = useState(0)
   const [tapped, setTapped] = useState<Set<string>>(new Set())
 
   // ── Quiz state ───────────────────────────────────────────────
@@ -48,13 +75,19 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   const [quizDone, setQuizDone] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
 
+  // ── Extra exercise reset keys ────────────────────────────────
+  const [extraKey, setExtraKey] = useState(0)
+
   const allItems = cat?.items ?? []
   const learnDone = isExerciseDone('D', categoryId, 'learn')
   const quizCompleted = isExerciseDone('D', categoryId, 'quiz')
+  const extraDone = isExerciseDone('D', categoryId, 'extra')
+  const extraTabs = cat ? getExtraTabs(categoryId) : []
 
-  // Flashcard: mark done when all items tapped
+  // Flashcard: tap to hear
   function handleFlashTap(word: string) {
-    speak(allItems.find(i => i.word === word)?.ttsText ?? word, 0.8)
+    const item = allItems.find(i => i.word === word)
+    speak(item?.ttsText ?? word, 0.8)
     setTapped(prev => {
       const n = new Set(prev); n.add(word)
       if (n.size === allItems.length && !learnDone) {
@@ -64,7 +97,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     })
   }
 
-  // Quiz: build options when quiz question changes
+  // Quiz: build options when question changes — NO auto-speak
   useEffect(() => {
     if (!cat || quizQueue.length === 0) return
     const current = quizQueue[quizIdx]
@@ -72,7 +105,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     const others = allItems.filter(i => i.word !== current.word)
     const pick = shuffle(others).slice(0, Math.min(3, others.length))
     setQuizOptions(shuffle([current, ...pick]) as typeof quizOptions)
-    setTimeout(() => speak(current.ttsText ?? current.word, 0.8), 300)
+    // deliberately NOT auto-speaking — user taps 🔊 to hear
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizIdx, tab])
 
@@ -104,12 +137,19 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     }
   }
 
+  function handleExtraComplete() {
+    if (!extraDone) markExerciseDone('D', categoryId, 'extra')
+    setShowConfetti(true)
+    playHappySound()
+  }
+
   if (!cat) return <div className="p-8 text-center text-gray-500">Category not found</div>
 
   const currentQuiz = quizQueue[quizIdx]
+  const isDaysCategory = categoryId === 'days'
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-purple-700">
       <Header />
 
       {/* Banner */}
@@ -119,8 +159,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           <div className="flex items-center gap-3 flex-1">
             <span className="text-4xl">{cat.emoji}</span>
             <div>
-              <div className="font-display font-bold text-xl text-white">{cat.title}</div>
-              <div className="text-white/70 font-bold text-sm" dir="rtl">{cat.hebrewTitle}</div>
+              <div className="font-display font-bold text-xl text-gray-900 drop-shadow-sm">{cat.title}</div>
+              <div className="text-gray-800/70 font-bold text-sm" dir="rtl">{cat.hebrewTitle}</div>
             </div>
           </div>
         </div>
@@ -128,27 +168,37 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
 
       {/* Tabs */}
       <div className="max-w-2xl mx-auto px-4 pt-4">
-        <div className="flex gap-3 mb-6">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-1 no-scrollbar">
           <button
             onClick={() => setTab('flashcards')}
-            className={`flex-1 py-3 rounded-2xl font-bold text-base border-2 transition-all cursor-pointer select-none
-              ${tab === 'flashcards' ? `${cat.bgColor} ${cat.borderColor} ${cat.textColor}` : 'bg-white border-gray-200 text-gray-500'}`}
+            className={`flex-shrink-0 py-2 px-3 rounded-2xl font-bold text-sm border-2 transition-all cursor-pointer select-none
+              ${tab === 'flashcards' ? 'bg-white text-purple-700 border-white' : 'bg-white/20 border-white/40 text-white'}`}
           >
             📚 Learn {learnDone ? '⭐' : ''}
           </button>
           <button
             onClick={() => setTab('quiz')}
-            className={`flex-1 py-3 rounded-2xl font-bold text-base border-2 transition-all cursor-pointer select-none
-              ${tab === 'quiz' ? `${cat.bgColor} ${cat.borderColor} ${cat.textColor}` : 'bg-white border-gray-200 text-gray-500'}`}
+            className={`flex-shrink-0 py-2 px-3 rounded-2xl font-bold text-sm border-2 transition-all cursor-pointer select-none
+              ${tab === 'quiz' ? 'bg-white text-purple-700 border-white' : 'bg-white/20 border-white/40 text-white'}`}
           >
             🎯 Quiz {quizCompleted ? '⭐' : ''}
           </button>
+          {extraTabs.map(et => (
+            <button
+              key={et.id}
+              onClick={() => { setTab(et.id); setExtraKey(k => k + 1) }}
+              className={`flex-shrink-0 py-2 px-3 rounded-2xl font-bold text-sm border-2 transition-all cursor-pointer select-none
+                ${tab === et.id ? 'bg-white text-purple-700 border-white' : 'bg-white/20 border-white/40 text-white'}`}
+            >
+              {et.emoji} {et.label} {extraDone ? '⭐' : ''}
+            </button>
+          ))}
         </div>
 
         {/* ── Flashcards ──────────────────────────────────────── */}
         {tab === 'flashcards' && (
           <div>
-            <p className="text-center text-gray-400 text-sm font-bold mb-4" dir="rtl">
+            <p className="text-center text-white/70 text-sm font-bold mb-4" dir="rtl">
               לחץ על כל תמונה כדי לשמוע! ({tapped.size}/{allItems.length})
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -159,14 +209,22 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                     key={item.word}
                     onClick={() => handleFlashTap(item.word)}
                     className={`
-                      rounded-3xl border-4 p-5 flex flex-col items-center gap-2
+                      rounded-3xl border-4 p-4 flex flex-col items-center gap-2
                       transition-all duration-150 cursor-pointer select-none
-                      ${done ? `${cat.bgColor} ${cat.borderColor}` : 'bg-white border-gray-200 hover:scale-105 active:scale-95 hover:border-purple-300'}
+                      ${done ? 'bg-white/30 border-white' : 'bg-white/15 border-white/30 hover:scale-105 active:scale-95 hover:bg-white/25'}
                       shadow-md
                     `}
                   >
-                    <span className="text-6xl">{item.emoji}</span>
-                    {done && <span className="text-green-500 font-black text-lg">🔊</span>}
+                    {/* Days: show word + number instead of emoji */}
+                    {isDaysCategory ? (
+                      <>
+                        <span className="font-display font-black text-lg text-white leading-tight">{item.word}</span>
+                        {item.dayNum && <span className="text-white/60 font-bold text-2xl">{item.dayNum}</span>}
+                      </>
+                    ) : (
+                      <span className="text-5xl">{item.emoji}</span>
+                    )}
+                    {done && <span className="text-green-400 font-black text-base">🔊</span>}
                   </button>
                 )
               })}
@@ -174,8 +232,11 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             {learnDone && (
               <div className="text-center mt-6 pb-6">
                 <div className="text-4xl mb-2">⭐</div>
-                <p className="font-display text-lg font-bold text-purple-600" dir="rtl">כל הכבוד!</p>
-                <button onClick={() => setTab('quiz')} className="btn-kid bg-purple-500 mt-3">
+                <p className="font-display text-lg font-bold text-white" dir="rtl">כל הכבוד!</p>
+                <button
+                  onClick={() => setTab('quiz')}
+                  className="mt-3 px-6 py-3 rounded-2xl font-bold text-base border-4 border-black text-black bg-white shadow-md cursor-pointer select-none hover:scale-105 active:scale-95 transition-all"
+                >
                   Try the quiz! →
                 </button>
               </div>
@@ -189,10 +250,10 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             {quizDone ? (
               <div className="text-center py-8 bounce-in">
                 <div className="text-6xl mb-3">⭐</div>
-                <p className="font-display text-2xl font-bold text-purple-700">
+                <p className="font-display text-2xl font-bold text-white">
                   {quizScore}/{quizQueue.length} correct!
                 </p>
-                <p className="font-bold text-gray-500 mt-1" dir="rtl">כל הכבוד!</p>
+                <p className="font-bold text-white/60 mt-1" dir="rtl">כל הכבוד!</p>
                 <div className="flex gap-3 mt-6 justify-center">
                   <button
                     onClick={() => {
@@ -213,7 +274,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
               </div>
             ) : currentQuiz ? (
               <>
-                <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+                <div className="flex justify-between text-sm font-bold text-white/60 mb-4">
                   <span>{quizIdx + 1} / {quizQueue.length}</span>
                   <span>✅ {quizScore}</span>
                 </div>
@@ -231,7 +292,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                   >
                     🔊
                   </button>
-                  <p className="text-xs text-gray-400 font-bold mt-2" dir="rtl">לחץ לשמוע — בחר התמונה הנכונה</p>
+                  <p className="text-xs text-white/50 font-bold mt-2" dir="rtl">לחץ לשמוע — בחר התמונה הנכונה</p>
                 </div>
 
                 {/* Options */}
@@ -244,15 +305,23 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                         key={opt.word}
                         onClick={() => handleQuizTap(opt.word)}
                         className={`
-                          aspect-square rounded-3xl border-4 text-6xl
+                          aspect-square rounded-3xl border-4
                           flex items-center justify-center
                           transition-all duration-150 cursor-pointer select-none shadow-md
-                          ${isCorrect ? `${cat.bgColor} ${cat.borderColor} scale-110` : ''}
+                          ${isCorrect ? 'bg-green-200 border-green-400 scale-110' : ''}
                           ${isWrong ? 'bg-red-100 border-red-400 shake' : ''}
-                          ${!isCorrect && !isWrong ? 'bg-white border-gray-200 hover:scale-105 active:scale-95 hover:border-purple-400' : ''}
+                          ${!isCorrect && !isWrong ? 'bg-white/20 border-white/40 hover:scale-105 active:scale-95 hover:border-white' : ''}
                         `}
                       >
-                        {opt.emoji}
+                        {/* Days in quiz: show word + number */}
+                        {isDaysCategory ? (
+                          <div className="flex flex-col items-center">
+                            <span className="font-display font-black text-sm text-white leading-tight">{opt.word}</span>
+                            {opt.dayNum && <span className="font-bold text-white/60 text-xl">{opt.dayNum}</span>}
+                          </div>
+                        ) : (
+                          <span className="text-5xl">{opt.emoji}</span>
+                        )}
                       </button>
                     )
                   })}
@@ -260,6 +329,32 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
               </>
             ) : null}
           </div>
+        )}
+
+        {/* ── Extra exercises ─────────────────────────────────── */}
+        {tab === 'bubblepop' && cat && (
+          <VocabBubblePop key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'pick3' && cat && (
+          <Pick3Exercise key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'seasons-sort' && (
+          <SeasonsSort key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'days-order' && (
+          <DaysOrder key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'days-match' && (
+          <DaysNumberMatch key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'fruits-basket' && cat && (
+          <FruitsBasket key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'clothesline' && cat && (
+          <ClothesClothesline key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'prepositions-ball' && (
+          <PrepositionsBallInBox key={extraKey} onComplete={handleExtraComplete} />
         )}
       </div>
 
