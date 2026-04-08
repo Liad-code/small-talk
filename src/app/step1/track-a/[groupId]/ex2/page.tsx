@@ -30,6 +30,8 @@ function playBubblePopSound() {
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2)
     osc.start()
     osc.stop(ctx.currentTime + 0.2)
+    // Close context after sound finishes to prevent resource leak
+    setTimeout(() => ctx.close().catch(() => {}), 300)
   } catch { /* audio unavailable */ }
 }
 
@@ -41,6 +43,10 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
   const [wrongId, setWrongId] = useState<string | null>(null)
   const [popping, setPopping] = useState<Set<string>>(new Set())
   const autoPlayed = useRef(false)
+  const popTimers = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  // Cleanup all pending pop timers on unmount / reset
+  useEffect(() => () => { popTimers.current.forEach(clearTimeout) }, [])
 
   useEffect(() => {
     const shuffled = shuffle([...group.letters])
@@ -81,7 +87,7 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
     if (letter === currentTarget) {
       playBubblePopSound()
       setPopping(prev => { const s = new Set(prev); s.add(letter); return s })
-      setTimeout(() => {
+      const t = setTimeout(() => {
         setBubbles(prev => prev.map(b => b.letter === letter ? { ...b, popped: true } : b))
         setPopping(prev => { const s = new Set(prev); s.delete(letter); return s })
         setTargetIdx(prev => {
@@ -92,6 +98,7 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
           return nextIdx
         })
       }, 300)
+      popTimers.current.push(t)
     } else {
       setWrongId(letter)
       setTimeout(() => setWrongId(null), 500)

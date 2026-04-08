@@ -55,20 +55,25 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
           const done = matched.has(letter)
 
           return (
-            <div key={letter} className="flex flex-col items-center gap-0">
-              {/* Lid — drop target */}
-              <div
-                data-drop-target="true"
-                data-expected-ids={JSON.stringify([lid(letter)])}
-                data-target-id={letter}
-                className={`
-                  w-12 h-6 rounded-t-full border-4 border-b-0 flex items-center justify-center
-                  transition-all duration-200 cursor-default
-                  ${done
-                    ? `${group.bgColor} ${group.borderColor}`
-                    : 'bg-gray-100 border-dashed border-gray-300 opacity-70'}
-                `}
-              >
+            {/* The entire pot+lid compound is the drop target for mobile ease */}
+            <div
+              key={letter}
+              data-drop-target="true"
+              data-expected-ids={JSON.stringify([lid(letter)])}
+              data-target-id={letter}
+              className={`
+                flex flex-col items-center gap-0 cursor-default
+                transition-all duration-200
+                ${done ? 'opacity-100' : 'opacity-80 hover:opacity-100'}
+              `}
+            >
+              {/* Lid visual */}
+              <div className={`
+                w-12 h-6 rounded-t-full border-4 border-b-0 flex items-center justify-center
+                ${done
+                  ? `${group.bgColor} ${group.borderColor}`
+                  : 'bg-gray-100 border-dashed border-gray-300'}
+              `}>
                 {done && (
                   <span className={`font-display font-black text-xs leading-none ${group.textColor}`}>
                     {letter}
@@ -78,15 +83,12 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
 
               {/* Pot body with handles */}
               <div className="relative flex items-center">
-                {/* Left handle */}
                 <div className={`w-2.5 h-5 rounded-l-full border-4 border-r-0 flex-shrink-0 ${group.bgColor} ${group.borderColor}`}/>
-                {/* Pot body */}
                 <div className={`w-10 h-10 rounded-b-xl flex items-center justify-center ${group.bgColor} border-4 ${group.borderColor}`}>
                   <span className={`font-display font-black text-lg ${group.textColor}`}>
                     {letter.toUpperCase()}
                   </span>
                 </div>
-                {/* Right handle */}
                 <div className={`w-2.5 h-5 rounded-r-full border-4 border-l-0 flex-shrink-0 ${group.bgColor} ${group.borderColor}`}/>
               </div>
             </div>
