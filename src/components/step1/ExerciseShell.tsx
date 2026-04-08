@@ -90,8 +90,8 @@ export function ExerciseShell({
       </div>
 
       {/* Exercise body */}
-      <div className="flex-1 relative">
-        <div key={key} className="h-full">
+      <div className="flex-1 relative overflow-visible">
+        <div key={key}>
           {children(onComplete, key)}
         </div>
       </div>

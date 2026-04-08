@@ -2,28 +2,24 @@
 import { useMute } from '@/hooks/useMute'
 
 interface Props {
-  letter: string          // lowercase e.g. 't'
-  groupColor: string      // Tailwind bg gradient e.g. 'from-red-400 to-orange-500'
-  bgColor: string         // Tailwind bg e.g. 'bg-red-50'
-  textColor: string       // Tailwind text e.g. 'text-red-600'
-  borderColor: string     // Tailwind border e.g. 'border-red-300'
+  letter: string
+  groupColor: string
+  bgColor: string
+  textColor: string
+  borderColor: string
   size?: 'sm' | 'md' | 'lg'
-  soundMode?: boolean     // if true, plays name + short sound phrase
-  done?: boolean          // show checkmark overlay
-  onClick?: () => void    // extra callback after speak
+  soundMode?: boolean
+  done?: boolean
+  onClick?: () => void
 }
 
-// Short sound TTS text per letter
-const SHORT_SOUNDS: Record<string, string> = {
-  a: 'a, as in apple', b: 'b, as in ball',   c: 'c, as in cat',
-  d: 'd, as in dog',   e: 'e, as in egg',    f: 'f, as in fish',
-  g: 'g, as in girl',  h: 'h, as in hat',    i: 'i, as in insect',
-  j: 'j, as in jump',  k: 'k, as in kite',   l: 'l, as in lion',
-  m: 'm, as in moon',  n: 'n, as in nest',   o: 'o, as in octopus',
-  p: 'p, as in pen',   q: 'q, as in queen',  r: 'r, as in rabbit',
-  s: 's, as in sun',   t: 't, as in top',    u: 'u, as in umbrella',
-  v: 'v, as in van',   w: 'w, as in water',  x: 'x, as in xylophone',
-  y: 'y, as in yellow',z: 'z, as in zero',
+// Just the short phoneme sounds — no "as in X"
+const SHORT_PHONEMES: Record<string, string> = {
+  a: 'a',   b: 'buh', c: 'kuh', d: 'duh', e: 'eh',
+  f: 'fuh', g: 'guh', h: 'huh', i: 'ih',  j: 'juh',
+  k: 'kuh', l: 'luh', m: 'muh', n: 'nuh', o: 'oh',
+  p: 'puh', q: 'kwuh',r: 'ruh', s: 'suh', t: 'tuh',
+  u: 'uh',  v: 'vuh', w: 'wuh', x: 'ks',  y: 'yuh', z: 'zuh',
 }
 
 export function LetterCard({ letter, groupColor, bgColor, textColor, borderColor, size = 'md', soundMode = false, done = false, onClick }: Props) {
@@ -32,12 +28,19 @@ export function LetterCard({ letter, groupColor, bgColor, textColor, borderColor
   function speak() {
     if (isMuted()) return
     window.speechSynthesis.cancel()
-    const text = soundMode ? (SHORT_SOUNDS[letter] ?? letter) : letter
-    const u = new SpeechSynthesisUtterance(text)
-    u.rate = 0.85
-    u.pitch = 1.1
-    u.lang = 'en-US'
-    window.speechSynthesis.speak(u)
+
+    // Always say the letter name first
+    const u1 = new SpeechSynthesisUtterance(letter)
+    u1.lang = 'en-US'; u1.rate = 0.85; u1.pitch = 1.1
+    window.speechSynthesis.speak(u1)
+
+    // In sound mode, queue the short phoneme after the name
+    if (soundMode) {
+      const u2 = new SpeechSynthesisUtterance(SHORT_PHONEMES[letter] ?? letter)
+      u2.lang = 'en-US'; u2.rate = 0.8; u2.pitch = 1.0
+      window.speechSynthesis.speak(u2)
+    }
+
     onClick?.()
   }
 
@@ -61,17 +64,13 @@ export function LetterCard({ letter, groupColor, bgColor, textColor, borderColor
                height: size === 'sm' ? '4rem' : size === 'md' ? '5.5rem' : '7rem' }}
       aria-label={`Letter ${letter.toUpperCase()}`}
     >
-      {/* Gradient top strip */}
       <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-xl bg-gradient-to-r ${groupColor}`} />
-
       <span className={`font-display font-black ${s.upper} ${textColor} leading-none`}>
         {letter.toUpperCase()}
       </span>
       <span className={`font-display font-bold ${s.lower} ${textColor} leading-none opacity-70`}>
         {letter}
       </span>
-
-      {/* Done checkmark */}
       {done && (
         <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-black shadow">
           ✓

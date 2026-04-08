@@ -5,8 +5,7 @@ import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
-// Circle Correct Image: show word, two image options, tap correct one
-export default function C7Page() {
+function C7Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
   const [queue] = useState(() => shuffle([...CVC_WORDS]))
   const [idx, setIdx] = useState(0)
@@ -16,7 +15,6 @@ export default function C7Page() {
   const [score, setScore] = useState(0)
 
   const current = queue[idx]
-
 
   useEffect(() => {
     if (!current) return
@@ -29,7 +27,7 @@ export default function C7Page() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
-  function handleTap(word: string, onComplete: () => void) {
+  function handleTap(word: string) {
     if (!current || correct) return
     if (word === current.word) {
       setCorrect(word)
@@ -49,6 +47,51 @@ export default function C7Page() {
   const vc = VOWEL_COLORS[current.vowel]
 
   return (
+    <div className="p-4 max-w-sm mx-auto text-center">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>{idx + 1} / {queue.length}</span>
+        <span>✅ {score}</span>
+      </div>
+
+      <button
+        onClick={() => speak(current.word)}
+        className={`
+          inline-flex items-center gap-3 px-8 py-4 rounded-3xl border-4 ${vc.border} ${vc.bg} mb-8
+          font-display font-black text-4xl ${vc.text}
+          hover:scale-105 active:scale-95 transition-transform cursor-pointer select-none shadow-md
+        `}
+      >
+        🔊 {current.word}
+      </button>
+
+      <div className="flex gap-6 justify-center">
+        {options.map(opt => {
+          const isWrong = wrong === opt.word
+          const isCorrect = correct === opt.word
+          return (
+            <button
+              key={opt.word}
+              onClick={() => handleTap(opt.word)}
+              className={`
+                w-36 h-36 rounded-3xl border-4 text-7xl
+                flex items-center justify-center
+                transition-all duration-150 cursor-pointer select-none shadow-md
+                ${isCorrect ? 'border-green-400 bg-green-100 scale-110' : ''}
+                ${isWrong ? 'border-red-400 bg-red-100 shake' : ''}
+                ${!isCorrect && !isWrong ? 'border-gray-200 bg-white hover:scale-105 active:scale-95 hover:border-purple-400' : ''}
+              `}
+            >
+              {opt.emoji}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+export default function C7Page() {
+  return (
     <ExerciseShell
       title="Circle the Image"
       hebrewInstruction="לחץ על התמונה הנכונה למילה"
@@ -58,49 +101,8 @@ export default function C7Page() {
       exerciseId="c7"
       groupColor="from-green-400 to-emerald-500"
     >
-      {(onComplete) => (
-        <div className="p-4 max-w-sm mx-auto text-center">
-          <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-            <span>{idx + 1} / {queue.length}</span>
-            <span>✅ {score}</span>
-          </div>
-
-          {/* Word */}
-          <button
-            onClick={() => speak(current.word)}
-            className={`
-              inline-flex items-center gap-3 px-8 py-4 rounded-3xl border-4 ${vc.border} ${vc.bg} mb-8
-              font-display font-black text-4xl ${vc.text}
-              hover:scale-105 active:scale-95 transition-transform cursor-pointer select-none shadow-md
-            `}
-          >
-            🔊 {current.word}
-          </button>
-
-          {/* Two image options */}
-          <div className="flex gap-6 justify-center">
-            {options.map(opt => {
-              const isWrong = wrong === opt.word
-              const isCorrect = correct === opt.word
-              return (
-                <button
-                  key={opt.word}
-                  onClick={() => handleTap(opt.word, onComplete)}
-                  className={`
-                    w-36 h-36 rounded-3xl border-4 text-7xl
-                    flex items-center justify-center
-                    transition-all duration-150 cursor-pointer select-none shadow-md
-                    ${isCorrect ? 'border-green-400 bg-green-100 scale-110' : ''}
-                    ${isWrong ? 'border-red-400 bg-red-100 shake' : ''}
-                    ${!isCorrect && !isWrong ? 'border-gray-200 bg-white hover:scale-105 active:scale-95 hover:border-purple-400' : ''}
-                  `}
-                >
-                  {opt.emoji}
-                </button>
-              )
-            })}
-          </div>
-        </div>
+      {(onComplete, resetKey) => (
+        <C7Exercise key={resetKey} onComplete={onComplete} />
       )}
     </ExerciseShell>
   )

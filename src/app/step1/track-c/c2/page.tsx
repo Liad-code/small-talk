@@ -5,9 +5,9 @@ import { CVC_WORDS, VOWELS, VOWEL_COLORS } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
-export default function C2Page() {
+function C2Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
-  const [queue, setQueue] = useState(() => shuffle([...CVC_WORDS]))
+  const [queue] = useState(() => shuffle([...CVC_WORDS]))
   const [idx, setIdx] = useState(0)
   const [wrong, setWrong] = useState<string | null>(null)
   const [correct, setCorrect] = useState<string | null>(null)
@@ -15,27 +15,21 @@ export default function C2Page() {
 
   const current = queue[idx]
 
-
-  // Auto-speak on mount and when word changes
   useEffect(() => {
     if (current) setTimeout(() => speak(current.word), 400)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
-  function handleVowelTap(vowel: string, onComplete: () => void) {
+  function handleVowelTap(vowel: string) {
     if (!current || correct) return
     if (vowel === current.vowel) {
       setCorrect(vowel)
       speak(current.word)
       setTimeout(() => {
-        const newScore = score + 1
-        setScore(newScore)
+        setScore(s => s + 1)
         setCorrect(null)
-        if (idx + 1 >= queue.length) {
-          onComplete()
-        } else {
-          setIdx(i => i + 1)
-        }
+        if (idx + 1 >= queue.length) onComplete()
+        else setIdx(i => i + 1)
       }, 700)
     } else {
       setWrong(vowel)
@@ -46,6 +40,63 @@ export default function C2Page() {
   if (!current) return null
 
   return (
+    <div className="p-4 max-w-sm mx-auto">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
+        <span>{idx + 1} / {queue.length}</span>
+        <span>✅ {score}</span>
+      </div>
+
+      <div className="bg-white rounded-3xl border-4 border-gray-200 p-6 text-center mb-6 shadow-md">
+        <button
+          onClick={() => speak(current.word)}
+          className="text-8xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full"
+          aria-label={`Hear: ${current.word}`}
+        >
+          {current.emoji}
+        </button>
+        <div className="flex items-center justify-center gap-1 text-4xl font-display font-black text-gray-700">
+          <span>{current.consonantStart}</span>
+          <span className={`
+            w-12 h-12 rounded-xl border-4 flex items-center justify-center text-2xl
+            ${correct ? `${VOWEL_COLORS[current.vowel].bg} ${VOWEL_COLORS[current.vowel].border} ${VOWEL_COLORS[current.vowel].text}` : 'border-dashed border-gray-300 text-gray-300'}
+          `}>
+            {correct ? current.vowel : '_'}
+          </span>
+          <span>{current.consonantEnd}</span>
+        </div>
+      </div>
+
+      <div className="flex justify-center gap-3">
+        {VOWELS.map(v => {
+          const vc = VOWEL_COLORS[v]
+          const isWrong = wrong === v
+          const isCorrect = correct === v
+          return (
+            <button
+              key={v}
+              onClick={() => handleVowelTap(v)}
+              className={`
+                w-14 h-14 rounded-2xl border-4 font-display font-black text-2xl
+                transition-all duration-150 active:scale-90 cursor-pointer select-none
+                ${isCorrect ? `${vc.bg} ${vc.border} ${vc.text} scale-110` : ''}
+                ${isWrong ? 'bg-red-100 border-red-400 text-red-600 shake' : ''}
+                ${!isCorrect && !isWrong ? `bg-white ${vc.border} ${vc.text} hover:${vc.bg}` : ''}
+              `}
+            >
+              {v}
+            </button>
+          )
+        })}
+      </div>
+      <p className="text-center text-xs text-gray-400 font-bold mt-3" dir="rtl">
+        לחץ על תמונה לשמוע — בחר התנועה הנכונה
+      </p>
+    </div>
+  )
+}
+
+export default function C2Page() {
+  return (
     <ExerciseShell
       title="Vowel Fill"
       hebrewInstruction="לחץ על התמונה כדי לשמוע — בחר את התנועה הנכונה"
@@ -55,66 +106,8 @@ export default function C2Page() {
       exerciseId="c2"
       groupColor="from-green-400 to-emerald-500"
     >
-      {(onComplete) => (
-        <div className="p-4 max-w-sm mx-auto">
-          {/* Progress */}
-          <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
-            <span>{idx + 1} / {queue.length}</span>
-            <span>✅ {score}</span>
-          </div>
-
-          {/* Word card */}
-          <div className="bg-white rounded-3xl border-4 border-gray-200 p-6 text-center mb-6 shadow-md">
-            {/* Emoji (clickable → speaks) */}
-            <button
-              onClick={() => speak(current.word)}
-              className="text-8xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full"
-              aria-label={`Hear: ${current.word}`}
-            >
-              {current.emoji}
-            </button>
-
-            {/* Partial word display: c_t */}
-            <div className="flex items-center justify-center gap-1 text-4xl font-display font-black text-gray-700">
-              <span>{current.consonantStart}</span>
-              <span className={`
-                w-12 h-12 rounded-xl border-4 flex items-center justify-center text-2xl
-                ${correct ? `${VOWEL_COLORS[current.vowel].bg} ${VOWEL_COLORS[current.vowel].border} ${VOWEL_COLORS[current.vowel].text}` : 'border-dashed border-gray-300 text-gray-300'}
-              `}>
-                {correct ? current.vowel : '_'}
-              </span>
-              <span>{current.consonantEnd}</span>
-            </div>
-          </div>
-
-          {/* Vowel buttons */}
-          <div className="flex justify-center gap-3">
-            {VOWELS.map(v => {
-              const vc = VOWEL_COLORS[v]
-              const isWrong = wrong === v
-              const isCorrect = correct === v
-              return (
-                <button
-                  key={v}
-                  onClick={() => handleVowelTap(v, onComplete)}
-                  className={`
-                    w-14 h-14 rounded-2xl border-4 font-display font-black text-2xl
-                    transition-all duration-150 active:scale-90 cursor-pointer select-none
-                    ${isCorrect ? `${vc.bg} ${vc.border} ${vc.text} scale-110` : ''}
-                    ${isWrong ? 'bg-red-100 border-red-400 text-red-600 shake' : ''}
-                    ${!isCorrect && !isWrong ? `bg-white ${vc.border} ${vc.text} hover:${vc.bg}` : ''}
-                  `}
-                >
-                  {v}
-                </button>
-              )
-            })}
-          </div>
-
-          <p className="text-center text-xs text-gray-400 font-bold mt-3" dir="rtl">
-            לחץ על תמונה לשמוע — בחר התנועה הנכונה
-          </p>
-        </div>
+      {(onComplete, resetKey) => (
+        <C2Exercise key={resetKey} onComplete={onComplete} />
       )}
     </ExerciseShell>
   )
