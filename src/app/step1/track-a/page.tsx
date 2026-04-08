@@ -12,7 +12,7 @@ const A3_EXERCISES = [
   { id: 'ex1', label: 'ABC Fill – Uppercase', emoji: '🔠' },
   { id: 'ex2', label: 'ABC Fill – Lowercase', emoji: '🔡' },
   { id: 'ex3', label: 'Puzzle Match', emoji: '🧩' },
-  { id: 'ex4', label: 'Pot & Lid', emoji: '🫙' },
+  { id: 'ex4', label: 'In the Kitchen', emoji: '🍳' },
 ]
 
 function ExBadge({ done }: { done: boolean }) {

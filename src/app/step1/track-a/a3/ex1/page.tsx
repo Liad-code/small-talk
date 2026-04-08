@@ -5,16 +5,13 @@ import { DraggableTile } from '@/components/step1/DraggableTile'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
 
-const ALL_LETTERS = LETTER_GROUPS.flatMap(g => g.letters)  // a–z in group order
 const ABC_ORDER = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
-// About 30% of letters shown, rest are blanks to fill
 function pickBlanks(pct = 0.45): Set<string> {
   const blanks = new Set<string>()
   for (const l of ABC_ORDER) {
     if (Math.random() < pct) blanks.add(l)
   }
-  // Ensure at least 6 blanks
   if (blanks.size < 6) {
     for (const l of ABC_ORDER) {
       if (!blanks.has(l)) { blanks.add(l); if (blanks.size >= 8) break }
@@ -27,7 +24,7 @@ function getGroup(letter: string) {
   return LETTER_GROUPS.find(g => g.letters.includes(letter))!
 }
 
-export default function A3Ex1Page() {
+function A3Ex1Exercise({ onComplete }: { onComplete: () => void }) {
   const [blanks, setBlanks] = useState<Set<string>>(new Set())
   const [filled, setFilled] = useState<Record<string, boolean>>({})
   const [tiles, setTiles] = useState<string[]>([])
@@ -39,19 +36,96 @@ export default function A3Ex1Page() {
     setTiles(shuffle(Array.from(b)))
   }, [])
 
+  const allDone = blanks.size > 0 && Array.from(blanks).every(l => filled[l])
+
+  useEffect(() => {
+    if (!allDone) return
+    const t = setTimeout(onComplete, 300)
+    return () => clearTimeout(t)
+  }, [allDone, onComplete])
+
   const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
     const targetId = targetEl.getAttribute('data-target-id')
     if (!targetId) return false
     if (tileId !== targetId) return false
     if (!blanks.has(targetId) || filled[targetId]) return false
-
     setFilled(prev => ({ ...prev, [targetId]: true }))
     setTiles(prev => prev.filter(t => t !== tileId))
     return true
   }, [blanks, filled])
 
-  const allDone = Array.from(blanks).every(l => filled[l])
+  return (
+    <div className="p-4 max-w-2xl mx-auto">
+      <p className="text-center text-gray-400 font-bold text-sm mb-4" dir="rtl">
+        גרור את האותיות החסרות למקומן הנכון ב-ABC:
+      </p>
 
+      <div className="grid grid-cols-6 sm:grid-cols-7 gap-2 mb-6">
+        {ABC_ORDER.map(letter => {
+          const group = getGroup(letter)
+          const isBlank = blanks.has(letter)
+          const isFilled = filled[letter]
+
+          if (isBlank && !isFilled) {
+            return (
+              <div
+                key={letter}
+                data-drop-target="true"
+                data-expected-ids={JSON.stringify([letter])}
+                data-target-id={letter}
+                className={`w-full aspect-square rounded-xl border-2 border-dashed ${group.borderColor} opacity-60 flex items-center justify-center drop-hover-ready`}
+              >
+                <span className={`${group.textColor} opacity-30 text-xs font-bold`}>?</span>
+              </div>
+            )
+          }
+
+          return (
+            <div
+              key={letter}
+              className={`
+                w-full aspect-square rounded-xl border-2 flex items-center justify-center
+                ${group.bgColor} ${group.borderColor}
+                ${isFilled ? 'drop-success' : ''}
+              `}
+            >
+              <span className={`font-display font-black text-base ${group.textColor}`}>
+                {letter.toUpperCase()}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+
+      {tiles.length > 0 && (
+        <div className="border-t-2 border-dashed border-gray-200 pt-3">
+          <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">גרור מכאן:</p>
+          <div className="overflow-x-auto pb-2">
+            <div className="flex gap-2 justify-center flex-wrap px-2">
+              {tiles.map(letter => {
+                const group = getGroup(letter)
+                return (
+                  <DraggableTile
+                    key={letter}
+                    id={letter}
+                    label={letter.toUpperCase()}
+                    color={group.bgColor}
+                    borderColor={group.borderColor}
+                    textColor={group.textColor}
+                    size="md"
+                    onDropped={handleDrop}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function A3Ex1Page() {
   return (
     <ExerciseShell
       title="ABC Fill — Uppercase"
@@ -62,78 +136,9 @@ export default function A3Ex1Page() {
       exerciseId="ex1"
       groupColor="from-indigo-400 to-purple-500"
     >
-      {(onComplete) => {
-        if (allDone && blanks.size > 0) setTimeout(onComplete, 300)
-        return (
-          <div className="p-4 max-w-2xl mx-auto">
-            <p className="text-center text-gray-400 font-bold text-sm mb-4" dir="rtl">
-              גרור את האותיות החסרות למקומן הנכון ב-ABC:
-            </p>
-
-            {/* ABC grid */}
-            <div className="grid grid-cols-6 sm:grid-cols-7 gap-2 mb-6">
-              {ABC_ORDER.map(letter => {
-                const group = getGroup(letter)
-                const isBlank = blanks.has(letter)
-                const isFilled = filled[letter]
-
-                if (isBlank && !isFilled) {
-                  return (
-                    <div
-                      key={letter}
-                      data-drop-target="true"
-                      data-expected-ids={JSON.stringify([letter])}
-                      data-target-id={letter}
-                      className="w-full aspect-square rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center drop-hover-ready"
-                    >
-                      <span className="text-gray-200 text-xs font-bold">?</span>
-                    </div>
-                  )
-                }
-
-                return (
-                  <div
-                    key={letter}
-                    className={`
-                      w-full aspect-square rounded-xl border-2 flex items-center justify-center
-                      ${group.bgColor} ${group.borderColor}
-                      ${isFilled ? 'drop-success' : ''}
-                    `}
-                  >
-                    <span className={`font-display font-black text-base ${group.textColor}`}>
-                      {letter.toUpperCase()}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Tile bank */}
-            {tiles.length > 0 && (
-              <div className="border-t-2 border-dashed border-gray-200 pt-3">
-                <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">גרור מכאן:</p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {tiles.map(letter => {
-                    const group = getGroup(letter)
-                    return (
-                      <DraggableTile
-                        key={letter}
-                        id={letter}
-                        label={letter.toUpperCase()}
-                        color={group.bgColor}
-                        borderColor={group.borderColor}
-                        textColor={group.textColor}
-                        size="sm"
-                        onDropped={handleDrop}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        )
-      }}
+      {(onComplete, resetKey) => (
+        <A3Ex1Exercise key={resetKey} onComplete={onComplete} />
+      )}
     </ExerciseShell>
   )
 }
