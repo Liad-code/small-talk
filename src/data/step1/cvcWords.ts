@@ -4,6 +4,7 @@ export interface CVCWord {
   emoji: string
   consonantStart: string
   consonantEnd: string
+  ttsText?: string   // override for TTS when default pronunciation is wrong
 }
 
 export const CVC_WORDS: CVCWord[] = [
@@ -23,10 +24,10 @@ export const CVC_WORDS: CVCWord[] = [
   { word: 'leg', vowel: 'e', emoji: '🦵', consonantStart: 'l', consonantEnd: 'g' },
   // ── short i ──────────────────────────────────────────────────
   { word: 'pig', vowel: 'i', emoji: '🐷', consonantStart: 'p', consonantEnd: 'g' },
-  { word: 'big', vowel: 'i', emoji: '🔭', consonantStart: 'b', consonantEnd: 'g' },
+  { word: 'big', vowel: 'i', emoji: '🐘', consonantStart: 'b', consonantEnd: 'g', ttsText: 'a big' },
   { word: 'sit', vowel: 'i', emoji: '🪑', consonantStart: 's', consonantEnd: 't' },
   { word: 'hit', vowel: 'i', emoji: '🎯', consonantStart: 'h', consonantEnd: 't' },
-  { word: 'bin', vowel: 'i', emoji: '🗑️', consonantStart: 'b', consonantEnd: 'n' },
+  { word: 'bin', vowel: 'i', emoji: '🗑️', consonantStart: 'b', consonantEnd: 'n', ttsText: 'a bin' },
   { word: 'six', vowel: 'i', emoji: '6️⃣', consonantStart: 's', consonantEnd: 'x' },
   // ── short o ──────────────────────────────────────────────────
   { word: 'dog', vowel: 'o', emoji: '🐶', consonantStart: 'd', consonantEnd: 'g' },
@@ -40,12 +41,17 @@ export const CVC_WORDS: CVCWord[] = [
   { word: 'bus', vowel: 'u', emoji: '🚌', consonantStart: 'b', consonantEnd: 's' },
   { word: 'cup', vowel: 'u', emoji: '☕', consonantStart: 'c', consonantEnd: 'p' },
   { word: 'hug', vowel: 'u', emoji: '🤗', consonantStart: 'h', consonantEnd: 'g' },
-  { word: 'rug', vowel: 'u', emoji: '🛋️', consonantStart: 'r', consonantEnd: 'g' },
+  { word: 'rug', vowel: 'u', emoji: '🟫', consonantStart: 'r', consonantEnd: 'g' },
   { word: 'bug', vowel: 'u', emoji: '🐛', consonantStart: 'b', consonantEnd: 'g' },
 ]
 
 export const VOWELS = ['a', 'e', 'i', 'o', 'u'] as const
 export type Vowel = typeof VOWELS[number]
+
+/** Returns the TTS-safe pronunciation text for a word (uses ttsText override when defined) */
+export function ttsFor(word: string): string {
+  return CVC_WORDS.find(w => w.word === word)?.ttsText ?? word
+}
 
 export const VOWEL_COLORS: Record<Vowel, { bg: string; border: string; text: string; gradient: string }> = {
   a: { bg: 'bg-red-100',    border: 'border-red-400',    text: 'text-red-700',    gradient: 'from-red-400 to-rose-400'       },

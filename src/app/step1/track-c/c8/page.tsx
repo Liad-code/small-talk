@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWELS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWELS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
 import { useSpeak } from '@/hooks/useSpeak'
 
 function C8Exercise({ onComplete }: { onComplete: () => void }) {
@@ -54,7 +54,7 @@ function C8Exercise({ onComplete }: { onComplete: () => void }) {
             <button
               key={w.word}
               onClick={() => {
-                speak(w.word, 0.7, 1.1)
+                speak(ttsFor(w.word), 0.7, 1.1)
                 setTapped(prev => {
                   const n = new Set(prev)
                   n.add(w.word)

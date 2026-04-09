@@ -75,7 +75,7 @@ function C1Exercise({ onComplete }: { onComplete: () => void }) {
       {/* Word bank */}
       {freeTiles.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
-          <p className="text-center text-gray-400 font-bold text-xs mb-3" dir="rtl">
+          <p className="text-center text-gray-600 font-bold text-sm mb-3" dir="rtl">
             לחץ לשמוע — גרור כל מילה לעמודה הנכונה:
           </p>
           <div className="flex flex-wrap justify-center gap-2">
@@ -88,9 +88,9 @@ function C1Exercise({ onComplete }: { onComplete: () => void }) {
                 <DraggableTile
                   id={tile.id}
                   label={tile.word}
-                  color={VOWEL_COLORS[tile.vowel].bg}
-                  borderColor={VOWEL_COLORS[tile.vowel].border}
-                  textColor={VOWEL_COLORS[tile.vowel].text}
+                  color="bg-gray-50"
+                  borderColor="border-gray-800"
+                  textColor="text-gray-900"
                   size="sm"
                   onDropped={handleDrop}
                 />

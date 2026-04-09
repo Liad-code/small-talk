@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS } from '@/data/step1/cvcWords'
+import { CVC_WORDS, ttsFor } from '@/data/step1/cvcWords'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
@@ -29,7 +29,7 @@ function C3Exercise({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     if (!current) return
     setOptions(shuffle([current.consonantStart, ...getDistractors(current.consonantStart)]))
-    setTimeout(() => speak(current.word), 400)
+    setTimeout(() => speak(ttsFor(current.word)), 400)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -59,7 +59,7 @@ function C3Exercise({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <div className="bg-white rounded-3xl border-4 border-gray-200 p-6 text-center mb-6 shadow-md">
-        <button onClick={() => speak(current.word)} className="text-8xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full">
+        <button onClick={() => speak(ttsFor(current.word))} className="text-8xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full">
           {current.emoji}
         </button>
         <div className="flex items-center justify-center gap-1 text-4xl font-display font-black text-gray-700">
@@ -106,7 +106,7 @@ export default function C3Page() {
   return (
     <ExerciseShell
       title="Beginning Sound"
-      hebrewInstruction="לחץ על התמונה — איזו אות מתחילה את המילה?"
+      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה – לחץ על האות המתאימה להשלמת המילה"
       backHref="/step1/track-c"
       track="C"
       groupId="c"

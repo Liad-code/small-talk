@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWELS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWELS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -16,7 +16,7 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
   const current = queue[idx]
 
   useEffect(() => {
-    if (current) setTimeout(() => speak(current.word), 400)
+    if (current) setTimeout(() => speak(ttsFor(current.word)), 400)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -24,7 +24,7 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
     if (!current || correct) return
     if (vowel === current.vowel) {
       setCorrect(vowel)
-      speak(current.word)
+      speak(ttsFor(current.word))
       setTimeout(() => {
         setScore(s => s + 1)
         setCorrect(null)
@@ -48,7 +48,7 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
 
       <div className="bg-white rounded-3xl border-4 border-gray-200 p-6 text-center mb-6 shadow-md">
         <button
-          onClick={() => speak(current.word)}
+          onClick={() => speak(ttsFor(current.word))}
           className="text-8xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full"
           aria-label={`Hear: ${current.word}`}
         >
@@ -88,8 +88,8 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
           )
         })}
       </div>
-      <p className="text-center text-xs text-gray-400 font-bold mt-3" dir="rtl">
-        לחץ על תמונה לשמוע — בחר התנועה הנכונה
+      <p className="text-center text-sm text-gray-600 font-bold mt-3" dir="rtl">
+        לחץ על התמונה כדי לשמוע את המילה – לחץ על התנועה המתאימה להשלמת המילה
       </p>
     </div>
   )
@@ -99,7 +99,7 @@ export default function C2Page() {
   return (
     <ExerciseShell
       title="Vowel Fill"
-      hebrewInstruction="לחץ על התמונה כדי לשמוע — בחר את התנועה הנכונה"
+      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה – לחץ על התנועה המתאימה להשלמת המילה"
       backHref="/step1/track-c"
       track="C"
       groupId="c"

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
@@ -28,7 +28,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
     setSelected([])
     setWrong(false)
     setCorrect(false)
-    setTimeout(() => speak(current.word, 0.7, 1.1), 400)
+    setTimeout(() => speak(ttsFor(current.word), 0.7, 1.1), 400)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -39,7 +39,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
 
     if (newSelected.join('') === current.word) {
       setCorrect(true)
-      speak(current.word, 0.7, 1.1)
+      speak(ttsFor(current.word), 0.7, 1.1)
       setTimeout(() => {
         setScore(s => s + 1)
         if (idx + 1 >= queue.length) onComplete()
@@ -75,7 +75,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <button
-        onClick={() => speak(current.word, 0.7, 1.1)}
+        onClick={() => speak(ttsFor(current.word), 0.7, 1.1)}
         className="text-7xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full"
       >
         {current.emoji}
@@ -122,7 +122,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <button
-        onClick={() => speak(current.word, 0.7, 1.1)}
+        onClick={() => speak(ttsFor(current.word), 0.7, 1.1)}
         className="mt-4 text-blue-400 font-bold text-sm hover:text-blue-600"
       >
         🔊 Hear again
@@ -135,7 +135,7 @@ export default function C9Page() {
   return (
     <ExerciseShell
       title="Word Scramble"
-      hebrewInstruction="לחץ על האותיות בסדר הנכון כדי לבנות את המילה"
+      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה- לחץ על האותיות לפי הסדר הנכון כדי לבנות את המילה"
       backHref="/step1/track-c"
       track="C"
       groupId="c"

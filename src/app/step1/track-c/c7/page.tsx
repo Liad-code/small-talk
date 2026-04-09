@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -23,7 +23,7 @@ function C7Exercise({ onComplete }: { onComplete: () => void }) {
     setOptions(shuffle([current, distractor]))
     setCorrect(null)
     setWrong(null)
-    setTimeout(() => speak(current.word), 300)
+    setTimeout(() => speak(ttsFor(current.word)), 300)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -54,7 +54,7 @@ function C7Exercise({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <button
-        onClick={() => speak(current.word)}
+        onClick={() => speak(ttsFor(current.word))}
         className={`
           inline-flex items-center gap-3 px-8 py-4 rounded-3xl border-4 ${vc.border} ${vc.bg} mb-8
           font-display font-black text-4xl ${vc.text}
@@ -94,7 +94,7 @@ export default function C7Page() {
   return (
     <ExerciseShell
       title="Circle the Image"
-      hebrewInstruction="לחץ על התמונה הנכונה למילה"
+      hebrewInstruction="לחץ על המילה כדי לשמוע והתאם את התמונה למילה"
       backHref="/step1/track-c"
       track="C"
       groupId="c"

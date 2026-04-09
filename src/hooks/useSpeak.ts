@@ -12,6 +12,15 @@ export function useSpeak() {
     u.lang = 'en-US'
     u.rate = rate
     u.pitch = pitch
+    // Prefer a high-quality English voice (e.g. Google voices on Android/Chrome)
+    // to avoid voiced-consonant devoicing on some system voices
+    const voices = window.speechSynthesis.getVoices()
+    const voice =
+      voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('google')) ||
+      voices.find(v => v.lang === 'en-US' && !v.localService) ||
+      voices.find(v => v.lang === 'en-US') ||
+      voices.find(v => v.lang.startsWith('en-'))
+    if (voice) u.voice = voice
     window.speechSynthesis.speak(u)
   }, [isMuted])
 

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -22,7 +22,7 @@ function C6Batch({ batch, onDone }: BatchProps) {
   const allDone = batch.every(w => matched[w.word])
 
   function handleImageTap(word: string) {
-    speak(word)
+    speak(ttsFor(word))
     setSelectedImage(prev => prev === word ? null : word)
   }
 
@@ -31,7 +31,7 @@ function C6Batch({ batch, onDone }: BatchProps) {
     if (selectedImage === word) {
       setMatched(prev => ({ ...prev, [word]: true }))
       setSelectedImage(null)
-      speak(word)
+      speak(ttsFor(word))
     } else {
       // Wrong match — deselect
       setSelectedImage(null)
@@ -40,7 +40,7 @@ function C6Batch({ batch, onDone }: BatchProps) {
 
   return (
     <div className="p-4 max-w-sm mx-auto">
-      <p className="text-center text-gray-400 text-xs font-bold mb-4" dir="rtl">
+      <p className="text-center text-gray-600 text-sm font-bold mb-4" dir="rtl">
         לחץ על תמונה → לחץ על המילה שלה
       </p>
 

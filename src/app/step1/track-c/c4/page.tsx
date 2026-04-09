@@ -54,7 +54,7 @@ function C4Exercise({ onComplete }: { onComplete: () => void }) {
           const isPlaced = placed[w.word]
           return (
             <div key={w.word} className="flex items-center gap-3">
-              <button onClick={() => speak(w.word)} className="text-3xl hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none">
+              <button onClick={() => speak(w.word)} className="text-5xl hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none">
                 {w.emoji}
               </button>
               <div
@@ -69,13 +69,13 @@ function C4Exercise({ onComplete }: { onComplete: () => void }) {
               >
                 {isPlaced ? (
                   w.word.split('').map((ch, i) => (
-                    <div key={i} className={`w-9 h-9 rounded-lg border-2 ${vc.border} ${vc.bg} flex items-center justify-center`}>
-                      <span className={`font-display font-black text-lg ${vc.text}`}>{ch}</span>
+                    <div key={i} className={`w-12 h-12 rounded-lg border-2 ${vc.border} ${vc.bg} flex items-center justify-center`}>
+                      <span className={`font-display font-black text-xl ${vc.text}`}>{ch}</span>
                     </div>
                   ))
                 ) : (
                   [0, 1, 2].map(i => (
-                    <div key={i} className="w-9 h-9 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center">
+                    <div key={i} className="w-12 h-12 rounded-lg border-2 border-dashed border-gray-200 flex items-center justify-center">
                       <span className="text-gray-200 text-xs">_</span>
                     </div>
                   ))
@@ -100,7 +100,7 @@ function C4Exercise({ onComplete }: { onComplete: () => void }) {
                   color={vc.bg}
                   borderColor={vc.border}
                   textColor={vc.text}
-                  size="sm"
+                  size="md"
                   onDropped={handleDrop}
                 />
               )
