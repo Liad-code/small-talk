@@ -56,9 +56,27 @@ export function DraggableTile({
     if (!dragging) return
     setDragging(false)
 
-    // Hit-test all elements under the pointer
-    const elements = document.elementsFromPoint(e.clientX, e.clientY)
-    const target = elements.find(el => el.hasAttribute('data-drop-target'))
+    // Primary: bounding-rect intersection (robust — works when tile > target)
+    let target: Element | null = null
+    if (ref.current) {
+      const tileRect = ref.current.getBoundingClientRect()
+      let bestOverlap = 0
+      document.querySelectorAll<Element>('[data-drop-target]').forEach(el => {
+        const tr = el.getBoundingClientRect()
+        const ox = Math.min(tileRect.right, tr.right) - Math.max(tileRect.left, tr.left)
+        const oy = Math.min(tileRect.bottom, tr.bottom) - Math.max(tileRect.top, tr.top)
+        if (ox > 0 && oy > 0) {
+          const overlap = ox * oy
+          if (overlap > bestOverlap) { bestOverlap = overlap; target = el }
+        }
+      })
+    }
+
+    // Fallback: pointer-position detection
+    if (!target) {
+      const elements = document.elementsFromPoint(e.clientX, e.clientY)
+      target = elements.find(el => el.hasAttribute('data-drop-target')) ?? null
+    }
 
     if (target && onDropped) {
       const accepted = onDropped(id, target)

@@ -56,7 +56,7 @@ function A3Ex1Exercise({ onComplete }: { onComplete: () => void }) {
 
   return (
     <div className="p-4 max-w-2xl mx-auto">
-      <p className="text-center text-gray-400 font-bold text-sm mb-4" dir="rtl">
+      <p className="text-center text-gray-600 font-bold text-base mb-4" dir="rtl">
         גרור את האותיות החסרות למקומן הנכון ב-ABC:
       </p>
 
@@ -73,9 +73,9 @@ function A3Ex1Exercise({ onComplete }: { onComplete: () => void }) {
                 data-drop-target="true"
                 data-expected-ids={JSON.stringify([letter])}
                 data-target-id={letter}
-                className={`w-full aspect-square rounded-xl border-2 border-dashed ${group.borderColor} opacity-60 flex items-center justify-center drop-hover-ready`}
+                className="w-full aspect-square rounded-xl border-2 border-dashed border-blue-300 bg-blue-50 flex items-center justify-center"
               >
-                <span className={`${group.textColor} opacity-30 text-xs font-bold`}>?</span>
+                <span className="text-blue-300 text-xs font-bold">?</span>
               </div>
             )
           }
@@ -102,21 +102,18 @@ function A3Ex1Exercise({ onComplete }: { onComplete: () => void }) {
           <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">גרור מכאן:</p>
           <div className="overflow-x-auto pb-2">
             <div className="flex gap-2 justify-center flex-wrap px-2">
-              {tiles.map(letter => {
-                const group = getGroup(letter)
-                return (
-                  <DraggableTile
-                    key={letter}
-                    id={letter}
-                    label={letter.toUpperCase()}
-                    color={group.bgColor}
-                    borderColor={group.borderColor}
-                    textColor={group.textColor}
-                    size="md"
-                    onDropped={handleDrop}
-                  />
-                )
-              })}
+              {tiles.map(letter => (
+                <DraggableTile
+                  key={letter}
+                  id={letter}
+                  label={letter.toUpperCase()}
+                  color="bg-blue-100"
+                  borderColor="border-blue-400"
+                  textColor="text-blue-700"
+                  size="md"
+                  onDropped={handleDrop}
+                />
+              ))}
             </div>
           </div>
         </div>
