@@ -11,7 +11,7 @@ interface Props {
 
 export function ClothesClothesline({ items, onComplete }: Props) {
   const speak = useSpeak()
-  const [queue] = useState<TrackDItem[]>(() => shuffle([...items]))
+  const [queue, setQueue] = useState<TrackDItem[]>(() => shuffle([...items]))
   const [currentIdx, setCurrentIdx] = useState(0)
   const [hanged, setHanged] = useState<TrackDItem[]>([])
   const [wrongId, setWrongId] = useState<string | null>(null)
@@ -32,7 +32,6 @@ export function ClothesClothesline({ items, onComplete }: Props) {
       const nextIdx = currentIdx + 1
       if (nextIdx >= queue.length) {
         setDone(true)
-        setTimeout(onComplete, 800)
       } else {
         setCurrentIdx(nextIdx)
         setTimeout(() => speak(queue[nextIdx].ttsText ?? queue[nextIdx].word, 0.85), 400)
@@ -43,25 +42,38 @@ export function ClothesClothesline({ items, onComplete }: Props) {
     }
   }
 
+  function handleAgain() {
+    const newQueue = shuffle([...items])
+    setQueue(newQueue)
+    setCurrentIdx(0)
+    setHanged([])
+    setWrongId(null)
+    setDone(false)
+  }
+
   const hangedWords = new Set(hanged.map(i => i.word))
 
   return (
     <div className="p-4 max-w-sm mx-auto text-center">
-      <div className="text-white/60 text-sm font-bold mb-3">
+      <p className="text-black font-bold text-sm mb-2" dir="rtl">
+        לחץ על הרמקול כדי לשמוע את המילה — לחץ על הבגד המתאים כדי לתלות אותו על חבל הכביסה
+      </p>
+
+      <div className="text-black font-bold text-sm mb-3">
         {hanged.length}/{queue.length}
       </div>
 
       {/* Clothesline */}
-      <div className="relative bg-white/10 rounded-2xl border-2 border-white/30 p-4 mb-4 min-h-[90px]">
-        {/* The line */}
-        <div className="absolute top-6 left-4 right-4 h-1 bg-white/50 rounded-full" />
+      <div className="relative bg-white/10 rounded-2xl border-2 border-white/30 p-4 mb-4 min-h-[100px]">
+        {/* The rope — dark brown */}
+        <div className="absolute top-6 left-4 right-4 h-1.5 bg-amber-900 rounded-full" />
         {/* Hanged items */}
-        <div className="flex justify-center gap-3 pt-2">
-          {hanged.map((item, i) => (
+        <div className="flex justify-center gap-3 pt-2 flex-wrap">
+          {hanged.map(item => (
             <div key={item.word} className="flex flex-col items-center">
               {/* Pin */}
-              <div className="w-1.5 h-4 bg-white/60 rounded-full mb-1" />
-              <span className="text-3xl">{item.emoji}</span>
+              <div className="w-1.5 h-4 bg-amber-900 rounded-full mb-1" />
+              <span className="text-4xl">{item.emoji}</span>
             </div>
           ))}
           {hanged.length === 0 && (
@@ -96,7 +108,7 @@ export function ClothesClothesline({ items, onComplete }: Props) {
                 onClick={() => !isHanged && handleItemClick(item)}
                 disabled={isHanged}
                 className={`
-                  w-16 h-16 rounded-2xl border-4 text-3xl
+                  w-20 h-20 rounded-2xl border-4 text-4xl
                   flex items-center justify-center
                   transition-all duration-150 cursor-pointer select-none
                   ${isHanged ? 'opacity-30 cursor-not-allowed bg-white/5 border-white/20' : ''}
@@ -112,8 +124,11 @@ export function ClothesClothesline({ items, onComplete }: Props) {
       )}
 
       {done && (
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col items-center gap-3">
           <span className="text-5xl bounce-in">🎉</span>
+          <button onClick={handleAgain} className="btn-kid bg-blue-500">
+            🔁 Again
+          </button>
         </div>
       )}
     </div>

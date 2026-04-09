@@ -10,8 +10,9 @@ interface Props { onComplete: () => void }
 
 export function DaysOrder({ onComplete }: Props) {
   const speak = useSpeak()
-  const [shuffledDays] = useState(() => shuffle([...DAYS]))
+  const [shuffledDays, setShuffledDays] = useState(() => shuffle([...DAYS]))
   const [slots, setSlots] = useState<(string | null)[]>(Array(7).fill(null))
+  const [done, setDone] = useState(false)
 
   const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
     const slotIdx = parseInt(targetEl.getAttribute('data-target-id') ?? '-1', 10)
@@ -26,21 +27,48 @@ export function DaysOrder({ onComplete }: Props) {
     speak(tileId, 0.8)
 
     if (newSlots.every(s => s !== null)) {
-      setTimeout(onComplete, 600)
+      setDone(true)
     }
     return true
-  }, [slots, speak, onComplete])
+  }, [slots, speak])
+
+  function handleAgain() {
+    setShuffledDays(shuffle([...DAYS]))
+    setSlots(Array(7).fill(null))
+    setDone(false)
+  }
 
   const placedSet = new Set(slots.filter(Boolean) as string[])
   const freeDays = shuffledDays.filter(d => !placedSet.has(d))
 
+  if (done) {
+    return (
+      <div className="p-3 max-w-sm mx-auto text-center">
+        <div className="text-5xl mb-3 bounce-in">🎉</div>
+        <p className="font-bold text-black text-lg mb-6" dir="rtl">כל הכבוד! סידרת את ימות השבוע!</p>
+        {/* Show final order */}
+        <div className="flex flex-col gap-1 mb-6 text-left">
+          {DAYS.map((day, i) => (
+            <div key={day} className="flex items-center gap-2 bg-blue-100 border-2 border-blue-500 rounded-xl px-3 py-2">
+              <span className="font-bold text-blue-500 text-sm w-5">{i + 1}.</span>
+              <span className="font-bold text-blue-900 text-base">{day}</span>
+            </div>
+          ))}
+        </div>
+        <button onClick={handleAgain} className="btn-kid bg-blue-500">
+          🔁 Again
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="p-3 max-w-sm mx-auto">
-      <p className="text-white/70 text-sm font-bold text-center mb-4" dir="rtl">
+      <p className="text-black font-bold text-base text-center mb-4" dir="rtl">
         גרור את ימות השבוע לפי הסדר הנכון
       </p>
 
-      <div className="grid grid-cols-2 gap-2 mb-4">
+      <div className="flex flex-col gap-2 mb-4">
         {DAYS.map((day, i) => {
           const filled = slots[i]
           return (
@@ -50,16 +78,16 @@ export function DaysOrder({ onComplete }: Props) {
               data-target-id={String(i)}
               data-expected-ids={JSON.stringify([day])}
               className={`
-                flex items-center gap-2 p-2 rounded-xl border-4
-                ${filled ? 'bg-purple-200 border-purple-500' : 'bg-white/10 border-dashed border-white/40'}
-                transition-all duration-200 min-h-[44px]
+                flex items-center gap-2 px-3 py-3 rounded-xl border-4
+                ${filled ? 'bg-blue-100 border-blue-500' : 'bg-white/10 border-dashed border-blue-400'}
+                transition-all duration-200 min-h-[52px]
               `}
             >
-              <span className="font-bold text-white/50 text-sm w-5 text-right">{i + 1}.</span>
+              <span className="font-bold text-blue-500 text-sm w-5 text-right flex-shrink-0">{i + 1}.</span>
               {filled ? (
-                <span className="font-bold text-purple-900 text-sm">{filled}</span>
+                <span className="font-bold text-blue-900 text-base">{filled}</span>
               ) : (
-                <span className="font-bold text-white/30 text-sm">{day}</span>
+                <span className="font-bold text-blue-400/60 text-sm">{day}</span>
               )}
             </div>
           )
@@ -74,10 +102,11 @@ export function DaysOrder({ onComplete }: Props) {
                 key={day}
                 id={day}
                 label={day}
-                color="bg-white/20"
-                borderColor="border-white/60"
-                textColor="text-white"
+                color="bg-blue-100"
+                borderColor="border-blue-500"
+                textColor="text-blue-900"
                 size="sm"
+                className="!w-auto min-w-[72px] px-2 text-sm"
                 onDropped={handleDrop}
               />
             ))}

@@ -29,14 +29,14 @@ export default function TrackDPage() {
             return (
               <Link key={cat.id} href={`/step1/track-d/${cat.id}`} className="no-underline group">
                 <div className={`
-                  bg-white/15 border-4 ${(learned || quizzed) ? 'border-green-400' : 'border-white/30'}
+                  bg-white border-4 ${(learned || quizzed) ? 'border-green-400' : 'border-gray-200'}
                   rounded-3xl p-4 card-3d flex flex-col items-center gap-2 text-center
-                  hover:bg-white/25 transition-all
+                  hover:bg-gray-50 transition-all
                 `}>
-                  <span className="text-4xl group-hover:scale-110 transition-transform">{cat.emoji}</span>
+                  <span className="text-5xl group-hover:scale-110 transition-transform">{cat.emoji}</span>
                   <div>
-                    <div className="font-display font-bold text-sm text-white">{cat.title}</div>
-                    <div className="text-xs font-bold text-white/70" dir="rtl">{cat.hebrewTitle}</div>
+                    <div className="font-display font-bold text-base text-black">{cat.title}</div>
+                    <div className="text-sm font-bold text-gray-600" dir="rtl">{cat.hebrewTitle}</div>
                   </div>
                   <div className="flex gap-1">
                     {learned && <span className="text-sm" title="Learned">📚</span>}

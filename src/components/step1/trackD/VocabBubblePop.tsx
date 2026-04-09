@@ -43,46 +43,53 @@ export function VocabBubblePop({ items, onComplete }: Props) {
   const [targetQueue, setTargetQueue] = useState<TrackDItem[]>([])
   const [wrongId, setWrongId] = useState<string | null>(null)
   const [popping, setPopping] = useState<Set<string>>(new Set())
-  const autoPlayed = useRef(false)
+  const [gameStarted, setGameStarted] = useState(false)
   const popTimers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => () => { popTimers.current.forEach(clearTimeout) }, [])
 
-  useEffect(() => {
-    const shuffled = shuffle([...items])
+  function initGame(itemsList: TrackDItem[]) {
+    const shuffled = shuffle([...itemsList])
     setTargetQueue(shuffled)
     setTargetIdx(0)
-    setBubbles(items.map((item, i) => ({
+    setBubbles(itemsList.map((item, i) => ({
       item,
-      x: 8 + (i * (84 / Math.max(items.length - 1, 1))),
+      x: 8 + (i * (84 / Math.max(itemsList.length - 1, 1))),
       y: 15 + ((i % 3) * 25),
       size: 88 + (i % 3) * 10,
       floatIdx: i % 6,
       delay: i * 0.5,
       popped: false,
     })))
-    autoPlayed.current = false
-  }, [items])
+    setPopping(new Set())
+    setWrongId(null)
+  }
 
   useEffect(() => {
-    if (targetQueue.length > 0 && !autoPlayed.current) {
-      autoPlayed.current = true
-      setTimeout(() => speak(targetQueue[0].ttsText ?? targetQueue[0].word, 0.8), 600)
-    }
-  }, [targetQueue, speak])
+    initGame(items)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items])
+
+  function handleStart() {
+    setGameStarted(true)
+    const freshQueue = shuffle([...items])
+    setTargetQueue(freshQueue)
+    setTargetIdx(0)
+    // announce first word
+    setTimeout(() => speak(freshQueue[0].ttsText ?? freshQueue[0].word, 0.8), 400)
+  }
+
+  function handleAgain() {
+    initGame(items)
+    setGameStarted(false)
+  }
 
   const remaining = bubbles.filter(b => !b.popped)
   const allPopped = remaining.length === 0 && bubbles.length > 0
   const currentTarget = targetQueue[targetIdx]
 
-  useEffect(() => {
-    if (!allPopped) return
-    const t = setTimeout(onComplete, 400)
-    return () => clearTimeout(t)
-  }, [allPopped, onComplete])
-
   const handleBubbleTap = useCallback((word: string) => {
-    if (allPopped || !currentTarget) return
+    if (allPopped || !currentTarget || !gameStarted) return
     if (word === currentTarget.word) {
       playBubblePopSound()
       setPopping(prev => { const s = new Set(prev); s.add(word); return s })
@@ -102,7 +109,13 @@ export function VocabBubblePop({ items, onComplete }: Props) {
       setWrongId(word)
       setTimeout(() => setWrongId(null), 500)
     }
-  }, [currentTarget, allPopped, targetQueue, speak])
+  }, [currentTarget, allPopped, targetQueue, speak, gameStarted])
+
+  useEffect(() => {
+    if (!allPopped) return
+    const t = setTimeout(onComplete, 400)
+    return () => clearTimeout(t)
+  }, [allPopped, onComplete])
 
   return (
     <div className="p-4 max-w-lg mx-auto">
@@ -149,7 +162,22 @@ export function VocabBubblePop({ items, onComplete }: Props) {
         )}
       </div>
 
-      {!allPopped && currentTarget && (
+      {!gameStarted && !allPopped && (
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-sm font-bold text-black" dir="rtl">לחץ על הרמקול להתחלת המשחק!</p>
+          <button
+            onClick={handleStart}
+            className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 text-white text-4xl
+                       shadow-lg hover:scale-110 active:scale-90 transition-all duration-150 cursor-pointer select-none
+                       flex items-center justify-center"
+            aria-label="Start game"
+          >
+            🔊
+          </button>
+        </div>
+      )}
+
+      {gameStarted && !allPopped && currentTarget && (
         <div className="flex flex-col items-center gap-2">
           <button
             onClick={() => speak(currentTarget.ttsText ?? currentTarget.word, 0.8)}
@@ -160,8 +188,19 @@ export function VocabBubblePop({ items, onComplete }: Props) {
           >
             🔊
           </button>
-          <p className="text-sm font-bold text-white/80" dir="rtl">לחץ כדי לשמוע — פוצץ את הבועה!</p>
-          <p className="text-xs text-white/60 font-bold">{remaining.length} bubbles left</p>
+          <p className="text-sm font-bold text-black" dir="rtl">לחץ כדי לשמוע — פוצץ את הבועה!</p>
+          <p className="text-xs text-gray-600 font-bold">{remaining.length} bubbles left</p>
+        </div>
+      )}
+
+      {allPopped && (
+        <div className="flex flex-col items-center gap-3 mt-2">
+          <button
+            onClick={handleAgain}
+            className="btn-kid bg-blue-500"
+          >
+            🔁 Again
+          </button>
         </div>
       )}
     </div>

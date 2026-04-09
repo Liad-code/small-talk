@@ -1,32 +1,53 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { TrackDItem } from '@/data/step1/trackDCategories'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 
+const TOTAL_ROUNDS = 10
+
 interface Props {
-  items: TrackDItem[]   // must be exactly 6
+  items: TrackDItem[]
   onComplete: () => void
 }
 
 export function Pick3Exercise({ items, onComplete }: Props) {
   const speak = useSpeak()
+  // roundNum: 0 = not started, 1-TOTAL_ROUNDS = active, TOTAL_ROUNDS+1 = all done
+  const [roundNum, setRoundNum] = useState(0)
   const [announced, setAnnounced] = useState<TrackDItem[]>([])
   const [placed, setPlaced] = useState<(TrackDItem | null)[]>([null, null, null])
-  const [started, setStarted] = useState(false)
-  const [done, setDone] = useState(false)
+  const [allDone, setAllDone] = useState(false)
+  const speakTimers = useRef<ReturnType<typeof setTimeout>[]>([])
 
-  function start() {
+  useEffect(() => () => { speakTimers.current.forEach(clearTimeout) }, [])
+
+  // Fire a new round whenever roundNum changes (and is > 0)
+  useEffect(() => {
+    if (roundNum === 0 || allDone) return
     const picked = shuffle([...items]).slice(0, 3)
     setAnnounced(picked)
     setPlaced([null, null, null])
-    setDone(false)
-    setStarted(true)
-    // announce all 3 with delays
-    picked.forEach((item, i) => {
+    speakTimers.current.forEach(clearTimeout)
+    speakTimers.current = picked.map((item, i) =>
       setTimeout(() => speak(item.ttsText ?? item.word, 0.85), 500 + i * 900)
-    })
+    )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roundNum])
+
+  function handleStart() {
+    setRoundNum(1)
+    setAllDone(false)
+  }
+
+  function handleAgain() {
+    setAllDone(false)
+    setRoundNum(0)
+    setAnnounced([])
+    setPlaced([null, null, null])
+    // Restart after a tick to ensure roundNum goes 0→1
+    setTimeout(() => setRoundNum(1), 50)
   }
 
   function replay() {
@@ -41,19 +62,24 @@ export function Pick3Exercise({ items, onComplete }: Props) {
     if (slotIdx < 0 || slotIdx > 2) return false
     const item = items.find(i => i.word === tileId)
     if (!item) return false
-    // only accept announced items
     if (!announced.some(a => a.word === tileId)) return false
-    // don't allow duplicate in slots
     if (placed.some(p => p?.word === tileId)) return false
 
     const newPlaced = [...placed]
     newPlaced[slotIdx] = item
     setPlaced(newPlaced)
 
-    const filledCount = newPlaced.filter(Boolean).length
-    if (filledCount === 3 && newPlaced.every(p => p && announced.some(a => a.word === p.word))) {
-      setDone(true)
-      setTimeout(onComplete, 800)
+    if (newPlaced.filter(Boolean).length === 3 && newPlaced.every(p => p && announced.some(a => a.word === p.word))) {
+      setTimeout(() => {
+        setRoundNum(prev => {
+          const nextRound = prev + 1
+          if (nextRound > TOTAL_ROUNDS) {
+            setAllDone(true)
+            setTimeout(onComplete, 400)
+          }
+          return nextRound
+        })
+      }, 800)
     }
     return true
   }, [announced, placed, items, onComplete])
@@ -61,14 +87,15 @@ export function Pick3Exercise({ items, onComplete }: Props) {
   const placedWords = new Set(placed.filter(Boolean).map(p => p!.word))
   const freeTiles = items.filter(item => !placedWords.has(item.word))
 
-  if (!started) {
+  // Not started yet
+  if (roundNum === 0) {
     return (
       <div className="p-4 max-w-sm mx-auto text-center">
-        <p className="text-white/80 font-bold text-sm mb-6" dir="rtl">
+        <p className="text-black font-bold text-base mb-6" dir="rtl">
           לחץ על הרמקול כדי לשמוע 3 פריטים — גרור אותם לריבועים!
         </p>
         <button
-          onClick={start}
+          onClick={handleStart}
           className="w-24 h-24 rounded-full bg-white/20 border-4 border-white/50 text-5xl
                      hover:bg-white/30 active:scale-90 transition-all cursor-pointer select-none
                      flex items-center justify-center mx-auto"
@@ -79,8 +106,25 @@ export function Pick3Exercise({ items, onComplete }: Props) {
     )
   }
 
+  // All done — show Again button
+  if (allDone) {
+    return (
+      <div className="p-4 max-w-sm mx-auto text-center">
+        <div className="text-5xl mb-3 bounce-in">🎉</div>
+        <p className="font-bold text-black text-lg mb-6" dir="rtl">כל הכבוד! סיימת את כל הסיבובים!</p>
+        <button onClick={handleAgain} className="btn-kid bg-blue-500">
+          🔁 Again
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="p-4 max-w-sm mx-auto">
+      <div className="text-center text-black font-bold text-sm mb-3">
+        Round {Math.min(roundNum, TOTAL_ROUNDS)} / {TOTAL_ROUNDS}
+      </div>
+
       {/* 3 target slots */}
       <div className="flex gap-3 justify-center mb-4">
         {[0, 1, 2].map(i => {
@@ -121,7 +165,7 @@ export function Pick3Exercise({ items, onComplete }: Props) {
         </button>
       </div>
 
-      {/* All 6 tiles */}
+      {/* All tiles */}
       <div className="border-t-2 border-white/20 pt-3">
         <div className="flex flex-wrap justify-center gap-2">
           {freeTiles.map(item => {
@@ -139,7 +183,6 @@ export function Pick3Exercise({ items, onComplete }: Props) {
               />
             )
           })}
-          {/* Show placed-but-announced in faded state */}
           {placed.filter(Boolean).map(item => (
             <div
               key={`placed-${item!.word}`}
@@ -150,12 +193,6 @@ export function Pick3Exercise({ items, onComplete }: Props) {
           ))}
         </div>
       </div>
-
-      {done && (
-        <div className="text-center mt-4">
-          <span className="text-4xl bounce-in">🎉</span>
-        </div>
-      )}
     </div>
   )
 }

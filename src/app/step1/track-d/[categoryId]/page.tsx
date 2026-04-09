@@ -105,7 +105,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     const others = allItems.filter(i => i.word !== current.word)
     const pick = shuffle(others).slice(0, Math.min(3, others.length))
     setQuizOptions(shuffle([current, ...pick]) as typeof quizOptions)
-    // deliberately NOT auto-speaking — user taps 🔊 to hear
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quizIdx, tab])
 
@@ -157,10 +156,10 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         <div className="max-w-2xl mx-auto flex items-center gap-3">
           <Link href="/step1/track-d" className="w-11 h-11 flex items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-white font-black text-lg no-underline flex-shrink-0"><span aria-hidden="true">←</span></Link>
           <div className="flex items-center gap-3 flex-1">
-            <span className="text-4xl">{cat.emoji}</span>
+            <span className="text-5xl">{cat.emoji}</span>
             <div>
-              <div className="font-display font-bold text-xl text-gray-900 drop-shadow-sm">{cat.title}</div>
-              <div className="text-gray-800/70 font-bold text-sm" dir="rtl">{cat.hebrewTitle}</div>
+              <div className="font-display font-bold text-2xl text-black drop-shadow-sm">{cat.title}</div>
+              <div className="text-black/70 font-bold text-base" dir="rtl">{cat.hebrewTitle}</div>
             </div>
           </div>
         </div>
@@ -198,7 +197,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {/* ── Flashcards ──────────────────────────────────────── */}
         {tab === 'flashcards' && (
           <div>
-            <p className="text-center text-white/70 text-sm font-bold mb-4" dir="rtl">
+            <p className="text-center text-black font-bold text-base mb-4" dir="rtl">
               לחץ על כל תמונה כדי לשמוע! ({tapped.size}/{allItems.length})
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -211,20 +210,19 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                     className={`
                       rounded-3xl border-4 p-4 flex flex-col items-center gap-2
                       transition-all duration-150 cursor-pointer select-none
-                      ${done ? 'bg-white/30 border-white' : 'bg-white/15 border-white/30 hover:scale-105 active:scale-95 hover:bg-white/25'}
+                      ${done ? `${cat.bgColor} border-black scale-105` : `bg-white border-gray-300 hover:scale-105 active:scale-95 hover:border-black`}
                       shadow-md
                     `}
                   >
-                    {/* Days: show word + number instead of emoji */}
                     {isDaysCategory ? (
                       <>
-                        <span className="font-display font-black text-lg text-white leading-tight">{item.word}</span>
-                        {item.dayNum && <span className="text-white/60 font-bold text-2xl">{item.dayNum}</span>}
+                        <span className="font-display font-black text-xl text-black leading-tight">{item.word}</span>
+                        {item.dayNum && <span className="text-gray-500 font-bold text-2xl">{item.dayNum}</span>}
                       </>
                     ) : (
-                      <span className="text-5xl">{item.emoji}</span>
+                      <span className="text-6xl">{item.emoji}</span>
                     )}
-                    {done && <span className="text-green-400 font-black text-base">🔊</span>}
+                    {done && <span className="text-green-600 font-black text-base">🔊</span>}
                   </button>
                 )
               })}
@@ -232,7 +230,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             {learnDone && (
               <div className="text-center mt-6 pb-6">
                 <div className="text-4xl mb-2">⭐</div>
-                <p className="font-display text-lg font-bold text-white" dir="rtl">כל הכבוד!</p>
+                <p className="font-display text-lg font-bold text-black" dir="rtl">כל הכבוד!</p>
                 <button
                   onClick={() => setTab('quiz')}
                   className="mt-3 px-6 py-3 rounded-2xl font-bold text-base border-4 border-black text-black bg-white shadow-md cursor-pointer select-none hover:scale-105 active:scale-95 transition-all"
@@ -250,10 +248,10 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             {quizDone ? (
               <div className="text-center py-8 bounce-in">
                 <div className="text-6xl mb-3">⭐</div>
-                <p className="font-display text-2xl font-bold text-white">
+                <p className="font-display text-2xl font-bold text-black">
                   {quizScore}/{quizQueue.length} correct!
                 </p>
-                <p className="font-bold text-white/60 mt-1" dir="rtl">כל הכבוד!</p>
+                <p className="font-bold text-black mt-1" dir="rtl">כל הכבוד!</p>
                 <div className="flex gap-3 mt-6 justify-center">
                   <button
                     onClick={() => {
@@ -274,7 +272,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
               </div>
             ) : currentQuiz ? (
               <>
-                <div className="flex justify-between text-sm font-bold text-white/60 mb-4">
+                <div className="flex justify-between text-sm font-bold text-black mb-4">
                   <span>{quizIdx + 1} / {quizQueue.length}</span>
                   <span>✅ {quizScore}</span>
                 </div>
@@ -292,7 +290,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                   >
                     🔊
                   </button>
-                  <p className="text-xs text-white/50 font-bold mt-2" dir="rtl">לחץ לשמוע — בחר התמונה הנכונה</p>
+                  <p className="text-sm text-black font-bold mt-2" dir="rtl">לחץ לשמוע — בחר התמונה הנכונה</p>
                 </div>
 
                 {/* Options */}
@@ -310,17 +308,16 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                           transition-all duration-150 cursor-pointer select-none shadow-md
                           ${isCorrect ? 'bg-green-200 border-green-400 scale-110' : ''}
                           ${isWrong ? 'bg-red-100 border-red-400 shake' : ''}
-                          ${!isCorrect && !isWrong ? 'bg-white/20 border-white/40 hover:scale-105 active:scale-95 hover:border-white' : ''}
+                          ${!isCorrect && !isWrong ? `${cat.bgColor} border-black hover:scale-105 active:scale-95` : ''}
                         `}
                       >
-                        {/* Days in quiz: show word + number */}
                         {isDaysCategory ? (
                           <div className="flex flex-col items-center">
-                            <span className="font-display font-black text-sm text-white leading-tight">{opt.word}</span>
-                            {opt.dayNum && <span className="font-bold text-white/60 text-xl">{opt.dayNum}</span>}
+                            <span className="font-display font-black text-sm text-black leading-tight">{opt.word}</span>
+                            {opt.dayNum && <span className="font-bold text-gray-600 text-xl">{opt.dayNum}</span>}
                           </div>
                         ) : (
-                          <span className="text-5xl">{opt.emoji}</span>
+                          <span className="text-6xl">{opt.emoji}</span>
                         )}
                       </button>
                     )

@@ -37,15 +37,15 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   },
   {
     id: 'weather', title: 'Weather', hebrewTitle: 'מזג אוויר', emoji: '🌤️',
-    color: 'from-sky-400 to-cyan-500', bgColor: 'bg-sky-50', borderColor: 'border-sky-400', textColor: 'text-sky-700',
+    color: 'from-sky-400 to-cyan-500', bgColor: 'bg-sky-100', borderColor: 'border-sky-400', textColor: 'text-sky-700',
     items: [
       { word: 'day', emoji: '🌅' }, { word: 'night', emoji: '🌙' }, { word: 'sun', emoji: '☀️' },
-      { word: 'rain', emoji: '🌧️' }, { word: 'cloud', emoji: '☁️' }, { word: 'snow', emoji: '❄️' },
+      { word: 'rain', emoji: '🌧️' }, { word: 'cloud', emoji: '☁️' }, { word: 'snow', emoji: '⛄' },
     ],
   },
   {
     id: 'seasons', title: 'Seasons', hebrewTitle: 'עונות השנה', emoji: '🍂',
-    color: 'from-amber-400 to-orange-500', bgColor: 'bg-amber-50', borderColor: 'border-amber-400', textColor: 'text-amber-700',
+    color: 'from-amber-400 to-orange-500', bgColor: 'bg-yellow-100', borderColor: 'border-yellow-500', textColor: 'text-yellow-800',
     items: [
       { word: 'summer', emoji: '🏖️' }, { word: 'spring', emoji: '🌸' },
       { word: 'fall', emoji: '🍂' }, { word: 'winter', emoji: '⛄' },
@@ -61,7 +61,7 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   },
   {
     id: 'days', title: 'Days of the Week', hebrewTitle: 'ימות השבוע', emoji: '📅',
-    color: 'from-purple-400 to-violet-500', bgColor: 'bg-purple-50', borderColor: 'border-purple-400', textColor: 'text-purple-700',
+    color: 'from-purple-400 to-violet-500', bgColor: 'bg-green-100', borderColor: 'border-green-500', textColor: 'text-green-800',
     items: [
       { word: 'Sunday',    emoji: '📅', dayNum: 1 },
       { word: 'Monday',    emoji: '📅', dayNum: 2 },
@@ -74,18 +74,18 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   },
   {
     id: 'face', title: 'Face', hebrewTitle: 'אברי הפנים', emoji: '👁️',
-    color: 'from-rose-400 to-pink-500', bgColor: 'bg-rose-50', borderColor: 'border-rose-400', textColor: 'text-rose-700',
+    color: 'from-rose-400 to-pink-500', bgColor: 'bg-amber-100', borderColor: 'border-amber-400', textColor: 'text-amber-700',
     items: [
-      { word: 'face', emoji: '😊' }, { word: 'ears', emoji: '👂' }, { word: 'nose', emoji: '👃' },
-      { word: 'mouth', emoji: '👄' }, { word: 'eyes', emoji: '👁️' },
+      { word: 'face', emoji: '😊' }, { word: 'ears', emoji: '👂👂' }, { word: 'nose', emoji: '👃' },
+      { word: 'mouth', emoji: '👄' }, { word: 'eyes', emoji: '👀' },
     ],
   },
   {
     id: 'body', title: 'Body', hebrewTitle: 'אברי הגוף', emoji: '🧒',
-    color: 'from-orange-400 to-red-400', bgColor: 'bg-orange-50', borderColor: 'border-orange-400', textColor: 'text-orange-700',
+    color: 'from-orange-400 to-red-400', bgColor: 'bg-amber-100', borderColor: 'border-amber-400', textColor: 'text-amber-700',
     items: [
       { word: 'hands', emoji: '🙌' }, { word: 'body', emoji: '🧍' },
-      { word: 'legs', emoji: '🦵' }, { word: 'head', emoji: '👦' },
+      { word: 'legs', emoji: '🦵🦵' }, { word: 'head', emoji: '👦' },
       { word: 'hair', emoji: '💇' },
     ],
   },
@@ -105,7 +105,7 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     color: 'from-lime-400 to-green-500', bgColor: 'bg-lime-50', borderColor: 'border-lime-400', textColor: 'text-lime-700',
     items: [
       { word: 'cat', emoji: '🐱' }, { word: 'dog', emoji: '🐶' }, { word: 'fish', emoji: '🐟' },
-      { word: 'horse', emoji: '🐴' }, { word: 'sheep', emoji: '🐑' }, { word: 'chicken', emoji: '🐔' },
+      { word: 'horse', emoji: '🐴' }, { word: 'sheep', emoji: '🐑', ttsText: 'a sheep' }, { word: 'chicken', emoji: '🐔' },
     ],
   },
   {
@@ -128,7 +128,7 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   },
   {
     id: 'fruits', title: 'Fruits', hebrewTitle: 'פירות', emoji: '🍎',
-    color: 'from-red-400 to-orange-400', bgColor: 'bg-red-50', borderColor: 'border-red-400', textColor: 'text-red-700',
+    color: 'from-red-400 to-orange-400', bgColor: 'bg-green-100', borderColor: 'border-green-500', textColor: 'text-green-800',
     items: [
       { word: 'apple', emoji: '🍎' }, { word: 'orange', emoji: '🍊' }, { word: 'banana', emoji: '🍌' },
       { word: 'mango', emoji: '🥭' }, { word: 'melon', emoji: '🍈' },
@@ -136,10 +136,10 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   },
   {
     id: 'clothes', title: 'Clothes', hebrewTitle: 'בגדים', emoji: '👕',
-    color: 'from-violet-400 to-purple-500', bgColor: 'bg-violet-50', borderColor: 'border-violet-400', textColor: 'text-violet-700',
+    color: 'from-violet-400 to-purple-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-400', textColor: 'text-blue-700',
     items: [
-      { word: 'hat', emoji: '🎩' }, { word: 'shirt', emoji: '👕' }, { word: 'shoes', emoji: '👟' },
-      { word: 'coat', emoji: '🧥' }, { word: 'dress', emoji: '👗' }, { word: 'pants', emoji: '👖' },
+      { word: 'hat', emoji: '🎩' }, { word: 'shirt', emoji: '👕' }, { word: 'shoes', emoji: '👟👟' },
+      { word: 'coat', emoji: '🧥', ttsText: 'a coat' }, { word: 'dress', emoji: '👗' }, { word: 'pants', emoji: '👖' },
     ],
   },
   {
@@ -147,7 +147,7 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     color: 'from-blue-500 to-sky-400', bgColor: 'bg-blue-50', borderColor: 'border-blue-400', textColor: 'text-blue-700',
     items: [
       { word: 'car', emoji: '🚗' }, { word: 'bus', emoji: '🚌' }, { word: 'train', emoji: '🚂' },
-      { word: 'ship', emoji: '🚢' }, { word: 'bike', emoji: '🚲' }, { word: 'jet', emoji: '✈️' },
+      { word: 'ship', emoji: '🚢', ttsText: 'a ship' }, { word: 'bike', emoji: '🚲' }, { word: 'jet', emoji: '✈️' },
     ],
   },
   {
