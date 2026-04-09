@@ -20,7 +20,7 @@ function Ex1Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
       { id: `${l}_lower`, letter: l, case: 'lower' as const, placed: false },
     ])
     setTiles(shuffle(allTiles))
-    setSquares(group.letters.map(l => ({ letter: l, upper: false, lower: false })))
+    setSquares(shuffle(group.letters).map(l => ({ letter: l, upper: false, lower: false })))
   }, [group])
 
   const allDone = squares.length > 0 && squares.every(s => s.upper && s.lower)
@@ -59,7 +59,7 @@ function Ex1Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
             data-drop-target="true"
             data-expected-ids={JSON.stringify([`${sq.letter}_upper`, `${sq.letter}_lower`])}
             data-target-id={sq.letter}
-            onClick={() => speak(sq.letter, 0.8, 1.1)}
+            onClick={() => speak(sq.letter.toUpperCase(), 0.8, 1.1)}
             className={`
               w-24 h-24 rounded-2xl border-4 flex flex-col items-center justify-center gap-1 cursor-pointer
               transition-all duration-200
@@ -88,8 +88,8 @@ function Ex1Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
         ))}
       </div>
 
-      <p className="text-center text-gray-400 font-bold text-sm mb-3" dir="rtl">
-        גרור כל אות לריבוע הנכון:
+      <p className="text-center text-gray-600 font-bold text-base mb-3" dir="rtl">
+        לחץ על הריבוע כדי לשמוע את שם האות – גרור את האות הגדולה ואת האות הקטנה לריבוע
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         {availableTiles.map(tile => (
@@ -122,7 +122,7 @@ export default function Ex1Page({ params }: { params: { groupId: string } }) {
   return (
     <ExerciseShell
       title="Drag to Square"
-      hebrewInstruction="לחץ על הריבוע כדי לשמוע — גרור את האות הנכונה לריבוע"
+      hebrewInstruction="לחץ על הריבוע כדי לשמוע את שם האות – גרור את האות הגדולה ואת האות הקטנה לריבוע"
       backHref={`/step1/track-a/${groupId}`}
       track="A"
       groupId={groupId}

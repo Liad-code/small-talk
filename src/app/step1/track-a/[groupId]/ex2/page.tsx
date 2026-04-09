@@ -42,7 +42,6 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
   const [targetQueue, setTargetQueue] = useState<string[]>([])
   const [wrongId, setWrongId] = useState<string | null>(null)
   const [popping, setPopping] = useState<Set<string>>(new Set())
-  const autoPlayed = useRef(false)
   const popTimers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   // Cleanup all pending pop timers on unmount / reset
@@ -61,16 +60,8 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
       delay: i * 0.4,
       popped: false,
     })))
-    autoPlayed.current = false
   }, [group])
 
-  // Auto-play first letter
-  useEffect(() => {
-    if (targetQueue.length > 0 && !autoPlayed.current) {
-      autoPlayed.current = true
-      setTimeout(() => speak(targetQueue[0], 0.8, 1.2), 600)
-    }
-  }, [targetQueue, speak])
 
   const remaining = bubbles.filter(b => !b.popped)
   const allPopped = remaining.length === 0 && bubbles.length > 0
@@ -93,7 +84,7 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
         setTargetIdx(prev => {
           const nextIdx = prev + 1
           if (nextIdx < targetQueue.length) {
-            setTimeout(() => speak(targetQueue[nextIdx], 0.8, 1.2), 300)
+            setTimeout(() => speak(targetQueue[nextIdx].toUpperCase(), 0.8, 1.2), 300)
           }
           return nextIdx
         })
@@ -157,7 +148,7 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
       {!allPopped && (
         <div className="flex flex-col items-center gap-2">
           <button
-            onClick={() => speak(currentTarget, 0.8, 1.2)}
+            onClick={() => speak(currentTarget.toUpperCase(), 0.8, 1.2)}
             className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 text-white text-4xl
                        shadow-lg hover:scale-110 active:scale-90 transition-all duration-150 cursor-pointer select-none
                        flex items-center justify-center"
@@ -165,7 +156,7 @@ function Ex2Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
           >
             🔊
           </button>
-          <p className="text-sm font-bold text-gray-400" dir="rtl">לחץ כדי לשמוע — פוצץ את הבועה!</p>
+          <p className="text-base font-bold text-gray-500" dir="rtl">לחץ כדי לשמוע — פוצץ את הבועה הנכונה!</p>
           <p className="text-xs text-gray-300 font-bold">
             {remaining.length} bubbles left
           </p>

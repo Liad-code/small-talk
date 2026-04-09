@@ -5,9 +5,8 @@ import { DraggableTile } from '@/components/step1/DraggableTile'
 import { LETTER_GROUPS, type LetterGroup } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
 
-function buildPaths(letters: string[], endpointOrder: string[]) {
+function buildPaths(letters: string[], endpointOrder: string[], W = 320) {
   const n = letters.length
-  const W = 320
   const svgH = 240
   const topY = 40
   const botY = 200
@@ -64,21 +63,22 @@ function Ex3cExercise({ group, onComplete }: { group: LetterGroup; onComplete: (
     return true
   }, [lowerTiles])
 
-  const paths = endpointOrder.length > 0 ? buildPaths(group.letters, endpointOrder) : []
-  const freeTiles = lowerTiles.filter(t => !t.placed)
-  const W = 320
   const n = group.letters.length
+  // Wider canvas for groups with 6 letters so boxes don't overlap
+  const W = n >= 6 ? 380 : 320
   const gap = W / (n + 1)
+  const paths = endpointOrder.length > 0 ? buildPaths(group.letters, endpointOrder, W) : []
+  const freeTiles = lowerTiles.filter(t => !t.placed)
 
   return (
-    <div className="p-4 max-w-sm mx-auto">
-      <p className="text-center text-gray-400 font-bold text-xs mb-3" dir="rtl">
+    <div className="p-4 max-w-md mx-auto">
+      <p className="text-center text-gray-600 font-bold text-base mb-3" dir="rtl">
         עקוב אחרי כל דרך — גרור את האות הקטנה לסוף הדרך שלה
       </p>
 
       {/* SVG maze */}
       <div className="flex justify-center mb-4">
-        <div className="relative" style={{ width: W, height: 250 }}>
+        <div className="relative overflow-visible" style={{ width: W, height: 250 }}>
           {/* Uppercase letters at top */}
           {group.letters.map((letter, i) => (
             <div

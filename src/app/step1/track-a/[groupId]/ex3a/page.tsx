@@ -37,7 +37,7 @@ function Ex3aExercise({ group, onComplete }: { group: LetterGroup; onComplete: (
 
   return (
     <div className="p-4 max-w-sm mx-auto">
-      <p className="text-center text-gray-400 font-bold text-sm mb-6" dir="rtl">
+      <p className="text-center text-gray-600 font-bold text-base mb-6" dir="rtl">
         גרור את האות הקטנה לצד האות הגדולה שלה
       </p>
 

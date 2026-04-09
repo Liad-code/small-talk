@@ -18,7 +18,6 @@ module.exports = {
         success:   '#48BB78',
         warning:   '#F6AD55',
         info:      '#4299E1',
-        purple:    '#9B59B6',
       },
       animation: {
         'bounce-slow': 'bounce 2s infinite',

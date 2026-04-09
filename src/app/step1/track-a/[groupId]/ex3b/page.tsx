@@ -84,7 +84,7 @@ function Ex3bExercise({ group, onComplete }: { group: LetterGroup; onComplete: (
       {/* Free flowers (draggable tiles showing lowercase) */}
       {freeFlowers.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-4">
-          <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">
+          <p className="text-base text-gray-600 font-bold text-center mb-3" dir="rtl">
             גרור כל פרח לעציץ הנכון:
           </p>
           <div className="flex flex-wrap justify-center gap-4">
