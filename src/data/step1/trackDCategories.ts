@@ -15,6 +15,9 @@ export interface TrackDCategory {
   borderColor: string
   textColor: string
   items: TrackDItem[]
+  learnCardBg?: string      // always-on bg for learn cards (overrides white)
+  learnCardBorder?: string  // always-on border for learn cards
+  quizBorderColor?: string  // quiz option border color override
 }
 
 export const TRACK_D_CATEGORIES: TrackDCategory[] = [
@@ -59,6 +62,15 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
       { word: 'angry', emoji: '😠' }, { word: 'sleepy', emoji: '😴' },
     ],
   },
+  // family moved here (after emotions)
+  {
+    id: 'family', title: 'Family', hebrewTitle: 'משפחה', emoji: '👨‍👩‍👧',
+    color: 'from-rose-400 to-pink-400', bgColor: 'bg-rose-50', borderColor: 'border-rose-400', textColor: 'text-rose-700',
+    items: [
+      { word: 'mother', emoji: '👩' }, { word: 'father', emoji: '👨' }, { word: 'sister', emoji: '👧' },
+      { word: 'brother', emoji: '👦' }, { word: 'baby', emoji: '👶' },
+    ],
+  },
   {
     id: 'days', title: 'Days of the Week', hebrewTitle: 'ימות השבוע', emoji: '📅',
     color: 'from-purple-400 to-violet-500', bgColor: 'bg-green-100', borderColor: 'border-green-500', textColor: 'text-green-800',
@@ -83,10 +95,21 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   {
     id: 'body', title: 'Body', hebrewTitle: 'אברי הגוף', emoji: '🧒',
     color: 'from-orange-400 to-red-400', bgColor: 'bg-amber-100', borderColor: 'border-amber-400', textColor: 'text-amber-700',
+    learnCardBg: 'bg-amber-100',
+    learnCardBorder: 'border-black',
     items: [
       { word: 'hands', emoji: '🙌' }, { word: 'body', emoji: '🧍' },
       { word: 'legs', emoji: '🦵🦵' }, { word: 'head', emoji: '👦' },
       { word: 'hair', emoji: '💇' },
+    ],
+  },
+  // school moved here (after body)
+  {
+    id: 'school', title: 'School', hebrewTitle: 'בית ספר', emoji: '🏫',
+    color: 'from-indigo-400 to-violet-500', bgColor: 'bg-indigo-50', borderColor: 'border-indigo-400', textColor: 'text-indigo-700',
+    items: [
+      { word: 'teacher', emoji: '👩‍🏫' }, { word: 'pupils', emoji: '👫' }, { word: 'school', emoji: '🏫' },
+      { word: 'chair', emoji: '🪑' }, { word: 'pencil', emoji: '✏️' }, { word: 'pen', emoji: '🖊️' },
     ],
   },
   {
@@ -103,14 +126,16 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
   {
     id: 'farm-animals', title: 'Farm Animals', hebrewTitle: 'חיות החווה', emoji: '🐔',
     color: 'from-lime-400 to-green-500', bgColor: 'bg-lime-50', borderColor: 'border-lime-400', textColor: 'text-lime-700',
+    quizBorderColor: 'border-black',
     items: [
       { word: 'cat', emoji: '🐱' }, { word: 'dog', emoji: '🐶' }, { word: 'fish', emoji: '🐟' },
-      { word: 'horse', emoji: '🐴' }, { word: 'sheep', emoji: '🐑', ttsText: 'a sheep' }, { word: 'chicken', emoji: '🐔' },
+      { word: 'horse', emoji: '🐴' }, { word: 'sheep', emoji: '🐑' }, { word: 'chicken', emoji: '🐔' },
     ],
   },
   {
     id: 'jungle-animals', title: 'Jungle Animals', hebrewTitle: 'חיות הג׳ונגל', emoji: '🦁',
     color: 'from-green-500 to-emerald-600', bgColor: 'bg-green-50', borderColor: 'border-green-400', textColor: 'text-green-700',
+    quizBorderColor: 'border-black',
     items: [
       { word: 'lion', emoji: '🦁' }, { word: 'tiger', emoji: '🐯' }, { word: 'zebra', emoji: '🦓' },
       { word: 'elephant', emoji: '🐘' }, { word: 'snake', emoji: '🐍' }, { word: 'bear', emoji: '🐻' },
@@ -139,15 +164,16 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     color: 'from-violet-400 to-purple-500', bgColor: 'bg-blue-50', borderColor: 'border-blue-400', textColor: 'text-blue-700',
     items: [
       { word: 'hat', emoji: '🎩' }, { word: 'shirt', emoji: '👕' }, { word: 'shoes', emoji: '👟👟' },
-      { word: 'coat', emoji: '🧥', ttsText: 'a coat' }, { word: 'dress', emoji: '👗' }, { word: 'pants', emoji: '👖' },
+      { word: 'coat', emoji: '🧥' }, { word: 'dress', emoji: '👗' }, { word: 'pants', emoji: '👖' },
     ],
   },
   {
     id: 'transport', title: 'Transport', hebrewTitle: 'כלי תחבורה', emoji: '🚗',
     color: 'from-blue-500 to-sky-400', bgColor: 'bg-blue-50', borderColor: 'border-blue-400', textColor: 'text-blue-700',
+    quizBorderColor: 'border-blue-400',
     items: [
       { word: 'car', emoji: '🚗' }, { word: 'bus', emoji: '🚌' }, { word: 'train', emoji: '🚂' },
-      { word: 'ship', emoji: '🚢', ttsText: 'a ship' }, { word: 'bike', emoji: '🚲' }, { word: 'jet', emoji: '✈️' },
+      { word: 'ship', emoji: '🚢' }, { word: 'bike', emoji: '🚲' }, { word: 'jet', emoji: '✈️' },
     ],
   },
   {
@@ -177,13 +203,6 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     ],
   },
   {
-    id: 'meals', title: 'Meals', hebrewTitle: 'ארוחות', emoji: '🍽️',
-    color: 'from-amber-400 to-yellow-400', bgColor: 'bg-amber-50', borderColor: 'border-amber-400', textColor: 'text-amber-700',
-    items: [
-      { word: 'breakfast', emoji: '🥞' }, { word: 'lunch', emoji: '🥗' }, { word: 'dinner', emoji: '🍝' },
-    ],
-  },
-  {
     id: 'food', title: 'Food', hebrewTitle: 'אוכל', emoji: '🥚',
     color: 'from-yellow-400 to-amber-400', bgColor: 'bg-yellow-50', borderColor: 'border-yellow-400', textColor: 'text-yellow-700',
     items: [
@@ -196,15 +215,7 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     color: 'from-stone-400 to-slate-500', bgColor: 'bg-stone-50', borderColor: 'border-stone-400', textColor: 'text-stone-700',
     items: [
       { word: 'house', emoji: '🏠' }, { word: 'window', emoji: '🪟' }, { word: 'door', emoji: '🚪' },
-      { word: 'table', emoji: '🪑' }, { word: 'floor', emoji: '🏢' }, { word: 'bedroom', emoji: '🛏️' },
-    ],
-  },
-  {
-    id: 'family', title: 'Family', hebrewTitle: 'משפחה', emoji: '👨‍👩‍👧',
-    color: 'from-rose-400 to-pink-400', bgColor: 'bg-rose-50', borderColor: 'border-rose-400', textColor: 'text-rose-700',
-    items: [
-      { word: 'mother', emoji: '👩' }, { word: 'father', emoji: '👨' }, { word: 'sister', emoji: '👧' },
-      { word: 'brother', emoji: '👦' }, { word: 'baby', emoji: '👶' },
+      { word: 'table', emoji: '🍽️' }, { word: 'floor', emoji: '🟫' }, { word: 'bedroom', emoji: '🛏️' },
     ],
   },
   {
@@ -212,15 +223,7 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     color: 'from-green-400 to-teal-500', bgColor: 'bg-green-50', borderColor: 'border-green-400', textColor: 'text-green-700',
     items: [
       { word: 'tree', emoji: '🌳' }, { word: 'flower', emoji: '🌸' },
-      { word: 'water', emoji: '💧' }, { word: 'garden', emoji: '🌻' },
-    ],
-  },
-  {
-    id: 'school', title: 'School', hebrewTitle: 'בית ספר', emoji: '🏫',
-    color: 'from-indigo-400 to-violet-500', bgColor: 'bg-indigo-50', borderColor: 'border-indigo-400', textColor: 'text-indigo-700',
-    items: [
-      { word: 'teacher', emoji: '👩‍🏫' }, { word: 'pupil', emoji: '👧' }, { word: 'school', emoji: '🏫' },
-      { word: 'chair', emoji: '🪑' }, { word: 'pencil', emoji: '✏️' }, { word: 'pen', emoji: '🖊️' },
+      { word: 'water', emoji: '💧' }, { word: 'garden', emoji: '🌸' },
     ],
   },
 ]

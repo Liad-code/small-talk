@@ -169,14 +169,13 @@ export function Pick3Exercise({ items, onComplete }: Props) {
       <div className="border-t-2 border-white/20 pt-3">
         <div className="flex flex-wrap justify-center gap-2">
           {freeTiles.map(item => {
-            const isAnnounced = announced.some(a => a.word === item.word)
             return (
               <DraggableTile
                 key={item.word}
                 id={item.word}
                 label={item.emoji}
-                color={isAnnounced ? 'bg-white/30' : 'bg-white/10'}
-                borderColor={isAnnounced ? 'border-white' : 'border-white/30'}
+                color="bg-white/20"
+                borderColor="border-white/40"
                 textColor="text-white"
                 size="md"
                 onDropped={handleDrop}

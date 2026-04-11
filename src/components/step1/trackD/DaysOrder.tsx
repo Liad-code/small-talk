@@ -87,7 +87,7 @@ export function DaysOrder({ onComplete }: Props) {
               {filled ? (
                 <span className="font-bold text-blue-900 text-base">{filled}</span>
               ) : (
-                <span className="font-bold text-blue-400/60 text-sm">{day}</span>
+                <span className="font-bold text-white text-sm">{i + 1}</span>
               )}
             </div>
           )

@@ -4,6 +4,9 @@ import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 
 const DAYS_IN_ORDER = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const HEBREW_ORDINALS: Record<number, string> = {
+  1: 'ראשון', 2: 'שני', 3: 'שלישי', 4: 'רביעי', 5: 'חמישי', 6: 'שישי', 7: 'שבת',
+}
 
 interface Props { onComplete: () => void }
 
@@ -22,7 +25,7 @@ export function DaysNumberMatch({ onComplete }: Props) {
     setWrongPair(null)
   }
 
-  function handleNumberClick(num: number) {
+  function handleOrdinalClick(num: number) {
     if (!selectedDay) return
     const expectedNum = DAYS_IN_ORDER.indexOf(selectedDay) + 1
     if (num === expectedNum) {
@@ -74,8 +77,8 @@ export function DaysNumberMatch({ onComplete }: Props) {
                 onClick={() => !isMatched && handleDayClick(day)}
                 disabled={isMatched}
                 className={`
-                  py-2 px-3 rounded-xl border-4 font-bold text-sm text-left
-                  transition-all duration-150 cursor-pointer select-none min-h-[48px]
+                  py-2 px-3 rounded-xl border-4 font-bold text-base text-left
+                  transition-all duration-150 cursor-pointer select-none min-h-[52px]
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-900 opacity-60' : ''}
                   ${isSelected ? 'bg-blue-200 border-blue-600 text-blue-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-200 border-red-500 text-red-900 shake' : ''}
@@ -88,23 +91,24 @@ export function DaysNumberMatch({ onComplete }: Props) {
           })}
         </div>
 
-        {/* Numbers column */}
-        <div className="flex flex-col gap-2 w-14">
+        {/* Hebrew ordinals column */}
+        <div className="flex flex-col gap-2 w-16">
           {[1, 2, 3, 4, 5, 6, 7].map(num => {
             const isMatched = matchedNumbers.has(num)
             return (
               <button
                 key={num}
-                onClick={() => !isMatched && handleNumberClick(num)}
+                onClick={() => !isMatched && handleOrdinalClick(num)}
                 disabled={isMatched}
                 className={`
-                  h-12 w-full rounded-xl border-4 font-black text-base
+                  h-[52px] w-full rounded-xl border-4 font-black text-xs px-1
                   transition-all duration-150 cursor-pointer select-none
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-900 opacity-60' : ''}
                   ${!isMatched ? 'bg-blue-100 border-blue-400 text-blue-900 hover:bg-blue-200 hover:scale-105' : ''}
                 `}
+                dir="rtl"
               >
-                {num}
+                {HEBREW_ORDINALS[num]}
               </button>
             )
           })}

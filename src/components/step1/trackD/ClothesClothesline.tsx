@@ -65,8 +65,8 @@ export function ClothesClothesline({ items, onComplete }: Props) {
 
       {/* Clothesline */}
       <div className="relative bg-white/10 rounded-2xl border-2 border-white/30 p-4 mb-4 min-h-[100px]">
-        {/* The rope — dark brown */}
-        <div className="absolute top-6 left-4 right-4 h-1.5 bg-amber-900 rounded-full" />
+        {/* The rope — white */}
+        <div className="absolute top-6 left-4 right-4 h-1.5 bg-white rounded-full shadow" />
         {/* Hanged items */}
         <div className="flex justify-center gap-3 pt-2 flex-wrap">
           {hanged.map(item => (
@@ -108,7 +108,7 @@ export function ClothesClothesline({ items, onComplete }: Props) {
                 onClick={() => !isHanged && handleItemClick(item)}
                 disabled={isHanged}
                 className={`
-                  w-20 h-20 rounded-2xl border-4 text-4xl
+                  w-24 h-24 rounded-2xl border-4 text-5xl
                   flex items-center justify-center
                   transition-all duration-150 cursor-pointer select-none
                   ${isHanged ? 'opacity-30 cursor-not-allowed bg-white/5 border-white/20' : ''}

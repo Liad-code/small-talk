@@ -14,7 +14,13 @@ import { DaysOrder } from '@/components/step1/trackD/DaysOrder'
 import { DaysNumberMatch } from '@/components/step1/trackD/DaysNumberMatch'
 import { FruitsBasket } from '@/components/step1/trackD/FruitsBasket'
 import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline'
-import { PrepositionsBallInBox } from '@/components/step1/trackD/PrepositionsBallInBox'
+import { FaceBuild } from '@/components/step1/trackD/FaceBuild'
+import { PrepCircleImage } from '@/components/step1/trackD/PrepCircleImage'
+import { DressMe } from '@/components/step1/trackD/DressMe'
+
+const HEBREW_ORDINALS: Record<number, string> = {
+  1: 'ראשון', 2: 'שני', 3: 'שלישי', 4: 'רביעי', 5: 'חמישי', 6: 'שישי', 7: 'שבת',
+}
 
 function playHappySound() {
   try {
@@ -33,12 +39,36 @@ function playHappySound() {
   } catch { /* audio unavailable */ }
 }
 
+// Inline SVG for preposition learn illustrations (ball + box)
+function PrepLearnSvg({ prep }: { prep: string }) {
+  const ballPos: Record<string, { cx: number; cy: number }> = {
+    'in':      { cx: 38, cy: 46 },
+    'on':      { cx: 38, cy: 16 },
+    'under':   { cx: 38, cy: 70 },
+    'next to': { cx: 64, cy: 46 },
+  }
+  const pos = ballPos[prep] ?? { cx: 38, cy: 46 }
+  return (
+    <svg viewBox="0 0 80 80" width="4em" height="4em" xmlns="http://www.w3.org/2000/svg">
+      {/* Box body */}
+      <rect x="12" y="32" width="52" height="36" fill="#c8863a" rx="3" />
+      {/* Box top face */}
+      <polygon points="12,32 38,22 64,32" fill="#e0a050" />
+      {/* Box right side */}
+      <polygon points="64,32 64,68 38,68 38,22" fill="#b07030" opacity="0.5" />
+      {/* Ball */}
+      <circle cx={pos.cx} cy={pos.cy} r="9" fill="#4ade80" />
+      <circle cx={pos.cx - 3} cy={pos.cy - 3} r="3" fill="rgba(255,255,255,0.4)" />
+    </svg>
+  )
+}
+
 // Categories that have extra tab 1 (bubblepop)
 const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-basket' | 'clothesline' | 'prepositions-ball'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'dress-me' | 'face-build' | 'prep-circle'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -49,9 +79,13 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
     tabs.push({ id: 'days-order', label: 'Order', emoji: '🔢' })
     tabs.push({ id: 'days-match', label: 'Match', emoji: '🔗' })
   }
-  if (categoryId === 'fruits') tabs.push({ id: 'fruits-basket', label: 'Basket', emoji: '🧺' })
-  if (categoryId === 'clothes') tabs.push({ id: 'clothesline', label: 'Clothesline', emoji: '🧺' })
-  if (categoryId === 'prepositions') tabs.push({ id: 'prepositions-ball', label: 'Ball & Box', emoji: '📦' })
+  if (categoryId === 'face') tabs.push({ id: 'face-build', label: 'Build a Face', emoji: '🎨' })
+  if (categoryId === 'fruits') tabs.push({ id: 'fruits-shelf', label: 'On the Shelf', emoji: '🛒' })
+  if (categoryId === 'clothes') {
+    tabs.push({ id: 'clothesline', label: 'Clothesline', emoji: '🧺' })
+    tabs.push({ id: 'dress-me', label: 'Dress Me', emoji: '👗' })
+  }
+  if (categoryId === 'prepositions') tabs.push({ id: 'prep-circle', label: 'Circle Image', emoji: '🔵' })
   return tabs
 }
 
@@ -146,6 +180,15 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
 
   const currentQuiz = quizQueue[quizIdx]
   const isDaysCategory = categoryId === 'days'
+  const isOpposites = categoryId === 'opposites'
+  const isPrepositions = categoryId === 'prepositions'
+
+  // Learn card styling (supports always-on color for body)
+  const learnBg = cat.learnCardBg
+  const learnBorder = cat.learnCardBorder
+
+  // Quiz border
+  const quizBorder = cat.quizBorderColor ?? 'border-black'
 
   return (
     <div className="min-h-screen bg-purple-700">
@@ -203,6 +246,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {allItems.map(item => {
                 const done = tapped.has(item.word)
+                const cardBg = learnBg ?? (done ? cat.bgColor : 'bg-white')
+                const cardBorder = learnBorder ?? (done ? 'border-black' : 'border-gray-300')
                 return (
                   <button
                     key={item.word}
@@ -210,18 +255,31 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                     className={`
                       rounded-3xl border-4 p-4 flex flex-col items-center gap-2
                       transition-all duration-150 cursor-pointer select-none
-                      ${done ? `${cat.bgColor} border-black scale-105` : `bg-white border-gray-300 hover:scale-105 active:scale-95 hover:border-black`}
+                      ${cardBg} ${cardBorder}
+                      ${done ? 'scale-105' : 'hover:scale-105 active:scale-95'}
                       shadow-md
                     `}
                   >
                     {isDaysCategory ? (
                       <>
                         <span className="font-display font-black text-xl text-black leading-tight">{item.word}</span>
-                        {item.dayNum && <span className="text-gray-500 font-bold text-2xl">{item.dayNum}</span>}
+                        {item.dayNum && (
+                          <span className="text-gray-700 font-bold text-base" dir="rtl">
+                            {HEBREW_ORDINALS[item.dayNum]}
+                          </span>
+                        )}
                       </>
+                    ) : isPrepositions ? (
+                      <PrepLearnSvg prep={item.word} />
+                    ) : isOpposites && item.emoji === '🐘🐭' ? (
+                      <span className="flex items-end gap-1 leading-none">
+                        <span className="text-7xl">🐘</span>
+                        <span className="text-3xl">🐭</span>
+                      </span>
                     ) : (
-                      <span className="text-6xl">{item.emoji}</span>
+                      <span className="text-7xl">{item.emoji}</span>
                     )}
+                    <span className="font-bold text-sm text-gray-700 text-center">{item.word}</span>
                     {done && <span className="text-green-600 font-black text-base">🔊</span>}
                   </button>
                 )
@@ -308,16 +366,22 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                           transition-all duration-150 cursor-pointer select-none shadow-md
                           ${isCorrect ? 'bg-green-200 border-green-400 scale-110' : ''}
                           ${isWrong ? 'bg-red-100 border-red-400 shake' : ''}
-                          ${!isCorrect && !isWrong ? `${cat.bgColor} border-black hover:scale-105 active:scale-95` : ''}
+                          ${!isCorrect && !isWrong ? `${cat.bgColor} ${quizBorder} hover:scale-105 active:scale-95` : ''}
                         `}
                       >
                         {isDaysCategory ? (
-                          <div className="flex flex-col items-center">
-                            <span className="font-display font-black text-sm text-black leading-tight">{opt.word}</span>
-                            {opt.dayNum && <span className="font-bold text-gray-600 text-xl">{opt.dayNum}</span>}
+                          <div className="flex flex-col items-center gap-1 p-2">
+                            <span className="font-display font-black text-base text-black leading-tight">{opt.word}</span>
+                            {opt.dayNum && (
+                              <span className="font-bold text-gray-700 text-sm" dir="rtl">
+                                {HEBREW_ORDINALS[opt.dayNum]}
+                              </span>
+                            )}
                           </div>
+                        ) : isPrepositions ? (
+                          <PrepLearnSvg prep={opt.word} />
                         ) : (
-                          <span className="text-6xl">{opt.emoji}</span>
+                          <span className="text-7xl">{opt.emoji}</span>
                         )}
                       </button>
                     )
@@ -344,14 +408,20 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {tab === 'days-match' && (
           <DaysNumberMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
-        {tab === 'fruits-basket' && cat && (
+        {tab === 'face-build' && (
+          <FaceBuild key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'fruits-shelf' && cat && (
           <FruitsBasket key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
         )}
         {tab === 'clothesline' && cat && (
           <ClothesClothesline key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
         )}
-        {tab === 'prepositions-ball' && (
-          <PrepositionsBallInBox key={extraKey} onComplete={handleExtraComplete} />
+        {tab === 'dress-me' && (
+          <DressMe key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'prep-circle' && (
+          <PrepCircleImage key={extraKey} onComplete={handleExtraComplete} />
         )}
       </div>
 
