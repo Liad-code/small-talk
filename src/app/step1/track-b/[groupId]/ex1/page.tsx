@@ -5,26 +5,7 @@ import { DraggableTile } from '@/components/step1/DraggableTile'
 import { LETTER_GROUPS, type LetterGroup } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
 import { useMute } from '@/hooks/useMute'
-
-// Short phoneme sounds
-const SHORT_PHONEMES: Record<string, string> = {
-  a: 'a',   b: 'buh', c: 'kuh', d: 'duh', e: 'eh',
-  f: 'fuh', g: 'guh', h: 'huh', i: 'ih',  j: 'juh',
-  k: 'kuh', l: 'luh', m: 'muh', n: 'nuh', o: 'oh',
-  p: 'puh', q: 'kwuh',r: 'ruh', s: 'suh', t: 'tuh',
-  u: 'uh',  v: 'vuh', w: 'wuh', x: 'ks',  y: 'yuh', z: 'zuh',
-}
-
-function speakLetterAndSound(letter: string, isMuted: () => boolean) {
-  if (isMuted()) return
-  window.speechSynthesis.cancel()
-  const u1 = new SpeechSynthesisUtterance(letter)
-  u1.lang = 'en-US'; u1.rate = 0.85; u1.pitch = 1.1
-  const u2 = new SpeechSynthesisUtterance(SHORT_PHONEMES[letter] ?? letter)
-  u2.lang = 'en-US'; u2.rate = 0.8; u2.pitch = 1.0
-  window.speechSynthesis.speak(u1)
-  window.speechSynthesis.speak(u2)
-}
+import { speakLetter } from '@/utils/speakLetterSound'
 
 function SoundBoxExercise({ group, onComplete }: { group: LetterGroup; onComplete: () => void }) {
   const { isMuted } = useMute()
@@ -76,7 +57,7 @@ function SoundBoxExercise({ group, onComplete }: { group: LetterGroup; onComplet
             data-drop-target="true"
             data-expected-ids={JSON.stringify([`${box.letter}_U`, `${box.letter}_L`])}
             data-target-id={box.letter}
-            onClick={() => speakLetterAndSound(box.letter, isMuted)}
+            onClick={() => speakLetter(box.letter, isMuted, true)}
             className={`
               w-24 h-24 rounded-2xl border-4 flex flex-col items-center justify-center gap-1 cursor-pointer
               transition-all duration-200

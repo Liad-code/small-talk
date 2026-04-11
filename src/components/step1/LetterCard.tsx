@@ -1,5 +1,6 @@
 'use client'
 import { useMute } from '@/hooks/useMute'
+import { speakLetter } from '@/utils/speakLetterSound'
 
 interface Props {
   letter: string
@@ -13,34 +14,11 @@ interface Props {
   onClick?: () => void
 }
 
-// Just the short phoneme sounds — no "as in X"
-const SHORT_PHONEMES: Record<string, string> = {
-  a: 'a',   b: 'buh', c: 'kuh', d: 'duh', e: 'eh',
-  f: 'fuh', g: 'guh', h: 'huh', i: 'ih',  j: 'juh',
-  k: 'kuh', l: 'luh', m: 'muh', n: 'nuh', o: 'oh',
-  p: 'puh', q: 'kwuh',r: 'ruh', s: 'suh', t: 'tuh',
-  u: 'uh',  v: 'vuh', w: 'wuh', x: 'ks',  y: 'yuh', z: 'zuh',
-}
-
 export function LetterCard({ letter, groupColor, bgColor, textColor, borderColor, size = 'md', soundMode = false, done = false, onClick }: Props) {
   const { isMuted } = useMute()
 
-  function speak() {
-    if (isMuted()) return
-    window.speechSynthesis.cancel()
-
-    // Always say the letter name first
-    const u1 = new SpeechSynthesisUtterance(letter)
-    u1.lang = 'en-US'; u1.rate = 0.85; u1.pitch = 1.1
-    window.speechSynthesis.speak(u1)
-
-    // In sound mode, queue the short phoneme after the name
-    if (soundMode) {
-      const u2 = new SpeechSynthesisUtterance(SHORT_PHONEMES[letter] ?? letter)
-      u2.lang = 'en-US'; u2.rate = 0.8; u2.pitch = 1.0
-      window.speechSynthesis.speak(u2)
-    }
-
+  function handleClick() {
+    speakLetter(letter, isMuted, soundMode)
     onClick?.()
   }
 
@@ -53,7 +31,7 @@ export function LetterCard({ letter, groupColor, bgColor, textColor, borderColor
 
   return (
     <button
-      onClick={speak}
+      onClick={handleClick}
       className={`
         relative ${bgColor} border-4 ${borderColor}
         ${s.card} flex flex-col items-center justify-center gap-0.5
