@@ -85,7 +85,7 @@ function Ex3bExercise({ group, onComplete }: { group: LetterGroup; onComplete: (
       {freeFlowers.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-4">
           <p className="text-base text-gray-600 font-bold text-center mb-3" dir="rtl">
-            גרור כל פרח לעציץ הנכון:
+            גרור כל פרח עם אות קטנה לעציץ הנכון עם האות הגדולה:
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             {freeFlowers.map(flower => (
@@ -118,7 +118,7 @@ export default function Ex3bPage({ params }: { params: { groupId: string } }) {
   return (
     <ExerciseShell
       title="Bouquet Flowers"
-      hebrewInstruction="גרור כל פרח לעציץ הנכון"
+      hebrewInstruction="גרור כל פרח עם אות קטנה לעציץ הנכון עם האות הגדולה"
       backHref={`/step1/track-a/${groupId}`}
       track="A"
       groupId={groupId}

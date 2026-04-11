@@ -68,13 +68,13 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
             >
               {/* Lid visual */}
               <div className={`
-                w-12 h-6 rounded-t-full border-4 border-b-0 flex items-center justify-center
+                w-16 h-8 rounded-t-full border-4 border-b-0 flex items-center justify-center
                 ${done
                   ? `${group.bgColor} ${group.borderColor}`
                   : 'bg-gray-100 border-dashed border-gray-300'}
               `}>
                 {done && (
-                  <span className={`font-display font-black text-xs leading-none ${group.textColor}`}>
+                  <span className={`font-display font-black text-sm leading-none ${group.textColor}`}>
                     {letter}
                   </span>
                 )}
@@ -82,13 +82,13 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
 
               {/* Pot body with handles */}
               <div className="relative flex items-center">
-                <div className={`w-2.5 h-5 rounded-l-full border-4 border-r-0 flex-shrink-0 ${group.bgColor} ${group.borderColor}`}/>
-                <div className={`w-10 h-10 rounded-b-xl flex items-center justify-center ${group.bgColor} border-4 ${group.borderColor}`}>
-                  <span className={`font-display font-black text-lg ${group.textColor}`}>
+                <div className={`w-3 h-6 rounded-l-full border-4 border-r-0 flex-shrink-0 ${group.bgColor} ${group.borderColor}`}/>
+                <div className={`w-14 h-14 rounded-b-xl flex items-center justify-center ${group.bgColor} border-4 ${group.borderColor}`}>
+                  <span className={`font-display font-black text-2xl ${group.textColor}`}>
                     {letter.toUpperCase()}
                   </span>
                 </div>
-                <div className={`w-2.5 h-5 rounded-r-full border-4 border-l-0 flex-shrink-0 ${group.bgColor} ${group.borderColor}`}/>
+                <div className={`w-3 h-6 rounded-r-full border-4 border-l-0 flex-shrink-0 ${group.bgColor} ${group.borderColor}`}/>
               </div>
             </div>
           )
@@ -115,6 +115,7 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
                     borderColor={group.borderColor}
                     textColor={group.textColor}
                     size="md"
+                    noSnapBack
                     onDropped={handleDrop}
                   />
                 )

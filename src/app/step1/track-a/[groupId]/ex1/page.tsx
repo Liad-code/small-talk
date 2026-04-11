@@ -9,6 +9,12 @@ import { shuffle } from '@/utils/shuffle'
 type Tile = { id: string; letter: string; case: 'upper' | 'lower'; placed: boolean }
 type Square = { letter: string; upper: boolean; lower: boolean }
 
+// Some TTS voices mispronounce single letters — override where needed
+function getLetterTts(l: string): string {
+  const overrides: Record<string, string> = { z: 'zee', g: 'gee', h: 'aitch', w: 'double-u' }
+  return overrides[l] ?? l.toUpperCase()
+}
+
 function Ex1Exercise({ group, onComplete }: { group: LetterGroup; onComplete: () => void }) {
   const speak = useSpeak()
   const [tiles, setTiles] = useState<Tile[]>([])
@@ -59,7 +65,7 @@ function Ex1Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
             data-drop-target="true"
             data-expected-ids={JSON.stringify([`${sq.letter}_upper`, `${sq.letter}_lower`])}
             data-target-id={sq.letter}
-            onClick={() => speak(sq.letter.toUpperCase(), 0.8, 1.1)}
+            onClick={() => speak(getLetterTts(sq.letter), 0.8, 1.1)}
             className={`
               w-24 h-24 rounded-2xl border-4 flex flex-col items-center justify-center gap-1 cursor-pointer
               transition-all duration-200

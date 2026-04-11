@@ -73,7 +73,7 @@ function Ex3cExercise({ group, onComplete }: { group: LetterGroup; onComplete: (
   return (
     <div className="p-4 max-w-md mx-auto">
       <p className="text-center text-gray-600 font-bold text-base mb-3" dir="rtl">
-        עקוב אחרי כל דרך — גרור את האות הקטנה לסוף הדרך שלה
+        עקב אחרי כל דרך והתאם את האות הקטנה לאות הגדולה בסוף הדרך
       </p>
 
       {/* SVG maze */}
@@ -168,7 +168,7 @@ export default function Ex3cPage({ params }: { params: { groupId: string } }) {
   return (
     <ExerciseShell
       title="Maze Paths"
-      hebrewInstruction="עקוב אחרי הדרך — גרור את האות הקטנה לסוף הדרך"
+      hebrewInstruction="עקב אחרי כל דרך והתאם את האות הקטנה לאות הגדולה בסוף הדרך"
       backHref={`/step1/track-a/${groupId}`}
       track="A"
       groupId={groupId}

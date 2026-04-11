@@ -48,7 +48,7 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
       </p>
 
       {/* Puzzle pairs — scattered layout */}
-      <div className="flex flex-wrap justify-center gap-3 mb-6">
+      <div className="flex flex-wrap justify-center gap-4 mb-6">
         {ABC_ORDER.map((letter, i) => {
           const group = getGroup(letter)
           const done = matched.has(letter)
@@ -61,17 +61,17 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
             >
               {/* LEFT half — uppercase piece */}
               <div className={`
-                relative w-12 h-12 flex items-center justify-center z-10
+                relative w-16 h-16 flex items-center justify-center z-10
                 rounded-l-2xl border-4 border-r-0
                 ${group.bgColor} ${group.borderColor}
               `}>
-                <span className={`font-display font-black text-lg ${group.textColor}`}>
+                <span className={`font-display font-black text-2xl ${group.textColor}`}>
                   {letter.toUpperCase()}
                 </span>
                 {/* Tab bump on right edge */}
                 <div className={`
-                  absolute -right-3 top-1/2 -translate-y-1/2
-                  w-6 h-6 rounded-full border-4 z-20
+                  absolute -right-3.5 top-1/2 -translate-y-1/2
+                  w-7 h-7 rounded-full border-4 z-20
                   ${group.bgColor} ${group.borderColor}
                 `}/>
               </div>
@@ -82,7 +82,7 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
                 data-expected-ids={JSON.stringify([letter])}
                 data-target-id={letter}
                 className={`
-                  relative w-12 h-12 flex items-center justify-center
+                  relative w-16 h-16 flex items-center justify-center
                   rounded-r-2xl border-4 border-l-0
                   transition-all duration-200
                   ${done
@@ -92,13 +92,13 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
               >
                 {/* Notch cavity on left edge */}
                 <div className={`
-                  absolute -left-3 top-1/2 -translate-y-1/2
-                  w-6 h-6 rounded-full border-4 z-20
+                  absolute -left-3.5 top-1/2 -translate-y-1/2
+                  w-7 h-7 rounded-full border-4 z-20
                   ${done ? `${group.bgColor} ${group.borderColor}` : 'bg-gray-50 border-gray-200'}
                 `}/>
                 {done
-                  ? <span className={`font-display font-black text-lg ${group.textColor}`}>{letter}</span>
-                  : <span className="text-gray-300 text-xs font-bold">?</span>
+                  ? <span className={`font-display font-black text-2xl ${group.textColor}`}>{letter}</span>
+                  : <span className="text-gray-300 text-sm font-bold">?</span>
                 }
               </div>
             </div>
@@ -125,6 +125,7 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
                     borderColor={group.borderColor}
                     textColor={group.textColor}
                     size="md"
+                    noSnapBack
                     onDropped={handleDrop}
                   />
                 )

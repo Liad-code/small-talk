@@ -10,6 +10,7 @@ interface Props {
   size?: 'sm' | 'md' | 'lg'
   disabled?: boolean            // already placed / locked
   className?: string
+  noSnapBack?: boolean          // on wrong drop, stay in place instead of snapping back
   onDropped?: (tileId: string, targetEl: Element) => boolean  // return true if accepted
 }
 
@@ -28,10 +29,12 @@ export function DraggableTile({
   size = 'md',
   disabled = false,
   className = '',
+  noSnapBack = false,
   onDropped,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const startClient = useRef({ x: 0, y: 0 })
+  const baseOffset = useRef({ x: 0, y: 0 })
   const [dragging, setDragging] = useState(false)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [rejected, setRejected] = useState(false)
@@ -41,20 +44,28 @@ export function DraggableTile({
     e.currentTarget.setPointerCapture(e.pointerId)
     startClient.current = { x: e.clientX, y: e.clientY }
     setDragging(true)
-    setOffset({ x: 0, y: 0 })
-  }, [disabled])
+    if (!noSnapBack) {
+      setOffset({ x: 0, y: 0 })
+      baseOffset.current = { x: 0, y: 0 }
+    }
+    // noSnapBack: keep current baseOffset so tile starts from its last position
+  }, [disabled, noSnapBack])
 
   const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragging) return
     setOffset({
-      x: e.clientX - startClient.current.x,
-      y: e.clientY - startClient.current.y,
+      x: baseOffset.current.x + (e.clientX - startClient.current.x),
+      y: baseOffset.current.y + (e.clientY - startClient.current.y),
     })
   }, [dragging])
 
   const onPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragging) return
     setDragging(false)
+
+    const dx = e.clientX - startClient.current.x
+    const dy = e.clientY - startClient.current.y
+    const finalOffset = { x: baseOffset.current.x + dx, y: baseOffset.current.y + dy }
 
     // Primary: bounding-rect intersection (robust — works when tile > target)
     let target: Element | null = null
@@ -80,17 +91,33 @@ export function DraggableTile({
 
     if (target && onDropped) {
       const accepted = onDropped(id, target)
-      if (!accepted) {
-        // snap back with rejection animation
+      if (accepted) {
+        baseOffset.current = { x: 0, y: 0 }
+        // parent handles hiding/locking this tile
+      } else if (noSnapBack) {
+        // Stay in place — tile remains where user dropped it
+        baseOffset.current = finalOffset
+        setOffset(finalOffset)
+        setRejected(true)
+        setTimeout(() => setRejected(false), 400)
+      } else {
+        // Classic snap back
         setRejected(true)
         setOffset({ x: 0, y: 0 })
+        baseOffset.current = { x: 0, y: 0 }
         setTimeout(() => setRejected(false), 400)
       }
-      // if accepted, parent handles hiding/locking this tile
     } else {
-      setOffset({ x: 0, y: 0 })
+      if (noSnapBack) {
+        // Dropped on empty space — stay there
+        baseOffset.current = finalOffset
+        setOffset(finalOffset)
+      } else {
+        setOffset({ x: 0, y: 0 })
+        baseOffset.current = { x: 0, y: 0 }
+      }
     }
-  }, [dragging, id, onDropped])
+  }, [dragging, id, onDropped, noSnapBack])
 
   const s = SIZE[size]
 

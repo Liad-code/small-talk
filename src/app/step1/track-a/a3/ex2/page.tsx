@@ -115,6 +115,7 @@ function A3Ex2Exercise({ onComplete }: { onComplete: () => void }) {
                   borderColor="border-blue-400"
                   textColor="text-blue-700"
                   size="md"
+                  noSnapBack
                   onDropped={handleDrop}
                 />
               ))}
