@@ -88,7 +88,7 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
           )
         })}
       </div>
-      <p className="text-center text-sm text-gray-600 font-bold mt-3" dir="rtl">
+      <p className="text-center text-base text-gray-600 font-bold mt-3" dir="rtl">
         לחץ על התמונה כדי לשמוע את המילה – לחץ על התנועה המתאימה להשלמת המילה
       </p>
     </div>

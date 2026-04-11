@@ -10,6 +10,8 @@ function getGroup(letter: string) {
   return LETTER_GROUPS.find(g => g.letters.includes(letter.toLowerCase()))
 }
 
+const INSTRUCTION = 'לחץ על התמונה כדי לשמוע את המילה- לחץ על האותיות לפי הסדר הנכון כדי לבנות את המילה'
+
 function C9Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
   const [queue] = useState(() => shuffle([...CVC_WORDS]))
@@ -28,7 +30,9 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
     setSelected([])
     setWrong(false)
     setCorrect(false)
-    setTimeout(() => speak(ttsFor(current.word), 0.7, 1.1), 400)
+    // Item 17: cleanup prevents stale word speech when idx changes quickly
+    const t = setTimeout(() => speak(ttsFor(current.word), 0.7, 1.1), 400)
+    return () => clearTimeout(t)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -98,7 +102,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
         })}
       </div>
 
-      {/* Scrambled letter buttons — lowercase as requested */}
+      {/* Scrambled letter buttons */}
       <div className="flex justify-center gap-3">
         {letterOrder.map((letter, i) => {
           const used = usedPositions.has(i)
@@ -127,6 +131,11 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
       >
         🔊 Hear again
       </button>
+
+      {/* Item 15: inline instruction below exercise */}
+      <p className="text-center text-base text-gray-600 font-bold mt-4" dir="rtl">
+        {INSTRUCTION}
+      </p>
     </div>
   )
 }
@@ -135,7 +144,7 @@ export default function C9Page() {
   return (
     <ExerciseShell
       title="Word Scramble"
-      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה- לחץ על האותיות לפי הסדר הנכון כדי לבנות את המילה"
+      hebrewInstruction={INSTRUCTION}
       backHref="/step1/track-c"
       track="C"
       groupId="c"

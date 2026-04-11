@@ -5,6 +5,8 @@ import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
+const INSTRUCTION = 'לחץ על המילה כדי לשמוע והתאם את התמונה למילה'
+
 function C7Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
   const [queue] = useState(() => shuffle([...CVC_WORDS]))
@@ -23,7 +25,8 @@ function C7Exercise({ onComplete }: { onComplete: () => void }) {
     setOptions(shuffle([current, distractor]))
     setCorrect(null)
     setWrong(null)
-    setTimeout(() => speak(ttsFor(current.word)), 300)
+    const t = setTimeout(() => speak(ttsFor(current.word)), 300)
+    return () => clearTimeout(t)  // prevent stale speech on fast navigation
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -86,6 +89,11 @@ function C7Exercise({ onComplete }: { onComplete: () => void }) {
           )
         })}
       </div>
+
+      {/* Item 13: inline instruction below exercise */}
+      <p className="text-center text-base text-gray-600 font-bold mt-6" dir="rtl">
+        {INSTRUCTION}
+      </p>
     </div>
   )
 }
@@ -94,7 +102,7 @@ export default function C7Page() {
   return (
     <ExerciseShell
       title="Circle the Image"
-      hebrewInstruction="לחץ על המילה כדי לשמוע והתאם את התמונה למילה"
+      hebrewInstruction={INSTRUCTION}
       backHref="/step1/track-c"
       track="C"
       groupId="c"

@@ -81,7 +81,7 @@ export function ExerciseShell({
           </Link>
           <div className="flex-1 min-w-0">
             <h1 className="font-display font-bold text-white text-lg leading-tight truncate">{title}</h1>
-            <p className="text-white/90 text-base font-bold leading-tight" dir="rtl">{hebrewInstruction}</p>
+            <p className="text-white/90 text-lg font-bold leading-tight" dir="rtl">{hebrewInstruction}</p>
           </div>
           {alreadyDone && (
             <span className="text-2xl flex-shrink-0" title="Completed before!">⭐</span>

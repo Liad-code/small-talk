@@ -122,7 +122,7 @@ export default function C4Page() {
   return (
     <ExerciseShell
       title="CVC Template"
-      hebrewInstruction="גרור כל מילה לתבנית שלה — אות בכל ריבוע"
+      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה – גרור את המילה המתאימה לתמונה"
       backHref="/step1/track-c"
       track="C"
       groupId="c"

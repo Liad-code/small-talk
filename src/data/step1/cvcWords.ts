@@ -24,10 +24,10 @@ export const CVC_WORDS: CVCWord[] = [
   { word: 'leg', vowel: 'e', emoji: '🦵', consonantStart: 'l', consonantEnd: 'g' },
   // ── short i ──────────────────────────────────────────────────
   { word: 'pig', vowel: 'i', emoji: '🐷', consonantStart: 'p', consonantEnd: 'g' },
-  { word: 'big', vowel: 'i', emoji: '🐘', consonantStart: 'b', consonantEnd: 'g', ttsText: 'a big' },
+  { word: 'big', vowel: 'i', emoji: '🐘', consonantStart: 'b', consonantEnd: 'g' },
   { word: 'sit', vowel: 'i', emoji: '🪑', consonantStart: 's', consonantEnd: 't' },
   { word: 'hit', vowel: 'i', emoji: '🎯', consonantStart: 'h', consonantEnd: 't' },
-  { word: 'bin', vowel: 'i', emoji: '🗑️', consonantStart: 'b', consonantEnd: 'n', ttsText: 'a bin' },
+  { word: 'bin', vowel: 'i', emoji: '🗑️', consonantStart: 'b', consonantEnd: 'n' },
   { word: 'six', vowel: 'i', emoji: '6️⃣', consonantStart: 's', consonantEnd: 'x' },
   // ── short o ──────────────────────────────────────────────────
   { word: 'dog', vowel: 'o', emoji: '🐶', consonantStart: 'd', consonantEnd: 'g' },

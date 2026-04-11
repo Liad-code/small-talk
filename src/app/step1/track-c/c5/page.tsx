@@ -91,7 +91,7 @@ function C5Exercise({ onComplete }: { onComplete: () => void }) {
       {/* Image tiles */}
       {freeTiles.length > 0 ? (
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
-          <p className="text-sm text-gray-600 font-bold text-center mb-2" dir="rtl">גרור כל תמונה למילה שלה:</p>
+          <p className="text-base text-gray-600 font-bold text-center mb-2" dir="rtl">גרור כל תמונה למילה שלה:</p>
           <div className="flex flex-wrap justify-center gap-3">
             {freeTiles.map(tile => {
               const vc = VOWEL_COLORS[tile.vowel]

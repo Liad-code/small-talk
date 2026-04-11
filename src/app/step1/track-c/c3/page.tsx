@@ -15,6 +15,8 @@ function getDistractors(correct: string): string[] {
   return shuffle(pool).slice(0, 3)
 }
 
+const INSTRUCTION = 'לחץ על התמונה כדי לשמוע את המילה – לחץ על האות המתאימה להשלמת המילה'
+
 function C3Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
   const [queue] = useState(() => shuffle([...CVC_WORDS]))
@@ -29,7 +31,8 @@ function C3Exercise({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     if (!current) return
     setOptions(shuffle([current.consonantStart, ...getDistractors(current.consonantStart)]))
-    setTimeout(() => speak(ttsFor(current.word)), 400)
+    const t = setTimeout(() => speak(ttsFor(current.word)), 400)
+    return () => clearTimeout(t)  // prevent stale speech on fast navigation
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -73,7 +76,7 @@ function C3Exercise({ onComplete }: { onComplete: () => void }) {
         </div>
       </div>
 
-      {/* Letter options — lowercase as requested */}
+      {/* Letter options */}
       <div className="grid grid-cols-4 gap-3">
         {options.map(letter => {
           const group = getGroup(letter)
@@ -98,6 +101,11 @@ function C3Exercise({ onComplete }: { onComplete: () => void }) {
           )
         })}
       </div>
+
+      {/* Item 7: inline instruction below exercise */}
+      <p className="text-center text-base text-gray-600 font-bold mt-4" dir="rtl">
+        {INSTRUCTION}
+      </p>
     </div>
   )
 }
@@ -106,7 +114,7 @@ export default function C3Page() {
   return (
     <ExerciseShell
       title="Beginning Sound"
-      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה – לחץ על האות המתאימה להשלמת המילה"
+      hebrewInstruction={INSTRUCTION}
       backHref="/step1/track-c"
       track="C"
       groupId="c"
