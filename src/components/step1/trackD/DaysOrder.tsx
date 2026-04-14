@@ -83,7 +83,7 @@ export function DaysOrder({ onComplete }: Props) {
                 transition-all duration-200 min-h-[52px]
               `}
             >
-              <span className="font-bold text-blue-500 text-sm w-5 text-right flex-shrink-0">{i + 1}.</span>
+              {filled && <span className="font-bold text-blue-500 text-sm w-5 text-right flex-shrink-0">{i + 1}.</span>}
               {filled ? (
                 <span className="font-bold text-blue-900 text-base">{filled}</span>
               ) : (

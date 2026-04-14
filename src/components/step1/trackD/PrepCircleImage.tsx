@@ -47,7 +47,7 @@ interface Props { onComplete: () => void }
 
 export function PrepCircleImage({ onComplete }: Props) {
   const speak = useSpeak()
-  const [queue] = useState<PrepScene[]>(() => shuffle([...ALL_SCENES]))
+  const [queue, setQueue] = useState<PrepScene[]>(() => shuffle([...ALL_SCENES]))
   const [idx, setIdx] = useState(0)
   const [wrong, setWrong] = useState<Prep | null>(null)
   const [correct, setCorrect] = useState<Prep | null>(null)
@@ -86,6 +86,7 @@ export function PrepCircleImage({ onComplete }: Props) {
     setCorrect(null)
     setWrong(null)
     setDone(false)
+    setQueue(shuffle([...ALL_SCENES]))
     setResetKey(k => k + 1)
   }
 
@@ -117,14 +118,14 @@ export function PrepCircleImage({ onComplete }: Props) {
         <div className="relative" style={{ width: 120, height: 100 }}>
           {/* Reference object */}
           <div
-            className="absolute text-6xl"
+            className="absolute text-8xl"
             style={{ top: '30%', left: '50%', transform: 'translate(-50%, -50%)' }}
           >
             {current.reference}
           </div>
           {/* Moving object */}
           <div
-            className="absolute text-4xl transition-all duration-300"
+            className="absolute text-6xl transition-all duration-300"
             style={{
               top: objPos.top,
               left: objPos.left,

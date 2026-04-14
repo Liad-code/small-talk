@@ -5,7 +5,7 @@ import { shuffle } from '@/utils/shuffle'
 
 const DAYS_IN_ORDER = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const HEBREW_ORDINALS: Record<number, string> = {
-  1: 'ראשון', 2: 'שני', 3: 'שלישי', 4: 'רביעי', 5: 'חמישי', 6: 'שישי', 7: 'שבת',
+  1: 'יום ראשון', 2: 'יום שני', 3: 'יום שלישי', 4: 'יום רביעי', 5: 'יום חמישי', 6: 'יום שישי', 7: 'שבת',
 }
 
 interface Props { onComplete: () => void }
@@ -77,7 +77,7 @@ export function DaysNumberMatch({ onComplete }: Props) {
                 onClick={() => !isMatched && handleDayClick(day)}
                 disabled={isMatched}
                 className={`
-                  py-2 px-3 rounded-xl border-4 font-bold text-base text-left
+                  py-2 px-3 rounded-xl border-4 font-bold text-lg text-left
                   transition-all duration-150 cursor-pointer select-none min-h-[52px]
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-900 opacity-60' : ''}
                   ${isSelected ? 'bg-blue-200 border-blue-600 text-blue-900 scale-105 shadow-lg' : ''}

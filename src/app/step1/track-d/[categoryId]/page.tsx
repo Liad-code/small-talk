@@ -14,12 +14,10 @@ import { DaysOrder } from '@/components/step1/trackD/DaysOrder'
 import { DaysNumberMatch } from '@/components/step1/trackD/DaysNumberMatch'
 import { FruitsBasket } from '@/components/step1/trackD/FruitsBasket'
 import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline'
-import { FaceBuild } from '@/components/step1/trackD/FaceBuild'
 import { PrepCircleImage } from '@/components/step1/trackD/PrepCircleImage'
-import { DressMe } from '@/components/step1/trackD/DressMe'
 
 const HEBREW_ORDINALS: Record<number, string> = {
-  1: 'ראשון', 2: 'שני', 3: 'שלישי', 4: 'רביעי', 5: 'חמישי', 6: 'שישי', 7: 'שבת',
+  1: 'יום ראשון', 2: 'יום שני', 3: 'יום שלישי', 4: 'יום רביעי', 5: 'יום חמישי', 6: 'יום שישי', 7: 'שבת',
 }
 
 function playHappySound() {
@@ -49,7 +47,7 @@ function PrepLearnSvg({ prep }: { prep: string }) {
   }
   const pos = ballPos[prep] ?? { cx: 38, cy: 46 }
   return (
-    <svg viewBox="0 0 80 80" width="4em" height="4em" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 80 80" width="6em" height="6em" xmlns="http://www.w3.org/2000/svg">
       {/* Box body */}
       <rect x="12" y="32" width="52" height="36" fill="#c8863a" rx="3" />
       {/* Box top face */}
@@ -63,12 +61,65 @@ function PrepLearnSvg({ prep }: { prep: string }) {
   )
 }
 
+function TableSvg({ size = '4.5em' }: { size?: string }) {
+  return (
+    <svg viewBox="0 0 80 70" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="10" width="76" height="12" rx="3" fill="#c8a265"/>
+      <rect x="2" y="18" width="76" height="4" fill="#9c7a3c" opacity="0.8"/>
+      <rect x="10" y="22" width="8" height="44" rx="2" fill="#b08040"/>
+      <rect x="62" y="22" width="8" height="44" rx="2" fill="#b08040"/>
+      <rect x="14" y="44" width="52" height="4" rx="2" fill="#9a7030"/>
+    </svg>
+  )
+}
+
+function FloorSvg({ size = '4.5em' }: { size?: string }) {
+  const dark = '#2d2d2d'; const light = '#e8e8e8'
+  const tiles: { x: number; y: number; fill: string }[] = []
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) {
+    tiles.push({ x: c * 16, y: r * 16, fill: (r + c) % 2 === 0 ? dark : light })
+  }
+  return (
+    <svg viewBox="0 0 64 48" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      {tiles.map((t, i) => <rect key={i} x={t.x} y={t.y} width={16} height={16} fill={t.fill}/>)}
+    </svg>
+  )
+}
+
+function GardenSvg({ size = '4.5em' }: { size?: string }) {
+  return (
+    <svg viewBox="0 0 80 80" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      {/* Sky */}
+      <rect x="0" y="0" width="80" height="80" fill="#87ceeb"/>
+      {/* Ground */}
+      <rect x="0" y="58" width="80" height="22" fill="#4a7c40" rx="4"/>
+      {/* Path */}
+      <ellipse cx="40" cy="70" rx="12" ry="6" fill="#c8a265"/>
+      {/* Flower 1 */}
+      <rect x="18" y="36" width="3" height="22" fill="#2d5a20"/>
+      <circle cx="19" cy="33" r="8" fill="#ff6b8a"/>
+      <circle cx="19" cy="33" r="4" fill="#ffeb3b"/>
+      {/* Flower 2 */}
+      <rect x="37" y="30" width="3" height="28" fill="#2d5a20"/>
+      <circle cx="38" cy="27" r="9" fill="#ab47bc"/>
+      <circle cx="38" cy="27" r="4" fill="#ffeb3b"/>
+      {/* Flower 3 */}
+      <rect x="57" y="34" width="3" height="24" fill="#2d5a20"/>
+      <circle cx="58" cy="31" r="8" fill="#ff8f00"/>
+      <circle cx="58" cy="31" r="4" fill="#ffeb3b"/>
+      {/* Leaves */}
+      <ellipse cx="14" cy="44" rx="5" ry="3" fill="#388e3c" transform="rotate(-30 14 44)"/>
+      <ellipse cx="44" cy="38" rx="5" ry="3" fill="#388e3c" transform="rotate(20 44 38)"/>
+    </svg>
+  )
+}
+
 // Categories that have extra tab 1 (bubblepop)
 const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'dress-me' | 'face-build' | 'prep-circle'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'prep-circle'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -79,13 +130,11 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
     tabs.push({ id: 'days-order', label: 'Order', emoji: '🔢' })
     tabs.push({ id: 'days-match', label: 'Match', emoji: '🔗' })
   }
-  if (categoryId === 'face') tabs.push({ id: 'face-build', label: 'Build a Face', emoji: '🎨' })
   if (categoryId === 'fruits') tabs.push({ id: 'fruits-shelf', label: 'On the Shelf', emoji: '🛒' })
   if (categoryId === 'clothes') {
     tabs.push({ id: 'clothesline', label: 'Clothesline', emoji: '🧺' })
-    tabs.push({ id: 'dress-me', label: 'Dress Me', emoji: '👗' })
   }
-  if (categoryId === 'prepositions') tabs.push({ id: 'prep-circle', label: 'Circle Image', emoji: '🔵' })
+  if (categoryId === 'prepositions') tabs.push({ id: 'prep-circle', label: 'Prepositions', emoji: '🔵' })
   return tabs
 }
 
@@ -149,7 +198,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
 
     if (word === current.word) {
       setCorrect(word)
-      speak(current.ttsText ?? current.word, 0.8)
       setTimeout(() => {
         const newScore = quizScore + 1
         setQuizScore(newScore)
@@ -162,6 +210,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           playHappySound()
         } else {
           setQuizIdx(nextIdx)
+          const nextItem = quizQueue[nextIdx]
+          setTimeout(() => speak(nextItem.ttsText ?? nextItem.word, 0.8), 200)
         }
       }, 600)
     } else {
@@ -276,10 +326,16 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                         <span className="text-7xl">🐘</span>
                         <span className="text-3xl">🐭</span>
                       </span>
+                    ) : item.word === 'table' ? (
+                      <TableSvg size="4.5em" />
+                    ) : item.word === 'floor' ? (
+                      <FloorSvg size="4.5em" />
+                    ) : item.word === 'garden' ? (
+                      <GardenSvg size="4.5em" />
                     ) : (
                       <span className="text-7xl">{item.emoji}</span>
                     )}
-                    <span className="font-bold text-sm text-gray-700 text-center">{item.word}</span>
+                    {!isDaysCategory && <span className="font-bold text-sm text-gray-700 text-center">{item.word}</span>}
                     {done && <span className="text-green-600 font-black text-base">🔊</span>}
                   </button>
                 )
@@ -371,7 +427,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                       >
                         {isDaysCategory ? (
                           <div className="flex flex-col items-center gap-1 p-2">
-                            <span className="font-display font-black text-base text-black leading-tight">{opt.word}</span>
+                            <span className="font-display font-black text-2xl text-black leading-tight">{opt.word}</span>
                             {opt.dayNum && (
                               <span className="font-bold text-gray-700 text-sm" dir="rtl">
                                 {HEBREW_ORDINALS[opt.dayNum]}
@@ -380,6 +436,12 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                           </div>
                         ) : isPrepositions ? (
                           <PrepLearnSvg prep={opt.word} />
+                        ) : opt.word === 'table' ? (
+                          <TableSvg size="4.5em" />
+                        ) : opt.word === 'floor' ? (
+                          <FloorSvg size="4.5em" />
+                        ) : opt.word === 'garden' ? (
+                          <GardenSvg size="4.5em" />
                         ) : (
                           <span className="text-7xl">{opt.emoji}</span>
                         )}
@@ -408,17 +470,11 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {tab === 'days-match' && (
           <DaysNumberMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
-        {tab === 'face-build' && (
-          <FaceBuild key={extraKey} onComplete={handleExtraComplete} />
-        )}
         {tab === 'fruits-shelf' && cat && (
           <FruitsBasket key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
         )}
         {tab === 'clothesline' && cat && (
           <ClothesClothesline key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
-        )}
-        {tab === 'dress-me' && (
-          <DressMe key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'prep-circle' && (
           <PrepCircleImage key={extraKey} onComplete={handleExtraComplete} />

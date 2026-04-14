@@ -63,31 +63,48 @@ export function FruitsBasket({ items, onComplete }: Props) {
         {shelfItems.length}/{queue.length}
       </div>
 
-      {/* Shelf — drop target */}
+      {/* Market stall shelf — drop target */}
       <div
         data-drop-target="true"
         data-shelf="true"
         data-expected-ids={current ? JSON.stringify([current.word]) : '[]'}
         data-target-id={current?.word ?? ''}
         className="relative mb-4"
-        style={{ minHeight: 90 }}
       >
-        {/* Shelf board */}
-        <div className="bg-amber-700 rounded-lg h-4 w-full mb-1 shadow-md" />
+        {/* Market stall SVG */}
+        <svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-xs mx-auto block">
+          {/* Awning stripes (red + white) */}
+          {[0,1,2,3,4,5,6,7,8,9].map(i => (
+            <rect key={i} x={i * 32} y={0} width={32} height={30}
+              fill={i % 2 === 0 ? '#e63946' : '#f1faee'} />
+          ))}
+          {/* Awning bottom scallop edge */}
+          {[0,1,2,3,4,5,6,7,8,9].map(i => (
+            <ellipse key={`s${i}`} cx={i * 32 + 16} cy={30} rx={16} ry={8}
+              fill={i % 2 === 0 ? '#e63946' : '#f1faee'} />
+          ))}
+          {/* Frame posts */}
+          <rect x={10} y={0} width={8} height={160} fill="#888" rx={2}/>
+          <rect x={302} y={0} width={8} height={160} fill="#888" rx={2}/>
+          {/* Shelf board */}
+          <rect x={10} y={80} width={300} height={12} fill="#c8a265" rx={2}/>
+          <rect x={10} y={88} width={300} height={5} fill="#9c7a3c"/>
+          {/* Shelf supports */}
+          <rect x={40} y={92} width={6} height={40} fill="#9c7a3c" rx={2}/>
+          <rect x={274} y={92} width={6} height={40} fill="#9c7a3c" rx={2}/>
+          {/* Bottom shelf */}
+          <rect x={10} y={132} width={300} height={10} fill="#c8a265" rx={2}/>
+        </svg>
         {/* Items on shelf */}
-        <div className="flex justify-center gap-2 min-h-[60px] items-end px-2">
+        <div className="flex justify-center gap-3 items-end px-2"
+             style={{ marginTop: '-32px', position: 'relative', zIndex: 10 }}>
           {shelfItems.map(item => (
             <span key={item.word} className="text-4xl">{item.emoji}</span>
           ))}
           {shelfItems.length === 0 && (
-            <span className="text-white/30 text-sm font-bold self-center" dir="rtl">
-              מדף ריק...
-            </span>
+            <span className="text-white/50 text-sm font-bold" dir="rtl">מדף ריק...</span>
           )}
         </div>
-        {/* Shelf supports */}
-        <div className="absolute bottom-0 left-3 w-2 h-8 bg-amber-800 rounded" />
-        <div className="absolute bottom-0 right-3 w-2 h-8 bg-amber-800 rounded" />
       </div>
 
       {/* Speaker */}

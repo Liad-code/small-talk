@@ -151,7 +151,7 @@ export function VocabBubblePop({ items, onComplete }: Props) {
                 transform: 'translateX(-50%)',
               }}
             >
-              <span className="text-3xl leading-none">{bubble.item.emoji}</span>
+              <span className="text-5xl leading-none">{bubble.item.emoji}</span>
             </button>
           )
         })}

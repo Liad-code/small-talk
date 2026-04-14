@@ -65,21 +65,45 @@ export function ClothesClothesline({ items, onComplete }: Props) {
 
       {/* Clothesline */}
       <div className="relative bg-white/10 rounded-2xl border-2 border-white/30 p-4 mb-4 min-h-[100px]">
-        {/* The rope — white */}
-        <div className="absolute top-6 left-4 right-4 h-1.5 bg-white rounded-full shadow" />
-        {/* Hanged items */}
-        <div className="flex justify-center gap-3 pt-2 flex-wrap">
-          {hanged.map(item => (
-            <div key={item.word} className="flex flex-col items-center">
-              {/* Pin */}
-              <div className="w-1.5 h-4 bg-amber-900 rounded-full mb-1" />
-              <span className="text-4xl">{item.emoji}</span>
+        {/* Clotheslines — split into two rows of 4 max */}
+        {(() => {
+          const MAX_PER_LINE = 4
+          const line1 = hanged.slice(0, MAX_PER_LINE)
+          const line2 = hanged.slice(MAX_PER_LINE)
+          return (
+            <div className="flex flex-col gap-3">
+              {/* Line 1 */}
+              <div className="relative min-h-[70px]">
+                <div className="absolute top-4 left-0 right-0 h-1.5 bg-white rounded-full shadow" />
+                <div className="flex justify-center gap-3 pt-2 mt-1">
+                  {line1.map(item => (
+                    <div key={item.word} className="flex flex-col items-center">
+                      <div className="w-1.5 h-4 bg-amber-900 rounded-full mb-1" />
+                      <span className="text-4xl">{item.emoji}</span>
+                    </div>
+                  ))}
+                  {line1.length === 0 && (
+                    <p className="text-white/30 text-sm font-bold pt-5" dir="rtl">חבל כביסה ריק...</p>
+                  )}
+                </div>
+              </div>
+              {/* Line 2 — only show when there are overflow items */}
+              {line2.length > 0 && (
+                <div className="relative min-h-[70px]">
+                  <div className="absolute top-4 left-0 right-0 h-1.5 bg-white rounded-full shadow" />
+                  <div className="flex justify-center gap-3 pt-2 mt-1">
+                    {line2.map(item => (
+                      <div key={item.word} className="flex flex-col items-center">
+                        <div className="w-1.5 h-4 bg-amber-900 rounded-full mb-1" />
+                        <span className="text-4xl">{item.emoji}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
-          {hanged.length === 0 && (
-            <p className="text-white/30 text-sm font-bold pt-4" dir="rtl">חבל כביסה ריק...</p>
-          )}
-        </div>
+          )
+        })()}
       </div>
 
       {/* Speaker */}

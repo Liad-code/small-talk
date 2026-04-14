@@ -44,7 +44,6 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
 
     if (newSelected.join('') === current.word) {
       setCorrect(true)
-      speak(ttsFor(current.word), 0.7, 1.1)
       setTimeout(() => {
         setScore(s => s + 1)
         if (idx + 1 >= queue.length) onComplete()

@@ -58,11 +58,9 @@ function C6Batch({ batch, onDone }: BatchProps) {
                 onClick={() => !done && handleWordTap(w.word)}
                 disabled={done}
                 className={`
-                  w-full py-2 rounded-xl border-4 font-display font-black text-lg
+                  w-full py-2 rounded-xl border-4 font-display font-black text-2xl
                   transition-all duration-150 cursor-pointer select-none
-                  ${done ? `${vc.bg} ${vc.border} ${vc.text}` : ''}
-                  ${!done && selectedImage ? 'bg-yellow-50 border-yellow-400 text-yellow-700 hover:scale-105 active:scale-95' : ''}
-                  ${!done && !selectedImage ? 'bg-white border-gray-200 text-gray-600' : ''}
+                  ${done ? `${vc.bg} ${vc.border} ${vc.text}` : 'bg-white border-gray-200 text-gray-600 hover:scale-105 active:scale-95'}
                 `}
               >
                 {done && <span className="mr-1">✓</span>}
@@ -86,14 +84,14 @@ function C6Batch({ batch, onDone }: BatchProps) {
                 onClick={() => !done && handleImageTap(word)}
                 disabled={done}
                 className={`
-                  w-full py-2 rounded-xl border-4 text-3xl
+                  w-full py-2 rounded-xl border-4 text-5xl
                   transition-all duration-150 cursor-pointer select-none
                   ${done ? `${vc.bg} ${vc.border}` : ''}
                   ${selected ? 'bg-purple-100 border-purple-400 scale-110 shadow-lg' : ''}
                   ${!done && !selected ? 'bg-white border-gray-200 hover:scale-105 active:scale-95' : ''}
                 `}
               >
-                <WordEmoji word={w} className="text-3xl" />
+                <WordEmoji word={w} className="text-5xl" />
               </button>
             )
           })}

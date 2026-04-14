@@ -31,7 +31,7 @@ export function Pick3Exercise({ items, onComplete }: Props) {
     setPlaced([null, null, null])
     speakTimers.current.forEach(clearTimeout)
     speakTimers.current = picked.map((item, i) =>
-      setTimeout(() => speak(item.ttsText ?? item.word, 0.85), 500 + i * 900)
+      setTimeout(() => speak(item.ttsText ?? item.word, 0.75), 500 + i * 1200)
     )
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundNum])
@@ -53,7 +53,7 @@ export function Pick3Exercise({ items, onComplete }: Props) {
   function replay() {
     if (announced.length === 0) return
     announced.forEach((item, i) => {
-      setTimeout(() => speak(item.ttsText ?? item.word, 0.85), 300 + i * 900)
+      setTimeout(() => speak(item.ttsText ?? item.word, 0.75), 300 + i * 1200)
     })
   }
 

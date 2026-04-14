@@ -21,7 +21,7 @@ const SEASON_ITEMS: SeasonItem[] = [
   { emoji: '👗', season: 'summer', label: 'dress',      tts: 'dress' },
   { emoji: '🩳', season: 'summer', label: 'shorts',     tts: 'shorts' },
   { emoji: '🍦', season: 'summer', label: 'ice cream',  tts: 'ice cream' },
-  { emoji: '🎩', season: 'summer', label: 'hat',        tts: 'hat' },
+  { emoji: '🧢', season: 'summer', label: 'hat',        tts: 'hat' },
   { emoji: '🕶️', season: 'summer', label: 'sunglasses', tts: 'sunglasses' },
   { emoji: '🍉', season: 'summer', label: 'watermelon', tts: 'watermelon' },
   // Spring
@@ -78,7 +78,7 @@ export function SeasonsSort({ onComplete }: Props) {
 
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <p className="text-center text-black font-bold text-base mb-3" dir="rtl">
+      <p className="text-center text-black font-bold text-xl mb-3" dir="rtl">
         לחץ על התמונה וגרור אותה לעונה הנכונה
       </p>
       <div className="text-center text-black font-bold text-sm mb-3">
@@ -137,8 +137,13 @@ export function SeasonsSort({ onComplete }: Props) {
       )}
 
       {allDone && (
-        <div className="text-center mt-4">
+        <div className="text-center mt-4 flex flex-col items-center gap-3">
           <span className="text-5xl bounce-in">🎉</span>
+          <button onClick={() => {
+            setPlaced({})
+          }} className="btn-kid bg-blue-500">
+            🔁 Again
+          </button>
         </div>
       )}
     </div>
