@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
 import { CVC_WORDS, ttsFor } from '@/data/step1/cvcWords'
+import { WordEmoji } from '@/components/step1/WordEmoji'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
@@ -63,7 +64,7 @@ function C3Exercise({ onComplete }: { onComplete: () => void }) {
 
       <div className="bg-white rounded-3xl border-4 border-gray-200 p-6 text-center mb-6 shadow-md">
         <button onClick={() => speak(ttsFor(current.word))} className="text-8xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full">
-          {current.emoji}
+          <WordEmoji word={current} className="text-8xl" />
         </button>
         <div className="flex items-center justify-center gap-1 text-4xl font-display font-black text-gray-700">
           <span className={`

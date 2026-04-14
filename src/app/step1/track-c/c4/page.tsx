@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { WordEmoji } from '@/components/step1/WordEmoji'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -55,7 +56,7 @@ function C4Exercise({ onComplete }: { onComplete: () => void }) {
           return (
             <div key={w.word} className="flex items-center gap-3">
               <button onClick={() => speak(w.word)} className="text-5xl hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none">
-                {w.emoji}
+                <WordEmoji word={w} className="text-5xl" />
               </button>
               <div
                 data-drop-target="true"

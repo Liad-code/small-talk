@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
 import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
+import { WordEmoji } from '@/components/step1/WordEmoji'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -92,7 +93,7 @@ function C6Batch({ batch, onDone }: BatchProps) {
                   ${!done && !selected ? 'bg-white border-gray-200 hover:scale-105 active:scale-95' : ''}
                 `}
               >
-                {w.emoji}
+                <WordEmoji word={w} className="text-3xl" />
               </button>
             )
           })}

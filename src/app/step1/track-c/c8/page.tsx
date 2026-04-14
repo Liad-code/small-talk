@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
 import { CVC_WORDS, VOWELS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
+import { WordEmoji } from '@/components/step1/WordEmoji'
 import { useSpeak } from '@/hooks/useSpeak'
 
 function C8Exercise({ onComplete }: { onComplete: () => void }) {
@@ -74,7 +75,7 @@ function C8Exercise({ onComplete }: { onComplete: () => void }) {
                 shadow-md
               `}
             >
-              <span className="text-5xl">{w.emoji}</span>
+              <WordEmoji word={w} className="text-5xl" />
               <span className={`font-display font-black text-2xl ${done ? vc.text : 'text-gray-700'}`}>
                 {w.word}
               </span>

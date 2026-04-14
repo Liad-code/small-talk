@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
 import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
+import { WordEmoji } from '@/components/step1/WordEmoji'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -84,7 +85,7 @@ function C7Exercise({ onComplete }: { onComplete: () => void }) {
                 ${!isCorrect && !isWrong ? 'border-gray-200 bg-white hover:scale-105 active:scale-95 hover:border-purple-400' : ''}
               `}
             >
-              {opt.emoji}
+              <WordEmoji word={opt} className="text-7xl" />
             </button>
           )
         })}

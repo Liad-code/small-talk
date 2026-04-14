@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
+import { WordEmoji } from '@/components/step1/WordEmoji'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -76,7 +77,7 @@ function C5Exercise({ onComplete }: { onComplete: () => void }) {
               `}
             >
               {done ? (
-                <span className="text-3xl">{w.emoji}</span>
+                <WordEmoji word={w} className="text-3xl" />
               ) : (
                 <div className="w-10 h-10 rounded-xl border-2 border-dashed border-gray-200 flex-shrink-0" />
               )}
@@ -91,7 +92,7 @@ function C5Exercise({ onComplete }: { onComplete: () => void }) {
       {/* Image tiles */}
       {freeTiles.length > 0 ? (
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
-          <p className="text-base text-gray-600 font-bold text-center mb-2" dir="rtl">גרור כל תמונה למילה שלה:</p>
+          <p className="text-base text-gray-600 font-bold text-center mb-2" dir="rtl">גרור כל תמונה למילה שלה (אפשר ללחוץ על המילה כדי לשמוע אותה)</p>
           <div className="flex flex-wrap justify-center gap-3">
             {freeTiles.map(tile => {
               const vc = VOWEL_COLORS[tile.vowel]
@@ -105,7 +106,9 @@ function C5Exercise({ onComplete }: { onComplete: () => void }) {
                   textColor={vc.text}
                   size="md"
                   onDropped={handleDrop}
-                />
+                >
+                  <WordEmoji word={CVC_WORDS.find(cw => cw.word === tile.word)!} className="text-3xl" />
+                </DraggableTile>
               )
             })}
           </div>
@@ -125,7 +128,7 @@ export default function C5Page() {
   return (
     <ExerciseShell
       title="Word-Image Match"
-      hebrewInstruction="גרור כל תמונה למילה הנכונה"
+      hebrewInstruction="גרור כל תמונה למילה שלה (אפשר ללחוץ על המילה כדי לשמוע אותה)"
       backHref="/step1/track-c"
       track="C"
       groupId="c"

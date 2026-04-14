@@ -1,9 +1,10 @@
 'use client'
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, type ReactNode } from 'react'
 
 interface Props {
   id: string                    // unique tile id
   label: string                 // text to display (single letter)
+  children?: ReactNode          // overrides label when provided (e.g. SVG image)
   color?: string                // Tailwind bg class e.g. 'bg-red-200'
   borderColor?: string          // Tailwind border class
   textColor?: string            // Tailwind text class
@@ -23,6 +24,7 @@ const SIZE = {
 export function DraggableTile({
   id,
   label,
+  children,
   color = 'bg-yellow-100',
   borderColor = 'border-yellow-400',
   textColor = 'text-yellow-700',
@@ -150,7 +152,7 @@ export function DraggableTile({
       `}
       aria-label={`Letter ${label}`}
     >
-      {label}
+      {children ?? label}
     </div>
   )
 }
