@@ -89,7 +89,7 @@ function A3Ex1Exercise({ onComplete }: { onComplete: () => void }) {
                 ${isFilled ? 'drop-success' : ''}
               `}
             >
-              <span className={`font-display font-black text-base ${group.textColor}`}>
+              <span className={`font-display font-black text-2xl ${group.textColor}`}>
                 {letter.toUpperCase()}
               </span>
             </div>
@@ -100,7 +100,7 @@ function A3Ex1Exercise({ onComplete }: { onComplete: () => void }) {
       {tiles.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
           <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">גרור מכאן:</p>
-          <div className="overflow-x-auto pb-2">
+          <div className="pb-2">
             <div className="flex gap-2 justify-center flex-wrap px-2">
               {tiles.map(letter => (
                 <DraggableTile
