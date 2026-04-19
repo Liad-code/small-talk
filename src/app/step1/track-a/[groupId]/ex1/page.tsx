@@ -65,7 +65,7 @@ function Ex1Exercise({ group, onComplete }: { group: LetterGroup; onComplete: ()
             data-drop-target="true"
             data-expected-ids={JSON.stringify([`${sq.letter}_upper`, `${sq.letter}_lower`])}
             data-target-id={sq.letter}
-            onClick={() => speak(getLetterTts(sq.letter), 0.8, 1.7)}
+            onClick={() => speak(getLetterTts(sq.letter), 0.8, 1.1)}
             className={`
               w-24 h-24 rounded-2xl border-4 flex flex-col items-center justify-center gap-1 cursor-pointer
               transition-all duration-200
