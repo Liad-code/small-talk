@@ -101,7 +101,7 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
           <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">
             גרור המכסים לסירים:
           </p>
-          <div className="overflow-x-auto pb-3">
+          <div className="pb-3">
             <div className="flex gap-2 flex-wrap justify-center px-2">
               {lids.map(id => {
                 const letter = fromLid(id)
