@@ -1,12 +1,11 @@
 'use client'
-import { use } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { getDigraph } from '@/data/step2/digraphs'
 import { useSpeak } from '@/hooks/useSpeak'
 
-export default function DiGraphLearnPage({ params }: { params: Promise<{ digraph: string }> }) {
-  const { digraph: id } = use(params)
+export default function DiGraphLearnPage({ params }: { params: { digraph: string } }) {
+  const id = params.digraph
   const speak = useSpeak()
   const dg = getDigraph(id)
 
