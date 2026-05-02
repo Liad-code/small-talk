@@ -12,6 +12,7 @@ interface Props {
   disabled?: boolean            // already placed / locked
   className?: string
   noSnapBack?: boolean          // on wrong drop, stay in place instead of snapping back
+  onClick?: () => void
   onDropped?: (tileId: string, targetEl: Element) => boolean  // return true if accepted
 }
 
@@ -32,6 +33,7 @@ export function DraggableTile({
   disabled = false,
   className = '',
   noSnapBack = false,
+  onClick,
   onDropped,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null)
@@ -129,6 +131,7 @@ export function DraggableTile({
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      onClick={onClick}
       data-tile-id={id}
       style={{
         transform: dragging
