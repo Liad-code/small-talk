@@ -78,14 +78,15 @@ export default function Step2Page() {
           available
         />
         <TopicCard
-          emoji="📖"
-          title="Reading"
-          hebrewTitle="קריאה"
-          description="Read sentences with digraph words."
-          hebrewDesc="קריאת משפטים עם צלילי שתי אותיות"
-          color="from-blue-300 to-cyan-400"
+          href="/step2/grammar"
+          emoji="📝"
+          title="Grammar"
+          hebrewTitle="דקדוק"
+          description="Nouns, verbs, pronouns and more grammar rules!"
+          hebrewDesc="שמות עצם, פעלים, שמות גוף ועוד"
+          color="from-blue-500 to-cyan-500"
           textColor="text-white"
-          available={false}
+          available
         />
         <TopicCard
           emoji="✏️"

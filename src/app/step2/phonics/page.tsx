@@ -59,22 +59,52 @@ export default function PhonicsPage() {
           <h2 className="font-display text-lg font-bold text-gray-600 mb-3">
             🎯 Exercises
           </h2>
-          <Link href="/step2/phonics/exercise1" className="no-underline block group">
-            <div className="bg-gradient-to-r from-purple-400 to-indigo-500 rounded-2xl p-5 text-white card-3d hover:rotate-1">
-              <div className="flex items-center gap-4">
-                <span className="text-4xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
-                <div>
-                  <div className="font-display font-bold text-xl">Sound Sort</div>
-                  <div className="text-white/80 font-bold text-sm">
-                    Drag each picture to the right sound category
-                  </div>
-                  <div className="text-white/60 font-bold text-xs mt-0.5" dir="rtl">
-                    מיון צלילים — WHINY A · CH · SH · TH
+          <div className="flex flex-col gap-3">
+            <Link href="/step2/phonics/exercise1" className="no-underline block group">
+              <div className="bg-gradient-to-r from-purple-400 to-indigo-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
+                  <div>
+                    <div className="font-display font-bold text-lg">Sound Sort 1</div>
+                    <div className="text-white/70 font-bold text-xs" dir="rtl">WHINY A · CH · SH · TH</div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+            <Link href="/step2/phonics/exercise2" className="no-underline block group">
+              <div className="bg-gradient-to-r from-indigo-500 to-sky-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
+                  <div>
+                    <div className="font-display font-bold text-lg">Sound Sort 2</div>
+                    <div className="text-white/70 font-bold text-xs" dir="rtl">CK · PH · WH</div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            <Link href="/step2/phonics/exercise3" className="no-underline block group">
+              <div className="bg-gradient-to-r from-violet-500 to-teal-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
+                  <div>
+                    <div className="font-display font-bold text-lg">Sound Sort 3</div>
+                    <div className="text-white/70 font-bold text-xs" dir="rtl">OO · EE · EA · AI · AY</div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            <Link href="/step2/phonics/exercise4" className="no-underline block group">
+              <div className="bg-gradient-to-r from-rose-500 to-cyan-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
+                  <div>
+                    <div className="font-display font-bold text-lg">Sound Sort 4</div>
+                    <div className="text-white/70 font-bold text-xs" dir="rtl">MAGIC E: A · I · O · U</div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
