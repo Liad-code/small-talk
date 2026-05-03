@@ -62,7 +62,7 @@ export default function DiGraphLearnPage({ params }: { params: { digraph: string
             >
               <span className="text-5xl leading-none">{w.emoji}</span>
               <span className={`font-display font-black text-sm leading-tight ${dg.textColor}`}>
-                {w.word}
+                {w.word.toLowerCase()}
               </span>
             </button>
           ))}

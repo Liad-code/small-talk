@@ -19,9 +19,9 @@ const ALL_TILES = [
   // OO
   { id: 'oo-moon',   word: 'moon',  emoji: '🌕', cat: 'oo' },
   { id: 'oo-pool',   word: 'pool',  emoji: '🏊', cat: 'oo' },
-  { id: 'oo-book',   word: 'book',  emoji: '📚', cat: 'oo' },
+  { id: 'oo-book',   word: 'books', emoji: '📚', cat: 'oo' },
   { id: 'oo-room',   word: 'room',  emoji: '🛏️', cat: 'oo' },
-  { id: 'oo-roof',   word: 'roof',  emoji: '🏗️', cat: 'oo' },
+  { id: 'oo-roof',   word: 'roof',  emoji: '🏠', cat: 'oo' },
   // EE
   { id: 'ee-tree',   word: 'tree',  emoji: '🌳', cat: 'ee' },
   { id: 'ee-bee',    word: 'bee',   emoji: '🐝', cat: 'ee' },
@@ -46,7 +46,7 @@ const ALL_TILES = [
   { id: 'ay-play',   word: 'play',  emoji: '🎮', cat: 'ay' },
   { id: 'ay-day',    word: 'day',   emoji: '☀️', cat: 'ay' },
   { id: 'ay-pray',   word: 'pray',  emoji: '🙏', cat: 'ay' },
-  { id: 'ay-tray',   word: 'tray',  emoji: '🫙', cat: 'ay' },
+  { id: 'ay-tray',   word: 'tray',  emoji: '🍱', cat: 'ay' },
 ]
 
 function SortExercise({ onComplete }: { onComplete: () => void }) {

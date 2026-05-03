@@ -61,7 +61,6 @@ export default function Step2Page() {
           Step 2
         </h1>
         <p className="text-xl font-bold text-purple-600 mb-1">Digraphs &amp; Vowel Patterns!</p>
-        <p className="text-lg font-bold text-purple-500" dir="rtl">צלילי שתי אותיות ותבניות תנועות</p>
       </section>
 
       {/* 5 topic squares */}
@@ -70,9 +69,9 @@ export default function Step2Page() {
           href="/step2/phonics"
           emoji="🔤"
           title="Phonics"
-          hebrewTitle="פוניקס"
-          description="Learn CH, SH, TH, EE, OO, Magic E and more digraphs!"
-          hebrewDesc="לחץ על צליל, שמע מילים, תרגל מיון"
+          hebrewTitle=""
+          description="Diagraphs and Grammar"
+          hebrewDesc=""
           color="from-purple-400 to-indigo-500"
           textColor="text-white"
           available

@@ -50,8 +50,8 @@ const ALL_TILES = [
   { id: 'camp',  word: 'camp',  emoji: '⛺',  cat: 'whiny-a' },
   { id: 'sand',  word: 'sand',  emoji: '🏜️',  cat: 'whiny-a' },
   { id: 'man',   word: 'man',   emoji: '👨',  cat: 'whiny-a' },
-  { id: 'jam',   word: 'jam',   emoji: '🍇',  cat: 'whiny-a' },
-  { id: 'fan',   word: 'fan',   emoji: '🌀',  cat: 'whiny-a' },
+  { id: 'jam',   word: 'jam',   emoji: '🍯',  cat: 'whiny-a' },
+  { id: 'fan',   word: 'fan',   emoji: '🪭',  cat: 'whiny-a' },
   { id: 'pan',   word: 'pan',   emoji: '🍳',  cat: 'whiny-a' },
   // CH
   { id: 'cheese',   word: 'cheese',   emoji: '🧀', cat: 'ch' },
@@ -64,9 +64,9 @@ const ALL_TILES = [
   { id: 'fish',  word: 'fish',  emoji: '🐟', cat: 'sh' },
   { id: 'shirt', word: 'shirt', emoji: '👕', cat: 'sh' },
   { id: 'ship',  word: 'ship',  emoji: '🚢', cat: 'sh' },
-  { id: 'shoes', word: 'shoes', emoji: '👟', cat: 'sh' },
+  { id: 'shoes', word: 'shoes', emoji: '👟👟', cat: 'sh' },
   // TH
-  { id: 'math',  word: 'math',  emoji: '➕', cat: 'th' },
+  { id: 'math',  word: 'math',  emoji: '🧮', cat: 'th' },
   { id: 'tooth', word: 'tooth', emoji: '🦷', cat: 'th' },
   { id: 'thumb', word: 'thumb', emoji: '👍', cat: 'th' },
   { id: 'three', word: 'three', emoji: '3️⃣', cat: 'th' },
