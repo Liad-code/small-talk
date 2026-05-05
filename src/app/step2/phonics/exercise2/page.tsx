@@ -24,7 +24,7 @@ const ALL_TILES = [
   { id: 'ph-elephant', word: 'elephant', emoji: '🐘', cat: 'ph' },
   { id: 'ph-phone',    word: 'phone',    emoji: '📱', cat: 'ph' },
   { id: 'wh-whale',    word: 'whale',    emoji: '🐋', cat: 'wh' },
-  { id: 'wh-wheel',    word: 'wheel',    emoji: '🎡', cat: 'wh' },
+  { id: 'wh-wheel',    word: 'wheel',    emoji: '🛞', cat: 'wh' },
   { id: 'wh-wheat',    word: 'wheat',    emoji: '🌾', cat: 'wh' },
   { id: 'wh-whisk',    word: 'whisk',    emoji: '🥄', cat: 'wh' },
   { id: 'wh-white',    word: 'white',    emoji: '⬜', cat: 'wh' },
@@ -66,7 +66,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
           return (
             <div key={cat.id} className="flex flex-col">
               <div className={`${cat.header} rounded-t-xl py-2 px-1 text-center`}>
-                <span className="font-display font-black text-white text-base leading-none">{cat.label}</span>
+                <span className="font-display font-black text-white text-xl leading-none">{cat.label}</span>
               </div>
               <div
                 data-drop-target="true"
@@ -74,7 +74,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
                 className={`flex-1 min-h-[180px] rounded-b-xl border-4 ${cat.border} ${cat.bg} flex flex-col flex-wrap items-center justify-start gap-1 p-1 pt-2`}
               >
                 {catPlaced.map(t => (
-                  <span key={t.id} className="text-3xl bounce-in leading-none">{t.emoji}</span>
+                  <span key={t.id} className="text-4xl bounce-in leading-none">{t.emoji}</span>
                 ))}
               </div>
             </div>

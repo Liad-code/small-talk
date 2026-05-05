@@ -16,7 +16,7 @@ const CATEGORIES = [
 const ALL_TILES = [
   // MAGIC E : A
   { id: 'mea-lake',   word: 'lake',    emoji: '🏞️', cat: 'magic-e-a' },
-  { id: 'mea-game',   word: 'game',    emoji: '🎲', cat: 'magic-e-a' },
+  { id: 'mea-game',   word: 'game',    emoji: '🧩', cat: 'magic-e-a' },
   { id: 'mea-snake',  word: 'snake',   emoji: '🐍', cat: 'magic-e-a' },
   { id: 'mea-cake',   word: 'cake',    emoji: '🎂', cat: 'magic-e-a' },
   { id: 'mea-plate',  word: 'plate',   emoji: '🍽️', cat: 'magic-e-a' },
@@ -75,8 +75,8 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
           return (
             <div key={cat.id} className="flex flex-col">
               <div className={`${cat.header} rounded-t-xl py-1.5 px-1 text-center`}>
-                <div className="font-display font-black text-white text-xs leading-none">{cat.label}</div>
-                <div className="text-white/80 font-bold text-[10px] leading-none mt-0.5">{cat.subtitle}</div>
+                <div className="font-display font-black text-white text-sm leading-none">{cat.label}</div>
+                <div className="text-white/80 font-bold text-xs leading-none mt-0.5">{cat.subtitle}</div>
               </div>
               <div
                 data-drop-target="true"
@@ -84,7 +84,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
                 className={`flex-1 min-h-[180px] rounded-b-xl border-4 ${cat.border} ${cat.bg} flex flex-col flex-wrap items-center justify-start gap-1 p-1 pt-2`}
               >
                 {catPlaced.map(t => (
-                  <span key={t.id} className="text-3xl bounce-in leading-none">{t.emoji}</span>
+                  <span key={t.id} className="text-4xl bounce-in leading-none">{t.emoji}</span>
                 ))}
               </div>
             </div>

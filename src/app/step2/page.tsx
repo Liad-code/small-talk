@@ -19,7 +19,7 @@ function TopicCard({ href, emoji, title, hebrewTitle, description, hebrewDesc, c
     <div className={`
       bg-gradient-to-br ${color} rounded-3xl p-6
       shadow-lg border-4 border-white/50
-      card-3d flex flex-col gap-3
+      card-3d flex flex-col gap-3 h-full
       ${available ? 'group-hover:rotate-1' : 'opacity-60'}
     `}>
       <div className="flex items-start justify-between gap-2">
@@ -41,9 +41,9 @@ function TopicCard({ href, emoji, title, hebrewTitle, description, hebrewDesc, c
     </div>
   )
 
-  if (!available || !href) return <div>{inner}</div>
+  if (!available || !href) return <div className="h-full">{inner}</div>
   return (
-    <Link href={href} className="no-underline group block">
+    <Link href={href} className="no-underline group block h-full">
       {inner}
     </Link>
   )

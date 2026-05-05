@@ -172,7 +172,7 @@ export const DIGRAPHS: Digraph[] = [
     borderColor: 'border-violet-300',
     emoji: '🌕',
     words: [
-      { word: 'FLOOR', emoji: '🟫' },
+      { word: 'FLOOR', emoji: '🟫', tts: 'the floor' },
       { word: 'DOOR',  emoji: '🚪' },
       { word: 'GOOD',  emoji: '👍' },
       { word: 'MOON',  emoji: '🌕' },
@@ -270,8 +270,8 @@ export const DIGRAPHS: Digraph[] = [
     borderColor: 'border-emerald-300',
     emoji: '☀️',
     words: [
-      { word: 'TRAY', emoji: '🍱' },
-      { word: 'GRAY', emoji: '🌫️' },
+      { word: 'TRAY', emoji: '🍱', tts: 'a tray' },
+      { word: 'GRAY', emoji: '🩶', tts: 'gray color' },
       { word: 'PRAY', emoji: '🙏' },
       { word: 'CLAY', emoji: '🏺' },
       { word: 'BAY',  emoji: '🌊' },
@@ -291,7 +291,7 @@ export const DIGRAPHS: Digraph[] = [
     emoji: '🍳',
     words: [
       { word: 'CAMP', emoji: '⛺' },
-      { word: 'SAND', emoji: '🏜️' },
+      { word: 'SAND', emoji: '🏖️' },
       { word: 'MAN',  emoji: '👨' },
       { word: 'JAM',  emoji: '🍯' },
       { word: 'FAN',  emoji: '🪭' },
@@ -363,10 +363,10 @@ export const DIGRAPHS: Digraph[] = [
     borderColor: 'border-cyan-300',
     emoji: '🧊',
     words: [
-      { word: 'PERFUME', emoji: '🫙' },
-      { word: 'DUNE',    emoji: '🏜️' },
+      { word: 'PERFUME', emoji: '🧴' },
+      { word: 'DUNE',    emoji: '🏜️', tts: 'a sand dune' },
       { word: 'CUBE',    emoji: '🧊' },
-      { word: 'TUBE',    emoji: '🧪', tts: 'tube' },
+      { word: 'TUBE',    emoji: '🧪', tts: 'a tube' },
     ],
   },
 ]

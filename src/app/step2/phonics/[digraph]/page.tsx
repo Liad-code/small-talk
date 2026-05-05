@@ -34,7 +34,7 @@ export default function DiGraphLearnPage({ params }: { params: { digraph: string
                 {dg.label}
               </h1>
               {dg.subtitle && (
-                <p className="text-white/80 font-bold text-base">{dg.subtitle}</p>
+                <p className="text-white/80 font-black text-2xl">{dg.subtitle}</p>
               )}
               <p className="text-white/70 font-bold text-sm" dir="rtl">{dg.hebrewLabel}</p>
             </div>
@@ -60,8 +60,8 @@ export default function DiGraphLearnPage({ params }: { params: { digraph: string
                 cursor-pointer select-none shadow-sm
               `}
             >
-              <span className="text-5xl leading-none">{w.emoji}</span>
-              <span className={`font-display font-black text-sm leading-tight ${dg.textColor}`}>
+              <span className="text-6xl leading-none">{w.emoji}</span>
+              <span className={`font-display font-black text-base leading-tight ${dg.textColor}`}>
                 {w.word.toLowerCase()}
               </span>
             </button>

@@ -48,7 +48,7 @@ const CATEGORIES = [
 const ALL_TILES = [
   // WHINY A
   { id: 'camp',  word: 'camp',  emoji: '⛺',  cat: 'whiny-a' },
-  { id: 'sand',  word: 'sand',  emoji: '🏜️',  cat: 'whiny-a' },
+  { id: 'sand',  word: 'sand',  emoji: '🏖️',  cat: 'whiny-a' },
   { id: 'man',   word: 'man',   emoji: '👨',  cat: 'whiny-a' },
   { id: 'jam',   word: 'jam',   emoji: '🍯',  cat: 'whiny-a' },
   { id: 'fan',   word: 'fan',   emoji: '🪭',  cat: 'whiny-a' },
@@ -120,7 +120,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
             <div key={cat.id} className="flex flex-col">
               {/* Column header */}
               <div className={`${cat.header} rounded-t-xl py-2 px-1 text-center`}>
-                <span className="font-display font-black text-white text-base leading-none">
+                <span className="font-display font-black text-white text-xl leading-none">
                   {cat.label}
                 </span>
               </div>
@@ -138,7 +138,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
                 `}
               >
                 {catPlaced.map(t => (
-                  <span key={t.id} className="text-3xl bounce-in leading-none">
+                  <span key={t.id} className="text-4xl bounce-in leading-none">
                     {t.emoji}
                   </span>
                 ))}

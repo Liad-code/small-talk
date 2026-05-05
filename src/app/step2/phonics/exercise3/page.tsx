@@ -86,9 +86,9 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
           return (
             <div key={cat.id} className="flex flex-col">
               <div className={`${cat.header} rounded-t-lg py-1 px-0.5 text-center`}>
-                <div className="font-display font-black text-white text-xs leading-none">{cat.label}</div>
+                <div className="font-display font-black text-white text-sm leading-none">{cat.label}</div>
                 {cat.subtitle && (
-                  <div className="text-white/80 font-bold leading-none mt-0.5" style={{ fontSize: '9px' }}>{cat.subtitle}</div>
+                  <div className="text-white/80 font-bold leading-none mt-0.5 text-xs">{cat.subtitle}</div>
                 )}
               </div>
               <div
@@ -97,7 +97,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
                 className={`flex-1 min-h-[160px] rounded-b-lg border-2 ${cat.border} ${cat.bg} flex flex-col flex-wrap items-center justify-start gap-0.5 p-0.5 pt-1`}
               >
                 {catPlaced.map(t => (
-                  <span key={t.id} className="text-2xl bounce-in leading-none">{t.emoji}</span>
+                  <span key={t.id} className="text-3xl bounce-in leading-none">{t.emoji}</span>
                 ))}
               </div>
             </div>

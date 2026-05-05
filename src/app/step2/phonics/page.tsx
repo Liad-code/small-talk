@@ -39,14 +39,14 @@ export default function PhonicsPage() {
                 card-3d hover:rotate-1 group transition-transform
               `}
             >
-              <span className="text-3xl mb-0.5 transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
+              <span className="text-4xl mb-0.5 transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
                 {dg.emoji}
               </span>
-              <span className={`font-display font-black text-xl leading-none ${dg.textColor}`}>
+              <span className={`font-display font-black text-2xl leading-none ${dg.textColor}`}>
                 {dg.label}
               </span>
               {dg.subtitle && (
-                <span className={`text-xs font-bold ${dg.textColor} opacity-70 leading-tight`}>
+                <span className={`text-sm font-bold ${dg.textColor} opacity-80 leading-tight`}>
                   {dg.subtitle}
                 </span>
               )}
