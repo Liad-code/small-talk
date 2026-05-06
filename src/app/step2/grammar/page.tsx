@@ -18,7 +18,7 @@ function TopicCard({ href, emoji, title, hebrewTitle, description, color, availa
       <span className={`text-4xl leading-none inline-block ${available ? 'transition-transform duration-200 group-hover:scale-110' : ''}`}>{emoji}</span>
       <div className="flex-1 min-w-0">
         <div className="font-display font-bold text-lg text-white leading-tight">{title}</div>
-        <div className="text-white/70 font-bold text-xs" dir="rtl">{hebrewTitle}</div>
+        <div className="text-white/70 font-bold text-sm" dir="rtl">{hebrewTitle}</div>
         <div className="text-white/80 font-bold text-sm mt-1">{description}</div>
       </div>
       {!available && (
@@ -44,7 +44,7 @@ export default function GrammarPage() {
         <div className="max-w-2xl mx-auto">
           <Link href="/step2" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Step 2</Link>
           <h1 className="font-display text-3xl font-bold text-white mt-1">Grammar 📝</h1>
-          <p className="text-white/80 font-bold text-sm" dir="rtl">בחר נושא כדי ללמוד ולתרגל</p>
+          <p className="text-white/80 font-bold text-lg" dir="rtl">בחר נושא כדי ללמוד ולתרגל</p>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default function GrammarPage() {
           href="/step2/grammar/noun-verb"
           emoji="🏷️"
           title="Noun / Verb"
-          hebrewTitle="שם עצם / פועל"
+          hebrewTitle="שמות עצם ופעלים"
           description="Learn to tell nouns and verbs apart"
           color="from-emerald-500 to-teal-600"
           available

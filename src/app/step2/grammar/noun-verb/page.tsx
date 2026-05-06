@@ -14,16 +14,16 @@ function LearnTab() {
       {/* NOUN card */}
       <div className="bg-emerald-50 border-4 border-emerald-300 rounded-3xl p-5">
         <div className="flex items-center gap-3 mb-3">
-          <span className="text-4xl">🏷️</span>
-          <h2 className="font-display font-black text-2xl text-emerald-700">NOUN — שם עצם</h2>
+          <span className="text-5xl">🏷️</span>
+          <h2 className="font-display font-black text-3xl text-emerald-700">NOUN — שם עצם</h2>
         </div>
-        <p className="font-bold text-emerald-800 mb-2 text-sm">
+        <p className="font-bold text-emerald-800 mb-2 text-base">
           A noun is a word that names a <span className="underline">person</span>, <span className="underline">place</span>, <span className="underline">thing</span>, <span className="underline">animal</span> or an <span className="underline">idea</span>.
         </p>
-        <p className="font-bold text-emerald-700 text-sm mb-4" dir="rtl">
+        <p className="font-bold text-emerald-700 text-base mb-4" dir="rtl">
           שם עצם מציין אנשים, מקומות, חפצים, חיות או רעיונות.
         </p>
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <div className="grid grid-cols-2 gap-2">
           {[
             { cat: '👥 People', examples: 'sister, father, boy, doctor' },
             { cat: '🏙️ Places', examples: 'school, shop, park, London' },
@@ -32,8 +32,8 @@ function LearnTab() {
             { cat: '💡 Ideas',   examples: 'love, fear' },
           ].map(({ cat, examples }) => (
             <div key={cat} className="bg-emerald-100 rounded-xl p-2">
-              <div className="font-bold text-emerald-700 text-xs">{cat}</div>
-              <div className="text-emerald-600 text-xs">{examples}</div>
+              <div className="font-bold text-emerald-700 text-sm">{cat}</div>
+              <div className="text-emerald-600 text-sm">{examples}</div>
             </div>
           ))}
         </div>
@@ -42,27 +42,27 @@ function LearnTab() {
       {/* VERB card */}
       <div className="bg-blue-50 border-4 border-blue-300 rounded-3xl p-5">
         <div className="flex items-center gap-3 mb-3">
-          <span className="text-4xl">⚡</span>
-          <h2 className="font-display font-black text-2xl text-blue-700">VERB — פועל</h2>
+          <span className="text-5xl">⚡</span>
+          <h2 className="font-display font-black text-3xl text-blue-700">VERB — פועל</h2>
         </div>
-        <p className="font-bold text-blue-800 mb-2 text-sm">
+        <p className="font-bold text-blue-800 mb-2 text-base">
           A verb is a word that describes an <span className="underline">action</span>.
         </p>
-        <p className="font-bold text-blue-700 text-sm mb-4" dir="rtl">
+        <p className="font-bold text-blue-700 text-base mb-4" dir="rtl">
           פועל הוא מילה המתארת פעולה — ללכת, לקפוץ, לקרוא.
         </p>
         <div className="bg-blue-100 rounded-xl p-3">
-          <div className="font-bold text-blue-700 text-xs mb-1">Examples:</div>
+          <div className="font-bold text-blue-700 text-sm mb-1">Examples:</div>
           <div className="flex flex-wrap gap-2">
-            {['WALK', 'GO', 'READ', 'JUMP', 'RUN', 'EAT', 'SING', 'SWIM'].map(w => (
-              <span key={w} className="bg-blue-500 text-white font-display font-black text-sm px-2 py-0.5 rounded-lg">{w}</span>
+            {['walk', 'go', 'read', 'jump', 'run', 'eat', 'sing', 'swim'].map(w => (
+              <span key={w} className="bg-blue-500 text-white font-display font-black text-base px-3 py-0.5 rounded-lg">{w}</span>
             ))}
           </div>
         </div>
       </div>
 
       <div className="text-center">
-        <p className="font-bold text-gray-500 text-sm mb-3" dir="rtl">מוכן לתרגל? לחץ על "Practice" למעלה</p>
+        <p className="font-bold text-gray-500 text-base mb-3" dir="rtl">מוכן לתרגל? לחץ על "Practice" למעלה</p>
       </div>
     </div>
   )
@@ -103,8 +103,8 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
       <div className="grid grid-cols-2 gap-3 mb-5">
         {/* NOUN column */}
         <div className="flex flex-col">
-          <div className="bg-gradient-to-b from-emerald-500 to-teal-600 rounded-t-xl py-2 text-center">
-            <span className="font-display font-black text-white text-base">NOUN 🏷️</span>
+          <div className="bg-gradient-to-b from-emerald-500 to-teal-600 rounded-t-xl py-3 text-center">
+            <span className="font-display font-black text-white text-xl">NOUN 🏷️</span>
           </div>
           <div
             data-drop-target="true"
@@ -112,15 +112,15 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
             className="flex-1 min-h-[160px] rounded-b-xl border-4 border-emerald-400 bg-emerald-50 p-2 flex flex-wrap gap-1 content-start"
           >
             {nounPlaced.map(w => (
-              <span key={w.id} className="bg-emerald-200 text-emerald-800 font-display font-black text-xs px-2 py-1 rounded-lg bounce-in">{w.word}</span>
+              <span key={w.id} className="bg-emerald-200 text-emerald-800 font-display font-black text-sm px-2 py-1 rounded-lg bounce-in">{w.word.toLowerCase()}</span>
             ))}
           </div>
         </div>
 
         {/* VERB column */}
         <div className="flex flex-col">
-          <div className="bg-gradient-to-b from-blue-500 to-indigo-600 rounded-t-xl py-2 text-center">
-            <span className="font-display font-black text-white text-base">VERB ⚡</span>
+          <div className="bg-gradient-to-b from-blue-500 to-indigo-600 rounded-t-xl py-3 text-center">
+            <span className="font-display font-black text-white text-xl">VERB ⚡</span>
           </div>
           <div
             data-drop-target="true"
@@ -128,7 +128,7 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
             className="flex-1 min-h-[160px] rounded-b-xl border-4 border-blue-400 bg-blue-50 p-2 flex flex-wrap gap-1 content-start"
           >
             {verbPlaced.map(w => (
-              <span key={w.id} className="bg-blue-200 text-blue-800 font-display font-black text-xs px-2 py-1 rounded-lg bounce-in">{w.word}</span>
+              <span key={w.id} className="bg-blue-200 text-blue-800 font-display font-black text-sm px-2 py-1 rounded-lg bounce-in">{w.word.toLowerCase()}</span>
             ))}
           </div>
         </div>
@@ -142,11 +142,12 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
               <DraggableTile
                 key={w.id}
                 id={w.id}
-                label={w.word}
+                label={w.word.toLowerCase()}
                 color="bg-white"
                 borderColor="border-gray-300"
                 textColor="text-gray-700"
                 size="sm"
+                className="!w-auto min-w-[48px] px-3 text-sm"
                 onDropped={handleDrop}
               />
             ))}
@@ -170,15 +171,17 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
 
       {/* Reference table */}
       <div className="mt-6 border-t-2 border-dashed border-gray-200 pt-4">
-        <p className="font-bold text-gray-500 text-xs mb-2 text-center" dir="rtl">📖 עזרה — משמעות המילים</p>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
-          {words.map(w => (
-            <div key={w.id} className="flex justify-between text-xs py-0.5 border-b border-gray-100">
-              <span className={`font-bold ${w.cat === 'noun' ? 'text-emerald-700' : 'text-blue-700'}`}>{w.word}</span>
-              <span className="text-gray-500" dir="rtl">{w.hebrew}</span>
-            </div>
-          ))}
-        </div>
+        <p className="font-bold text-gray-500 text-sm mb-2 text-center" dir="rtl">📖 עזרה — משמעות המילים</p>
+        <table className="w-full text-sm border-collapse">
+          <tbody>
+            {words.map(w => (
+              <tr key={w.id} className="border-b border-gray-200">
+                <td className="py-1.5 pr-4 font-bold text-gray-900">{w.word.toLowerCase()}</td>
+                <td className="py-1.5 font-bold text-gray-900 text-right" dir="rtl">{w.hebrew}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )
@@ -210,7 +213,7 @@ export default function NounVerbPage() {
         <div className="max-w-xl mx-auto">
           <Link href="/step2/grammar" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Grammar</Link>
           <h1 className="font-display text-2xl font-bold text-white mt-0.5">Noun / Verb 🏷️⚡</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">שם עצם מול פועל</p>
+          <p className="text-white/70 font-bold text-sm" dir="rtl">שמות עצם ופעלים</p>
         </div>
       </div>
 
