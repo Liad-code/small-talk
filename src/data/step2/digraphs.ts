@@ -18,6 +18,25 @@ export interface Digraph {
 }
 
 export const DIGRAPHS: Digraph[] = [
+  // ── Special patterns (first) ─────────────────────────────────────────────
+  {
+    id: 'whiny-a',
+    label: 'WHINY A',
+    hebrewLabel: 'A שוינה',
+    color: 'from-lime-400 to-green-500',
+    bgColor: 'bg-lime-50',
+    textColor: 'text-lime-700',
+    borderColor: 'border-lime-300',
+    emoji: '🍳',
+    words: [
+      { word: 'CAMP', emoji: '⛺' },
+      { word: 'SAND', emoji: '🏖️' },
+      { word: 'MAN',  emoji: '👨' },
+      { word: 'JAM',  emoji: '🍯' },
+      { word: 'FAN',  emoji: '🪭' },
+      { word: 'PAN',  emoji: '🍳' },
+    ],
+  },
   // ── Consonant digraphs ───────────────────────────────────────────────────
   {
     id: 'ch',
@@ -32,7 +51,7 @@ export const DIGRAPHS: Digraph[] = [
       { word: 'CHIPS',    emoji: '🍟' },
       { word: 'LUNCH',    emoji: '🍱' },
       { word: 'CHIN',     emoji: '🫦' },
-      { word: 'BENCH',    emoji: '🪑', tts: 'bench' },
+      { word: 'BENCH',    emoji: '🛋️', tts: 'bench' },
       { word: 'CHEEKS',   emoji: '🥰' },
       { word: 'PEACH',    emoji: '🍑' },
       { word: 'CHAIR',    emoji: '🪑' },
@@ -58,7 +77,7 @@ export const DIGRAPHS: Digraph[] = [
       { word: 'SHIRT',  emoji: '👕' },
       { word: 'SHARK',  emoji: '🦈' },
       { word: 'BRUSH',  emoji: '🖌️' },
-      { word: 'WASH',   emoji: '🤲' },
+      { word: 'WASH',   emoji: '🫧' },
       { word: 'SHOES',  emoji: '👟👟' },
       { word: 'DISH',   emoji: '🍽️' },
       { word: 'SHOP',   emoji: '🏪' },
@@ -132,7 +151,7 @@ export const DIGRAPHS: Digraph[] = [
     bgColor: 'bg-sky-50',
     textColor: 'text-sky-700',
     borderColor: 'border-sky-300',
-    emoji: '🐋',
+    emoji: '🥄',
     words: [
       { word: 'WHITE',       emoji: '⬜' },
       { word: 'WHISK',       emoji: '🥄' },
@@ -172,7 +191,7 @@ export const DIGRAPHS: Digraph[] = [
     borderColor: 'border-violet-300',
     emoji: '🌕',
     words: [
-      { word: 'FLOOR', emoji: '🟫', tts: 'the floor' },
+      { word: 'FLOOR', emoji: '🟫' },
       { word: 'DOOR',  emoji: '🚪' },
       { word: 'GOOD',  emoji: '👍' },
       { word: 'MOON',  emoji: '🌕' },
@@ -270,8 +289,8 @@ export const DIGRAPHS: Digraph[] = [
     borderColor: 'border-emerald-300',
     emoji: '☀️',
     words: [
-      { word: 'TRAY', emoji: '🍱', tts: 'a tray' },
-      { word: 'GRAY', emoji: '🩶', tts: 'gray color' },
+      { word: 'TRAY', emoji: '🍱' },
+      { word: 'GRAY', emoji: '🩶' },
       { word: 'PRAY', emoji: '🙏' },
       { word: 'CLAY', emoji: '🏺' },
       { word: 'BAY',  emoji: '🌊' },
@@ -279,25 +298,7 @@ export const DIGRAPHS: Digraph[] = [
       { word: 'DAY',  emoji: '☀️' },
     ],
   },
-  // ── Special patterns ────────────────────────────────────────────────────
-  {
-    id: 'whiny-a',
-    label: 'WHINY A',
-    hebrewLabel: 'A שוינה',
-    color: 'from-lime-400 to-green-500',
-    bgColor: 'bg-lime-50',
-    textColor: 'text-lime-700',
-    borderColor: 'border-lime-300',
-    emoji: '🍳',
-    words: [
-      { word: 'CAMP', emoji: '⛺' },
-      { word: 'SAND', emoji: '🏖️' },
-      { word: 'MAN',  emoji: '👨' },
-      { word: 'JAM',  emoji: '🍯' },
-      { word: 'FAN',  emoji: '🪭' },
-      { word: 'PAN',  emoji: '🍳' },
-    ],
-  },
+  // ── Magic E patterns ─────────────────────────────────────────────────────
   {
     id: 'magic-e-a',
     label: 'MAGIC E',
@@ -364,9 +365,11 @@ export const DIGRAPHS: Digraph[] = [
     emoji: '🧊',
     words: [
       { word: 'PERFUME', emoji: '🧴' },
-      { word: 'DUNE',    emoji: '🏜️', tts: 'a sand dune' },
+      { word: 'DUNE',    emoji: '🏜️' },
       { word: 'CUBE',    emoji: '🧊' },
-      { word: 'TUBE',    emoji: '🧪', tts: 'a tube' },
+      { word: 'TUBE',    emoji: '🧪' },
+      { word: 'CUTE',    emoji: '😍' },
+      { word: 'TUNE',    emoji: '🎵' },
     ],
   },
 ]

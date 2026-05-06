@@ -60,7 +60,7 @@ export default function Step2Page() {
         <h1 className="font-display text-4xl sm:text-5xl font-bold text-purple-700 mb-2">
           Step 2
         </h1>
-        <p className="text-xl font-bold text-purple-600 mb-1">Digraphs &amp; Vowel Patterns!</p>
+        <p className="text-xl font-bold text-purple-600 mb-1">Digraphs, Vowel Patterns and Grammar!</p>
       </section>
 
       {/* 5 topic squares */}
@@ -70,7 +70,7 @@ export default function Step2Page() {
           emoji="🔤"
           title="Phonics"
           hebrewTitle=""
-          description="Diagraphs and Grammar"
+          description="Digraphs and vowel patterns"
           hebrewDesc=""
           color="from-purple-400 to-indigo-500"
           textColor="text-white"

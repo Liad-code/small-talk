@@ -7,36 +7,28 @@ import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 
 const CATEGORIES = [
-  { id: 'magic-e-a', label: 'MAGIC E', subtitle: 'A+E=Ā', bg: 'bg-rose-50',    border: 'border-rose-400',    header: 'bg-gradient-to-b from-rose-500 to-pink-600' },
-  { id: 'magic-e-i', label: 'MAGIC E', subtitle: 'I+E=Ī', bg: 'bg-fuchsia-50', border: 'border-fuchsia-400', header: 'bg-gradient-to-b from-fuchsia-500 to-pink-600' },
-  { id: 'magic-e-o', label: 'MAGIC E', subtitle: 'O+E=Ō', bg: 'bg-amber-50',   border: 'border-amber-400',   header: 'bg-gradient-to-b from-amber-500 to-orange-500' },
-  { id: 'magic-e-u', label: 'MAGIC E', subtitle: 'U+E=Ū', bg: 'bg-cyan-50',    border: 'border-cyan-400',    header: 'bg-gradient-to-b from-cyan-500 to-teal-500' },
+  { id: 'oo', label: 'OO', bg: 'bg-violet-50',  border: 'border-violet-400', header: 'bg-gradient-to-b from-violet-500 to-purple-600' },
+  { id: 'ai', label: 'AI', bg: 'bg-purple-50',  border: 'border-purple-400', header: 'bg-gradient-to-b from-purple-500 to-indigo-500' },
+  { id: 'ay', label: 'AY', bg: 'bg-emerald-50', border: 'border-emerald-400',header: 'bg-gradient-to-b from-emerald-500 to-teal-500' },
 ]
 
 const ALL_TILES = [
-  // MAGIC E : A
-  { id: 'mea-lake',   word: 'lake',    emoji: '🏞️', cat: 'magic-e-a' },
-  { id: 'mea-game',   word: 'game',    emoji: '🧩', cat: 'magic-e-a' },
-  { id: 'mea-snake',  word: 'snake',   emoji: '🐍', cat: 'magic-e-a' },
-  { id: 'mea-cake',   word: 'cake',    emoji: '🎂', cat: 'magic-e-a' },
-  { id: 'mea-plate',  word: 'plate',   emoji: '🍽️', cat: 'magic-e-a' },
-  // MAGIC E : I
-  { id: 'mei-bike',   word: 'bike',    emoji: '🚲', cat: 'magic-e-i' },
-  { id: 'mei-nine',   word: 'nine',    emoji: '9️⃣', cat: 'magic-e-i' },
-  { id: 'mei-five',   word: 'five',    emoji: '5️⃣', cat: 'magic-e-i' },
-  { id: 'mei-smile',  word: 'smile',   emoji: '😊', cat: 'magic-e-i' },
-  { id: 'mei-white',  word: 'white',   emoji: '⬜', cat: 'magic-e-i' },
-  // MAGIC E : O
-  { id: 'meo-bone',   word: 'bone',    emoji: '🦴', cat: 'magic-e-o' },
-  { id: 'meo-home',   word: 'home',    emoji: '🏠', cat: 'magic-e-o' },
-  { id: 'meo-rose',   word: 'rose',    emoji: '🌹', cat: 'magic-e-o' },
-  { id: 'meo-nose',   word: 'nose',    emoji: '👃', cat: 'magic-e-o' },
-  { id: 'meo-phone',  word: 'phone',   emoji: '📱', cat: 'magic-e-o' },
-  // MAGIC E : U
-  { id: 'meu-cube',   word: 'cube',    emoji: '🧊', cat: 'magic-e-u' },
-  { id: 'meu-tube',   word: 'tube',    emoji: '🧪', cat: 'magic-e-u' },
-  { id: 'meu-dune',   word: 'dune',    emoji: '🏜️', cat: 'magic-e-u' },
-  { id: 'meu-perf',   word: 'perfume', emoji: '🧴', cat: 'magic-e-u' },
+  // OO
+  { id: 'oo-moon',  word: 'moon',  emoji: '🌕', cat: 'oo' },
+  { id: 'oo-pool',  word: 'pool',  emoji: '🏊', cat: 'oo' },
+  { id: 'oo-books', word: 'books', emoji: '📚', cat: 'oo' },
+  { id: 'oo-room',  word: 'room',  emoji: '🛏️', cat: 'oo' },
+  { id: 'oo-roof',  word: 'roof',  emoji: '🏠', cat: 'oo' },
+  // AI
+  { id: 'ai-train', word: 'train', emoji: '🚂', cat: 'ai' },
+  { id: 'ai-snail', word: 'snail', emoji: '🐌', cat: 'ai' },
+  { id: 'ai-rain',  word: 'rain',  emoji: '🌧️', cat: 'ai' },
+  { id: 'ai-paint', word: 'paint', emoji: '🎨', cat: 'ai' },
+  // AY
+  { id: 'ay-play',  word: 'play',  emoji: '🎮', cat: 'ay' },
+  { id: 'ay-day',   word: 'day',   emoji: '☀️', cat: 'ay' },
+  { id: 'ay-pray',  word: 'pray',  emoji: '🙏', cat: 'ay' },
+  { id: 'ay-tray',  word: 'tray',  emoji: '🍱', cat: 'ay' },
 ]
 
 function SortExercise({ onComplete }: { onComplete: () => void }) {
@@ -67,16 +59,15 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
       <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">
         לחץ על התמונה לשמוע את המילה — גרור למקום הנכון בטבלה
       </p>
-      <p className="text-center text-rose-500 font-bold text-sm mb-3">{placed.size} / {ALL_TILES.length} ✓</p>
+      <p className="text-center text-violet-500 font-bold text-sm mb-3">{placed.size} / {ALL_TILES.length} ✓</p>
 
-      <div className="grid grid-cols-4 gap-2 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-6">
         {CATEGORIES.map(cat => {
           const catPlaced = ALL_TILES.filter(t => t.cat === cat.id && placed.has(t.id))
           return (
             <div key={cat.id} className="flex flex-col">
-              <div className={`${cat.header} rounded-t-xl py-1.5 px-1 text-center`}>
-                <div className="font-display font-black text-white text-sm leading-none">{cat.label}</div>
-                <div className="text-white/80 font-bold text-xs leading-none mt-0.5">{cat.subtitle}</div>
+              <div className={`${cat.header} rounded-t-xl py-2 px-1 text-center`}>
+                <span className="font-display font-black text-white text-xl leading-none">{cat.label}</span>
               </div>
               <div
                 data-drop-target="true"
@@ -122,11 +113,11 @@ export default function Exercise4Page() {
   return (
     <div className="min-h-screen">
       <Header />
-      <div className="bg-gradient-to-r from-rose-500 to-cyan-600 px-4 py-4">
+      <div className="bg-gradient-to-r from-violet-500 to-emerald-600 px-4 py-4">
         <div className="max-w-xl mx-auto">
           <Link href="/step2/phonics" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Phonics</Link>
           <h1 className="font-display text-2xl font-bold text-white mt-0.5">Sound Sort 4 🎲</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">מיון צלילים — MAGIC E: A · I · O · U</p>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">מיון צלילים — OO · AI · AY</p>
         </div>
       </div>
       <div className="pt-5">

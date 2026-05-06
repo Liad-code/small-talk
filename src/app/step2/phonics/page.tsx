@@ -83,22 +83,33 @@ export default function PhonicsPage() {
               </div>
             </Link>
             <Link href="/step2/phonics/exercise3" className="no-underline block group">
-              <div className="bg-gradient-to-r from-violet-500 to-teal-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+              <div className="bg-gradient-to-r from-yellow-500 to-blue-600 rounded-2xl p-4 text-white card-3d hover:rotate-1">
                 <div className="flex items-center gap-4">
                   <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
                   <div>
                     <div className="font-display font-bold text-lg">Sound Sort 3</div>
-                    <div className="text-white/70 font-bold text-xs" dir="rtl">OO · EE · EA · AI · AY</div>
+                    <div className="text-white/70 font-bold text-xs" dir="rtl">EE · EA</div>
                   </div>
                 </div>
               </div>
             </Link>
             <Link href="/step2/phonics/exercise4" className="no-underline block group">
-              <div className="bg-gradient-to-r from-rose-500 to-cyan-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+              <div className="bg-gradient-to-r from-violet-500 to-emerald-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
                 <div className="flex items-center gap-4">
                   <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
                   <div>
                     <div className="font-display font-bold text-lg">Sound Sort 4</div>
+                    <div className="text-white/70 font-bold text-xs" dir="rtl">OO · AI · AY</div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            <Link href="/step2/phonics/exercise5" className="no-underline block group">
+              <div className="bg-gradient-to-r from-rose-500 to-cyan-500 rounded-2xl p-4 text-white card-3d hover:rotate-1">
+                <div className="flex items-center gap-4">
+                  <span className="text-3xl transition-transform duration-200 group-hover:scale-110 inline-block">🎲</span>
+                  <div>
+                    <div className="font-display font-bold text-lg">Sound Sort 5</div>
                     <div className="text-white/70 font-bold text-xs" dir="rtl">MAGIC E: A · I · O · U</div>
                   </div>
                 </div>
