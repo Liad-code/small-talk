@@ -1,5 +1,5 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { DraggableTile } from '@/components/step1/DraggableTile'
@@ -16,20 +16,21 @@ function LearnTab() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-purple-50 border-4 border-purple-300 rounded-3xl p-5">
-        <h2 className="font-display font-black text-2xl text-purple-700 text-center mb-3">
+        <h2 className="font-display font-black text-3xl text-purple-700 text-center mb-3">
           I · YOU · HE · SHE · IT · WE · YOU · THEY
         </h2>
-        <p className="font-bold text-purple-800 text-sm mb-1">
-          שמות גוף (pronouns) באים במקום שמות עצם.
+        <p className="font-bold text-purple-800 text-base mb-1">
+          שמות גוף באים במקום שמות העצם במשפט
         </p>
-        <p className="font-bold text-purple-700 text-sm mb-4">
+        <p className="font-bold text-purple-700 text-base mb-4">
           Pronouns replace nouns in a sentence.
         </p>
-        <div className="flex flex-col gap-1 text-sm mb-4">
+        <div className="flex flex-col gap-1 text-base mb-4">
           {[
-            ['Tom is tall.', 'He is tall.'],
-            ['The dog is brown.', 'It is brown.'],
-            ['The books are new.', 'They are new.'],
+            ['Gal is happy.', 'He is happy.'],
+            ['Dana is happy.', 'She is happy.'],
+            ['The cat is black.', 'It is black.'],
+            ['The boys are happy.', 'They are happy.'],
           ].map(([a, b]) => (
             <div key={a} className="flex items-center gap-2 bg-purple-100 rounded-xl px-3 py-1.5">
               <span className="text-purple-600 font-bold flex-1">{a}</span>
@@ -42,26 +43,26 @@ function LearnTab() {
         {/* Table */}
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white rounded-2xl p-3 border-2 border-purple-200">
-            <div className="font-display font-black text-purple-700 text-center text-sm mb-2">יחיד (Singular)</div>
+            <div className="font-display font-black text-purple-700 text-center text-base mb-2">יחיד (Singular)</div>
             {[['I','אני'],['You','אתה, את'],['He','הוא'],['She','היא'],['It','זה / זו']].map(([p,h])=>(
-              <div key={p} className="flex justify-between text-sm py-0.5 border-b border-purple-100">
+              <div key={p} className="flex justify-between text-base py-0.5 border-b border-purple-100">
                 <span className="font-bold text-purple-700">{p}</span>
                 <span className="text-gray-500" dir="rtl">{h}</span>
               </div>
             ))}
           </div>
           <div className="bg-white rounded-2xl p-3 border-2 border-purple-200">
-            <div className="font-display font-black text-purple-700 text-center text-sm mb-2">רבים (Plural)</div>
+            <div className="font-display font-black text-purple-700 text-center text-base mb-2">רבים (Plural)</div>
             {[['We','אנחנו'],['You','אתם, אתן'],['They','הם, הן']].map(([p,h])=>(
-              <div key={p} className="flex justify-between text-sm py-0.5 border-b border-purple-100">
+              <div key={p} className="flex justify-between text-base py-0.5 border-b border-purple-100">
                 <span className="font-bold text-purple-700">{p}</span>
                 <span className="text-gray-500" dir="rtl">{h}</span>
               </div>
             ))}
           </div>
         </div>
-        <p className="text-center text-xs font-bold text-purple-500 mt-3" dir="rtl">
-          שמתם לב? למילה YOU יש ארבעה פירושים!
+        <p className="text-center text-sm font-bold text-purple-500 mt-3" dir="rtl">
+          למילה you יש 4 פירושים!
         </p>
       </div>
     </div>
@@ -91,6 +92,13 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     setSelected(null)
   }
 
+  useEffect(() => {
+    if (selected === null) return
+    if (!q.options[selected]?.correct || isLast) return
+    const t = setTimeout(() => { setCurrent(c => c + 1); setSelected(null) }, 800)
+    return () => clearTimeout(t)
+  }, [selected]) // eslint-disable-line react-hooks/exhaustive-deps
+
   if (current >= questions.length) return null
 
   const done = selected !== null && isLast
@@ -106,7 +114,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="inline-block bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl px-8 py-3 mb-2">
           <span className="font-display font-black text-4xl text-white">{q.pronoun}</span>
         </div>
-        <p className="text-sm font-bold text-gray-500">Choose the correct picture</p>
+        <p className="text-base font-bold text-gray-500">Choose the correct picture</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -272,7 +280,7 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             <div key={idx} className="bg-white border-2 border-gray-200 rounded-2xl p-3 flex flex-col gap-2">
               <div className="flex flex-col gap-0.5">
                 {g.words.map(w => (
-                  <span key={w} className="text-sm font-bold text-gray-700">{w}</span>
+                  <span key={w} className="text-base font-bold text-gray-700">{w}</span>
                 ))}
               </div>
               <div
@@ -375,6 +383,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 borderColor="border-gray-300"
                 textColor="text-gray-700"
                 size="sm"
+                className="!w-auto min-w-[48px] px-3"
                 onDropped={handleDrop}
               />
             ))}
@@ -431,7 +440,7 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           const parts = q.sentence.split(q.underlined)
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl p-3 ${ans ? (ans === q.answer ? 'border-green-300' : 'border-red-300') : 'border-gray-200'}`}>
-              <p className="text-sm font-bold text-gray-700 mb-2">
+              <p className="text-base font-bold text-gray-700 mb-2">
                 {parts[0]}
                 <span className="underline text-purple-700">{q.underlined}</span>
                 {parts[1]}
