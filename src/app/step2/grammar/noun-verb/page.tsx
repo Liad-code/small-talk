@@ -112,7 +112,7 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
             className="flex-1 min-h-[160px] rounded-b-xl border-4 border-emerald-400 bg-emerald-50 p-2 flex flex-wrap gap-1 content-start"
           >
             {nounPlaced.map(w => (
-              <span key={w.id} className="bg-emerald-200 text-emerald-800 font-display font-black text-sm px-2 py-1 rounded-lg bounce-in">{w.word.toLowerCase()}</span>
+              <span key={w.id} className="bg-emerald-200 text-emerald-800 font-display font-black text-base px-2 py-1 rounded-lg bounce-in">{w.word.toLowerCase()}</span>
             ))}
           </div>
         </div>
@@ -128,7 +128,7 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
             className="flex-1 min-h-[160px] rounded-b-xl border-4 border-blue-400 bg-blue-50 p-2 flex flex-wrap gap-1 content-start"
           >
             {verbPlaced.map(w => (
-              <span key={w.id} className="bg-blue-200 text-blue-800 font-display font-black text-sm px-2 py-1 rounded-lg bounce-in">{w.word.toLowerCase()}</span>
+              <span key={w.id} className="bg-blue-200 text-blue-800 font-display font-black text-base px-2 py-1 rounded-lg bounce-in">{w.word.toLowerCase()}</span>
             ))}
           </div>
         </div>
@@ -171,13 +171,13 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
 
       {/* Reference table */}
       <div className="mt-6 border-t-2 border-dashed border-gray-200 pt-4">
-        <p className="font-bold text-gray-500 text-sm mb-2 text-center" dir="rtl">📖 עזרה — משמעות המילים</p>
-        <table className="w-full text-sm border-collapse">
+        <p className="font-bold text-gray-500 text-base mb-2 text-center" dir="rtl">📖 עזרה — משמעות המילים</p>
+        <table className="w-full text-base border-collapse">
           <tbody>
             {words.map(w => (
               <tr key={w.id} className="border-b border-gray-200">
-                <td className="py-1.5 pr-4 font-bold text-gray-900">{w.word.toLowerCase()}</td>
-                <td className="py-1.5 font-bold text-gray-900 text-right" dir="rtl">{w.hebrew}</td>
+                <td className="py-1 pr-2 font-bold text-gray-900">{w.word.toLowerCase()}</td>
+                <td className="py-1 font-bold text-gray-900 text-right" dir="rtl">{w.hebrew}</td>
               </tr>
             ))}
           </tbody>

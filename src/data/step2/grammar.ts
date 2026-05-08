@@ -209,8 +209,8 @@ export const PR_EX2: NounPronounQ[][] = [
 export interface TripletGroup { words: [string, string, string]; pronoun: string }
 export const PR_EX3: TripletGroup[][] = [
   [
-    { words: ['sister',    'Mom',      'Adina'        ], pronoun: 'SHE'  },
-    { words: ['girls',     'Anna and Alex','horses'    ], pronoun: 'THEY' },
+    { words: ['sister',    'mother',   'dana'          ], pronoun: 'SHE'  },
+    { words: ['girls',     'books',    'ron and dana'  ], pronoun: 'THEY' },
     { words: ['dog',       'van',      'house'        ], pronoun: 'IT'   },
     { words: ['you',       'you and Ran','Lee and you' ], pronoun: 'YOU'  },
     { words: ['boy',       'Grandpa',  'Tom'          ], pronoun: 'HE'   },
@@ -226,7 +226,7 @@ export const PR_EX3: TripletGroup[][] = [
   ],
   [
     { words: ['the dog',   'the car',  'the ball'     ], pronoun: 'IT'   },
-    { words: ['Shira & Noa','the boys','flowers'      ], pronoun: 'THEY' },
+    { words: ['Shira and Noa','the boys','flowers'    ], pronoun: 'THEY' },
     { words: ['grandma',   'Rivka',    'the girl'     ], pronoun: 'SHE'  },
     { words: ['Ben',       'grandpa',  'the doctor'   ], pronoun: 'HE'   },
     { words: ['you',       'you and me','you and Ran'  ], pronoun: 'YOU'  },
@@ -240,34 +240,34 @@ export const PR_EX4: NounBucket[][] = [
     { pronoun: 'HE',   nouns: ['father',    'brother',    'Dan'      ] },
     { pronoun: 'SHE',  nouns: ['mother',    'sister',     'Naomi'    ] },
     { pronoun: 'IT',   nouns: ['cat',       'ball',       'car'      ] },
-    { pronoun: 'WE',   nouns: ['Tom & I',   'mom & I',    'Oded & I' ] },
-    { pronoun: 'YOU',  nouns: ['you',       'you & Ran',  'you & Sara'] },
+    { pronoun: 'WE',   nouns: ['Tom and I', 'mom and I',  'Oded and I'] },
+    { pronoun: 'YOU',  nouns: ['you',       'you and Ran','you and Sara'] },
     { pronoun: 'THEY', nouns: ['the boys',  'the horses', 'teachers' ] },
   ],
   [
     { pronoun: 'HE',   nouns: ['doctor(m)', 'king',       'grandpa'  ] },
     { pronoun: 'SHE',  nouns: ['teacher(f)','queen',      'grandma'  ] },
     { pronoun: 'IT',   nouns: ['house',     'book',       'flower'   ] },
-    { pronoun: 'WE',   nouns: ['family & I','friends & I','team & I' ] },
-    { pronoun: 'YOU',  nouns: ['you & Lisa','you & friend','you & class'] },
+    { pronoun: 'WE',   nouns: ['family and I','friends and I','team and I'] },
+    { pronoun: 'YOU',  nouns: ['you and Lisa','you and friend','you and class'] },
     { pronoun: 'THEY', nouns: ['the dogs',  'children',   'students' ] },
   ],
   [
     { pronoun: 'HE',   nouns: ['Ron',       'uncle',      'the boy'  ] },
     { pronoun: 'SHE',  nouns: ['Emma',      'aunt',       'the girl' ] },
     { pronoun: 'IT',   nouns: ['tree',      'shoe',       'table'    ] },
-    { pronoun: 'WE',   nouns: ['Shira & I', 'class & I',  'brother & I'] },
-    { pronoun: 'YOU',  nouns: ['you & Shira','you & him', 'you & them'] },
-    { pronoun: 'THEY', nouns: ['Oded & Lior','the cats',  'my parents'] },
+    { pronoun: 'WE',   nouns: ['Shira and I','class and I','brother and I'] },
+    { pronoun: 'YOU',  nouns: ['you and Shira','you and him','you and them'] },
+    { pronoun: 'THEY', nouns: ['Oded and Lior','the cats', 'my parents'] },
   ],
 ]
 
 export interface SentenceQ { sentence: string; underlined: string; options: [string, string, string]; answer: string }
 export const PR_EX5: SentenceQ[][] = [
   [
-    { sentence: 'The van is big.',                underlined: 'The van',       options: ['She','It','He'],  answer: 'It'   },
-    { sentence: 'You and Ron are happy.',          underlined: 'You and Ron',   options: ['You','They','We'],answer: 'You'  },
-    { sentence: 'The doctors are at the clinic.',  underlined: 'The doctors',   options: ['We','They','You'],answer: 'They' },
+    { sentence: 'The car is big.',                 underlined: 'The car',       options: ['She','It','He'],  answer: 'It'   },
+    { sentence: 'You and dad are happy.',          underlined: 'You and dad',   options: ['You','They','We'],answer: 'You'  },
+    { sentence: 'The children are at the clinic.', underlined: 'The children',  options: ['We','They','You'],answer: 'They' },
     { sentence: 'Lisa is a teacher.',              underlined: 'Lisa',          options: ['You','I','She'],  answer: 'She'  },
     { sentence: 'Dan is at school.',               underlined: 'Dan',           options: ['You','We','He'],  answer: 'He'   },
     { sentence: 'The car is white.',               underlined: 'The car',       options: ['It','We','She'],  answer: 'It'   },

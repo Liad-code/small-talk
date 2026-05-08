@@ -182,8 +182,8 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           return (
-            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-3 py-2 flex items-center gap-3">
-              <span className="text-sm font-bold text-gray-700 flex-1">{q.noun}</span>
+            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-2 py-1.5 flex items-center gap-2">
+              <span className="text-base font-bold text-gray-700 flex-1">{q.noun}</span>
               <div className="flex gap-2">
                 {q.options.map(opt => {
                   let cls = 'px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors'
