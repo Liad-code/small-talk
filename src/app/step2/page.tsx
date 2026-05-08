@@ -108,6 +108,17 @@ export default function Step2Page() {
           available={false}
         />
         <TopicCard
+          href="/step2/vocabulary"
+          emoji="📖"
+          title="Vocabulary"
+          hebrewTitle="אוצר מילים"
+          description="Numbers and colors — learn and practice!"
+          hebrewDesc="מספרים וצבעים — למידה ותרגול"
+          color="from-teal-400 to-emerald-500"
+          textColor="text-white"
+          available
+        />
+        <TopicCard
           emoji="🎯"
           title="Review"
           hebrewTitle="חזרה"
