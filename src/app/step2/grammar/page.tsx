@@ -86,6 +86,15 @@ export default function GrammarPage() {
           available
         />
         <TopicCard
+          href="/step2/grammar/yes-no"
+          emoji="❓"
+          title="Yes / No Questions"
+          hebrewTitle="שאלות כן / לא"
+          description="Am I? Is she? Are you? — question form"
+          color="from-sky-500 to-cyan-600"
+          available
+        />
+        <TopicCard
           emoji="🔖"
           title="Articles"
           hebrewTitle="מילות יידוע"
