@@ -104,12 +104,13 @@ export default function GrammarPage() {
           available
         />
         <TopicCard
+          href="/step2/grammar/a-or-an"
           emoji="🔖"
-          title="Articles"
-          hebrewTitle="מילות יידוע"
-          description="a, an, the — when to use each"
+          title="a / an"
+          hebrewTitle="מתי להוסיף a ומתי an"
+          description="a cat · an apple — learn the rule"
           color="from-orange-400 to-amber-500"
-          available={false}
+          available
         />
         <TopicCard
           emoji="📐"
