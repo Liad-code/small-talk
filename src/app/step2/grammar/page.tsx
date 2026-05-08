@@ -77,6 +77,15 @@ export default function GrammarPage() {
           available
         />
         <TopicCard
+          href="/step2/grammar/to-be-negative"
+          emoji="🚫"
+          title="To Be — Negative"
+          hebrewTitle="צורת השלילה"
+          description="am not, isn't, aren't — I am not sad"
+          color="from-rose-500 to-red-600"
+          available
+        />
+        <TopicCard
           emoji="🔖"
           title="Articles"
           hebrewTitle="מילות יידוע"
