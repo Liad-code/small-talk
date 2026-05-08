@@ -68,6 +68,15 @@ export default function GrammarPage() {
           available
         />
         <TopicCard
+          href="/step2/grammar/to-be"
+          emoji="🌟"
+          title="To Be"
+          hebrewTitle="להיות"
+          description="am, is, are — I am happy"
+          color="from-violet-500 to-purple-600"
+          available
+        />
+        <TopicCard
           emoji="🔖"
           title="Articles"
           hebrewTitle="מילות יידוע"
