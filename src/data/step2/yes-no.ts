@@ -4,11 +4,11 @@ export type PronounGroup = 'i' | 'she' | 'he' | 'it' | 'we' | 'you' | 'they'
 // Ex1: drag Am/Is/Are to start of question (1 cycle × 12)
 export interface YNEx1Q { after: string; answer: YNVerb }
 export const YN_EX1: YNEx1Q[] = [
-  { after: 'they pupils?',         answer: 'Are' },
-  { after: 'I hungry?',            answer: 'Am'  },
-  { after: 'we in the kitchen?',   answer: 'Are' },
-  { after: 'Ronit short?',         answer: 'Is'  },
-  { after: 'they friends?',        answer: 'Are' },
+  { after: 'they in the park?',    answer: 'Are' },
+  { after: 'I sad?',               answer: 'Am'  },
+  { after: 'we happy?',            answer: 'Are' },
+  { after: 'Dana tall?',           answer: 'Is'  },
+  { after: 'they at school?',      answer: 'Are' },
   { after: 'she a teacher?',       answer: 'Is'  },
   { after: 'you happy?',           answer: 'Are' },
   { after: 'the cat black?',       answer: 'Is'  },
@@ -66,14 +66,14 @@ export const YN_EX3: YNEx3Q[] = [
   { question: 'Is he tall?',            group: 'he'   },
   { question: 'Are we ready?',          group: 'we'   },
   { question: 'Is it big?',             group: 'it'   },
-  { question: 'Are you tired?',         group: 'you'  },
+  { question: 'Are you tired?',         group: 'i'    },
   { question: 'Am I late?',             group: 'i'    },
   { question: 'Is she at home?',        group: 'she'  },
   { question: 'Are they at school?',    group: 'they' },
   { question: 'Is he a teacher?',       group: 'he'   },
   { question: 'Are we in the park?',    group: 'we'   },
   { question: 'Is it fast?',            group: 'it'   },
-  { question: 'Are you happy?',         group: 'you'  },
+  { question: 'Are you happy?',         group: 'i'    },
   { question: 'Are they hungry?',       group: 'they' },
 ]
 

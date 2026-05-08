@@ -115,6 +115,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <span className="font-display font-black text-4xl text-white">{q.pronoun}</span>
         </div>
         <p className="text-base font-bold text-gray-500">Choose the correct picture</p>
+        <p className="text-sm font-bold text-purple-400 mt-1" dir="rtl">לתרגול זה 3 סבבים</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
@@ -131,7 +132,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
               className={`border-4 ${border} rounded-2xl p-4 flex flex-col items-center gap-2 transition-all active:scale-95`}
             >
               <span className="text-5xl leading-none">{opt.emoji}</span>
-              <span className="text-xs font-bold text-gray-600 text-center leading-tight">{opt.label}</span>
+              <span className="text-sm font-bold text-gray-600 text-center leading-tight">{opt.label}</span>
             </button>
           )
         })}
@@ -173,10 +174,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {PR_EX2.length}</span>
         <span className="text-purple-500">{answered} / {total} ✓</span>
       </div>
+      <p className="text-center font-bold text-purple-400 text-sm mb-4" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <div className="flex flex-col gap-2 mb-6">
         {questions.map((q, idx) => {
@@ -247,10 +249,11 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {PR_EX3.length}</span>
         <span className="text-purple-500">{Object.keys(placed).length} / {groups.length} ✓</span>
       </div>
+      <p className="text-center font-bold text-purple-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
         גרור את שם הגוף המשותף לכל קבוצה
@@ -338,10 +341,11 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {PR_EX4.length}</span>
         <span className="text-purple-500">{Object.keys(placed).length} / {total} ✓</span>
       </div>
+      <p className="text-center font-bold text-purple-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
         גרור כל מילה לכרטיסיית שם הגוף המתאים
@@ -425,10 +429,11 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {PR_EX5.length}</span>
         <span className="text-purple-500">{answered} / {total} ✓</span>
       </div>
+      <p className="text-center font-bold text-purple-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-4">
         Choose the correct pronoun for the <span className="underline">underlined</span> word

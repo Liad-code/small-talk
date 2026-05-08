@@ -36,6 +36,45 @@ export const WH_EX1: WHEx1Q[] = [
   { sentence: 'is your school?',        options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'On Green Street.'       },
 ]
 
+// Ex3: drag answer to matching question (3 cycles × 8)
+export interface WHEx3Q {
+  id: string
+  question: string
+  answer: string
+}
+export const WH_EX3: WHEx3Q[][] = [
+  [
+    { id: 'c1q1', question: 'Who is your teacher?',        answer: 'Mr. Cohen.'             },
+    { id: 'c1q2', question: 'Where is the park?',          answer: 'Near the school.'       },
+    { id: 'c1q3', question: 'What is in your bag?',        answer: 'Books and a pencil.'    },
+    { id: 'c1q4', question: 'When is the test?',           answer: 'On Monday.'             },
+    { id: 'c1q5', question: 'Why are you sad?',            answer: 'Because I lost my dog.' },
+    { id: 'c1q6', question: 'How old are you?',            answer: "I'm nine years old."    },
+    { id: 'c1q7', question: 'Who is at the door?',         answer: "It's my mom."           },
+    { id: 'c1q8', question: 'Where do you live?',          answer: 'On Oak Street.'         },
+  ],
+  [
+    { id: 'c2q1', question: 'What is your name?',          answer: 'My name is Dana.'           },
+    { id: 'c2q2', question: 'Who is your best friend?',    answer: 'Noa is my best friend.'     },
+    { id: 'c2q3', question: 'When is your birthday?',      answer: 'In July.'                   },
+    { id: 'c2q4', question: 'Where is your sister?',       answer: 'At home.'                   },
+    { id: 'c2q5', question: 'How are you?',                answer: "I'm fine, thank you."        },
+    { id: 'c2q6', question: 'Why are you late?',           answer: 'Because I missed the bus.'  },
+    { id: 'c2q7', question: 'What is your favorite color?', answer: 'Blue.'                     },
+    { id: 'c2q8', question: 'Who is your doctor?',         answer: 'Dr. Stone.'                 },
+  ],
+  [
+    { id: 'c3q1', question: 'Where is the school?',        answer: 'Next to the park.'        },
+    { id: 'c3q2', question: 'When is the party?',          answer: 'On Sunday.'               },
+    { id: 'c3q3', question: 'What is your favorite food?', answer: 'Pizza!'                   },
+    { id: 'c3q4', question: 'Who is in the classroom?',    answer: 'The teacher.'             },
+    { id: 'c3q5', question: 'How is your day?',            answer: 'Great, thanks!'           },
+    { id: 'c3q6', question: 'Why is the dog wet?',         answer: "Because it's raining."    },
+    { id: 'c3q7', question: 'Where is your mom?',          answer: 'At the park.'             },
+    { id: 'c3q8', question: 'What color is your shirt?',   answer: "It's blue."               },
+  ],
+]
+
 // Ex2: dialogue matching — pick WH question for each answer (3 cycles × 6)
 export interface WHDialogue {
   asker: string

@@ -26,9 +26,6 @@ function LearnTab() {
         <p className="font-bold text-purple-800 text-base mb-1" dir="rtl">
           פועל to be = להיות — יש לו 3 צורות
         </p>
-        <p className="font-bold text-purple-700 text-base mb-4">
-          Use am / is / are to say what someone or something IS.
-        </p>
 
         {/* 3 colored mini-cards */}
         <div className="grid grid-cols-3 gap-2 mb-4">
@@ -95,9 +92,6 @@ function LearnTab() {
           ))}
         </div>
 
-        <p className="text-center text-sm font-bold text-purple-500 mt-1" dir="rtl">
-          כל אחד מהם משמש עם ״כינויי גוף״ שונים
-        </p>
       </div>
     </div>
   )
@@ -128,13 +122,14 @@ function Ex1({ onDone }: { onDone: () => void }) {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Drag to the right verb</span>
+        <span>Drag to the right place</span>
         <span className="text-purple-500">{Object.keys(placed).length} / {total} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
-        גרור כל מילה לפועל המתאים
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
+        גרור כל מילה למקום המתאים
       </p>
+      <p className="text-center font-bold text-violet-400 text-sm mb-4" dir="rtl">לתרגול זה סבב אחד</p>
 
       {/* Bucket grid */}
       <div className="grid grid-cols-3 gap-2 mb-5">
@@ -144,7 +139,7 @@ function Ex1({ onDone }: { onDone: () => void }) {
           return (
             <div key={b.verb} className="flex flex-col">
               <div className={`${vc.bg} rounded-t-xl py-1.5 text-center`}>
-                <span className="font-display font-black text-white text-sm">{b.verb}</span>
+                <span className="font-display font-black text-white text-base">{b.verb}</span>
               </div>
               <div
                 data-drop-target="true"
@@ -226,6 +221,9 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <span>Cycle {cycleIdx + 1} / {TB_EX2.length}</span>
         <span className="text-purple-500">{answered} / {total} ✓</span>
       </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">לחצו על הפועל הנכון</p>
+      <p className="text-center font-bold text-violet-400 text-sm mb-4" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <div className="flex flex-col gap-2 mb-6">
         {questions.map((q, idx) => {
@@ -319,9 +317,10 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <span className="text-purple-500">{Object.keys(placed).length} / {questions.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         גרור am / is / are למקום הנכון במשפט
       </p>
+      <p className="text-center font-bold text-violet-400 text-sm mb-4" dir="rtl">לתרגול זה 3 סבבים</p>
 
       {/* Tile bank */}
       <div className="flex gap-3 justify-center mb-5 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
@@ -424,19 +423,26 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <span className="text-purple-500">{sentences.length} / {cycle.subjects.length} ✓</span>
       </div>
 
+      <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-3 text-sm font-bold text-violet-700" dir="rtl">
+        <p>1. יש ליצור 6 משפטים על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
+        <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
+        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
+      </div>
+
       {!allDone && (
         <div className="grid grid-cols-3 gap-2 mb-4">
           {/* Subjects column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-emerald-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Subject</span>
+              <span className="font-display font-black text-white text-sm">Subject</span>
             </div>
             <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availableSubjects.map(s => (
                 <button
                   key={s.text}
                   onClick={() => setSelSubject(s)}
-                  className={`text-xs font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-emerald-500 text-white' : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-100'}`}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-emerald-500 text-white' : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-100'}`}
                 >
                   {s.text}
                 </button>
@@ -447,7 +453,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Verb column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-purple-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">to be</span>
+              <span className="font-display font-black text-white text-sm">to be</span>
             </div>
             <div className="bg-purple-50 border-2 border-purple-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {(['is', 'are'] as const).map(v => {
@@ -456,7 +462,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                   <button
                     key={v}
                     onClick={() => setSelVerb(v)}
-                    className={`text-xs font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
+                    className={`text-sm font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
                   >
                     {v}
                   </button>
@@ -468,14 +474,14 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Adjectives column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-amber-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Adjective</span>
+              <span className="font-display font-black text-white text-sm">Adjective</span>
             </div>
             <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availableAdjs.map(a => (
                 <button
                   key={a}
                   onClick={() => setSelAdj(a)}
-                  className={`text-xs font-bold rounded-lg px-2 py-1 text-center transition-colors ${selAdj === a ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selAdj === a ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
                 >
                   {a}
                 </button>

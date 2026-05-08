@@ -34,17 +34,16 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-sky-800 mb-4" dir="rtl">
-          <p>• שאלות כן / לא (Yes / No Questions) נקראות כי עונים עליהן ב- "כן" או "לא".</p>
-          <p>• כדי לחבר שאלת כן / לא עם to be, מחליפים את סדר המילים במשפט.</p>
+          <p>• שאלות כן / לא (Yes / No Questions) נקראות כך כי עונים עליהם ב- "כן" או "לא".</p>
           <p>• שאלות כן / לא תמיד מתחילות ב- <span className="font-black">Am, Is, Are</span>.</p>
         </div>
 
         {/* Statement → Question examples */}
         <div className="flex flex-col gap-3">
           {[
-            { stmt: 'I', verb: 'am' as const, rest: 'in the English room.', qVerb: 'Am' as const, qSub: 'I', qRest: 'in the English room?' },
-            { stmt: 'She', verb: 'is' as const, rest: 'happy.', qVerb: 'Is' as const, qSub: 'she', qRest: 'happy?' },
-            { stmt: 'You', verb: 'are' as const, rest: 'pupils.', qVerb: 'Are' as const, qSub: 'you', qRest: 'pupils?' },
+            { stmt: 'I', verb: 'am' as const, rest: 'in my room.', qVerb: 'Am' as const, qSub: 'I', qRest: 'in my room?' },
+            { stmt: 'He', verb: 'is' as const, rest: 'happy.', qVerb: 'Is' as const, qSub: 'he', qRest: 'happy?' },
+            { stmt: 'You', verb: 'are' as const, rest: 'late.', qVerb: 'Are' as const, qSub: 'you', qRest: 'late?' },
           ].map(({ stmt, verb, rest, qVerb, qSub, qRest }) => (
             <div key={stmt + verb} className="bg-white rounded-2xl border-2 border-sky-200 p-3">
               <div className="flex items-center gap-1 mb-1.5">
@@ -73,19 +72,19 @@ function LearnTab() {
         <div className="flex flex-col gap-3">
           {[
             {
-              q: 'Am I in the English room?',
+              q: 'Am I in my room?',
               yes: 'Yes, I am.',
               no: "No, I'm not.",
             },
             {
-              q: 'Is she happy?',
-              yes: 'Yes, she is.',
-              no: "No, she isn't.",
+              q: 'Is he happy?',
+              yes: 'Yes, he is.',
+              no: "No, he isn't.",
             },
             {
-              q: 'Are you pupils?',
-              yes: 'Yes, we are.',
-              no: "No, we aren't.",
+              q: 'Are you late?',
+              yes: 'Yes, I am.',
+              no: "No, I'm not.",
             },
           ].map(({ q, yes, no }) => (
             <div key={q} className="bg-white rounded-2xl border-2 border-amber-200 p-3">
@@ -143,7 +142,7 @@ function Ex1({ onReset }: { onReset: () => void }) {
       </p>
 
       {/* Tile bank */}
-      <div className="flex gap-3 justify-center mb-5 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+      <div className="sticky top-2 z-10 flex gap-3 justify-center mb-5 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
         {bankTiles.map(t => {
           const vc = VERB_COLORS[t.verb]
           return (
@@ -238,9 +237,17 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {YN_EX2.length}</span>
         <span className="text-sky-500">{sentences.length} / {cycle.subjects.length} ✓</span>
+      </div>
+      <p className="text-center font-bold text-sky-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
+
+      <div className="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3 mb-3 text-sm font-bold text-sky-700" dir="rtl">
+        <p>1. יש ליצור 6 משפטים על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
+        <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
+        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
       </div>
 
       {!allDone && (
@@ -248,7 +255,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Verb column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-sky-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Verb</span>
+              <span className="font-display font-black text-white text-sm">Verb</span>
             </div>
             <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {VERBS.map(v => {
@@ -257,7 +264,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                   <button
                     key={v}
                     onClick={() => setSelVerb(v)}
-                    className={`text-xs font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
+                    className={`text-sm font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
                   >
                     {v}
                   </button>
@@ -269,14 +276,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Subject column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-purple-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Subject</span>
+              <span className="font-display font-black text-white text-sm">Subject</span>
             </div>
             <div className="bg-purple-50 border-2 border-purple-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availableSubjects.map(s => (
                 <button
                   key={s.text}
                   onClick={() => setSelSubject(s)}
-                  className={`text-xs font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-purple-500 text-white' : 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-100'}`}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-purple-500 text-white' : 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-100'}`}
                 >
                   {s.text}
                 </button>
@@ -287,14 +294,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Complement column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-amber-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Phrase</span>
+              <span className="font-display font-black text-white text-sm">Phrase</span>
             </div>
             <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availableComps.map(c => (
                 <button
                   key={c}
                   onClick={() => setSelComp(c)}
-                  className={`text-xs font-bold rounded-lg px-2 py-1 text-center transition-colors ${selComp === c ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selComp === c ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
                 >
                   {c}
                 </button>
@@ -413,7 +420,7 @@ function Ex3() {
                 <button
                   key={g}
                   onClick={() => handleClick(g, 'yes')}
-                  className={`text-xs font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
                     isFlashing
                       ? 'bg-green-500 text-white border-green-500 scale-105'
                       : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
@@ -439,7 +446,7 @@ function Ex3() {
                 <button
                   key={g}
                   onClick={() => handleClick(g, 'no')}
-                  className={`text-xs font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
                     isFlashing
                       ? 'bg-rose-500 text-white border-rose-500 scale-105'
                       : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'

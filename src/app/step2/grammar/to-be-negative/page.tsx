@@ -151,10 +151,11 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {TBN_EX1.length}</span>
         <span className="text-rose-500">{Object.keys(placed).length} / {questions.length} ✓</span>
       </div>
+      <p className="text-center font-bold text-rose-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         גרור am not / isn't / aren't למקום הנכון במשפט
@@ -260,9 +261,17 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {TBN_EX2.length}</span>
         <span className="text-rose-500">{sentences.length} / {cycle.subjects.length} ✓</span>
+      </div>
+      <p className="text-center font-bold text-rose-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
+
+      <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 mb-3 text-sm font-bold text-rose-700" dir="rtl">
+        <p>1. יש ליצור 6 משפטים על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
+        <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
+        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
       </div>
 
       {!allDone && (
@@ -270,14 +279,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Subjects column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-rose-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Subject</span>
+              <span className="font-display font-black text-white text-sm">Subject</span>
             </div>
             <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availableSubjects.map(s => (
                 <button
                   key={s.text}
                   onClick={() => setSelSubject(s)}
-                  className={`text-xs font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-rose-500 text-white' : 'bg-white text-rose-700 border border-rose-200 hover:bg-rose-100'}`}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-rose-500 text-white' : 'bg-white text-rose-700 border border-rose-200 hover:bg-rose-100'}`}
                 >
                   {s.text}
                 </button>
@@ -288,7 +297,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Neg verb column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-gray-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Neg. verb</span>
+              <span className="font-display font-black text-white text-sm">Neg. verb</span>
             </div>
             <div className="bg-gray-50 border-2 border-gray-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {NEG_VERBS.map(v => {
@@ -297,7 +306,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                   <button
                     key={v}
                     onClick={() => setSelVerb(v)}
-                    className={`text-xs font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
+                    className={`text-sm font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
                   >
                     {v}
                   </button>
@@ -309,14 +318,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Complement column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-amber-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Word / phrase</span>
+              <span className="font-display font-black text-white text-sm">Word / phrase</span>
             </div>
             <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availableComps.map(c => (
                 <button
                   key={c}
                   onClick={() => setSelComp(c)}
-                  className={`text-xs font-bold rounded-lg px-2 py-1 text-center transition-colors ${selComp === c ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selComp === c ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
                 >
                   {c}
                 </button>

@@ -94,10 +94,11 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
 
   return (
     <div className="max-w-xl mx-auto px-3 pb-16">
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-1">
         <span className="text-sm font-bold text-gray-400">Cycle {cycleIdx + 1} of {NV_CYCLES.length}</span>
         <span className="text-sm font-bold text-emerald-500">{placedCount} / {total} ✓</span>
       </div>
+      <p className="text-center font-bold text-emerald-400 text-sm mb-3" dir="rtl">לתרגול זה 5 סבבים</p>
 
       {/* Sort table */}
       <div className="grid grid-cols-2 gap-3 mb-5">
@@ -176,8 +177,8 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
           <tbody>
             {words.map(w => (
               <tr key={w.id} className="border-b border-gray-200">
-                <td className="py-1 pr-2 font-bold text-gray-900">{w.word.toLowerCase()}</td>
-                <td className="py-1 font-bold text-gray-900 text-right" dir="rtl">{w.hebrew}</td>
+                <td className="py-0.5 pr-2 font-bold text-gray-900">{w.word.toLowerCase()}</td>
+                <td className="py-0.5 font-bold text-gray-900 text-right" dir="rtl">{w.hebrew}</td>
               </tr>
             ))}
           </tbody>

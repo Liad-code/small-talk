@@ -1,12 +1,13 @@
 'use client'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { DraggableTile } from '@/components/step1/DraggableTile'
 import {
-  WH_WORDS, WH_WORD_COLORS, WH_EX1, WH_EX2,
+  WH_WORDS, WH_WORD_COLORS, WH_EX1, WH_EX2, WH_EX3,
 } from '@/data/step2/wh-questions'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Learn ────────────────────────────────────────────────────────────────────
 
@@ -22,13 +23,12 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1 text-sm font-bold text-amber-800 mb-5" dir="rtl">
-          <p>• שאלות Wh נקראות כך כי הן מתחילות במילות Wh.</p>
-          <p>• הנה מילות ה- Wh:</p>
+          <p>• שאלות wh נקראות כך כי הן מתחילות ב- wh.</p>
         </div>
 
         {/* WH word grid */}
         <div className="grid grid-cols-2 gap-2 mb-4">
-          {WH_WORDS.map(({ word, hebrew, bg, light, text }) => (
+          {WH_WORDS.map(({ word, hebrew, light, text }) => (
             <div key={word} className={`${light} border-2 border-opacity-40 rounded-2xl px-4 py-2 flex items-center justify-between`}>
               <span className={`font-display font-black text-xl ${text}`}>{word}</span>
               <span className={`font-bold text-sm ${text} opacity-80`} dir="rtl">{hebrew}</span>
@@ -39,10 +39,10 @@ function LearnTab() {
         {/* Example questions */}
         <div className="flex flex-col gap-1.5">
           {[
-            { wh: 'Who',   rest: 'is in the classroom?',   color: WH_WORD_COLORS['Who']   },
-            { wh: 'Where', rest: 'is dad?',                color: WH_WORD_COLORS['Where'] },
-            { wh: 'When',  rest: 'is the party?',          color: WH_WORD_COLORS['When']  },
-            { wh: 'How',   rest: 'are you?',               color: WH_WORD_COLORS['How']   },
+            { wh: 'Who',   rest: 'is in the room?',   color: WH_WORD_COLORS['Who']   },
+            { wh: 'Where', rest: 'is my dog?',         color: WH_WORD_COLORS['Where'] },
+            { wh: 'What',  rest: 'is your name?',      color: WH_WORD_COLORS['What']  },
+            { wh: 'How',   rest: 'are you?',           color: WH_WORD_COLORS['How']   },
           ].map(({ wh, rest, color }) => (
             <div key={wh} className="flex items-center gap-1.5 bg-white rounded-xl px-3 py-1.5 border-2 border-amber-100">
               <span className={`font-display font-black text-base ${color.text}`}>{wh}</span>
@@ -72,7 +72,7 @@ function Ex1() {
   return (
     <div key={key} className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
-        <span>Circle the correct WH word</span>
+        <span>Choose the correct WH word</span>
         <span className="text-amber-500">{answered} / {WH_EX1.length} ✓</span>
       </div>
       <p className="text-center font-bold text-gray-400 text-xs mb-4" dir="rtl">
@@ -85,7 +85,6 @@ function Ex1() {
           const vc = chosen ? WH_WORD_COLORS[chosen] : null
           return (
             <div key={idx} className="bg-white border-2 border-gray-200 rounded-2xl px-3 py-3">
-              {/* Sentence row */}
               <div className="flex items-center gap-1.5 flex-wrap mb-2">
                 <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
                 {chosen && vc ? (
@@ -97,7 +96,6 @@ function Ex1() {
                 <span className="font-bold text-gray-400 text-sm">({q.hint})</span>
               </div>
 
-              {/* Options */}
               {!chosen && (
                 <div className="flex gap-2 flex-wrap">
                   {q.options.map(opt => {
@@ -135,73 +133,61 @@ function Ex1() {
   )
 }
 
-// ── Ex 2: Dialogue matching ───────────────────────────────────────────────────
+// ── Ex 2: Dialogue matching (drag-and-drop) ───────────────────────────────────
 
 function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
   const cycle = WH_EX2[cycleIdx]
-  const [selectedQ, setSelectedQ] = useState<number | null>(null) // index in bank
   const [placed, setPlaced] = useState<Record<number, number>>({}) // dialogueIdx → bankIdx
   const allDone = Object.keys(placed).length === cycle.dialogues.length
 
   const usedBankIdxs = new Set(Object.values(placed))
 
-  const handleBankClick = (qi: number) => {
-    if (usedBankIdxs.has(qi)) return
-    setSelectedQ(prev => prev === qi ? null : qi)
-  }
-
-  const handleSlotClick = (di: number) => {
-    if (placed[di] !== undefined) return
-    if (selectedQ === null) return
-    if (cycle.bank[selectedQ] !== cycle.dialogues[di].question) return
-    setPlaced(prev => ({ ...prev, [di]: selectedQ }))
-    setSelectedQ(null)
-  }
+  const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
+    const diStr = targetEl.getAttribute('data-target-id')
+    if (diStr === null) return false
+    const di = parseInt(diStr)
+    if (placed[di] !== undefined) return false
+    const qi = parseInt(tileId)
+    if (cycle.bank[qi] !== cycle.dialogues[di].question) return false
+    setPlaced(prev => ({ ...prev, [di]: qi }))
+    return true
+  }, [placed, cycle])
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
         <span>Cycle {cycleIdx + 1} / {WH_EX2.length}</span>
         <span className="text-amber-500">{Object.keys(placed).length} / {cycle.dialogues.length} ✓</span>
       </div>
+      <p className="text-center font-bold text-amber-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        לחץ על שאלה ואז על הדיאלוג המתאים
+        גרור את השאלה המתאימה לכל דיאלוג
       </p>
 
       {/* Question bank */}
-      <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-4">
-        <p className="font-bold text-amber-600 text-xs mb-2 text-center">Question bank — בחר שאלה:</p>
+      <div className="sticky top-2 z-10 bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-4">
+        <p className="font-bold text-amber-600 text-xs mb-2 text-center">Question bank — גרור שאלה:</p>
         <div className="flex flex-wrap gap-1.5 justify-center">
           {cycle.bank.map((q, qi) => {
-            const used = usedBankIdxs.has(qi)
-            const sel = selectedQ === qi
-            // Derive WH word for coloring
+            if (usedBankIdxs.has(qi)) return null
             const whWord = q.split(' ')[0]
             const wc = WH_WORD_COLORS[whWord] ?? { bg: 'bg-gray-400', light: 'bg-gray-100', text: 'text-gray-600' }
             return (
-              <button
+              <DraggableTile
                 key={qi}
-                onClick={() => handleBankClick(qi)}
-                disabled={used}
-                className={`text-xs font-bold rounded-xl px-3 py-1.5 border-2 transition-all ${
-                  used
-                    ? 'bg-gray-100 text-gray-300 border-gray-200 line-through cursor-default'
-                    : sel
-                      ? `${wc.bg} text-white border-transparent scale-105`
-                      : `${wc.light} ${wc.text} border-opacity-40 hover:opacity-80 active:scale-95`
-                }`}
-              >
-                {q}
-              </button>
+                id={String(qi)}
+                label={q}
+                color={wc.bg}
+                borderColor="border-transparent"
+                textColor="text-white"
+                size="sm"
+                className="!w-auto px-3 text-xs"
+                onDropped={handleDrop}
+              />
             )
           })}
         </div>
-        {selectedQ !== null && (
-          <p className="text-center text-amber-600 font-bold text-xs mt-2">
-            Selected: <em>{cycle.bank[selectedQ]}</em> — now tap a dialogue below
-          </p>
-        )}
       </div>
 
       {/* Dialogue rows */}
@@ -213,23 +199,20 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           const wc = whWord ? (WH_WORD_COLORS[whWord] ?? null) : null
           return (
             <div key={di} className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden">
-              {/* Asker row */}
               <div className="px-3 py-1.5 border-b border-gray-100 flex items-center gap-2">
                 <span className="font-bold text-gray-500 text-sm w-16 flex-shrink-0">{d.asker}:</span>
-                <button
-                  onClick={() => handleSlotClick(di)}
-                  className={`flex-1 text-left text-sm font-bold rounded-lg px-2 py-1 transition-all ${
+                <div
+                  data-drop-target="true"
+                  data-target-id={String(di)}
+                  className={`flex-1 min-h-[32px] text-left text-sm font-bold rounded-lg px-2 py-1 transition-all ${
                     placedQ
                       ? wc ? `${wc.light} ${wc.text}` : 'bg-green-100 text-green-700'
-                      : selectedQ !== null
-                        ? 'bg-amber-50 border-2 border-dashed border-amber-400 text-amber-500 hover:bg-amber-100'
-                        : 'bg-gray-50 border-2 border-dashed border-gray-200 text-gray-300'
+                      : 'bg-amber-50 border-2 border-dashed border-amber-300 text-amber-300'
                   }`}
                 >
                   {placedQ ?? '_______________?'}
-                </button>
+                </div>
               </div>
-              {/* Answerer row */}
               <div className="px-3 py-1.5 flex items-center gap-2 bg-gray-50/50">
                 <span className="font-bold text-gray-500 text-sm w-16 flex-shrink-0">{d.answerer}:</span>
                 <span className="font-bold text-gray-700 text-sm italic">{d.answer}</span>
@@ -245,6 +228,106 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great work!</p>
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < WH_EX2.length && (
+              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            )}
+            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Ex 3: Drag answer to matching question ────────────────────────────────────
+
+function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const questions = WH_EX3[cycleIdx]
+  const [placed, setPlaced] = useState<Record<number, string>>({}) // qIdx → answerId
+  const allDone = Object.keys(placed).length === questions.length
+
+  const placedIds = new Set(Object.values(placed))
+
+  const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
+    const qIdxStr = targetEl.getAttribute('data-target-id')
+    if (qIdxStr === null) return false
+    const qIdx = parseInt(qIdxStr)
+    if (placed[qIdx] !== undefined) return false
+    if (tileId !== questions[qIdx].id) return false
+    setPlaced(prev => ({ ...prev, [qIdx]: tileId }))
+    return true
+  }, [placed, questions])
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
+        <span>Cycle {cycleIdx + 1} / {WH_EX3.length}</span>
+        <span className="text-amber-500">{Object.keys(placed).length} / {questions.length} ✓</span>
+      </div>
+      <p className="text-center font-bold text-amber-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+        גרור את התשובה המתאימה לכל שאלה
+      </p>
+
+      {/* Answer bank */}
+      <div className="sticky top-2 z-10 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-3 mb-4">
+        <div className="flex flex-wrap gap-1.5 justify-center">
+          {questions.map(q => {
+            if (placedIds.has(q.id)) return null
+            const whWord = q.question.split(' ')[0]
+            const wc = WH_WORD_COLORS[whWord] ?? { bg: 'bg-gray-400', light: 'bg-gray-100', text: 'text-gray-600' }
+            return (
+              <DraggableTile
+                key={q.id}
+                id={q.id}
+                label={q.answer}
+                color={wc.bg}
+                borderColor="border-transparent"
+                textColor="text-white"
+                size="sm"
+                className="!w-auto px-3 text-xs"
+                onDropped={handleDrop}
+              />
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Question rows */}
+      <div className="flex flex-col gap-2 mb-5">
+        {questions.map((q, qIdx) => {
+          const isPlaced = placed[qIdx] !== undefined
+          const whWord = q.question.split(' ')[0]
+          const wc = WH_WORD_COLORS[whWord] ?? { light: 'bg-gray-100', text: 'text-gray-600' }
+          return (
+            <div key={q.id} className="bg-white border-2 border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2 flex-wrap">
+              <span className={`font-bold text-base ${wc.text}`}>{q.question}</span>
+              <div
+                data-drop-target="true"
+                data-target-id={String(qIdx)}
+                className={`flex-1 min-h-[32px] rounded-lg border-2 flex items-center px-2 ${
+                  isPlaced
+                    ? `${wc.light} border-transparent`
+                    : 'border-dashed border-gray-300 bg-gray-50'
+                }`}
+              >
+                {isPlaced ? (
+                  <span className={`font-bold text-sm ${wc.text} bounce-in`}>{q.answer}</span>
+                ) : (
+                  <span className="text-gray-300 text-xs font-bold">___</span>
+                )}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent!</p>
+          <div className="flex gap-3 justify-center">
+            {cycleIdx + 1 < WH_EX3.length && (
               <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
             )}
             <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
@@ -301,6 +384,7 @@ export default function WHQuestionsPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -341,6 +425,12 @@ export default function WHQuestionsPage() {
           <ExWrapper
             cycles={WH_EX2.length}
             render={(c, again, done) => <Ex2Cycle key={c} cycleIdx={c} onAgain={again} onDone={done} />}
+          />
+        )}
+        {tab === 'ex3'   && (
+          <ExWrapper
+            cycles={WH_EX3.length}
+            render={(c, again, done) => <Ex3Cycle key={c} cycleIdx={c} onAgain={again} onDone={done} />}
           />
         )}
       </div>
