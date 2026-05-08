@@ -95,6 +95,15 @@ export default function GrammarPage() {
           available
         />
         <TopicCard
+          href="/step2/grammar/wh-questions"
+          emoji="🔍"
+          title="WH Questions"
+          hebrewTitle="שאלות wh"
+          description="Who, What, Where, When, Why, How"
+          color="from-amber-500 to-orange-600"
+          available
+        />
+        <TopicCard
           emoji="🔖"
           title="Articles"
           hebrewTitle="מילות יידוע"
