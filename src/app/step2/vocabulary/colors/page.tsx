@@ -6,7 +6,7 @@ import { shuffle } from '@/utils/shuffle'
 import { COLORS, ColorItem } from '@/data/step2/vocabulary'
 import { useSpeak } from '@/hooks/useSpeak'
 
-type Tab = 'learn' | 'quiz' | 'bubble' | 'memory' | 'match'
+type Tab = 'learn' | 'quiz1' | 'quiz2' | 'bubble' | 'memory' | 'match'
 
 // ── Learn ────────────────────────────────────────────────────────────────────
 
@@ -31,25 +31,126 @@ function LearnGrid() {
           onClick={() => speak(c.name, 0.8)}
           className={`
             rounded-2xl border-4 ${c.bg} ${c.border}
-            flex flex-col items-center justify-center gap-1
-            py-5 cursor-pointer select-none
+            flex flex-col items-center justify-center gap-2
+            py-6 cursor-pointer select-none
             hover:scale-105 active:scale-95 transition-all duration-150
             shadow-md
           `}
         >
-          <span className={`font-display font-black text-base ${c.textDark ? 'text-gray-800' : 'text-white'}`}>
+          <span className={`font-display font-black text-xl ${c.textDark ? 'text-gray-800' : 'text-white'}`}>
             {c.name}
           </span>
-          <span className={`text-xs font-bold ${c.textDark ? 'text-gray-600' : 'text-white/70'}`}>🔊</span>
+          <span className={`text-xl font-bold ${c.textDark ? 'text-gray-600' : 'text-white/70'}`}>🔊</span>
         </button>
       ))}
     </div>
   )
 }
 
-// ── Quiz ─────────────────────────────────────────────────────────────────────
+// ── Quiz 1: hear name → pick swatch ──────────────────────────────────────────
 
-function QuizInner({ onAgain }: { onAgain: () => void }) {
+function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
+  const speak = useSpeak()
+  const [queue] = useState<ColorItem[]>(() => shuffle([...COLORS]))
+  const [idx, setIdx] = useState(0)
+  const [options, setOptions] = useState<ColorItem[]>([])
+  const [correct, setCorrect] = useState<string | null>(null)
+  const [wrong, setWrong] = useState<string | null>(null)
+  const [score, setScore] = useState(0)
+  const [done, setDone] = useState(false)
+
+  const current = queue[idx]
+
+  useEffect(() => {
+    if (!current) return
+    const others = COLORS.filter(c => c.name !== current.name)
+    setOptions(shuffle([current, ...shuffle(others).slice(0, 3)]))
+  }, [current])
+
+  useEffect(() => {
+    if (!current) return
+    const t = setTimeout(() => speak(current.name, 0.8), 400)
+    return () => clearTimeout(t)
+  }, [current, speak])
+
+  function handleAnswer(name: string) {
+    if (correct) return
+    if (name === current.name) {
+      setCorrect(name)
+      setTimeout(() => {
+        setScore(s => s + 1)
+        setCorrect(null)
+        const next = idx + 1
+        if (next >= queue.length) setDone(true)
+        else setIdx(next)
+      }, 600)
+    } else {
+      setWrong(name)
+      setTimeout(() => setWrong(null), 500)
+    }
+  }
+
+  if (done) {
+    return (
+      <div className="text-center py-12 px-4 bounce-in">
+        <div className="text-5xl mb-4">⭐</div>
+        <p className="font-display font-bold text-2xl text-pink-700">{score}/{queue.length} correct!</p>
+        <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <button onClick={onAgain} className="btn-kid bg-pink-500">🔁 Again</button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-sm mx-auto px-4 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>{idx + 1} / {queue.length}</span>
+        <span className="text-pink-500">✅ {score}</span>
+      </div>
+
+      <div className="flex flex-col items-center gap-3 mb-8">
+        <button
+          onClick={() => current && speak(current.name, 0.8)}
+          className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-rose-500
+                     text-4xl shadow-lg hover:scale-110 active:scale-90 transition-all cursor-pointer select-none
+                     flex items-center justify-center"
+        >
+          🔊
+        </button>
+        <p className="text-sm font-bold text-gray-500" dir="rtl">האזן ובחר את הצבע</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        {options.map(opt => {
+          const isCorrect = correct === opt.name
+          const isWrong = wrong === opt.name
+          return (
+            <button
+              key={opt.name}
+              onClick={() => handleAnswer(opt.name)}
+              className={`
+                aspect-square rounded-3xl border-4 ${opt.bg} ${opt.border}
+                transition-all duration-150 cursor-pointer select-none
+                ${isCorrect ? 'scale-105 ring-4 ring-green-400 ring-offset-2' : ''}
+                ${isWrong ? 'shake opacity-60' : ''}
+                ${!isCorrect && !isWrong ? 'hover:scale-105 active:scale-95 shadow-md' : ''}
+              `}
+            />
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function Quiz1Tab() {
+  const [k, setK] = useState(0)
+  return <Quiz1Inner key={k} onAgain={() => setK(n => n + 1)} />
+}
+
+// ── Quiz 2: see swatch → pick word ───────────────────────────────────────────
+
+function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
   const [queue] = useState<ColorItem[]>(() => shuffle([...COLORS]))
   const [idx, setIdx] = useState(0)
   const [options, setOptions] = useState<ColorItem[]>([])
@@ -105,10 +206,8 @@ function QuizInner({ onAgain }: { onAgain: () => void }) {
         בחר את הצבע הנכון
       </p>
 
-      {/* Show color swatch */}
       <div className={`mx-auto mb-8 w-32 h-32 rounded-3xl border-4 ${cur?.bg} ${cur?.border} shadow-lg`} />
 
-      {/* Options: word buttons */}
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => {
           const isCorrect = correct === opt.name
@@ -134,9 +233,9 @@ function QuizInner({ onAgain }: { onAgain: () => void }) {
   )
 }
 
-function QuizTab() {
+function Quiz2Tab() {
   const [k, setK] = useState(0)
-  return <QuizInner key={k} onAgain={() => setK(n => n + 1)} />
+  return <Quiz2Inner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
 // ── Bubble Pop ───────────────────────────────────────────────────────────────
@@ -354,9 +453,11 @@ function ColorMemoryInner({ onAgain }: { onAgain: () => void }) {
 
   return (
     <div className="max-w-xl mx-auto px-3 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
-        <span dir="rtl">מצא זוגות — צבע + שם</span>
-        <span className="text-pink-500">{matched.size / 2} / {COLORS.length} ✓</span>
+      <p className="text-center font-bold text-gray-500 text-sm mb-2" dir="rtl">
+        לחץ על 2 כרטיסים בכל תור על מנת למצוא זוגות : צבע ושם הצבע
+      </p>
+      <div className="flex justify-end text-sm font-bold text-pink-500 mb-3">
+        <span>{matched.size / 2} / {COLORS.length} ✓</span>
       </div>
       <div className="grid grid-cols-4 gap-2">
         {cards.map(card => {
@@ -367,19 +468,18 @@ function ColorMemoryInner({ onAgain }: { onAgain: () => void }) {
               key={card.id}
               onClick={() => handleFlip(card.id)}
               className={`
-                aspect-square rounded-2xl border-4
+                h-16 rounded-2xl border-4
                 flex items-center justify-center text-center p-1
                 transition-all duration-200 cursor-pointer select-none
                 ${isMatched ? 'opacity-70 border-green-400' : ''}
                 ${!isFlipped ? 'bg-pink-400 border-pink-500 hover:bg-pink-300 hover:scale-105 active:scale-95' : ''}
                 ${isFlipped && !isMatched ? 'scale-105' : ''}
               `}
-              style={isMatched ? { backgroundColor: undefined } : undefined}
             >
               {isFlipped ? (
                 card.type === 'swatch'
                   ? <div className={`w-full h-full rounded-xl border-2 ${card.color.bg} ${card.color.border}`} />
-                  : <span className="font-display font-black text-xs leading-tight text-gray-800">{card.name}</span>
+                  : <span className="font-display font-black text-sm leading-tight text-gray-800">{card.name}</span>
               ) : (
                 <span className="font-display font-black text-2xl text-white">?</span>
               )}
@@ -431,7 +531,6 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
       </p>
 
       <div className="flex gap-3">
-        {/* Name column (shuffled) */}
         <div className="flex-1 flex flex-col gap-2">
           {shuffled.map(c => {
             const isMatched = matched.has(c.name)
@@ -457,7 +556,6 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
           })}
         </div>
 
-        {/* Swatch column (in original order) */}
         <div className="flex flex-col gap-2 w-14">
           {COLORS.map(c => {
             const isMatched = matched.has(c.name)
@@ -501,7 +599,8 @@ function MatchTab() {
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'learn',  label: '📚 Learn'   },
-  { id: 'quiz',   label: '🎯 Quiz'    },
+  { id: 'quiz1',  label: '🔊 Quiz 1'  },
+  { id: 'quiz2',  label: '🎯 Quiz 2'  },
   { id: 'bubble', label: '🫧 Bubbles' },
   { id: 'memory', label: '🃏 Memory'  },
   { id: 'match',  label: '🔗 Match'   },
@@ -540,7 +639,8 @@ export default function ColorsPage() {
 
       <div className="pt-4">
         {tab === 'learn'  && <LearnTab />}
-        {tab === 'quiz'   && <QuizTab />}
+        {tab === 'quiz1'  && <Quiz1Tab />}
+        {tab === 'quiz2'  && <Quiz2Tab />}
         {tab === 'bubble' && <BubbleTab />}
         {tab === 'memory' && <MemoryTab />}
         {tab === 'match'  && <MatchTab />}
