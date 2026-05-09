@@ -34,8 +34,7 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-sky-800 mb-4" dir="rtl">
-          <p>• שאלות כן / לא (Yes / No Questions) נקראות כך כי עונים עליהם ב- "כן" או "לא".</p>
-          <p>• שאלות כן / לא תמיד מתחילות ב- <span className="font-black">Am, Is, Are</span>.</p>
+          <p>• שאלות כן / לא – תמיד מתחילות ב- are, am, is</p>
         </div>
 
         {/* Statement → Question examples */}
@@ -82,9 +81,9 @@ function LearnTab() {
               no: "No, he isn't.",
             },
             {
-              q: 'Are you late?',
-              yes: 'Yes, I am.',
-              no: "No, I'm not.",
+              q: 'Are you at home?',
+              yes: 'Yes, we are.',
+              no: "No, we aren't.",
             },
           ].map(({ q, yes, no }) => (
             <div key={q} className="bg-white rounded-2xl border-2 border-amber-200 p-3">
@@ -264,7 +263,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                   <button
                     key={v}
                     onClick={() => setSelVerb(v)}
-                    className={`text-sm font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
+                    className={`text-base font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
                   >
                     {v}
                   </button>
@@ -283,7 +282,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button
                   key={s.text}
                   onClick={() => setSelSubject(s)}
-                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-purple-500 text-white' : 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-100'}`}
+                  className={`text-base font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-purple-500 text-white' : 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-100'}`}
                 >
                   {s.text}
                 </button>
@@ -301,7 +300,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button
                   key={c}
                   onClick={() => setSelComp(c)}
-                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selComp === c ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+                  className={`text-base font-bold rounded-lg px-2 py-1 text-center transition-colors ${selComp === c ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
                 >
                   {c}
                 </button>
@@ -314,7 +313,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       {/* Preview + Add */}
       {selVerb && selSubject && selComp && !allDone && (
         <div className="bg-sky-50 border-2 border-sky-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
-          <span className="font-bold text-sky-700 text-base flex-1 italic">
+          <span className="font-bold text-sky-700 text-base flex-1">
             {selVerb} {selSubject.text} {selComp}
           </span>
           <button onClick={handleAdd} className="btn-kid bg-sky-500 !py-1 !px-3 text-sm">➕ Add</button>
@@ -331,7 +330,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {sentences.map((s, i) => (
             <div key={i} className="bg-sky-100 border-2 border-sky-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
               <span className="font-bold text-sky-400 text-sm">{i + 1}.</span>
-              <span className="font-bold text-sky-800 text-base italic">{s}</span>
+              <span className="font-bold text-sky-800 text-base">{s}</span>
             </div>
           ))}
         </div>
@@ -420,7 +419,7 @@ function Ex3() {
                 <button
                   key={g}
                   onClick={() => handleClick(g, 'yes')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                  className={`text-base font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
                     isFlashing
                       ? 'bg-green-500 text-white border-green-500 scale-105'
                       : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
@@ -446,7 +445,7 @@ function Ex3() {
                 <button
                   key={g}
                   onClick={() => handleClick(g, 'no')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                  className={`text-base font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
                     isFlashing
                       ? 'bg-rose-500 text-white border-rose-500 scale-105'
                       : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'

@@ -24,14 +24,14 @@ export interface YNBuilderCycle { subjects: YNSubject[]; complements: string[] }
 export const YN_EX2: YNBuilderCycle[] = [
   {
     subjects: [
-      { text: 'I',            verb: 'Am'  },
-      { text: 'you',          verb: 'Are' },
-      { text: 'your friends', verb: 'Are' },
-      { text: 'the teacher',  verb: 'Is'  },
-      { text: 'the dog',      verb: 'Is'  },
-      { text: 'she',          verb: 'Is'  },
+      { text: 'I',          verb: 'Am'  },
+      { text: 'the tiger',  verb: 'Is'  },
+      { text: 'Dana',       verb: 'Is'  },
+      { text: 'my sister',  verb: 'Is'  },
+      { text: 'you',        verb: 'Are' },
+      { text: 'pupils',     verb: 'Are' },
     ],
-    complements: ['at home?', 'tired?', 'hungry?', 'late?', 'at school?', 'ready?'],
+    complements: ['angry?', 'happy?', 'clean?', 'in my room?', 'in my classroom?', 'sad?'],
   },
   {
     subjects: [

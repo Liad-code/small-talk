@@ -24,11 +24,11 @@ export interface WHEx1Q {
   hint: string      // answer hint in parentheses
 }
 export const WH_EX1: WHEx1Q[] = [
-  { sentence: 'is in the classroom?',   options: ['Where', 'When',  'Who'],   answer: 'Who',   hint: 'The teacher.'          },
-  { sentence: 'is your mom?',           options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'At the park.'           },
-  { sentence: 'is your favorite book?', options: ['When',  'What',  'Why'],   answer: 'What',  hint: 'Harry Potter.'          },
+  { sentence: 'is in the park?',        options: ['Who',   'What',  'Where'], answer: 'Who',   hint: 'The boy.'               },
+  { sentence: 'is your sister?',        options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'At school.'             },
+  { sentence: 'is your favorite color?',options: ['When',  'What',  'Why'],   answer: 'What',  hint: 'Yellow.'                },
   { sentence: 'is the party?',          options: ['When',  'How',   'Who'],   answer: 'When',  hint: 'On Sunday.'             },
-  { sentence: 'is English class?',      options: ['How',   'Why',   'What'],  answer: 'How',   hint: "It's fun!"              },
+  { sentence: 'is the game?',           options: ['How',   'Why',   'What'],  answer: 'How',   hint: "It's fun!"              },
   { sentence: 'is your best friend?',   options: ['Where', 'What',  'Who'],   answer: 'Who',   hint: 'Dana.'                  },
   { sentence: 'is your birthday?',      options: ['When',  'Where', 'Why'],   answer: 'When',  hint: 'In July.'               },
   { sentence: 'color is your shirt?',   options: ['What',  'Who',   'Where'], answer: 'What',  hint: "It's blue."             },
@@ -44,14 +44,14 @@ export interface WHEx3Q {
 }
 export const WH_EX3: WHEx3Q[][] = [
   [
-    { id: 'c1q1', question: 'Who is your teacher?',        answer: 'Mr. Cohen.'             },
+    { id: 'c1q1', question: 'Who is your teacher?',        answer: 'Ronit.'                 },
     { id: 'c1q2', question: 'Where is the park?',          answer: 'Near the school.'       },
     { id: 'c1q3', question: 'What is in your bag?',        answer: 'Books and a pencil.'    },
     { id: 'c1q4', question: 'When is the test?',           answer: 'On Monday.'             },
     { id: 'c1q5', question: 'Why are you sad?',            answer: 'Because I lost my dog.' },
     { id: 'c1q6', question: 'How old are you?',            answer: "I'm nine years old."    },
     { id: 'c1q7', question: 'Who is at the door?',         answer: "It's my mom."           },
-    { id: 'c1q8', question: 'Where do you live?',          answer: 'On Oak Street.'         },
+    { id: 'c1q8', question: 'Where do you live?',          answer: 'On Alon Street.'        },
   ],
   [
     { id: 'c2q1', question: 'What is your name?',          answer: 'My name is Dana.'           },
@@ -61,7 +61,7 @@ export const WH_EX3: WHEx3Q[][] = [
     { id: 'c2q5', question: 'How are you?',                answer: "I'm fine, thank you."        },
     { id: 'c2q6', question: 'Why are you late?',           answer: 'Because I missed the bus.'  },
     { id: 'c2q7', question: 'What is your favorite color?', answer: 'Blue.'                     },
-    { id: 'c2q8', question: 'Who is your doctor?',         answer: 'Dr. Stone.'                 },
+    { id: 'c2q8', question: 'Who is your doctor?',         answer: 'Dr. Cohen.'                 },
   ],
   [
     { id: 'c3q1', question: 'Where is the school?',        answer: 'Next to the park.'        },
@@ -87,24 +87,6 @@ export interface WHDialogueCycle {
   dialogues: WHDialogue[]
 }
 export const WH_EX2: WHDialogueCycle[] = [
-  {
-    bank: [
-      'How are you?',
-      'Where is your sister?',
-      'Who is your doctor?',
-      'When is the party?',
-      'Why are you late?',
-      'What is your favorite color?',
-    ],
-    dialogues: [
-      { asker: 'Ora',    answerer: 'Gilit', answer: "I'm fine, thank you.",   question: 'How are you?'                },
-      { asker: 'Shlomi', answerer: 'Eyal',  answer: 'On Sunday.',             question: 'When is the party?'          },
-      { asker: 'Irit',   answerer: 'Nava',  answer: 'At school.',             question: 'Where is your sister?'       },
-      { asker: 'Sapir',  answerer: 'Tomer', answer: 'Because I missed the bus.', question: 'Why are you late?'       },
-      { asker: 'Yossi',  answerer: 'Gadi',  answer: 'Dr. Stone.',             question: 'Who is your doctor?'         },
-      { asker: 'Maya',   answerer: 'Ron',   answer: 'Blue.',                  question: 'What is your favorite color?'},
-    ],
-  },
   {
     bank: [
       'Where do you live?',

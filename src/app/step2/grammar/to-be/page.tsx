@@ -206,13 +206,19 @@ function Ex1Wrapper() {
 function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
   const questions = TB_EX2[cycleIdx]
   const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [wrongs, setWrongs] = useState<Set<number>>(new Set())
   const total = questions.length
   const answered = Object.keys(answers).length
   const allDone = answered === total
 
   const choose = (idx: number, val: string) => {
-    if (answers[idx]) return
-    setAnswers(prev => ({ ...prev, [idx]: val }))
+    if (answers[idx] || wrongs.has(idx)) return
+    if (val === questions[idx].answer) {
+      setAnswers(prev => ({ ...prev, [idx]: val }))
+    } else {
+      setWrongs(prev => { const s = new Set(prev); s.add(idx); return s })
+      setTimeout(() => setWrongs(prev => { const s = new Set(prev); s.delete(idx); return s }), 800)
+    }
   }
 
   return (
@@ -228,11 +234,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       <div className="flex flex-col gap-2 mb-6">
         {questions.map((q, idx) => {
           const ans = answers[idx]
+          const isWrong = wrongs.has(idx)
           const display = ans ? q.sentence.replace('___', ans) : q.sentence
           return (
-            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-2 py-1.5 flex items-center gap-2">
+            <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 ${isWrong ? 'border-red-300' : 'border-gray-200'}`}>
               <span className="text-base font-bold text-gray-700 flex-1">{display}</span>
-              {!ans ? (
+              {!ans && !isWrong ? (
                 <div className="flex gap-1.5">
                   {(['am', 'is', 'are'] as const).map(v => {
                     const vc = VERB_COLORS[v]
@@ -247,10 +254,10 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                     )
                   })}
                 </div>
+              ) : isWrong ? (
+                <span className="font-bold text-sm text-red-500">✗</span>
               ) : (
-                <span className={`font-bold text-sm ${ans === q.answer ? 'text-green-600' : 'text-red-500'}`}>
-                  {ans === q.answer ? '✓' : '✗'}
-                </span>
+                <span className="font-bold text-sm text-green-600">✓</span>
               )}
             </div>
           )
@@ -261,7 +268,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">
-            {Object.entries(answers).filter(([i, v]) => questions[+i].answer === v).length}/{total} correct!
+            {total}/{total} correct!
           </p>
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < TB_EX2.length && (
@@ -442,7 +449,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button
                   key={s.text}
                   onClick={() => setSelSubject(s)}
-                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-emerald-500 text-white' : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-100'}`}
+                  className={`text-base font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-emerald-500 text-white' : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-100'}`}
                 >
                   {s.text}
                 </button>
@@ -462,7 +469,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                   <button
                     key={v}
                     onClick={() => setSelVerb(v)}
-                    className={`text-sm font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
+                    className={`text-base font-display font-black rounded-lg px-2 py-1 text-center transition-colors border-2 ${selVerb === v ? `${vc.bg} text-white ${vc.border}` : `${vc.light} ${vc.text} ${vc.border} hover:opacity-80`}`}
                   >
                     {v}
                   </button>
@@ -481,7 +488,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button
                   key={a}
                   onClick={() => setSelAdj(a)}
-                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selAdj === a ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+                  className={`text-base font-bold rounded-lg px-2 py-1 text-center transition-colors ${selAdj === a ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
                 >
                   {a}
                 </button>

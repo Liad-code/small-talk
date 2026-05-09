@@ -132,7 +132,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
               className={`border-4 ${border} rounded-2xl p-4 flex flex-col items-center gap-2 transition-all active:scale-95`}
             >
               <span className="text-5xl leading-none">{opt.emoji}</span>
-              <span className="text-sm font-bold text-gray-600 text-center leading-tight">{opt.label}</span>
+              <span className="text-base font-bold text-gray-600 text-center leading-tight">{opt.label}</span>
             </button>
           )
         })}
@@ -147,10 +147,17 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">{score === questions.length ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{score}/{questions.length}</p>
           <div className="flex gap-3 justify-center mt-3">
-            {cycleIdx + 1 < PR_EX1.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < PR_EX1.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -210,10 +217,17 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             {Object.entries(answers).filter(([i,v]) => questions[+i].answer === v).length}/{total} correct!
           </p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < PR_EX2.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < PR_EX2.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -307,10 +321,17 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < PR_EX3.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < PR_EX3.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -400,10 +421,17 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < PR_EX4.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < PR_EX4.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -472,10 +500,17 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">{correctCount === total ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{correctCount}/{total} correct!</p>
           <div className="flex gap-3 justify-center mt-3">
-            {cycleIdx + 1 < PR_EX5.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < PR_EX5.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -530,9 +565,9 @@ export default function PronounsPage() {
   const tabs: { id: Tab; label: string }[] = [
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
+    { id: 'ex4',   label: 'Ex 4' },
     { id: 'ex2',   label: 'Ex 2' },
     { id: 'ex3',   label: 'Ex 3' },
-    { id: 'ex4',   label: 'Ex 4' },
     { id: 'ex5',   label: 'Ex 5' },
   ]
 

@@ -301,7 +301,7 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           const wc = WH_WORD_COLORS[whWord] ?? { light: 'bg-gray-100', text: 'text-gray-600' }
           return (
             <div key={q.id} className="bg-white border-2 border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2 flex-wrap">
-              <span className={`font-bold text-base ${wc.text}`}>{q.question}</span>
+              <span className="font-bold text-base text-gray-900">{q.question}</span>
               <div
                 data-drop-target="true"
                 data-target-id={String(qIdx)}

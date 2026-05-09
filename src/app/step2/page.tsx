@@ -63,7 +63,7 @@ export default function Step2Page() {
         <p className="text-xl font-bold text-purple-600 mb-1">Digraphs, Vowel Patterns and Grammar!</p>
       </section>
 
-      {/* 5 topic squares */}
+      {/* 3 topic squares */}
       <div className="max-w-2xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 gap-5">
         <TopicCard
           href="/step2/phonics"
@@ -88,26 +88,6 @@ export default function Step2Page() {
           available
         />
         <TopicCard
-          emoji="✏️"
-          title="Spelling"
-          hebrewTitle="כתיבה"
-          description="Spell words with digraphs correctly."
-          hebrewDesc="כתיבת מילים עם צלילי שתי אותיות"
-          color="from-green-300 to-emerald-400"
-          textColor="text-white"
-          available={false}
-        />
-        <TopicCard
-          emoji="🎵"
-          title="Rhymes"
-          hebrewTitle="חרוזים"
-          description="Identify and create rhyming words."
-          hebrewDesc="זיהוי ויצירת מילים חורזות"
-          color="from-pink-300 to-rose-400"
-          textColor="text-white"
-          available={false}
-        />
-        <TopicCard
           href="/step2/vocabulary"
           emoji="📖"
           title="Vocabulary"
@@ -118,22 +98,6 @@ export default function Step2Page() {
           textColor="text-white"
           available
         />
-        <TopicCard
-          emoji="🎯"
-          title="Review"
-          hebrewTitle="חזרה"
-          description="Mix of all Step 2 skills."
-          hebrewDesc="שילוב כל הנושאים של שלב 2"
-          color="from-amber-300 to-orange-400"
-          textColor="text-white"
-          available={false}
-        />
-      </div>
-
-      <div className="text-center pb-10 px-4">
-        <Link href="/" className="text-sm text-purple-400 font-bold hover:text-purple-600 no-underline inline-block">
-          ← Back to all subjects
-        </Link>
       </div>
     </div>
   )

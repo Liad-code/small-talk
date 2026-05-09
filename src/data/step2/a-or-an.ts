@@ -60,8 +60,8 @@ export interface AOrAnSentence {
 // Ex2: choose a or an to complete each sentence (2 cycles × 10 sentences)
 export const AOA_EX2: AOrAnSentence[][] = [
   [
-    { id: 's1_1',  before: 'Here is',  noun: 'robot',    answer: 'a'  },
-    { id: 's1_2',  before: 'This is',  noun: 'umbrella', answer: 'an' },
+    { id: 's1_1',  before: 'Here is',  noun: 'window',   answer: 'a'  },
+    { id: 's1_2',  before: 'This is',  noun: 'house',    answer: 'a'  },
     { id: 's1_3',  before: 'I have',   noun: 'dog',      answer: 'a'  },
     { id: 's1_4',  before: 'This is',  noun: 'apple',    answer: 'an' },
     { id: 's1_5',  before: 'I see',    noun: 'bird',     answer: 'a'  },

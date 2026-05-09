@@ -26,7 +26,7 @@ function LearnTab() {
           a or an?
         </h2>
         <p className="font-bold text-orange-700 text-sm text-center mb-4" dir="rtl">
-          לפני שם עצם ביחיד (boy, table, book) מוסיפים את המילה a או an
+          לפני שם עצם ביחיד (cat, pen, father) מוסיפים את המילה a או an
         </p>
 
         {/* "a" rule */}
@@ -38,8 +38,8 @@ function LearnTab() {
             </p>
           </div>
           <div className="flex flex-col gap-1 pl-2">
-            {['This is a table.', 'I have a book.', 'I see a cat.'].map(ex => (
-              <p key={ex} className="font-bold text-blue-700 text-base italic">{ex}</p>
+            {['This is a pen.', 'I have a cat.'].map(ex => (
+              <p key={ex} className="font-bold text-blue-700 text-base">{ex}</p>
             ))}
           </div>
         </div>
@@ -53,8 +53,8 @@ function LearnTab() {
             </p>
           </div>
           <div className="flex flex-col gap-1 pl-2">
-            {['This is an apple.', 'I have an umbrella.', 'I see an egg.'].map(ex => (
-              <p key={ex} className="font-bold text-emerald-700 text-base italic">{ex}</p>
+            {['This is an egg.', 'I have an orange.'].map(ex => (
+              <p key={ex} className="font-bold text-emerald-700 text-base">{ex}</p>
             ))}
           </div>
         </div>

@@ -48,13 +48,13 @@ export const TBN_EX2: TBNBuilderCycle[] = [
   {
     subjects: [
       { text: 'I',           verb: 'am not'  },
-      { text: 'Adam',        verb: "isn't"   },
+      { text: 'Eyal',        verb: "isn't"   },
       { text: 'The teacher', verb: "isn't"   },
       { text: 'You',         verb: "aren't"  },
       { text: 'We',          verb: "aren't"  },
       { text: 'He',          verb: "isn't"   },
     ],
-    complements: ['big', 'at home', 'a pupil', 'friends', 'in the classroom', 'happy'],
+    complements: ['happy', 'at the park', 'at school', 'at work', 'sick', 'sad'],
   },
   {
     subjects: [

@@ -112,22 +112,6 @@ export default function GrammarPage() {
           color="from-orange-400 to-amber-500"
           available
         />
-        <TopicCard
-          emoji="📐"
-          title="Adjectives"
-          hebrewTitle="שמות תואר"
-          description="Describe nouns with adjectives"
-          color="from-pink-400 to-rose-500"
-          available={false}
-        />
-        <TopicCard
-          emoji="📍"
-          title="Prepositions"
-          hebrewTitle="מילות יחס"
-          description="in, on, under, next to..."
-          color="from-sky-400 to-blue-500"
-          available={false}
-        />
       </div>
     </div>
   )
