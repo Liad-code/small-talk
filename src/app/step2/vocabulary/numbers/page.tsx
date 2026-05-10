@@ -71,7 +71,6 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
   const [queue] = useState<NumberItem[]>(() => shuffle([...cycle]))
   const [idx, setIdx] = useState(0)
   const [options, setOptions] = useState<NumberItem[]>([])
-  const [correct, setCorrect] = useState<number | null>(null)
   const [wrong, setWrong] = useState<number | null>(null)
 
   const current = queue[idx]
@@ -83,19 +82,15 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
   }, [current])
 
   function handleAnswer(digit: number) {
-    if (correct !== null) return
+    if (wrong !== null) return
     if (digit === current.digit) {
-      setCorrect(digit)
-      setTimeout(() => {
-        setCorrect(null)
-        const next = idx + 1
-        if (next >= queue.length) {
-          if (cycleIdx + 1 >= QUIZ1_CYCLES.length) onDone()
-          else onNext()
-        } else {
-          setIdx(next)
-        }
-      }, 600)
+      const next = idx + 1
+      if (next >= queue.length) {
+        if (cycleIdx + 1 >= QUIZ1_CYCLES.length) onDone()
+        else onNext()
+      } else {
+        setIdx(next)
+      }
     } else {
       setWrong(digit)
       setTimeout(() => setWrong(null), 500)
@@ -124,7 +119,6 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
 
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => {
-          const isCorrect = correct === opt.digit
           const isWrong = wrong === opt.digit
           return (
             <button
@@ -133,9 +127,8 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
               className={`
                 rounded-2xl border-4 py-5 font-display font-black text-4xl
                 transition-all duration-150 cursor-pointer select-none
-                ${isCorrect ? 'bg-green-200 border-green-400 text-green-800 scale-105' : ''}
                 ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
-                ${!isCorrect && !isWrong ? 'bg-blue-50 border-blue-300 text-indigo-700 hover:bg-blue-100 hover:scale-105 active:scale-95' : ''}
+                ${!isWrong ? 'bg-blue-50 border-blue-300 text-indigo-700 hover:bg-blue-100 hover:scale-105 active:scale-95' : ''}
               `}
             >
               {opt.digit}

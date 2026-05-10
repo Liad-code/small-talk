@@ -54,7 +54,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
   const [queue] = useState<ColorItem[]>(() => shuffle([...COLORS]))
   const [idx, setIdx] = useState(0)
   const [options, setOptions] = useState<ColorItem[]>([])
-  const [correct, setCorrect] = useState<string | null>(null)
   const [wrong, setWrong] = useState<string | null>(null)
   const [score, setScore] = useState(0)
   const [done, setDone] = useState(false)
@@ -67,23 +66,13 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
     setOptions(shuffle([current, ...shuffle(others).slice(0, 3)]))
   }, [current])
 
-  useEffect(() => {
-    if (!current) return
-    const t = setTimeout(() => speak(current.name, 0.75), 400)
-    return () => clearTimeout(t)
-  }, [current, speak])
-
   function handleAnswer(name: string) {
-    if (correct) return
+    if (wrong) return
     if (name === current.name) {
-      setCorrect(name)
-      setTimeout(() => {
-        setScore(s => s + 1)
-        setCorrect(null)
-        const next = idx + 1
-        if (next >= queue.length) setDone(true)
-        else setIdx(next)
-      }, 600)
+      setScore(s => s + 1)
+      const next = idx + 1
+      if (next >= queue.length) setDone(true)
+      else setIdx(next)
     } else {
       setWrong(name)
       setTimeout(() => setWrong(null), 500)
@@ -122,7 +111,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
 
       <div className="grid grid-cols-2 gap-4">
         {options.map(opt => {
-          const isCorrect = correct === opt.name
           const isWrong = wrong === opt.name
           return (
             <button
@@ -131,9 +119,8 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
               className={`
                 aspect-square rounded-3xl border-4 ${opt.bg} ${opt.border}
                 transition-all duration-150 cursor-pointer select-none
-                ${isCorrect ? 'scale-105 ring-4 ring-green-400 ring-offset-2' : ''}
                 ${isWrong ? 'shake opacity-60' : ''}
-                ${!isCorrect && !isWrong ? 'hover:scale-105 active:scale-95 shadow-md' : ''}
+                ${!isWrong ? 'hover:scale-105 active:scale-95 shadow-md' : ''}
               `}
             />
           )
