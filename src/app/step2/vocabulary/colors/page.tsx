@@ -72,7 +72,10 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       setScore(s => s + 1)
       const next = idx + 1
       if (next >= queue.length) setDone(true)
-      else setIdx(next)
+      else {
+        setIdx(next)
+        speak(queue[next].name, 0.75)
+      }
     } else {
       setWrong(name)
       setTimeout(() => setWrong(null), 500)

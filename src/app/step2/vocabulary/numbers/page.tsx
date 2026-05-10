@@ -90,6 +90,7 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
         else onNext()
       } else {
         setIdx(next)
+        speak(String(queue[next].digit), 0.75)
       }
     } else {
       setWrong(digit)
