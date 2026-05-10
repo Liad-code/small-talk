@@ -34,6 +34,7 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-sky-800 mb-4" dir="rtl">
+          <p>• שאלות כן / לא (yes, no) נקראות כך כי התשובות עליהן – ״כן״ או ״לא״</p>
           <p>• שאלות כן / לא – תמיד מתחילות ב- are, am, is</p>
         </div>
 
@@ -161,7 +162,7 @@ function Ex1({ onReset }: { onReset: () => void }) {
       </div>
 
       {/* Question rows */}
-      <div className="flex flex-col gap-2 mb-5">
+      <div className="grid grid-cols-2 gap-2 mb-5">
         {YN_EX1.map((q, idx) => {
           const placedTileId = placed[idx]
           const placedTile = placedTileId ? allTiles.find(t => t.id === placedTileId) : undefined
@@ -341,10 +342,17 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < YN_EX2.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < YN_EX2.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}

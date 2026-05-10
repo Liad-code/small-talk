@@ -273,7 +273,7 @@ export const PR_EX5: SentenceQ[][] = [
     { sentence: 'The car is white.',               underlined: 'The car',       options: ['It','We','She'],  answer: 'It'   },
     { sentence: 'David is short.',                 underlined: 'David',         options: ['I','He','She'],   answer: 'He'   },
     { sentence: 'Shosh and I are friends.',        underlined: 'Shosh and I',   options: ['We','They','You'],answer: 'We'   },
-    { sentence: 'You and Hadar are in class.',     underlined: 'You and Hadar', options: ['I','She','You'],  answer: 'You'  },
+    { sentence: 'You and Hadar are in the classroom.', underlined: 'You and Hadar', options: ['I','She','You'],  answer: 'You'  },
     { sentence: 'The houses are clean.',           underlined: 'The houses',    options: ['We','She','They'],answer: 'They' },
   ],
   [

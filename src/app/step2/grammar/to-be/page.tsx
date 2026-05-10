@@ -271,10 +271,17 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             {total}/{total} correct!
           </p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TB_EX2.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < TB_EX2.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -379,10 +386,17 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">{correctCount}/{questions.length} correct!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TB_EX3.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < TB_EX3.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -529,10 +543,17 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TB_EX4.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < TB_EX4.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}

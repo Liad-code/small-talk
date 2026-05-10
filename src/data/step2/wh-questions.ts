@@ -44,7 +44,7 @@ export interface WHEx3Q {
 }
 export const WH_EX3: WHEx3Q[][] = [
   [
-    { id: 'c1q1', question: 'Who is your teacher?',        answer: 'Ronit.'                 },
+    { id: 'c1q1', question: 'Who is your teacher?',        answer: 'Mr. Cohen.'             },
     { id: 'c1q2', question: 'Where is the park?',          answer: 'Near the school.'       },
     { id: 'c1q3', question: 'What is in your bag?',        answer: 'Books and a pencil.'    },
     { id: 'c1q4', question: 'When is the test?',           answer: 'On Monday.'             },
@@ -97,7 +97,7 @@ export const WH_EX2: WHDialogueCycle[] = [
       'What is in your bag?',
     ],
     dialogues: [
-      { asker: 'Dan',   answerer: 'Noa',   answer: 'On Oak Street.',          question: 'Where do you live?'          },
+      { asker: 'Dan',   answerer: 'Noa',   answer: 'On Alon Street.',         question: 'Where do you live?'          },
       { asker: 'Lior',  answerer: 'Tamar', answer: 'In March.',               question: 'When is your birthday?'      },
       { asker: 'Benny', answerer: 'Keren', answer: 'Mr. Cohen.',              question: 'Who is your teacher?'        },
       { asker: 'Amit',  answerer: 'Sigal', answer: 'Great, thanks!',          question: 'How is your day?'            },
@@ -121,6 +121,24 @@ export const WH_EX2: WHDialogueCycle[] = [
       { asker: 'Pnina', answerer: 'Eli',   answer: "It's mom!",               question: 'Who is at the door?'         },
       { asker: 'Roni',  answerer: 'Shira', answer: "Because it's raining.",   question: 'Why is the dog wet?'         },
       { asker: 'Hila',  answerer: 'Tom',   answer: "I'm nine years old.",     question: 'How old are you?'            },
+    ],
+  },
+  {
+    bank: [
+      'What is your favorite color?',
+      'Where is your school?',
+      'When is summer vacation?',
+      'Who is your best friend?',
+      'How are you today?',
+      'Why are you tired?',
+    ],
+    dialogues: [
+      { asker: 'Noa',   answerer: 'Gal',   answer: 'Blue.',                   question: 'What is your favorite color?' },
+      { asker: 'Tamar', answerer: 'Ilan',   answer: 'Near the park.',          question: 'Where is your school?'        },
+      { asker: 'Yossi', answerer: 'Miri',   answer: 'In July.',                question: 'When is summer vacation?'     },
+      { asker: 'Alon',  answerer: 'Liora',  answer: 'Dana is my best friend.', question: 'Who is your best friend?'    },
+      { asker: 'Efrat', answerer: 'Boaz',   answer: "I'm great!",              question: 'How are you today?'           },
+      { asker: 'Meir',  answerer: 'Sigal',  answer: 'Because I was late.',     question: 'Why are you tired?'           },
     ],
   },
 ]

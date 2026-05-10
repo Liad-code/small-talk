@@ -6,6 +6,7 @@ import { DraggableTile } from '@/components/step1/DraggableTile'
 import {
   WH_WORDS, WH_WORD_COLORS, WH_EX1, WH_EX2, WH_EX3,
 } from '@/data/step2/wh-questions'
+import { shuffle } from '@/utils/shuffle'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -227,10 +228,17 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great work!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < WH_EX2.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < WH_EX2.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -243,6 +251,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
 function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
   const questions = WH_EX3[cycleIdx]
   const [placed, setPlaced] = useState<Record<number, string>>({}) // qIdx → answerId
+  const [bankOrder] = useState(() => shuffle(questions.map(q => q.id)))
   const allDone = Object.keys(placed).length === questions.length
 
   const placedIds = new Set(Object.values(placed))
@@ -272,8 +281,9 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
       {/* Answer bank */}
       <div className="sticky top-2 z-10 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-1.5 justify-center">
-          {questions.map(q => {
-            if (placedIds.has(q.id)) return null
+          {bankOrder.map(id => {
+            if (placedIds.has(id)) return null
+            const q = questions.find(q => q.id === id)!
             const whWord = q.question.split(' ')[0]
             const wc = WH_WORD_COLORS[whWord] ?? { bg: 'bg-gray-400', light: 'bg-gray-100', text: 'text-gray-600' }
             return (
@@ -327,10 +337,17 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < WH_EX3.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < WH_EX3.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}

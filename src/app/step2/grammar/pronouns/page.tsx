@@ -149,13 +149,13 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="flex gap-3 justify-center mt-3">
             {cycleIdx + 1 < PR_EX1.length ? (
               <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
               <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
               </>
             )}
           </div>
@@ -219,13 +219,13 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < PR_EX2.length ? (
               <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
               <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
               </>
             )}
           </div>
@@ -323,13 +323,13 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < PR_EX3.length ? (
               <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
               <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
               </>
             )}
           </div>
@@ -423,13 +423,13 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < PR_EX4.length ? (
               <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
               <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
               </>
             )}
           </div>
@@ -502,13 +502,13 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="flex gap-3 justify-center mt-3">
             {cycleIdx + 1 < PR_EX5.length ? (
               <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More</button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
               <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
               </>
             )}
           </div>
@@ -565,9 +565,9 @@ export default function PronounsPage() {
   const tabs: { id: Tab; label: string }[] = [
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
-    { id: 'ex4',   label: 'Ex 4' },
     { id: 'ex2',   label: 'Ex 2' },
     { id: 'ex3',   label: 'Ex 3' },
+    { id: 'ex4',   label: 'Ex 4' },
     { id: 'ex5',   label: 'Ex 5' },
   ]
 

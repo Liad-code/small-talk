@@ -94,14 +94,14 @@ export interface TBBuilderCycle { subjects: TBSubject[]; adjectives: string[] }
 export const TB_EX4: TBBuilderCycle[] = [
   {
     subjects: [
-      { text: 'Mother',     verb: 'is'  },
-      { text: 'The baby',   verb: 'is'  },
-      { text: 'The girls',  verb: 'are' },
-      { text: 'The cats',   verb: 'are' },
-      { text: 'The cake',   verb: 'is'  },
+      { text: 'My sister',  verb: 'is'  },
+      { text: 'The boy',    verb: 'is'  },
+      { text: 'My friends', verb: 'are' },
+      { text: 'The dogs',   verb: 'are' },
+      { text: 'The book',   verb: 'is'  },
       { text: 'My brother', verb: 'is'  },
     ],
-    adjectives: ['hungry', 'small', 'big', 'tall', 'happy', 'cute'],
+    adjectives: ['angry', 'small', 'big', 'white', 'happy', 'cute'],
   },
   {
     subjects: [

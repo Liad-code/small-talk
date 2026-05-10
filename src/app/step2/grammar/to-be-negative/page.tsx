@@ -215,10 +215,17 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">{correctCount}/{questions.length} correct!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TBN_EX1.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < TBN_EX1.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -268,7 +275,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       <p className="text-center font-bold text-rose-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 mb-3 text-sm font-bold text-rose-700" dir="rtl">
-        <p>1. יש ליצור 6 משפטים על מנת לסיים את המשימה.</p>
+        <p>1. יש ליצור 5 משפטים על מנת לסיים את המשימה.</p>
         <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
         <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
         <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
@@ -366,10 +373,17 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TBN_EX2.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < TBN_EX2.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}

@@ -47,14 +47,13 @@ export interface TBNBuilderCycle { subjects: TBNSubject[]; complements: string[]
 export const TBN_EX2: TBNBuilderCycle[] = [
   {
     subjects: [
-      { text: 'I',           verb: 'am not'  },
-      { text: 'Eyal',        verb: "isn't"   },
-      { text: 'The teacher', verb: "isn't"   },
-      { text: 'You',         verb: "aren't"  },
-      { text: 'We',          verb: "aren't"  },
-      { text: 'He',          verb: "isn't"   },
+      { text: 'I',            verb: 'am not'  },
+      { text: 'Eyal',         verb: "isn't"   },
+      { text: 'My father',    verb: "isn't"   },
+      { text: 'You and Dana', verb: "aren't"  },
+      { text: 'We',           verb: "aren't"  },
     ],
-    complements: ['happy', 'at the park', 'at school', 'at work', 'sick', 'sad'],
+    complements: ['happy', 'at the park', 'at school', 'at work', 'sick'],
   },
   {
     subjects: [
