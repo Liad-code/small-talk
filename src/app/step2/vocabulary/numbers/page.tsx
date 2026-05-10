@@ -39,7 +39,7 @@ function NumberGrid({ items }: { items: NumberItem[] }) {
 function LearnTab() {
   return (
     <div className="max-w-xl mx-auto px-4 py-4 pb-16 flex flex-col gap-5">
-      <p className="text-center font-bold text-gray-500 text-sm" dir="rtl">
+      <p className="text-center font-bold text-gray-500 text-base" dir="rtl">
         קראו את שם המספר — לחיצה על המספר תשמיע את שמו באנגלית
       </p>
 
@@ -82,12 +82,6 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
     setOptions(shuffle([current, ...shuffle(others).slice(0, 3)]))
   }, [current])
 
-  useEffect(() => {
-    if (!current) return
-    const t = setTimeout(() => speak(current.word, 0.8), 400)
-    return () => clearTimeout(t)
-  }, [current, speak])
-
   function handleAnswer(digit: number) {
     if (correct !== null) return
     if (digit === current.digit) {
@@ -118,14 +112,14 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
 
       <div className="flex flex-col items-center gap-3 mb-8">
         <button
-          onClick={() => current && speak(current.word, 0.8)}
+          onClick={() => current && speak(String(current.digit), 0.75)}
           className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500
                      text-4xl shadow-lg hover:scale-110 active:scale-90 transition-all cursor-pointer select-none
                      flex items-center justify-center"
         >
           🔊
         </button>
-        <p className="text-sm font-bold text-gray-500" dir="rtl">האזן ובחר את הספרה</p>
+        <p className="text-sm font-bold text-gray-500" dir="rtl">לחץ על הרמקול ובחר את הספרה</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -357,7 +351,7 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
               {isFlipped ? (
                 card.type === 'digit'
                   ? <span className="text-2xl">{card.value}</span>
-                  : <span className="text-sm leading-tight">{card.word}</span>
+                  : <span className="text-base leading-tight">{card.word}</span>
               ) : (
                 <span className="text-2xl">?</span>
               )}

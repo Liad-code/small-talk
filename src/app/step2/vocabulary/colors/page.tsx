@@ -69,7 +69,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
 
   useEffect(() => {
     if (!current) return
-    const t = setTimeout(() => speak(current.name, 0.8), 400)
+    const t = setTimeout(() => speak(current.name, 0.75), 400)
     return () => clearTimeout(t)
   }, [current, speak])
 
@@ -110,7 +110,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
 
       <div className="flex flex-col items-center gap-3 mb-8">
         <button
-          onClick={() => current && speak(current.name, 0.8)}
+          onClick={() => current && speak(current.name, 0.75)}
           className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-400 to-rose-500
                      text-4xl shadow-lg hover:scale-110 active:scale-90 transition-all cursor-pointer select-none
                      flex items-center justify-center"
@@ -479,7 +479,7 @@ function ColorMemoryInner({ onAgain }: { onAgain: () => void }) {
               {isFlipped ? (
                 card.type === 'swatch'
                   ? <div className={`w-full h-full rounded-xl border-2 ${card.color.bg} ${card.color.border}`} />
-                  : <span className="font-display font-black text-sm leading-tight text-gray-800">{card.name}</span>
+                  : <span className="font-display font-black text-base leading-tight text-gray-800">{card.name}</span>
               ) : (
                 <span className="font-display font-black text-2xl text-white">?</span>
               )}
@@ -525,13 +525,13 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
   }
 
   return (
-    <div className="max-w-sm mx-auto px-3 pb-16">
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+    <div className="max-w-sm mx-auto px-3 pb-8">
+      <p className="text-center font-bold text-gray-500 text-sm mb-2" dir="rtl">
         לחץ על שם הצבע ועל הצבע המתאים
       </p>
 
-      <div className="flex gap-3">
-        <div className="flex-1 flex flex-col gap-2">
+      <div className="flex gap-2">
+        <div className="flex-1 flex flex-col gap-1">
           {shuffled.map(c => {
             const isMatched = matched.has(c.name)
             const isSel = selected === c.name
@@ -542,8 +542,8 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
                 onClick={() => !isMatched && handleNameClick(c.name)}
                 disabled={isMatched}
                 className={`
-                  py-2 px-3 rounded-xl border-4 font-bold text-base text-left
-                  transition-all duration-150 cursor-pointer select-none min-h-[46px]
+                  py-1 px-3 rounded-xl border-4 font-bold text-sm text-left
+                  transition-all duration-150 cursor-pointer select-none min-h-[38px]
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isSel ? 'bg-pink-200 border-pink-500 text-pink-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -556,7 +556,7 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
           })}
         </div>
 
-        <div className="flex flex-col gap-2 w-14">
+        <div className="flex flex-col gap-1 w-12">
           {COLORS.map(c => {
             const isMatched = matched.has(c.name)
             return (
@@ -565,7 +565,7 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
                 onClick={() => !isMatched && handleSwatchClick(c.name)}
                 disabled={isMatched}
                 className={`
-                  h-[46px] w-full rounded-xl border-4 ${c.bg} ${c.border}
+                  h-[38px] w-full rounded-xl border-4 ${c.bg} ${c.border}
                   transition-all duration-150 cursor-pointer select-none
                   ${isMatched ? 'opacity-50' : 'hover:scale-105 active:scale-95'}
                 `}
