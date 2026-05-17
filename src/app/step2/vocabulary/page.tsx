@@ -56,6 +56,30 @@ export default function VocabularyPage() {
           description="red, blue, green... and 8 more!"
           color="from-pink-500 to-rose-600"
         />
+        <VocabCard
+          href="/step2/vocabulary/family"
+          emoji="👨‍👩‍👧‍👦"
+          title="Family"
+          hebrewTitle="משפחה"
+          description="father, mother, sister, brother and more!"
+          color="from-amber-500 to-orange-600"
+        />
+        <VocabCard
+          href="/step2/vocabulary/animals"
+          emoji="🐒"
+          title="Animals"
+          hebrewTitle="בעלי חיים"
+          description="monkey, shark, dolphin and more!"
+          color="from-green-500 to-teal-600"
+        />
+        <VocabCard
+          href="/step2/vocabulary/fruit-vegetables"
+          emoji="🍎"
+          title="Fruit & Vegetables"
+          hebrewTitle="פירות וירקות"
+          description="watermelon, carrot, strawberry and more!"
+          color="from-red-500 to-orange-500"
+        />
       </div>
     </div>
   )

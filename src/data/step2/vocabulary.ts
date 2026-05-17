@@ -54,6 +54,75 @@ export const NUMBERS_21_29: NumberItem[] = [
   { digit: 29, word: 'twenty-nine'  },
 ]
 
+export interface FamilyItem {
+  id: string
+  name: string
+  hebrew: string
+  emoji: string
+}
+
+export const FAMILY: FamilyItem[] = [
+  { id: 'father',      name: 'father',      hebrew: 'אבא',           emoji: '👨' },
+  { id: 'mother',      name: 'mother',      hebrew: 'אמא',           emoji: '👩' },
+  { id: 'sister',      name: 'sister',      hebrew: 'אחות',          emoji: '👧' },
+  { id: 'brother',     name: 'brother',     hebrew: 'אח',            emoji: '👦' },
+  { id: 'baby',        name: 'baby',        hebrew: 'תינוק',         emoji: '👶' },
+  { id: 'grandfather', name: 'grandfather', hebrew: 'סבא',           emoji: '👴' },
+  { id: 'grandmother', name: 'grandmother', hebrew: 'סבתא',          emoji: '👵' },
+  { id: 'uncle',       name: 'uncle',       hebrew: 'דוד',           emoji: '🧔' },
+  { id: 'aunt',        name: 'aunt',        hebrew: 'דודה',          emoji: '👩‍🦱' },
+  { id: 'twins',       name: 'twins',       hebrew: 'תאומים',        emoji: '👯' },
+  { id: 'cousin',      name: 'cousin',      hebrew: 'בן/בת דוד',     emoji: '🧒' },
+]
+
+export interface AnimalItem {
+  id: string
+  name: string
+  hebrew: string
+  emoji: string
+  isSea: boolean
+}
+
+export const ANIMALS: AnimalItem[] = [
+  { id: 'monkey',    name: 'monkey',    hebrew: 'קוף',      emoji: '🐒', isSea: false },
+  { id: 'fox',       name: 'fox',       hebrew: 'שועל',     emoji: '🦊', isSea: false },
+  { id: 'whale',     name: 'whale',     hebrew: 'לוויתן',   emoji: '🐋', isSea: true  },
+  { id: 'dolphin',   name: 'dolphin',   hebrew: 'דולפין',   emoji: '🐬', isSea: true  },
+  { id: 'jellyfish', name: 'jellyfish', hebrew: 'מדוזה',    emoji: '🪼', isSea: true  },
+  { id: 'octopus',   name: 'octopus',   hebrew: 'תמנון',    emoji: '🐙', isSea: true  },
+  { id: 'shark',     name: 'shark',     hebrew: 'כריש',     emoji: '🦈', isSea: true  },
+  { id: 'kangaroo',  name: 'kangaroo',  hebrew: 'קנגורו',   emoji: '🦘', isSea: false },
+  { id: 'penguin',   name: 'penguin',   hebrew: 'פינגווין', emoji: '🐧', isSea: false },
+  { id: 'gorilla',   name: 'gorilla',   hebrew: 'גורילה',   emoji: '🦍', isSea: false },
+  { id: 'parrot',    name: 'parrot',    hebrew: 'תוכי',     emoji: '🦜', isSea: false },
+  { id: 'mouse',     name: 'mouse',     hebrew: 'עכבר',     emoji: '🐭', isSea: false },
+]
+
+export interface FruitVegItem {
+  id: string
+  name: string
+  hebrew: string
+  emoji: string
+  type: 'fruit' | 'vegetable'
+}
+
+export const FRUIT_VEG: FruitVegItem[] = [
+  { id: 'watermelon', name: 'watermelon', hebrew: 'אבטיח',     emoji: '🍉', type: 'fruit'     },
+  { id: 'strawberry', name: 'strawberry', hebrew: 'תות שדה',   emoji: '🍓', type: 'fruit'     },
+  { id: 'grapes',     name: 'grapes',     hebrew: 'ענבים',     emoji: '🍇', type: 'fruit'     },
+  { id: 'cherry',     name: 'cherry',     hebrew: 'דובדבן',    emoji: '🍒', type: 'fruit'     },
+  { id: 'peach',      name: 'peach',      hebrew: 'אפרסק',     emoji: '🍑', type: 'fruit'     },
+  { id: 'pear',       name: 'pear',       hebrew: 'אגס',       emoji: '🍐', type: 'fruit'     },
+  { id: 'lemon',      name: 'lemon',      hebrew: 'לימון',     emoji: '🍋', type: 'fruit'     },
+  { id: 'tomato',     name: 'tomato',     hebrew: 'עגבנייה',   emoji: '🍅', type: 'fruit'     },
+  { id: 'carrot',     name: 'carrot',     hebrew: 'גזר',       emoji: '🥕', type: 'vegetable' },
+  { id: 'broccoli',   name: 'broccoli',   hebrew: 'ברוקולי',   emoji: '🥦', type: 'vegetable' },
+  { id: 'cucumber',   name: 'cucumber',   hebrew: 'מלפפון',    emoji: '🥒', type: 'vegetable' },
+  { id: 'potato',     name: 'potato',     hebrew: 'תפוח אדמה', emoji: '🥔', type: 'vegetable' },
+  { id: 'pepper',     name: 'pepper',     hebrew: 'פלפל',      emoji: '🫑', type: 'vegetable' },
+  { id: 'onion',      name: 'onion',      hebrew: 'בצל',       emoji: '🧅', type: 'vegetable' },
+]
+
 export interface ColorItem {
   name: string
   bg: string
