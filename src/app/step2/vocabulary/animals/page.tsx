@@ -26,8 +26,8 @@ function LearnTab() {
             className="bg-white border-4 border-green-200 rounded-2xl px-2 py-3 flex flex-col items-center gap-1
                        hover:bg-green-50 active:scale-95 transition-all cursor-pointer"
           >
-            <span className="text-3xl">{a.emoji}</span>
-            <span className="font-display font-black text-green-800 text-sm leading-tight text-center">{a.name}</span>
+            <span className="text-5xl">{a.emoji}</span>
+            <span className="font-display font-black text-green-800 text-base leading-tight text-center">{a.name}</span>
           </button>
         ))}
       </div>
@@ -124,8 +124,8 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
                 ${isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-green-50 border-green-200 hover:bg-green-100 hover:scale-105 active:scale-95'}
               `}
             >
-              <span className="text-4xl">{opt.emoji}</span>
-              <span className="font-bold text-xs text-gray-500">{opt.name}</span>
+              <span className="text-5xl">{opt.emoji}</span>
+              <span className="font-bold text-sm text-gray-500">{opt.name}</span>
             </button>
           )
         })}
@@ -339,7 +339,7 @@ function BubbleInner({ onAgain }: { onAgain: () => void }) {
                   : `bubble-float-${b.floatIdx} ${5 + b.floatIdx * 1.1}s ease-in-out ${b.delay}s infinite`,
               }}
             >
-              <span className="text-2xl">{b.emoji}</span>
+              <span className="text-3xl">{b.emoji}</span>
             </button>
           )
         })}
@@ -413,9 +413,9 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
         setTimeout(() => {
           setMatched(prev => { const s = new Set(prev); s.add(a.id); s.add(b.id); return s })
           setFlipped([]); setChecking(false)
-        }, 600)
+        }, 2600)
       } else {
-        setTimeout(() => { setFlipped([]); setChecking(false) }, 900)
+        setTimeout(() => { setFlipped([]); setChecking(false) }, 2900)
       }
     }
   }
@@ -542,14 +542,9 @@ function SortInner({ onAgain }: { onAgain: () => void }) {
                   borderColor={wrong === id ? 'border-red-400' : 'border-green-400'}
                   textColor={wrong === id ? 'text-red-800' : 'text-green-900'}
                   size="sm"
-                  className={`!w-auto min-w-[60px] px-2 text-xs ${wrong === id ? 'shake' : ''}`}
+                  className={`!w-auto min-w-[70px] px-2 text-base font-bold ${wrong === id ? 'shake' : ''}`}
                   onDropped={handleDrop}
-                >
-                  <div className="flex flex-col items-center gap-0.5">
-                    <span className="text-lg">{a.emoji}</span>
-                    <span className="text-[10px] font-bold">{a.name}</span>
-                  </div>
-                </DraggableTile>
+                />
               )
             })}
           </div>
@@ -576,27 +571,42 @@ function Ex3Tab() {
 
 // ── Ex4: Match word → emoji ───────────────────────────────────────────────────
 
+type AnimalSel = { type: 'word' | 'emoji'; value: string }
+
 function MatchInner({ onAgain }: { onAgain: () => void }) {
   const [shuffledWords] = useState<AnimalItem[]>(() => shuffle([...ANIMALS]))
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<AnimalSel | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
-  const [wrongPair, setWrongPair] = useState<string | null>(null)
+  const [wrongSel, setWrongSel] = useState<AnimalSel | null>(null)
   const allDone = matched.size === ANIMALS.length
 
   function handleWordClick(id: string) {
     if (matched.has(id)) return
-    setSelected(id)
-    setWrongPair(null)
+    setWrongSel(null)
+    if (!selected || selected.type === 'word') {
+      setSelected({ type: 'word', value: id })
+    } else {
+      if (selected.value === id) {
+        setMatched(prev => { const s = new Set(prev); s.add(id); return s }); setSelected(null)
+      } else {
+        setWrongSel(selected)
+        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
+      }
+    }
   }
 
   function handleEmojiClick(id: string) {
-    if (!selected || matched.has(id)) return
-    if (selected === id) {
-      setMatched(prev => { const s = new Set(prev); s.add(id); return s })
-      setSelected(null)
+    if (matched.has(id)) return
+    setWrongSel(null)
+    if (!selected || selected.type === 'emoji') {
+      setSelected({ type: 'emoji', value: id })
     } else {
-      setWrongPair(selected)
-      setTimeout(() => { setWrongPair(null); setSelected(null) }, 500)
+      if (selected.value === id) {
+        setMatched(prev => { const s = new Set(prev); s.add(id); return s }); setSelected(null)
+      } else {
+        setWrongSel(selected)
+        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
+      }
     }
   }
 
@@ -609,16 +619,16 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
         <div className="flex-1 flex flex-col gap-1">
           {shuffledWords.map(a => {
             const isMatched = matched.has(a.id)
-            const isSel = selected === a.id
-            const isWrong = wrongPair === a.id
+            const isSel = selected?.type === 'word' && selected.value === a.id
+            const isWrong = wrongSel?.type === 'word' && wrongSel.value === a.id
             return (
               <button
                 key={a.id}
                 onClick={() => !isMatched && handleWordClick(a.id)}
                 disabled={isMatched}
                 className={`
-                  py-1 px-3 rounded-xl border-4 font-bold text-sm text-left
-                  transition-all duration-150 cursor-pointer select-none min-h-[36px]
+                  py-1 px-3 rounded-xl border-4 font-bold text-base text-left
+                  transition-all duration-150 cursor-pointer select-none min-h-[42px]
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isSel ? 'bg-green-200 border-green-500 text-green-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -631,15 +641,20 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
         <div className="flex flex-col gap-1 w-12">
           {ANIMALS.map(a => {
             const isMatched = matched.has(a.id)
+            const isEmojiSel = selected?.type === 'emoji' && selected.value === a.id
+            const isEmojiWrong = wrongSel?.type === 'emoji' && wrongSel.value === a.id
             return (
               <button
                 key={a.id}
                 onClick={() => !isMatched && handleEmojiClick(a.id)}
                 disabled={isMatched}
                 className={`
-                  h-[36px] w-full rounded-xl border-4 flex items-center justify-center text-xl
+                  h-[42px] w-full rounded-xl border-4 flex items-center justify-center text-xl
                   transition-all duration-150 cursor-pointer select-none
-                  ${isMatched ? 'bg-green-100 border-green-400 opacity-50' : 'bg-white border-green-200 hover:bg-green-50 hover:scale-105 active:scale-95'}
+                  ${isMatched ? 'bg-green-100 border-green-400 opacity-50' : ''}
+                  ${isEmojiSel ? 'bg-green-200 border-green-500 scale-110 shadow-lg' : ''}
+                  ${isEmojiWrong ? 'bg-red-100 border-red-400 shake' : ''}
+                  ${!isMatched && !isEmojiSel && !isEmojiWrong ? 'bg-white border-green-200 hover:bg-green-50 hover:scale-105 active:scale-95' : ''}
                 `}
               >{a.emoji}</button>
             )

@@ -424,9 +424,9 @@ function ColorMemoryInner({ onAgain }: { onAgain: () => void }) {
           setMatched(prev => { const s = new Set(prev); s.add(a.id); s.add(b.id); return s })
           setFlipped([])
           setChecking(false)
-        }, 600)
+        }, 2600)
       } else {
-        setTimeout(() => { setFlipped([]); setChecking(false) }, 900)
+        setTimeout(() => { setFlipped([]); setChecking(false) }, 2900)
       }
     }
   }
@@ -488,29 +488,43 @@ function MemoryTab() {
 
 // ── Match ─────────────────────────────────────────────────────────────────────
 
+type ColorSel = { type: 'name' | 'swatch'; value: string }
+
 function MatchInner({ onAgain }: { onAgain: () => void }) {
   const [shuffled] = useState<ColorItem[]>(() => shuffle([...COLORS]))
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<ColorSel | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
-  const [wrongPair, setWrongPair] = useState<string | null>(null)
+  const [wrongSel, setWrongSel] = useState<ColorSel | null>(null)
 
   const allDone = matched.size === COLORS.length
 
   function handleNameClick(name: string) {
     if (matched.has(name)) return
-    setSelected(name)
-    setWrongPair(null)
+    setWrongSel(null)
+    if (!selected || selected.type === 'name') {
+      setSelected({ type: 'name', value: name })
+    } else {
+      if (selected.value === name) {
+        const next = new Set(matched); next.add(name); setMatched(next); setSelected(null)
+      } else {
+        setWrongSel(selected)
+        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
+      }
+    }
   }
 
   function handleSwatchClick(name: string) {
-    if (!selected || matched.has(name)) return
-    if (selected === name) {
-      const next = new Set(matched); next.add(name)
-      setMatched(next)
-      setSelected(null)
+    if (matched.has(name)) return
+    setWrongSel(null)
+    if (!selected || selected.type === 'swatch') {
+      setSelected({ type: 'swatch', value: name })
     } else {
-      setWrongPair(selected)
-      setTimeout(() => { setWrongPair(null); setSelected(null) }, 500)
+      if (selected.value === name) {
+        const next = new Set(matched); next.add(name); setMatched(next); setSelected(null)
+      } else {
+        setWrongSel(selected)
+        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
+      }
     }
   }
 
@@ -524,16 +538,16 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
         <div className="flex-1 flex flex-col gap-1">
           {shuffled.map(c => {
             const isMatched = matched.has(c.name)
-            const isSel = selected === c.name
-            const isWrong = wrongPair === c.name
+            const isSel = selected?.type === 'name' && selected.value === c.name
+            const isWrong = wrongSel?.type === 'name' && wrongSel.value === c.name
             return (
               <button
                 key={c.name}
                 onClick={() => !isMatched && handleNameClick(c.name)}
                 disabled={isMatched}
                 className={`
-                  py-1 px-3 rounded-xl border-4 font-bold text-sm text-left
-                  transition-all duration-150 cursor-pointer select-none min-h-[38px]
+                  py-1 px-3 rounded-xl border-4 font-bold text-base text-left
+                  transition-all duration-150 cursor-pointer select-none min-h-[44px]
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isSel ? 'bg-pink-200 border-pink-500 text-pink-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -549,15 +563,20 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
         <div className="flex flex-col gap-1 w-12">
           {COLORS.map(c => {
             const isMatched = matched.has(c.name)
+            const isSwatchSel = selected?.type === 'swatch' && selected.value === c.name
+            const isSwatchWrong = wrongSel?.type === 'swatch' && wrongSel.value === c.name
             return (
               <button
                 key={c.name}
                 onClick={() => !isMatched && handleSwatchClick(c.name)}
                 disabled={isMatched}
                 className={`
-                  h-[38px] w-full rounded-xl border-4 ${c.bg} ${c.border}
+                  h-[44px] w-full rounded-xl border-4 ${c.bg} ${c.border}
                   transition-all duration-150 cursor-pointer select-none
-                  ${isMatched ? 'opacity-50' : 'hover:scale-105 active:scale-95'}
+                  ${isMatched ? 'opacity-50' : ''}
+                  ${isSwatchSel ? 'scale-110 shadow-lg ring-4 ring-pink-400' : ''}
+                  ${isSwatchWrong ? 'shake opacity-60' : ''}
+                  ${!isMatched && !isSwatchSel && !isSwatchWrong ? 'hover:scale-105 active:scale-95' : ''}
                 `}
               />
             )

@@ -26,8 +26,8 @@ function LearnTab() {
             className="bg-white border-4 border-amber-200 rounded-2xl px-2 py-3 flex flex-col items-center gap-1
                        hover:bg-amber-50 active:scale-95 transition-all cursor-pointer"
           >
-            <span className="text-3xl">{f.emoji}</span>
-            <span className="font-display font-black text-amber-800 text-sm leading-tight text-center">{f.name}</span>
+            <span className="text-5xl">{f.emoji}</span>
+            <span className="font-display font-black text-amber-800 text-base leading-tight text-center">{f.name}</span>
           </button>
         ))}
       </div>
@@ -124,8 +124,8 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
                 ${isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-amber-50 border-amber-200 hover:bg-amber-100 hover:scale-105 active:scale-95'}
               `}
             >
-              <span className="text-4xl">{opt.emoji}</span>
-              <span className="font-bold text-xs text-gray-500">{opt.name}</span>
+              <span className="text-5xl">{opt.emoji}</span>
+              <span className="font-bold text-sm text-gray-500">{opt.name}</span>
             </button>
           )
         })}

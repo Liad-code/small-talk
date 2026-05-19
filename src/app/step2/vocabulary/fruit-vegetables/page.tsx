@@ -25,8 +25,8 @@ function LearnTab() {
             className="bg-white border-4 border-red-200 rounded-2xl px-2 py-3 flex flex-col items-center gap-1
                        hover:bg-red-50 active:scale-95 transition-all cursor-pointer"
           >
-            <span className="text-3xl">{f.emoji}</span>
-            <span className="font-display font-black text-red-800 text-xs leading-tight text-center">{f.name}</span>
+            <span className="text-5xl">{f.emoji}</span>
+            <span className="font-display font-black text-red-800 text-sm leading-tight text-center">{f.name}</span>
           </button>
         ))}
       </div>
@@ -123,8 +123,8 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
                 ${isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-orange-50 border-orange-200 hover:bg-orange-100 hover:scale-105 active:scale-95'}
               `}
             >
-              <span className="text-4xl">{opt.emoji}</span>
-              <span className="font-bold text-xs text-gray-500">{opt.name}</span>
+              <span className="text-5xl">{opt.emoji}</span>
+              <span className="font-bold text-sm text-gray-500">{opt.name}</span>
             </button>
           )
         })}
@@ -226,18 +226,23 @@ function Quiz2Tab() {
   return <Quiz2Inner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
-// ── Ex1: Word Search ──────────────────────────────────────────────────────────
+// ── Ex1: Word Search (3 rounds) ───────────────────────────────────────────────
 
 const WS_SIZE = 12
-const WS_WORDS = FRUIT_VEG.map(f => f.name.toUpperCase())
 const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const WS_ROUNDS: FruitVegItem[][] = [
+  FRUIT_VEG.slice(0, 5),
+  FRUIT_VEG.slice(5, 10),
+  FRUIT_VEG.slice(10),
+]
 
 interface WsPlacement { word: string; row: number; col: number; dir: 'h' | 'v' }
 
-function generateWordSearch(): { grid: string[][]; placements: WsPlacement[] } {
+function generateWordSearch(items: FruitVegItem[]): { grid: string[][]; placements: WsPlacement[] } {
+  const words = items.map(f => f.name.toUpperCase())
   const grid: string[][] = Array(WS_SIZE).fill(null).map(() => Array(WS_SIZE).fill(''))
   const placements: WsPlacement[] = []
-  const sorted = [...WS_WORDS].sort((a, b) => b.length - a.length)
+  const sorted = [...words].sort((a, b) => b.length - a.length)
 
   for (const word of sorted) {
     let placed = false
@@ -273,8 +278,14 @@ function generateWordSearch(): { grid: string[][]; placements: WsPlacement[] } {
   return { grid, placements }
 }
 
-function WordSearchInner({ onAgain }: { onAgain: () => void }) {
-  const [{ grid, placements }] = useState(generateWordSearch)
+function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
+  items: FruitVegItem[]
+  roundIdx: number
+  totalRounds: number
+  onNext: () => void
+  onRestart: () => void
+}) {
+  const [{ grid, placements }] = useState(() => generateWordSearch(items))
   const [found, setFound] = useState<Set<string>>(new Set())
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set())
   const [dragging, setDragging] = useState(false)
@@ -312,39 +323,32 @@ function WordSearchInner({ onAgain }: { onAgain: () => void }) {
   }
 
   function onCellPointerDown(r: number, c: number) {
-    setDragging(true)
-    setStartCell([r, c])
-    setSelection([[r, c]])
+    setDragging(true); setStartCell([r, c]); setSelection([[r, c]])
   }
 
   function onCellPointerEnter(r: number, c: number) {
     if (!dragging || !startCell) return
-    const cells = getLineCells(startCell[0], startCell[1], r, c)
-    setSelection(cells)
+    setSelection(getLineCells(startCell[0], startCell[1], r, c))
   }
 
   function onPointerUp() {
     if (!dragging) return
-    setDragging(false)
-    checkSelection(selection)
-    setStartCell(null)
-    setSelection([])
+    setDragging(false); checkSelection(selection); setStartCell(null); setSelection([])
   }
 
   const selKeys = new Set(selection.map(([r, c]) => cellKey(r, c)))
-
   const cellPx = Math.floor((Math.min(340, typeof window !== 'undefined' ? window.innerWidth - 32 : 340)) / WS_SIZE)
 
   return (
     <div className="max-w-sm mx-auto px-2 pb-16" onPointerUp={onPointerUp}>
-      <p className="text-center font-bold text-gray-500 text-xs mb-2" dir="rtl">
-        גלול את האצבע על האותיות ומצא את המילים
-      </p>
+      <div className="flex justify-between items-center mb-2">
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">גלול את האצבע על האותיות ומצא את המילים</p>
+        <span className="text-xs font-bold text-red-500">סבב {roundIdx + 1}/{totalRounds}</span>
+      </div>
       <div className="flex justify-center mb-3 text-sm font-bold text-gray-500">
         {found.size} / {placements.length} מילים נמצאו
       </div>
 
-      {/* Grid */}
       <div
         className="border-2 border-gray-300 rounded-xl overflow-hidden mb-4 select-none touch-none"
         style={{ touchAction: 'none' }}
@@ -375,9 +379,8 @@ function WordSearchInner({ onAgain }: { onAgain: () => void }) {
         ))}
       </div>
 
-      {/* Word list */}
-      <div className="grid grid-cols-2 gap-1.5">
-        {FRUIT_VEG.map(f => {
+      <div className="grid grid-cols-2 gap-1.5 mb-4">
+        {items.map(f => {
           const isFound = found.has(f.name.toUpperCase())
           return (
             <div
@@ -393,10 +396,19 @@ function WordSearchInner({ onAgain }: { onAgain: () => void }) {
       </div>
 
       {allFound && (
-        <div className="text-center mt-5 bounce-in">
+        <div className="text-center mt-3 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">כל המילים נמצאו!</p>
-          <button onClick={onAgain} className="btn-kid bg-red-500">🔁 Again</button>
+          {roundIdx + 1 < totalRounds ? (
+            <>
+              <p className="font-display font-bold text-xl text-green-600 mb-3">סבב {roundIdx + 1} הושלם!</p>
+              <button onClick={onNext} className="btn-kid bg-red-500">סבב הבא →</button>
+            </>
+          ) : (
+            <>
+              <p className="font-display font-bold text-xl text-green-600 mb-3">כל המילים נמצאו! 🌟</p>
+              <button onClick={onRestart} className="btn-kid bg-red-500">🔁 Again</button>
+            </>
+          )}
         </div>
       )}
     </div>
@@ -404,8 +416,18 @@ function WordSearchInner({ onAgain }: { onAgain: () => void }) {
 }
 
 function Ex1Tab() {
+  const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
-  return <WordSearchInner key={k} onAgain={() => setK(n => n + 1)} />
+  return (
+    <WordSearchRound
+      key={`${round}-${k}`}
+      items={WS_ROUNDS[round]}
+      roundIdx={round}
+      totalRounds={WS_ROUNDS.length}
+      onNext={() => setRound(r => r + 1)}
+      onRestart={() => { setRound(0); setK(n => n + 1) }}
+    />
+  )
 }
 
 // ── Ex2: I Spy ────────────────────────────────────────────────────────────────

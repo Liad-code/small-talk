@@ -85,13 +85,15 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
     if (wrong !== null) return
     if (digit === current.digit) {
       const next = idx + 1
-      if (next >= queue.length) {
-        if (cycleIdx + 1 >= QUIZ1_CYCLES.length) onDone()
-        else onNext()
-      } else {
-        setIdx(next)
-        speak(String(queue[next].digit), 0.75)
-      }
+      setTimeout(() => {
+        if (next >= queue.length) {
+          if (cycleIdx + 1 >= QUIZ1_CYCLES.length) onDone()
+          else onNext()
+        } else {
+          setIdx(next)
+          speak(String(queue[next].digit), 0.75)
+        }
+      }, 300)
     } else {
       setWrong(digit)
       setTimeout(() => setWrong(null), 500)
@@ -300,9 +302,9 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
           setMatched(prev => { const s = new Set(prev); s.add(a.id); s.add(b.id); return s })
           setFlipped([])
           setChecking(false)
-        }, 600)
+        }, 2600)
       } else {
-        setTimeout(() => { setFlipped([]); setChecking(false) }, 900)
+        setTimeout(() => { setFlipped([]); setChecking(false) }, 2900)
       }
     }
   }
@@ -364,30 +366,43 @@ function Ex1Tab() {
 
 // ── Ex2: Match 11–19 ─────────────────────────────────────────────────────────
 
+type NumSel = { type: 'word' | 'digit'; value: number }
+
 function Ex2Inner({ onAgain }: { onAgain: () => void }) {
   const [shuffledWords] = useState<NumberItem[]>(() => shuffle([...NUMBERS_11_19]))
-  const [selected, setSelected] = useState<number | null>(null)
+  const [selected, setSelected] = useState<NumSel | null>(null)
   const [matched, setMatched] = useState<Set<number>>(new Set())
-  const [wrongPair, setWrongPair] = useState<number | null>(null)
+  const [wrongSel, setWrongSel] = useState<NumSel | null>(null)
 
   const allDone = matched.size === NUMBERS_11_19.length
 
   function handleWordClick(digit: number) {
     if (matched.has(digit)) return
-    setSelected(digit)
-    setWrongPair(null)
+    setWrongSel(null)
+    if (!selected || selected.type === 'word') {
+      setSelected({ type: 'word', value: digit })
+    } else {
+      if (selected.value === digit) {
+        const next = new Set(matched); next.add(digit); setMatched(next); setSelected(null)
+      } else {
+        setWrongSel(selected)
+        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
+      }
+    }
   }
 
   function handleDigitClick(digit: number) {
-    if (!selected || matched.has(digit)) return
-    if (selected === digit) {
-      const next = new Set(matched)
-      next.add(digit)
-      setMatched(next)
-      setSelected(null)
+    if (matched.has(digit)) return
+    setWrongSel(null)
+    if (!selected || selected.type === 'digit') {
+      setSelected({ type: 'digit', value: digit })
     } else {
-      setWrongPair(selected)
-      setTimeout(() => { setWrongPair(null); setSelected(null) }, 500)
+      if (selected.value === digit) {
+        const next = new Set(matched); next.add(digit); setMatched(next); setSelected(null)
+      } else {
+        setWrongSel(selected)
+        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
+      }
     }
   }
 
@@ -401,15 +416,15 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="flex-1 flex flex-col gap-2">
           {shuffledWords.map(n => {
             const isMatched = matched.has(n.digit)
-            const isSel = selected === n.digit
-            const isWrong = wrongPair === n.digit
+            const isSel = selected?.type === 'word' && selected.value === n.digit
+            const isWrong = wrongSel?.type === 'word' && wrongSel.value === n.digit
             return (
               <button
                 key={n.digit}
                 onClick={() => !isMatched && handleWordClick(n.digit)}
                 disabled={isMatched}
                 className={`
-                  py-2 px-3 rounded-xl border-4 font-bold text-base text-left
+                  py-2 px-3 rounded-xl border-4 font-bold text-lg text-left
                   transition-all duration-150 cursor-pointer select-none min-h-[48px]
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isSel ? 'bg-blue-200 border-blue-500 text-blue-900 scale-105 shadow-lg' : ''}
@@ -426,6 +441,8 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="flex flex-col gap-2 w-16">
           {NUMBERS_11_19.map(n => {
             const isMatched = matched.has(n.digit)
+            const isDigitSel = selected?.type === 'digit' && selected.value === n.digit
+            const isDigitWrong = wrongSel?.type === 'digit' && wrongSel.value === n.digit
             return (
               <button
                 key={n.digit}
@@ -435,7 +452,9 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
                   h-[48px] w-full rounded-xl border-4 font-black text-lg
                   transition-all duration-150 cursor-pointer select-none
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
-                  ${!isMatched ? 'bg-indigo-50 border-indigo-300 text-indigo-800 hover:bg-indigo-100 hover:scale-105' : ''}
+                  ${isDigitSel ? 'bg-indigo-200 border-indigo-500 text-indigo-900 scale-105 shadow-lg' : ''}
+                  ${isDigitWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
+                  ${!isMatched && !isDigitSel && !isDigitWrong ? 'bg-indigo-50 border-indigo-300 text-indigo-800 hover:bg-indigo-100 hover:scale-105' : ''}
                 `}
               >
                 {n.digit}
@@ -525,7 +544,7 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
                 transition-all duration-200
               `}
             >
-              <span className="font-black text-blue-400 text-xs w-8 flex-shrink-0 text-right">{n.digit}</span>
+              <span className="font-black text-blue-700 text-xl w-10 flex-shrink-0 text-right">{n.digit}</span>
               {filled
                 ? <span className="font-bold text-blue-900 text-sm">{filled}</span>
                 : <span className="font-bold text-gray-300 text-xs">___</span>
