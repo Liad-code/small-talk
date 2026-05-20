@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
@@ -76,7 +76,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       if (next >= queue.length) setDone(true)
       else {
         setIdx(next)
-        speak(queue[next].name, 0.8)
+        setTimeout(() => speak(queue[next].name, 0.8), 1000)
       }
     } else {
       setWrong(id)
@@ -205,7 +205,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
               key={opt.id}
               onClick={() => handleAnswer(opt.id)}
               className={`
-                rounded-2xl border-4 py-4 font-display font-black text-sm
+                rounded-2xl border-4 py-4 font-display font-black text-xl
                 transition-all duration-150 cursor-pointer select-none
                 ${isCorrect ? 'bg-green-200 border-green-400 text-green-800 scale-105' : ''}
                 ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -228,7 +228,7 @@ function Quiz2Tab() {
 
 // ── Ex1: Word Search (3 rounds) ───────────────────────────────────────────────
 
-const WS_SIZE = 12
+const WS_SIZE = 10
 const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const WS_ROUNDS: FruitVegItem[][] = [
   FRUIT_VEG.slice(0, 5),
@@ -288,71 +288,70 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
   const [{ grid, placements }] = useState(() => generateWordSearch(items))
   const [found, setFound] = useState<Set<string>>(new Set())
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set())
-  const [dragging, setDragging] = useState(false)
-  const [startCell, setStartCell] = useState<[number, number] | null>(null)
-  const [selection, setSelection] = useState<[number, number][]>([])
+  const [selPath, setSelPath] = useState<[number, number][]>([])
+  const [flashRed, setFlashRed] = useState(false)
 
   const allFound = found.size === placements.length
 
   function cellKey(r: number, c: number) { return `${r},${c}` }
 
-  function getLineCells(r0: number, c0: number, r1: number, c1: number): [number, number][] {
-    const cells: [number, number][] = []
-    if (r0 === r1) {
-      const minC = Math.min(c0, c1), maxC = Math.max(c0, c1)
-      for (let c = minC; c <= maxC; c++) cells.push([r0, c])
-    } else if (c0 === c1) {
-      const minR = Math.min(r0, r1), maxR = Math.max(r0, r1)
-      for (let r = minR; r <= maxR; r++) cells.push([r, c0])
-    } else {
-      cells.push([r0, c0])
-    }
-    return cells
-  }
+  function handleCellClick(r: number, c: number) {
+    if (flashRed) return
+    const key = cellKey(r, c)
+    if (highlighted.has(key)) return
 
-  function checkSelection(cells: [number, number][]) {
-    if (cells.length < 2) return
-    const letters = cells.map(([r, c]) => grid[r][c]).join('')
+    const selKeys = new Set(selPath.map(([pr, pc]) => cellKey(pr, pc)))
+    if (selKeys.has(key)) { setSelPath([]); return }
+
+    if (selPath.length === 0) { setSelPath([[r, c]]); return }
+
+    const [lastR, lastC] = selPath[selPath.length - 1]
+    const dr = r - lastR
+    const dc = c - lastC
+
+    if (Math.abs(dr) + Math.abs(dc) !== 1) {
+      setFlashRed(true)
+      setTimeout(() => { setFlashRed(false); setSelPath([]) }, 400)
+      return
+    }
+
+    if (selPath.length >= 2) {
+      const dir = selPath[1][0] === selPath[0][0] ? 'h' : 'v'
+      if ((dir === 'h' && dr !== 0) || (dir === 'v' && dc !== 0)) {
+        setFlashRed(true)
+        setTimeout(() => { setFlashRed(false); setSelPath([]) }, 400)
+        return
+      }
+    }
+
+    const newPath: [number, number][] = [...selPath, [r, c]]
+    const letters = newPath.map(([pr, pc]) => grid[pr][pc]).join('')
     const match = placements.find(p => p.word === letters && !found.has(p.word))
     if (match) {
       setFound(prev => { const s = new Set<string>(); prev.forEach(v => s.add(v)); s.add(match.word); return s })
       const newHighlighted = new Set(highlighted)
-      cells.forEach(([r, c]) => newHighlighted.add(cellKey(r, c)))
+      newPath.forEach(([pr, pc]) => newHighlighted.add(cellKey(pr, pc)))
       setHighlighted(newHighlighted)
+      setSelPath([])
+    } else {
+      setSelPath(newPath)
     }
   }
 
-  function onCellPointerDown(r: number, c: number) {
-    setDragging(true); setStartCell([r, c]); setSelection([[r, c]])
-  }
-
-  function onCellPointerEnter(r: number, c: number) {
-    if (!dragging || !startCell) return
-    setSelection(getLineCells(startCell[0], startCell[1], r, c))
-  }
-
-  function onPointerUp() {
-    if (!dragging) return
-    setDragging(false); checkSelection(selection); setStartCell(null); setSelection([])
-  }
-
-  const selKeys = new Set(selection.map(([r, c]) => cellKey(r, c)))
+  const selKeys = new Set(selPath.map(([r, c]) => cellKey(r, c)))
   const cellPx = Math.floor((Math.min(340, typeof window !== 'undefined' ? window.innerWidth - 32 : 340)) / WS_SIZE)
 
   return (
-    <div className="max-w-sm mx-auto px-2 pb-16" onPointerUp={onPointerUp}>
+    <div className="max-w-sm mx-auto px-2 pb-16">
       <div className="flex justify-between items-center mb-2">
-        <p className="font-bold text-gray-500 text-xs" dir="rtl">גלול את האצבע על האותיות ומצא את המילים</p>
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על האותיות אחת אחת ומצא את המילים</p>
         <span className="text-xs font-bold text-red-500">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
       <div className="flex justify-center mb-3 text-sm font-bold text-gray-500">
         {found.size} / {placements.length} מילים נמצאו
       </div>
 
-      <div
-        className="border-2 border-gray-300 rounded-xl overflow-hidden mb-4 select-none touch-none"
-        style={{ touchAction: 'none' }}
-      >
+      <div className={`border-2 rounded-xl overflow-hidden mb-4 select-none ${flashRed ? 'border-red-400' : 'border-gray-300'}`}>
         {Array.from({ length: WS_SIZE }, (_, r) => (
           <div key={r} className="flex">
             {Array.from({ length: WS_SIZE }, (_, c) => {
@@ -362,12 +361,11 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
               return (
                 <div
                   key={c}
-                  onPointerDown={() => onCellPointerDown(r, c)}
-                  onPointerEnter={() => onCellPointerEnter(r, c)}
+                  onClick={() => handleCellClick(r, c)}
                   className={`
                     flex items-center justify-center border border-gray-100 cursor-pointer select-none
                     font-display font-black transition-colors duration-100
-                    ${isFound ? 'bg-green-200 text-green-800' : isSel ? 'bg-yellow-200 text-yellow-800' : 'bg-white text-gray-700'}
+                    ${isFound ? 'bg-green-200 text-green-800' : flashRed && isSel ? 'bg-red-200 text-red-800' : isSel ? 'bg-yellow-200 text-yellow-800' : 'bg-white text-gray-700'}
                   `}
                   style={{ width: cellPx, height: cellPx, fontSize: Math.max(9, cellPx - 10) }}
                 >
@@ -430,36 +428,60 @@ function Ex1Tab() {
   )
 }
 
-// ── Ex2: I Spy ────────────────────────────────────────────────────────────────
+// ── Ex2: I Spy (3 rounds) ─────────────────────────────────────────────────────
 
-const I_SPY_ITEMS = [
-  { id: 'watermelon', name: 'watermelon', emoji: '🍉', count: 3 },
-  { id: 'grapes',     name: 'grapes',     emoji: '🍇', count: 4 },
-  { id: 'peach',      name: 'peach',      emoji: '🍑', count: 2 },
-  { id: 'carrot',     name: 'carrot',     emoji: '🥕', count: 5 },
-  { id: 'potato',     name: 'potato',     emoji: '🥔', count: 3 },
-  { id: 'tomato',     name: 'tomato',     emoji: '🍅', count: 4 },
-  { id: 'lemon',      name: 'lemon',      emoji: '🍋', count: 2 },
+interface ISpyItem { id: string; name: string; emoji: string; count: number }
+
+const I_SPY_ROUNDS: ISpyItem[][] = [
+  [
+    { id: 'watermelon', name: 'watermelon', emoji: '🍉', count: 3 },
+    { id: 'strawberry', name: 'strawberry', emoji: '🍓', count: 2 },
+    { id: 'grapes',     name: 'grapes',     emoji: '🍇', count: 4 },
+    { id: 'cherry',     name: 'cherry',     emoji: '🍒', count: 3 },
+    { id: 'peach',      name: 'peach',      emoji: '🍑', count: 2 },
+    { id: 'pear',       name: 'pear',       emoji: '🍐', count: 4 },
+    { id: 'lemon',      name: 'lemon',      emoji: '🍋', count: 3 },
+  ],
+  [
+    { id: 'tomato',     name: 'tomato',     emoji: '🍅', count: 4 },
+    { id: 'carrot',     name: 'carrot',     emoji: '🥕', count: 5 },
+    { id: 'broccoli',   name: 'broccoli',   emoji: '🥦', count: 2 },
+    { id: 'cucumber',   name: 'cucumber',   emoji: '🥒', count: 3 },
+    { id: 'potato',     name: 'potato',     emoji: '🥔', count: 4 },
+    { id: 'pepper',     name: 'pepper',     emoji: '🫑', count: 2 },
+    { id: 'onion',      name: 'onion',      emoji: '🧅', count: 3 },
+  ],
+  [
+    { id: 'grapes2',    name: 'grapes',     emoji: '🍇', count: 3 },
+    { id: 'peach2',     name: 'peach',      emoji: '🍑', count: 4 },
+    { id: 'tomato2',    name: 'tomato',     emoji: '🍅', count: 2 },
+    { id: 'carrot2',    name: 'carrot',     emoji: '🥕', count: 3 },
+    { id: 'potato2',    name: 'potato',     emoji: '🥔', count: 5 },
+    { id: 'pepper2',    name: 'pepper',     emoji: '🫑', count: 3 },
+    { id: 'lemon2',     name: 'lemon',      emoji: '🍋', count: 2 },
+  ],
 ]
 
-function buildISpyLayout() {
-  const all: { id: string; emoji: string }[] = []
-  I_SPY_ITEMS.forEach(item => {
-    for (let i = 0; i < item.count; i++) {
-      all.push({ id: `${item.id}-${i}`, emoji: item.emoji })
-    }
+function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
+  items: ISpyItem[]
+  roundIdx: number
+  totalRounds: number
+  onNext: () => void
+  onRestart: () => void
+}) {
+  const [layout] = useState(() => {
+    const all: { id: string; emoji: string }[] = []
+    items.forEach(item => {
+      for (let i = 0; i < item.count; i++) all.push({ id: `${item.id}-${i}`, emoji: item.emoji })
+    })
+    return shuffle(all)
   })
-  return shuffle(all)
-}
-
-function ISpyInner({ onAgain }: { onAgain: () => void }) {
-  const [layout] = useState(buildISpyLayout)
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [flash, setFlash] = useState<Record<string, 'correct' | 'wrong'>>({})
   const [done, setDone] = useState(false)
 
   function handlePick(id: string, count: number) {
-    const item = I_SPY_ITEMS.find(x => x.id === id)!
+    const item = items.find(x => x.id === id)!
     const correct = count === item.count
     setAnswers(prev => ({ ...prev, [id]: count }))
     setFlash(prev => ({ ...prev, [id]: correct ? 'correct' : 'wrong' }))
@@ -468,7 +490,7 @@ function ISpyInner({ onAgain }: { onAgain: () => void }) {
       if (correct) {
         setAnswers(prev => {
           const next = { ...prev, [id]: count }
-          if (I_SPY_ITEMS.every(x => next[x.id] === x.count)) setDone(true)
+          if (items.every(x => next[x.id] === x.count)) setDone(true)
           return next
         })
       } else {
@@ -481,20 +503,31 @@ function ISpyInner({ onAgain }: { onAgain: () => void }) {
     return (
       <div className="text-center py-12 px-4 bounce-in">
         <div className="text-5xl mb-4">🎉</div>
-        <p className="font-display font-bold text-2xl text-red-700" dir="rtl">כל הכבוד! מצאת הכל!</p>
-        <button onClick={onAgain} className="btn-kid bg-red-500 mt-6">🔁 Again</button>
+        {roundIdx + 1 < totalRounds ? (
+          <>
+            <p className="font-display font-bold text-2xl text-red-700" dir="rtl">סבב {roundIdx + 1} הושלם!</p>
+            <button onClick={onNext} className="btn-kid bg-red-500 mt-6">סבב הבא →</button>
+          </>
+        ) : (
+          <>
+            <p className="font-display font-bold text-2xl text-red-700" dir="rtl">כל הכבוד! מצאת הכל!</p>
+            <button onClick={onRestart} className="btn-kid bg-red-500 mt-6">🔁 Again</button>
+          </>
+        )}
       </div>
     )
   }
 
   return (
     <div className="max-w-sm mx-auto px-3 pb-16">
-      <p className="text-center font-display font-bold text-red-700 text-lg mb-1">🔍 I Spy with My Little Eye</p>
-      <p className="text-center font-bold text-gray-500 text-xs mb-3" dir="rtl">
+      <div className="flex justify-between items-center mb-1">
+        <p className="font-display font-bold text-red-700 text-lg">🔍 I Spy</p>
+        <span className="text-xs font-bold text-red-500">סבב {roundIdx + 1}/{totalRounds}</span>
+      </div>
+      <p className="font-bold text-gray-500 text-xs mb-3" dir="rtl">
         ספור כמה פעמים כל פרי/ירק מופיע ולחץ על המספר הנכון
       </p>
 
-      {/* Scene */}
       <div className="bg-gradient-to-b from-sky-50 to-green-50 border-4 border-green-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-1 justify-center">
           {layout.map(cell => (
@@ -503,9 +536,8 @@ function ISpyInner({ onAgain }: { onAgain: () => void }) {
         </div>
       </div>
 
-      {/* Answer boxes */}
       <div className="flex flex-col gap-2">
-        {I_SPY_ITEMS.map(item => {
+        {items.map(item => {
           const answered = answers[item.id]
           const f = flash[item.id]
           const isCorrect = answered === item.count
@@ -541,8 +573,18 @@ function ISpyInner({ onAgain }: { onAgain: () => void }) {
 }
 
 function Ex2Tab() {
+  const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
-  return <ISpyInner key={k} onAgain={() => setK(n => n + 1)} />
+  return (
+    <ISpyRound
+      key={`${round}-${k}`}
+      items={I_SPY_ROUNDS[round]}
+      roundIdx={round}
+      totalRounds={I_SPY_ROUNDS.length}
+      onNext={() => setRound(r => r + 1)}
+      onRestart={() => { setRound(0); setK(n => n + 1) }}
+    />
+  )
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────

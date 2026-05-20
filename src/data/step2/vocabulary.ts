@@ -123,6 +123,97 @@ export const FRUIT_VEG: FruitVegItem[] = [
   { id: 'onion',      name: 'onion',      hebrew: 'בצל',       emoji: '🧅', type: 'vegetable' },
 ]
 
+export interface PrepItem {
+  id: string
+  name: string
+  hebrew: string
+  emoji: string
+  scene: string
+}
+
+export const PREPOSITIONS: PrepItem[] = [
+  { id: 'in',       name: 'in',          hebrew: 'בתוך',    emoji: '📦', scene: '🐱📦' },
+  { id: 'on',       name: 'on',          hebrew: 'על',      emoji: '🛋️', scene: '🐱🛋️' },
+  { id: 'under',    name: 'under',       hebrew: 'מתחת ל', emoji: '🛏️', scene: '🐱🛏️' },
+  { id: 'next-to',  name: 'next to',     hebrew: 'ליד',     emoji: '🌳', scene: '🐱🌳' },
+  { id: 'in-front', name: 'in front of', hebrew: 'לפני',    emoji: '🏠', scene: '🐱🏠' },
+  { id: 'behind',   name: 'behind',      hebrew: 'מאחורי', emoji: '🌲', scene: '🌲🐱' },
+  { id: 'between',  name: 'between',     hebrew: 'בין',     emoji: '🌳', scene: '🌳🐱🌳' },
+]
+
+export interface ClothesItem {
+  id: string
+  name: string
+  hebrew: string
+  emoji: string
+  warmSeason: boolean
+}
+
+export const CLOTHES: ClothesItem[] = [
+  { id: 'hat',     name: 'hat',     hebrew: 'כובע',           emoji: '🎩', warmSeason: false },
+  { id: 'shirt',   name: 'shirt',   hebrew: 'חולצה',          emoji: '👕', warmSeason: true  },
+  { id: 'shoes',   name: 'shoes',   hebrew: 'נעליים',         emoji: '👟', warmSeason: true  },
+  { id: 'coat',    name: 'coat',    hebrew: 'מעיל',           emoji: '🧥', warmSeason: false },
+  { id: 'pants',   name: 'pants',   hebrew: 'מכנסיים',        emoji: '👖', warmSeason: true  },
+  { id: 'dress',   name: 'dress',   hebrew: 'שמלה',           emoji: '👗', warmSeason: true  },
+  { id: 'shorts',  name: 'shorts',  hebrew: 'מכנסיים קצרים',  emoji: '🩳', warmSeason: true  },
+  { id: 'glasses', name: 'glasses', hebrew: 'משקפיים',        emoji: '👓', warmSeason: true  },
+  { id: 'cap',     name: 'cap',     hebrew: 'כובע מצחייה',    emoji: '🧢', warmSeason: true  },
+  { id: 'socks',   name: 'socks',   hebrew: 'גרביים',         emoji: '🧦', warmSeason: false },
+  { id: 'jacket',  name: 'jacket',  hebrew: "ז'קט",           emoji: '🥼', warmSeason: false },
+  { id: 'skirt',   name: 'skirt',   hebrew: 'חצאית',          emoji: '👘', warmSeason: true  },
+  { id: 'scarf',   name: 'scarf',   hebrew: 'צעיף',           emoji: '🧣', warmSeason: false },
+  { id: 'boots',   name: 'boots',   hebrew: 'מגפיים',         emoji: '🥾', warmSeason: false },
+  { id: 'gloves',  name: 'gloves',  hebrew: 'כפפות',          emoji: '🧤', warmSeason: false },
+]
+
+export interface ActionItem {
+  id: string
+  name: string
+  hebrew: string
+  emoji: string
+}
+
+export const ACTIONS: ActionItem[] = [
+  { id: 'drink', name: 'drink', hebrew: 'לשתות',  emoji: '🥤' },
+  { id: 'eat',   name: 'eat',   hebrew: 'לאכול',  emoji: '🍽️' },
+  { id: 'sleep', name: 'sleep', hebrew: 'לישון',  emoji: '😴' },
+  { id: 'run',   name: 'run',   hebrew: 'לרוץ',   emoji: '🏃' },
+  { id: 'jump',  name: 'jump',  hebrew: 'לקפוץ',  emoji: '🤸' },
+  { id: 'dance', name: 'dance', hebrew: 'לרקוד',  emoji: '💃' },
+  { id: 'walk',  name: 'walk',  hebrew: 'ללכת',   emoji: '🚶' },
+  { id: 'talk',  name: 'talk',  hebrew: 'לדבר',   emoji: '💬' },
+  { id: 'read',  name: 'read',  hebrew: 'לקרוא',  emoji: '📖' },
+  { id: 'sing',  name: 'sing',  hebrew: 'לשיר',   emoji: '🎤' },
+  { id: 'sit',   name: 'sit',   hebrew: 'לשבת',   emoji: '🪑' },
+  { id: 'swim',  name: 'swim',  hebrew: 'לשחות',  emoji: '🏊' },
+  { id: 'wash',  name: 'wash',  hebrew: 'לשטוף',  emoji: '🧼' },
+  { id: 'clean', name: 'clean', hebrew: 'לנקות',  emoji: '🧹' },
+  { id: 'play',  name: 'play',  hebrew: 'לשחק',   emoji: '🎮' },
+  { id: 'cry',   name: 'cry',   hebrew: 'לבכות',  emoji: '😢' },
+  { id: 'catch', name: 'catch', hebrew: 'לתפוס',  emoji: '🥎' },
+  { id: 'write', name: 'write', hebrew: 'לכתוב',  emoji: '✍️' },
+]
+
+export interface OppositePair {
+  id: string
+  word1: string; hebrew1: string; emoji1: string
+  word2: string; hebrew2: string; emoji2: string
+}
+
+export const OPPOSITES: OppositePair[] = [
+  { id: 'big-small',    word1: 'big',    hebrew1: 'גדול',  emoji1: '🐘', word2: 'small',  hebrew2: 'קטן',   emoji2: '🐭' },
+  { id: 'hot-cold',     word1: 'hot',    hebrew1: 'חם',    emoji1: '🔥', word2: 'cold',   hebrew2: 'קר',    emoji2: '❄️' },
+  { id: 'up-down',      word1: 'up',     hebrew1: 'למעלה', emoji1: '⬆️', word2: 'down',   hebrew2: 'למטה',  emoji2: '⬇️' },
+  { id: 'slow-fast',    word1: 'slow',   hebrew1: 'איטי',  emoji1: '🐢', word2: 'fast',   hebrew2: 'מהיר',  emoji2: '🐇' },
+  { id: 'tall-short',   word1: 'tall',   hebrew1: 'גבוה',  emoji1: '🦒', word2: 'short',  hebrew2: 'נמוך',  emoji2: '🐶' },
+  { id: 'open-close',   word1: 'open',   hebrew1: 'פתוח',  emoji1: '🔓', word2: 'close',  hebrew2: 'סגור',  emoji2: '🔒' },
+  { id: 'wet-dry',      word1: 'wet',    hebrew1: 'רטוב',  emoji1: '🌊', word2: 'dry',    hebrew2: 'יבש',   emoji2: '🏜️' },
+  { id: 'old-young',    word1: 'old',    hebrew1: 'זקן',   emoji1: '👴', word2: 'young',  hebrew2: 'צעיר',  emoji2: '👶' },
+  { id: 'happy-sad',    word1: 'happy',  hebrew1: 'שמח',   emoji1: '😊', word2: 'sad',    hebrew2: 'עצוב',  emoji2: '😢' },
+  { id: 'clean-dirty',  word1: 'clean',  hebrew1: 'נקי',   emoji1: '✨', word2: 'dirty',  hebrew2: 'מלוכלך', emoji2: '🗑️' },
+]
+
 export interface ColorItem {
   name: string
   bg: string

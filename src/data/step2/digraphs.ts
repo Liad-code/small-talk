@@ -9,6 +9,7 @@ export interface Digraph {
   label: string
   hebrewLabel: string
   subtitle?: string        // e.g. "(thin)" / "(they)" / "A+E = Ā"
+  note?: string            // extra explanation shown on the learn page
   color: string            // Tailwind gradient for banner / card
   bgColor: string
   textColor: string
@@ -23,6 +24,7 @@ export const DIGRAPHS: Digraph[] = [
     id: 'whiny-a',
     label: 'WHINY A',
     hebrewLabel: 'A שוינה',
+    note: 'כאשר m או n יבואו במילה אחרי a, הצליל של a משתנה ל-״a הבוכה״',
     color: 'from-lime-400 to-green-500',
     bgColor: 'bg-lime-50',
     textColor: 'text-lime-700',

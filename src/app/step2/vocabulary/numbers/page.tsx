@@ -91,7 +91,7 @@ function Quiz1Cycle({ cycleIdx, onNext, onDone }: { cycleIdx: number; onNext: ()
           else onNext()
         } else {
           setIdx(next)
-          speak(String(queue[next].digit), 0.75)
+          setTimeout(() => speak(String(queue[next].digit), 0.75), 1000)
         }
       }, 300)
     } else {
@@ -302,9 +302,9 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
           setMatched(prev => { const s = new Set(prev); s.add(a.id); s.add(b.id); return s })
           setFlipped([])
           setChecking(false)
-        }, 2600)
+        }, 1600)
       } else {
-        setTimeout(() => { setFlipped([]); setChecking(false) }, 2900)
+        setTimeout(() => { setFlipped([]); setChecking(false) }, 1900)
       }
     }
   }

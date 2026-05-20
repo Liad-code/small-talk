@@ -183,7 +183,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
                 borderColor="border-transparent"
                 textColor="text-white"
                 size="sm"
-                className="!w-auto px-3 text-xs"
+                className="!w-auto px-3 text-sm"
                 onDropped={handleDrop}
               />
             )
@@ -295,7 +295,7 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
                 borderColor="border-transparent"
                 textColor="text-white"
                 size="sm"
-                className="!w-auto px-3 text-xs"
+                className="!w-auto px-3 text-sm"
                 onDropped={handleDrop}
               />
             )

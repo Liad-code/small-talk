@@ -77,7 +77,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       if (next >= queue.length) setDone(true)
       else {
         setIdx(next)
-        speak(queue[next].name, 0.8)
+        setTimeout(() => speak(queue[next].name, 0.8), 1000)
       }
     } else {
       setWrong(id)
@@ -206,7 +206,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
               key={opt.id}
               onClick={() => handleAnswer(opt.id)}
               className={`
-                rounded-2xl border-4 py-4 font-display font-black text-base
+                rounded-2xl border-4 py-4 font-display font-black text-xl
                 transition-all duration-150 cursor-pointer select-none
                 ${isCorrect ? 'bg-green-200 border-green-400 text-green-800 scale-105' : ''}
                 ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -339,7 +339,7 @@ function BubbleInner({ onAgain }: { onAgain: () => void }) {
                   : `bubble-float-${b.floatIdx} ${5 + b.floatIdx * 1.1}s ease-in-out ${b.delay}s infinite`,
               }}
             >
-              <span className="text-3xl">{b.emoji}</span>
+              <span className="text-4xl">{b.emoji}</span>
             </button>
           )
         })}
@@ -413,9 +413,9 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
         setTimeout(() => {
           setMatched(prev => { const s = new Set(prev); s.add(a.id); s.add(b.id); return s })
           setFlipped([]); setChecking(false)
-        }, 2600)
+        }, 1600)
       } else {
-        setTimeout(() => { setFlipped([]); setChecking(false) }, 2900)
+        setTimeout(() => { setFlipped([]); setChecking(false) }, 1900)
       }
     }
   }

@@ -77,7 +77,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       if (next >= queue.length) setDone(true)
       else {
         setIdx(next)
-        speak(queue[next].name, 0.8)
+        setTimeout(() => speak(queue[next].name, 0.8), 1000)
       }
     } else {
       setWrong(id)
@@ -206,7 +206,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
               key={opt.id}
               onClick={() => handleAnswer(opt.id)}
               className={`
-                rounded-2xl border-4 py-4 font-display font-black text-base
+                rounded-2xl border-4 py-4 font-display font-black text-xl
                 transition-all duration-150 cursor-pointer select-none
                 ${isCorrect ? 'bg-green-200 border-green-400 text-green-800 scale-105' : ''}
                 ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -229,27 +229,35 @@ function Quiz2Tab() {
 
 // ── Ex1: Family Tree ──────────────────────────────────────────────────────────
 
-interface TreeNode {
-  id: string
-  label: string
-  emoji: string
-  row: number
-  col: number
-}
-
-const TREE_NODES: TreeNode[] = [
-  { id: 'grandfather', label: 'grandfather', emoji: '👴', row: 0, col: 1 },
-  { id: 'grandmother', label: 'grandmother', emoji: '👵', row: 0, col: 3 },
-  { id: 'uncle',       label: 'uncle',       emoji: '🧔', row: 1, col: 0 },
-  { id: 'father',      label: 'father',      emoji: '👨', row: 1, col: 2 },
-  { id: 'mother',      label: 'mother',      emoji: '👩', row: 1, col: 3 },
-  { id: 'aunt',        label: 'aunt',        emoji: '👩‍🦱', row: 1, col: 5 },
-  { id: 'brother',     label: 'brother',     emoji: '👦', row: 2, col: 0 },
-  { id: 'twins',       label: 'twins',       emoji: '👯', row: 2, col: 2 },
-  { id: 'sister',      label: 'sister',      emoji: '👧', row: 2, col: 4 },
-  { id: 'cousin',      label: 'cousin',      emoji: '🧒', row: 2, col: 5 },
-  { id: 'baby',        label: 'baby',        emoji: '👶', row: 3, col: 2 },
+const TREE_NODES = [
+  { id: 'grandfather', label: 'grandfather', emoji: '👴' },
+  { id: 'grandmother', label: 'grandmother', emoji: '👵' },
+  { id: 'father',      label: 'father',      emoji: '👨' },
+  { id: 'mother',      label: 'mother',      emoji: '👩' },
+  { id: 'brother',     label: 'brother',     emoji: '👦' },
+  { id: 'sister',      label: 'sister',      emoji: '👧' },
 ]
+
+function TreeSlot({ id, answers, wrong, emoji }: {
+  id: string; answers: Record<string, string>; wrong: string | null; emoji: string
+}) {
+  const node = TREE_NODES.find(n => n.id === id)!
+  const filled = answers[id]
+  const isWrong = wrong === id
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <span className="text-3xl">{emoji}</span>
+      <div
+        data-drop-target="true"
+        data-node-id={id}
+        className={`w-24 h-7 rounded-lg border-2 flex items-center justify-center text-xs font-bold transition-all
+          ${filled ? 'bg-green-100 border-green-400 text-green-800' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-dashed border-amber-300 text-gray-300'}`}
+      >
+        {filled ? node.label : '_ _ _'}
+      </div>
+    </div>
+  )
+}
 
 function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
   const [answers, setAnswers] = useState<Record<string, string>>({})
@@ -257,15 +265,12 @@ function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
 
   const allDone = TREE_NODES.every(n => answers[n.id] === n.id)
   const placed = new Set(Object.values(answers))
-  const bankItems = FAMILY.filter(f => TREE_NODES.some(n => n.id === f.id) && !placed.has(f.id))
   const [shuffledBank] = useState(() => shuffle(TREE_NODES.map(n => n.id)))
-  const bankOrder = shuffledBank.filter(id => bankItems.some(b => b.id === id))
+  const bankOrder = shuffledBank.filter(id => !placed.has(id))
 
   const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
     const nodeId = targetEl.getAttribute('data-node-id')
     if (!nodeId) return false
-    const node = TREE_NODES.find(n => n.id === nodeId)
-    if (!node) return false
     if (answers[nodeId]) return false
     if (tileId !== nodeId) {
       setWrong(nodeId)
@@ -276,119 +281,43 @@ function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
     return true
   }, [answers])
 
-  const rowEmojis = [['👴', '👵'], ['🧔', '👨', '👩', '👩‍🦱'], ['👦', '👯', '👧', '🧒'], ['👶']]
-
   return (
     <div className="max-w-sm mx-auto px-3 pb-16">
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
         גרור את שם בן המשפחה למקום הנכון בעץ
       </p>
 
-      {/* Family Tree */}
-      <div className="bg-amber-50 border-4 border-amber-200 rounded-2xl p-3 mb-4">
-        <p className="text-center font-display font-bold text-amber-700 text-sm mb-2">🌳 My Family Tree</p>
+      <div className="bg-amber-50 border-4 border-amber-200 rounded-2xl p-4 mb-4">
+        <p className="text-center font-display font-bold text-amber-700 text-sm mb-3">🌳 My Family Tree</p>
 
         {/* Row 0: grandparents */}
+        <div className="flex justify-center gap-8 mb-1">
+          <TreeSlot id="grandfather" answers={answers} wrong={wrong} emoji="👴" />
+          <TreeSlot id="grandmother" answers={answers} wrong={wrong} emoji="👵" />
+        </div>
+
+        {/* Connector */}
+        <div className="flex justify-center mb-1"><div className="w-px h-5 bg-amber-400" /></div>
+
+        {/* Row 1: parents */}
         <div className="flex justify-center gap-6 mb-1">
-          {['grandfather','grandmother'].map(id => {
-            const node = TREE_NODES.find(n => n.id === id)!
-            const filled = answers[id]
-            const isWrong = wrong === id
-            return (
-              <div key={id} className="flex flex-col items-center gap-0.5">
-                <span className="text-2xl">{node.emoji}</span>
-                <div
-                  data-drop-target="true"
-                  data-node-id={id}
-                  className={`w-20 h-6 rounded-lg border-2 flex items-center justify-center text-xs font-bold
-                    ${filled ? 'bg-green-100 border-green-400 text-green-800' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-dashed border-amber-300 text-gray-300'}`}
-                >
-                  {filled ? node.label : '_ _ _'}
-                </div>
-              </div>
-            )
-          })}
+          <TreeSlot id="father" answers={answers} wrong={wrong} emoji="👨" />
+          <TreeSlot id="mother" answers={answers} wrong={wrong} emoji="👩" />
         </div>
 
         {/* Connector */}
-        <div className="flex justify-center mb-1">
-          <div className="w-px h-4 bg-amber-400" />
-        </div>
+        <div className="flex justify-center mb-1"><div className="w-px h-5 bg-amber-400" /></div>
 
-        {/* Row 1: parents + uncle/aunt */}
-        <div className="flex justify-around mb-1">
-          {['uncle','father','mother','aunt'].map(id => {
-            const node = TREE_NODES.find(n => n.id === id)!
-            const filled = answers[id]
-            const isWrong = wrong === id
-            return (
-              <div key={id} className="flex flex-col items-center gap-0.5">
-                <span className="text-xl">{node.emoji}</span>
-                <div
-                  data-drop-target="true"
-                  data-node-id={id}
-                  className={`w-14 h-5 rounded-lg border-2 flex items-center justify-center text-[10px] font-bold
-                    ${filled ? 'bg-green-100 border-green-400 text-green-800' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-dashed border-amber-300 text-gray-300'}`}
-                >
-                  {filled ? node.label : '_ _'}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Connector */}
-        <div className="flex justify-center mb-1">
-          <div className="w-px h-4 bg-amber-400" />
-        </div>
-
-        {/* Row 2: siblings + cousin */}
-        <div className="flex justify-around mb-1">
-          {['brother','twins','sister','cousin'].map(id => {
-            const node = TREE_NODES.find(n => n.id === id)!
-            const filled = answers[id]
-            const isWrong = wrong === id
-            return (
-              <div key={id} className="flex flex-col items-center gap-0.5">
-                <span className="text-xl">{node.emoji}</span>
-                <div
-                  data-drop-target="true"
-                  data-node-id={id}
-                  className={`w-14 h-5 rounded-lg border-2 flex items-center justify-center text-[10px] font-bold
-                    ${filled ? 'bg-green-100 border-green-400 text-green-800' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-dashed border-amber-300 text-gray-300'}`}
-                >
-                  {filled ? node.label : '_ _'}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Connector */}
-        <div className="flex justify-center mb-1">
-          <div className="w-px h-3 bg-amber-400" />
-        </div>
-
-        {/* Row 3: baby */}
-        <div className="flex justify-center">
-          {['baby'].map(id => {
-            const node = TREE_NODES.find(n => n.id === id)!
-            const filled = answers[id]
-            const isWrong = wrong === id
-            return (
-              <div key={id} className="flex flex-col items-center gap-0.5">
-                <span className="text-2xl">{node.emoji}</span>
-                <div
-                  data-drop-target="true"
-                  data-node-id={id}
-                  className={`w-16 h-6 rounded-lg border-2 flex items-center justify-center text-xs font-bold
-                    ${filled ? 'bg-green-100 border-green-400 text-green-800' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-dashed border-amber-300 text-gray-300'}`}
-                >
-                  {filled ? node.label : '_ _ _'}
-                </div>
-              </div>
-            )
-          })}
+        {/* Row 2: brother, ME (fixed), sister */}
+        <div className="flex justify-center gap-4">
+          <TreeSlot id="brother" answers={answers} wrong={wrong} emoji="👦" />
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-3xl">🧒</span>
+            <div className="w-16 h-7 rounded-lg border-2 border-amber-400 bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-800">
+              me
+            </div>
+          </div>
+          <TreeSlot id="sister" answers={answers} wrong={wrong} emoji="👧" />
         </div>
       </div>
 
@@ -397,17 +326,17 @@ function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
           <div className="flex flex-wrap gap-2 justify-center">
             {bankOrder.map(id => {
-              const item = FAMILY.find(f => f.id === id)!
+              const node = TREE_NODES.find(n => n.id === id)!
               return (
                 <DraggableTile
                   key={id}
                   id={id}
-                  label={item.name}
+                  label={node.label}
                   color="bg-amber-100"
                   borderColor="border-amber-400"
                   textColor="text-amber-900"
                   size="sm"
-                  className="!w-auto min-w-[60px] px-2 text-xs"
+                  className="!w-auto min-w-[70px] px-2 text-sm"
                   onDropped={handleDrop}
                 />
               )
@@ -513,7 +442,6 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
     if (!selected) return
     const w = CW_WORDS.find(x => x.clue === selected)!
     if (input.toUpperCase() === w.word) {
-      // Fill cells
       const newFilled = { ...filled }
       for (let i = 0; i < w.word.length; i++) {
         const r = w.dir === 'h' ? w.row : w.row + i
@@ -538,14 +466,12 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
     }
   }
 
-  const selectedWord = CW_WORDS.find(w => w.clue === selected)
-
-  const cellSize = 'w-7 h-7'
+  const cellSize = 'w-9 h-9'
 
   return (
     <div className="max-w-sm mx-auto px-2 pb-16">
       <p className="text-center font-bold text-gray-500 text-xs mb-3" dir="rtl">
-        לחץ על מספר הרמז, הקלד את המילה ולחץ ✓
+        לחץ על האמוג׳י ברשימת הרמזים, הקלד את המילה ולחץ ✓
       </p>
 
       {/* Grid */}
@@ -556,7 +482,7 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
               {Array.from({ length: CW_COLS }, (_, c) => {
                 const letter = CW_GRID[r][c]
                 if (!letter) return (
-                  <div key={c} className={`${cellSize} bg-gray-800 border border-gray-700`} />
+                  <div key={c} className={`${cellSize} border border-gray-200 bg-white`} />
                 )
                 const clueNum = getCellClueNumber(r, c)
                 const wordsHere = getCellWords(r, c)
@@ -566,28 +492,18 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
                 return (
                   <div
                     key={c}
-                    onClick={() => {
-                      const clickableWords = wordsHere.filter(w => !found.has(w.clue))
-                      if (clickableWords.length > 0) {
-                        const current = wordsHere.find(w => w.clue === selected)
-                        const next = current
-                          ? clickableWords[(clickableWords.indexOf(current) + 1) % clickableWords.length]
-                          : clickableWords[0]
-                        if (next) selectWord(next.clue)
-                      }
-                    }}
                     className={`
-                      ${cellSize} border border-gray-300 relative flex items-center justify-center cursor-pointer
+                      ${cellSize} border border-gray-300 relative flex items-center justify-center
                       ${isFound ? 'bg-green-100' : isSelected ? 'bg-yellow-100' : 'bg-white'}
                     `}
                   >
                     {clueNum && (
-                      <span className="absolute top-0 left-0 text-[7px] font-bold text-gray-600 leading-none px-px">
+                      <span className="absolute top-0 left-0 text-[10px] font-bold text-gray-600 leading-none px-px">
                         {clueNum}
                       </span>
                     )}
                     {filledLetter && (
-                      <span className={`font-display font-black text-xs ${isFound ? 'text-green-700' : 'text-gray-800'}`}>
+                      <span className={`font-display font-black text-sm ${isFound ? 'text-green-700' : 'text-gray-800'}`}>
                         {filledLetter}
                       </span>
                     )}
@@ -599,48 +515,53 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
         </div>
       </div>
 
-      {/* Input area */}
-      {selected && !found.has(selected) && (
-        <div className={`bg-white border-4 rounded-2xl p-3 mb-3 ${flash === 'correct' ? 'border-green-400 bg-green-50' : flash === 'wrong' ? 'border-red-400 bg-red-50 shake' : 'border-amber-300'}`}>
-          <p className="text-sm font-bold text-gray-600 mb-2">
-            {selectedWord?.emoji} Clue #{selected} ({selectedWord?.dir === 'h' ? '→ Across' : '↓ Down'})
-          </p>
-          <div className="flex gap-2">
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={e => setInput(e.target.value.toUpperCase())}
-              onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-              maxLength={selectedWord?.word.length}
-              className="flex-1 border-2 border-gray-300 rounded-xl px-3 py-2 font-display font-bold text-lg uppercase focus:outline-none focus:border-amber-400"
-              placeholder="type here..."
-            />
-            <button
-              onClick={handleSubmit}
-              className="btn-kid bg-green-500 text-sm px-3 py-2"
-            >✓</button>
-          </div>
-        </div>
-      )}
-
-      {/* Clue list */}
-      <div className="grid grid-cols-2 gap-2">
-        {CW_WORDS.map(w => (
-          <button
-            key={w.clue}
-            onClick={() => !found.has(w.clue) && selectWord(w.clue)}
-            className={`
-              flex items-center gap-2 px-2 py-1.5 rounded-xl border-2 text-left
-              ${found.has(w.clue) ? 'bg-green-100 border-green-400 opacity-60' : selected === w.clue ? 'bg-yellow-100 border-amber-400' : 'bg-white border-gray-200 hover:border-amber-300'}
-            `}
-          >
-            <span className="text-lg">{w.emoji}</span>
-            <span className="text-xs font-bold text-gray-600">
-              #{w.clue} {w.dir === 'h' ? '→' : '↓'}
-              {found.has(w.clue) ? ' ✅' : ''}
-            </span>
-          </button>
-        ))}
+      {/* Clue list with inline input */}
+      <div className="flex flex-col gap-2">
+        {CW_WORDS.map(w => {
+          const isFound = found.has(w.clue)
+          const isSelected = selected === w.clue
+          return (
+            <div
+              key={w.clue}
+              className={`rounded-xl border-2 px-3 py-2 transition-all
+                ${isFound ? 'bg-green-100 border-green-400' : isSelected ? 'bg-yellow-50 border-amber-400' : 'bg-white border-gray-200'}
+              `}
+            >
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => !isFound && selectWord(w.clue)}
+                  disabled={isFound}
+                  className={`text-2xl leading-none ${!isFound ? 'hover:scale-110 active:scale-90 transition-transform cursor-pointer' : 'cursor-default'}`}
+                >
+                  {w.emoji}
+                </button>
+                <span className="text-xs font-bold text-gray-500">
+                  #{w.clue} {w.dir === 'h' ? '→' : '↓'}
+                </span>
+                {isFound && <span className="text-xs font-bold text-green-600 ml-auto">✅ {w.word}</span>}
+              </div>
+              {isSelected && !isFound && (
+                <div className={`flex gap-2 mt-2 ${flash === 'wrong' ? 'shake' : ''}`}>
+                  <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={e => setInput(e.target.value.toUpperCase())}
+                    onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                    maxLength={w.word.length}
+                    className={`flex-1 border-2 rounded-xl px-3 py-1.5 font-display font-bold text-lg uppercase focus:outline-none
+                      ${flash === 'correct' ? 'border-green-400 bg-green-50' : flash === 'wrong' ? 'border-red-400 bg-red-50' : 'border-gray-300 focus:border-amber-400'}
+                    `}
+                    placeholder="type here..."
+                  />
+                  <button
+                    onClick={handleSubmit}
+                    className="btn-kid bg-green-500 text-sm px-3 py-1.5"
+                  >✓</button>
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
 
       {allFound && (

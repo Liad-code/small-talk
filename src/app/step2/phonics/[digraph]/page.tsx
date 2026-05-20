@@ -44,6 +44,11 @@ export default function DiGraphLearnPage({ params }: { params: { digraph: string
 
       {/* Word cards */}
       <div className="max-w-2xl mx-auto px-4 py-6 pb-16">
+        {dg.note && (
+          <div className={`${dg.bgColor} border-4 ${dg.borderColor} rounded-2xl px-4 py-3 mb-4`}>
+            <p className={`font-bold text-sm ${dg.textColor} text-center`} dir="rtl">💡 {dg.note}</p>
+          </div>
+        )}
         <p className="text-center text-gray-500 font-bold text-sm mb-5" dir="rtl">
           לחץ על הריבוע כדי לשמוע את המילה 🔊
         </p>

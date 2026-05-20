@@ -74,7 +74,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       if (next >= queue.length) setDone(true)
       else {
         setIdx(next)
-        speak(queue[next].name, 0.75)
+        setTimeout(() => speak(queue[next].name, 0.75), 1000)
       }
     } else {
       setWrong(name)
@@ -424,9 +424,9 @@ function ColorMemoryInner({ onAgain }: { onAgain: () => void }) {
           setMatched(prev => { const s = new Set(prev); s.add(a.id); s.add(b.id); return s })
           setFlipped([])
           setChecking(false)
-        }, 2600)
+        }, 1600)
       } else {
-        setTimeout(() => { setFlipped([]); setChecking(false) }, 2900)
+        setTimeout(() => { setFlipped([]); setChecking(false) }, 1900)
       }
     }
   }

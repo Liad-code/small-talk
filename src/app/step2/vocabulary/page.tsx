@@ -80,6 +80,38 @@ export default function VocabularyPage() {
           description="watermelon, carrot, strawberry and more!"
           color="from-red-500 to-orange-500"
         />
+        <VocabCard
+          href="/step2/vocabulary/prepositions"
+          emoji="📍"
+          title="Prepositions"
+          hebrewTitle="מילות יחס"
+          description="in, on, under, next to, behind and more!"
+          color="from-purple-500 to-indigo-600"
+        />
+        <VocabCard
+          href="/step2/vocabulary/clothes"
+          emoji="👕"
+          title="Clothes"
+          hebrewTitle="בגדים"
+          description="shirt, shoes, coat, dress and more!"
+          color="from-sky-500 to-blue-600"
+        />
+        <VocabCard
+          href="/step2/vocabulary/actions"
+          emoji="🏃"
+          title="Actions"
+          hebrewTitle="פעולות"
+          description="run, jump, dance, swim and more!"
+          color="from-emerald-500 to-green-600"
+        />
+        <VocabCard
+          href="/step2/vocabulary/opposites"
+          emoji="↔️"
+          title="Opposites"
+          hebrewTitle="הפכים"
+          description="big/small, hot/cold, happy/sad and more!"
+          color="from-orange-500 to-red-500"
+        />
       </div>
     </div>
   )
