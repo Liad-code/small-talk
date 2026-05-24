@@ -103,7 +103,7 @@ function Ex1Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <span className="text-sm font-bold text-gray-400">Cycle {cycleIdx + 1} of {AOA_EX1.length}</span>
         <span className="text-sm font-bold text-orange-500">{placedCount} / {total} ✓</span>
       </div>
-      <p className="text-center font-bold text-orange-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
+      <p className="text-center font-bold text-orange-400 text-sm mb-3" dir="rtl">לתרגול זה 4 סבבים</p>
       <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
         גרור כל שם עצם לכרטיסייה הנכונה — a או an
       </p>
@@ -160,10 +160,17 @@ function Ex1Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < AOA_EX1.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < AOA_EX1.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}

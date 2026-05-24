@@ -173,14 +173,22 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
       {/* Reference table */}
       <div className="mt-6 border-t-2 border-dashed border-gray-200 pt-4">
         <p className="font-bold text-gray-500 text-base mb-2 text-center" dir="rtl">📖 עזרה — משמעות המילים</p>
-        <table className="w-full text-base border-collapse">
+        <table className="w-full text-sm border-collapse">
           <tbody>
-            {words.map(w => (
-              <tr key={w.id} className="border-b border-gray-200">
-                <td className="py-0.5 pr-2 font-bold text-gray-900">{w.word.toLowerCase()}</td>
-                <td className="py-0.5 font-bold text-gray-900 text-right" dir="rtl">{w.hebrew}</td>
-              </tr>
-            ))}
+            {Array.from({ length: Math.ceil(words.length / 2) }, (_, i) => {
+              const w1 = words[i * 2]
+              const w2 = words[i * 2 + 1]
+              return (
+                <tr key={i} className="border-b border-gray-200">
+                  <td className="py-0.5 pr-2 font-bold text-gray-900 w-1/4">{w1.word.toLowerCase()}</td>
+                  <td className="py-0.5 font-bold text-gray-600 text-right w-1/4 pr-3" dir="rtl">{w1.hebrew}</td>
+                  {w2 && <>
+                    <td className="py-0.5 pr-2 font-bold text-gray-900 w-1/4 pl-3 border-l border-gray-200">{w2.word.toLowerCase()}</td>
+                    <td className="py-0.5 font-bold text-gray-600 text-right w-1/4" dir="rtl">{w2.hebrew}</td>
+                  </>}
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>

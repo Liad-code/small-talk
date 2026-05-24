@@ -16,24 +16,38 @@ export const WH_WORD_COLORS: Record<string, { bg: string; light: string; text: s
   How:   { bg: 'bg-teal-500',   light: 'bg-teal-100',   text: 'text-teal-700'   },
 }
 
-// Ex1: pick the correct WH word (10 questions)
+// Ex1: pick the correct WH word (2 cycles × 10 questions)
 export interface WHEx1Q {
   sentence: string  // "is in the classroom?" — WH word is missing from start
   options: string[] // 3 WH word choices
   answer: string    // correct WH word
   hint: string      // answer hint in parentheses
 }
-export const WH_EX1: WHEx1Q[] = [
-  { sentence: 'is in the park?',        options: ['Who',   'What',  'Where'], answer: 'Who',   hint: 'The boy.'               },
-  { sentence: 'is your sister?',        options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'At school.'             },
-  { sentence: 'is your favorite color?',options: ['When',  'What',  'Why'],   answer: 'What',  hint: 'Yellow.'                },
-  { sentence: 'is the party?',          options: ['When',  'How',   'Who'],   answer: 'When',  hint: 'On Sunday.'             },
-  { sentence: 'is the game?',           options: ['How',   'Why',   'What'],  answer: 'How',   hint: "It's fun!"              },
-  { sentence: 'is your best friend?',   options: ['Where', 'What',  'Who'],   answer: 'Who',   hint: 'Dana.'                  },
-  { sentence: 'is your birthday?',      options: ['When',  'Where', 'Why'],   answer: 'When',  hint: 'In July.'               },
-  { sentence: 'color is your shirt?',   options: ['What',  'Who',   'Where'], answer: 'What',  hint: "It's blue."             },
-  { sentence: 'are you crying?',        options: ['Who',   'Why',   'When'],  answer: 'Why',   hint: "Because I'm sad."       },
-  { sentence: 'is your school?',        options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'On Green Street.'       },
+export const WH_EX1: WHEx1Q[][] = [
+  [
+    { sentence: 'is in the park?',        options: ['Who',   'What',  'Where'], answer: 'Who',   hint: 'The boy.'               },
+    { sentence: 'is your sister?',        options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'At school.'             },
+    { sentence: 'is your favorite color?',options: ['When',  'What',  'Why'],   answer: 'What',  hint: 'Yellow.'                },
+    { sentence: 'is the party?',          options: ['When',  'How',   'Who'],   answer: 'When',  hint: 'On Sunday.'             },
+    { sentence: 'is the game?',           options: ['How',   'Why',   'What'],  answer: 'How',   hint: "It's fun!"              },
+    { sentence: 'is your best friend?',   options: ['Where', 'What',  'Who'],   answer: 'Who',   hint: 'Dana.'                  },
+    { sentence: 'is your birthday?',      options: ['When',  'Where', 'Why'],   answer: 'When',  hint: 'In July.'               },
+    { sentence: 'color is your shirt?',   options: ['What',  'Who',   'Where'], answer: 'What',  hint: "It's blue."             },
+    { sentence: 'are you crying?',        options: ['Who',   'Why',   'When'],  answer: 'Why',   hint: "Because I'm sad."       },
+    { sentence: 'is your school?',        options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'On Green Street.'       },
+  ],
+  [
+    { sentence: 'is in the classroom?',   options: ['Who',   'Where', 'What'],  answer: 'Who',   hint: 'The teacher.'           },
+    { sentence: 'is your mom?',           options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'At home.'              },
+    { sentence: 'is your favorite sport?',options: ['What',  'When',  'Why'],   answer: 'What',  hint: 'Football.'             },
+    { sentence: 'is the lesson?',         options: ['When',  'Who',   'How'],   answer: 'When',  hint: 'At 8 o\'clock.'        },
+    { sentence: 'is the weather?',        options: ['How',   'Who',   'Why'],   answer: 'How',   hint: "It's sunny!"            },
+    { sentence: 'is at the door?',        options: ['Where', 'Who',   'What'],  answer: 'Who',   hint: "It's Dan."              },
+    { sentence: 'is summer vacation?',    options: ['When',  'Where', 'Why'],   answer: 'When',  hint: 'In July.'              },
+    { sentence: 'is your name?',          options: ['What',  'Who',   'Where'], answer: 'What',  hint: "It's Ron."              },
+    { sentence: 'are they happy?',        options: ['Who',   'Why',   'Where'], answer: 'Why',   hint: "Because it's a party."  },
+    { sentence: 'is the market?',         options: ['What',  'Where', 'Who'],   answer: 'Where', hint: 'On Main Street.'        },
+  ],
 ]
 
 // Ex3: drag answer to matching question (3 cycles × 8)
@@ -130,7 +144,7 @@ export const WH_EX2: WHDialogueCycle[] = [
       'When is summer vacation?',
       'Who is your best friend?',
       'How are you today?',
-      'Why are you tired?',
+      'Why are you at home?',
     ],
     dialogues: [
       { asker: 'Noa',   answerer: 'Gal',   answer: 'Blue.',                   question: 'What is your favorite color?' },
@@ -138,7 +152,7 @@ export const WH_EX2: WHDialogueCycle[] = [
       { asker: 'Yossi', answerer: 'Miri',   answer: 'In July.',                question: 'When is summer vacation?'     },
       { asker: 'Alon',  answerer: 'Liora',  answer: 'Dana is my best friend.', question: 'Who is your best friend?'    },
       { asker: 'Efrat', answerer: 'Boaz',   answer: "I'm great!",              question: 'How are you today?'           },
-      { asker: 'Meir',  answerer: 'Sigal',  answer: 'Because I was late.',     question: 'Why are you tired?'           },
+      { asker: 'Meir',  answerer: 'Sigal',  answer: 'Because I am sick.',      question: 'Why are you at home?'         },
     ],
   },
 ]

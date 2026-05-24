@@ -28,7 +28,7 @@ function LearnTab() {
         </p>
 
         {/* 3 colored mini-cards */}
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="flex flex-col gap-2 mb-4">
           <div className={`${VERB_COLORS.am.bg} rounded-2xl p-3 text-center`}>
             <div className="font-display font-black text-white text-xl mb-1">am</div>
             <div className="text-white/80 font-bold text-sm">I</div>

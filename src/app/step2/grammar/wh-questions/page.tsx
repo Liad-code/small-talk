@@ -58,30 +58,31 @@ function LearnTab() {
 
 // ── Ex 1: Pick the correct WH word ───────────────────────────────────────────
 
-function Ex1() {
+function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const questions = WH_EX1[cycleIdx]
   const [answers, setAnswers] = useState<Record<number, string>>({})
-  const [key, setKey] = useState(0)
   const answered = Object.keys(answers).length
-  const allDone = answered === WH_EX1.length
+  const allDone = answered === questions.length
 
   const handleChoice = (qIdx: number, choice: string) => {
     if (answers[qIdx]) return
-    if (choice !== WH_EX1[qIdx].answer) return
+    if (choice !== questions[qIdx].answer) return
     setAnswers(prev => ({ ...prev, [qIdx]: choice }))
   }
 
   return (
-    <div key={key} className="max-w-xl mx-auto px-4 py-6 pb-16">
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
-        <span>Choose the correct WH word</span>
-        <span className="text-amber-500">{answered} / {WH_EX1.length} ✓</span>
+        <span>Cycle {cycleIdx + 1} / {WH_EX1.length}</span>
+        <span className="text-amber-500">{answered} / {questions.length} ✓</span>
       </div>
+      <p className="text-center font-bold text-amber-400 text-sm mb-3" dir="rtl">לתרגול זה 2 סבבים</p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4" dir="rtl">
         בחר את מילת השאלה הנכונה לפי התשובה בסוגריים
       </p>
 
       <div className="flex flex-col gap-3 mb-5">
-        {WH_EX1.map((q, idx) => {
+        {questions.map((q, idx) => {
           const chosen = answers[idx]
           const vc = chosen ? WH_WORD_COLORS[chosen] : null
           return (
@@ -122,12 +123,19 @@ function Ex1() {
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          <button
-            onClick={() => { setAnswers({}); setKey(k => k + 1) }}
-            className="btn-kid bg-blue-500"
-          >
-            🔁 Start Over
-          </button>
+          <div className="flex gap-3 justify-center">
+            {cycleIdx + 1 < WH_EX1.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -437,7 +445,12 @@ export default function WHQuestionsPage() {
 
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
-        {tab === 'ex1'   && <Ex1 />}
+        {tab === 'ex1'   && (
+          <ExWrapper
+            cycles={WH_EX1.length}
+            render={(c, again, done) => <Ex1 key={c} cycleIdx={c} onAgain={again} onDone={done} />}
+          />
+        )}
         {tab === 'ex2'   && (
           <ExWrapper
             cycles={WH_EX2.length}

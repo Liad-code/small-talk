@@ -4,9 +4,9 @@ export type NegVerb = 'am not' | "isn't" | "aren't"
 export interface TBNFillQ { before: string; after: string; answer: NegVerb }
 export const TBN_EX1: TBNFillQ[][] = [
   [ // cycle 1
-    { before: 'The horse',    after: 'white.',         answer: "isn't"  },
-    { before: 'The girls',    after: 'at the park.',   answer: "aren't" },
-    { before: 'I',            after: 'happy.',         answer: 'am not' },
+    { before: 'The cat',      after: 'black.',         answer: "isn't"  },
+    { before: 'The boys',     after: 'at school.',     answer: "aren't" },
+    { before: 'I',            after: 'sad.',           answer: 'am not' },
     { before: 'She',          after: 'tall.',          answer: "isn't"  },
     { before: 'They',         after: 'at school.',     answer: "aren't" },
     { before: 'He',           after: 'my brother.',    answer: "isn't"  },

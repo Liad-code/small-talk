@@ -1,21 +1,51 @@
 export type YNVerb = 'Am' | 'Is' | 'Are'
 export type PronounGroup = 'i' | 'she' | 'he' | 'it' | 'we' | 'you' | 'they'
 
-// Ex1: drag Am/Is/Are to start of question (1 cycle × 12)
+// Ex1: drag Am/Is/Are to start of question (3 cycles × 12)
 export interface YNEx1Q { after: string; answer: YNVerb }
-export const YN_EX1: YNEx1Q[] = [
-  { after: 'they in the park?',    answer: 'Are' },
-  { after: 'I sad?',               answer: 'Am'  },
-  { after: 'we happy?',            answer: 'Are' },
-  { after: 'Dana tall?',           answer: 'Is'  },
-  { after: 'they at school?',      answer: 'Are' },
-  { after: 'she a teacher?',       answer: 'Is'  },
-  { after: 'you happy?',           answer: 'Are' },
-  { after: 'the cat black?',       answer: 'Is'  },
-  { after: 'I late?',              answer: 'Am'  },
-  { after: 'the boys at school?',  answer: 'Are' },
-  { after: 'he tall?',             answer: 'Is'  },
-  { after: 'we ready?',            answer: 'Are' },
+export const YN_EX1: YNEx1Q[][] = [
+  [
+    { after: 'they in the park?',    answer: 'Are' },
+    { after: 'I sad?',               answer: 'Am'  },
+    { after: 'we happy?',            answer: 'Are' },
+    { after: 'Dana tall?',           answer: 'Is'  },
+    { after: 'they at school?',      answer: 'Are' },
+    { after: 'she a teacher?',       answer: 'Is'  },
+    { after: 'you happy?',           answer: 'Are' },
+    { after: 'the cat black?',       answer: 'Is'  },
+    { after: 'I late?',              answer: 'Am'  },
+    { after: 'the boys at school?',  answer: 'Are' },
+    { after: 'he tall?',             answer: 'Is'  },
+    { after: 'we ready?',            answer: 'Are' },
+  ],
+  [
+    { after: 'she at home?',         answer: 'Is'  },
+    { after: 'I a student?',         answer: 'Am'  },
+    { after: 'you my friend?',       answer: 'Are' },
+    { after: 'Ron tall?',            answer: 'Is'  },
+    { after: 'we in the park?',      answer: 'Are' },
+    { after: 'the baby small?',      answer: 'Is'  },
+    { after: 'they at the park?',    answer: 'Are' },
+    { after: 'he a doctor?',         answer: 'Is'  },
+    { after: 'you kind?',            answer: 'Are' },
+    { after: 'Dana and Ron happy?',  answer: 'Are' },
+    { after: 'I tired?',             answer: 'Am'  },
+    { after: 'the book new?',        answer: 'Is'  },
+  ],
+  [
+    { after: 'the children quiet?',  answer: 'Are' },
+    { after: 'I a boy?',             answer: 'Am'  },
+    { after: 'she my sister?',       answer: 'Is'  },
+    { after: 'they in the park?',    answer: 'Are' },
+    { after: 'the school big?',      answer: 'Is'  },
+    { after: 'we friends?',          answer: 'Are' },
+    { after: 'he at home?',          answer: 'Is'  },
+    { after: 'you cold?',            answer: 'Are' },
+    { after: 'I at school?',         answer: 'Am'  },
+    { after: 'the cat cute?',        answer: 'Is'  },
+    { after: 'Tom and Ron brothers?', answer: 'Are' },
+    { after: 'she tall?',            answer: 'Is'  },
+  ],
 ]
 
 // Ex2: question sentence builder (3 cycles × 6)
@@ -29,7 +59,7 @@ export const YN_EX2: YNBuilderCycle[] = [
       { text: 'Dana',       verb: 'Is'  },
       { text: 'my sister',  verb: 'Is'  },
       { text: 'you',        verb: 'Are' },
-      { text: 'pupils',     verb: 'Are' },
+      { text: 'the pupils', verb: 'Are' },
     ],
     complements: ['angry?', 'happy?', 'clean?', 'in my room?', 'in my classroom?', 'sad?'],
   },
@@ -67,7 +97,7 @@ export const YN_EX3: YNEx3Q[] = [
   { question: 'Are we ready?',          group: 'we'   },
   { question: 'Is it big?',             group: 'it'   },
   { question: 'Are you tired?',         group: 'i'    },
-  { question: 'Am I late?',             group: 'i'    },
+  { question: 'Is she late?',            group: 'she'  },
   { question: 'Is she at home?',        group: 'she'  },
   { question: 'Are they at school?',    group: 'they' },
   { question: 'Is he a teacher?',       group: 'he'   },

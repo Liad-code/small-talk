@@ -103,14 +103,15 @@ function LearnTab() {
 
 // ── Ex 1: Drag Am/Is/Are to start of question ─────────────────────────────────
 
-function Ex1({ onReset }: { onReset: () => void }) {
+function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const questions = YN_EX1[cycleIdx]
   const [allTiles] = useState(() =>
     VERBS.flatMap(v =>
       Array.from({ length: 12 }, (_, i) => ({ id: `${v}-${i}`, verb: v }))
     )
   )
   const [placed, setPlaced] = useState<Record<number, string>>({})
-  const allDone = Object.keys(placed).length === YN_EX1.length
+  const allDone = Object.keys(placed).length === questions.length
 
   const usedIds = new Set(Object.values(placed))
 
@@ -125,17 +126,18 @@ function Ex1({ onReset }: { onReset: () => void }) {
     if (placed[qIdx] !== undefined) return false
     const tile = allTiles.find(t => t.id === tileId)
     if (!tile) return false
-    if (tile.verb !== YN_EX1[qIdx].answer) return false
+    if (tile.verb !== questions[qIdx].answer) return false
     setPlaced(prev => ({ ...prev, [qIdx]: tileId }))
     return true
-  }, [placed, allTiles])
+  }, [placed, allTiles, questions])
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
-        <span>Complete the questions</span>
-        <span className="text-sky-500">{Object.keys(placed).length} / {YN_EX1.length} ✓</span>
+        <span>Cycle {cycleIdx + 1} / {YN_EX1.length}</span>
+        <span className="text-sky-500">{Object.keys(placed).length} / {questions.length} ✓</span>
       </div>
+      <p className="text-center font-bold text-sky-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Drag <span className="font-black text-gray-500">Am / Is / Are</span> to start each question
@@ -163,7 +165,7 @@ function Ex1({ onReset }: { onReset: () => void }) {
 
       {/* Question rows */}
       <div className="grid grid-cols-2 gap-2 mb-5">
-        {YN_EX1.map((q, idx) => {
+        {questions.map((q, idx) => {
           const placedTileId = placed[idx]
           const placedTile = placedTileId ? allTiles.find(t => t.id === placedTileId) : undefined
           const vc = placedTile ? VERB_COLORS[placedTile.verb] : null
@@ -190,16 +192,23 @@ function Ex1({ onReset }: { onReset: () => void }) {
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          <button onClick={onReset} className="btn-kid bg-blue-500">🔁 Start Over</button>
+          <div className="flex gap-3 justify-center">
+            {cycleIdx + 1 < YN_EX1.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>
   )
-}
-
-function Ex1Wrapper() {
-  const [key, setKey] = useState(0)
-  return <Ex1 key={key} onReset={() => setKey(k => k + 1)} />
 }
 
 // ── Ex 2: Question sentence builder ──────────────────────────────────────────
@@ -408,7 +417,7 @@ function Ex3() {
 
       {/* Question card */}
       <div className="bg-sky-50 border-4 border-sky-300 rounded-3xl p-6 text-center mb-5">
-        <p className="font-bold text-gray-400 text-xs mb-1" dir="rtl">גרור / לחץ על התשובה הנכונה</p>
+        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הנכונה. לכל שאלה ניתן לבחור לענות בחיוב או בשלילה.</p>
         <p className="font-display font-black text-2xl text-sky-700">{q.question}</p>
       </div>
 
@@ -556,7 +565,12 @@ export default function YesNoPage() {
 
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
-        {tab === 'ex1'   && <Ex1Wrapper />}
+        {tab === 'ex1'   && (
+          <ExWrapper
+            cycles={YN_EX1.length}
+            render={(c, again, done) => <Ex1 key={c} cycleIdx={c} onAgain={again} onDone={done} />}
+          />
+        )}
         {tab === 'ex2'   && (
           <ExWrapper
             cycles={YN_EX2.length}

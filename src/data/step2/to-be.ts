@@ -51,9 +51,9 @@ export const TB_EX2: TBChoiceQ[][] = [
 export interface TBFillQ { before: string; after: string; answer: 'am' | 'is' | 'are' }
 export const TB_EX3: TBFillQ[][] = [
   [ // cycle 1
-    { before: 'I',            after: 'hungry.',          answer: 'am'  },
-    { before: 'My telephone', after: 'red.',             answer: 'is'  },
-    { before: 'My friends',   after: 'in my class.',     answer: 'are' },
+    { before: 'I',            after: 'happy.',            answer: 'am'  },
+    { before: 'My book',      after: 'open.',            answer: 'is'  },
+    { before: 'My friends',   after: 'at home.',         answer: 'are' },
     { before: 'My dad',       after: 'a teacher.',       answer: 'is'  },
     { before: 'We',           after: 'happy.',           answer: 'are' },
     { before: 'She',          after: 'my sister.',       answer: 'is'  },

@@ -48,6 +48,20 @@ export const AOA_EX1: AOrAnNoun[][] = [
     { id: 'c3_album',    word: 'album',    article: 'an' },
     { id: 'c3_exit',     word: 'exit',     article: 'an' },
   ],
+  [
+    { id: 'c4_park',    word: 'park',    article: 'a'  },
+    { id: 'c4_sister',  word: 'sister',  article: 'a'  },
+    { id: 'c4_table',   word: 'table',   article: 'a'  },
+    { id: 'c4_flower',  word: 'flower',  article: 'a'  },
+    { id: 'c4_king',    word: 'king',    article: 'a'  },
+    { id: 'c4_cloud',   word: 'cloud',   article: 'a'  },
+    { id: 'c4_eye',     word: 'eye',     article: 'an' },
+    { id: 'c4_ice',     word: 'ice',     article: 'an' },
+    { id: 'c4_animal',  word: 'animal',  article: 'an' },
+    { id: 'c4_uncle',   word: 'uncle',   article: 'an' },
+    { id: 'c4_hour',    word: 'hour',    article: 'an' },
+    { id: 'c4_eraser',  word: 'eraser',  article: 'an' },
+  ],
 ]
 
 export interface AOrAnSentence {
