@@ -6,7 +6,7 @@ import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { ACTIONS, ActionItem } from '@/data/step2/vocabulary'
 
-type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -32,18 +32,31 @@ function LearnTab() {
       </div>
 
       <div className="bg-emerald-50 border-4 border-emerald-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-3 divide-x divide-emerald-200 bg-emerald-100 border-b-4 border-emerald-200">
+        <div className="grid grid-cols-6 divide-x divide-emerald-200 bg-emerald-100 border-b-4 border-emerald-200">
+          <div className="py-2 text-center font-bold text-emerald-700 text-xs">English</div>
+          <div className="py-2 text-center font-bold text-emerald-700 text-xs" dir="rtl">עברית</div>
+          <div className="py-2 text-center font-bold text-emerald-700 text-xs">Pic</div>
           <div className="py-2 text-center font-bold text-emerald-700 text-xs">English</div>
           <div className="py-2 text-center font-bold text-emerald-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-emerald-700 text-xs">Pic</div>
         </div>
-        {ACTIONS.map((a, i) => (
-          <div key={a.id} className={`grid grid-cols-3 divide-x divide-emerald-200 ${i % 2 === 0 ? 'bg-white' : 'bg-emerald-50/50'}`}>
-            <div className="py-2 px-2 font-bold text-gray-800 text-sm">{a.name}</div>
-            <div className="py-2 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{a.hebrew}</div>
-            <div className="py-2 text-center text-xl">{a.emoji}</div>
-          </div>
-        ))}
+        {Array.from({ length: Math.ceil(ACTIONS.length / 2) }, (_, i) => {
+          const a1 = ACTIONS[i * 2]; const a2 = ACTIONS[i * 2 + 1]
+          return (
+            <div key={i} className={`grid grid-cols-6 divide-x divide-emerald-200 ${i % 2 === 0 ? 'bg-white' : 'bg-emerald-50/50'}`}>
+              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{a1.name}</div>
+              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{a1.hebrew}</div>
+              <div className="py-1.5 text-center text-lg">{a1.emoji}</div>
+              {a2 ? (
+                <>
+                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{a2.name}</div>
+                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{a2.hebrew}</div>
+                  <div className="py-1.5 text-center text-lg">{a2.emoji}</div>
+                </>
+              ) : <><div /><div /><div /></>}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -186,7 +199,10 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
       </div>
       <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את השם הנכון</p>
       <div className="flex justify-center mb-8">
-        <div className="text-8xl">{cur?.emoji}</div>
+        <div className="flex flex-col items-center gap-1">
+          <div className="text-8xl">{cur?.emoji}</div>
+          <div className="font-bold text-gray-500 text-base" dir="rtl">{cur?.hebrew}</div>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => (
@@ -214,18 +230,22 @@ function Quiz2Tab() {
   return <Quiz2Inner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
-// ── Ex1: Word | 3 image options table ────────────────────────────────────────
+// ── Ex1: Match (3 rounds of 6) ────────────────────────────────────────────────
 
-function Ex1Inner({ onAgain }: { onAgain: () => void }) {
+const MATCH_ACTION_ROUNDS = [ACTIONS.slice(0, 6), ACTIONS.slice(6, 12), ACTIONS.slice(12, 18)]
+
+function MatchActionRound({ items, roundIdx, totalRounds, onNext, onDone }: {
+  items: ActionItem[]; roundIdx: number; totalRounds: number; onNext: () => void; onDone: () => void
+}) {
   const [rows] = useState(() =>
-    ACTIONS.map(item => {
-      const others = shuffle(ACTIONS.filter(a => a.id !== item.id)).slice(0, 2)
+    items.map(item => {
+      const others = shuffle(items.filter(a => a.id !== item.id)).slice(0, 2)
       return { item, choices: shuffle([item, ...others]) }
     })
   )
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const score = Object.entries(answers).filter(([id, ans]) => ans === id).length
-  const allDone = Object.keys(answers).length === ACTIONS.length
+  const allDone = Object.keys(answers).length === items.length
 
   function handlePick(itemId: string, choiceId: string) {
     if (answers[itemId] !== undefined) return
@@ -236,7 +256,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
     <div className="max-w-sm mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את התמונה הנכונה לכל פעולה</p>
-        <span className="text-emerald-500">✅ {score}/{ACTIONS.length}</span>
+        <span className="text-emerald-500">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
       <div className="flex flex-col gap-2">
         {rows.map(({ item, choices }) => {
@@ -249,7 +269,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
               className={`flex items-center gap-2 px-3 py-3 rounded-2xl border-4 transition-all
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-emerald-200'}`}
             >
-              <span className="font-display font-black text-emerald-800 w-14 text-sm shrink-0">{item.name}</span>
+              <span className="font-display font-black text-emerald-800 w-16 text-base shrink-0">{item.name}</span>
               <div className="flex gap-2 flex-1 justify-end">
                 {choices.map(ch => (
                   <button
@@ -273,8 +293,14 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
       {allDone && (
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{ACTIONS.length} correct!</p>
-          <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
+          <p className="font-display font-bold text-xl text-emerald-600 mb-3">
+            {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : `${score}/${items.length} correct!`}
+          </p>
+          <div className="flex gap-3 justify-center">
+            {roundIdx + 1 < totalRounds
+              ? <button onClick={onNext} className="btn-kid bg-emerald-500">סבב הבא →</button>
+              : <button onClick={onDone} className="btn-kid bg-emerald-500">✅ Done</button>}
+          </div>
         </div>
       )}
     </div>
@@ -282,23 +308,33 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
 }
 
 function Ex1Tab() {
+  const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
-  return <Ex1Inner key={k} onAgain={() => setK(n => n + 1)} />
+  return (
+    <MatchActionRound
+      key={`${round}-${k}`}
+      items={MATCH_ACTION_ROUNDS[round]}
+      roundIdx={round}
+      totalRounds={MATCH_ACTION_ROUNDS.length}
+      onNext={() => setRound(r => r + 1)}
+      onDone={() => { setRound(0); setK(n => n + 1) }}
+    />
+  )
 }
 
 // ── Ex2: Fill-in-the-blank sentences ─────────────────────────────────────────
 
 const ACTION_SENTENCES = [
-  { scene: '🥤🐱', sentence: 'The cat likes to ___ milk.',        correct: 'drink', choices: ['drink', 'eat']   },
-  { scene: '🏃👦', sentence: 'He loves to ___ in the park.',       correct: 'run',   choices: ['run',   'walk']  },
-  { scene: '💃👧', sentence: 'She likes to ___ to music.',         correct: 'dance', choices: ['dance', 'jump']  },
-  { scene: '📖👦', sentence: 'He likes to ___ books.',             correct: 'read',  choices: ['read',  'write'] },
-  { scene: '🎤🎵', sentence: 'She loves to ___ songs.',            correct: 'sing',  choices: ['sing',  'talk']  },
-  { scene: '🏊🌊', sentence: 'They like to ___ in the sea.',       correct: 'swim',  choices: ['swim',  'run']   },
-  { scene: '😴🛏️', sentence: 'The baby likes to ___ all day.',     correct: 'sleep', choices: ['sleep', 'sit']   },
-  { scene: '🎮👦', sentence: 'He likes to ___ video games.',       correct: 'play',  choices: ['play',  'write'] },
-  { scene: '✍️📝', sentence: 'She likes to ___ in her diary.',     correct: 'write', choices: ['write', 'read']  },
-  { scene: '😢👧', sentence: 'The baby starts to ___.',            correct: 'cry',   choices: ['cry',   'sing']  },
+  { scene: '🥤', sentence: 'The cat likes to ___ milk.',        correct: 'drink', choices: ['drink', 'eat']   },
+  { scene: '🏃', sentence: 'He loves to ___ in the park.',       correct: 'run',   choices: ['run',   'walk']  },
+  { scene: '💃', sentence: 'She likes to ___ to music.',         correct: 'dance', choices: ['dance', 'jump']  },
+  { scene: '📖', sentence: 'He likes to ___ books.',             correct: 'read',  choices: ['read',  'write'] },
+  { scene: '🎤', sentence: 'She loves to ___ songs.',            correct: 'sing',  choices: ['sing',  'talk']  },
+  { scene: '🏊', sentence: 'They like to ___ in the sea.',       correct: 'swim',  choices: ['swim',  'run']   },
+  { scene: '😴', sentence: 'The baby likes to ___ all day.',     correct: 'sleep', choices: ['sleep', 'sit']   },
+  { scene: '🎮', sentence: 'He likes to ___ video games.',       correct: 'play',  choices: ['play',  'write'] },
+  { scene: '✍️', sentence: 'She likes to ___ in her diary.',     correct: 'write', choices: ['write', 'read']  },
+  { scene: '😢', sentence: 'The baby starts to ___.',            correct: 'cry',   choices: ['cry',   'sing']  },
 ]
 
 function Ex2Inner({ onAgain }: { onAgain: () => void }) {
@@ -369,14 +405,98 @@ function Ex2Tab() {
   return <Ex2Inner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
+// ── Ex3: Fill In 2 ────────────────────────────────────────────────────────────
+
+const FILL2_SENTENCES = [
+  { sentence: 'I _____ books.',            correct: 'read',  choices: ['read',  'drink'] as [string,string] },
+  { sentence: 'I _____ water.',            correct: 'drink', choices: ['drink', 'read']  as [string,string] },
+  { sentence: 'I _____ to school.',        correct: 'walk',  choices: ['walk',  'swim']  as [string,string] },
+  { sentence: 'I _____ an ice cream.',     correct: 'eat',   choices: ['eat',   'drink'] as [string,string] },
+  { sentence: 'I _____ in my bed.',        correct: 'sleep', choices: ['sleep', 'sit']   as [string,string] },
+  { sentence: 'I can _____ fast.',         correct: 'run',   choices: ['run',   'swim']  as [string,string] },
+  { sentence: 'I can _____ high.',         correct: 'jump',  choices: ['jump',  'run']   as [string,string] },
+  { sentence: 'I _____ on my chair.',      correct: 'sit',   choices: ['sit',   'sleep'] as [string,string] },
+  { sentence: 'I _____ in the pool.',      correct: 'swim',  choices: ['swim',  'walk']  as [string,string] },
+  { sentence: 'I _____ in my notebook.',   correct: 'write', choices: ['write', 'read']  as [string,string] },
+  { sentence: 'I _____ my room.',          correct: 'clean', choices: ['clean', 'wash']  as [string,string] },
+  { sentence: 'I _____ my hands.',         correct: 'wash',  choices: ['wash',  'clean'] as [string,string] },
+  { sentence: 'I can _____ the ball.',     correct: 'catch', choices: ['catch', 'throw'] as [string,string] },
+]
+
+function Ex3Inner({ onAgain }: { onAgain: () => void }) {
+  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const score = Object.entries(answers).filter(([i, ans]) => ans === FILL2_SENTENCES[Number(i)].correct).length
+  const allDone = Object.keys(answers).length === FILL2_SENTENCES.length
+
+  function handlePick(i: number, choice: string) {
+    if (answers[i] !== undefined) return
+    setAnswers(prev => ({ ...prev, [i]: choice }))
+  }
+
+  return (
+    <div className="max-w-sm mx-auto px-3 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את הפעולה הנכונה</p>
+        <span className="text-emerald-500">✅ {score}/{FILL2_SENTENCES.length}</span>
+      </div>
+      <div className="flex flex-col gap-3">
+        {FILL2_SENTENCES.map((s, i) => {
+          const ans = answers[i]
+          const isCorrect = ans === s.correct
+          const isWrong = ans !== undefined && !isCorrect
+          return (
+            <div
+              key={i}
+              className={`rounded-2xl border-4 p-3 transition-all
+                ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400' : 'bg-white border-emerald-200'}`}
+            >
+              <p className="font-bold text-gray-700 text-sm mb-2">{s.sentence}</p>
+              <div className="flex gap-2 justify-center">
+                {s.choices.map(ch => (
+                  <button
+                    key={ch}
+                    onClick={() => handlePick(i, ch)}
+                    disabled={ans !== undefined}
+                    className={`flex-1 py-2 rounded-xl border-2 font-display font-black text-sm transition-all
+                      ${ans === ch && ch === s.correct ? 'bg-green-200 border-green-400 text-green-800' : ''}
+                      ${ans === ch && ch !== s.correct ? 'bg-red-200 border-red-400 text-red-800' : ''}
+                      ${ans !== ch && ans !== undefined ? 'opacity-40 border-gray-200 bg-gray-50 text-gray-400' : ''}
+                      ${ans === undefined ? 'bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100 active:scale-95 cursor-pointer' : ''}
+                    `}
+                  >
+                    {ch}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      {allDone && (
+        <div className="text-center mt-6 bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{FILL2_SENTENCES.length} correct!</p>
+          <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Ex3Tab() {
+  const [k, setK] = useState(0)
+  return <Ex3Inner key={k} onAgain={() => setK(n => n + 1)} />
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'learn', label: '📚 Learn'    },
-  { id: 'quiz1', label: '🔊 Quiz 1'  },
-  { id: 'quiz2', label: '🎯 Quiz 2'  },
-  { id: 'ex1',   label: '🖼️ Match'   },
-  { id: 'ex2',   label: '✏️ Fill In'  },
+  { id: 'learn', label: '📚 Learn'      },
+  { id: 'quiz1', label: '🔊 Quiz 1'    },
+  { id: 'quiz2', label: '🎯 Quiz 2'    },
+  { id: 'ex1',   label: '🖼️ Match'     },
+  { id: 'ex2',   label: '✏️ Fill In 1' },
+  { id: 'ex3',   label: '✏️ Fill In 2' },
 ]
 
 const TAB_BASE = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -410,6 +530,7 @@ export default function ActionsPage() {
         {tab === 'quiz2' && <Quiz2Tab />}
         {tab === 'ex1'   && <Ex1Tab />}
         {tab === 'ex2'   && <Ex2Tab />}
+        {tab === 'ex3'   && <Ex3Tab />}
       </div>
     </div>
   )

@@ -8,6 +8,65 @@ import { PREPOSITIONS, PrepItem } from '@/data/step2/vocabulary'
 
 type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2'
 
+// ── Cat-Box Illustration ──────────────────────────────────────────────────────
+
+function CatBoxIllustration({ id }: { id: string }) {
+  switch (id) {
+    case 'in':
+      return (
+        <div className="relative w-14 h-14 flex items-center justify-center">
+          <span className="text-5xl leading-none">📦</span>
+          <span className="absolute text-xl leading-none" style={{ top: '38%', left: '50%', transform: 'translate(-50%, -50%)' }}>🐱</span>
+        </div>
+      )
+    case 'on':
+      return (
+        <div className="flex flex-col items-center gap-0 leading-none">
+          <span className="text-3xl">🐱</span>
+          <span className="text-4xl -mt-1">📦</span>
+        </div>
+      )
+    case 'under':
+      return (
+        <div className="flex flex-col items-center gap-0 leading-none">
+          <span className="text-4xl">📦</span>
+          <span className="text-3xl -mt-1">🐱</span>
+        </div>
+      )
+    case 'next-to':
+      return (
+        <div className="flex items-end gap-1 leading-none">
+          <span className="text-3xl">🐱</span>
+          <span className="text-4xl">📦</span>
+        </div>
+      )
+    case 'in-front':
+      return (
+        <div className="relative w-16 h-12 flex items-end">
+          <span className="text-4xl leading-none absolute left-1 bottom-0 opacity-60">📦</span>
+          <span className="text-3xl leading-none absolute left-3 bottom-0 z-10">🐱</span>
+        </div>
+      )
+    case 'behind':
+      return (
+        <div className="relative w-16 h-12 flex items-end">
+          <span className="text-3xl leading-none absolute left-1 bottom-0 z-0 opacity-50">🐱</span>
+          <span className="text-4xl leading-none absolute left-2 bottom-0 z-10">📦</span>
+        </div>
+      )
+    case 'between':
+      return (
+        <div className="flex items-end gap-1 leading-none">
+          <span className="text-3xl">📦</span>
+          <span className="text-3xl">🐱</span>
+          <span className="text-3xl">📦</span>
+        </div>
+      )
+    default:
+      return <span className="text-4xl leading-none">📦</span>
+  }
+}
+
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
 function LearnTab() {
@@ -25,7 +84,9 @@ function LearnTab() {
             className="bg-white border-4 border-purple-200 rounded-2xl px-3 py-4 flex flex-col items-center gap-2
                        hover:bg-purple-50 active:scale-95 transition-all cursor-pointer"
           >
-            <span className="text-4xl leading-none">{p.scene}</span>
+            <div className="h-14 flex items-center justify-center">
+              <CatBoxIllustration id={p.id} />
+            </div>
             <span className="font-display font-black text-purple-800 text-lg">{p.name}</span>
             <span className="font-bold text-gray-500 text-sm" dir="rtl">{p.hebrew}</span>
           </button>
@@ -251,20 +312,20 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
               className={`flex items-center gap-2 px-3 py-3 rounded-2xl border-4 transition-all
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-purple-200'}`}
             >
-              <span className="font-display font-black text-purple-800 w-20 text-sm shrink-0">{item.name}</span>
+              <span className="font-display font-black text-purple-800 w-24 text-base shrink-0">{item.name}</span>
               <div className="flex gap-2 flex-1 justify-end">
                 {choices.map(ch => (
                   <button
                     key={ch.id}
                     onClick={() => handlePick(item.id, ch.id)}
                     disabled={ans !== undefined}
-                    className={`text-2xl leading-none rounded-xl p-2 border-2 transition-all
+                    className={`leading-none rounded-xl p-2 border-2 transition-all
                       ${ans !== undefined && ch.id === item.id ? 'bg-green-200 border-green-400' : ''}
                       ${ans !== undefined && ch.id !== item.id ? 'opacity-40 border-transparent' : ''}
                       ${ans === undefined ? 'bg-purple-50 border-purple-200 hover:bg-purple-100 hover:scale-110 active:scale-90 cursor-pointer' : ''}
                     `}
                   >
-                    {ch.scene}
+                    <CatBoxIllustration id={ch.id} />
                   </button>
                 ))}
               </div>

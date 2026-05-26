@@ -33,18 +33,31 @@ function LearnTab() {
       </div>
 
       <div className="bg-green-50 border-4 border-green-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-3 divide-x divide-green-200 bg-green-100 border-b-4 border-green-200">
+        <div className="grid grid-cols-6 divide-x divide-green-200 bg-green-100 border-b-4 border-green-200">
+          <div className="py-2 text-center font-bold text-green-700 text-xs">English</div>
+          <div className="py-2 text-center font-bold text-green-700 text-xs" dir="rtl">עברית</div>
+          <div className="py-2 text-center font-bold text-green-700 text-xs">Pic</div>
           <div className="py-2 text-center font-bold text-green-700 text-xs">English</div>
           <div className="py-2 text-center font-bold text-green-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-green-700 text-xs">Pic</div>
         </div>
-        {ANIMALS.map((a, i) => (
-          <div key={a.id} className={`grid grid-cols-3 divide-x divide-green-200 ${i % 2 === 0 ? 'bg-white' : 'bg-green-50/50'}`}>
-            <div className="py-2 px-2 font-bold text-gray-800 text-sm">{a.name}</div>
-            <div className="py-2 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{a.hebrew}</div>
-            <div className="py-2 text-center text-xl">{a.emoji}</div>
-          </div>
-        ))}
+        {Array.from({ length: Math.ceil(ANIMALS.length / 2) }, (_, i) => {
+          const a1 = ANIMALS[i * 2]; const a2 = ANIMALS[i * 2 + 1]
+          return (
+            <div key={i} className={`grid grid-cols-6 divide-x divide-green-200 ${i % 2 === 0 ? 'bg-white' : 'bg-green-50/50'}`}>
+              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{a1.name}</div>
+              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{a1.hebrew}</div>
+              <div className="py-1.5 text-center text-lg">{a1.emoji}</div>
+              {a2 ? (
+                <>
+                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{a2.name}</div>
+                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{a2.hebrew}</div>
+                  <div className="py-1.5 text-center text-lg">{a2.emoji}</div>
+                </>
+              ) : <><div /><div /><div /></>}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -195,7 +208,10 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
       </div>
       <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את השם הנכון</p>
       <div className="flex justify-center mb-8">
-        <div className="text-8xl">{cur?.emoji}</div>
+        <div className="flex flex-col items-center gap-1">
+          <div className="text-8xl">{cur?.emoji}</div>
+          <div className="font-bold text-gray-500 text-base" dir="rtl">{cur?.hebrew}</div>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => {
@@ -457,7 +473,7 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
               {isFlipped ? (
                 card.type === 'emoji'
                   ? <span className="text-2xl">{card.animal.emoji}</span>
-                  : <span className="font-display font-black text-xs leading-tight text-gray-800">{card.animal.name}</span>
+                  : <span className="font-display font-black text-sm leading-tight text-gray-800">{card.animal.name}</span>
               ) : (
                 <span className="font-display font-black text-2xl text-white">?</span>
               )}
@@ -569,52 +585,46 @@ function Ex3Tab() {
   return <SortInner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
-// ── Ex4: Match word → emoji ───────────────────────────────────────────────────
+// ── Ex4: Match word → emoji (2 rounds of 6) ──────────────────────────────────
 
 type AnimalSel = { type: 'word' | 'emoji'; value: string }
+const MATCH_ROUNDS_ANIMALS = [ANIMALS.slice(0, 6), ANIMALS.slice(6, 12)]
 
-function MatchInner({ onAgain }: { onAgain: () => void }) {
-  const [shuffledWords] = useState<AnimalItem[]>(() => shuffle([...ANIMALS]))
+function MatchRound({ items, roundIdx, totalRounds, onNext, onDone }: {
+  items: AnimalItem[]; roundIdx: number; totalRounds: number; onNext: () => void; onDone: () => void
+}) {
+  const [shuffledWords] = useState<AnimalItem[]>(() => shuffle([...items]))
   const [selected, setSelected] = useState<AnimalSel | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
   const [wrongSel, setWrongSel] = useState<AnimalSel | null>(null)
-  const allDone = matched.size === ANIMALS.length
+  const allDone = matched.size === items.length
 
   function handleWordClick(id: string) {
     if (matched.has(id)) return
     setWrongSel(null)
-    if (!selected || selected.type === 'word') {
-      setSelected({ type: 'word', value: id })
-    } else {
-      if (selected.value === id) {
-        setMatched(prev => { const s = new Set(prev); s.add(id); return s }); setSelected(null)
-      } else {
-        setWrongSel(selected)
-        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
-      }
+    if (!selected || selected.type === 'word') { setSelected({ type: 'word', value: id }) }
+    else {
+      if (selected.value === id) { setMatched(prev => { const s = new Set(prev); s.add(id); return s }); setSelected(null) }
+      else { setWrongSel(selected); setTimeout(() => { setWrongSel(null); setSelected(null) }, 500) }
     }
   }
 
   function handleEmojiClick(id: string) {
     if (matched.has(id)) return
     setWrongSel(null)
-    if (!selected || selected.type === 'emoji') {
-      setSelected({ type: 'emoji', value: id })
-    } else {
-      if (selected.value === id) {
-        setMatched(prev => { const s = new Set(prev); s.add(id); return s }); setSelected(null)
-      } else {
-        setWrongSel(selected)
-        setTimeout(() => { setWrongSel(null); setSelected(null) }, 500)
-      }
+    if (!selected || selected.type === 'emoji') { setSelected({ type: 'emoji', value: id }) }
+    else {
+      if (selected.value === id) { setMatched(prev => { const s = new Set(prev); s.add(id); return s }); setSelected(null) }
+      else { setWrongSel(selected); setTimeout(() => { setWrongSel(null); setSelected(null) }, 500) }
     }
   }
 
   return (
     <div className="max-w-sm mx-auto px-3 pb-8">
-      <p className="text-center font-bold text-gray-500 text-sm mb-2" dir="rtl">
-        לחץ על שם החיה ועל הציור המתאים
-      </p>
+      <div className="flex justify-between items-center mb-2">
+        <p className="font-bold text-gray-500 text-sm" dir="rtl">לחץ על שם החיה ועל הציור המתאים</p>
+        <span className="text-xs font-bold text-green-500">סבב {roundIdx + 1}/{totalRounds}</span>
+      </div>
       <div className="flex gap-2">
         <div className="flex-1 flex flex-col gap-1">
           {shuffledWords.map(a => {
@@ -639,7 +649,7 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
           })}
         </div>
         <div className="flex flex-col gap-1 w-12">
-          {ANIMALS.map(a => {
+          {items.map(a => {
             const isMatched = matched.has(a.id)
             const isEmojiSel = selected?.type === 'emoji' && selected.value === a.id
             const isEmojiWrong = wrongSel?.type === 'emoji' && wrongSel.value === a.id
@@ -661,14 +671,18 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
           })}
         </div>
       </div>
-      <div className="text-center mt-3 text-sm font-bold text-gray-400">
-        {matched.size} / {ANIMALS.length} ✓
-      </div>
+      <div className="text-center mt-3 text-sm font-bold text-gray-400">{matched.size} / {items.length} ✓</div>
       {allDone && (
         <div className="text-center mt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          <button onClick={onAgain} className="btn-kid bg-green-500">🔁 Again</button>
+          <p className="font-display font-bold text-xl text-green-600 mb-3">
+            {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : 'Well done!'}
+          </p>
+          <div className="flex gap-3 justify-center">
+            {roundIdx + 1 < totalRounds
+              ? <button onClick={onNext} className="btn-kid bg-green-500">סבב הבא →</button>
+              : <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>}
+          </div>
         </div>
       )}
     </div>
@@ -676,8 +690,18 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
 }
 
 function Ex4Tab() {
+  const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
-  return <MatchInner key={k} onAgain={() => setK(n => n + 1)} />
+  return (
+    <MatchRound
+      key={`${round}-${k}`}
+      items={MATCH_ROUNDS_ANIMALS[round]}
+      roundIdx={round}
+      totalRounds={MATCH_ROUNDS_ANIMALS.length}
+      onNext={() => setRound(r => r + 1)}
+      onDone={() => { setRound(0); setK(n => n + 1) }}
+    />
+  )
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────

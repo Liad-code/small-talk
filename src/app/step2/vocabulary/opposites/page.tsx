@@ -19,23 +19,23 @@ function LearnTab() {
       </p>
       <div className="flex flex-col gap-2">
         {OPPOSITES.map(p => (
-          <div key={p.id} className="bg-white border-4 border-orange-200 rounded-2xl px-3 py-2 flex items-center gap-3">
+          <div key={p.id} className="bg-white border-4 border-orange-200 rounded-2xl px-2 py-2 flex items-center gap-2">
             <button
               onClick={() => speak(p.word1, 0.8)}
-              className="flex flex-col items-center w-20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="flex flex-col items-center w-16 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <span className="text-3xl">{p.emoji1}</span>
-              <span className="font-display font-black text-orange-800 text-sm">{p.word1}</span>
-              <span className="font-bold text-gray-500 text-xs" dir="rtl">{p.hebrew1}</span>
+              <span className="text-4xl">{p.emoji1}</span>
+              <span className="font-display font-black text-orange-800 text-base">{p.word1}</span>
+              <span className="font-bold text-gray-500 text-sm" dir="rtl">{p.hebrew1}</span>
             </button>
             <div className="flex-1 text-center font-black text-gray-300 text-2xl">↔️</div>
             <button
               onClick={() => speak(p.word2, 0.8)}
-              className="flex flex-col items-center w-20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="flex flex-col items-center w-16 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <span className="text-3xl">{p.emoji2}</span>
-              <span className="font-display font-black text-orange-800 text-sm">{p.word2}</span>
-              <span className="font-bold text-gray-500 text-xs" dir="rtl">{p.hebrew2}</span>
+              <span className="text-4xl">{p.emoji2}</span>
+              <span className="font-display font-black text-orange-800 text-base">{p.word2}</span>
+              <span className="font-bold text-gray-500 text-sm" dir="rtl">{p.hebrew2}</span>
             </button>
           </div>
         ))}
@@ -204,15 +204,20 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
   )
 
   const cur = queue[idx]
+  const curPair = OPPOSITES.find(p => p.id === cur.pairId)!
+  const curHebrew = cur.isWord1 ? curPair.hebrew1 : curPair.hebrew2
   return (
     <div className="max-w-sm mx-auto px-4 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <span>{idx + 1} / {queue.length}</span>
         <span className="text-orange-500">✅ {score}</span>
       </div>
-      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את השם הנכון</p>
+      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את תאור התמונה</p>
       <div className="flex justify-center mb-8">
-        <div className="text-8xl">{cur?.emoji}</div>
+        <div className="flex flex-col items-center gap-1">
+          <div className="text-8xl">{cur?.emoji}</div>
+          <div className="font-bold text-gray-500 text-base" dir="rtl">{curHebrew}</div>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => (
@@ -240,21 +245,23 @@ function Quiz2Tab() {
   return <Quiz2Inner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
-// ── Ex1: Match opposites ───────────────────────────────────────────────────────
+// ── Ex1: Match opposites (2 rounds of 5) ──────────────────────────────────────
 
-function MatchInner({ onAgain }: { onAgain: () => void }) {
-  const [leftCol] = useState(() => shuffle(OPPOSITES.map(p => ({ id: p.id, word: p.word1, emoji: p.emoji1 }))))
-  const [rightCol] = useState(() => shuffle(OPPOSITES.map(p => ({ id: p.id, word: p.word2, emoji: p.emoji2 }))))
+const MATCH_OPP_ROUNDS = [OPPOSITES.slice(0, 5), OPPOSITES.slice(5, 10)]
+
+function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
+  pairs: OppositePair[]; roundIdx: number; totalRounds: number; onNext: () => void; onDone: () => void
+}) {
+  const [leftCol] = useState(() => shuffle(pairs.map(p => ({ id: p.id, word: p.word1, emoji: p.emoji1 }))))
+  const [rightCol] = useState(() => shuffle(pairs.map(p => ({ id: p.id, word: p.word2, emoji: p.emoji2 }))))
   const [selLeft, setSelLeft] = useState<string | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
   const [wrongPair, setWrongPair] = useState<[string, string] | null>(null)
-
-  const allDone = matched.size === OPPOSITES.length
+  const allDone = matched.size === pairs.length
 
   function handleLeft(id: string) {
     if (matched.has(id)) return
-    setSelLeft(id)
-    setWrongPair(null)
+    setSelLeft(id); setWrongPair(null)
   }
 
   function handleRight(id: string) {
@@ -270,11 +277,11 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
 
   return (
     <div className="max-w-sm mx-auto px-3 pb-16">
-      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
-        לחץ על מילה משמאל ואחר כך על ההפך שלה מימין
-      </p>
+      <div className="flex justify-between items-center mb-4">
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על מילה משמאל ואחר כך על ההפך שלה מימין</p>
+        <span className="text-xs font-bold text-orange-500">סבב {roundIdx + 1}/{totalRounds}</span>
+      </div>
       <div className="flex gap-3">
-        {/* Left column */}
         <div className="flex-1 flex flex-col gap-2">
           {leftCol.map(item => {
             const isMatched = matched.has(item.id)
@@ -298,7 +305,6 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
             )
           })}
         </div>
-        {/* Right column */}
         <div className="flex-1 flex flex-col gap-2">
           {rightCol.map(item => {
             const isMatched = matched.has(item.id)
@@ -325,8 +331,14 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
       {allDone && (
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-orange-600 mb-3">כל הכבוד!</p>
-          <button onClick={onAgain} className="btn-kid bg-orange-500">🔁 Again</button>
+          <p className="font-display font-bold text-xl text-orange-600 mb-3">
+            {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : 'כל הכבוד!'}
+          </p>
+          <div className="flex gap-3 justify-center">
+            {roundIdx + 1 < totalRounds
+              ? <button onClick={onNext} className="btn-kid bg-orange-500">סבב הבא →</button>
+              : <button onClick={onDone} className="btn-kid bg-orange-500">✅ Done</button>}
+          </div>
         </div>
       )}
     </div>
@@ -334,8 +346,18 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
 }
 
 function Ex1Tab() {
+  const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
-  return <MatchInner key={k} onAgain={() => setK(n => n + 1)} />
+  return (
+    <MatchOppRound
+      key={`${round}-${k}`}
+      pairs={MATCH_OPP_ROUNDS[round]}
+      roundIdx={round}
+      totalRounds={MATCH_OPP_ROUNDS.length}
+      onNext={() => setRound(r => r + 1)}
+      onDone={() => { setRound(0); setK(n => n + 1) }}
+    />
+  )
 }
 
 // ── Ex2: See emoji → pick opposite word ──────────────────────────────────────

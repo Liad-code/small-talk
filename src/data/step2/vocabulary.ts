@@ -152,7 +152,7 @@ export interface ClothesItem {
 export const CLOTHES: ClothesItem[] = [
   { id: 'hat',     name: 'hat',     hebrew: 'כובע',           emoji: '🎩', warmSeason: false },
   { id: 'shirt',   name: 'shirt',   hebrew: 'חולצה',          emoji: '👕', warmSeason: true  },
-  { id: 'shoes',   name: 'shoes',   hebrew: 'נעליים',         emoji: '👟', warmSeason: true  },
+  { id: 'shoes',   name: 'shoes',   hebrew: 'נעליים',         emoji: '👟👟', warmSeason: true  },
   { id: 'coat',    name: 'coat',    hebrew: 'מעיל',           emoji: '🧥', warmSeason: false },
   { id: 'pants',   name: 'pants',   hebrew: 'מכנסיים',        emoji: '👖', warmSeason: true  },
   { id: 'dress',   name: 'dress',   hebrew: 'שמלה',           emoji: '👗', warmSeason: true  },
@@ -161,9 +161,9 @@ export const CLOTHES: ClothesItem[] = [
   { id: 'cap',     name: 'cap',     hebrew: 'כובע מצחייה',    emoji: '🧢', warmSeason: true  },
   { id: 'socks',   name: 'socks',   hebrew: 'גרביים',         emoji: '🧦', warmSeason: false },
   { id: 'jacket',  name: 'jacket',  hebrew: "ז'קט",           emoji: '🥼', warmSeason: false },
-  { id: 'skirt',   name: 'skirt',   hebrew: 'חצאית',          emoji: '👘', warmSeason: true  },
+  { id: 'skirt',   name: 'skirt',   hebrew: 'חצאית',          emoji: '👗', warmSeason: true  },
   { id: 'scarf',   name: 'scarf',   hebrew: 'צעיף',           emoji: '🧣', warmSeason: false },
-  { id: 'boots',   name: 'boots',   hebrew: 'מגפיים',         emoji: '🥾', warmSeason: false },
+  { id: 'boots',   name: 'boots',   hebrew: 'מגפיים',         emoji: '👢', warmSeason: false },
   { id: 'gloves',  name: 'gloves',  hebrew: 'כפפות',          emoji: '🧤', warmSeason: false },
 ]
 
@@ -211,7 +211,7 @@ export const OPPOSITES: OppositePair[] = [
   { id: 'wet-dry',      word1: 'wet',    hebrew1: 'רטוב',  emoji1: '🌊', word2: 'dry',    hebrew2: 'יבש',   emoji2: '🏜️' },
   { id: 'old-young',    word1: 'old',    hebrew1: 'זקן',   emoji1: '👴', word2: 'young',  hebrew2: 'צעיר',  emoji2: '👶' },
   { id: 'happy-sad',    word1: 'happy',  hebrew1: 'שמח',   emoji1: '😊', word2: 'sad',    hebrew2: 'עצוב',  emoji2: '😢' },
-  { id: 'clean-dirty',  word1: 'clean',  hebrew1: 'נקי',   emoji1: '✨', word2: 'dirty',  hebrew2: 'מלוכלך', emoji2: '🗑️' },
+  { id: 'clean-dirty',  word1: 'clean',  hebrew1: 'נקי',   emoji1: '👔', word2: 'dirty',  hebrew2: 'מלוכלך', emoji2: '🧺' },
 ]
 
 export interface ColorItem {

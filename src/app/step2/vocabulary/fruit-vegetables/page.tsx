@@ -32,18 +32,31 @@ function LearnTab() {
       </div>
 
       <div className="bg-red-50 border-4 border-red-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-3 divide-x divide-red-200 bg-red-100 border-b-4 border-red-200">
+        <div className="grid grid-cols-6 divide-x divide-red-200 bg-red-100 border-b-4 border-red-200">
+          <div className="py-2 text-center font-bold text-red-700 text-xs">English</div>
+          <div className="py-2 text-center font-bold text-red-700 text-xs" dir="rtl">עברית</div>
+          <div className="py-2 text-center font-bold text-red-700 text-xs">Pic</div>
           <div className="py-2 text-center font-bold text-red-700 text-xs">English</div>
           <div className="py-2 text-center font-bold text-red-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-red-700 text-xs">Pic</div>
         </div>
-        {FRUIT_VEG.map((f, i) => (
-          <div key={f.id} className={`grid grid-cols-3 divide-x divide-red-200 ${i % 2 === 0 ? 'bg-white' : 'bg-red-50/50'}`}>
-            <div className="py-2 px-2 font-bold text-gray-800 text-sm">{f.name}</div>
-            <div className="py-2 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{f.hebrew}</div>
-            <div className="py-2 text-center text-xl">{f.emoji}</div>
-          </div>
-        ))}
+        {Array.from({ length: Math.ceil(FRUIT_VEG.length / 2) }, (_, i) => {
+          const f1 = FRUIT_VEG[i * 2]; const f2 = FRUIT_VEG[i * 2 + 1]
+          return (
+            <div key={i} className={`grid grid-cols-6 divide-x divide-red-200 ${i % 2 === 0 ? 'bg-white' : 'bg-red-50/50'}`}>
+              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{f1.name}</div>
+              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{f1.hebrew}</div>
+              <div className="py-1.5 text-center text-lg">{f1.emoji}</div>
+              {f2 ? (
+                <>
+                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{f2.name}</div>
+                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{f2.hebrew}</div>
+                  <div className="py-1.5 text-center text-lg">{f2.emoji}</div>
+                </>
+              ) : <><div /><div /><div /></>}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -228,7 +241,8 @@ function Quiz2Tab() {
 
 // ── Ex1: Word Search (3 rounds) ───────────────────────────────────────────────
 
-const WS_SIZE = 10
+const WS_COLS = 8
+const WS_ROWS = 10
 const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const WS_ROUNDS: FruitVegItem[][] = [
   FRUIT_VEG.slice(0, 5),
@@ -240,7 +254,7 @@ interface WsPlacement { word: string; row: number; col: number; dir: 'h' | 'v' }
 
 function generateWordSearch(items: FruitVegItem[]): { grid: string[][]; placements: WsPlacement[] } {
   const words = items.map(f => f.name.toUpperCase())
-  const grid: string[][] = Array(WS_SIZE).fill(null).map(() => Array(WS_SIZE).fill(''))
+  const grid: string[][] = Array(WS_ROWS).fill(null).map(() => Array(WS_COLS).fill(''))
   const placements: WsPlacement[] = []
   const sorted = [...words].sort((a, b) => b.length - a.length)
 
@@ -248,8 +262,8 @@ function generateWordSearch(items: FruitVegItem[]): { grid: string[][]; placemen
     let placed = false
     for (let attempt = 0; attempt < 200 && !placed; attempt++) {
       const dir: 'h' | 'v' = Math.random() < 0.5 ? 'h' : 'v'
-      const maxRow = dir === 'h' ? WS_SIZE - 1 : WS_SIZE - word.length
-      const maxCol = dir === 'h' ? WS_SIZE - word.length : WS_SIZE - 1
+      const maxRow = dir === 'h' ? WS_ROWS - 1 : WS_ROWS - word.length
+      const maxCol = dir === 'h' ? WS_COLS - word.length : WS_COLS - 1
       if (maxRow < 0 || maxCol < 0) continue
       const row = Math.floor(Math.random() * (maxRow + 1))
       const col = Math.floor(Math.random() * (maxCol + 1))
@@ -271,8 +285,8 @@ function generateWordSearch(items: FruitVegItem[]): { grid: string[][]; placemen
     }
   }
 
-  for (let r = 0; r < WS_SIZE; r++)
-    for (let c = 0; c < WS_SIZE; c++)
+  for (let r = 0; r < WS_ROWS; r++)
+    for (let c = 0; c < WS_COLS; c++)
       if (grid[r][c] === '') grid[r][c] = ALPHA[Math.floor(Math.random() * 26)]
 
   return { grid, placements }
@@ -339,7 +353,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
   }
 
   const selKeys = new Set(selPath.map(([r, c]) => cellKey(r, c)))
-  const cellPx = Math.floor((Math.min(340, typeof window !== 'undefined' ? window.innerWidth - 32 : 340)) / WS_SIZE)
+  const cellPx = Math.floor((Math.min(340, typeof window !== 'undefined' ? window.innerWidth - 32 : 340)) / WS_COLS)
 
   return (
     <div className="max-w-sm mx-auto px-2 pb-16">
@@ -351,10 +365,10 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
         {found.size} / {placements.length} מילים נמצאו
       </div>
 
-      <div className={`border-2 rounded-xl overflow-hidden mb-4 select-none ${flashRed ? 'border-red-400' : 'border-gray-300'}`}>
-        {Array.from({ length: WS_SIZE }, (_, r) => (
+      <div className={`border-2 mb-4 select-none ${flashRed ? 'border-red-400' : 'border-gray-300'}`} style={{ width: 'fit-content' }}>
+        {Array.from({ length: WS_ROWS }, (_, r) => (
           <div key={r} className="flex">
-            {Array.from({ length: WS_SIZE }, (_, c) => {
+            {Array.from({ length: WS_COLS }, (_, c) => {
               const key = cellKey(r, c)
               const isFound = highlighted.has(key)
               const isSel = selKeys.has(key)
@@ -548,7 +562,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
                 ${f === 'correct' ? 'bg-green-100 border-green-400' : f === 'wrong' ? 'bg-red-100 border-red-400 shake' : isCorrect ? 'bg-green-100 border-green-400' : 'bg-white border-gray-200'}`}
             >
               <span className="text-2xl">{item.emoji}</span>
-              <span className="font-bold text-gray-700 text-sm flex-1">{item.name}</span>
+              <span className="font-display font-black text-gray-700 text-base flex-1">{item.name}</span>
               {isCorrect ? (
                 <span className="font-display font-black text-green-600 text-lg">✅ {item.count}</span>
               ) : (

@@ -33,18 +33,31 @@ function LearnTab() {
       </div>
 
       <div className="bg-sky-50 border-4 border-sky-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-3 divide-x divide-sky-200 bg-sky-100 border-b-4 border-sky-200">
+        <div className="grid grid-cols-6 divide-x divide-sky-200 bg-sky-100 border-b-4 border-sky-200">
+          <div className="py-2 text-center font-bold text-sky-700 text-xs">English</div>
+          <div className="py-2 text-center font-bold text-sky-700 text-xs" dir="rtl">עברית</div>
+          <div className="py-2 text-center font-bold text-sky-700 text-xs">Pic</div>
           <div className="py-2 text-center font-bold text-sky-700 text-xs">English</div>
           <div className="py-2 text-center font-bold text-sky-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-sky-700 text-xs">Pic</div>
         </div>
-        {CLOTHES.map((c, i) => (
-          <div key={c.id} className={`grid grid-cols-3 divide-x divide-sky-200 ${i % 2 === 0 ? 'bg-white' : 'bg-sky-50/50'}`}>
-            <div className="py-2 px-2 font-bold text-gray-800 text-sm">{c.name}</div>
-            <div className="py-2 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{c.hebrew}</div>
-            <div className="py-2 text-center text-xl">{c.emoji}</div>
-          </div>
-        ))}
+        {Array.from({ length: Math.ceil(CLOTHES.length / 2) }, (_, i) => {
+          const c1 = CLOTHES[i * 2]; const c2 = CLOTHES[i * 2 + 1]
+          return (
+            <div key={i} className={`grid grid-cols-6 divide-x divide-sky-200 ${i % 2 === 0 ? 'bg-white' : 'bg-sky-50/50'}`}>
+              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{c1.name}</div>
+              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{c1.hebrew}</div>
+              <div className="py-1.5 text-center text-lg">{c1.emoji}</div>
+              {c2 ? (
+                <>
+                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{c2.name}</div>
+                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{c2.hebrew}</div>
+                  <div className="py-1.5 text-center text-lg">{c2.emoji}</div>
+                </>
+              ) : <><div /><div /><div /></>}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -252,7 +265,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
               className={`flex items-center gap-2 px-3 py-3 rounded-2xl border-4 transition-all
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-sky-200'}`}
             >
-              <span className="font-display font-black text-sky-800 w-16 text-sm shrink-0">{item.name}</span>
+              <span className="font-display font-black text-sky-800 w-20 text-base shrink-0">{item.name}</span>
               <div className="flex gap-2 flex-1 justify-end">
                 {choices.map(ch => (
                   <button
@@ -328,7 +341,7 @@ function ClothesSort({ onAgain }: { onAgain: () => void }) {
           data-zone="summer"
           className="min-h-32 rounded-2xl border-4 border-dashed border-yellow-400 bg-yellow-50 p-2 flex flex-col gap-1"
         >
-          <p className="text-center font-bold text-yellow-700 text-sm mb-1">☀️ Spring/Summer</p>
+          <p className="text-center font-bold text-yellow-700 text-base mb-1">☀️ Spring/Summer</p>
           <div className="flex flex-wrap gap-1 justify-center">
             {summerPlaced.map(c => (
               <span key={c.id} className="text-2xl">{c.emoji}</span>
@@ -340,7 +353,7 @@ function ClothesSort({ onAgain }: { onAgain: () => void }) {
           data-zone="winter"
           className="min-h-32 rounded-2xl border-4 border-dashed border-blue-400 bg-blue-50 p-2 flex flex-col gap-1"
         >
-          <p className="text-center font-bold text-blue-700 text-sm mb-1">❄️ Fall/Winter</p>
+          <p className="text-center font-bold text-blue-700 text-base mb-1">❄️ Fall/Winter</p>
           <div className="flex flex-wrap gap-1 justify-center">
             {winterPlaced.map(c => (
               <span key={c.id} className="text-2xl">{c.emoji}</span>
@@ -362,14 +375,9 @@ function ClothesSort({ onAgain }: { onAgain: () => void }) {
                 borderColor={wrong === c.id ? 'border-red-400' : 'border-sky-400'}
                 textColor="text-sky-900"
                 size="sm"
-                className="!w-auto min-w-[56px] px-1 flex-col gap-0"
+                className={`!w-auto min-w-[70px] px-3 font-display font-black text-sm ${wrong === c.id ? 'shake' : ''}`}
                 onDropped={handleDrop}
-              >
-                <div className="flex flex-col items-center leading-none">
-                  <span className="text-xl">{c.emoji}</span>
-                  <span className="text-[10px] font-bold">{c.name}</span>
-                </div>
-              </DraggableTile>
+              />
             ))}
           </div>
         </div>

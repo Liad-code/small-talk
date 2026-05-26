@@ -33,18 +33,31 @@ function LearnTab() {
       </div>
 
       <div className="bg-amber-50 border-4 border-amber-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-3 divide-x divide-amber-200 bg-amber-100 border-b-4 border-amber-200">
+        <div className="grid grid-cols-6 divide-x divide-amber-200 bg-amber-100 border-b-4 border-amber-200">
+          <div className="py-2 text-center font-bold text-amber-700 text-xs">English</div>
+          <div className="py-2 text-center font-bold text-amber-700 text-xs" dir="rtl">עברית</div>
+          <div className="py-2 text-center font-bold text-amber-700 text-xs">Pic</div>
           <div className="py-2 text-center font-bold text-amber-700 text-xs">English</div>
           <div className="py-2 text-center font-bold text-amber-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-amber-700 text-xs">Pic</div>
         </div>
-        {FAMILY.map((f, i) => (
-          <div key={f.id} className={`grid grid-cols-3 divide-x divide-amber-200 ${i % 2 === 0 ? 'bg-white' : 'bg-amber-50/50'}`}>
-            <div className="py-2 px-2 font-bold text-gray-800 text-sm">{f.name}</div>
-            <div className="py-2 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{f.hebrew}</div>
-            <div className="py-2 text-center text-xl">{f.emoji}</div>
-          </div>
-        ))}
+        {Array.from({ length: Math.ceil(FAMILY.length / 2) }, (_, i) => {
+          const f1 = FAMILY[i * 2]; const f2 = FAMILY[i * 2 + 1]
+          return (
+            <div key={i} className={`grid grid-cols-6 divide-x divide-amber-200 ${i % 2 === 0 ? 'bg-white' : 'bg-amber-50/50'}`}>
+              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{f1.name}</div>
+              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{f1.hebrew}</div>
+              <div className="py-1.5 text-center text-lg">{f1.emoji}</div>
+              {f2 ? (
+                <>
+                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{f2.name}</div>
+                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{f2.hebrew}</div>
+                  <div className="py-1.5 text-center text-lg">{f2.emoji}</div>
+                </>
+              ) : <><div /><div /><div /></>}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -195,7 +208,10 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
       </div>
       <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את השם הנכון</p>
       <div className="flex justify-center mb-8">
-        <div className="text-8xl">{cur?.emoji}</div>
+        <div className="flex flex-col items-center gap-1">
+          <div className="text-8xl">{cur?.emoji}</div>
+          <div className="font-bold text-gray-500 text-base" dir="rtl">{cur?.hebrew}</div>
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => {
@@ -250,7 +266,7 @@ function TreeSlot({ id, answers, wrong, emoji }: {
       <div
         data-drop-target="true"
         data-node-id={id}
-        className={`w-24 h-7 rounded-lg border-2 flex items-center justify-center text-xs font-bold transition-all
+        className={`w-28 h-9 rounded-xl border-2 flex items-center justify-center text-sm font-bold transition-all
           ${filled ? 'bg-green-100 border-green-400 text-green-800' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-dashed border-amber-300 text-gray-300'}`}
       >
         {filled ? node.label : '_ _ _'}
@@ -313,7 +329,7 @@ function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
           <TreeSlot id="brother" answers={answers} wrong={wrong} emoji="👦" />
           <div className="flex flex-col items-center gap-1">
             <span className="text-3xl">🧒</span>
-            <div className="w-16 h-7 rounded-lg border-2 border-amber-400 bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-800">
+            <div className="w-20 h-9 rounded-xl border-2 border-amber-400 bg-amber-100 flex items-center justify-center text-sm font-bold text-amber-800">
               me
             </div>
           </div>
