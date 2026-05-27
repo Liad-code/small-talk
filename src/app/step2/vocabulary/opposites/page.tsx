@@ -6,7 +6,7 @@ import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { OPPOSITES, OppositePair } from '@/data/step2/vocabulary'
 
-type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'quiz1' | 'ex1' | 'ex2'
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -155,94 +155,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
 function Quiz1Tab() {
   const [k, setK] = useState(0)
   return <Quiz1Inner key={k} onAgain={() => setK(n => n + 1)} />
-}
-
-// ── Quiz 2: see emoji → pick word ─────────────────────────────────────────────
-
-function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
-  const all = flattenWords()
-  const [queue] = useState<FlatWord[]>(() => shuffle(all))
-  const [idx, setIdx] = useState(0)
-  const [options, setOptions] = useState<FlatWord[]>(() => {
-    const cur = queue[0]
-    const wrong = shuffle(all.filter(w => w.word !== cur.word && w.pairId !== cur.pairId)).slice(0, 3)
-    return shuffle([cur, ...wrong])
-  })
-  const [correct, setCorrect] = useState<string | null>(null)
-  const [wrong, setWrong] = useState<string | null>(null)
-  const [score, setScore] = useState(0)
-  const [done, setDone] = useState(false)
-
-  function handleAnswer(word: string) {
-    if (correct || done) return
-    const cur = queue[idx]
-    if (word === cur.word) {
-      setCorrect(word)
-      setTimeout(() => {
-        setScore(s => s + 1)
-        setCorrect(null)
-        const next = idx + 1
-        if (next >= queue.length) { setDone(true); return }
-        const nextCur = queue[next]
-        const nextWrong = shuffle(all.filter(w => w.word !== nextCur.word && w.pairId !== nextCur.pairId)).slice(0, 3)
-        setOptions(shuffle([nextCur, ...nextWrong]))
-        setIdx(next)
-      }, 600)
-    } else {
-      setWrong(word)
-      setTimeout(() => setWrong(null), 500)
-    }
-  }
-
-  if (done) return (
-    <div className="text-center py-12 px-4 bounce-in">
-      <div className="text-5xl mb-4">⭐</div>
-      <p className="font-display font-bold text-2xl text-orange-700">{score}/{queue.length} correct!</p>
-      <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-      <button onClick={onAgain} className="btn-kid bg-orange-500">🔁 Again</button>
-    </div>
-  )
-
-  const cur = queue[idx]
-  const curPair = OPPOSITES.find(p => p.id === cur.pairId)!
-  const curHebrew = cur.isWord1 ? curPair.hebrew1 : curPair.hebrew2
-  return (
-    <div className="max-w-sm mx-auto px-4 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>{idx + 1} / {queue.length}</span>
-        <span className="text-orange-500">✅ {score}</span>
-      </div>
-      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את תאור התמונה</p>
-      <div className="flex justify-center mb-8">
-        <div className="flex flex-col items-center gap-1">
-          <div className="text-8xl">{cur?.emoji}</div>
-          <div className="font-bold text-gray-500 text-base" dir="rtl">{curHebrew}</div>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {options.map(opt => (
-          <button
-            key={`${opt.pairId}-${opt.word}`}
-            onClick={() => handleAnswer(opt.word)}
-            className={`
-              rounded-2xl border-4 py-4 font-display font-black text-xl
-              transition-all duration-150 cursor-pointer select-none
-              ${correct === opt.word ? 'bg-green-200 border-green-400 text-green-800 scale-105' : ''}
-              ${wrong === opt.word ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
-              ${correct !== opt.word && wrong !== opt.word ? 'bg-orange-50 border-orange-300 text-orange-900 hover:bg-orange-100 hover:scale-105 active:scale-95' : ''}
-            `}
-          >
-            {opt.word}
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function Quiz2Tab() {
-  const [k, setK] = useState(0)
-  return <Quiz2Inner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
 // ── Ex1: Match opposites (2 rounds of 5) ──────────────────────────────────────
@@ -445,7 +357,6 @@ function Ex2Tab() {
 const TABS: { id: Tab; label: string }[] = [
   { id: 'learn', label: '📚 Learn'    },
   { id: 'quiz1', label: '🔊 Quiz 1'  },
-  { id: 'quiz2', label: '🎯 Quiz 2'  },
   { id: 'ex1',   label: '🔗 Match'   },
   { id: 'ex2',   label: '↔️ Opposite' },
 ]
@@ -478,7 +389,6 @@ export default function OppositesPage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'quiz1' && <Quiz1Tab />}
-        {tab === 'quiz2' && <Quiz2Tab />}
         {tab === 'ex1'   && <Ex1Tab />}
         {tab === 'ex2'   && <Ex2Tab />}
       </div>

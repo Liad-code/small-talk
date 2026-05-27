@@ -53,7 +53,7 @@ export const DIGRAPHS: Digraph[] = [
       { word: 'CHIPS',    emoji: '🍟' },
       { word: 'LUNCH',    emoji: '🍱' },
       { word: 'CHIN',     emoji: '🤔' },
-      { word: 'BENCH',    emoji: '🛋️', tts: 'bench' },
+      { word: 'BENCH',    emoji: '🪑', tts: 'bench' },
       { word: 'CHEEKS',   emoji: '🤗' },
       { word: 'PEACH',    emoji: '🍑' },
       { word: 'CHAIR',    emoji: '🪑' },
@@ -156,7 +156,7 @@ export const DIGRAPHS: Digraph[] = [
     emoji: '🥄',
     words: [
       { word: 'WHITE',       emoji: '⬜' },
-      { word: 'WHISK',       emoji: '🥄' },
+      { word: 'WHISK',       emoji: '🌀' },
       { word: 'WHEEL',       emoji: '🛞' },
       { word: 'WHALE',       emoji: '🐋' },
       { word: 'WHEAT',       emoji: '🌾' },
@@ -366,7 +366,7 @@ export const DIGRAPHS: Digraph[] = [
     borderColor: 'border-cyan-300',
     emoji: '🧊',
     words: [
-      { word: 'PERFUME', emoji: '🫙' },
+      { word: 'PERFUME', emoji: '🧴' },
       { word: 'DUNE',    emoji: '🏜️' },
       { word: 'CUBE',    emoji: '🧊' },
       { word: 'TUBE',    emoji: '🧪' },

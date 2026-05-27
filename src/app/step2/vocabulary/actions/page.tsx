@@ -197,7 +197,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <span>{idx + 1} / {queue.length}</span>
         <span className="text-emerald-500">✅ {score}</span>
       </div>
-      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את השם הנכון</p>
+      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את שם הפעולה המופיעה בתמונה</p>
       <div className="flex justify-center mb-8">
         <div className="flex flex-col items-center gap-1">
           <div className="text-8xl">{cur?.emoji}</div>

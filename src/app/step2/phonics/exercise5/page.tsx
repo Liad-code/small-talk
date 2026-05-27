@@ -129,6 +129,7 @@ export default function Exercise5Page() {
           <Link href="/step2/phonics" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Phonics</Link>
           <h1 className="font-display text-2xl font-bold text-white mt-0.5">Sound Sort 5 🎲</h1>
           <p className="text-white/70 font-bold text-xs" dir="rtl">מיון צלילים — MAGIC E: A · I · O · U</p>
+          <p className="text-white/60 font-bold text-xs mt-0.5" dir="rtl">יש e magic של האות e אך יש מעט מאד מילים במבנה זה</p>
         </div>
       </div>
       <div className="pt-5">

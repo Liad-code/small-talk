@@ -206,7 +206,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <span>{idx + 1} / {queue.length}</span>
         <span className="text-green-500">✅ {score}</span>
       </div>
-      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את השם הנכון</p>
+      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את שם החיה המופיעה בתמונה</p>
       <div className="flex justify-center mb-8">
         <div className="flex flex-col items-center gap-1">
           <div className="text-8xl">{cur?.emoji}</div>
@@ -648,7 +648,7 @@ function MatchRound({ items, roundIdx, totalRounds, onNext, onDone }: {
             )
           })}
         </div>
-        <div className="flex flex-col gap-1 w-12">
+        <div className="flex flex-col gap-1 w-16">
           {items.map(a => {
             const isMatched = matched.has(a.id)
             const isEmojiSel = selected?.type === 'emoji' && selected.value === a.id
@@ -659,7 +659,7 @@ function MatchRound({ items, roundIdx, totalRounds, onNext, onDone }: {
                 onClick={() => !isMatched && handleEmojiClick(a.id)}
                 disabled={isMatched}
                 className={`
-                  h-[42px] w-full rounded-xl border-4 flex items-center justify-center text-xl
+                  h-[52px] w-full rounded-xl border-4 flex items-center justify-center text-3xl
                   transition-all duration-150 cursor-pointer select-none
                   ${isMatched ? 'bg-green-100 border-green-400 opacity-50' : ''}
                   ${isEmojiSel ? 'bg-green-200 border-green-500 scale-110 shadow-lg' : ''}

@@ -14,9 +14,10 @@ function CatBoxIllustration({ id }: { id: string }) {
   switch (id) {
     case 'in':
       return (
-        <div className="relative w-14 h-14 flex items-center justify-center">
-          <span className="text-5xl leading-none">📦</span>
-          <span className="absolute text-xl leading-none" style={{ top: '38%', left: '50%', transform: 'translate(-50%, -50%)' }}>🐱</span>
+        <div className="flex flex-col items-center">
+          <div className="flex items-center justify-center px-3 py-2 border-4 border-t-0 border-amber-600 rounded-b-lg bg-amber-50" style={{ minWidth: '52px' }}>
+            <span className="text-2xl leading-none">🐱</span>
+          </div>
         </div>
       )
     case 'on':
@@ -50,8 +51,8 @@ function CatBoxIllustration({ id }: { id: string }) {
     case 'behind':
       return (
         <div className="relative w-16 h-12 flex items-end">
-          <span className="text-3xl leading-none absolute left-1 bottom-0 z-0 opacity-50">🐱</span>
-          <span className="text-4xl leading-none absolute left-2 bottom-0 z-10">📦</span>
+          <span className="text-3xl leading-none absolute left-0 bottom-0 z-0 opacity-75">🐱</span>
+          <span className="text-4xl leading-none absolute left-5 bottom-0 z-10">📦</span>
         </div>
       )
     case 'between':
@@ -180,7 +181,9 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
               ${wrong === opt.id ? 'bg-red-100 border-red-400 shake' : 'bg-purple-50 border-purple-200 hover:bg-purple-100 hover:scale-105 active:scale-95'}
             `}
           >
-            {opt.scene}
+            <div className="h-14 flex items-center justify-center">
+              <CatBoxIllustration id={opt.id} />
+            </div>
           </button>
         ))}
       </div>
@@ -246,8 +249,10 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <span className="text-purple-500">✅ {score}</span>
       </div>
       <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את המילה הנכונה</p>
-      <div className="flex justify-center mb-8">
-        <div className="text-7xl leading-none">{cur?.scene}</div>
+      <div className="flex justify-center mb-8 py-6">
+        <div className="scale-[2.5]">
+          <CatBoxIllustration id={cur?.id ?? ''} />
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => (
@@ -319,7 +324,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
                     key={ch.id}
                     onClick={() => handlePick(item.id, ch.id)}
                     disabled={ans !== undefined}
-                    className={`leading-none rounded-xl p-2 border-2 transition-all
+                    className={`rounded-xl p-1 border-2 transition-all w-16 h-14 flex items-center justify-center overflow-hidden
                       ${ans !== undefined && ch.id === item.id ? 'bg-green-200 border-green-400' : ''}
                       ${ans !== undefined && ch.id !== item.id ? 'opacity-40 border-transparent' : ''}
                       ${ans === undefined ? 'bg-purple-50 border-purple-200 hover:bg-purple-100 hover:scale-110 active:scale-90 cursor-pointer' : ''}
@@ -350,6 +355,12 @@ function Ex1Tab() {
 }
 
 // ── Ex2: Fill-in-the-blank sentences ─────────────────────────────────────────
+
+function prepId(correct: string): string {
+  if (correct === 'next to') return 'next-to'
+  if (correct === 'in front of') return 'in-front'
+  return correct
+}
 
 interface SentenceItem {
   scene: string
@@ -399,7 +410,9 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400' : 'bg-white border-purple-200'}`}
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl">{s.scene}</span>
+                <div className="shrink-0 flex items-center justify-center w-12 h-10">
+                  <CatBoxIllustration id={prepId(s.correct)} />
+                </div>
                 <p className="font-bold text-gray-700 text-sm flex-1">{s.sentence}</p>
               </div>
               <div className="flex gap-2 justify-center">
