@@ -84,11 +84,6 @@ const TRACK_A_KEYS = [
   'a3/ex1','a3/ex2','a3/ex3','a3/ex4',
 ]
 
-const TRACK_B_KEYS = [
-  'b1/learn',
-  'group1/ex1','group2/ex1','group3/ex1','group4/ex1','group5/ex1',
-]
-
 const TRACK_C_KEYS = ['c/c1','c/c2','c/c3','c/c4','c/c5','c/c6','c/c7','c/c8','c/c9']
 
 const TRACK_D_KEYS = [
@@ -102,7 +97,6 @@ export default function Step1HubPage() {
   const { step1Stars } = useStep1Progress()
 
   const aDone = useTrackProgress('A', TRACK_A_KEYS)
-  const bDone = useTrackProgress('B', TRACK_B_KEYS)
   const cDone = useTrackProgress('C', TRACK_C_KEYS)
   const dDone = useTrackProgress('D', TRACK_D_KEYS)
 
@@ -141,20 +135,6 @@ export default function Step1HubPage() {
           badgeColor="bg-red-600"
           totalExercises={TRACK_A_KEYS.length}
           doneCount={aDone}
-        />
-
-        <TrackCard
-          href="/step1/track-b"
-          emoji="🔊"
-          title="Track B — Sounds"
-          hebrewTitle="צלילים קצרים"
-          description="Hear and identify the short sound of every letter."
-          hebrewDesc="זיהוי הצליל הקצר של האות — short sound"
-          color="from-blue-400 to-cyan-400"
-          textColor="text-white"
-          badgeColor="bg-blue-600"
-          totalExercises={TRACK_B_KEYS.length}
-          doneCount={bDone}
         />
 
         <TrackCard

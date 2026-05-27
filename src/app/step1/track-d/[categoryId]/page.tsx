@@ -15,6 +15,8 @@ import { DaysNumberMatch } from '@/components/step1/trackD/DaysNumberMatch'
 import { FruitsBasket } from '@/components/step1/trackD/FruitsBasket'
 import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline'
 import { PrepCircleImage } from '@/components/step1/trackD/PrepCircleImage'
+import { NumbersCount } from '@/components/step1/trackD/NumbersCount'
+import { WeatherWorksheet } from '@/components/step1/trackD/WeatherWorksheet'
 
 const HEBREW_ORDINALS: Record<number, string> = {
   1: 'יום ראשון', 2: 'יום שני', 3: 'יום שלישי', 4: 'יום רביעי', 5: 'יום חמישי', 6: 'יום שישי', 7: 'שבת',
@@ -119,7 +121,7 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'prep-circle'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'prep-circle' | 'count' | 'worksheet'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -135,6 +137,8 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
     tabs.push({ id: 'clothesline', label: 'Clothesline', emoji: '🧺' })
   }
   if (categoryId === 'prepositions') tabs.push({ id: 'prep-circle', label: 'Prepositions', emoji: '🔵' })
+  if (categoryId === 'numbers') tabs.push({ id: 'count', label: 'Count', emoji: '🔢' })
+  if (categoryId === 'weather') tabs.push({ id: 'worksheet', label: 'Worksheet', emoji: '📄' })
   return tabs
 }
 
@@ -478,6 +482,12 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         )}
         {tab === 'prep-circle' && (
           <PrepCircleImage key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'count' && (
+          <NumbersCount key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'worksheet' && (
+          <WeatherWorksheet key={extraKey} onComplete={handleExtraComplete} />
         )}
       </div>
 
