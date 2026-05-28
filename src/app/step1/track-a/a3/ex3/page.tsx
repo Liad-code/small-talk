@@ -149,7 +149,7 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
             גרור את האות הקטנה לחצי הפאזל הנכון:
           </p>
           <div className="pb-3">
-            <div className="flex gap-2 min-w-max px-2 mx-auto justify-center flex-wrap">
+            <div className="flex gap-2 px-2 mx-auto justify-center flex-wrap max-w-xs sm:max-w-sm">
               {tiles.map(letter => {
                 const group = getGroup(letter)
                 return (

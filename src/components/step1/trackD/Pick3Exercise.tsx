@@ -91,8 +91,11 @@ export function Pick3Exercise({ items, onComplete }: Props) {
   if (roundNum === 0) {
     return (
       <div className="p-4 max-w-sm mx-auto text-center">
-        <p className="text-black font-bold text-base mb-6" dir="rtl">
-          לחץ על הרמקול כדי לשמוע 3 פריטים — גרור אותם לריבועים!
+        <p className="text-white font-bold text-base mb-2" dir="rtl">
+          לחץ על הרמקול ושמע את שלושת הפריטים.
+        </p>
+        <p className="text-white/80 font-bold text-sm mb-6" dir="rtl">
+          גרור אותם לריבועים (הסדר לא משנה).
         </p>
         <button
           onClick={handleStart}
@@ -111,7 +114,7 @@ export function Pick3Exercise({ items, onComplete }: Props) {
     return (
       <div className="p-4 max-w-sm mx-auto text-center">
         <div className="text-5xl mb-3 bounce-in">🎉</div>
-        <p className="font-bold text-black text-lg mb-6" dir="rtl">כל הכבוד! סיימת את כל הסיבובים!</p>
+        <p className="font-bold text-white text-lg mb-6" dir="rtl">כל הכבוד! סיימת את כל הסיבובים!</p>
         <button onClick={handleAgain} className="btn-kid bg-blue-500">
           🔁 Again
         </button>
@@ -121,7 +124,7 @@ export function Pick3Exercise({ items, onComplete }: Props) {
 
   return (
     <div className="p-4 max-w-sm mx-auto">
-      <div className="text-center text-black font-bold text-sm mb-3">
+      <div className="text-center text-white font-bold text-sm mb-3">
         Round {Math.min(roundNum, TOTAL_ROUNDS)} / {TOTAL_ROUNDS}
       </div>
 

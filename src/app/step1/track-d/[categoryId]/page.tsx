@@ -17,6 +17,16 @@ import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline
 import { PrepCircleImage } from '@/components/step1/trackD/PrepCircleImage'
 import { NumbersCount } from '@/components/step1/trackD/NumbersCount'
 import { WeatherWorksheet } from '@/components/step1/trackD/WeatherWorksheet'
+import { WeatherHousesGame } from '@/components/step1/trackD/WeatherHousesGame'
+import { DayNightGame } from '@/components/step1/trackD/DayNightGame'
+import { ColorsWorksheet } from '@/components/step1/trackD/ColorsWorksheet'
+import { EmotionsISpy } from '@/components/step1/trackD/EmotionsISpy'
+import { DaysCaterpillar } from '@/components/step1/trackD/DaysCaterpillar'
+import { DaysWordSearchPrint } from '@/components/step1/trackD/DaysWordSearchPrint'
+import { DaysWordSearch } from '@/components/step1/trackD/DaysWordSearch'
+import { FaceWorksheets } from '@/components/step1/trackD/FaceWorksheets'
+import { BodyWorksheet } from '@/components/step1/trackD/BodyWorksheet'
+import { BodyMatch } from '@/components/step1/trackD/BodyMatch'
 
 const HEBREW_ORDINALS: Record<number, string> = {
   1: 'יום ראשון', 2: 'יום שני', 3: 'יום שלישי', 4: 'יום רביעי', 5: 'יום חמישי', 6: 'יום שישי', 7: 'שבת',
@@ -121,7 +131,7 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'prep-circle' | 'count' | 'worksheet'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'prep-circle' | 'count' | 'worksheet' | 'weather-houses' | 'day-night' | 'colors-ws' | 'emotions-ispy' | 'days-caterpillar' | 'days-ws-print' | 'days-search' | 'face-ws' | 'body-ws' | 'body-match'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -138,7 +148,23 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
   }
   if (categoryId === 'prepositions') tabs.push({ id: 'prep-circle', label: 'Prepositions', emoji: '🔵' })
   if (categoryId === 'numbers') tabs.push({ id: 'count', label: 'Count', emoji: '🔢' })
-  if (categoryId === 'weather') tabs.push({ id: 'worksheet', label: 'Worksheet', emoji: '📄' })
+  if (categoryId === 'weather') {
+    tabs.push({ id: 'worksheet',     label: 'Worksheet',  emoji: '📄' })
+    tabs.push({ id: 'weather-houses', label: 'Houses Game', emoji: '🏠' })
+    tabs.push({ id: 'day-night',      label: 'Day & Night', emoji: '🌙' })
+  }
+  if (categoryId === 'colors') tabs.push({ id: 'colors-ws', label: 'Worksheet', emoji: '📄' })
+  if (categoryId === 'emotions') tabs.push({ id: 'emotions-ispy', label: 'I Spy', emoji: '🔍' })
+  if (categoryId === 'days') {
+    tabs.push({ id: 'days-caterpillar', label: 'Caterpillar', emoji: '🐛' })
+    tabs.push({ id: 'days-ws-print',    label: 'Word Search', emoji: '📄' })
+    tabs.push({ id: 'days-search',      label: 'Search Game', emoji: '🔍' })
+  }
+  if (categoryId === 'face') tabs.push({ id: 'face-ws', label: 'Worksheets', emoji: '📄' })
+  if (categoryId === 'body') {
+    tabs.push({ id: 'body-ws',    label: 'Worksheet', emoji: '📄' })
+    tabs.push({ id: 'body-match', label: 'Match',     emoji: '🔗' })
+  }
   return tabs
 }
 
@@ -255,8 +281,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           <div className="flex items-center gap-3 flex-1">
             <span className="text-5xl">{cat.emoji}</span>
             <div>
-              <div className="font-display font-bold text-2xl text-black drop-shadow-sm">{cat.title}</div>
-              <div className="text-black/70 font-bold text-base" dir="rtl">{cat.hebrewTitle}</div>
+              <div className="font-display font-bold text-2xl text-white drop-shadow-sm">{cat.title}</div>
+              <div className="text-white/80 font-bold text-base" dir="rtl">{cat.hebrewTitle}</div>
             </div>
           </div>
         </div>
@@ -294,7 +320,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {/* ── Flashcards ──────────────────────────────────────── */}
         {tab === 'flashcards' && (
           <div>
-            <p className="text-center text-black font-bold text-base mb-4" dir="rtl">
+            <p className="text-center text-white font-bold text-base mb-4" dir="rtl">
               לחץ על כל תמונה כדי לשמוע! ({tapped.size}/{allItems.length})
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -348,7 +374,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             {learnDone && (
               <div className="text-center mt-6 pb-6">
                 <div className="text-4xl mb-2">⭐</div>
-                <p className="font-display text-lg font-bold text-black" dir="rtl">כל הכבוד!</p>
+                <p className="font-display text-lg font-bold text-white" dir="rtl">כל הכבוד!</p>
                 <button
                   onClick={() => setTab('quiz')}
                   className="mt-3 px-6 py-3 rounded-2xl font-bold text-base border-4 border-black text-black bg-white shadow-md cursor-pointer select-none hover:scale-105 active:scale-95 transition-all"
@@ -366,10 +392,10 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             {quizDone ? (
               <div className="text-center py-8 bounce-in">
                 <div className="text-6xl mb-3">⭐</div>
-                <p className="font-display text-2xl font-bold text-black">
+                <p className="font-display text-2xl font-bold text-white">
                   {quizScore}/{quizQueue.length} correct!
                 </p>
-                <p className="font-bold text-black mt-1" dir="rtl">כל הכבוד!</p>
+                <p className="font-bold text-white mt-1" dir="rtl">כל הכבוד!</p>
                 <div className="flex gap-3 mt-6 justify-center">
                   <button
                     onClick={() => {
@@ -390,7 +416,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
               </div>
             ) : currentQuiz ? (
               <>
-                <div className="flex justify-between text-sm font-bold text-black mb-4">
+                <div className="flex justify-between text-sm font-bold text-white mb-4">
                   <span>{quizIdx + 1} / {quizQueue.length}</span>
                   <span>✅ {quizScore}</span>
                 </div>
@@ -408,7 +434,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                   >
                     🔊
                   </button>
-                  <p className="text-sm text-black font-bold mt-2" dir="rtl">לחץ לשמוע — בחר התמונה הנכונה</p>
+                  <p className="text-sm text-white font-bold mt-2" dir="rtl">לחץ לשמוע — בחר התמונה הנכונה</p>
                 </div>
 
                 {/* Options */}
@@ -488,6 +514,36 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         )}
         {tab === 'worksheet' && (
           <WeatherWorksheet key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'weather-houses' && (
+          <WeatherHousesGame key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'day-night' && (
+          <DayNightGame key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'colors-ws' && (
+          <ColorsWorksheet key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'emotions-ispy' && (
+          <EmotionsISpy key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'days-caterpillar' && (
+          <DaysCaterpillar key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'days-ws-print' && (
+          <DaysWordSearchPrint key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'days-search' && (
+          <DaysWordSearch key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'face-ws' && (
+          <FaceWorksheets key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'body-ws' && (
+          <BodyWorksheet key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'body-match' && (
+          <BodyMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
       </div>
 

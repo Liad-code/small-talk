@@ -9,21 +9,21 @@ const WEATHER_ICONS = [
 ]
 
 const DAY_ACTIVITIES = [
-  { label: 'Wake Up',          emoji: '⏰' },
-  { label: 'Brush your teeth', emoji: '🦷' },
-  { label: 'Go School',        emoji: '🏫' },
-  { label: 'Bath',             emoji: '🛁' },
-  { label: 'Run',              emoji: '🏃' },
-  { label: 'Play',             emoji: '🎮' },
+  { label: 'Wake Up',             emoji: '⏰' },
+  { label: 'Have Breakfast',      emoji: '🍳' },
+  { label: 'Go to School',        emoji: '🏫' },
+  { label: 'Get Dressed',         emoji: '👕' },
+  { label: 'Pack Your Schoolbag', emoji: '🎒' },
+  { label: 'Wash Your Face',      emoji: '🧼' },
 ]
 
 const NIGHT_ACTIVITIES = [
+  { label: 'Have Dinner',      emoji: '🍽️' },
+  { label: 'Take a Bath',      emoji: '🛁' },
+  { label: 'Read a Story',     emoji: '📖' },
+  { label: 'Wear Pajamas',     emoji: '🌙' },
+  { label: 'Brush Your Teeth', emoji: '🦷' },
   { label: 'Sleep',            emoji: '😴' },
-  { label: 'Brush your teeth', emoji: '🦷' },
-  { label: 'Wake Up',          emoji: '⏰' },
-  { label: 'Play',             emoji: '🎮' },
-  { label: 'Read Story',       emoji: '📖' },
-  { label: 'Tie Shoe Lace',    emoji: '👟' },
 ]
 
 export function WeatherWorksheet({ onComplete }: { onComplete: () => void }) {
@@ -58,22 +58,28 @@ export function WeatherWorksheet({ onComplete }: { onComplete: () => void }) {
       {sheet === 1 && (
         <div className="bg-white rounded-2xl border-4 border-gray-300 p-4 shadow-lg">
           <h2 className="text-center font-display font-black text-xl mb-3 text-gray-800">Weather Worksheet</h2>
-          {/* Icon reference row */}
-          <div className="grid grid-cols-4 border-2 border-gray-400 rounded-lg overflow-hidden mb-4">
-            {WEATHER_ICONS.map((w, i) => (
-              <div
-                key={w.label}
-                className={`flex flex-col items-center py-2 px-1 ${i < 3 ? 'border-r-2 border-gray-400' : ''}`}
-              >
-                <span className="text-3xl">{w.emoji}</span>
-                <span className="text-xs font-bold text-gray-600 mt-0.5">{w.label}</span>
-              </div>
-            ))}
+
+          {/* Icon reference row with scissors indicator */}
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl shrink-0 select-none">✂</span>
+            <div className="flex-1 grid grid-cols-4 border-2 border-gray-400 rounded-lg overflow-hidden">
+              {WEATHER_ICONS.map((w, i) => (
+                <div
+                  key={w.label}
+                  className={`flex flex-col items-center py-3 px-1 ${i < 3 ? 'border-r-2 border-gray-400' : ''}`}
+                >
+                  <span className="text-3xl">{w.emoji}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          {/* House boxes — students draw the weather */}
-          <p className="text-center text-xs font-bold text-gray-500 mb-3" dir="rtl">
-            צייר את מזג האוויר המתאים בכל ריבוע
+
+          {/* Instruction */}
+          <p className="text-center text-xs font-bold text-gray-600 mb-3" dir="rtl">
+            גזור והדבק לכל בית את מזג האוויר המתאים.
           </p>
+
+          {/* House boxes */}
           <div className="grid grid-cols-2 gap-3">
             {WEATHER_ICONS.map(w => (
               <div
