@@ -29,6 +29,10 @@ const BODY_ROWS = [
     correct: '🧍',
     distractors: ['🙌', '💇'],
   },
+  { word: 'eyes',  correct: '👀', distractors: ['👄', '👃'] },
+  { word: 'nose',  correct: '👃', distractors: ['👀', '👂'] },
+  { word: 'mouth', correct: '👄', distractors: ['👃', '👀'] },
+  { word: 'ear',   correct: '👂', distractors: ['👄', '👀'] },
 ]
 
 export function BodyWorksheet({ onComplete }: { onComplete: () => void }) {

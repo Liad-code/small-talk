@@ -37,13 +37,13 @@ function HouseItem({
   return (
     <div className="flex flex-col items-center">
       {/* Roof SVG with uppercase letter inside */}
-      <svg width="60" height="32" viewBox="0 0 60 32" className="-mb-px">
-        <polygon points="30,2 2,30 58,30" fill={colors.fill} stroke={colors.text} strokeWidth="1.5" strokeLinejoin="round" />
+      <svg width="80" height="44" viewBox="0 0 80 44" className="-mb-px">
+        <polygon points="40,3 3,41 77,41" fill={colors.fill} stroke={colors.text} strokeWidth="1.5" strokeLinejoin="round" />
         <text
-          x="30" y="26"
+          x="40" y="37"
           textAnchor="middle"
           dominantBaseline="auto"
-          style={{ fontSize: 14, fontWeight: 900, fill: colors.text, fontFamily: 'ui-monospace, monospace' }}
+          style={{ fontSize: 20, fontWeight: 900, fill: colors.text, fontFamily: 'ui-monospace, monospace' }}
         >
           {letter.toUpperCase()}
         </text>
@@ -55,7 +55,7 @@ function HouseItem({
         data-expected-ids={JSON.stringify([`door_${letter}`])}
         data-target-id={letter}
         className={`
-          w-14 h-14 border-4 rounded-b-xl flex items-center justify-center
+          w-20 h-20 border-4 rounded-b-xl flex items-center justify-center
           transition-all duration-200
           ${done
             ? `${group.bgColor} ${group.borderColor}`
@@ -166,7 +166,7 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
 export default function A3Ex4Page() {
   return (
     <ExerciseShell
-      title="In the Kitchen"
+      title="Fill the House"
       hebrewInstruction="גרור כל אות קטנה לבית עם האות הגדולה שלה"
       backHref="/step1/track-a"
       track="A"

@@ -1,128 +1,120 @@
 'use client'
-import { useState, useCallback } from 'react'
-import { DraggableTile } from '@/components/step1/DraggableTile'
-import { shuffle } from '@/utils/shuffle'
+import { useState } from 'react'
 
-const ALL_ACTIVITIES = [
-  { id: 'wakeup',       label: 'Wake Up',             emoji: '⏰', isDay: true  },
-  { id: 'breakfast',    label: 'Have Breakfast',      emoji: '🍳', isDay: true  },
-  { id: 'school',       label: 'Go to School',        emoji: '🏫', isDay: true  },
-  { id: 'dressed',      label: 'Get Dressed',         emoji: '👕', isDay: true  },
-  { id: 'schoolbag',    label: 'Pack Schoolbag',      emoji: '🎒', isDay: true  },
-  { id: 'washface',     label: 'Wash Your Face',      emoji: '🧼', isDay: true  },
-  { id: 'sleep',        label: 'Sleep',               emoji: '😴', isDay: false },
-  { id: 'dinner',       label: 'Have Dinner',         emoji: '🍽️', isDay: false },
-  { id: 'bath',         label: 'Take a Bath',         emoji: '🛁', isDay: false },
-  { id: 'story',        label: 'Read a Story',        emoji: '📖', isDay: false },
-  { id: 'pajamas',      label: 'Wear Pajamas',        emoji: '🌙', isDay: false },
-  { id: 'teeth',        label: 'Brush Your Teeth',    emoji: '🦷', isDay: false },
+const DAY_COLUMN = [
+  { id: 'wakeup',    label: 'Wake Up',       emoji: '⏰', fitsDay: true  },
+  { id: 'breakfast', label: 'Have Breakfast', emoji: '🍳', fitsDay: true  },
+  { id: 'school',    label: 'Go to School',   emoji: '🏫', fitsDay: true  },
+  { id: 'sleep',     label: 'Sleep',          emoji: '😴', fitsDay: false },
+  { id: 'dinner',    label: 'Have Dinner',    emoji: '🍽️', fitsDay: false },
+  { id: 'pajamas',   label: 'Wear Pajamas',   emoji: '🌙', fitsDay: false },
 ]
 
-type Zone = 'day' | 'night'
+const NIGHT_COLUMN = [
+  { id: 'teeth',     label: 'Brush Your Teeth', emoji: '🦷', fitsNight: true  },
+  { id: 'bath',      label: 'Take a Bath',       emoji: '🛁', fitsNight: true  },
+  { id: 'story',     label: 'Read a Story',      emoji: '📖', fitsNight: true  },
+  { id: 'dressed',   label: 'Get Dressed',       emoji: '👕', fitsNight: false },
+  { id: 'schoolbag', label: 'Pack Schoolbag',    emoji: '🎒', fitsNight: false },
+  { id: 'washface',  label: 'Wash Your Face',    emoji: '🧼', fitsNight: false },
+]
+
+const TOTAL_CORRECT = DAY_COLUMN.filter(a => a.fitsDay).length + NIGHT_COLUMN.filter(a => a.fitsNight).length
 
 export function DayNightGame({ onComplete }: { onComplete: () => void }) {
-  const [activities] = useState(() => shuffle(ALL_ACTIVITIES))
-  const [placed, setPlaced] = useState<Record<string, Zone>>({})
-  const [done, setDone] = useState(false)
+  const [checked, setChecked] = useState<Set<string>>(new Set())
+  const [flash, setFlash] = useState<Record<string, 'correct' | 'wrong'>>({})
+  const [correctCount, setCorrectCount] = useState(0)
 
-  const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
-    const zone = targetEl.getAttribute('data-zone') as Zone | null
-    if (!zone) return false
-    const activity = ALL_ACTIVITIES.find(a => a.id === tileId)
-    if (!activity) return false
-    if (placed[tileId]) return false
-
-    const correct = (zone === 'day') === activity.isDay
-    if (correct) {
-      const next = { ...placed, [tileId]: zone }
-      setPlaced(next)
-      if (Object.keys(next).length === ALL_ACTIVITIES.length) {
-        setDone(true)
-        setTimeout(onComplete, 600)
-      }
-      return true
+  function handleCheck(id: string, isCorrect: boolean) {
+    if (checked.has(id) || flash[id]) return
+    if (isCorrect) {
+      const next = new Set(checked); next.add(id)
+      setChecked(next)
+      setFlash(f => ({ ...f, [id]: 'correct' }))
+      const newCount = correctCount + 1
+      setCorrectCount(newCount)
+      if (newCount === TOTAL_CORRECT) setTimeout(onComplete, 700)
+    } else {
+      setFlash(f => ({ ...f, [id]: 'wrong' }))
+      setTimeout(() => setFlash(f => { const n = { ...f }; delete n[id]; return n }), 800)
     }
-    return false  // snap back on wrong zone
-  }, [placed, onComplete])
+  }
 
-  const freeTiles = activities.filter(a => !placed[a.id])
-  const dayPlaced  = activities.filter(a => placed[a.id] === 'day')
-  const nightPlaced = activities.filter(a => placed[a.id] === 'night')
-
-  if (done) {
-    return (
-      <div className="text-center py-10 bounce-in">
-        <div className="text-5xl mb-3">🎉</div>
-        <p className="font-display font-bold text-2xl text-white" dir="rtl">כל הכבוד!</p>
-      </div>
-    )
+  function rowClass(id: string, isCorrect: boolean) {
+    const f = flash[id]
+    const done = checked.has(id)
+    if (done) return 'bg-green-100'
+    if (f === 'wrong') return 'bg-red-100 animate-pulse'
+    return isCorrect ? 'cursor-pointer hover:bg-white/40' : 'cursor-pointer hover:bg-white/20'
   }
 
   return (
     <div className="max-w-lg mx-auto pb-16">
       <p className="text-center text-white font-bold text-sm mb-4" dir="rtl">
-        גרור כל פעולה לעמודה הנכונה — יום או לילה
+        סמן ✓ את הפעולות שמתאימות לכל עמודה
       </p>
 
-      {/* Two drop zones */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        {/* DAY zone */}
-        <div
-          data-zone="day"
-          data-drop-target="true"
-          data-expected-ids="[]"
-          className="bg-yellow-100/80 border-4 border-yellow-400 rounded-2xl min-h-[160px] p-2"
-        >
-          <div className="text-center font-display font-black text-lg text-yellow-800 mb-2">☀️ DAY</div>
-          <div className="flex flex-col gap-1">
-            {dayPlaced.map(a => (
-              <div key={a.id} className="flex items-center gap-1 bg-white/60 rounded-lg px-2 py-1">
-                <span className="text-lg">{a.emoji}</span>
-                <span className="text-xs font-bold text-yellow-900 leading-tight">{a.label}</span>
-              </div>
-            ))}
+      <div className="grid grid-cols-2 gap-3">
+        {/* DAY column */}
+        <div className="bg-yellow-100/80 border-4 border-yellow-400 rounded-2xl overflow-hidden">
+          <div className="bg-yellow-300/80 py-2 flex items-center justify-center gap-1.5 border-b-2 border-yellow-400">
+            <span className="text-xl">☀️</span>
+            <span className="font-display font-black text-base text-yellow-800">DAY</span>
+          </div>
+          <div className="divide-y divide-yellow-200">
+            {DAY_COLUMN.map(a => {
+              const done = checked.has(a.id)
+              const f = flash[a.id]
+              return (
+                <div
+                  key={a.id}
+                  onClick={() => !done && !f && handleCheck(a.id, a.fitsDay)}
+                  className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsDay)}`}
+                >
+                  <span className="text-xl shrink-0">{a.emoji}</span>
+                  <span className="text-xs font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-black shrink-0
+                    ${done ? 'bg-green-500 border-green-600 text-white' : f === 'wrong' ? 'bg-red-400 border-red-500 text-white' : 'border-yellow-500 bg-white'}`}>
+                    {done ? '✓' : f === 'wrong' ? '✗' : ''}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
 
-        {/* NIGHT zone */}
-        <div
-          data-zone="night"
-          data-drop-target="true"
-          data-expected-ids="[]"
-          className="bg-indigo-100/80 border-4 border-indigo-400 rounded-2xl min-h-[160px] p-2"
-        >
-          <div className="text-center font-display font-black text-lg text-indigo-800 mb-2">🌙 NIGHT</div>
-          <div className="flex flex-col gap-1">
-            {nightPlaced.map(a => (
-              <div key={a.id} className="flex items-center gap-1 bg-white/60 rounded-lg px-2 py-1">
-                <span className="text-lg">{a.emoji}</span>
-                <span className="text-xs font-bold text-indigo-900 leading-tight">{a.label}</span>
-              </div>
-            ))}
+        {/* NIGHT column */}
+        <div className="bg-indigo-100/80 border-4 border-indigo-400 rounded-2xl overflow-hidden">
+          <div className="bg-indigo-300/80 py-2 flex items-center justify-center gap-1.5 border-b-2 border-indigo-400">
+            <span className="text-xl">🌙</span>
+            <span className="font-display font-black text-base text-indigo-800">NIGHT</span>
+          </div>
+          <div className="divide-y divide-indigo-200">
+            {NIGHT_COLUMN.map(a => {
+              const done = checked.has(a.id)
+              const f = flash[a.id]
+              return (
+                <div
+                  key={a.id}
+                  onClick={() => !done && !f && handleCheck(a.id, a.fitsNight)}
+                  className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsNight)}`}
+                >
+                  <span className="text-xl shrink-0">{a.emoji}</span>
+                  <span className="text-xs font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
+                  <div className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-black shrink-0
+                    ${done ? 'bg-green-500 border-green-600 text-white' : f === 'wrong' ? 'bg-red-400 border-red-500 text-white' : 'border-indigo-500 bg-white'}`}>
+                    {done ? '✓' : f === 'wrong' ? '✗' : ''}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
 
-      {/* Free tiles bank */}
-      <div className="border-t-2 border-white/20 pt-3">
-        <div className="flex flex-wrap gap-2 justify-center">
-          {freeTiles.map(a => (
-            <DraggableTile
-              key={a.id}
-              id={a.id}
-              label={`${a.emoji} ${a.label}`}
-              color="bg-white/20"
-              borderColor="border-white/40"
-              textColor="text-white"
-              size="sm"
-              onDropped={handleDrop}
-            />
-          ))}
-        </div>
-      </div>
-
-      <p className="text-center text-white/60 font-bold text-xs mt-3">
-        {Object.keys(placed).length}/{ALL_ACTIVITIES.length} sorted
+      <p className="text-center text-white/70 font-bold text-xs mt-3">
+        {correctCount}/{TOTAL_CORRECT} ✓
       </p>
     </div>
   )

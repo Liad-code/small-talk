@@ -8,22 +8,24 @@ const WEATHER_ICONS = [
   { label: 'Cloudy', emoji: '☁️'  },
 ]
 
+// DAY column: 3 real day + 3 night items mixed in
 const DAY_ACTIVITIES = [
-  { label: 'Wake Up',             emoji: '⏰' },
-  { label: 'Have Breakfast',      emoji: '🍳' },
-  { label: 'Go to School',        emoji: '🏫' },
-  { label: 'Get Dressed',         emoji: '👕' },
-  { label: 'Pack Your Schoolbag', emoji: '🎒' },
-  { label: 'Wash Your Face',      emoji: '🧼' },
+  { label: 'Wake Up',        emoji: '⏰' },
+  { label: 'Have Breakfast', emoji: '🍳' },
+  { label: 'Go to School',   emoji: '🏫' },
+  { label: 'Sleep',          emoji: '😴' },
+  { label: 'Have Dinner',    emoji: '🍽️' },
+  { label: 'Wear Pajamas',   emoji: '🌙' },
 ]
 
+// NIGHT column: 3 real night + 3 day items mixed in
 const NIGHT_ACTIVITIES = [
-  { label: 'Have Dinner',      emoji: '🍽️' },
-  { label: 'Take a Bath',      emoji: '🛁' },
-  { label: 'Read a Story',     emoji: '📖' },
-  { label: 'Wear Pajamas',     emoji: '🌙' },
   { label: 'Brush Your Teeth', emoji: '🦷' },
-  { label: 'Sleep',            emoji: '😴' },
+  { label: 'Read a Story',     emoji: '📖' },
+  { label: 'Take a Bath',      emoji: '🛁' },
+  { label: 'Get Dressed',      emoji: '👕' },
+  { label: 'Pack Schoolbag',   emoji: '🎒' },
+  { label: 'Wash Your Face',   emoji: '🧼' },
 ]
 
 export function WeatherWorksheet({ onComplete }: { onComplete: () => void }) {
@@ -101,7 +103,7 @@ export function WeatherWorksheet({ onComplete }: { onComplete: () => void }) {
         <div className="bg-white rounded-2xl border-4 border-gray-300 p-4 shadow-lg">
           <h2 className="text-center font-display font-black text-2xl mb-0.5 tracking-wide">DAY &amp; NIGHT</h2>
           <p className="text-center text-xs font-bold text-gray-500 mb-4">
-            Tick correct (✓) and wrong (✗) activity for the day and night.
+            Tick (✓) the activities that fit each column. Cross out (✗) the ones that don&apos;t.
           </p>
           <div className="grid grid-cols-2 gap-3">
             {/* DAY column */}

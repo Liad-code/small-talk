@@ -9,6 +9,10 @@ const BODY_ITEMS = [
   { word: 'legs',  emoji: '🦵🦵' },
   { word: 'hair',  emoji: '💇' },
   { word: 'body',  emoji: '🧍' },
+  { word: 'eyes',  emoji: '👀' },
+  { word: 'nose',  emoji: '👃' },
+  { word: 'mouth', emoji: '👄' },
+  { word: 'ear',   emoji: '👂' },
 ]
 
 export function BodyMatch({ onComplete }: { onComplete: () => void }) {
