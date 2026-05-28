@@ -51,8 +51,8 @@ function CatBoxIllustration({ id }: { id: string }) {
     case 'behind':
       return (
         <div className="relative w-16 h-12 flex items-end">
-          <span className="text-3xl leading-none absolute left-0 bottom-0 z-0 opacity-75">🐱</span>
-          <span className="text-4xl leading-none absolute left-5 bottom-0 z-10">📦</span>
+          <span className="text-3xl leading-none absolute left-0 bottom-0 z-0 opacity-40">🐱</span>
+          <span className="text-4xl leading-none absolute left-2 bottom-0 z-10">📦</span>
         </div>
       )
     case 'between':
@@ -248,8 +248,8 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <span>{idx + 1} / {queue.length}</span>
         <span className="text-purple-500">✅ {score}</span>
       </div>
-      <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">בחר את המילה הנכונה</p>
-      <div className="flex justify-center mb-8 py-6">
+      <p className="text-center text-gray-500 font-bold text-sm mb-2" dir="rtl">בחר את המילה הנכונה</p>
+      <div className="flex justify-center items-center mb-6" style={{ height: '160px' }}>
         <div className="scale-[2.5]">
           <CatBoxIllustration id={cur?.id ?? ''} />
         </div>
@@ -324,7 +324,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
                     key={ch.id}
                     onClick={() => handlePick(item.id, ch.id)}
                     disabled={ans !== undefined}
-                    className={`rounded-xl p-1 border-2 transition-all w-16 h-14 flex items-center justify-center overflow-hidden
+                    className={`rounded-xl p-1 border-2 transition-all w-20 h-16 flex items-center justify-center
                       ${ans !== undefined && ch.id === item.id ? 'bg-green-200 border-green-400' : ''}
                       ${ans !== undefined && ch.id !== item.id ? 'opacity-40 border-transparent' : ''}
                       ${ans === undefined ? 'bg-purple-50 border-purple-200 hover:bg-purple-100 hover:scale-110 active:scale-90 cursor-pointer' : ''}
@@ -383,9 +383,12 @@ const SENTENCES: SentenceItem[] = [
 ]
 
 function Ex2Inner({ onAgain }: { onAgain: () => void }) {
+  const [sentences] = useState(() =>
+    SENTENCES.map(s => ({ ...s, choices: shuffle([...s.choices]) as [string, string] }))
+  )
   const [answers, setAnswers] = useState<Record<number, string>>({})
-  const score = Object.entries(answers).filter(([i, ans]) => ans === SENTENCES[Number(i)].correct).length
-  const allDone = Object.keys(answers).length === SENTENCES.length
+  const score = Object.entries(answers).filter(([i, ans]) => ans === sentences[Number(i)].correct).length
+  const allDone = Object.keys(answers).length === sentences.length
 
   function handlePick(i: number, choice: string) {
     if (answers[i] !== undefined) return
@@ -393,35 +396,35 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
   }
 
   return (
-    <div className="max-w-sm mx-auto px-3 pb-16">
+    <div className="max-w-xl mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את מילת היחס הנכונה</p>
-        <span className="text-purple-500">✅ {score}/{SENTENCES.length}</span>
+        <span className="text-purple-500">✅ {score}/{sentences.length}</span>
       </div>
-      <div className="flex flex-col gap-3">
-        {SENTENCES.map((s, i) => {
+      <div className="grid grid-cols-2 gap-3">
+        {sentences.map((s, i) => {
           const ans = answers[i]
           const isCorrect = ans === s.correct
           const isWrong = ans !== undefined && !isCorrect
           return (
             <div
               key={i}
-              className={`rounded-2xl border-4 p-3 transition-all
+              className={`rounded-2xl border-4 p-3 transition-all flex flex-col
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400' : 'bg-white border-purple-200'}`}
             >
-              <div className="flex items-center gap-2 mb-2">
-                <div className="shrink-0 flex items-center justify-center w-12 h-10">
+              <div className="flex flex-col items-center gap-1 mb-2">
+                <div className="flex items-center justify-center" style={{ height: '52px' }}>
                   <CatBoxIllustration id={prepId(s.correct)} />
                 </div>
-                <p className="font-bold text-gray-700 text-sm flex-1">{s.sentence}</p>
+                <p className="font-bold text-gray-700 text-xs text-center leading-tight">{s.sentence}</p>
               </div>
-              <div className="flex gap-2 justify-center">
+              <div className="flex gap-2 justify-center mt-auto">
                 {s.choices.map(ch => (
                   <button
                     key={ch}
                     onClick={() => handlePick(i, ch)}
                     disabled={ans !== undefined}
-                    className={`flex-1 py-2 rounded-xl border-2 font-display font-black text-sm transition-all
+                    className={`flex-1 py-2 rounded-xl border-2 font-display font-black text-xs transition-all
                       ${ans === ch && ch === s.correct ? 'bg-green-200 border-green-400 text-green-800' : ''}
                       ${ans === ch && ch !== s.correct ? 'bg-red-200 border-red-400 text-red-800' : ''}
                       ${ans !== ch && ans !== undefined ? 'opacity-40 border-gray-200 bg-gray-50 text-gray-400' : ''}
@@ -439,7 +442,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
       {allDone && (
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-purple-600 mb-3">{score}/{SENTENCES.length} correct!</p>
+          <p className="font-display font-bold text-xl text-purple-600 mb-3">{score}/{sentences.length} correct!</p>
           <button onClick={onAgain} className="btn-kid bg-purple-500">🔁 Again</button>
         </div>
       )}

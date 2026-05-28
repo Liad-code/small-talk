@@ -26,7 +26,6 @@ const ALL_TILES = [
   { id: 'wh-whale',    word: 'whale',    emoji: '🐋', cat: 'wh' },
   { id: 'wh-wheel',    word: 'wheel',    emoji: '🛞', cat: 'wh' },
   { id: 'wh-wheat',    word: 'wheat',    emoji: '🌾', cat: 'wh' },
-  { id: 'wh-whisk',    word: 'whisk',    emoji: '🥄', cat: 'wh' },
   { id: 'wh-white',    word: 'white',    emoji: '⬜', cat: 'wh' },
 ]
 

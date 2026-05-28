@@ -638,7 +638,7 @@ function MatchRound({ items, roundIdx, totalRounds, onNext, onDone }: {
                 disabled={isMatched}
                 className={`
                   py-1 px-3 rounded-xl border-4 font-bold text-base text-left
-                  transition-all duration-150 cursor-pointer select-none min-h-[42px]
+                  transition-all duration-150 cursor-pointer select-none h-[52px]
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isSel ? 'bg-green-200 border-green-500 text-green-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
