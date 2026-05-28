@@ -53,7 +53,6 @@ export const DIGRAPHS: Digraph[] = [
       { word: 'CHIPS',    emoji: '🍟' },
       { word: 'LUNCH',    emoji: '🍱' },
       { word: 'CHIN',     emoji: '🤔' },
-      { word: 'BENCH',    emoji: '🪑', tts: 'bench' },
       { word: 'CHEEKS',   emoji: '🤗' },
       { word: 'PEACH',    emoji: '🍑' },
       { word: 'CHAIR',    emoji: '🪑' },
@@ -156,7 +155,6 @@ export const DIGRAPHS: Digraph[] = [
     emoji: '🥄',
     words: [
       { word: 'WHITE',       emoji: '⬜' },
-      { word: 'WHISK',       emoji: '🌀' },
       { word: 'WHEEL',       emoji: '🛞' },
       { word: 'WHALE',       emoji: '🐋' },
       { word: 'WHEAT',       emoji: '🌾' },
