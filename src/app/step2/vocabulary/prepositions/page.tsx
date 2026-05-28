@@ -10,61 +10,65 @@ type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2'
 
 // ── Cat-Box Illustration ──────────────────────────────────────────────────────
 
-function CatBoxIllustration({ id }: { id: string }) {
+function CatBoxIllustration({ id, large = false }: { id: string; large?: boolean }) {
+  const cat = large ? 'text-4xl' : 'text-xl'
+  const box = large ? 'text-5xl' : 'text-3xl'
+  const boxSm = large ? 'text-3xl' : 'text-lg'
+  const catSm = large ? 'text-3xl' : 'text-xl'
   switch (id) {
     case 'in':
       return (
         <div className="flex flex-col items-center">
-          <div className="flex items-center justify-center px-2 py-1.5 border-[3px] border-t-0 border-amber-600 rounded-b-lg bg-amber-50" style={{ minWidth: '40px' }}>
-            <span className="text-xl leading-none">🐱</span>
+          <div className={`flex items-center justify-center px-2 py-1.5 border-[3px] border-t-0 border-amber-600 rounded-b-lg bg-amber-50`} style={{ minWidth: large ? '56px' : '40px' }}>
+            <span className={`${cat} leading-none`}>🐱</span>
           </div>
         </div>
       )
     case 'on':
       return (
         <div className="flex flex-col items-center gap-0 leading-none">
-          <span className="text-2xl">🐱</span>
-          <span className="text-3xl -mt-1">📦</span>
+          <span className={cat}>🐱</span>
+          <span className={`${box} -mt-1`}>📦</span>
         </div>
       )
     case 'under':
       return (
         <div className="flex flex-col items-center gap-0 leading-none">
-          <span className="text-3xl">📦</span>
-          <span className="text-2xl -mt-1">🐱</span>
+          <span className={box}>📦</span>
+          <span className={`${cat} -mt-1`}>🐱</span>
         </div>
       )
     case 'next-to':
       return (
         <div className="flex items-end gap-1 leading-none">
-          <span className="text-2xl">🐱</span>
-          <span className="text-3xl">📦</span>
+          <span className={cat}>🐱</span>
+          <span className={box}>📦</span>
         </div>
       )
     case 'in-front':
       return (
-        <div className="relative w-14 h-10 flex items-end">
-          <span className="text-3xl leading-none absolute left-0 bottom-0 opacity-60">📦</span>
-          <span className="text-2xl leading-none absolute left-2 bottom-0 z-10">🐱</span>
+        <div className={`relative ${large ? 'w-20 h-14' : 'w-14 h-10'} flex items-end`}>
+          <span className={`${box} leading-none absolute left-0 bottom-0 opacity-60`}>📦</span>
+          <span className={`${cat} leading-none absolute left-3 bottom-0 z-10`}>🐱</span>
         </div>
       )
     case 'behind':
       return (
-        <div className="relative w-14 h-10 flex items-end">
-          <span className="text-2xl leading-none absolute left-0 bottom-0 z-0 opacity-40">🐱</span>
-          <span className="text-3xl leading-none absolute left-2 bottom-0 z-10">📦</span>
+        <div className={`relative ${large ? 'w-20 h-14' : 'w-14 h-10'} flex items-end`}>
+          <span className={`${cat} leading-none absolute left-0 bottom-0 z-0 opacity-40`}>🐱</span>
+          <span className={`${box} leading-none absolute left-3 bottom-0 z-10`}>📦</span>
         </div>
       )
     case 'between':
       return (
         <div className="flex items-end gap-0.5 leading-none">
-          <span className="text-lg">📦</span>
-          <span className="text-xl">🐱</span>
-          <span className="text-lg">📦</span>
+          <span className={boxSm}>📦</span>
+          <span className={catSm}>🐱</span>
+          <span className={boxSm}>📦</span>
         </div>
       )
     default:
-      return <span className="text-3xl leading-none">📦</span>
+      return <span className={`${box} leading-none`}>📦</span>
   }
 }
 
@@ -82,13 +86,13 @@ function LearnTab() {
           <button
             key={p.id}
             onClick={() => speak(p.name, 0.8)}
-            className="bg-white border-4 border-purple-200 rounded-2xl px-3 py-4 flex flex-col items-center gap-2
+            className="bg-white border-4 border-purple-200 rounded-2xl px-3 py-5 flex flex-col items-center gap-3
                        hover:bg-purple-50 active:scale-95 transition-all cursor-pointer"
           >
-            <div className="h-14 flex items-center justify-center">
-              <CatBoxIllustration id={p.id} />
+            <div className="h-20 flex items-center justify-center">
+              <CatBoxIllustration id={p.id} large />
             </div>
-            <span className="font-display font-black text-purple-800 text-lg">{p.name}</span>
+            <span className="font-display font-black text-purple-800 text-2xl">{p.name}</span>
             <span className="font-bold text-gray-500 text-sm" dir="rtl">{p.hebrew}</span>
           </button>
         ))}
@@ -102,9 +106,11 @@ function LearnTab() {
         </div>
         {PREPOSITIONS.map((p, i) => (
           <div key={p.id} className={`grid grid-cols-3 divide-x divide-purple-200 ${i % 2 === 0 ? 'bg-white' : 'bg-purple-50/50'}`}>
-            <div className="py-2 px-2 font-bold text-gray-800 text-sm">{p.name}</div>
-            <div className="py-2 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{p.hebrew}</div>
-            <div className="py-2 text-center text-xl">{p.scene}</div>
+            <div className="py-3 px-2 font-black text-gray-800 text-base">{p.name}</div>
+            <div className="py-3 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{p.hebrew}</div>
+            <div className="py-2 flex items-center justify-center">
+              <CatBoxIllustration id={p.id} />
+            </div>
           </div>
         ))}
       </div>
@@ -317,7 +323,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
               className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-4 transition-all
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-purple-200'}`}
             >
-              <span className="font-display font-black text-purple-800 w-[88px] shrink-0 text-sm leading-tight">{item.name}</span>
+              <span className="font-display font-black text-purple-800 w-[96px] shrink-0 text-base leading-tight">{item.name}</span>
               <div className="flex gap-2 flex-1">
                 {choices.map(ch => (
                   <button
