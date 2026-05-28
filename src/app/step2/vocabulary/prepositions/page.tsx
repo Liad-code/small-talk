@@ -15,56 +15,56 @@ function CatBoxIllustration({ id }: { id: string }) {
     case 'in':
       return (
         <div className="flex flex-col items-center">
-          <div className="flex items-center justify-center px-3 py-2 border-4 border-t-0 border-amber-600 rounded-b-lg bg-amber-50" style={{ minWidth: '52px' }}>
-            <span className="text-2xl leading-none">🐱</span>
+          <div className="flex items-center justify-center px-2 py-1.5 border-[3px] border-t-0 border-amber-600 rounded-b-lg bg-amber-50" style={{ minWidth: '40px' }}>
+            <span className="text-xl leading-none">🐱</span>
           </div>
         </div>
       )
     case 'on':
       return (
         <div className="flex flex-col items-center gap-0 leading-none">
-          <span className="text-3xl">🐱</span>
-          <span className="text-4xl -mt-1">📦</span>
+          <span className="text-2xl">🐱</span>
+          <span className="text-3xl -mt-1">📦</span>
         </div>
       )
     case 'under':
       return (
         <div className="flex flex-col items-center gap-0 leading-none">
-          <span className="text-4xl">📦</span>
-          <span className="text-3xl -mt-1">🐱</span>
+          <span className="text-3xl">📦</span>
+          <span className="text-2xl -mt-1">🐱</span>
         </div>
       )
     case 'next-to':
       return (
         <div className="flex items-end gap-1 leading-none">
-          <span className="text-3xl">🐱</span>
-          <span className="text-4xl">📦</span>
+          <span className="text-2xl">🐱</span>
+          <span className="text-3xl">📦</span>
         </div>
       )
     case 'in-front':
       return (
-        <div className="relative w-16 h-12 flex items-end">
-          <span className="text-4xl leading-none absolute left-1 bottom-0 opacity-60">📦</span>
-          <span className="text-3xl leading-none absolute left-3 bottom-0 z-10">🐱</span>
+        <div className="relative w-14 h-10 flex items-end">
+          <span className="text-3xl leading-none absolute left-0 bottom-0 opacity-60">📦</span>
+          <span className="text-2xl leading-none absolute left-2 bottom-0 z-10">🐱</span>
         </div>
       )
     case 'behind':
       return (
-        <div className="relative w-16 h-12 flex items-end">
-          <span className="text-3xl leading-none absolute left-0 bottom-0 z-0 opacity-40">🐱</span>
-          <span className="text-4xl leading-none absolute left-2 bottom-0 z-10">📦</span>
+        <div className="relative w-14 h-10 flex items-end">
+          <span className="text-2xl leading-none absolute left-0 bottom-0 z-0 opacity-40">🐱</span>
+          <span className="text-3xl leading-none absolute left-2 bottom-0 z-10">📦</span>
         </div>
       )
     case 'between':
       return (
-        <div className="flex items-end gap-1 leading-none">
-          <span className="text-3xl">📦</span>
-          <span className="text-3xl">🐱</span>
-          <span className="text-3xl">📦</span>
+        <div className="flex items-end gap-0.5 leading-none">
+          <span className="text-lg">📦</span>
+          <span className="text-xl">🐱</span>
+          <span className="text-lg">📦</span>
         </div>
       )
     default:
-      return <span className="text-4xl leading-none">📦</span>
+      return <span className="text-3xl leading-none">📦</span>
   }
 }
 
@@ -301,7 +301,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
   }
 
   return (
-    <div className="max-w-sm mx-auto px-3 pb-16">
+    <div className="max-w-lg mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את הסצנה הנכונה לכל מילה</p>
         <span className="text-purple-500">✅ {score}/{PREPOSITIONS.length}</span>
@@ -314,20 +314,20 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
           return (
             <div
               key={item.id}
-              className={`flex items-center gap-2 px-3 py-3 rounded-2xl border-4 transition-all
+              className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-4 transition-all
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400 shake' : 'bg-white border-purple-200'}`}
             >
-              <span className="font-display font-black text-purple-800 w-24 text-base shrink-0">{item.name}</span>
-              <div className="flex gap-2 flex-1 justify-end">
+              <span className="font-display font-black text-purple-800 w-[88px] shrink-0 text-sm leading-tight">{item.name}</span>
+              <div className="flex gap-2 flex-1">
                 {choices.map(ch => (
                   <button
                     key={ch.id}
                     onClick={() => handlePick(item.id, ch.id)}
                     disabled={ans !== undefined}
-                    className={`rounded-xl p-1 border-2 transition-all w-20 h-16 flex items-center justify-center
+                    className={`flex-1 h-16 rounded-xl border-2 transition-all flex items-center justify-center overflow-hidden
                       ${ans !== undefined && ch.id === item.id ? 'bg-green-200 border-green-400' : ''}
                       ${ans !== undefined && ch.id !== item.id ? 'opacity-40 border-transparent' : ''}
-                      ${ans === undefined ? 'bg-purple-50 border-purple-200 hover:bg-purple-100 hover:scale-110 active:scale-90 cursor-pointer' : ''}
+                      ${ans === undefined ? 'bg-purple-50 border-purple-200 hover:bg-purple-100 hover:scale-105 active:scale-90 cursor-pointer' : ''}
                     `}
                   >
                     <CatBoxIllustration id={ch.id} />
