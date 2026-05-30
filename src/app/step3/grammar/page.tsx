@@ -59,12 +59,13 @@ export default function Step3GrammarPage() {
           available
         />
         <TopicCard
+          href="/step3/grammar/possessive-adjectives"
           emoji="🏠"
           title="Possessive Adjectives"
           hebrewTitle="שמות גוף שייכות"
           description="my, your, his, her, its, our, their"
           color="from-violet-500 to-purple-600"
-          available={false}
+          available={true}
         />
         <TopicCard
           emoji="🏷️"
@@ -75,12 +76,13 @@ export default function Step3GrammarPage() {
           available={false}
         />
         <TopicCard
+          href="/step3/grammar/there-is"
           emoji="🌍"
           title="There is / There are"
           hebrewTitle="יש / ישנם"
           description="There is a cat · There are two dogs"
           color="from-sky-500 to-blue-600"
-          available={false}
+          available={true}
         />
         <TopicCard
           emoji="⚡"
