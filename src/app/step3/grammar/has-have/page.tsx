@@ -77,12 +77,13 @@ export default function HasHavePage() {
           available
         />
         <SubtopicCard
+          href="/step3/grammar/has-have/mixed"
           emoji="🔀"
           title="Mixed Practice"
           hebrewTitle="תרגול מעורב"
           description="Mix of positive, negative and questions"
           color="from-violet-500 to-purple-600"
-          available={false}
+          available
         />
       </div>
     </div>

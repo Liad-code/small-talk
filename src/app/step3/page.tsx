@@ -74,14 +74,15 @@ export default function Step3Page() {
           available={false}
         />
         <TopicCard
+          href="/step3/sight-words"
           emoji="👁️"
           title="Sight Words"
           hebrewTitle="מילות ראייה"
           description="Common words to recognize instantly"
           hebrewDesc="מילים נפוצות לזיהוי מיידי"
-          color="from-pink-400 to-rose-500"
+          color="from-emerald-400 to-green-500"
           textColor="text-white"
-          available={false}
+          available
         />
         <TopicCard
           href="/step3/grammar"

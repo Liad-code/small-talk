@@ -24,7 +24,10 @@ function LearnTab() {
           have · has
         </h2>
         <p className="font-bold text-teal-800 text-base mb-1" dir="rtl">
-          הפועל have = יש — יש לו 2 צורות
+          פרוש הפועל have הוא יש
+        </p>
+        <p className="font-bold text-teal-700 text-sm mb-1" dir="rtl">
+          לפועל שתי צורות: have / has
         </p>
 
         <div className="flex flex-col gap-2 mb-4">

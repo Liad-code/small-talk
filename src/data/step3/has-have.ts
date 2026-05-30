@@ -87,8 +87,8 @@ export const HH_POS_EX2: HHBuilderCycle[] = [
 export interface HHNegEx1Q { sentence: string; answer: HHNegVerb }
 export const HH_NEG_EX1: HHNegEx1Q[][] = [
   [
-    { sentence: 'You ___ a white bag.',       answer: "don't have"    },
-    { sentence: 'Hannah ___ a cookie.',       answer: "doesn't have"  },
+    { sentence: 'You ___ a black bag.',        answer: "don't have"    },
+    { sentence: 'Dana ___ a cake.',           answer: "doesn't have"  },
     { sentence: 'We ___ a dog.',              answer: "don't have"    },
     { sentence: 'She ___ a cat.',             answer: "doesn't have"  },
     { sentence: 'They ___ a big house.',      answer: "don't have"    },
