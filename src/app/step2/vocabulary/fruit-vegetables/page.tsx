@@ -243,7 +243,7 @@ function Quiz2Tab() {
 
 const WS_COLS = 8
 const WS_ROWS = 10
-const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHA = 'abcdefghijklmnopqrstuvwxyz'
 const WS_ROUNDS: FruitVegItem[][] = [
   FRUIT_VEG.slice(0, 5),
   FRUIT_VEG.slice(5, 10),
@@ -253,7 +253,7 @@ const WS_ROUNDS: FruitVegItem[][] = [
 interface WsPlacement { word: string; row: number; col: number; dir: 'h' | 'v' }
 
 function generateWordSearch(items: FruitVegItem[]): { grid: string[][]; placements: WsPlacement[] } {
-  const words = items.map(f => f.name.toUpperCase())
+  const words = items.map(f => f.name.toLowerCase())
   const grid: string[][] = Array(WS_ROWS).fill(null).map(() => Array(WS_COLS).fill(''))
   const placements: WsPlacement[] = []
   const sorted = [...words].sort((a, b) => b.length - a.length)
@@ -393,7 +393,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
 
       <div className="grid grid-cols-2 gap-1.5 mb-4">
         {items.map(f => {
-          const isFound = found.has(f.name.toUpperCase())
+          const isFound = found.has(f.name.toLowerCase())
           return (
             <div
               key={f.id}

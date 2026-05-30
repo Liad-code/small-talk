@@ -1,27 +1,36 @@
 'use client'
 import { useState } from 'react'
+import { shuffle } from '@/utils/shuffle'
 
-const DAY_COLUMN = [
-  { id: 'wakeup',    label: 'Wake Up',       emoji: '⏰', fitsDay: true  },
-  { id: 'breakfast', label: 'Have Breakfast', emoji: '🍳', fitsDay: true  },
-  { id: 'school',    label: 'Go to School',   emoji: '🏫', fitsDay: true  },
-  { id: 'sleep',     label: 'Sleep',          emoji: '😴', fitsDay: false },
-  { id: 'dinner',    label: 'Have Dinner',    emoji: '🍽️', fitsDay: false },
-  { id: 'pajamas',   label: 'Wear Pajamas',   emoji: '🌙', fitsDay: false },
+const DAY_BASE = [
+  { id: 'wakeup',     label: 'Wake Up',         emoji: '⏰', fitsDay: true  },
+  { id: 'breakfast',  label: 'Have Breakfast',   emoji: '🍳', fitsDay: true  },
+  { id: 'school',     label: 'Go to School',     emoji: '🏫', fitsDay: true  },
+  { id: 'schoolbag2', label: 'Pack Schoolbag',   emoji: '🎒', fitsDay: true  },
+  { id: 'dressed2',   label: 'Get Dressed',      emoji: '👕', fitsDay: true  },
+  { id: 'sleep',      label: 'Sleep',            emoji: '😴', fitsDay: false },
+  { id: 'dinner',     label: 'Have Dinner',      emoji: '🍽️', fitsDay: false },
+  { id: 'pajamas',    label: 'Wear Pajamas',     emoji: '🌙', fitsDay: false },
+  { id: 'teeth2',     label: 'Brush Your Teeth', emoji: '🦷', fitsDay: false },
 ]
 
-const NIGHT_COLUMN = [
-  { id: 'teeth',     label: 'Brush Your Teeth', emoji: '🦷', fitsNight: true  },
-  { id: 'bath',      label: 'Take a Bath',       emoji: '🛁', fitsNight: true  },
-  { id: 'story',     label: 'Read a Story',      emoji: '📖', fitsNight: true  },
-  { id: 'dressed',   label: 'Get Dressed',       emoji: '👕', fitsNight: false },
-  { id: 'schoolbag', label: 'Pack Schoolbag',    emoji: '🎒', fitsNight: false },
-  { id: 'washface',  label: 'Wash Your Face',    emoji: '🧼', fitsNight: false },
+const NIGHT_BASE = [
+  { id: 'teeth',      label: 'Brush Your Teeth', emoji: '🦷', fitsNight: true  },
+  { id: 'bath',       label: 'Take a Bath',       emoji: '🛁', fitsNight: true  },
+  { id: 'story',      label: 'Read a Story',      emoji: '📖', fitsNight: true  },
+  { id: 'sleep2',     label: 'Sleep',             emoji: '😴', fitsNight: true  },
+  { id: 'dinner2',    label: 'Have Dinner',       emoji: '🍽️', fitsNight: true  },
+  { id: 'pajamas2',   label: 'Wear Pajamas',      emoji: '🌙', fitsNight: true  },
+  { id: 'dressed',    label: 'Get Dressed',       emoji: '👕', fitsNight: false },
+  { id: 'schoolbag',  label: 'Pack Schoolbag',    emoji: '🎒', fitsNight: false },
+  { id: 'washface',   label: 'Wash Your Face',    emoji: '🧼', fitsNight: false },
 ]
 
-const TOTAL_CORRECT = DAY_COLUMN.filter(a => a.fitsDay).length + NIGHT_COLUMN.filter(a => a.fitsNight).length
+const TOTAL_CORRECT = DAY_BASE.filter(a => a.fitsDay).length + NIGHT_BASE.filter(a => a.fitsNight).length
 
 export function DayNightGame({ onComplete }: { onComplete: () => void }) {
+  const [dayColumn] = useState(() => shuffle([...DAY_BASE]))
+  const [nightColumn] = useState(() => shuffle([...NIGHT_BASE]))
   const [checked, setChecked] = useState<Set<string>>(new Set())
   const [flash, setFlash] = useState<Record<string, 'correct' | 'wrong'>>({})
   const [correctCount, setCorrectCount] = useState(0)
@@ -63,7 +72,7 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
             <span className="font-display font-black text-base text-yellow-800">DAY</span>
           </div>
           <div className="divide-y divide-yellow-200">
-            {DAY_COLUMN.map(a => {
+            {dayColumn.map(a => {
               const done = checked.has(a.id)
               const f = flash[a.id]
               return (
@@ -72,7 +81,7 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
                   onClick={() => !done && !f && handleCheck(a.id, a.fitsDay)}
                   className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsDay)}`}
                 >
-                  <span className="text-xl shrink-0">{a.emoji}</span>
+                  <span className="text-lg shrink-0">{a.emoji}</span>
                   <span className="text-xs font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
                   <div className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-black shrink-0
                     ${done ? 'bg-green-500 border-green-600 text-white' : f === 'wrong' ? 'bg-red-400 border-red-500 text-white' : 'border-yellow-500 bg-white'}`}>
@@ -91,7 +100,7 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
             <span className="font-display font-black text-base text-indigo-800">NIGHT</span>
           </div>
           <div className="divide-y divide-indigo-200">
-            {NIGHT_COLUMN.map(a => {
+            {nightColumn.map(a => {
               const done = checked.has(a.id)
               const f = flash[a.id]
               return (
@@ -100,7 +109,7 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
                   onClick={() => !done && !f && handleCheck(a.id, a.fitsNight)}
                   className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsNight)}`}
                 >
-                  <span className="text-xl shrink-0">{a.emoji}</span>
+                  <span className="text-lg shrink-0">{a.emoji}</span>
                   <span className="text-xs font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
                   <div className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-black shrink-0
                     ${done ? 'bg-green-500 border-green-600 text-white' : f === 'wrong' ? 'bg-red-400 border-red-500 text-white' : 'border-indigo-500 bg-white'}`}>

@@ -7,7 +7,7 @@ import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { FAMILY, FamilyItem } from '@/data/step2/vocabulary'
 
-type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1'
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -599,11 +599,10 @@ function Ex2Tab() {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'learn', label: '📚 Learn'    },
-  { id: 'quiz1', label: '🔊 Quiz 1'  },
-  { id: 'quiz2', label: '🎯 Quiz 2'  },
-  { id: 'ex1',   label: '🌳 Tree'    },
-  { id: 'ex2',   label: '✏️ Crossword' },
+  { id: 'learn', label: '📚 Learn'   },
+  { id: 'quiz1', label: '🔊 Quiz 1' },
+  { id: 'quiz2', label: '🎯 Quiz 2' },
+  { id: 'ex1',   label: '🌳 Tree'   },
 ]
 
 const TAB_BASE = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -636,7 +635,6 @@ export default function FamilyPage() {
         {tab === 'quiz1' && <Quiz1Tab />}
         {tab === 'quiz2' && <Quiz2Tab />}
         {tab === 'ex1'   && <Ex1Tab />}
-        {tab === 'ex2'   && <Ex2Tab />}
       </div>
     </div>
   )

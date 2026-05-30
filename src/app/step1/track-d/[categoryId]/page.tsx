@@ -12,19 +12,20 @@ import { Pick3Exercise } from '@/components/step1/trackD/Pick3Exercise'
 import { SeasonsSort } from '@/components/step1/trackD/SeasonsSort'
 import { DaysOrder } from '@/components/step1/trackD/DaysOrder'
 import { DaysNumberMatch } from '@/components/step1/trackD/DaysNumberMatch'
-import { FruitsBasket } from '@/components/step1/trackD/FruitsBasket'
 import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline'
-import { PrepCircleImage } from '@/components/step1/trackD/PrepCircleImage'
 import { NumbersCount } from '@/components/step1/trackD/NumbersCount'
 import { WeatherWorksheet } from '@/components/step1/trackD/WeatherWorksheet'
 import { DayNightGame } from '@/components/step1/trackD/DayNightGame'
 import { ColorsWorksheet } from '@/components/step1/trackD/ColorsWorksheet'
 import { EmotionsISpy } from '@/components/step1/trackD/EmotionsISpy'
-import { DaysCaterpillar } from '@/components/step1/trackD/DaysCaterpillar'
-import { DaysWordSearchPrint } from '@/components/step1/trackD/DaysWordSearchPrint'
 import { DaysWordSearch } from '@/components/step1/trackD/DaysWordSearch'
+import { DaysWorksheets } from '@/components/step1/trackD/DaysWorksheets'
 import { BodyWorksheet } from '@/components/step1/trackD/BodyWorksheet'
 import { BodyMatch } from '@/components/step1/trackD/BodyMatch'
+import { SensesWordMatch } from '@/components/step1/trackD/SensesWordMatch'
+import { FruitsISpy } from '@/components/step1/trackD/FruitsISpy'
+import { OppositeMatch } from '@/components/step1/trackD/OppositeMatch'
+import { CatBoxIllustration } from '@/components/shared/CatBoxIllustration'
 
 const HEBREW_ORDINALS: Record<number, string> = {
   1: 'יום ראשון', 2: 'יום שני', 3: 'יום שלישי', 4: 'יום רביעי', 5: 'יום חמישי', 6: 'יום שישי', 7: 'שבת',
@@ -47,29 +48,6 @@ function playHappySound() {
   } catch { /* audio unavailable */ }
 }
 
-// Inline SVG for preposition learn illustrations (ball + box)
-function PrepLearnSvg({ prep }: { prep: string }) {
-  const ballPos: Record<string, { cx: number; cy: number }> = {
-    'in':      { cx: 38, cy: 46 },
-    'on':      { cx: 38, cy: 16 },
-    'under':   { cx: 38, cy: 70 },
-    'next to': { cx: 64, cy: 46 },
-  }
-  const pos = ballPos[prep] ?? { cx: 38, cy: 46 }
-  return (
-    <svg viewBox="0 0 80 80" width="6em" height="6em" xmlns="http://www.w3.org/2000/svg">
-      {/* Box body */}
-      <rect x="12" y="32" width="52" height="36" fill="#c8863a" rx="3" />
-      {/* Box top face */}
-      <polygon points="12,32 38,22 64,32" fill="#e0a050" />
-      {/* Box right side */}
-      <polygon points="64,32 64,68 38,68 38,22" fill="#b07030" opacity="0.5" />
-      {/* Ball */}
-      <circle cx={pos.cx} cy={pos.cy} r="9" fill="#4ade80" />
-      <circle cx={pos.cx - 3} cy={pos.cy - 3} r="3" fill="rgba(255,255,255,0.4)" />
-    </svg>
-  )
-}
 
 function TableSvg({ size = '4.5em' }: { size?: string }) {
   return (
@@ -129,7 +107,7 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'fruits-shelf' | 'clothesline' | 'prep-circle' | 'count' | 'worksheet' | 'day-night' | 'colors-ws' | 'emotions-ispy' | 'days-caterpillar' | 'days-ws-print' | 'days-search' | 'body-ws' | 'body-match'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'colors-ws' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -140,11 +118,9 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
     tabs.push({ id: 'days-order', label: 'Order', emoji: '🔢' })
     tabs.push({ id: 'days-match', label: 'Match', emoji: '🔗' })
   }
-  if (categoryId === 'fruits') tabs.push({ id: 'fruits-shelf', label: 'On the Shelf', emoji: '🛒' })
   if (categoryId === 'clothes') {
     tabs.push({ id: 'clothesline', label: 'Clothesline', emoji: '🧺' })
   }
-  if (categoryId === 'prepositions') tabs.push({ id: 'prep-circle', label: 'Prepositions', emoji: '🔵' })
   if (categoryId === 'numbers') tabs.push({ id: 'count', label: 'Count', emoji: '🔢' })
   if (categoryId === 'weather') {
     tabs.push({ id: 'day-night',  label: 'Day & Night', emoji: '🌙' })
@@ -153,14 +129,16 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
   if (categoryId === 'colors') tabs.push({ id: 'colors-ws', label: 'Worksheet', emoji: '📄' })
   if (categoryId === 'emotions') tabs.push({ id: 'emotions-ispy', label: 'I Spy', emoji: '🔍' })
   if (categoryId === 'days') {
-    tabs.push({ id: 'days-search',      label: 'Search Game',  emoji: '🔍' })
-    tabs.push({ id: 'days-caterpillar', label: 'Caterpillar',  emoji: '🐛' })
-    tabs.push({ id: 'days-ws-print',    label: 'Word Search',  emoji: '📄' })
+    tabs.push({ id: 'days-search',     label: 'Search Game', emoji: '🔍' })
+    tabs.push({ id: 'days-worksheets', label: 'Worksheets',  emoji: '📄' })
   }
   if (categoryId === 'body') {
     tabs.push({ id: 'body-ws',    label: 'Ex 1',  emoji: '📄' })
     tabs.push({ id: 'body-match', label: 'Match', emoji: '🔗' })
   }
+  if (categoryId === 'senses') tabs.push({ id: 'senses-match', label: 'Match', emoji: '🔗' })
+  if (categoryId === 'fruits') tabs.push({ id: 'fruits-ispy', label: 'I Spy', emoji: '🔍' })
+  if (categoryId === 'opposites') tabs.push({ id: 'opposites-match', label: 'Match', emoji: '🔗' })
   return tabs
 }
 
@@ -286,7 +264,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
 
       {/* Tabs */}
       <div className="max-w-2xl mx-auto px-4 pt-4">
-        <div className={`flex gap-2 mb-6 pb-1 ${categoryId === 'days' ? 'flex-wrap' : 'overflow-x-auto no-scrollbar'}`}>
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-1 no-scrollbar print:hidden">
           <button
             onClick={() => setTab('flashcards')}
             className={`flex-shrink-0 py-2 px-3 rounded-2xl font-bold text-sm border-2 transition-all cursor-pointer select-none
@@ -346,7 +324,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                         )}
                       </>
                     ) : isPrepositions ? (
-                      <PrepLearnSvg prep={item.word} />
+                      <CatBoxIllustration id={item.word === 'next to' ? 'next-to' : item.word} large />
                     ) : isOpposites && item.emoji === '🐘🐭' ? (
                       <span className="flex items-end gap-1 leading-none">
                         <span className="text-7xl">🐘</span>
@@ -461,7 +439,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                             )}
                           </div>
                         ) : isPrepositions ? (
-                          <PrepLearnSvg prep={opt.word} />
+                          <CatBoxIllustration id={opt.word === 'next to' ? 'next-to' : opt.word} large />
                         ) : opt.word === 'table' ? (
                           <TableSvg size="4.5em" />
                         ) : opt.word === 'floor' ? (
@@ -496,14 +474,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {tab === 'days-match' && (
           <DaysNumberMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
-        {tab === 'fruits-shelf' && cat && (
-          <FruitsBasket key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
-        )}
         {tab === 'clothesline' && cat && (
           <ClothesClothesline key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
-        )}
-        {tab === 'prep-circle' && (
-          <PrepCircleImage key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'count' && (
           <NumbersCount key={extraKey} onComplete={handleExtraComplete} />
@@ -520,20 +492,26 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {tab === 'emotions-ispy' && (
           <EmotionsISpy key={extraKey} onComplete={handleExtraComplete} />
         )}
-        {tab === 'days-caterpillar' && (
-          <DaysCaterpillar key={extraKey} onComplete={handleExtraComplete} />
-        )}
-        {tab === 'days-ws-print' && (
-          <DaysWordSearchPrint key={extraKey} onComplete={handleExtraComplete} />
-        )}
         {tab === 'days-search' && (
           <DaysWordSearch key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'days-worksheets' && (
+          <DaysWorksheets key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'body-ws' && (
           <BodyWorksheet key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'body-match' && (
           <BodyMatch key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'senses-match' && (
+          <SensesWordMatch key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'fruits-ispy' && (
+          <FruitsISpy key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'opposites-match' && (
+          <OppositeMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
       </div>
 

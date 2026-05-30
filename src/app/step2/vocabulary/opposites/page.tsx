@@ -166,46 +166,58 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
 }) {
   const [leftCol] = useState(() => shuffle(pairs.map(p => ({ id: p.id, word: p.word1, emoji: p.emoji1 }))))
   const [rightCol] = useState(() => shuffle(pairs.map(p => ({ id: p.id, word: p.word2, emoji: p.emoji2 }))))
-  const [selLeft, setSelLeft] = useState<string | null>(null)
+  const [selId, setSelId] = useState<string | null>(null)
+  const [selSide, setSelSide] = useState<'left' | 'right' | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
-  const [wrongPair, setWrongPair] = useState<[string, string] | null>(null)
+  const [wrongFlash, setWrongFlash] = useState<string | null>(null)
   const allDone = matched.size === pairs.length
 
+  function attemptMatch(leftId: string, rightId: string) {
+    if (leftId === rightId) {
+      setMatched(prev => { const s = new Set<string>(); prev.forEach(v => s.add(v)); s.add(leftId); return s })
+      setSelId(null); setSelSide(null)
+    } else {
+      setWrongFlash(leftId + '|' + rightId)
+      setTimeout(() => { setWrongFlash(null); setSelId(null); setSelSide(null) }, 600)
+    }
+  }
+
   function handleLeft(id: string) {
-    if (matched.has(id)) return
-    setSelLeft(id); setWrongPair(null)
+    if (matched.has(id) || wrongFlash) return
+    if (selSide === 'right' && selId) { attemptMatch(id, selId); return }
+    if (selId === id && selSide === 'left') { setSelId(null); setSelSide(null); return }
+    setSelId(id); setSelSide('left')
   }
 
   function handleRight(id: string) {
-    if (matched.has(id) || !selLeft) return
-    if (selLeft === id) {
-      setMatched(prev => { const s = new Set<string>(); prev.forEach(v => s.add(v)); s.add(id); return s })
-      setSelLeft(null)
-    } else {
-      setWrongPair([selLeft, id])
-      setTimeout(() => { setWrongPair(null); setSelLeft(null) }, 600)
-    }
+    if (matched.has(id) || wrongFlash) return
+    if (selSide === 'left' && selId) { attemptMatch(selId, id); return }
+    if (selId === id && selSide === 'right') { setSelId(null); setSelSide(null); return }
+    setSelId(id); setSelSide('right')
   }
+
+  const isLeftWrong = (id: string) => wrongFlash?.startsWith(id + '|') ?? false
+  const isRightWrong = (id: string) => wrongFlash?.endsWith('|' + id) ?? false
 
   return (
     <div className="max-w-sm mx-auto px-3 pb-16">
       <div className="flex justify-between items-center mb-4">
-        <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על מילה משמאל ואחר כך על ההפך שלה מימין</p>
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על מילה מכל עמודה והתאם הפכים</p>
         <span className="text-xs font-bold text-orange-500">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
       <div className="flex gap-3">
         <div className="flex-1 flex flex-col gap-2">
           {leftCol.map(item => {
             const isMatched = matched.has(item.id)
-            const isSel = selLeft === item.id
-            const isWrong = wrongPair?.[0] === item.id
+            const isSel = selId === item.id && selSide === 'left'
+            const isWrong = isLeftWrong(item.id)
             return (
               <button
                 key={item.id}
                 onClick={() => handleLeft(item.id)}
                 disabled={isMatched}
-                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-4 font-display font-black text-sm text-left transition-all
-                  ${isMatched ? 'bg-green-100 border-green-400 text-green-700 opacity-60' : ''}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-4 font-display font-black text-sm text-left transition-all min-h-[52px]
+                  ${isMatched ? 'bg-green-100 border-green-400 text-green-700' : ''}
                   ${isSel ? 'bg-orange-200 border-orange-500 text-orange-900 scale-105' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 shake' : ''}
                   ${!isMatched && !isSel && !isWrong ? 'bg-orange-50 border-orange-300 text-orange-800 hover:bg-orange-100 hover:scale-105 active:scale-95 cursor-pointer' : ''}
@@ -220,17 +232,18 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
         <div className="flex-1 flex flex-col gap-2">
           {rightCol.map(item => {
             const isMatched = matched.has(item.id)
-            const isWrong = wrongPair?.[1] === item.id
+            const isSel = selId === item.id && selSide === 'right'
+            const isWrong = isRightWrong(item.id)
             return (
               <button
                 key={item.id}
                 onClick={() => handleRight(item.id)}
-                disabled={isMatched || !selLeft}
-                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-4 font-display font-black text-sm text-left transition-all
-                  ${isMatched ? 'bg-green-100 border-green-400 text-green-700 opacity-60' : ''}
+                disabled={isMatched}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border-4 font-display font-black text-sm text-left transition-all min-h-[52px]
+                  ${isMatched ? 'bg-green-100 border-green-400 text-green-700' : ''}
+                  ${isSel ? 'bg-orange-200 border-orange-500 text-orange-900 scale-105' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 shake' : ''}
-                  ${!isMatched && !isWrong && selLeft ? 'bg-orange-50 border-orange-300 text-orange-800 hover:bg-orange-200 hover:scale-105 active:scale-95 cursor-pointer' : ''}
-                  ${!isMatched && !isWrong && !selLeft ? 'bg-gray-50 border-gray-200 text-gray-400' : ''}
+                  ${!isMatched && !isSel && !isWrong ? 'bg-orange-50 border-orange-300 text-orange-800 hover:bg-orange-100 hover:scale-105 active:scale-95 cursor-pointer' : ''}
                 `}
               >
                 <span className="text-xl">{item.emoji}</span>

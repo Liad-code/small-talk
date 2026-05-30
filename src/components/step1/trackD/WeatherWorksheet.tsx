@@ -8,21 +8,27 @@ const WEATHER_ICONS = [
   { label: 'Cloudy', emoji: '☁️'  },
 ]
 
-// DAY column: 3 real day + 3 night items mixed in
+// DAY column: 5 day activities + 4 night distractors
 const DAY_ACTIVITIES = [
-  { label: 'Wake Up',        emoji: '⏰' },
-  { label: 'Have Breakfast', emoji: '🍳' },
-  { label: 'Go to School',   emoji: '🏫' },
-  { label: 'Sleep',          emoji: '😴' },
-  { label: 'Have Dinner',    emoji: '🍽️' },
-  { label: 'Wear Pajamas',   emoji: '🌙' },
+  { label: 'Wake Up',         emoji: '⏰' },
+  { label: 'Have Breakfast',  emoji: '🍳' },
+  { label: 'Go to School',    emoji: '🏫' },
+  { label: 'Pack Schoolbag',  emoji: '🎒' },
+  { label: 'Get Dressed',     emoji: '👕' },
+  { label: 'Sleep',           emoji: '😴' },
+  { label: 'Have Dinner',     emoji: '🍽️' },
+  { label: 'Wear Pajamas',    emoji: '🌙' },
+  { label: 'Brush Your Teeth',emoji: '🦷' },
 ]
 
-// NIGHT column: 3 real night + 3 day items mixed in
+// NIGHT column: 6 night activities + 3 day distractors
 const NIGHT_ACTIVITIES = [
   { label: 'Brush Your Teeth', emoji: '🦷' },
-  { label: 'Read a Story',     emoji: '📖' },
   { label: 'Take a Bath',      emoji: '🛁' },
+  { label: 'Read a Story',     emoji: '📖' },
+  { label: 'Sleep',            emoji: '😴' },
+  { label: 'Have Dinner',      emoji: '🍽️' },
+  { label: 'Wear Pajamas',     emoji: '🌙' },
   { label: 'Get Dressed',      emoji: '👕' },
   { label: 'Pack Schoolbag',   emoji: '🎒' },
   { label: 'Wash Your Face',   emoji: '🧼' },
@@ -39,7 +45,7 @@ export function WeatherWorksheet({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="max-w-lg mx-auto pb-16">
       {/* Sheet tabs */}
-      <div className="flex gap-2 mb-3 justify-center flex-wrap">
+      <div className="flex gap-2 mb-3 justify-center flex-wrap print:hidden">
         <button
           onClick={() => setSheet(1)}
           className={`px-4 py-1.5 rounded-full font-bold text-sm border-2 cursor-pointer transition-all
@@ -103,7 +109,7 @@ export function WeatherWorksheet({ onComplete }: { onComplete: () => void }) {
         <div className="bg-white rounded-2xl border-4 border-gray-300 p-4 shadow-lg">
           <h2 className="text-center font-display font-black text-2xl mb-0.5 tracking-wide">DAY &amp; NIGHT</h2>
           <p className="text-center text-xs font-bold text-gray-500 mb-4">
-            Tick (✓) the activities that fit each column. Cross out (✗) the ones that don&apos;t.
+            Tick (✓) the activities that belong. Cross out (✗) the ones that don&apos;t.
           </p>
           <div className="grid grid-cols-2 gap-3">
             {/* DAY column */}

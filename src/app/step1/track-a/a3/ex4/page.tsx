@@ -75,6 +75,7 @@ function HouseItem({
 function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
   const [doors, setDoors] = useState<string[]>([])
   const [matched, setMatched] = useState<Set<string>>(new Set())
+  const [selected, setSelected] = useState<string | null>(null)
 
   useEffect(() => {
     setDoors(shuffle(ABC_ORDER.map(l => `door_${l}`)))
@@ -97,30 +98,46 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
     if (matched.has(tileLetter)) return false
     setMatched(prev => { const n = new Set(prev); n.add(tileLetter); return n })
     setDoors(prev => prev.filter(t => t !== tileId))
+    setSelected(null)
     return true
   }, [matched])
+
+  function handleTileClick(id: string) {
+    setSelected(prev => prev === id ? null : id)
+  }
+
+  function handleHouseClick(letter: string) {
+    if (!selected || matched.has(letter)) return
+    const tileLetter = selected.replace('door_', '')
+    if (tileLetter === letter) {
+      setMatched(prev => { const n = new Set(prev); n.add(letter); return n })
+      setDoors(prev => prev.filter(t => t !== selected))
+    }
+    setSelected(null)
+  }
 
   const freeDoors = doors
 
   return (
     <div className="p-4 max-w-2xl mx-auto">
       <p className="text-center text-gray-400 font-bold text-sm mb-4" dir="rtl">
-        גרור כל אות קטנה לבית עם האות הגדולה שלה
+        לחץ על אות קטנה ואז על הבית עם האות הגדולה שלה
       </p>
 
       {/* Houses grid — all 26 */}
-      <div className="grid grid-cols-4 sm:grid-cols-6 gap-x-3 gap-y-5 mb-6 justify-items-center">
+      <div className="grid grid-cols-4 sm:grid-cols-6 gap-x-2 gap-y-4 mb-6 justify-items-center">
         {ABC_ORDER.map(letter => {
           const group = getGroup(letter)
           const done = matched.has(letter)
           return (
-            <HouseItem
-              key={letter}
-              letter={letter}
-              done={done}
-              group={group}
-              onDrop={handleDrop}
-            />
+            <div key={letter} onClick={() => handleHouseClick(letter)} className="cursor-pointer">
+              <HouseItem
+                letter={letter}
+                done={done}
+                group={group}
+                onDrop={handleDrop}
+              />
+            </div>
           )
         })}
       </div>
@@ -129,24 +146,26 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
       {freeDoors.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
           <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">
-            גרור את האות הקטנה לבית הנכון:
+            בחר אות קטנה ולחץ על הבית המתאים:
           </p>
           <div className="pb-3">
             <div className="flex gap-2 flex-wrap justify-center px-2 max-w-xs sm:max-w-sm mx-auto">
               {freeDoors.map(id => {
                 const letter = id.replace('door_', '')
                 const group = getGroup(letter)
+                const isSel = selected === id
                 return (
-                  <DraggableTile
-                    key={id}
-                    id={id}
-                    label={letter}
-                    color={group.bgColor}
-                    borderColor={group.borderColor}
-                    textColor={group.textColor}
-                    size="md"
-                    onDropped={handleDrop}
-                  />
+                  <div key={id} onClick={() => handleTileClick(id)}>
+                    <DraggableTile
+                      id={id}
+                      label={letter}
+                      color={isSel ? 'bg-yellow-200' : group.bgColor}
+                      borderColor={isSel ? 'border-yellow-500' : group.borderColor}
+                      textColor={group.textColor}
+                      size="md"
+                      onDropped={handleDrop}
+                    />
+                  </div>
                 )
               })}
             </div>

@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
 
-const DAYS = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
+const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 const ROWS = 10
 const COLS = 10
-const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHA = 'abcdefghijklmnopqrstuvwxyz'
 
 interface Placement { word: string; row: number; col: number; dir: 'h' | 'v' }
 
@@ -42,7 +42,7 @@ function generateGrid(): { grid: string[][]; placements: Placement[] } {
 
   for (let r = 0; r < ROWS; r++)
     for (let c = 0; c < COLS; c++)
-      if (grid[r][c] === '') grid[r][c] = ALPHA[Math.floor(Math.random() * 26)]
+      if (grid[r][c] === '') grid[r][c] = ALPHA[Math.floor(Math.random() * ALPHA.length)]
 
   return { grid, placements }
 }
@@ -148,7 +148,7 @@ export function DaysWordSearch({ onComplete }: { onComplete: () => void }) {
               className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border-2 text-sm font-bold transition-all
                 ${isFound ? 'bg-green-400/30 border-green-400 text-green-200 line-through' : 'bg-white/10 border-white/30 text-white'}`}
             >
-              <span>{day.charAt(0) + day.slice(1).toLowerCase()}</span>
+              <span>{day.charAt(0).toUpperCase() + day.slice(1)}</span>
             </div>
           )
         })}

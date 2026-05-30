@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
 
-const DAYS = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
+const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 const ROWS = 10
 const COLS = 10
-const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const ALPHA = 'abcdefghijklmnopqrstuvwxyz'
 
 interface Placement { word: string; row: number; col: number; dir: 'h' | 'v' }
 
@@ -42,7 +42,7 @@ function generateGrid(): { grid: string[][]; placements: Placement[] } {
 
   for (let r = 0; r < ROWS; r++)
     for (let c = 0; c < COLS; c++)
-      if (grid[r][c] === '') grid[r][c] = ALPHA[Math.floor(Math.random() * 26)]
+      if (grid[r][c] === '') grid[r][c] = ALPHA[Math.floor(Math.random() * ALPHA.length)]
 
   return { grid, placements }
 }
@@ -50,10 +50,7 @@ function generateGrid(): { grid: string[][]; placements: Placement[] } {
 export function DaysWordSearchPrint({ onComplete }: { onComplete: () => void }) {
   const [{ grid }] = useState(generateGrid)
 
-  function handlePrint() {
-    onComplete()
-    window.print()
-  }
+  function handlePrint() { onComplete(); window.print() }
 
   return (
     <div className="max-w-lg mx-auto pb-16">
@@ -70,7 +67,6 @@ export function DaysWordSearchPrint({ onComplete }: { onComplete: () => void }) 
           מצא את ימות השבוע — המילים מופיעות אופקית או מלמעלה למטה
         </p>
 
-        {/* Grid */}
         <div className="flex justify-center mb-4">
           <div className="border-2 border-gray-400">
             {grid.map((row, r) => (
@@ -88,12 +84,11 @@ export function DaysWordSearchPrint({ onComplete }: { onComplete: () => void }) 
           </div>
         </div>
 
-        {/* Word list */}
         <div className="grid grid-cols-2 gap-2">
           {DAYS.map(day => (
             <div key={day} className="flex items-center gap-2 px-2 py-1 rounded-lg border border-gray-300 text-sm font-bold text-gray-700">
               <span className="w-4 h-4 border border-gray-400 rounded-sm inline-block shrink-0" />
-              <span>{day.charAt(0) + day.slice(1).toLowerCase()}</span>
+              <span>{day.charAt(0).toUpperCase() + day.slice(1)}</span>
             </div>
           ))}
         </div>
