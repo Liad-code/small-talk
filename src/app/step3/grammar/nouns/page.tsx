@@ -180,7 +180,7 @@ function Ex1({ onDone }: { onDone: () => void }) {
         ...prev,
         [cat]: [...prev[cat], selectedWord],
       }))
-      setUsedSingulars(prev => new Set([...prev, selectedWord.singular]))
+      setUsedSingulars(prev => { const s = new Set(prev); s.add(selectedWord.singular); return s })
       setSelectedWord(null)
     } else {
       setFlashWrong(cat)

@@ -64,6 +64,7 @@ export default function Step3Page() {
 
       <div className="max-w-2xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 gap-5">
         <TopicCard
+          href="/step3/phonics"
           emoji="🔤"
           title="Phonics"
           hebrewTitle=""
@@ -71,7 +72,7 @@ export default function Step3Page() {
           hebrewDesc=""
           color="from-purple-400 to-indigo-500"
           textColor="text-white"
-          available={false}
+          available
         />
         <TopicCard
           href="/step3/sight-words"

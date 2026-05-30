@@ -68,12 +68,13 @@ export default function Step3GrammarPage() {
           available={true}
         />
         <TopicCard
+          href="/step3/grammar/nouns"
           emoji="🏷️"
           title="Nouns"
           hebrewTitle="שמות עצם"
           description="Singular and plural nouns"
           color="from-orange-500 to-amber-600"
-          available={false}
+          available={true}
         />
         <TopicCard
           href="/step3/grammar/there-is"
