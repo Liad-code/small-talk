@@ -3,7 +3,9 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import {
-  NOUN_SORT_ITEMS, NOUN_EX2, NOUN_EX3,
+  NOUN_SORT_ITEMS, NOUN_SORT_ITEMS_R2,
+  NOUN_EX2, NOUN_EX2_R2,
+  NOUN_EX3, NOUN_EX3_R2,
   type NounSortItem,
 } from '@/data/step3/nouns'
 
@@ -157,7 +159,21 @@ function IrregularTab() {
 
 // ── Ex 1: Sort nouns into categories ─────────────────────────────────────────
 
-function Ex1({ onDone }: { onDone: () => void }) {
+const EX1_ROUNDS: NounSortItem[][] = [NOUN_SORT_ITEMS, NOUN_SORT_ITEMS_R2]
+
+function Ex1Round({
+  items,
+  roundIdx,
+  totalRounds,
+  onNextRound,
+  onDone,
+}: {
+  items: NounSortItem[]
+  roundIdx: number
+  totalRounds: number
+  onNextRound: () => void
+  onDone: () => void
+}) {
   const [selectedWord, setSelectedWord] = useState<NounSortItem | null>(null)
   const [placed, setPlaced] = useState<Record<string, NounSortItem[]>>({
     '-s': [], '-es': [], '-ies': [],
@@ -165,8 +181,8 @@ function Ex1({ onDone }: { onDone: () => void }) {
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
   const [usedSingulars, setUsedSingulars] = useState<Set<string>>(new Set())
 
-  const remaining = NOUN_SORT_ITEMS.filter(n => !usedSingulars.has(n.singular))
-  const allDone = usedSingulars.size === NOUN_SORT_ITEMS.length
+  const remaining = items.filter(n => !usedSingulars.has(n.singular))
+  const allDone = usedSingulars.size === items.length
 
   const handleWordClick = (item: NounSortItem) => {
     if (usedSingulars.has(item.singular)) return
@@ -197,14 +213,16 @@ function Ex1({ onDone }: { onDone: () => void }) {
     { id: '-ies', label: '–ies', color: 'border-yellow-400 bg-yellow-50',  flash: 'border-red-400 bg-red-50' },
   ]
 
+  const isLastRound = roundIdx === totalRounds - 1
+
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
-        <span>Sort the nouns</span>
-        <span className="text-orange-500">{usedSingulars.size} / {NOUN_SORT_ITEMS.length} ✓</span>
+        <span>סבב {roundIdx + 1} / {totalRounds}</span>
+        <span className="text-orange-500">{usedSingulars.size} / {items.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">לחצו על מילה ואז על הקטגוריה המתאימה</p>
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">גרור את המילה לקטגוריה הנכונה</p>
       {selectedWord && (
         <p className="text-center font-bold text-orange-500 text-sm mb-3">
           Selected: <span className="font-black">{selectedWord.singular}</span> — now click a category
@@ -262,7 +280,11 @@ function Ex1({ onDone }: { onDone: () => void }) {
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">All sorted correctly!</p>
           <div className="flex gap-3 justify-center">
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+            {!isLastRound ? (
+              <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
+            ) : (
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+            )}
           </div>
         </div>
       )}
@@ -270,33 +292,63 @@ function Ex1({ onDone }: { onDone: () => void }) {
   )
 }
 
+function Ex1({ onDone }: { onDone: () => void }) {
+  const [roundIdx, setRoundIdx] = useState(0)
+  const [key, setKey] = useState(0)
+
+  return (
+    <div key={key}>
+      <Ex1Round
+        items={EX1_ROUNDS[roundIdx]}
+        roundIdx={roundIdx}
+        totalRounds={EX1_ROUNDS.length}
+        onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
+        onDone={onDone}
+      />
+    </div>
+  )
+}
+
 // ── Ex 2: 3-choice plural ─────────────────────────────────────────────────────
 
-function Ex2({ onDone }: { onDone: () => void }) {
+const EX2_ROUNDS = [NOUN_EX2, NOUN_EX2_R2]
+
+function Ex2Round({
+  roundIdx,
+  onNextRound,
+  onDone,
+}: {
+  roundIdx: number
+  onNextRound: () => void
+  onDone: () => void
+}) {
+  const questions = EX2_ROUNDS[roundIdx]
   const [currentIdx, setCurrentIdx] = useState(0)
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
   const [finished, setFinished] = useState(false)
 
+  const isLastRound = roundIdx === EX2_ROUNDS.length - 1
+
   // Shuffle options per question using a stable memo
   const shuffledOptions = useMemo(() => {
-    return NOUN_EX2.map(q => {
+    return questions.map(q => {
       const opts = [q.singular, q.wrong, q.correct]
-      // simple deterministic shuffle based on word length parity
       return opts.sort(() => (q.noun.length % 3) - 1)
     })
-  }, [])
+  }, [questions])
 
-  const question = NOUN_EX2[currentIdx]
+  const question = questions[currentIdx]
   const options = shuffledOptions[currentIdx]
 
   const choose = (val: string) => {
     if (val === question.correct) {
-      if (currentIdx + 1 < NOUN_EX2.length) {
-        setCurrentIdx(i => i + 1)
-      } else {
-        setFinished(true)
-        onDone()
-      }
+      setTimeout(() => {
+        if (currentIdx + 1 < questions.length) {
+          setCurrentIdx(i => i + 1)
+        } else {
+          setFinished(true)
+        }
+      }, 600)
     } else {
       setFlashWrong(val)
       setTimeout(() => setFlashWrong(null), 800)
@@ -307,7 +359,14 @@ function Ex2({ onDone }: { onDone: () => void }) {
     return (
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-4xl mb-2">🎉</div>
-        <p className="font-display font-bold text-xl text-green-600 mb-3">All done!</p>
+        <p className="font-display font-bold text-xl text-green-600 mb-3">סבב {roundIdx + 1} — כל הכבוד!</p>
+        <div className="flex gap-3 justify-center">
+          {!isLastRound ? (
+            <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
+          ) : (
+            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+          )}
+        </div>
       </div>
     )
   }
@@ -315,16 +374,18 @@ function Ex2({ onDone }: { onDone: () => void }) {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Choose the correct plural</span>
-        <span className="text-orange-500">{currentIdx} / {NOUN_EX2.length} ✓</span>
+        <span>סבב {roundIdx + 1} / {EX2_ROUNDS.length}</span>
+        <span className="text-orange-500">{currentIdx} / {questions.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">לחצו על צורת הרבים הנכונה</p>
+      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+        בחר את צורת הרבים הנכונה, המעבר לשאלה הבאה אוטומטי.
+      </p>
 
       {/* Question card */}
       <div className="bg-white border-2 border-orange-200 rounded-2xl px-5 py-5 mb-5 text-center">
-        <p className="text-base font-bold text-gray-500 mb-1">
-          ({question.noun})
+        <p className="text-lg mb-1">
+          <span className="font-black text-amber-800">{question.noun}</span>
         </p>
         <p className="text-xl font-bold text-gray-800">{question.sentence}</p>
       </div>
@@ -349,26 +410,54 @@ function Ex2({ onDone }: { onDone: () => void }) {
   )
 }
 
+function Ex2({ onDone }: { onDone: () => void }) {
+  const [roundIdx, setRoundIdx] = useState(0)
+  const [key, setKey] = useState(0)
+
+  return (
+    <div key={key}>
+      <Ex2Round
+        roundIdx={roundIdx}
+        onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
+        onDone={onDone}
+      />
+    </div>
+  )
+}
+
 // ── Ex 3: 2-choice singular/plural ───────────────────────────────────────────
 
-function Ex3({ onDone }: { onDone: () => void }) {
+const EX3_ROUNDS = [NOUN_EX3, NOUN_EX3_R2]
+
+function Ex3Round({
+  roundIdx,
+  onNextRound,
+  onDone,
+}: {
+  roundIdx: number
+  onNextRound: () => void
+  onDone: () => void
+}) {
+  const questions = EX3_ROUNDS[roundIdx]
   const [currentIdx, setCurrentIdx] = useState(0)
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
   const [answered, setAnswered] = useState<{ correct: string }[]>([])
   const [finished, setFinished] = useState(false)
 
-  const question = NOUN_EX3[currentIdx]
+  const isLastRound = roundIdx === EX3_ROUNDS.length - 1
+  const question = questions[currentIdx]
 
   const choose = (form: 'singular' | 'plural') => {
     const val = form === 'singular' ? question.singular : question.plural
     if (form === question.correct) {
       setAnswered(prev => [...prev, { correct: val }])
-      if (currentIdx + 1 < NOUN_EX3.length) {
-        setCurrentIdx(i => i + 1)
-      } else {
-        setFinished(true)
-        onDone()
-      }
+      setTimeout(() => {
+        if (currentIdx + 1 < questions.length) {
+          setCurrentIdx(i => i + 1)
+        } else {
+          setFinished(true)
+        }
+      }, 600)
     } else {
       setFlashWrong(val)
       setTimeout(() => setFlashWrong(null), 800)
@@ -379,7 +468,14 @@ function Ex3({ onDone }: { onDone: () => void }) {
     return (
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-4xl mb-2">🎉</div>
-        <p className="font-display font-bold text-xl text-green-600 mb-3">All done!</p>
+        <p className="font-display font-bold text-xl text-green-600 mb-3">סבב {roundIdx + 1} — כל הכבוד!</p>
+        <div className="flex gap-3 justify-center">
+          {!isLastRound ? (
+            <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
+          ) : (
+            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+          )}
+        </div>
       </div>
     )
   }
@@ -387,11 +483,13 @@ function Ex3({ onDone }: { onDone: () => void }) {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Singular or plural?</span>
-        <span className="text-orange-500">{currentIdx} / {NOUN_EX3.length} ✓</span>
+        <span>סבב {roundIdx + 1} / {EX3_ROUNDS.length}</span>
+        <span className="text-orange-500">{currentIdx} / {questions.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">לחצו על הצורה הנכונה</p>
+      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+        בכל משפט בחר את צורת היחיד או את צורת הרבים, המעבר לשאלה הבאה אוטומטי.
+      </p>
 
       {/* Question sentence */}
       <div className="bg-white border-2 border-orange-200 rounded-2xl px-5 py-5 mb-5 text-center">
@@ -430,13 +528,28 @@ function Ex3({ onDone }: { onDone: () => void }) {
             <div key={i} className="bg-green-50 border-2 border-green-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
               <span className="font-bold text-green-500 text-sm">{i + 1}.</span>
               <span className="font-bold text-green-700 text-sm">
-                {NOUN_EX3[i].before} <span className="text-green-600 font-black">{a.correct}</span> {NOUN_EX3[i].after}
+                {questions[i].before} <span className="text-green-600 font-black">{a.correct}</span> {questions[i].after}
               </span>
               <span className="ml-auto text-green-500 font-bold">✓</span>
             </div>
           ))}
         </div>
       )}
+    </div>
+  )
+}
+
+function Ex3({ onDone }: { onDone: () => void }) {
+  const [roundIdx, setRoundIdx] = useState(0)
+  const [key, setKey] = useState(0)
+
+  return (
+    <div key={key}>
+      <Ex3Round
+        roundIdx={roundIdx}
+        onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
+        onDone={onDone}
+      />
     </div>
   )
 }

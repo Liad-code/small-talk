@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import {
-  PA_EX1, PA_EX2, PA_EX3_SEGMENTS, PA_EX3_BLANKS, PA_EX3_WORD_BANK, PA_WORD_BANK,
+  PA_EX1, PA_EX2, PA_EX2_R2, PA_EX3_SEGMENTS, PA_EX3_BLANKS, PA_EX3_WORD_BANK, PA_WORD_BANK,
   type PossAdj,
 } from '@/data/step3/possessive-adjectives'
 
@@ -149,7 +149,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           const blankDisplay = ans ? q.blank.replace('___', ans) : q.blank
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-3 py-2 ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
-              <div className="text-xs text-gray-400 font-bold mb-0.5">{q.sentence}</div>
+              <div className="text-xs text-black font-bold mb-0.5">{q.sentence}</div>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{blankDisplay}</span>
                 {!ans && !isWrong ? (
@@ -200,18 +200,30 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
 // ── Ex2 ───────────────────────────────────────────────────────────────────────
 
-function Ex2() {
+const EX2_ROUNDS = [PA_EX2, PA_EX2_R2]
+
+function Ex2Round({
+  roundIdx,
+  onNextRound,
+  onRestart,
+}: {
+  roundIdx: number
+  onNextRound: () => void
+  onRestart: () => void
+}) {
+  const questions = EX2_ROUNDS[roundIdx]
   const [currentIdx, setCurrentIdx] = useState(0)
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
   const [completed, setCompleted] = useState<string[]>([])
   const [finished, setFinished] = useState(false)
 
-  const question = PA_EX2[currentIdx]
+  const question = questions[currentIdx]
+  const isLastRound = roundIdx === EX2_ROUNDS.length - 1
 
   const choose = (word: PossAdj) => {
     if (word === question.answer) {
       setCompleted(prev => [...prev, `${question.blank.replace('___', word)}`])
-      if (currentIdx + 1 < PA_EX2.length) {
+      if (currentIdx + 1 < questions.length) {
         setCurrentIdx(i => i + 1)
       } else {
         setFinished(true)
@@ -222,24 +234,23 @@ function Ex2() {
     }
   }
 
-  const restart = () => {
-    setCurrentIdx(0)
-    setCompleted([])
-    setFinished(false)
-    setFlashWrong(null)
-  }
-
   if (finished) {
     return (
       <div className="max-w-xl mx-auto px-4 py-6 pb-16">
         <div className="text-center bounce-in mb-6">
           <div className="text-6xl mb-4">🌟</div>
           <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-          <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את כל המשפטים!</p>
-          <button onClick={restart} className="btn-kid bg-blue-500">🔁 Again</button>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את סבב {roundIdx + 1}!</p>
+          <div className="flex gap-3 justify-center">
+            {!isLastRound ? (
+              <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
+            ) : (
+              <button onClick={onRestart} className="btn-kid bg-blue-500">🔁 Again</button>
+            )}
+          </div>
         </div>
         <div className="flex flex-col gap-1.5">
-          {PA_EX2.map((q, i) => (
+          {questions.map((q, i) => (
             <div key={i} className="bg-violet-100 border-2 border-violet-200 rounded-xl px-3 py-1.5">
               <div className="text-xs text-violet-400 font-bold">{q.context}</div>
               <div className="font-bold text-violet-800 text-base">{q.blank.replace('___', q.answer)}</div>
@@ -253,13 +264,17 @@ function Ex2() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Word Bank</span>
-        <span className="text-violet-500">{currentIdx} / {PA_EX2.length} ✓</span>
+        <span>סבב {roundIdx + 1} / {EX2_ROUNDS.length}</span>
+        <span className="text-violet-500">{currentIdx} / {questions.length} ✓</span>
       </div>
+
+      {/* Instruction */}
+      <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
+        לחץ על התשובה הנכונה. המעבר לשאלה הבאה הוא אוטומטי.
+      </p>
 
       {/* Word bank */}
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-5">
-        <p className="text-xs font-bold text-violet-500 mb-2 text-center" dir="rtl">לחצו על המילה הנכונה</p>
         <div className="flex flex-wrap gap-2 justify-center">
           {PA_WORD_BANK.map(word => (
             <button
@@ -279,7 +294,7 @@ function Ex2() {
 
       {/* Current question */}
       <div className="bg-white border-2 border-violet-200 rounded-2xl px-4 py-4 mb-4">
-        <p className="text-sm font-bold text-gray-400 mb-1">{question.context}</p>
+        <p className="text-sm font-bold text-black mb-1">{question.context}</p>
         <p className="text-xl font-bold text-gray-700">{question.blank}</p>
       </div>
 
@@ -299,35 +314,51 @@ function Ex2() {
   )
 }
 
+function Ex2() {
+  const [roundIdx, setRoundIdx] = useState(0)
+  const [key, setKey] = useState(0)
+
+  return (
+    <div key={key}>
+      <Ex2Round
+        roundIdx={roundIdx}
+        onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
+        onRestart={() => { setRoundIdx(0); setKey(k => k + 1) }}
+      />
+    </div>
+  )
+}
+
 // ── Ex3 ───────────────────────────────────────────────────────────────────────
 
 function Ex3() {
   const [filled, setFilled] = useState<Record<number, string>>({})
-  const [selectedBlank, setSelectedBlank] = useState<number | null>(null)
-  const [flashWrong, setFlashWrong] = useState<string | null>(null)
+  const [selectedWord, setSelectedWord] = useState<string | null>(null)
+  const [flashWrong, setFlashWrong] = useState<number | null>(null)
   const allFilled = PA_EX3_BLANKS.every(b => filled[b.index] !== undefined)
 
-  const selectBlank = (idx: number) => {
-    if (filled[idx]) return
-    setSelectedBlank(idx)
+  const handleWordClick = (word: string) => {
+    setSelectedWord(prev => prev === word ? null : word)
   }
 
-  const chooseWord = (word: string) => {
-    if (selectedBlank === null) return
-    const blank = PA_EX3_BLANKS.find(b => b.index === selectedBlank)
+  const handleBlankClick = (blankIdx: number) => {
+    if (filled[blankIdx]) return
+    if (selectedWord === null) return
+    const blank = PA_EX3_BLANKS.find(b => b.index === blankIdx)
     if (!blank) return
-    if (word.toLowerCase() === blank.answer.toLowerCase()) {
-      setFilled(prev => ({ ...prev, [selectedBlank]: blank.answer }))
-      setSelectedBlank(null)
+    if (selectedWord.toLowerCase() === blank.answer.toLowerCase()) {
+      setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
+      setSelectedWord(null)
     } else {
-      setFlashWrong(word)
+      setFlashWrong(blankIdx)
       setTimeout(() => setFlashWrong(null), 800)
+      setSelectedWord(null)
     }
   }
 
   const restart = () => {
     setFilled({})
-    setSelectedBlank(null)
+    setSelectedWord(null)
     setFlashWrong(null)
   }
 
@@ -338,21 +369,20 @@ function Ex3() {
         <span className="text-violet-500">{Object.keys(filled).length} / {PA_EX3_BLANKS.length} ✓</span>
       </div>
 
-      {/* Word bank */}
+      <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
+        בחר מילה מהבנק ואז לחץ על המקום הריק המתאים
+      </p>
+
+      {/* Word bank — words always stay visible */}
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-4">
-        <p className="text-xs font-bold text-violet-500 mb-2 text-center" dir="rtl">
-          {selectedBlank !== null ? `מלאו את חסר מספר ${selectedBlank + 1}` : 'לחצו על המקום הריק ואחר כך על המילה המתאימה'}
-        </p>
         <div className="flex flex-wrap gap-2 justify-center">
           {PA_EX3_WORD_BANK.map(word => (
             <button
               key={word}
-              onClick={() => chooseWord(word)}
+              onClick={() => handleWordClick(word)}
               className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all ${
-                flashWrong === word
-                  ? 'bg-red-500 text-white border-red-500 scale-95'
-                  : selectedBlank !== null
-                  ? 'bg-violet-500 text-white border-violet-500 hover:bg-violet-600 active:scale-95'
+                selectedWord === word
+                  ? 'bg-yellow-400 text-yellow-900 border-yellow-400 scale-105'
                   : 'bg-white text-violet-700 border-violet-300 hover:bg-violet-100 active:scale-95'
               }`}
             >
@@ -360,6 +390,11 @@ function Ex3() {
             </button>
           ))}
         </div>
+        {selectedWord && (
+          <p className="text-center text-xs font-bold text-violet-600 mt-2" dir="rtl">
+            בחרת: <span className="font-black">{selectedWord}</span> — עכשיו לחץ על המקום הריק הנכון
+          </p>
+        )}
       </div>
 
       {/* Passage */}
@@ -370,16 +405,18 @@ function Ex3() {
           }
           const blankIdx = seg.blankIndex!
           const val = filled[blankIdx]
-          const isSelected = selectedBlank === blankIdx
+          const isFlash = flashWrong === blankIdx
           return (
             <button
               key={i}
-              onClick={() => selectBlank(blankIdx)}
+              onClick={() => handleBlankClick(blankIdx)}
               className={`inline-block min-w-[3.5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 transition-all ${
                 val
                   ? 'bg-green-100 border-green-300 text-green-700'
-                  : isSelected
-                  ? 'bg-violet-500 border-violet-500 text-white'
+                  : isFlash
+                  ? 'bg-red-200 border-red-400 text-red-700 scale-95'
+                  : selectedWord !== null
+                  ? 'bg-violet-50 border-violet-400 text-violet-400 hover:bg-violet-100 cursor-pointer'
                   : 'bg-violet-50 border-violet-300 text-violet-400 hover:bg-violet-100'
               }`}
             >
