@@ -42,7 +42,7 @@ export default function PhonicsPage() {
               <span className="text-4xl mb-0.5 transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
                 {s.emoji}
               </span>
-              <span className={`font-display font-black text-2xl leading-none ${s.textColor}`}>
+              <span className={`font-display font-black text-xl leading-none ${s.textColor}`}>
                 {s.label}
               </span>
               {s.subtitle && (

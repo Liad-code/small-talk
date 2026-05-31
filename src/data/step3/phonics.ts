@@ -5,7 +5,7 @@ export interface Sound {
   hebrewLabel: string
   subtitle?: string
   note?: string
-  color: string        // Tailwind gradient
+  color: string
   bgColor: string
   textColor: string
   borderColor: string
@@ -15,8 +15,8 @@ export interface Sound {
 
 export const SOUNDS: Sound[] = [
   {
-    id: 'kn', label: 'KN', hebrewLabel: 'KN — האות K שקטה', subtitle: 'silent K',
-    note: 'כאשר המילה מתחילה ב-kn, האות K שקטה ושומעים רק את N',
+    id: 'kn', label: 'kn', hebrewLabel: 'kn — האות k שקטה', subtitle: 'silent k',
+    note: 'כאשר המילה מתחילה ב-kn, האות k שקטה ושומעים רק את n',
     color: 'from-slate-500 to-gray-600', bgColor: 'bg-slate-50', textColor: 'text-slate-700', borderColor: 'border-slate-300',
     emoji: '🦵',
     words: [
@@ -25,28 +25,28 @@ export const SOUNDS: Sound[] = [
     ],
   },
   {
-    id: 'qu', label: 'QU', hebrewLabel: 'QU — נשמע כמו KW', subtitle: 'sounds like KW',
-    note: 'בצמד QU, האות Q תמיד מלווה ב-U ויחד נשמעים כמו KW',
+    id: 'qu', label: 'qu', hebrewLabel: 'qu — נשמע כמו kw', subtitle: 'sounds like kw',
+    note: 'בצמד qu, האות q תמיד מלווה ב-u ויחד נשמעים כמו kw',
     color: 'from-violet-500 to-purple-600', bgColor: 'bg-violet-50', textColor: 'text-violet-700', borderColor: 'border-violet-300',
     emoji: '👑',
     words: [
       { word: 'QUEEN', emoji: '👑' }, { word: 'QUICK', emoji: '⚡' }, { word: 'QUIET', emoji: '🤫' },
-      { word: 'QUIZ', emoji: '❓' }, { word: 'QUILT', emoji: '🛏️' }, { word: 'QUARTER', emoji: '🪙' },
+      { word: 'QUIZ', emoji: '❓' }, { word: 'QUARTER', emoji: '🪙' },
     ],
   },
   {
-    id: 'wr', label: 'WR', hebrewLabel: 'WR — האות W שקטה', subtitle: 'silent W',
-    note: 'כאשר המילה מתחילה ב-wr, האות W שקטה ושומעים רק את R',
+    id: 'wr', label: 'wr', hebrewLabel: 'wr — האות w שקטה', subtitle: 'silent w',
+    note: 'כאשר המילה מתחילה ב-wr, האות w שקטה ושומעים רק את r',
     color: 'from-rose-500 to-pink-600', bgColor: 'bg-rose-50', textColor: 'text-rose-700', borderColor: 'border-rose-300',
     emoji: '✍️',
     words: [
-      { word: 'WRITE', emoji: '✍️' }, { word: 'WRAP', emoji: '🎁' }, { word: 'WRIST', emoji: '⌚' },
-      { word: 'WRONG', emoji: '❌' }, { word: 'WRECK', emoji: '💥' }, { word: 'WROTE', emoji: '📝' },
+      { word: 'WRITE', emoji: '✍️' }, { word: 'WRAP', emoji: '🎁' },
+      { word: 'WRIST', emoji: '⌚' }, { word: 'WRONG', emoji: '❌' },
     ],
   },
   {
-    id: 'ng', label: 'NG', hebrewLabel: 'NG — צליל אנגי', subtitle: 'nasal sound',
-    note: 'הצמד NG מופיע בסוף מילים ויוצר צליל אנגי מיוחד',
+    id: 'ng', label: 'ng', hebrewLabel: 'ng — צליל מיוחד בסוף מילה', subtitle: 'nasal sound',
+    note: 'הצמד ng מופיע בסוף מילה ויוצר צליל מיוחד',
     color: 'from-green-500 to-emerald-600', bgColor: 'bg-green-50', textColor: 'text-green-700', borderColor: 'border-green-300',
     emoji: '🔔',
     words: [
@@ -56,64 +56,79 @@ export const SOUNDS: Sound[] = [
     ],
   },
   {
-    id: 'ow-oa', label: 'OW / OA', hebrewLabel: 'OW / OA — צליל O ארוך', subtitle: 'long O sound',
-    note: 'OW ו-OA שניהם נשמעים כמו O ארוך — כמו במילה go',
+    id: 'ow-oa', label: 'ow / oa', hebrewLabel: 'ow / oa — צליל o ארוך', subtitle: 'long o sound',
+    note: 'ow ו-oa שניהם נשמעים כמו o ארוך — כמו במילה go',
     color: 'from-amber-500 to-orange-600', bgColor: 'bg-amber-50', textColor: 'text-amber-700', borderColor: 'border-amber-300',
     emoji: '🌊',
     words: [
-      { word: 'SNOW', emoji: '❄️' }, { word: 'BLOW', emoji: '💨' }, { word: 'COAT', emoji: '🧥' },
-      { word: 'ROAD', emoji: '🛣️' }, { word: 'GOAT', emoji: '🐐' }, { word: 'CROW', emoji: '🐦' },
-      { word: 'TOAST', emoji: '🍞' }, { word: 'FLOW', emoji: '🌊' },
+      // ow words
+      { word: 'SNOW', emoji: '❄️' }, { word: 'BLOW', emoji: '💨' },
+      { word: 'THROW', emoji: '⚾' }, { word: 'WINDOW', emoji: '🪟' }, { word: 'YELLOW', emoji: '💛' },
+      // oa words
+      { word: 'COAT', emoji: '🧥' }, { word: 'ROAD', emoji: '🛣️' }, { word: 'GOAT', emoji: '🐐' },
+      { word: 'TOAST', emoji: '🍞' }, { word: 'BOAT', emoji: '⛵' }, { word: 'SOAP', emoji: '🧼' },
     ],
   },
   {
-    id: 'ow-ou', label: 'OW / OU', hebrewLabel: 'OW / OU — צליל OW', subtitle: 'OW sound',
-    note: 'OW ו-OU יכולים לשמוע כמו "אאוו" — כמו במילה ouch',
+    id: 'ow-ou', label: 'ow / ou', hebrewLabel: 'ow / ou — נשמע אאוו', subtitle: 'ow sound',
+    note: 'הצמדים ow/ou נשמעים אאוו',
     color: 'from-orange-500 to-red-600', bgColor: 'bg-orange-50', textColor: 'text-orange-700', borderColor: 'border-orange-300',
     emoji: '☁️',
     words: [
-      { word: 'CLOUD', emoji: '☁️' }, { word: 'HOUSE', emoji: '🏠' }, { word: 'TOWN', emoji: '🏘️' },
-      { word: 'FOUND', emoji: '🔍' }, { word: 'MOUTH', emoji: '👄' }, { word: 'COUNT', emoji: '🔢' },
-      { word: 'BROWN', emoji: '🤎' }, { word: 'DOWN', emoji: '⬇️' },
+      // ow words
+      { word: 'TOWN', emoji: '🏘️' }, { word: 'BROWN', emoji: '🤎' },
+      { word: 'DOWN', emoji: '⬇️' }, { word: 'COW', emoji: '🐄' }, { word: 'CROWN', emoji: '👑' },
+      // ou words
+      { word: 'CLOUD', emoji: '☁️' }, { word: 'HOUSE', emoji: '🏠' }, { word: 'FOUND', emoji: '🔍' },
+      { word: 'MOUTH', emoji: '👄' }, { word: 'COUNT', emoji: '🔢' },
+      { word: 'OUT', emoji: '🚪' }, { word: 'MOUSE', emoji: '🐭' }, { word: 'ROUND', emoji: '⭕' },
     ],
   },
   {
-    id: 'oy-oi', label: 'OY / OI', hebrewLabel: 'OY / OI — צליל OI', subtitle: 'OI sound',
-    note: 'OY ו-OI שניהם נשמעים אותו דבר — כמו "אוי"',
+    id: 'oi-oy', label: 'oi / oy', hebrewLabel: 'oi / oy — צליל oi', subtitle: 'oi sound',
+    note: 'oi ו-oy שניהם נשמעים אותו דבר — כמו "אוי"',
     color: 'from-yellow-500 to-amber-600', bgColor: 'bg-yellow-50', textColor: 'text-yellow-700', borderColor: 'border-yellow-300',
     emoji: '🪙',
     words: [
-      { word: 'BOY', emoji: '👦' }, { word: 'TOY', emoji: '🧸' }, { word: 'OIL', emoji: '🫙' },
-      { word: 'COIN', emoji: '🪙' }, { word: 'JOIN', emoji: '🤝' }, { word: 'ENJOY', emoji: '😊' },
+      // oi words
+      { word: 'OIL', emoji: '🫙' }, { word: 'COIN', emoji: '🪙' }, { word: 'JOIN', emoji: '🤝' },
       { word: 'POINT', emoji: '☝️' }, { word: 'NOISE', emoji: '🔊' },
+      // oy words
+      { word: 'BOY', emoji: '👦' }, { word: 'TOY', emoji: '🧸' }, { word: 'ENJOY', emoji: '😊' },
     ],
   },
   {
-    id: 'r-controlled', label: 'R-Controlled', hebrewLabel: 'IR · UR · OR · AR · ER', subtitle: 'ir, ur, or, ar, er',
-    note: 'כאשר R מגיעה אחרי תנועה, היא משנה את הצליל שלה',
+    id: 'r-controlled', label: 'r controlled', hebrewLabel: 'ir · ur · or · ar · er', subtitle: 'ir, ur, or, ar, er',
+    note: 'כאשר r מגיעה אחרי תנועה, היא משנה את הצליל שלה',
     color: 'from-red-500 to-rose-600', bgColor: 'bg-red-50', textColor: 'text-red-700', borderColor: 'border-red-300',
     emoji: '🐦',
     words: [
-      { word: 'BIRD', emoji: '🐦' }, { word: 'GIRL', emoji: '👧' }, { word: 'TURN', emoji: '↩️' },
-      { word: 'BURN', emoji: '🔥' }, { word: 'CORN', emoji: '🌽' }, { word: 'FORK', emoji: '🍴' },
-      { word: 'CAR', emoji: '🚗' }, { word: 'STAR', emoji: '⭐' }, { word: 'HER', emoji: '👩' },
-      { word: 'FERN', emoji: '🌿' },
+      // ir
+      { word: 'BIRD', emoji: '🐦' }, { word: 'GIRL', emoji: '👧' }, { word: 'SHIRT', emoji: '👕' },
+      // ur
+      { word: 'TURN', emoji: '↩️' }, { word: 'BURN', emoji: '🔥' }, { word: 'NURSE', emoji: '👩‍⚕️' },
+      // or
+      { word: 'CORN', emoji: '🌽' }, { word: 'FORK', emoji: '🍴' }, { word: 'STORM', emoji: '⛈️' },
+      // ar
+      { word: 'CAR', emoji: '🚗' }, { word: 'STAR', emoji: '⭐' }, { word: 'PARK', emoji: '🌳' }, { word: 'SHARK', emoji: '🦈' },
+      // er
+      { word: 'HER', emoji: '👩' }, { word: 'MOTHER', emoji: '👩‍👦' }, { word: 'SUMMER', emoji: '☀️' }, { word: 'COMPUTER', emoji: '💻' },
     ],
   },
   {
-    id: 'ey', label: 'EY', hebrewLabel: 'EY — צליל E ארוך', subtitle: 'long E sound',
-    note: 'הצמד EY בסוף מילים נשמע כמו E ארוך',
+    id: 'ey', label: 'ey', hebrewLabel: 'ey — צליל e ארוך', subtitle: 'long e sound',
+    note: 'הצמד ey בסוף מילה נשמע כמו e long',
     color: 'from-cyan-500 to-teal-600', bgColor: 'bg-cyan-50', textColor: 'text-cyan-700', borderColor: 'border-cyan-300',
     emoji: '🔑',
     words: [
       { word: 'KEY', emoji: '🔑' }, { word: 'MONEY', emoji: '💰' }, { word: 'HONEY', emoji: '🍯' },
       { word: 'TURKEY', emoji: '🦃' }, { word: 'MONKEY', emoji: '🐒' }, { word: 'VALLEY', emoji: '🏔️' },
-      { word: 'DONKEY', emoji: '🫏' }, { word: 'JOCKEY', emoji: '🏇' },
+      { word: 'DONKEY', emoji: '🫏' },
     ],
   },
   {
-    id: 'igh', label: 'IGH', hebrewLabel: 'IGH — צליל I ארוך', subtitle: 'long I sound',
-    note: 'הצמד IGH נשמע כמו I ארוך — כמו במילה "my"',
+    id: 'igh', label: 'igh', hebrewLabel: 'igh — צליל i ארוך', subtitle: 'long i sound',
+    note: 'הצמד igh נשמע כמו i ארוך — כמו במילה "my"',
     color: 'from-indigo-500 to-blue-600', bgColor: 'bg-indigo-50', textColor: 'text-indigo-700', borderColor: 'border-indigo-300',
     emoji: '🌙',
     words: [
@@ -123,47 +138,59 @@ export const SOUNDS: Sound[] = [
     ],
   },
   {
-    id: 'ew-ue', label: 'EW / UE', hebrewLabel: 'EW / UE — צליל OO', subtitle: 'OO sound',
-    note: 'EW ו-UE שניהם יכולים לשמוע כמו "אוּ"',
+    id: 'ew-ue', label: 'ew / ue', hebrewLabel: 'ew / ue — צליל oo', subtitle: 'oo sound',
+    note: 'ew ו-ue שניהם יכולים לשמוע כמו "אוּ"',
     color: 'from-sky-500 to-blue-600', bgColor: 'bg-sky-50', textColor: 'text-sky-700', borderColor: 'border-sky-300',
     emoji: '💧',
     words: [
-      { word: 'NEW', emoji: '✨' }, { word: 'FEW', emoji: '🤏' }, { word: 'BLUE', emoji: '💙' },
-      { word: 'GLUE', emoji: '🔧' }, { word: 'CLUE', emoji: '🔍' }, { word: 'GREW', emoji: '🌱' },
-      { word: 'TRUE', emoji: '✅' }, { word: 'THREW', emoji: '⚾' },
+      // ew words
+      { word: 'NEW', emoji: '✨' }, { word: 'FEW', emoji: '🤏' },
+      { word: 'GREW', emoji: '🌱' }, { word: 'THREW', emoji: '⚾' },
+      // ue words
+      { word: 'BLUE', emoji: '💙' }, { word: 'GLUE', emoji: '🔧' },
+      { word: 'CLUE', emoji: '🔍' }, { word: 'TRUE', emoji: '✅' },
     ],
   },
   {
-    id: 'wa', label: 'WA', hebrewLabel: 'WA — נשמע כמו WO', subtitle: 'sounds like WO',
-    note: 'כאשר W מגיעה לפני A, הצליל של A משתנה ונשמע כמו O',
+    id: 'wa', label: 'wa', hebrewLabel: 'wa — נשמע כמו wo', subtitle: 'sounds like wo',
+    note: 'כאשר w מגיעה לפני a, הצליל של a משתנה ונשמע כמו o',
     color: 'from-teal-500 to-green-600', bgColor: 'bg-teal-50', textColor: 'text-teal-700', borderColor: 'border-teal-300',
     emoji: '💧',
     words: [
       { word: 'WATER', emoji: '💧' }, { word: 'WATCH', emoji: '⌚' }, { word: 'WALK', emoji: '🚶' },
       { word: 'WANT', emoji: '🙏' }, { word: 'WASH', emoji: '🚿' }, { word: 'WASP', emoji: '🐝' },
-      { word: 'WALL', emoji: '🧱' }, { word: 'SWAM', emoji: '🏊' },
+      { word: 'WALL', emoji: '🧱' },
     ],
   },
   {
-    id: 'soft-g', label: 'Soft G', hebrewLabel: 'G רכה — נשמע כמו J', subtitle: 'sounds like J',
-    note: 'G לפני e, i, או y נשמעת כמו J — הצליל הרך',
+    id: 'soft-g', label: 'soft g', hebrewLabel: 'g רכה — נשמע כמו j', subtitle: 'sounds like j',
+    note: 'g לפני e, i, או y נשמעת כמו j — הצליל הרך',
     color: 'from-lime-500 to-green-600', bgColor: 'bg-lime-50', textColor: 'text-lime-700', borderColor: 'border-lime-300',
     emoji: '🦒',
     words: [
-      { word: 'GIRAFFE', emoji: '🦒' }, { word: 'GEM', emoji: '💎' }, { word: 'GIANT', emoji: '🏔️' },
-      { word: 'GYM', emoji: '🏋️' }, { word: 'GENTLY', emoji: '🤲' }, { word: 'GINGER', emoji: '🌿' },
-      { word: 'MAGIC', emoji: '✨' }, { word: 'PAGE', emoji: '📄' },
+      // ge
+      { word: 'GEM', emoji: '💎' }, { word: 'GENTLY', emoji: '🤲' },
+      { word: 'PAGE', emoji: '📄' }, { word: 'ANGEL', emoji: '👼' },
+      { word: 'DANGER', emoji: '⚠️' }, { word: 'BRIDGE', emoji: '🌉' },
+      // gi
+      { word: 'GIRAFFE', emoji: '🦒' }, { word: 'GINGER', emoji: '🌿' },
+      { word: 'GIANT', emoji: '🏔️' }, { word: 'MAGIC', emoji: '✨' },
+      // gy
+      { word: 'GYM', emoji: '🏋️' }, { word: 'ENERGY', emoji: '⚡' },
     ],
   },
   {
-    id: 'soft-c', label: 'Soft C', hebrewLabel: 'C רכה — נשמע כמו S', subtitle: 'sounds like S',
-    note: 'C לפני e, i, או y נשמעת כמו S — הצליל הרך',
+    id: 'soft-c', label: 'soft c', hebrewLabel: 'c רכה — נשמע כמו s', subtitle: 'sounds like s',
+    note: 'c לפני e, i, או y נשמעת כמו s — הצליל הרך',
     color: 'from-fuchsia-500 to-pink-600', bgColor: 'bg-fuchsia-50', textColor: 'text-fuchsia-700', borderColor: 'border-fuchsia-300',
     emoji: '🏙️',
     words: [
-      { word: 'CITY', emoji: '🏙️' }, { word: 'CIRCLE', emoji: '⭕' }, { word: 'CENT', emoji: '¢', tts: 'cent' },
-      { word: 'PENCIL', emoji: '✏️' }, { word: 'DANCE', emoji: '💃' }, { word: 'FACE', emoji: '😊' },
-      { word: 'ICE', emoji: '🧊' }, { word: 'PLACE', emoji: '📍' },
+      // ce
+      { word: 'FACE', emoji: '😊' }, { word: 'DANCE', emoji: '💃' },
+      { word: 'PLACE', emoji: '📍' }, { word: 'ICE', emoji: '🧊' },
+      { word: 'RICE', emoji: '🍚' }, { word: 'POLICE', emoji: '👮' },
+      // ci
+      { word: 'CITY', emoji: '🏙️' }, { word: 'CIRCLE', emoji: '⭕' }, { word: 'PENCIL', emoji: '✏️' },
     ],
   },
 ]
