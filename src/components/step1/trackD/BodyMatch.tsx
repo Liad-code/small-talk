@@ -38,7 +38,7 @@ export function BodyMatch({ onComplete }: { onComplete: () => void }) {
   }
 
   function handleWordClick(word: string) {
-    if (matched.has(word) || wrongFlash) return
+    if (matched.has(word)) return
     speak(word, 0.8)
     if (selSide === 'emoji' && selWord) { attemptMatch(word, selWord); return }
     if (selWord === word && selSide === 'word') { setSelWord(null); setSelSide(null); return }
@@ -46,7 +46,7 @@ export function BodyMatch({ onComplete }: { onComplete: () => void }) {
   }
 
   function handleEmojiClick(word: string) {
-    if (matched.has(word) || wrongFlash) return
+    if (matched.has(word)) return
     if (selSide === 'word' && selWord) { attemptMatch(selWord, word); return }
     if (selWord === word && selSide === 'emoji') { setSelWord(null); setSelSide(null); return }
     setSelWord(word); setSelSide('emoji')

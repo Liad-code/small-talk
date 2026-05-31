@@ -46,40 +46,32 @@ const MIXED_EX1_ROUNDS = [
   { label: 'Negative & Question', questions: MIXED_EX1_R2 },
 ]
 
-// ── Mixed Ex2 data ────────────────────────────────────────────────────────────
+// ── Mixed Ex2 data (free-choice redesign) ────────────────────────────────────
 
 type MixedVerb = 'have' | 'has' | "don't have" | "doesn't have"
+type VerbGroup = 'plural' | 'singular'
 
-interface MixedSubject { text: string; verb: MixedVerb }
-interface MixedBuilderCycle { subjects: MixedSubject[]; nouns: string[] }
+interface Ex2Subject {
+  text: string
+  verbGroup: VerbGroup
+}
 
-const MIXED_EX2: MixedBuilderCycle[] = [
-  {
-    subjects: [
-      { text: 'I',          verb: 'have'         },
-      { text: 'She',        verb: 'has'          },
-      { text: 'We',         verb: 'have'         },
-      { text: 'He',         verb: 'has'          },
-      { text: 'They',       verb: 'have'         },
-      { text: 'You',        verb: 'have'         },
-      { text: 'The cat',    verb: 'has'          },
-      { text: 'My mom',     verb: 'has'          },
-    ],
-    nouns: ['a ball', 'a blue pen', 'two dogs', 'a bicycle', 'a big house', 'a red bag', 'a toy', 'a nice car'],
-  },
-  {
-    subjects: [
-      { text: 'I',          verb: "don't have"    },
-      { text: 'She',        verb: "doesn't have"  },
-      { text: 'We',         verb: "don't have"    },
-      { text: 'He',         verb: "doesn't have"  },
-      { text: 'They',       verb: "don't have"    },
-      { text: 'You',        verb: "don't have"    },
-      { text: 'The dog',    verb: "doesn't have"  },
-      { text: 'My sister',  verb: "doesn't have"  },
-    ],
-    nouns: ['a ball', 'a book', 'a garden', 'a pencil', 'a bicycle', 'a cat', 'a toy', 'long hair'],
-  },
+const ALL_SUBJECTS: Ex2Subject[] = [
+  { text: 'I',          verbGroup: 'plural'   },
+  { text: 'She',        verbGroup: 'singular' },
+  { text: 'We',         verbGroup: 'plural'   },
+  { text: 'He',         verbGroup: 'singular' },
+  { text: 'They',       verbGroup: 'plural'   },
+  { text: 'You',        verbGroup: 'plural'   },
+  { text: 'The cat',    verbGroup: 'singular' },
+  { text: 'My mom',     verbGroup: 'singular' },
+  { text: 'The dog',    verbGroup: 'singular' },
+  { text: 'My sister',  verbGroup: 'singular' },
+]
+
+const ALL_NOUNS = [
+  'a ball', 'a blue pen', 'two dogs', 'a bicycle', 'a big house',
+  'a red bag', 'a toy', 'a nice car', 'a book', 'a phone', 'long hair', 'a cat',
 ]
 
 const VERB_OPTS: { v: MixedVerb; bg: string; text: string; border: string; light: string }[] = [
@@ -88,6 +80,16 @@ const VERB_OPTS: { v: MixedVerb; bg: string; text: string; border: string; light
   { v: "don't have",    bg: 'bg-rose-500',    text: 'text-rose-700',    border: 'border-rose-400',    light: 'bg-rose-50'    },
   { v: "doesn't have",  bg: 'bg-orange-500',  text: 'text-orange-700',  border: 'border-orange-400',  light: 'bg-orange-50'  },
 ]
+
+const TARGET_SENTENCES = 8
+
+function isVerbValidForSubject(verb: MixedVerb, verbGroup: VerbGroup): boolean {
+  if (verbGroup === 'plural') {
+    return verb === 'have' || verb === "don't have"
+  } else {
+    return verb === 'has' || verb === "doesn't have"
+  }
+}
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
@@ -212,120 +214,181 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   )
 }
 
-// ── Ex2 ───────────────────────────────────────────────────────────────────────
+// ── Ex2 (free-choice redesign) ────────────────────────────────────────────────
 
-function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
-  const cycle = MIXED_EX2[cycleIdx]
-  const [selSubject, setSelSubject] = useState<MixedSubject | null>(null)
+function Ex2() {
+  const [selSubject, setSelSubject] = useState<Ex2Subject | null>(null)
   const [selVerb, setSelVerb] = useState<MixedVerb | null>(null)
   const [selNoun, setSelNoun] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
-  const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
+  const [verbError, setVerbError] = useState(false)
   const [usedNouns, setUsedNouns] = useState<Set<string>>(new Set())
 
-  const allDone = sentences.length === cycle.subjects.length
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availableNouns = cycle.nouns.filter(n => !usedNouns.has(n))
+  const allDone = sentences.length >= TARGET_SENTENCES
+  const availableNouns = ALL_NOUNS.filter(n => !usedNouns.has(n))
 
-  const handleAdd = () => {
-    if (!selSubject || !selVerb || !selNoun) return
-    if (selSubject.verb !== selVerb) {
-      setError('❌ Try a different verb!')
+  const handleSubjectClick = (s: Ex2Subject) => {
+    setSelSubject(prev => prev?.text === s.text ? null : s)
+    // Reset verb if subject changes (to avoid stale invalid selection)
+    setSelVerb(null)
+    setVerbError(false)
+  }
+
+  const handleVerbClick = (v: MixedVerb) => {
+    if (selSubject && !isVerbValidForSubject(v, selSubject.verbGroup)) {
+      setVerbError(true)
+      setTimeout(() => setVerbError(false), 800)
       return
     }
-    const sentence = `${selSubject.text} ${selVerb} ${selNoun}.`
+    setSelVerb(prev => prev === v ? null : v)
+    setVerbError(false)
+  }
+
+  const handleNounClick = (n: string) => {
+    if (!selSubject || !selVerb) return
+    const sentence = `${selSubject.text} ${selVerb} ${n}.`
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedNouns(prev => { const s = new Set(prev); s.add(selNoun); return s })
+    setUsedNouns(prev => { const s = new Set(prev); s.add(n); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelNoun(null)
-    setError('')
+    setVerbError(false)
+  }
+
+  const restart = () => {
+    setSelSubject(null)
+    setSelVerb(null)
+    setSelNoun(null)
+    setSentences([])
+    setUsedNouns(new Set())
+    setVerbError(false)
+  }
+
+  // suppress unused warning
+  void selNoun
+
+  if (allDone) {
+    return (
+      <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+        <div className="text-center bounce-in mb-6">
+          <div className="text-6xl mb-4">🌟</div>
+          <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing sentences!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">יצרת {TARGET_SENTENCES} משפטים!</p>
+          <button onClick={restart} className="btn-kid bg-blue-500">🔁 Again</button>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          {sentences.map((s, i) => (
+            <div key={i} className="bg-violet-100 border-2 border-violet-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
+              <span className="font-bold text-violet-500 text-sm">{i + 1}.</span>
+              <span className="font-bold text-violet-800 text-base">{s}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Cycle {cycleIdx + 1} / {MIXED_EX2.length}</span>
-        <span className="text-violet-500">{sentences.length} / {cycle.subjects.length} ✓</span>
+        <span>Free Sentence Builder</span>
+        <span className="text-violet-500">{sentences.length} / {TARGET_SENTENCES} ✓</span>
       </div>
 
-      <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-3 text-sm font-bold text-violet-700" dir="rtl">
-        <p>1. יש ליצור {cycle.subjects.length} משפטים על מנת לסיים את המשימה.</p>
-        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
-        <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
-        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
+      <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-4 text-sm font-bold text-violet-700" dir="rtl">
+        <p>1. בחר נושא (Subject) — לחץ כדי לבחור</p>
+        <p>2. בחר פועל (Verb) — אם הפועל לא מתאים לנושא, תקבל שגיאה</p>
+        <p>3. בחר עצם (Noun) — המשפט יתווסף אוטומטית</p>
+        <p>4. יש לבנות {TARGET_SENTENCES} משפטים</p>
       </div>
 
-      {!allDone && (
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          {/* Subject column */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-violet-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-sm">Subject</span>
-            </div>
-            <div className="bg-violet-50 border-2 border-violet-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {availableSubjects.map(s => (
-                <button
-                  key={s.text}
-                  onClick={() => setSelSubject(s)}
-                  className={`text-sm font-bold rounded-lg px-1.5 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-violet-500 text-white' : 'bg-white text-violet-700 border border-violet-200 hover:bg-violet-100'}`}
-                >
-                  {s.text}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Verb column */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-purple-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Verb</span>
-            </div>
-            <div className="bg-purple-50 border-2 border-purple-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {VERB_OPTS.map(({ v, bg, text, border, light }) => (
-                <button
-                  key={v}
-                  onClick={() => setSelVerb(v)}
-                  className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${selVerb === v ? `${bg} text-white ${border}` : `${light} ${text} ${border} hover:opacity-80`}`}
-                >
-                  {v}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Noun column */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-amber-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-sm">Noun</span>
-            </div>
-            <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {availableNouns.map(n => (
-                <button
-                  key={n}
-                  onClick={() => setSelNoun(n)}
-                  className={`text-xs font-bold rounded-lg px-1 py-1 text-center transition-colors ${selNoun === n ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {selSubject && selVerb && selNoun && !allDone && (
-        <div className="bg-violet-50 border-2 border-violet-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
-          <span className="font-bold text-violet-700 text-base flex-1">
-            {selSubject.text} {selVerb} {selNoun}.
+      {/* Preview sentence */}
+      <div className="bg-white border-2 border-violet-200 rounded-xl px-4 py-3 mb-4 min-h-[52px] flex items-center">
+        {selSubject || selVerb ? (
+          <span className="font-bold text-violet-700 text-base">
+            {selSubject?.text ?? '___'}{' '}
+            {selVerb ?? '___'}{' '}
+            <span className="text-gray-400">___</span>.
           </span>
-          <button onClick={handleAdd} className="btn-kid bg-violet-500 !py-1 !px-3 text-sm">➕ Add</button>
-        </div>
+        ) : (
+          <span className="text-gray-400 font-bold text-sm" dir="rtl">המשפט יופיע כאן...</span>
+        )}
+      </div>
+
+      {verbError && (
+        <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">
+          ❌ הפועל הזה לא מתאים לנושא שבחרת!
+        </p>
       )}
 
-      {error && <p className="text-center text-red-500 font-bold text-sm mb-3">{error}</p>}
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        {/* Subject column */}
+        <div className="flex flex-col gap-1.5">
+          <div className="bg-violet-500 rounded-t-xl py-1 text-center">
+            <span className="font-display font-black text-white text-sm">Subject</span>
+          </div>
+          <div className="bg-violet-50 border-2 border-violet-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+            {ALL_SUBJECTS.map(s => (
+              <button
+                key={s.text}
+                onClick={() => handleSubjectClick(s)}
+                className={`text-sm font-bold rounded-lg px-1.5 py-1 text-center transition-colors ${
+                  selSubject?.text === s.text
+                    ? 'bg-violet-500 text-white'
+                    : 'bg-white text-violet-700 border border-violet-200 hover:bg-violet-100'
+                }`}
+              >
+                {s.text}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Verb column */}
+        <div className="flex flex-col gap-1.5">
+          <div className="bg-purple-600 rounded-t-xl py-1 text-center">
+            <span className="font-display font-black text-white text-xs">Verb</span>
+          </div>
+          <div className={`border-2 rounded-b-xl p-1.5 flex flex-col gap-1 transition-all ${verbError ? 'bg-red-50 border-red-300' : 'bg-purple-50 border-purple-200'}`}>
+            {VERB_OPTS.map(({ v, bg, text, border, light }) => (
+              <button
+                key={v}
+                onClick={() => handleVerbClick(v)}
+                className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${
+                  selVerb === v
+                    ? `${bg} text-white ${border}`
+                    : `${light} ${text} ${border} hover:opacity-80`
+                }`}
+              >
+                {v}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Noun column */}
+        <div className="flex flex-col gap-1.5">
+          <div className="bg-amber-500 rounded-t-xl py-1 text-center">
+            <span className="font-display font-black text-white text-sm">Noun</span>
+          </div>
+          <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+            {availableNouns.map(n => (
+              <button
+                key={n}
+                onClick={() => handleNounClick(n)}
+                disabled={!selSubject || !selVerb}
+                className={`text-xs font-bold rounded-lg px-1 py-1 text-center transition-colors ${
+                  !selSubject || !selVerb
+                    ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
+                    : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100 active:scale-95'
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">
@@ -335,26 +398,6 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
               <span className="font-bold text-violet-800 text-base">{s}</span>
             </div>
           ))}
-        </div>
-      )}
-
-      {allDone && (
-        <div className="text-center bounce-in">
-          <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < MIXED_EX2.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
         </div>
       )}
     </div>
@@ -406,12 +449,7 @@ export default function HasHaveMixedPage() {
             render={(c, again, done) => <Ex1 key={c} cycleIdx={c} onAgain={again} onDone={done} />}
           />
         )}
-        {tab === 'ex2' && (
-          <ExWrapper
-            cycles={MIXED_EX2.length}
-            render={(c, again, done) => <Ex2 key={c} cycleIdx={c} onAgain={again} onDone={done} />}
-          />
-        )}
+        {tab === 'ex2' && <Ex2 />}
       </div>
     </div>
   )

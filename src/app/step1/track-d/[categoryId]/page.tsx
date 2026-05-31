@@ -16,7 +16,6 @@ import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline
 import { NumbersCount } from '@/components/step1/trackD/NumbersCount'
 import { WeatherWorksheet } from '@/components/step1/trackD/WeatherWorksheet'
 import { DayNightGame } from '@/components/step1/trackD/DayNightGame'
-import { ColorsWorksheet } from '@/components/step1/trackD/ColorsWorksheet'
 import { EmotionsISpy } from '@/components/step1/trackD/EmotionsISpy'
 import { DaysWordSearch } from '@/components/step1/trackD/DaysWordSearch'
 import { DaysWorksheets } from '@/components/step1/trackD/DaysWorksheets'
@@ -107,7 +106,7 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'colors-ws' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -126,7 +125,7 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
     tabs.push({ id: 'day-night',  label: 'Day & Night', emoji: '🌙' })
     tabs.push({ id: 'worksheet',  label: 'Worksheet',   emoji: '📄' })
   }
-  if (categoryId === 'colors') tabs.push({ id: 'colors-ws', label: 'Worksheet', emoji: '📄' })
+  // colors worksheet removed per שינויים5
   if (categoryId === 'emotions') tabs.push({ id: 'emotions-ispy', label: 'I Spy', emoji: '🔍' })
   if (categoryId === 'days') {
     tabs.push({ id: 'days-search',     label: 'Search Game', emoji: '🔍' })
@@ -485,9 +484,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         )}
         {tab === 'day-night' && (
           <DayNightGame key={extraKey} onComplete={handleExtraComplete} />
-        )}
-        {tab === 'colors-ws' && (
-          <ColorsWorksheet key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'emotions-ispy' && (
           <EmotionsISpy key={extraKey} onComplete={handleExtraComplete} />

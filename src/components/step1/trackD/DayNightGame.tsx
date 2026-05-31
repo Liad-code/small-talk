@@ -11,7 +11,7 @@ const DAY_BASE = [
   { id: 'sleep',      label: 'Sleep',            emoji: '😴', fitsDay: false },
   { id: 'dinner',     label: 'Have Dinner',      emoji: '🍽️', fitsDay: false },
   { id: 'pajamas',    label: 'Wear Pajamas',     emoji: '🌙', fitsDay: false },
-  { id: 'teeth2',     label: 'Brush Your Teeth', emoji: '🦷', fitsDay: false },
+  { id: 'teeth2',     label: 'Brush Your Teeth', emoji: '🦷', fitsDay: true  },
 ]
 
 const NIGHT_BASE = [
@@ -23,7 +23,7 @@ const NIGHT_BASE = [
   { id: 'pajamas2',   label: 'Wear Pajamas',      emoji: '🌙', fitsNight: true  },
   { id: 'dressed',    label: 'Get Dressed',       emoji: '👕', fitsNight: false },
   { id: 'schoolbag',  label: 'Pack Schoolbag',    emoji: '🎒', fitsNight: false },
-  { id: 'washface',   label: 'Wash Your Face',    emoji: '🧼', fitsNight: false },
+  { id: 'washface',   label: 'Wash Your Face',    emoji: '🧼', fitsNight: true  },
 ]
 
 const TOTAL_CORRECT = DAY_BASE.filter(a => a.fitsDay).length + NIGHT_BASE.filter(a => a.fitsNight).length
