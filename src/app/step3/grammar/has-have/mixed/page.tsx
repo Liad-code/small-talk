@@ -7,7 +7,7 @@ type Tab = 'ex1' | 'ex2'
 
 // ── Mixed Ex1 data ────────────────────────────────────────────────────────────
 
-type MixedEx1Option = 'do' | 'does' | 'have' | 'has' | "don't have" | "doesn't have"
+type MixedEx1Option = 'Do' | 'Does' | 'do' | 'does' | 'have' | 'has' | "don't have" | "doesn't have"
 
 interface MixedEx1Q {
   sentence: string
@@ -18,26 +18,26 @@ interface MixedEx1Q {
 const MIXED_EX1_R1: MixedEx1Q[] = [
   { sentence: 'They ___ a car.',           options: ['do', 'does', 'have', 'has'],  answer: 'have'  },
   { sentence: 'He ___ a big dog.',         options: ['do', 'does', 'have', 'has'],  answer: 'has'   },
-  { sentence: '___ you have a pencil?',    options: ['do', 'does', 'have', 'has'],  answer: 'do'    },
+  { sentence: '___ you have a pencil?',    options: ['Do', 'Does', 'have', 'has'],  answer: 'Do'    },
   { sentence: 'She ___ a cat.',            options: ['do', 'does', 'have', 'has'],  answer: 'has'   },
-  { sentence: '___ he have a book?',       options: ['do', 'does', 'have', 'has'],  answer: 'does'  },
+  { sentence: '___ he have a book?',       options: ['Do', 'Does', 'have', 'has'],  answer: 'Does'  },
   { sentence: 'I ___ a book.',             options: ['do', 'does', 'have', 'has'],  answer: 'have'  },
   { sentence: 'We ___ a red bag.',         options: ['do', 'does', 'have', 'has'],  answer: 'have'  },
-  { sentence: '___ they have a dog?',      options: ['do', 'does', 'have', 'has'],  answer: 'do'    },
+  { sentence: '___ they have a dog?',      options: ['Do', 'Does', 'have', 'has'],  answer: 'Do'    },
   { sentence: 'The teacher ___ a pen.',    options: ['do', 'does', 'have', 'has'],  answer: 'has'   },
-  { sentence: '___ she have a cat?',       options: ['do', 'does', 'have', 'has'],  answer: 'does'  },
+  { sentence: '___ she have a cat?',       options: ['Do', 'Does', 'have', 'has'],  answer: 'Does'  },
 ]
 
 const MIXED_EX1_R2: MixedEx1Q[] = [
   { sentence: 'You ___ a black bag.',      options: ['do', 'does', "don't have", "doesn't have"],  answer: "don't have"    },
-  { sentence: '___ he have a car?',        options: ['do', 'does', "don't have", "doesn't have"],  answer: 'does'          },
+  { sentence: '___ he have a car?',        options: ['Do', 'Does', "don't have", "doesn't have"],  answer: 'Does'          },
   { sentence: 'She ___ a cat.',            options: ['do', 'does', "don't have", "doesn't have"],  answer: "doesn't have"  },
-  { sentence: '___ they have a house?',    options: ['do', 'does', "don't have", "doesn't have"],  answer: 'do'            },
+  { sentence: '___ they have a house?',    options: ['Do', 'Does', "don't have", "doesn't have"],  answer: 'Do'            },
   { sentence: 'I ___ a book.',             options: ['do', 'does', "don't have", "doesn't have"],  answer: "don't have"    },
   { sentence: 'He ___ a pencil.',          options: ['do', 'does', "don't have", "doesn't have"],  answer: "doesn't have"  },
-  { sentence: '___ you have a pet?',       options: ['do', 'does', "don't have", "doesn't have"],  answer: 'do'            },
+  { sentence: '___ you have a pet?',       options: ['Do', 'Does', "don't have", "doesn't have"],  answer: 'Do'            },
   { sentence: 'We ___ a big house.',       options: ['do', 'does', "don't have", "doesn't have"],  answer: "don't have"    },
-  { sentence: '___ she have a dog?',       options: ['do', 'does', "don't have", "doesn't have"],  answer: 'does'          },
+  { sentence: '___ she have a dog?',       options: ['Do', 'Does', "don't have", "doesn't have"],  answer: 'Does'          },
   { sentence: 'Dana ___ a cake.',          options: ['do', 'does', "don't have", "doesn't have"],  answer: "doesn't have"  },
 ]
 

@@ -21,6 +21,21 @@ export const NOUN_SORT_ITEMS: NounSortItem[] = [
   { singular: 'story',    plural: 'stories',    category: '-ies' },
 ]
 
+export const NOUN_SORT_ITEMS_R2: NounSortItem[] = [
+  { singular: 'bird',    plural: 'birds',    category: '-s'   },
+  { singular: 'cup',     plural: 'cups',     category: '-s'   },
+  { singular: 'tree',    plural: 'trees',    category: '-s'   },
+  { singular: 'flower',  plural: 'flowers',  category: '-s'   },
+  { singular: 'beach',   plural: 'beaches',  category: '-es'  },
+  { singular: 'church',  plural: 'churches', category: '-es'  },
+  { singular: 'fox',     plural: 'foxes',    category: '-es'  },
+  { singular: 'bus',     plural: 'buses',    category: '-es'  },
+  { singular: 'berry',   plural: 'berries',  category: '-ies' },
+  { singular: 'cherry',  plural: 'cherries', category: '-ies' },
+  { singular: 'daisy',   plural: 'daisies',  category: '-ies' },
+  { singular: 'bunny',   plural: 'bunnies',  category: '-ies' },
+]
+
 // ── Ex 2: 3-choice plural ─────────────────────────────────────────────────────
 
 export interface NounEx2Q {
@@ -44,6 +59,19 @@ export const NOUN_EX2: NounEx2Q[] = [
   { sentence: 'I see two ___ at the party.',    noun: 'woman',    correct: 'women',      wrong: 'womans',     singular: 'woman'    },
 ]
 
+export const NOUN_EX2_R2: NounEx2Q[] = [
+  { sentence: 'There are two ___ in the garden.',  noun: 'bench',    correct: 'benches',     wrong: 'benchs',     singular: 'bench'    },
+  { sentence: 'She has three ___.',                noun: 'potato',   correct: 'potatoes',    wrong: 'potatos',    singular: 'potato'   },
+  { sentence: 'I see two ___ in the yard.',        noun: 'fox',      correct: 'foxes',       wrong: 'foxs',       singular: 'fox'      },
+  { sentence: 'There are many ___ on the tree.',   noun: 'cherry',   correct: 'cherries',    wrong: 'cherrys',    singular: 'cherry'   },
+  { sentence: 'I have three ___.',                 noun: 'pen',      correct: 'pens',        wrong: 'penes',      singular: 'pen'      },
+  { sentence: 'There are two ___ in the park.',    noun: 'man',      correct: 'men',         wrong: 'mans',       singular: 'man'      },
+  { sentence: 'She has two ___.',                  noun: 'foot',     correct: 'feet',        wrong: 'foots',      singular: 'foot'     },
+  { sentence: 'Look at those ___.',                noun: 'bus',      correct: 'buses',       wrong: 'buss',       singular: 'bus'      },
+  { sentence: 'We have five ___.',                 noun: 'bird',     correct: 'birds',       wrong: 'birdes',     singular: 'bird'     },
+  { sentence: 'The ___ are in the garden.',        noun: 'daisy',    correct: 'daisies',     wrong: 'daisys',     singular: 'daisy'    },
+]
+
 // ── Ex 3: 2-choice singular/plural ───────────────────────────────────────────
 
 export interface NounEx3Q {
@@ -65,4 +93,17 @@ export const NOUN_EX3: NounEx3Q[] = [
   { before: 'Look at the white',    after: 'in the field.',       singular: 'sheep',  plural: 'sheep',    correct: 'plural'   },
   { before: 'There are three',      after: 'in the bag.',         singular: 'dress',  plural: 'dresses',  correct: 'plural'   },
   { before: 'I have one',           after: 'at home.',            singular: 'child',  plural: 'children', correct: 'singular' },
+]
+
+export const NOUN_EX3_R2: NounEx3Q[] = [
+  { before: 'I see a',              after: 'in the garden.',        singular: 'flower', plural: 'flowers', correct: 'singular' },
+  { before: 'There are three',      after: 'in the park.',          singular: 'bench',  plural: 'benches', correct: 'plural'   },
+  { before: 'She has one',          after: 'at school.',            singular: 'pencil', plural: 'pencils', correct: 'singular' },
+  { before: 'We see two',           after: 'in the tree.',          singular: 'bird',   plural: 'birds',   correct: 'plural'   },
+  { before: 'There is a',           after: 'on the table.',         singular: 'glass',  plural: 'glasses', correct: 'singular' },
+  { before: 'I have five',          after: 'in my bag.',            singular: 'pen',    plural: 'pens',    correct: 'plural'   },
+  { before: 'He sees a big',        after: 'in the sky.',           singular: 'bird',   plural: 'birds',   correct: 'singular' },
+  { before: 'Look at those',        after: 'in the garden.',        singular: 'daisy',  plural: 'daisies', correct: 'plural'   },
+  { before: 'There is a',           after: 'near the door.',        singular: 'box',    plural: 'boxes',   correct: 'singular' },
+  { before: 'I see two',            after: 'at the bus stop.',      singular: 'man',    plural: 'men',     correct: 'plural'   },
 ]

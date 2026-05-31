@@ -67,7 +67,7 @@ function LearnTab() {
             <div className="font-display font-black text-violet-700 text-center text-base mb-2">יחיד (Singular)</div>
             {[
               ['my',   'שלי',         'I'],
-              ['your', 'שלך / שלכן',  'you'],
+              ['your', 'שלך',          'you'],
               ['his',  'שלו',         'he'],
               ['her',  'שלה',         'she'],
               ['its',  'שלה / שלו',   'it'],
@@ -83,7 +83,7 @@ function LearnTab() {
             <div className="font-display font-black text-violet-700 text-center text-base mb-2">רבים (Plural)</div>
             {[
               ['our',   'שלנו',           'we'],
-              ['your',  'שלכם / שלכן',   'you (pl)'],
+              ['your',  'שלכם / שלכן',   'you'],
               ['their', 'שלהם / שלהן',   'they'],
             ].map(([word, heb, pronoun]) => (
               <div key={word + heb} className="flex justify-between items-center text-sm py-0.5 border-b border-violet-100">

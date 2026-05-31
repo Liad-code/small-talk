@@ -63,7 +63,7 @@ function LearnTab() {
             <div className="font-display font-black text-orange-700 text-center py-1.5 text-sm border-r border-orange-200">יחיד</div>
             <div className="font-display font-black text-orange-700 text-center py-1.5 text-sm">רבים</div>
           </div>
-          {[['pupil', 'pupils'], ['school', 'schools'], ['dog', 'dogs'], ['book', 'books']].map(([sg, pl]) => (
+          {[['book', 'books'], ['cat', 'cats'], ['bag', 'bags'], ['pen', 'pens']].map(([sg, pl]) => (
             <div key={sg} className="grid grid-cols-2 border-t border-orange-100">
               <div className="text-center py-1.5 font-bold text-gray-700 text-base border-r border-orange-100">{sg}</div>
               <div className="text-center py-1.5 font-bold text-orange-600 text-base">{pl}</div>
@@ -82,7 +82,7 @@ function LearnTab() {
             <div className="font-display font-black text-amber-700 text-center py-1.5 text-sm border-r border-amber-200">יחיד</div>
             <div className="font-display font-black text-amber-700 text-center py-1.5 text-sm">רבים</div>
           </div>
-          {[['dress', 'dresses'], ['brush', 'brushes'], ['sandwich', 'sandwiches'], ['box', 'boxes'], ['tomato', 'tomatoes']].map(([sg, pl]) => (
+          {[['glass', 'glasses'], ['brush', 'brushes'], ['bench', 'benches'], ['box', 'boxes'], ['potato', 'potatoes']].map(([sg, pl]) => (
             <div key={sg} className="grid grid-cols-2 border-t border-amber-100">
               <div className="text-center py-1.5 font-bold text-gray-700 text-base border-r border-amber-100">{sg}</div>
               <div className="text-center py-1.5 font-bold text-amber-600 text-base">{pl}</div>
@@ -132,11 +132,11 @@ function IrregularTab() {
             <div className="font-display font-black text-amber-700 text-center py-2 text-sm">רבים</div>
           </div>
           {[
+            ['man', 'men'],
+            ['woman', 'women'],
             ['child', 'children'],
             ['foot', 'feet'],
             ['mouse', 'mice'],
-            ['man', 'men'],
-            ['woman', 'women'],
             ['fish', 'fish'],
             ['sheep', 'sheep'],
           ].map(([sg, pl]) => (

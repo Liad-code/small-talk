@@ -63,6 +63,21 @@ export const PA_EX2: PAEx2Q[] = [
 
 export const PA_WORD_BANK: PossAdj[] = ['My', 'Your', 'His', 'Her', 'Its', 'Our', 'Their']
 
+// ── Ex2 Round 2 ───────────────────────────────────────────────────────────────
+
+export const PA_EX2_R2: PAEx2Q[] = [
+  { context: 'David has a bike.',        blank: '___ bike is new.',         answer: 'His'   as PossAdj },
+  { context: 'The birds have a nest.',   blank: '___ nest is big.',         answer: 'Their' as PossAdj },
+  { context: 'I have a pencil.',         blank: '___ pencil is yellow.',    answer: 'My'    as PossAdj },
+  { context: 'We have a teacher.',       blank: '___ teacher is great.',    answer: 'Our'   as PossAdj },
+  { context: 'She has a dress.',         blank: '___ dress is pink.',       answer: 'Her'   as PossAdj },
+  { context: 'You have a pet.',          blank: '___ pet is cute.',         answer: 'Your'  as PossAdj },
+  { context: 'The cat has a toy.',       blank: '___ toy is small.',        answer: 'Its'   as PossAdj },
+  { context: 'Tom has a phone.',         blank: '___ phone is new.',        answer: 'His'   as PossAdj },
+  { context: 'They have a dog.',         blank: '___ dog is brown.',        answer: 'Their' as PossAdj },
+  { context: 'She has a sister.',        blank: '___ sister is funny.',     answer: 'Her'   as PossAdj },
+]
+
 // ── Ex3: reading passage with 8 blanks ───────────────────────────────────────
 
 export interface PAEx3Segment {
