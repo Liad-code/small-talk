@@ -450,25 +450,7 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
       {!allDone && (
         <div className="grid grid-cols-3 gap-2 mb-4">
-          {/* Subject column */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-rose-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-sm">Subject</span>
-            </div>
-            <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {availableSubjects.map(s => (
-                <button
-                  key={s.text}
-                  onClick={() => setSelSubject(s)}
-                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-rose-500 text-white' : 'bg-white text-rose-700 border border-rose-200 hover:bg-rose-100'}`}
-                >
-                  {s.text}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Verb column */}
+          {/* Verb column — first */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-pink-600 rounded-t-xl py-1 text-center">
               <span className="font-display font-black text-white text-xs">isn&apos;t / aren&apos;t</span>
@@ -492,7 +474,25 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             </div>
           </div>
 
-          {/* Place column */}
+          {/* Subject column — second */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-rose-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-sm">Subject</span>
+            </div>
+            <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+              {availableSubjects.map(s => (
+                <button
+                  key={s.text}
+                  onClick={() => setSelSubject(s)}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-rose-500 text-white' : 'bg-white text-rose-700 border border-rose-200 hover:bg-rose-100'}`}
+                >
+                  {s.text}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Place column — third */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-amber-500 rounded-t-xl py-1 text-center">
               <span className="font-display font-black text-white text-sm">Place</span>

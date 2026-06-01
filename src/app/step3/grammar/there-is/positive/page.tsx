@@ -453,28 +453,10 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
       {!allDone && (
         <div className="grid grid-cols-3 gap-2 mb-4">
-          {/* Subject column */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-sky-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-sm">Subject</span>
-            </div>
-            <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {availableSubjects.map(s => (
-                <button
-                  key={s.text}
-                  onClick={() => setSelSubject(s)}
-                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-sky-500 text-white' : 'bg-white text-sky-700 border border-sky-200 hover:bg-sky-100'}`}
-                >
-                  {s.text}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Verb column */}
+          {/* Verb column — first */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-blue-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-sm">Verb</span>
+              <span className="font-display font-black text-white text-sm">There is/are</span>
             </div>
             <div className="bg-blue-50 border-2 border-blue-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {(['There is', 'There are'] as ThereVerb[]).map(v => (
@@ -495,7 +477,25 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             </div>
           </div>
 
-          {/* Place column */}
+          {/* Subject column — second */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-sky-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-sm">Subject</span>
+            </div>
+            <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+              {availableSubjects.map(s => (
+                <button
+                  key={s.text}
+                  onClick={() => setSelSubject(s)}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-sky-500 text-white' : 'bg-white text-sky-700 border border-sky-200 hover:bg-sky-100'}`}
+                >
+                  {s.text}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Place column — third */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-amber-500 rounded-t-xl py-1 text-center">
               <span className="font-display font-black text-white text-sm">Place</span>
