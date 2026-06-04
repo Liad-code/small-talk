@@ -164,7 +164,7 @@ export function VocabBubblePop({ items, onComplete }: Props) {
 
       {!gameStarted && !allPopped && (
         <div className="flex flex-col items-center gap-2">
-          <p className="text-sm font-bold text-black" dir="rtl">לחץ על הרמקול להתחלת המשחק!</p>
+          <p className="text-sm font-bold text-white" dir="rtl">לחץ על הרמקול להתחלת המשחק!</p>
           <button
             onClick={handleStart}
             className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 text-white text-4xl
@@ -188,8 +188,8 @@ export function VocabBubblePop({ items, onComplete }: Props) {
           >
             🔊
           </button>
-          <p className="text-sm font-bold text-black" dir="rtl">לחץ כדי לשמוע — פוצץ את הבועה!</p>
-          <p className="text-xs text-gray-600 font-bold">{remaining.length} bubbles left</p>
+          <p className="text-sm font-bold text-white" dir="rtl">לחץ כדי לשמוע — פוצץ את הבועה!</p>
+          <p className="text-xs text-white/80 font-bold">{remaining.length} bubbles left</p>
         </div>
       )}
 

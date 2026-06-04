@@ -3,14 +3,14 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1'
+type Tab = 'learn' | 'ex1' | 'ex2'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
 const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'all',    hebrew: 'הכל' },
   { word: 'am',     hebrew: 'אני' },
-  { word: 'are',    hebrew: 'הם' },
+  { word: 'are',    hebrew: 'פועל עזר' },
   { word: 'at',     hebrew: 'אצל' },
   { word: 'ate',    hebrew: 'אכל' },
   { word: 'be',     hebrew: 'להיות' },
@@ -37,9 +37,7 @@ const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'out',    hebrew: 'בחוץ' },
   { word: 'please', hebrew: 'בבקשה' },
   { word: 'pretty', hebrew: 'יפה' },
-  { word: 'ran',    hebrew: 'רץ' },
   { word: 'ride',   hebrew: 'לרכוב' },
-  { word: 'saw',    hebrew: 'ראה' },
   { word: 'say',    hebrew: 'לומר' },
   { word: 'she',    hebrew: 'היא' },
   { word: 'so',     hebrew: 'אז' },
@@ -53,7 +51,6 @@ const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'want',   hebrew: 'רוצה' },
   { word: 'was',    hebrew: 'היה' },
   { word: 'well',   hebrew: 'טוב' },
-  { word: 'went',   hebrew: 'הלך' },
   { word: 'what',   hebrew: 'מה' },
   { word: 'white',  hebrew: 'לבן' },
   { word: 'who',    hebrew: 'מי' },
@@ -75,6 +72,7 @@ interface SentencePart {
 interface Sentence {
   parts: SentencePart[]
   emoji: string
+  hebrew: string
 }
 
 function parseSentence(raw: string, highlightWords: string[]): SentencePart[] {
@@ -103,51 +101,85 @@ const SENTENCES: Sentence[] = [
   {
     parts: parseSentence('I am a good boy.', ['I', 'am', 'good']),
     emoji: '😊',
+    hebrew: 'אני ילד טוב.',
   },
   {
     parts: parseSentence('She has a black cat.', ['She', 'black']),
     emoji: '🐈‍⬛',
+    hebrew: 'יש לה חתול שחור.',
   },
   {
     parts: parseSentence('They came to play.', ['They', 'came']),
     emoji: '🎉',
+    hebrew: 'הם באו לשחק.',
   },
   {
-    parts: parseSentence('We ran out the door.', ['ran', 'out']),
+    parts: parseSentence('They are out now.', ['They', 'are', 'out', 'now']),
     emoji: '🏃',
+    hebrew: 'הם בחוץ עכשיו.',
   },
   {
     parts: parseSentence('He ate four apples.', ['He', 'ate', 'four']),
     emoji: '🍎',
+    hebrew: 'הוא אכל ארבעה תפוחים.',
   },
   {
     parts: parseSentence('Do you want this?', ['Do', 'want', 'this']),
     emoji: '🎁',
+    hebrew: 'אתה רוצה את זה?',
   },
   {
     parts: parseSentence('The new bike is white.', ['new', 'white']),
     emoji: '🚲',
+    hebrew: 'האופניים החדשים לבנים.',
   },
   {
     parts: parseSentence('Please come now.', ['Please', 'now']),
     emoji: '⏰',
+    hebrew: 'בבקשה בוא עכשיו.',
   },
   {
-    parts: parseSentence('I saw a pretty bird.', ['I', 'saw', 'pretty']),
+    parts: parseSentence('I like the pretty bird.', ['I', 'like', 'pretty']),
     emoji: '🐦',
+    hebrew: 'אני אוהב את הציפור היפה.',
   },
   {
     parts: parseSentence('Our dog is brown.', ['Our', 'brown']),
     emoji: '🐕',
+    hebrew: 'הכלב שלנו חום.',
   },
   {
     parts: parseSentence('She will be there soon.', ['She', 'will', 'be', 'there', 'soon']),
     emoji: '🕐',
+    hebrew: 'היא תהיה שם בקרוב.',
   },
   {
     parts: parseSentence('What did you eat?', ['What', 'did', 'eat']),
     emoji: '🍽️',
+    hebrew: 'מה אכלת?',
   },
+]
+
+// ── Ex2 data ──────────────────────────────────────────────────────────────────
+
+interface Ex2Q {
+  before: string
+  after: string
+  correct: string
+  wrong: string
+}
+
+const EX2_QUESTIONS: Ex2Q[] = [
+  { before: 'I',           after: 'a good boy.', correct: 'am',    wrong: 'are'   },
+  { before: 'The cat is',  after: '.',           correct: 'black', wrong: 'brown' },
+  { before: 'We',          after: 'to school.',  correct: 'came',  wrong: 'do'    },
+  { before: '',            after: 'you want this?', correct: 'Do', wrong: 'Did'   },
+  { before: 'He',          after: 'four apples.', correct: 'ate',  wrong: 'eat'   },
+  { before: 'The bike is', after: '.',           correct: 'white', wrong: 'new'   },
+  { before: 'She',         after: 'be there soon.', correct: 'will', wrong: 'was' },
+  { before: 'Please come', after: '.',           correct: 'now',   wrong: 'no'    },
+  { before: 'Our dog is',  after: '.',           correct: 'brown', wrong: 'good'  },
+  { before: '',            after: 'did you eat?', correct: 'What', wrong: 'Who'   },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -170,10 +202,10 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="bg-emerald-50 border-4 border-emerald-300 rounded-3xl p-5 mb-4">
         <h2 className="font-display font-black text-2xl text-emerald-700 text-center mb-1">
-          52 Sight Words
+          49 Sight Words
         </h2>
         <p className="font-bold text-emerald-600 text-sm text-center mb-4" dir="rtl">
-          מילים שחשוב לזהות מיידית
+          מילים נפוצות שחשוב להכיר
         </p>
 
         {/* Header row */}
@@ -223,6 +255,17 @@ function LearnTab() {
 // ── Ex 1 Tab ──────────────────────────────────────────────────────────────────
 
 function Ex1Tab() {
+  const [revealed, setRevealed] = useState<Set<number>>(new Set())
+
+  const toggle = (idx: number) => {
+    setRevealed(prev => {
+      const s = new Set(prev)
+      if (s.has(idx)) s.delete(idx)
+      else s.add(idx)
+      return s
+    })
+  }
+
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="mb-4">
@@ -230,7 +273,7 @@ function Ex1Tab() {
           Sight Words in Sentences
         </h2>
         <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
-          המילים המסומנות הן מילות ראייה
+          קרא את המשפטים ותרגם אותם לעברית. לחיצה על ? תציג את תרגום המשפט
         </p>
       </div>
 
@@ -238,36 +281,146 @@ function Ex1Tab() {
         {SENTENCES.map((sentence, idx) => (
           <div
             key={idx}
-            className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 flex items-center gap-3 shadow-sm"
+            className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm"
           >
-            <div className="flex-1 text-base font-bold leading-relaxed text-gray-700 flex flex-wrap gap-x-0">
-              <span className="text-gray-400 font-black text-sm mr-2 self-center">{idx + 1}.</span>
-              {sentence.parts.map((part, pIdx) => (
-                <span
-                  key={pIdx}
-                  className={
-                    part.highlight
-                      ? 'font-black text-emerald-600 bg-emerald-100 rounded px-0.5'
-                      : 'text-gray-700'
-                  }
-                >
-                  {part.text}
-                </span>
-              ))}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 text-base font-bold leading-relaxed text-gray-700">
+                <span className="text-gray-400 font-black text-sm mr-2">{idx + 1}.</span>
+                {sentence.parts.map((part, pIdx) => (
+                  <span
+                    key={pIdx}
+                    className={
+                      part.highlight
+                        ? 'font-black text-emerald-600 bg-emerald-100 rounded px-0.5'
+                        : 'text-gray-700'
+                    }
+                  >
+                    {part.text}
+                  </span>
+                ))}
+              </div>
+              <span className="text-2xl flex-shrink-0">{sentence.emoji}</span>
+              <button
+                onClick={() => toggle(idx)}
+                aria-label="Show translation"
+                className={`flex-shrink-0 w-8 h-8 rounded-full font-display font-black text-base border-2 transition-colors active:scale-95 ${
+                  revealed.has(idx)
+                    ? 'bg-emerald-500 text-white border-emerald-500'
+                    : 'bg-emerald-50 text-emerald-600 border-emerald-300 hover:bg-emerald-100'
+                }`}
+              >
+                ?
+              </button>
             </div>
-            <span className="text-2xl flex-shrink-0">{sentence.emoji}</span>
+            {revealed.has(idx) && (
+              <p className="mt-2 pt-2 border-t border-emerald-100 font-bold text-emerald-700 text-base text-right" dir="rtl">
+                {sentence.hebrew}
+              </p>
+            )}
           </div>
         ))}
       </div>
+    </div>
+  )
+}
 
-      <div className="mt-6 bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-4">
-        <p className="font-bold text-emerald-700 text-sm text-center mb-2">
-          Can you find all the sight words?
-        </p>
-        <p className="font-bold text-gray-500 text-xs text-center" dir="rtl">
-          מצא את כל המילים המסומנות בירוק בכל משפט
+// ── Ex 2 Tab ──────────────────────────────────────────────────────────────────
+
+function Ex2Tab() {
+  const [answered, setAnswered] = useState<Record<number, boolean>>({})
+  const [wrong, setWrong] = useState<Record<number, string>>({})
+  const [order] = useState<boolean[]>(() => EX2_QUESTIONS.map(() => Math.random() < 0.5))
+  const [resetKey, setResetKey] = useState(0)
+
+  const total = EX2_QUESTIONS.length
+  const done = Object.keys(answered).length
+  const allDone = done === total
+
+  const choose = (idx: number, val: string) => {
+    if (answered[idx]) return
+    if (val === EX2_QUESTIONS[idx].correct) {
+      setAnswered(prev => ({ ...prev, [idx]: true }))
+    } else {
+      setWrong(prev => ({ ...prev, [idx]: val }))
+      setTimeout(() => setWrong(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
+    }
+  }
+
+  const again = () => {
+    setAnswered({})
+    setWrong({})
+    setResetKey(k => k + 1)
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-emerald-700 text-center mb-1">
+          Choose the correct word
+        </h2>
+        <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
+          לחצו על המילה הנכונה כדי להשלים את המשפט
         </p>
       </div>
+
+      <div className="flex justify-end text-sm font-bold text-emerald-500 mb-3">
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {EX2_QUESTIONS.map((q, idx) => {
+          const isAnswered = answered[idx]
+          const opts = order[idx] ? [q.correct, q.wrong] : [q.wrong, q.correct]
+          return (
+            <div
+              key={idx}
+              className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
+            >
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="text-base font-bold text-gray-700">
+                {q.before ? q.before + ' ' : ''}
+                {isAnswered ? (
+                  <span className="font-black text-emerald-600 bg-emerald-100 rounded px-1">{q.correct}</span>
+                ) : (
+                  <span className="text-emerald-300 font-black">___</span>
+                )}
+                {q.after === '.' || q.after === '?' ? q.after : ' ' + q.after}
+              </span>
+              {!isAnswered && (
+                <div className="flex gap-1.5 ml-auto">
+                  {opts.map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => choose(idx, opt)}
+                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
+                        wrong[idx] === opt
+                          ? 'bg-red-500 text-white border-red-500'
+                          : 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {isAnswered && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
+        </div>
+      )}
     </div>
   )
 }
@@ -280,6 +433,7 @@ export default function SightWordsPage() {
   const tabs: { id: Tab; label: string }[] = [
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
+    { id: 'ex2',   label: 'Ex 2' },
   ]
 
   const TAB = 'px-4 py-1.5 rounded-full font-bold text-sm transition-colors whitespace-nowrap'
@@ -321,6 +475,7 @@ export default function SightWordsPage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1Tab />}
+        {tab === 'ex2'   && <Ex2Tab />}
       </div>
     </div>
   )

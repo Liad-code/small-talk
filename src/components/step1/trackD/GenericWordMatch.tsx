@@ -1,58 +1,37 @@
 'use client'
 import { useState } from 'react'
 import { shuffle } from '@/utils/shuffle'
+import { TrackDItem } from '@/data/step1/trackDCategories'
 
-// Rows: each has a word and 3 choices (emojis), one of which is correct
-const BODY_ROWS = [
-  {
-    word: 'head',
-    correct: '👦',
-    distractors: ['🦵', '🙌'],
-  },
-  {
-    word: 'hands',
-    correct: '🙌',
-    distractors: ['👦', '💇'],
-  },
-  {
-    word: 'legs',
-    correct: '🦵🦵',
-    distractors: ['🧍', '🙌'],
-  },
-  {
-    word: 'hair',
-    correct: '💇',
-    distractors: ['👦', '🦵'],
-  },
-  {
-    word: 'body',
-    correct: '🧍',
-    distractors: ['🙌', '💇'],
-  },
-  { word: 'eyes',  correct: '👀', distractors: ['👄', '👃'] },
-  { word: 'nose',  correct: '👃', distractors: ['👀', '👂'] },
-  { word: 'mouth', correct: '👄', distractors: ['👃', '👀'] },
-  { word: 'ear',   correct: '👂', distractors: ['👄', '👀'] },
-]
+interface Row { word: string; correct: string; choices: string[] }
 
-export function BodyWorksheet({ onComplete }: { onComplete: () => void }) {
-  const [rows] = useState(() =>
-    BODY_ROWS.map(r => ({
-      ...r,
-      choices: shuffle([r.correct, ...r.distractors]),
-    }))
-  )
+function buildRows(items: TrackDItem[]): Row[] {
+  const pool = shuffle([...items]).slice(0, 6)
+  return pool.map(item => {
+    const others = items.filter(i => i.word !== item.word && i.emoji !== item.emoji)
+    const distractors = shuffle(others).slice(0, 2).map(i => i.emoji)
+    return {
+      word: item.word,
+      correct: item.emoji,
+      choices: shuffle([item.emoji, ...distractors]),
+    }
+  })
+}
+
+export function GenericWordMatch({ items, onComplete }: { items: TrackDItem[]; onComplete: () => void }) {
+  const [rows] = useState<Row[]>(() => buildRows(items))
+  // answers: word -> correct emoji (only set when correct → locks row)
   const [answers, setAnswers] = useState<Record<string, string>>({})
+  // wrongFlash: word -> wrong emoji chosen (transient red flash, then cleared)
   const [wrongFlash, setWrongFlash] = useState<Record<string, string>>({})
 
   const allAnswered = Object.keys(answers).length === rows.length
   const score = rows.length // all locked rows are correct
 
-  function handlePick(word: string, choice: string) {
-    if (answers[word] || wrongFlash[word]) return
-    const row = rows.find(r => r.word === word)
-    if (!row) return
-    if (choice === row.correct) {
+  function handlePick(word: string, choice: string, correct: string) {
+    if (answers[word]) return
+    if (wrongFlash[word]) return
+    if (choice === correct) {
       const next = { ...answers, [word]: choice }
       setAnswers(next)
       if (Object.keys(next).length === rows.length) setTimeout(onComplete, 400)
@@ -100,7 +79,7 @@ export function BodyWorksheet({ onComplete }: { onComplete: () => void }) {
                   return (
                     <button
                       key={ci}
-                      onClick={() => handlePick(row.word, c)}
+                      onClick={() => handlePick(row.word, c, row.correct)}
                       disabled={isDone}
                       className={`w-14 h-14 rounded-xl border-3 text-2xl transition-all cursor-pointer
                         ${isDone && isCorrectChoice ? 'bg-green-200 border-green-500 scale-110' : ''}

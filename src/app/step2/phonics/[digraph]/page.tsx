@@ -72,6 +72,34 @@ export default function DiGraphLearnPage({ params }: { params: { digraph: string
             </button>
           ))}
         </div>
+
+        {/* Explanation table */}
+        <div className="mt-8">
+          <div className="overflow-hidden rounded-2xl border-4 border-gray-200 shadow-sm">
+            <table className="w-full border-collapse text-center">
+              <thead>
+                <tr className={`bg-gradient-to-r ${dg.color} text-white`}>
+                  <th className="py-2 px-3 font-display font-black text-sm">English</th>
+                  <th className="py-2 px-3 font-display font-black text-sm" dir="rtl">עברית</th>
+                  <th className="py-2 px-3 font-display font-black text-sm" dir="rtl">תמונה</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dg.words.map((w, i) => (
+                  <tr key={w.word} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className={`py-2 px-3 font-display font-black text-base ${dg.textColor}`}>
+                      {w.word.toLowerCase()}
+                    </td>
+                    <td className="py-2 px-3 font-bold text-sm text-gray-700" dir="rtl">
+                      {w.hebrew ?? '—'}
+                    </td>
+                    <td className="py-2 px-3 text-3xl leading-none">{w.emoji}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   )

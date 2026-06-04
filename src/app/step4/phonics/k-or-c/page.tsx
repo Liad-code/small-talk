@@ -19,7 +19,7 @@ const RULES: Rule[] = [
     bgColor: 'bg-rose-50', textColor: 'text-rose-700', borderColor: 'border-rose-300',
   },
   {
-    hebrew: 'כותבים k לפני האותיות e, i, y',
+    hebrew: 'כותבים k לפני האותיות e, i',
     examples: [{ word: 'key', emoji: '🔑' }, { word: 'kite', emoji: '🪁' }, { word: 'king', emoji: '👑' }],
     bgColor: 'bg-amber-50', textColor: 'text-amber-700', borderColor: 'border-amber-300',
   },

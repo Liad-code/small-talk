@@ -113,7 +113,7 @@ export function DaysWordSearch({ onComplete }: { onComplete: () => void }) {
         <span className="text-xs font-bold text-white/70">{found.size}/{placements.length}</span>
       </div>
 
-      <div className={`border-4 mb-4 rounded-lg select-none ${flashRed ? 'border-red-400' : 'border-white/30'}`} style={{ width: 'fit-content' }}>
+      <div className={`border-4 mb-4 rounded-lg select-none ${flashRed ? 'border-red-400' : 'border-gray-300'}`} style={{ width: 'fit-content' }}>
         {Array.from({ length: ROWS }, (_, r) => (
           <div key={r} className="flex">
             {Array.from({ length: COLS }, (_, c) => {
@@ -125,9 +125,9 @@ export function DaysWordSearch({ onComplete }: { onComplete: () => void }) {
                   key={c}
                   onClick={() => handleCellClick(r, c)}
                   className={`
-                    flex items-center justify-center border border-white/10 cursor-pointer select-none
+                    flex items-center justify-center border border-gray-300 cursor-pointer select-none
                     font-display font-black transition-colors duration-100
-                    ${isFound ? 'bg-green-400 text-white' : flashRed && isSel ? 'bg-red-400 text-white' : isSel ? 'bg-yellow-300 text-gray-900' : 'bg-white/10 text-white'}
+                    ${isFound ? 'bg-green-400 text-white' : flashRed && isSel ? 'bg-red-400 text-white' : isSel ? 'bg-yellow-300 text-gray-900' : 'bg-white text-gray-800'}
                   `}
                   style={{ width: cellSize, height: cellSize, fontSize: Math.max(8, cellSize - 10) }}
                 >
@@ -146,7 +146,7 @@ export function DaysWordSearch({ onComplete }: { onComplete: () => void }) {
             <div
               key={day}
               className={`flex items-center gap-2 px-2 py-1.5 rounded-xl border-2 text-sm font-bold transition-all
-                ${isFound ? 'bg-green-400/30 border-green-400 text-green-200 line-through' : 'bg-white/10 border-white/30 text-white'}`}
+                ${isFound ? 'bg-green-400/30 border-green-400 text-green-200 line-through' : 'bg-white border-gray-300 text-gray-800'}`}
             >
               <span>{day.charAt(0).toUpperCase() + day.slice(1)}</span>
             </div>

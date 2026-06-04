@@ -55,11 +55,11 @@ export function FruitsBasket({ items, onComplete }: Props) {
 
   return (
     <div className="p-4 max-w-sm mx-auto text-center">
-      <p className="text-black font-bold text-sm mb-3" dir="rtl">
+      <p className="text-white font-bold text-sm mb-3" dir="rtl">
         לחץ על הרמקול לשמיעת הפרי — גרור את הפרי הנכון למדף
       </p>
 
-      <div className="text-black font-bold text-sm mb-3">
+      <div className="text-white font-bold text-sm mb-3">
         {shelfItems.length}/{queue.length}
       </div>
 

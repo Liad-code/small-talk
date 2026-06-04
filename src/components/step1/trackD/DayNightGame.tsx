@@ -81,8 +81,8 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
                   onClick={() => !done && !f && handleCheck(a.id, a.fitsDay)}
                   className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsDay)}`}
                 >
-                  <span className="text-lg shrink-0">{a.emoji}</span>
-                  <span className="text-xs font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
+                  <span className="text-3xl shrink-0">{a.emoji}</span>
+                  <span className="text-sm font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
                   <div className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-black shrink-0
                     ${done ? 'bg-green-500 border-green-600 text-white' : f === 'wrong' ? 'bg-red-400 border-red-500 text-white' : 'border-yellow-500 bg-white'}`}>
                     {done ? '✓' : f === 'wrong' ? '✗' : ''}
@@ -109,8 +109,8 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
                   onClick={() => !done && !f && handleCheck(a.id, a.fitsNight)}
                   className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsNight)}`}
                 >
-                  <span className="text-lg shrink-0">{a.emoji}</span>
-                  <span className="text-xs font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
+                  <span className="text-3xl shrink-0">{a.emoji}</span>
+                  <span className="text-sm font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
                   <div className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-black shrink-0
                     ${done ? 'bg-green-500 border-green-600 text-white' : f === 'wrong' ? 'bg-red-400 border-red-500 text-white' : 'border-indigo-500 bg-white'}`}>
                     {done ? '✓' : f === 'wrong' ? '✗' : ''}

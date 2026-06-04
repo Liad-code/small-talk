@@ -78,10 +78,10 @@ export function SeasonsSort({ onComplete }: Props) {
 
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <p className="text-center text-black font-bold text-xl mb-3" dir="rtl">
+      <p className="text-center text-white font-bold text-xl mb-3" dir="rtl">
         לחץ על התמונה וגרור אותה לעונה הנכונה
       </p>
-      <div className="text-center text-black font-bold text-sm mb-3">
+      <div className="text-center text-white font-bold text-sm mb-3">
         {placedCount}/{totalItems} sorted
       </div>
 

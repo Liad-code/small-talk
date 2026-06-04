@@ -55,11 +55,11 @@ export function ClothesClothesline({ items, onComplete }: Props) {
 
   return (
     <div className="p-4 max-w-sm mx-auto text-center">
-      <p className="text-black font-bold text-sm mb-2" dir="rtl">
+      <p className="text-white font-bold text-sm mb-2" dir="rtl">
         לחץ על הרמקול כדי לשמוע את המילה — לחץ על הבגד המתאים כדי לתלות אותו על חבל הכביסה
       </p>
 
-      <div className="text-black font-bold text-sm mb-3">
+      <div className="text-white font-bold text-sm mb-3">
         {hanged.length}/{queue.length}
       </div>
 

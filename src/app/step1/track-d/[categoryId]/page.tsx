@@ -11,19 +11,20 @@ import { VocabBubblePop } from '@/components/step1/trackD/VocabBubblePop'
 import { Pick3Exercise } from '@/components/step1/trackD/Pick3Exercise'
 import { SeasonsSort } from '@/components/step1/trackD/SeasonsSort'
 import { DaysOrder } from '@/components/step1/trackD/DaysOrder'
-import { DaysNumberMatch } from '@/components/step1/trackD/DaysNumberMatch'
 import { ClothesClothesline } from '@/components/step1/trackD/ClothesClothesline'
 import { NumbersCount } from '@/components/step1/trackD/NumbersCount'
-import { WeatherWorksheet } from '@/components/step1/trackD/WeatherWorksheet'
 import { DayNightGame } from '@/components/step1/trackD/DayNightGame'
 import { EmotionsISpy } from '@/components/step1/trackD/EmotionsISpy'
 import { DaysWordSearch } from '@/components/step1/trackD/DaysWordSearch'
-import { DaysWorksheets } from '@/components/step1/trackD/DaysWorksheets'
 import { BodyWorksheet } from '@/components/step1/trackD/BodyWorksheet'
 import { BodyMatch } from '@/components/step1/trackD/BodyMatch'
 import { SensesWordMatch } from '@/components/step1/trackD/SensesWordMatch'
 import { FruitsISpy } from '@/components/step1/trackD/FruitsISpy'
 import { OppositeMatch } from '@/components/step1/trackD/OppositeMatch'
+import { GenericMatch } from '@/components/step1/trackD/GenericMatch'
+import { GenericISpy } from '@/components/step1/trackD/GenericISpy'
+import { GenericWordMatch } from '@/components/step1/trackD/GenericWordMatch'
+import { DaysEnHeMatch } from '@/components/step1/trackD/DaysEnHeMatch'
 import { CatBoxIllustration } from '@/components/shared/CatBoxIllustration'
 
 const HEBREW_ORDINALS: Record<number, string> = {
@@ -106,7 +107,7 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match'
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match' | 'g-match' | 'g-ispy' | 'g-wordmatch'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -123,13 +124,11 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
   if (categoryId === 'numbers') tabs.push({ id: 'count', label: 'Count', emoji: '🔢' })
   if (categoryId === 'weather') {
     tabs.push({ id: 'day-night',  label: 'Day & Night', emoji: '🌙' })
-    tabs.push({ id: 'worksheet',  label: 'Worksheet',   emoji: '📄' })
   }
   // colors worksheet removed per שינויים5
   if (categoryId === 'emotions') tabs.push({ id: 'emotions-ispy', label: 'I Spy', emoji: '🔍' })
   if (categoryId === 'days') {
     tabs.push({ id: 'days-search',     label: 'Search Game', emoji: '🔍' })
-    tabs.push({ id: 'days-worksheets', label: 'Worksheets',  emoji: '📄' })
   }
   if (categoryId === 'body') {
     tabs.push({ id: 'body-ws',    label: 'Ex 1',  emoji: '📄' })
@@ -138,6 +137,20 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
   if (categoryId === 'senses') tabs.push({ id: 'senses-match', label: 'Match', emoji: '🔗' })
   if (categoryId === 'fruits') tabs.push({ id: 'fruits-ispy', label: 'I Spy', emoji: '🔍' })
   if (categoryId === 'opposites') tabs.push({ id: 'opposites-match', label: 'Match', emoji: '🔗' })
+
+  // ── Generic exercises (driven by category items) ──────────────
+  // Match: every category EXCEPT body (has BodyMatch) and days (has DaysEnHeMatch)
+  if (categoryId !== 'body' && categoryId !== 'days') {
+    tabs.push({ id: 'g-match', label: 'Match', emoji: '🔗' })
+  }
+  // I Spy: every category EXCEPT emotions and fruits (already have I Spy)
+  if (categoryId !== 'emotions' && categoryId !== 'fruits') {
+    tabs.push({ id: 'g-ispy', label: 'I Spy', emoji: '🔍' })
+  }
+  // Word Match (Pictures): every category EXCEPT body (has BodyWorksheet)
+  if (categoryId !== 'body') {
+    tabs.push({ id: 'g-wordmatch', label: 'Pictures', emoji: '🖼️' })
+  }
   return tabs
 }
 
@@ -471,16 +484,13 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           <DaysOrder key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'days-match' && (
-          <DaysNumberMatch key={extraKey} onComplete={handleExtraComplete} />
+          <DaysEnHeMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'clothesline' && cat && (
           <ClothesClothesline key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
         )}
         {tab === 'count' && (
           <NumbersCount key={extraKey} onComplete={handleExtraComplete} />
-        )}
-        {tab === 'worksheet' && (
-          <WeatherWorksheet key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'day-night' && (
           <DayNightGame key={extraKey} onComplete={handleExtraComplete} />
@@ -490,9 +500,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         )}
         {tab === 'days-search' && (
           <DaysWordSearch key={extraKey} onComplete={handleExtraComplete} />
-        )}
-        {tab === 'days-worksheets' && (
-          <DaysWorksheets key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'body-ws' && (
           <BodyWorksheet key={extraKey} onComplete={handleExtraComplete} />
@@ -508,6 +515,15 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         )}
         {tab === 'opposites-match' && (
           <OppositeMatch key={extraKey} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'g-match' && cat && (
+          <GenericMatch key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'g-ispy' && cat && (
+          <GenericISpy key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+        )}
+        {tab === 'g-wordmatch' && cat && (
+          <GenericWordMatch key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
         )}
       </div>
 

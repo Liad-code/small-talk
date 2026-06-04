@@ -24,7 +24,7 @@ export const BLENDS: Blend[] = [
     { word: 'BREAD', emoji: '🍞' }, { word: 'BRIDGE', emoji: '🌉' }, { word: 'BRUSH', emoji: '🪥' }, { word: 'BROWN', emoji: '🤎' },
   ] },
   { id: 'cr', label: 'cr', words: [
-    { word: 'CRAB', emoji: '🦀' }, { word: 'CROWN', emoji: '👑' }, { word: 'CRY', emoji: '😢' }, { word: 'CROSS', emoji: '✝️' },
+    { word: 'CRAB', emoji: '🦀' }, { word: 'CROWN', emoji: '👑' }, { word: 'CRY', emoji: '😢' }, { word: 'CRACK', emoji: '💥' },
   ] },
   { id: 'dr', label: 'dr', words: [
     { word: 'DRUM', emoji: '🥁' }, { word: 'DRAGON', emoji: '🐉' }, { word: 'DRESS', emoji: '👗' }, { word: 'DRINK', emoji: '🥤' },

@@ -94,8 +94,8 @@ export function PrepCircleImage({ onComplete }: Props) {
     return (
       <div className="p-4 max-w-sm mx-auto text-center">
         <div className="text-5xl mb-3 bounce-in">🎉</div>
-        <p className="font-bold text-black text-lg mb-2" dir="rtl">כל הכבוד!</p>
-        <p className="text-black font-bold text-base mb-6">{score}/{ALL_SCENES.length} correct!</p>
+        <p className="font-bold text-white text-lg mb-2" dir="rtl">כל הכבוד!</p>
+        <p className="text-white font-bold text-base mb-6">{score}/{ALL_SCENES.length} correct!</p>
         <button onClick={handleAgain} className="btn-kid bg-blue-500">
           🔁 Again
         </button>
@@ -108,7 +108,7 @@ export function PrepCircleImage({ onComplete }: Props) {
 
   return (
     <div key={resetKey} className="p-4 max-w-sm mx-auto">
-      <div className="flex justify-between text-sm font-bold text-black mb-4">
+      <div className="flex justify-between text-sm font-bold text-white mb-4">
         <span>{idx + 1}/{ALL_SCENES.length}</span>
         <span>✅ {score}</span>
       </div>

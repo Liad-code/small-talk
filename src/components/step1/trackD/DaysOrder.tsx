@@ -45,7 +45,7 @@ export function DaysOrder({ onComplete }: Props) {
     return (
       <div className="p-3 max-w-sm mx-auto text-center">
         <div className="text-5xl mb-3 bounce-in">🎉</div>
-        <p className="font-bold text-black text-lg mb-6" dir="rtl">כל הכבוד! סידרת את ימות השבוע!</p>
+        <p className="font-bold text-white text-lg mb-6" dir="rtl">כל הכבוד! סידרת את ימות השבוע!</p>
         {/* Show final order */}
         <div className="flex flex-col gap-1 mb-6 text-left">
           {DAYS.map((day, i) => (
@@ -64,7 +64,7 @@ export function DaysOrder({ onComplete }: Props) {
 
   return (
     <div className="p-3 max-w-sm mx-auto">
-      <p className="text-black font-bold text-base text-center mb-4" dir="rtl">
+      <p className="text-white font-bold text-base text-center mb-4" dir="rtl">
         גרור את ימות השבוע לפי הסדר הנכון
       </p>
 

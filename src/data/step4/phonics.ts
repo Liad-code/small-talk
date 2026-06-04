@@ -21,8 +21,8 @@ export const SOUNDS: Sound[] = [
     emoji: '🌾',
     words: [
       { word: 'FIELD', emoji: '🌾' }, { word: 'CHIEF', emoji: '👨‍✈️' }, { word: 'THIEF', emoji: '🦹' },
-      { word: 'PIECE', emoji: '🧩' }, { word: 'BRIEF', emoji: '📋' }, { word: 'COOKIE', emoji: '🍪' },
-      { word: 'NIECE', emoji: '👧' }, { word: 'BELIEVE', emoji: '🙏' },
+      { word: 'PIECE', emoji: '🧩' }, { word: 'COOKIE', emoji: '🍪' }, { word: 'BELIEVE', emoji: '🙏' },
+      { word: 'MOVIE', emoji: '🎬' },
     ],
   },
   {
@@ -44,7 +44,7 @@ export const SOUNDS: Sound[] = [
     words: [
       { word: 'CATCH', emoji: '⚾' }, { word: 'WATCH', emoji: '⌚' }, { word: 'MATCH', emoji: '🔥' },
       { word: 'WITCH', emoji: '🧙' }, { word: 'KITCHEN', emoji: '🍳' }, { word: 'PATCH', emoji: '🩹' },
-      { word: 'ITCH', emoji: '😣' }, { word: 'FETCH', emoji: '🐕' },
+      { word: 'ITCH', emoji: '😣' },
     ],
   },
   {
@@ -55,7 +55,7 @@ export const SOUNDS: Sound[] = [
     words: [
       { word: 'BRIDGE', emoji: '🌉' }, { word: 'BADGE', emoji: '🎖️' }, { word: 'EDGE', emoji: '📐' },
       { word: 'FUDGE', emoji: '🍫' }, { word: 'HEDGE', emoji: '🌳' }, { word: 'JUDGE', emoji: '👨‍⚖️' },
-      { word: 'DODGE', emoji: '🤾' }, { word: 'LEDGE', emoji: '🧗' },
+      { word: 'LODGE', emoji: '🏚️' }, { word: 'SLEDGE', emoji: '🛷' },
     ],
   },
   {
@@ -66,7 +66,7 @@ export const SOUNDS: Sound[] = [
     words: [
       { word: 'NATION', emoji: '🏴' }, { word: 'STATION', emoji: '🚉' }, { word: 'ACTION', emoji: '🎬' },
       { word: 'LOTION', emoji: '🧴' }, { word: 'MOTION', emoji: '🌀' }, { word: 'FICTION', emoji: '📖' },
-      { word: 'ADDITION', emoji: '➕' }, { word: 'VACATION', emoji: '🏖️' },
+      { word: 'VACATION', emoji: '🏖️' }, { word: 'OPTION', emoji: '🔘' },
     ],
   },
   {
@@ -75,9 +75,8 @@ export const SOUNDS: Sound[] = [
     color: 'from-indigo-500 to-blue-600', bgColor: 'bg-indigo-50', textColor: 'text-indigo-700', borderColor: 'border-indigo-300',
     emoji: '👁️',
     words: [
-      { word: 'VISION', emoji: '👁️' }, { word: 'TELEVISION', emoji: '📺' }, { word: 'MISSION', emoji: '🚀' },
-      { word: 'MANSION', emoji: '🏰' }, { word: 'SESSION', emoji: '📅' }, { word: 'DECISION', emoji: '🤔' },
-      { word: 'DIVISION', emoji: '➗' }, { word: 'EXPLOSION', emoji: '💥' },
+      { word: 'VISION', emoji: '👁️' }, { word: 'TELEVISION', emoji: '📺' },
+      { word: 'DECISION', emoji: '🤔' }, { word: 'EXPLOSION', emoji: '💥' },
     ],
   },
   {
@@ -87,7 +86,7 @@ export const SOUNDS: Sound[] = [
     emoji: '🖼️',
     words: [
       { word: 'PICTURE', emoji: '🖼️' }, { word: 'NATURE', emoji: '🌿' }, { word: 'FUTURE', emoji: '🔮' },
-      { word: 'CAPTURE', emoji: '📸' }, { word: 'MIXTURE', emoji: '🧪' }, { word: 'CREATURE', emoji: '👾' },
+      { word: 'MIXTURE', emoji: '🧪' }, { word: 'CREATURE', emoji: '👾' },
       { word: 'ADVENTURE', emoji: '🗺️' }, { word: 'FURNITURE', emoji: '🛋️' },
     ],
   },

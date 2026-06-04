@@ -80,7 +80,7 @@ export function FaceBuild({ onComplete }: Props) {
 
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <p className="text-center text-black font-bold text-base mb-4" dir="rtl">
+      <p className="text-center text-white font-bold text-base mb-4" dir="rtl">
         גרור את אברי הפנים ובנה פרצופים שונים!
       </p>
 

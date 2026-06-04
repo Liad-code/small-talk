@@ -60,7 +60,7 @@ export function DaysNumberMatch({ onComplete }: Props) {
 
   return (
     <div className="p-3 max-w-sm mx-auto">
-      <p className="text-black font-bold text-base text-center mb-4" dir="rtl">
+      <p className="text-white font-bold text-base text-center mb-4" dir="rtl">
         לחץ על שם היום ועל המספר שלו
       </p>
 
@@ -115,7 +115,7 @@ export function DaysNumberMatch({ onComplete }: Props) {
         </div>
       </div>
 
-      <div className="text-center mt-3 text-black font-bold text-sm">
+      <div className="text-center mt-3 text-white font-bold text-sm">
         {matched.size}/7 ✓
       </div>
 
