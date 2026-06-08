@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -36,7 +36,6 @@ const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'can',    hebrew: 'יכול' },
   { word: 'here',   hebrew: 'כאן' },
   { word: 'make',   hebrew: 'עשה' },
-  { word: 'said',   hebrew: 'אמר' },
   { word: 'where',  hebrew: 'איפה' },
   { word: 'come',   hebrew: 'בוא' },
   { word: 'I',      hebrew: 'אני' },
@@ -167,10 +166,25 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'I can',        after: 'fast.',              correct: 'run',    wrong: 'here' },
   { before: 'The ball is',  after: '.',                  correct: 'yellow', wrong: 'you'  },
   { before: 'This is',      after: 'book.',              correct: 'my',     wrong: 'make' },
-  { before: '',             after: 'you are.',           correct: 'funny',  wrong: 'see'  },
+  { before: 'You are',      after: '.',                  correct: 'funny',  wrong: 'see'  },
   { before: 'I want to',    after: 'with you.',          correct: 'play',   wrong: 'big'  },
-  { before: 'Are you',      after: '?',                  correct: 'where',  wrong: 'can'  },
+  { before: 'I',            after: 'read a book.',       correct: 'can',    wrong: 'where' },
   { before: 'This is a',    after: 'dog.',               correct: 'big',    wrong: 'away' },
+]
+
+// ── Ex3 data ──────────────────────────────────────────────────────────────────
+
+const EX3_QUESTIONS: Ex2Q[] = [
+  { before: 'I',           after: 'see a cat.',  correct: 'can',    wrong: 'the'   },
+  { before: 'The dog is',  after: '.',           correct: 'big',    wrong: 'go'    },
+  { before: 'Look',        after: 'the sky.',    correct: 'up',     wrong: 'me'    },
+  { before: 'I',           after: 'the red ball.', correct: 'see',  wrong: 'two'   },
+  { before: 'Come',        after: 'here.',       correct: 'down',   wrong: 'funny' },
+  { before: 'The cat is',  after: '.',           correct: 'little', wrong: 'jump'  },
+  { before: 'We',          after: 'to the park.', correct: 'go',    wrong: 'is'    },
+  { before: 'The sun is',  after: '.',           correct: 'yellow', wrong: 'run'   },
+  { before: 'I',           after: 'my friend.',  correct: 'help',   wrong: 'blue'  },
+  { before: 'It is',       after: 'to me.',      correct: 'funny',  wrong: 'look'  },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -317,20 +331,20 @@ function Ex1Tab() {
 
 // ── Ex 2 Tab ──────────────────────────────────────────────────────────────────
 
-function Ex2Tab() {
+function FillInTab({ questions }: { questions: Ex2Q[] }) {
   const [answered, setAnswered] = useState<Record<number, boolean>>({})
   const [wrong, setWrong] = useState<Record<number, string>>({})
   // Shuffle option order once per mount
-  const [order] = useState<boolean[]>(() => EX2_QUESTIONS.map(() => Math.random() < 0.5))
+  const [order] = useState<boolean[]>(() => questions.map(() => Math.random() < 0.5))
   const [resetKey, setResetKey] = useState(0)
 
-  const total = EX2_QUESTIONS.length
+  const total = questions.length
   const done = Object.keys(answered).length
   const allDone = done === total
 
   const choose = (idx: number, val: string) => {
     if (answered[idx]) return
-    if (val === EX2_QUESTIONS[idx].correct) {
+    if (val === questions[idx].correct) {
       setAnswered(prev => ({ ...prev, [idx]: true }))
     } else {
       setWrong(prev => ({ ...prev, [idx]: val }))
@@ -364,7 +378,7 @@ function Ex2Tab() {
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {EX2_QUESTIONS.map((q, idx) => {
+        {questions.map((q, idx) => {
           const isAnswered = answered[idx]
           const opts = order[idx] ? [q.correct, q.wrong] : [q.wrong, q.correct]
           return (
@@ -426,6 +440,7 @@ export default function SightWordsPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-4 py-1.5 rounded-full font-bold text-sm transition-colors whitespace-nowrap'
@@ -467,7 +482,8 @@ export default function SightWordsPage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1Tab />}
-        {tab === 'ex2'   && <Ex2Tab />}
+        {tab === 'ex2'   && <FillInTab questions={EX2_QUESTIONS} />}
+        {tab === 'ex3'   && <FillInTab questions={EX3_QUESTIONS} />}
       </div>
     </div>
   )

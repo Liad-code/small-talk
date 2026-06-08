@@ -54,6 +54,29 @@ export default function PhonicsPage() {
           ))}
         </div>
 
+        {/* Exercises */}
+        <h2 className="font-display text-lg font-bold text-gray-600 mb-3">
+          🎯 Exercises
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <Link
+            href="/step3/phonics/sound-sort"
+            className="
+              no-underline
+              bg-teal-50 border-4 border-teal-300
+              rounded-2xl p-3 flex flex-col items-center gap-1 text-center
+              card-3d hover:rotate-1 group transition-transform
+            "
+          >
+            <span className="text-4xl mb-0.5 transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
+              🎲
+            </span>
+            <span className="font-display font-black text-xl leading-none text-teal-700">
+              Sound Sort
+            </span>
+          </Link>
+        </div>
+
       </div>
     </div>
   )

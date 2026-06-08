@@ -86,20 +86,22 @@ export default function Step3GrammarPage() {
           available={true}
         />
         <TopicCard
+          href="/step3/grammar/imperative"
           emoji="⚡"
           title="Imperative"
           hebrewTitle="ציווי"
           description="Open the door! · Don't run!"
           color="from-rose-500 to-red-600"
-          available={false}
+          available={true}
         />
         <TopicCard
+          href="/step3/grammar/can"
           emoji="💪"
           title="Can"
           hebrewTitle="יכול"
           description="I can swim · She can't fly"
           color="from-indigo-500 to-blue-600"
-          available={false}
+          available={true}
         />
       </div>
     </div>
