@@ -37,17 +37,16 @@ export default function ThereIsHubPage() {
           </div>
         </Link>
         {/* Yes/No */}
-        <div className="opacity-60">
+        <Link href="/step3/grammar/there-is/yes-no" className="no-underline group block">
           <div className="bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-5 shadow-md border-4 border-white/40 flex gap-4 items-center">
-            <span className="text-4xl">❓</span>
+            <span className="text-4xl transition-transform duration-200 group-hover:scale-110">❓</span>
             <div className="flex-1">
               <div className="font-display font-bold text-lg text-white">Yes / No Questions</div>
               <div className="text-white/70 font-bold text-sm" dir="rtl">שאלות כן/לא</div>
               <div className="text-white/80 font-bold text-sm mt-1">Is there? · Are there?</div>
             </div>
-            <span className="bg-black/25 text-white text-xs font-black px-2 py-1 rounded-full">Soon</span>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   )
