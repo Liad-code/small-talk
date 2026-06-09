@@ -117,8 +117,7 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-sky-800 mb-4" dir="rtl">
-          <p>• כדי לחבר שאלת כן/לא, מחליפים את סדר המילים.</p>
-          <p>• שאלות כן/לא תמיד מתחילות ב- Is או Are.</p>
+          <p>• כדי לחבר שאלות yes/no, מעבירים לתחילת המשפט את ה- is there / are there.</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
@@ -135,12 +134,12 @@ function LearnTab() {
         <div className="flex flex-col gap-3">
           {[
             {
-              stmt: 'There is', stmtRest: 'a teacher in the classroom.',
-              qVerb: 'Is there' as ThereQVerb, qRest: 'a teacher in the classroom?',
+              stmt: 'There is', stmtRest: 'a book on the table.',
+              qVerb: 'Is there' as ThereQVerb, qRest: 'a book on the table?',
             },
             {
-              stmt: 'There are', stmtRest: 'six pencils on the table.',
-              qVerb: 'Are there' as ThereQVerb, qRest: 'six pencils on the table?',
+              stmt: 'There are', stmtRest: 'dogs in the park.',
+              qVerb: 'Are there' as ThereQVerb, qRest: 'dogs in the park?',
             },
           ].map(({ stmt, stmtRest, qVerb, qRest }) => (
             <div key={qRest} className="bg-white rounded-2xl border-2 border-sky-200 p-3">
@@ -166,8 +165,8 @@ function LearnTab() {
 
         <div className="flex flex-col gap-3">
           {[
-            { q: 'Is there a teacher in the classroom?', yes: 'Yes, there is.',  no: "No, there isn't."  },
-            { q: 'Are there six pencils on the table?',  yes: 'Yes, there are.', no: "No, there aren't." },
+            { q: 'Is there a book on the table?', yes: 'Yes, there is.',  no: "No, there isn't."  },
+            { q: 'Are there dogs in the park?',   yes: 'Yes, there are.', no: "No, there aren't." },
           ].map(({ q, yes, no }) => (
             <div key={q} className="bg-white rounded-2xl border-2 border-amber-200 p-3">
               <p className="font-bold text-amber-800 text-base mb-1.5 italic">{q}</p>

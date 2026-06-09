@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { shuffle } from '@/utils/shuffle'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -125,14 +126,14 @@ function LearnTab() {
           The Imperative ⚡
         </h2>
         <p className="font-bold text-rose-800 text-sm mb-4 text-center" dir="rtl">
-          ציווי — נותנים הוראה, בקשה או הנחיה למישהו
+          ציווי – משתמשים בציווי על מנת לתת הוראות.
         </p>
 
         <ul className="bg-white border-2 border-rose-200 rounded-2xl p-4 mb-4 flex flex-col gap-2 text-sm font-bold text-rose-700" dir="rtl">
           <li>• בציווי <span className="text-rose-900 font-black">חיובי</span> מתחילים את המשפט עם הפועל: <span dir="ltr">Sit down!</span></li>
           <li>• בציווי <span className="text-rose-900 font-black">שלילי</span> מתחילים עם <span dir="ltr" className="font-black">Don&apos;t</span> ואז הפועל: <span dir="ltr">Don&apos;t talk!</span></li>
-          <li>• אפשר להוסיף <span dir="ltr" className="font-black">please</span> כדי להיות מנומסים: <span dir="ltr">Open the window, please.</span></li>
-          <li>• לא כותבים את מי שמדברים אליו — פשוט מתחילים מהפועל.</li>
+          <li>• אפשר להוסיף <span dir="ltr" className="font-black">please</span> בתחילת המשפט או בסופו על מנת להישמע מנומסים: <span dir="ltr">please open the door</span></li>
+          <li>• הפועל במשפט ציווי לא משתנה לזכר, נקבה, יחיד או רבים.</li>
         </ul>
 
         <div className="grid grid-cols-2 gap-3">
@@ -173,6 +174,8 @@ function VerbFillEx({
 }) {
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [wrongs, setWrongs] = useState<Set<number>>(new Set())
+  // Shuffle the verb bank so its order does NOT match the sentence order
+  const [bankVerbs] = useState(() => shuffle(verbs))
   const total = questions.length
   const answered = Object.keys(answers).length
   const allDone = answered === total
@@ -201,7 +204,7 @@ function VerbFillEx({
       {/* Verb bank */}
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 mb-5">
         <div className="flex flex-wrap gap-2 justify-center">
-          {verbs.map(v => {
+          {bankVerbs.map(v => {
             const used = Object.values(answers).includes(v)
             return (
               <button
@@ -274,9 +277,12 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [usedCommands, setUsedCommands] = useState<Set<string>>(new Set())
   const [usedEndings, setUsedEndings] = useState<Set<string>>(new Set())
 
+  // Shuffle the endings (right column) so they do NOT line up with their commands
+  const [endingOrder] = useState(() => shuffle(cycle.commands.map(c => c.ending)))
+
   const allDone = sentences.length === cycle.commands.length
   const availableCommands = cycle.commands.filter(c => !usedCommands.has(c.text))
-  const availableEndings = cycle.commands.map(c => c.ending).filter(e => !usedEndings.has(e))
+  const availableEndings = endingOrder.filter(e => !usedEndings.has(e))
 
   const handleAdd = () => {
     if (!selCommand || !selEnding) return

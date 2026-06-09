@@ -16,9 +16,9 @@ interface CanQ {
 }
 
 const EX1_QUESTIONS: CanQ[] = [
-  { before: 'Lions',     after: 'drive cars.',   answer: "can't" },
-  { before: 'Cows',      after: 'walk.',         answer: 'can'   },
-  { before: 'Sheep',     after: 'play the piano.', answer: "can't" },
+  { before: 'Lions',     after: 'fly.',          answer: "can't" },
+  { before: 'Snakes',    after: 'walk.',         answer: "can't" },
+  { before: 'Cats',      after: 'climb the tree.', answer: 'can'  },
   { before: 'Birds',     after: 'fly.',          answer: 'can'   },
   { before: 'Fish',      after: 'swim.',         answer: 'can'   },
   { before: 'A baby',    after: 'ride a bike.',  answer: "can't" },
@@ -64,7 +64,7 @@ const EX2_CYCLES: CanEx2Cycle[] = [
       { text: 'A snake',    verb: "can't" },
       { text: 'A penguin',  verb: "can't" },
     ],
-    phrases: ['read a book.', 'drive a car.', 'jump high.', 'walk.', 'sing.'],
+    phrases: ['read a book.', 'drive a car.', 'jump high.', 'walk.', 'swim.'],
   },
 ]
 
@@ -141,14 +141,17 @@ function LearnTab() {
           <p className="font-bold text-gray-500 text-sm mt-1 text-center" dir="rtl">
             אחרי can / can&apos;t תמיד בא פועל בצורת הבסיס
           </p>
+          <p className="font-bold text-indigo-600 text-sm mt-1 text-center" dir="rtl">
+            משתמשים ב- can לזכר, נקבה, יחיד או רבים
+          </p>
         </div>
 
         <div className="flex flex-col gap-1.5">
           {[
-            { verb: 'can' as CanVerb,   rest: 'read English.', subj: 'I' },
-            { verb: 'can' as CanVerb,   rest: 'climb trees.',  subj: 'Monkeys' },
-            { verb: "can't" as CanVerb, rest: 'ride a bike.',  subj: 'A baby' },
-            { verb: "can't" as CanVerb, rest: 'fly.',          subj: 'Fish' },
+            { verb: 'can' as CanVerb,   rest: 'read a book.', subj: 'I' },
+            { verb: 'can' as CanVerb,   rest: 'run.',         subj: 'Cats' },
+            { verb: "can't" as CanVerb, rest: 'fly.',         subj: 'Fish' },
+            { verb: "can't" as CanVerb, rest: 'walk.',        subj: 'A snake' },
           ].map(({ verb, rest, subj }) => (
             <div key={`${subj}-${rest}`} className="flex items-center gap-1.5 bg-indigo-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-indigo-800 text-base">{subj}</span>
@@ -259,10 +262,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selPhrase) return
-    if (selSubject.verb !== selVerb) {
-      setError('❌ Try a different verb!')
-      return
-    }
+    // Every sentence the student builds is accepted as correct (can or can't both valid)
     const sentence = `${selSubject.text} ${selVerb} ${selPhrase}`
     setSentences(prev => [...prev, sentence])
     setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
@@ -284,7 +284,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <p>1. יש ליצור 5 משפטים על מנת לסיים את הסבב.</p>
         <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
         <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
-        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
+        <p>4. כל משפט שתבנו יתקבל — אפשר ליצור משפטים עם can או can&apos;t.</p>
       </div>
 
       {!allDone && (
