@@ -10,7 +10,7 @@ function randCount() { return 2 + Math.floor(Math.random() * 4) } // 2..5
 function buildRounds(items: TrackDItem[]): SpyItem[][] {
   const rounds: SpyItem[][] = []
   for (let r = 0; r < 2; r++) {
-    const picked = shuffle([...items]).slice(0, Math.min(4, items.length))
+    const picked = shuffle([...items]).slice(0, Math.min(6, items.length))
     rounds.push(picked.map((it, i) => ({
       id: `${it.word}-r${r}-${i}`,
       name: it.word,
@@ -21,12 +21,13 @@ function buildRounds(items: TrackDItem[]): SpyItem[][] {
   return rounds
 }
 
-function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
+function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly }: {
   items: SpyItem[]
   roundIdx: number
   totalRounds: number
   onNext: () => void
   onRestart: () => void
+  wordOnly: boolean
 }) {
   const [layout] = useState(() => {
     const all: { uid: string; emoji: string }[] = []
@@ -107,7 +108,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
               className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-4 transition-all
                 ${f === 'correct' ? 'bg-green-100 border-green-400' : f === 'wrong' ? 'bg-red-100 border-red-400 shake' : isCorrect ? 'bg-green-100 border-green-400' : 'bg-white border-gray-200'}`}
             >
-              <span className="text-3xl">{item.emoji}</span>
+              {!wordOnly && <span className="text-3xl">{item.emoji}</span>}
               <span className="font-display font-black text-gray-700 text-base flex-1">{item.name}</span>
               {isCorrect ? (
                 <span className="font-display font-black text-green-600 text-lg">✅ {item.count}</span>
@@ -132,7 +133,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
   )
 }
 
-export function GenericISpy({ items, onComplete }: { items: TrackDItem[]; onComplete: () => void }) {
+export function GenericISpy({ items, onComplete, wordOnly = false }: { items: TrackDItem[]; onComplete: () => void; wordOnly?: boolean }) {
   const [rounds] = useState<SpyItem[][]>(() => buildRounds(items))
   const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
@@ -155,6 +156,7 @@ export function GenericISpy({ items, onComplete }: { items: TrackDItem[]; onComp
       totalRounds={rounds.length}
       onNext={handleNext}
       onRestart={handleRestart}
+      wordOnly={wordOnly}
     />
   )
 }

@@ -4,11 +4,11 @@ import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 import { TrackDItem } from '@/data/step1/trackDCategories'
 
-interface Props { items: TrackDItem[]; onComplete: () => void }
+interface Props { items: TrackDItem[]; onComplete: () => void; limit?: number }
 
-export function GenericMatch({ items, onComplete }: Props) {
+export function GenericMatch({ items, onComplete, limit = 6 }: Props) {
   const speak = useSpeak()
-  const [pool] = useState<TrackDItem[]>(() => shuffle([...items]).slice(0, 6))
+  const [pool] = useState<TrackDItem[]>(() => shuffle([...items]).slice(0, limit))
   const [shuffledWords] = useState(() => shuffle([...pool]))
   const [shuffledEmojis] = useState(() => shuffle([...pool]))
   const [selWord, setSelWord] = useState<string | null>(null)

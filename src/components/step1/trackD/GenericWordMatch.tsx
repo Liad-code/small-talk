@@ -5,8 +5,8 @@ import { TrackDItem } from '@/data/step1/trackDCategories'
 
 interface Row { word: string; correct: string; choices: string[] }
 
-function buildRows(items: TrackDItem[]): Row[] {
-  const pool = shuffle([...items]).slice(0, 6)
+function buildRows(items: TrackDItem[], limit: number): Row[] {
+  const pool = shuffle([...items]).slice(0, limit)
   return pool.map(item => {
     const others = items.filter(i => i.word !== item.word && i.emoji !== item.emoji)
     const distractors = shuffle(others).slice(0, 2).map(i => i.emoji)
@@ -18,8 +18,8 @@ function buildRows(items: TrackDItem[]): Row[] {
   })
 }
 
-export function GenericWordMatch({ items, onComplete }: { items: TrackDItem[]; onComplete: () => void }) {
-  const [rows] = useState<Row[]>(() => buildRows(items))
+export function GenericWordMatch({ items, onComplete, limit = 6 }: { items: TrackDItem[]; onComplete: () => void; limit?: number }) {
+  const [rows] = useState<Row[]>(() => buildRows(items, limit))
   // answers: word -> correct emoji (only set when correct → locks row)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   // wrongFlash: word -> wrong emoji chosen (transient red flash, then cleared)

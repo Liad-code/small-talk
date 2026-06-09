@@ -106,6 +106,9 @@ function GardenSvg({ size = '4.5em' }: { size?: string }) {
 const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
+// Categories WITHOUT a generic I Spy: emotions/fruits have bespoke ones; the
+// rest were dropped per spec (general changes 2).
+const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face'])
 
 type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match' | 'g-match' | 'g-ispy' | 'g-wordmatch'
 
@@ -143,13 +146,13 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
   if (categoryId !== 'body' && categoryId !== 'days') {
     tabs.push({ id: 'g-match', label: 'Match', emoji: '🔗' })
   }
-  // I Spy: every category EXCEPT emotions and fruits (already have I Spy)
-  if (categoryId !== 'emotions' && categoryId !== 'fruits') {
+  // I Spy: every category EXCEPT those with a bespoke I Spy or that drop it per spec
+  if (!NO_ISPY.has(categoryId)) {
     tabs.push({ id: 'g-ispy', label: 'I Spy', emoji: '🔍' })
   }
-  // Word Match (Pictures): every category EXCEPT body (has BodyWorksheet)
-  if (categoryId !== 'body') {
-    tabs.push({ id: 'g-wordmatch', label: 'Pictures', emoji: '🖼️' })
+  // Word Match → labeled "Ex 1": every category EXCEPT body (has its own Ex 1) and days (removed)
+  if (categoryId !== 'body' && categoryId !== 'days') {
+    tabs.push({ id: 'g-wordmatch', label: 'Ex 1', emoji: '🖼️' })
   }
   return tabs
 }
@@ -517,13 +520,13 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           <OppositeMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'g-match' && cat && (
-          <GenericMatch key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+          <GenericMatch key={extraKey} items={cat.items} limit={categoryId === 'numbers' ? cat.items.length : 6} onComplete={handleExtraComplete} />
         )}
         {tab === 'g-ispy' && cat && (
-          <GenericISpy key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+          <GenericISpy key={extraKey} items={cat.items} wordOnly={categoryId === 'colors' || categoryId === 'seasons'} onComplete={handleExtraComplete} />
         )}
         {tab === 'g-wordmatch' && cat && (
-          <GenericWordMatch key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+          <GenericWordMatch key={extraKey} items={cat.items} limit={categoryId === 'numbers' ? cat.items.length : 6} onComplete={handleExtraComplete} />
         )}
       </div>
 
