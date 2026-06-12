@@ -9,17 +9,13 @@ type Tab = 'learn' | 'ex1' | 'ex2'
 
 const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'all',    hebrew: 'הכל' },
-  { word: 'am',     hebrew: 'אני' },
+  { word: 'am',     hebrew: 'פועל עזר' },
   { word: 'are',    hebrew: 'פועל עזר' },
   { word: 'at',     hebrew: 'אצל' },
-  { word: 'ate',    hebrew: 'אכל' },
   { word: 'be',     hebrew: 'להיות' },
   { word: 'black',  hebrew: 'שחור' },
   { word: 'brown',  hebrew: 'חום' },
   { word: 'but',    hebrew: 'אבל' },
-  { word: 'came',   hebrew: 'בא' },
-  { word: 'did',    hebrew: 'עשה' },
-  { word: 'do',     hebrew: 'לעשות' },
   { word: 'eat',    hebrew: 'לאכול' },
   { word: 'four',   hebrew: 'ארבע' },
   { word: 'get',    hebrew: 'לקבל' },
@@ -39,7 +35,7 @@ const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'pretty', hebrew: 'יפה' },
   { word: 'ride',   hebrew: 'לרכוב' },
   { word: 'say',    hebrew: 'לומר' },
-  { word: 'she',    hebrew: 'היא' },
+  { word: 'she',    hebrew: 'פועל עזר' },
   { word: 'so',     hebrew: 'אז' },
   { word: 'soon',   hebrew: 'בקרוב' },
   { word: 'that',   hebrew: 'זה' },
@@ -54,7 +50,6 @@ const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'what',   hebrew: 'מה' },
   { word: 'white',  hebrew: 'לבן' },
   { word: 'who',    hebrew: 'מי' },
-  { word: 'will',   hebrew: 'עתיד' },
   { word: 'with',   hebrew: 'עם' },
   { word: 'yes',    hebrew: 'כן' },
 ]
@@ -109,9 +104,9 @@ const SENTENCES: Sentence[] = [
     hebrew: 'יש לה חתול שחור.',
   },
   {
-    parts: parseSentence('They came to play.', ['They', 'came']),
-    emoji: '🎉',
-    hebrew: 'הם באו לשחק.',
+    parts: parseSentence('They are good friends.', ['They', 'are', 'good']),
+    emoji: '👫',
+    hebrew: 'הם חברים טובים.',
   },
   {
     parts: parseSentence('They are out now.', ['They', 'are', 'out', 'now']),
@@ -119,9 +114,9 @@ const SENTENCES: Sentence[] = [
     hebrew: 'הם בחוץ עכשיו.',
   },
   {
-    parts: parseSentence('He ate four apples.', ['He', 'ate', 'four']),
+    parts: parseSentence('He has four apples.', ['He', 'four']),
     emoji: '🍎',
-    hebrew: 'הוא אכל ארבעה תפוחים.',
+    hebrew: 'יש לו ארבעה תפוחים.',
   },
   {
     parts: parseSentence('Do you want this?', ['Do', 'want', 'this']),
@@ -149,14 +144,14 @@ const SENTENCES: Sentence[] = [
     hebrew: 'הכלב שלנו חום.',
   },
   {
-    parts: parseSentence('She will be there soon.', ['She', 'will', 'be', 'there', 'soon']),
+    parts: parseSentence('She must be there soon.', ['She', 'must', 'be', 'there', 'soon']),
     emoji: '🕐',
-    hebrew: 'היא תהיה שם בקרוב.',
+    hebrew: 'היא חייבת להיות שם בקרוב.',
   },
   {
-    parts: parseSentence('What did you eat?', ['What', 'did', 'eat']),
-    emoji: '🍽️',
-    hebrew: 'מה אכלת?',
+    parts: parseSentence('What is under the bed?', ['What', 'under']),
+    emoji: '🛏️',
+    hebrew: 'מה מתחת למיטה?',
   },
 ]
 
@@ -170,16 +165,29 @@ interface Ex2Q {
 }
 
 const EX2_QUESTIONS: Ex2Q[] = [
-  { before: 'I',           after: 'a good boy.', correct: 'am',    wrong: 'are'   },
-  { before: 'The cat is',  after: '.',           correct: 'black', wrong: 'brown' },
-  { before: 'We',          after: 'to school.',  correct: 'came',  wrong: 'do'    },
-  { before: '',            after: 'you want this?', correct: 'Do', wrong: 'Did'   },
-  { before: 'He',          after: 'four apples.', correct: 'ate',  wrong: 'eat'   },
-  { before: 'The bike is', after: '.',           correct: 'white', wrong: 'new'   },
-  { before: 'She',         after: 'be there soon.', correct: 'will', wrong: 'was' },
-  { before: 'Please come', after: '.',           correct: 'now',   wrong: 'no'    },
-  { before: 'Our dog is',  after: '.',           correct: 'brown', wrong: 'good'  },
-  { before: '',            after: 'did you eat?', correct: 'What', wrong: 'Who'   },
+  { before: 'I',            after: 'a good boy.',     correct: 'am',     wrong: 'are'    },
+  { before: '',             after: 'come now.',       correct: 'Please', wrong: 'Pretty' },
+  { before: 'The dog is',   after: '.',               correct: 'brown',  wrong: 'good'   },
+  { before: 'I',            after: 'to play.',        correct: 'want',   wrong: 'well'   },
+  { before: 'He has',       after: 'apples.',         correct: 'four',   wrong: 'no'     },
+  { before: 'The bike is',  after: '.',               correct: 'white',  wrong: 'like'   },
+  { before: 'The cat is',   after: '.',               correct: 'black',  wrong: 'brown'  },
+  { before: 'Please come',  after: '.',               correct: 'now',    wrong: 'no'     },
+  { before: 'I have',       after: 'books.',          correct: 'four',   wrong: 'new'    },
+  { before: '',             after: 'is at the door?', correct: 'Who',    wrong: 'What'   },
+]
+
+const EX2_QUESTIONS_R2: Ex2Q[] = [
+  { before: 'The ball is',   after: 'the box.',      correct: 'under',  wrong: 'into'   },
+  { before: 'We are',        after: 'now.',          correct: 'out',    wrong: 'on'     },
+  { before: 'I',             after: 'ice cream.',    correct: 'like',   wrong: 'must'   },
+  { before: 'He is a',       after: 'boy.',          correct: 'good',   wrong: 'four'   },
+  { before: '',              after: 'you happy?',    correct: 'Are',    wrong: 'Am'     },
+  { before: 'The flower is', after: '.',             correct: 'pretty', wrong: 'please' },
+  { before: 'Sit',           after: 'the chair.',    correct: 'on',     wrong: 'out'    },
+  { before: 'I am',          after: 'home.',         correct: 'at',     wrong: 'on'     },
+  { before: '',              after: 'is my friend.', correct: 'She',    wrong: 'They'   },
+  { before: 'The dog is',    after: '.',             correct: 'white',  wrong: 'black'  },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -202,7 +210,7 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="bg-emerald-50 border-4 border-emerald-300 rounded-3xl p-5 mb-4">
         <h2 className="font-display font-black text-2xl text-emerald-700 text-center mb-1">
-          49 Sight Words
+          44 Sight Words
         </h2>
         <p className="font-bold text-emerald-600 text-sm text-center mb-4" dir="rtl">
           מילים נפוצות שחשוב להכיר
@@ -327,18 +335,21 @@ function Ex1Tab() {
 // ── Ex 2 Tab ──────────────────────────────────────────────────────────────────
 
 function Ex2Tab() {
+  const [round, setRound] = useState(0)
   const [answered, setAnswered] = useState<Record<number, boolean>>({})
   const [wrong, setWrong] = useState<Record<number, string>>({})
-  const [order] = useState<boolean[]>(() => EX2_QUESTIONS.map(() => Math.random() < 0.5))
+  const [order, setOrder] = useState<boolean[]>(() => EX2_QUESTIONS.map(() => Math.random() < 0.5))
   const [resetKey, setResetKey] = useState(0)
 
-  const total = EX2_QUESTIONS.length
+  const questions = round === 0 ? EX2_QUESTIONS : EX2_QUESTIONS_R2
+  const total = questions.length
   const done = Object.keys(answered).length
   const allDone = done === total
+  const isLastRound = round === 1
 
   const choose = (idx: number, val: string) => {
     if (answered[idx]) return
-    if (val === EX2_QUESTIONS[idx].correct) {
+    if (val === questions[idx].correct) {
       setAnswered(prev => ({ ...prev, [idx]: true }))
     } else {
       setWrong(prev => ({ ...prev, [idx]: val }))
@@ -350,9 +361,19 @@ function Ex2Tab() {
     }
   }
 
-  const again = () => {
+  const nextRound = () => {
+    setRound(1)
     setAnswered({})
     setWrong({})
+    setOrder(EX2_QUESTIONS_R2.map(() => Math.random() < 0.5))
+    setResetKey(k => k + 1)
+  }
+
+  const again = () => {
+    setRound(0)
+    setAnswered({})
+    setWrong({})
+    setOrder(EX2_QUESTIONS.map(() => Math.random() < 0.5))
     setResetKey(k => k + 1)
   }
 
@@ -367,12 +388,15 @@ function Ex2Tab() {
         </p>
       </div>
 
-      <div className="flex justify-end text-sm font-bold text-emerald-500 mb-3">
+      <div className="flex justify-between items-center text-sm font-bold text-emerald-500 mb-3">
+        <span className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-0.5">
+          {round === 0 ? 'סבב 1' : 'סבב 2'}
+        </span>
         <span>{done} / {total} ✓</span>
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {EX2_QUESTIONS.map((q, idx) => {
+        {questions.map((q, idx) => {
           const isAnswered = answered[idx]
           const opts = order[idx] ? [q.correct, q.wrong] : [q.wrong, q.correct]
           return (
@@ -413,7 +437,16 @@ function Ex2Tab() {
         })}
       </div>
 
-      {allDone && (
+      {allDone && !isLastRound && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">👏</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את סבב 1!</p>
+          <button onClick={nextRound} className="btn-kid bg-emerald-500">סבב הבא →</button>
+        </div>
+      )}
+
+      {allDone && isLastRound && (
         <div className="text-center bounce-in mt-6">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>

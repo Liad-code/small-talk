@@ -1,0 +1,549 @@
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
+import { Header } from '@/components/layout/Header'
+
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
+
+type Aux = 'am' | 'is' | 'are'
+
+const AUX_COLORS: Record<Aux, { bg: string; light: string; text: string; border: string }> = {
+  am:  { bg: 'bg-indigo-500',  light: 'bg-indigo-50',  text: 'text-indigo-700',  border: 'border-indigo-300'  },
+  is:  { bg: 'bg-emerald-500', light: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-300' },
+  are: { bg: 'bg-orange-500',  light: 'bg-orange-50',  text: 'text-orange-700',  border: 'border-orange-300'  },
+}
+
+const AUXES: Aux[] = ['am', 'is', 'are']
+
+const WH_WORDS: { word: string; hebrew: string }[] = [
+  { word: 'What',  hebrew: 'מה' },
+  { word: 'Where', hebrew: 'איפה' },
+  { word: 'Who',   hebrew: 'מי' },
+  { word: 'Why',   hebrew: 'למה' },
+]
+
+// ── ExWrapper ─────────────────────────────────────────────────────────────────
+
+function ExWrapper({
+  cycles,
+  render,
+}: {
+  cycles: number
+  render: (cycleIdx: number, onAgain: () => void, onDone: () => void) => React.ReactNode
+}) {
+  const [cycleIdx, setCycleIdx] = useState(0)
+  const [key, setKey] = useState(0)
+  const [finished, setFinished] = useState(false)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
+        <button
+          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
+          className="btn-kid bg-blue-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div key={key}>
+      {render(
+        Math.min(cycleIdx, cycles - 1),
+        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        () => setFinished(true),
+      )}
+    </div>
+  )
+}
+
+// ── Learn ─────────────────────────────────────────────────────────────────────
+
+function LearnTab() {
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
+      <div className="bg-amber-50 border-4 border-amber-300 rounded-3xl p-5">
+        <h2 className="font-display font-black text-3xl text-amber-700 text-center mb-1">
+          Wh Questions
+        </h2>
+        <p className="font-bold text-amber-700 text-sm text-center mb-4" dir="rtl">
+          הווה מתמשך — שאלות Wh
+        </p>
+
+        <div className="flex flex-col gap-1.5 text-sm font-bold text-amber-800 mb-4" dir="rtl">
+          <p>• המבנה: <span dir="ltr" className="font-black">Wh-word + am / is / are + subject + verb-ing?</span></p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          {WH_WORDS.map(({ word, hebrew }) => (
+            <div key={word} className="bg-orange-50 border-2 border-orange-200 rounded-2xl px-4 py-2 flex items-center justify-between">
+              <span className="font-display font-black text-xl text-orange-700">{word}</span>
+              <span className="font-bold text-sm text-orange-600" dir="rtl">{hebrew}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          {[
+            { wh: 'What',  aux: 'are' as Aux, rest: 'you eating?' },
+            { wh: 'Where', aux: 'is' as Aux,  rest: 'he going?' },
+            { wh: 'What',  aux: 'am' as Aux,  rest: 'I reading?' },
+          ].map(({ wh, aux, rest }) => (
+            <div key={wh + rest} className="flex items-center gap-1.5 bg-white rounded-xl px-3 py-1.5 border-2 border-amber-100">
+              <span className="font-display font-black text-base text-amber-700">{wh}</span>
+              <span className={`font-display font-black text-base ${AUX_COLORS[aux].text}`}>{aux}</span>
+              <span className="font-bold text-gray-700 text-base">{rest}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Ex 1: Read wh-question + answer (reveal) ─────────────────────────────────
+
+interface Ex1Q { question: string; answer: string }
+
+const EX1_QUESTIONS: Ex1Q[] = [
+  { question: 'What are you eating?',        answer: '(a sandwich)' },
+  { question: 'Where is your mom?',          answer: '(at the park)' },
+  { question: 'What is he reading?',         answer: '(a book)' },
+  { question: 'Where are they going?',       answer: '(to school)' },
+  { question: 'What am I doing?',            answer: '(cleaning)' },
+  { question: 'Who is singing now?',         answer: '(my sister)' },
+  { question: 'Why is the baby crying?',     answer: "(it's hungry)" },
+  { question: 'What is she drinking?',       answer: '(water)' },
+  { question: 'Where are we sitting?',       answer: '(in the garden)' },
+  { question: 'What are the kids playing?',  answer: '(football)' },
+]
+
+function Ex1Tab() {
+  const [revealed, setRevealed] = useState<Set<number>>(new Set())
+
+  const toggle = (idx: number) => {
+    setRevealed(prev => {
+      const s = new Set(prev)
+      if (s.has(idx)) s.delete(idx)
+      else s.add(idx)
+      return s
+    })
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <p className="text-center font-bold text-amber-600 text-sm mb-4" dir="rtl">
+        קראו את השאלה. לחיצה על ? תציג את התשובה
+      </p>
+
+      <div className="flex flex-col gap-3">
+        {EX1_QUESTIONS.map((q, idx) => (
+          <div key={idx} className="bg-white border-2 border-amber-200 rounded-2xl px-4 py-3 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="flex-1 text-base font-bold text-gray-700">{q.question}</span>
+              <button
+                onClick={() => toggle(idx)}
+                aria-label="Show answer"
+                className={`flex-shrink-0 w-8 h-8 rounded-full font-display font-black text-base border-2 transition-colors active:scale-95 ${
+                  revealed.has(idx)
+                    ? 'bg-amber-500 text-white border-amber-500'
+                    : 'bg-amber-50 text-amber-600 border-amber-300 hover:bg-amber-100'
+                }`}
+              >
+                ?
+              </button>
+            </div>
+            {revealed.has(idx) && (
+              <p className="mt-2 pt-2 border-t border-amber-100 font-bold text-amber-700 text-base">
+                {q.answer}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── Ex 2: 4-part wh-question builder ──────────────────────────────────────────
+
+interface Ex2Subject { text: string; aux: Aux }
+
+interface Ex2Cycle {
+  whWords: string[]
+  subjects: Ex2Subject[]
+  verbs: string[]
+}
+
+const EX2_CYCLES: Ex2Cycle[] = [
+  {
+    whWords: ['What', 'Where', 'Who', 'Why', 'What', 'Where'],
+    subjects: [
+      { text: 'you',  aux: 'are' },
+      { text: 'he',   aux: 'is'  },
+      { text: 'I',    aux: 'am'  },
+      { text: 'they', aux: 'are' },
+      { text: 'she',  aux: 'is'  },
+      { text: 'we',   aux: 'are' },
+    ],
+    verbs: ['doing', 'going', 'reading', 'eating', 'playing', 'watching'],
+  },
+]
+
+function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const cycle = EX2_CYCLES[cycleIdx]
+  const [selWh, setSelWh] = useState<string | null>(null)
+  const [selAux, setSelAux] = useState<Aux | null>(null)
+  const [selSubject, setSelSubject] = useState<Ex2Subject | null>(null)
+  const [selVerb, setSelVerb] = useState<string | null>(null)
+  const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
+  const [usedWh, setUsedWh] = useState<Set<string>>(new Set())
+  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
+  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
+
+  const allDone = sentences.length === cycle.subjects.length
+  const availWh = cycle.whWords.filter((w, i) => !usedWh.has(`${w}-${i}`))
+  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
+  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
+
+  const handleAdd = () => {
+    if (!selWh || !selAux || !selSubject || !selVerb) return
+    if (selSubject.aux !== selAux) {
+      setError('❌ Try a different aux!')
+      return
+    }
+    const sentence = `${selWh} ${selAux} ${selSubject.text} ${selVerb}?`
+    setSentences(prev => [...prev, sentence])
+    setUsedWh(prev => { const s = new Set(prev); s.add(selWh); return s })
+    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
+    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
+    setSelWh(null)
+    setSelAux(null)
+    setSelSubject(null)
+    setSelVerb(null)
+    setError('')
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
+        <span>Cycle {cycleIdx + 1} / {EX2_CYCLES.length}</span>
+        <span className="text-amber-500">{sentences.length} / {cycle.subjects.length} ✓</span>
+      </div>
+
+      <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-3 text-sm font-bold text-amber-700" dir="rtl">
+        <p>1. יש ליצור 6 שאלות על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור שאלה.</p>
+        <p>3. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>
+        <p>4. במידה והשאלה לא נכונה, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
+      </div>
+
+      {!allDone && (
+        <div className="grid grid-cols-4 gap-1.5 mb-4">
+          {/* Wh-word */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-amber-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Wh</span>
+            </div>
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availWh.map((w, i) => (
+                <button
+                  key={`${w}-${i}`}
+                  onClick={() => setSelWh(w)}
+                  className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors ${selWh === w ? 'bg-amber-600 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+                >
+                  {w}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Aux */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-sky-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Aux</span>
+            </div>
+            <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {AUXES.map(v => {
+                const c = AUX_COLORS[v]
+                return (
+                  <button
+                    key={v}
+                    onClick={() => setSelAux(v)}
+                    className={`text-sm font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${selAux === v ? `${c.bg} text-white ${c.border}` : `${c.light} ${c.text} ${c.border} hover:opacity-80`}`}
+                  >
+                    {v}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Subject */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-purple-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Subject</span>
+            </div>
+            <div className="bg-purple-50 border-2 border-purple-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availSubjects.map(s => (
+                <button
+                  key={s.text}
+                  onClick={() => setSelSubject(s)}
+                  className={`text-sm font-bold rounded-lg px-1 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-purple-500 text-white' : 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-100'}`}
+                >
+                  {s.text}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Verb-ing */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-emerald-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Verb-ing</span>
+            </div>
+            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availVerbs.map(v => (
+                <button
+                  key={v}
+                  onClick={() => setSelVerb(v)}
+                  className={`text-xs font-bold rounded-lg px-1 py-1 text-center transition-colors ${selVerb === v ? 'bg-emerald-500 text-white' : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-100'}`}
+                >
+                  {v}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selWh && selAux && selSubject && selVerb && !allDone && (
+        <div className="bg-amber-50 border-2 border-amber-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
+          <span className="font-bold text-amber-700 text-base flex-1">
+            {selWh} {selAux} {selSubject.text} {selVerb}?
+          </span>
+          <button onClick={handleAdd} className="btn-kid bg-amber-500 !py-1 !px-3 text-sm">➕ Add</button>
+        </div>
+      )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3">{error}</p>}
+
+      {sentences.length > 0 && (
+        <div className="flex flex-col gap-1.5 mb-4">
+          {sentences.map((s, i) => (
+            <div key={i} className="bg-amber-100 border-2 border-amber-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
+              <span className="font-bold text-amber-500 text-sm">{i + 1}.</span>
+              <span className="font-bold text-amber-800 text-base">{s}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
+          <div className="flex gap-3 justify-center">
+            <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Ex 3: Pick the correct short answer ──────────────────────────────────────
+
+type AnswerGroup = 'I' | 'he' | 'she' | 'it' | 'you' | 'we' | 'they'
+
+const ANSWER_BANK: Record<AnswerGroup, { yes: string; no: string }> = {
+  I:    { yes: 'Yes, I am.',     no: "No, I'm not."     },
+  he:   { yes: 'Yes, he is.',    no: "No, he isn't."    },
+  she:  { yes: 'Yes, she is.',   no: "No, she isn't."   },
+  it:   { yes: 'Yes, it is.',    no: "No, it isn't."    },
+  you:  { yes: 'Yes, you are.',  no: "No, you aren't."  },
+  we:   { yes: 'Yes, we are.',   no: "No, we aren't."   },
+  they: { yes: 'Yes, they are.', no: "No, they aren't." },
+}
+
+const ANSWER_GROUPS: AnswerGroup[] = ['I', 'he', 'she', 'it', 'you', 'we', 'they']
+
+interface Ex3Q { question: string; group: AnswerGroup }
+
+const EX3_QUESTIONS: Ex3Q[] = [
+  { question: 'Is she eating now?',          group: 'she'  },
+  { question: 'Are you reading a book?',     group: 'you'  },
+  { question: 'Am I doing it right?',        group: 'I'    },
+  { question: 'Is he going home?',           group: 'he'   },
+  { question: 'Are they playing football?',  group: 'they' },
+  { question: 'Is it working now?',          group: 'it'   },
+  { question: 'Are we winning?',             group: 'we'   },
+  { question: 'Is she watching TV?',         group: 'she'  },
+  { question: 'Are they singing?',           group: 'they' },
+  { question: 'Is he sleeping now?',         group: 'he'   },
+]
+
+function Ex3() {
+  const [current, setCurrent] = useState(0)
+  const [flash, setFlash] = useState<string | null>(null)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  const q = EX3_QUESTIONS[current]
+  const isLast = current === EX3_QUESTIONS.length - 1
+
+  const handleClick = (group: AnswerGroup, side: 'yes' | 'no') => {
+    if (flash) return
+    if (group !== q.group) return
+    const tileKey = `${group}-${side}`
+    setFlash(tileKey)
+    setTimeout(() => {
+      setFlash(null)
+      if (isLast) setFinished(true)
+      else setCurrent(c => c + 1)
+    }, 350)
+  }
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
+        <button
+          onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-blue-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div key={key} className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>Question {current + 1} / {EX3_QUESTIONS.length}</span>
+        <span className="text-amber-500">{current} ✓</span>
+      </div>
+
+      <div className="bg-amber-50 border-4 border-amber-300 rounded-3xl p-6 text-center mb-5">
+        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הנכונה. ניתן לענות בחיוב או בשלילה.</p>
+        <p className="font-display font-black text-2xl text-amber-700">{q.question}</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        {/* YES */}
+        <div className="flex flex-col gap-1.5">
+          <div className="bg-green-500 rounded-t-xl py-1.5 text-center">
+            <span className="font-display font-black text-white text-sm">YES ✓</span>
+          </div>
+          <div className="bg-green-50 border-2 border-green-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+            {ANSWER_GROUPS.map(g => {
+              const isFlashing = flash === `${g}-yes`
+              return (
+                <button
+                  key={g}
+                  onClick={() => handleClick(g, 'yes')}
+                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                    isFlashing
+                      ? 'bg-green-500 text-white border-green-500 scale-105'
+                      : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
+                  }`}
+                >
+                  {ANSWER_BANK[g].yes}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* NO */}
+        <div className="flex flex-col gap-1.5">
+          <div className="bg-rose-500 rounded-t-xl py-1.5 text-center">
+            <span className="font-display font-black text-white text-sm">NO ✗</span>
+          </div>
+          <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+            {ANSWER_GROUPS.map(g => {
+              const isFlashing = flash === `${g}-no`
+              return (
+                <button
+                  key={g}
+                  onClick={() => handleClick(g, 'no')}
+                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                    isFlashing
+                      ? 'bg-rose-500 text-white border-rose-500 scale-105'
+                      : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'
+                  }`}
+                >
+                  {ANSWER_BANK[g].no}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
+export default function PresentProgressiveWhPage() {
+  const [tab, setTab] = useState<Tab>('learn')
+
+  const tabs: { id: Tab; label: string }[] = [
+    { id: 'learn', label: '📚 Learn' },
+    { id: 'ex1',   label: 'Ex 1' },
+    { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
+  ]
+
+  const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
+
+  return (
+    <div className="min-h-screen">
+      <Header />
+
+      <div className="bg-gradient-to-r from-amber-500 to-orange-600 px-4 py-4">
+        <div className="max-w-xl mx-auto">
+          <Link href="/step4/grammar/present-progressive" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Present Progressive</Link>
+          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Present Progressive — Wh Questions ❔</h1>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">הווה מתמשך — שאלות Wh</p>
+          <p className="text-white/70 font-bold text-xs mt-0.5">What are you eating? · Where is he going?</p>
+        </div>
+      </div>
+
+      <div className="bg-white border-b border-gray-200 px-3 py-2 overflow-x-auto">
+        <div className="flex gap-1.5 min-w-max mx-auto justify-center">
+          {tabs.map(t => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`${TAB} ${tab === t.id ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="pt-4">
+        {tab === 'learn' && <LearnTab />}
+        {tab === 'ex1' && <Ex1Tab />}
+        {tab === 'ex2' && (
+          <ExWrapper cycles={EX2_CYCLES.length} render={(c, again, done) => <Ex2 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
+        )}
+        {tab === 'ex3' && <Ex3 />}
+      </div>
+    </div>
+  )
+}
