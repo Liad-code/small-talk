@@ -42,12 +42,12 @@ interface Ex2Subject {
 const EX2_SUBJECTS: Ex2Subject[] = [
   { text: 'girls',  doDoes: 'Do'   },
   { text: 'cats',   doDoes: 'Do'   },
-  { text: 'oren',   doDoes: 'Does' },
-  { text: 'dana',   doDoes: 'Does' },
-  { text: 'mother', doDoes: 'Does' },
+  { text: 'oren',      doDoes: 'Does' },
+  { text: 'dana',      doDoes: 'Does' },
+  { text: 'my mother', doDoes: 'Does' },
 ]
 
-const EX2_VERBS = ['read', 'play', 'eat', 'like', 'walk']
+const EX2_VERBS = ['read', 'play', 'eat', 'walk']
 const EX2_TIMES = ['every day', 'every week']
 
 // ── Ex3 data ──────────────────────────────────────────────────────────────────
@@ -72,14 +72,16 @@ interface Ex3Q {
   group: Group
 }
 
+// `group` = the pronoun used in the SHORT ANSWER (not the subject of the question):
+// you→I, I→you, he→he, she→she, it→it, we→we, they→they, plural noun→they, singular noun→he/she/it
 const EX3_QUESTIONS: Ex3Q[] = [
-  { question: 'Do you like pizza?',          group: 'you'  },
+  { question: 'Do you like pizza?',          group: 'I'    },
   { question: 'Does she play the piano?',    group: 'she'  },
   { question: 'Do they read every day?',     group: 'they' },
   { question: 'Does he walk to school?',     group: 'he'   },
   { question: 'Do we have homework today?',  group: 'we'   },
   { question: 'Does it rain in winter?',     group: 'it'   },
-  { question: 'Do I play well?',             group: 'I'    },
+  { question: 'Do I play well?',             group: 'you'  },
   { question: 'Does Dana eat breakfast?',    group: 'she'  },
   { question: 'Do the boys run fast?',       group: 'they' },
   { question: 'Does the dog like water?',    group: 'it'   },

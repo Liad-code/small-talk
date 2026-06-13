@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 type Neg = "don't" | "doesn't"
 
@@ -20,7 +20,7 @@ const EX1_QUESTIONS: Ex1Q[] = [
   { before: 'Gil',             after: 'play football every week.',         answer: "doesn't" },
   { before: 'We',              after: 'eat pizza every day.',              answer: "don't"   },
   { before: 'She',             after: 'read books every night.',           answer: "doesn't" },
-  { before: 'They',            after: 'like homework every day.',          answer: "don't"   },
+  { before: 'They',            after: 'do homework every day.',            answer: "don't"   },
   { before: 'He',              after: 'drink milk every morning.',         answer: "doesn't" },
   { before: 'You',             after: 'watch TV every evening.',           answer: "don't"   },
   { before: 'Dana',            after: 'sing every week.',                  answer: "doesn't" },
@@ -40,15 +40,34 @@ interface Ex2Subject {
   neg: Neg
 }
 
-const EX2_SUBJECTS: Ex2Subject[] = [
-  { text: 'he',           neg: "doesn't" },
-  { text: 'you',          neg: "don't"   },
-  { text: 'the dog',      neg: "doesn't" },
-  { text: 'dan and dana', neg: "don't"   },
-]
+interface Ex2Cycle {
+  subjects: Ex2Subject[]
+  verbs: string[]
+  times: string[]
+}
 
-const EX2_VERBS = ['read', 'play', 'eat', 'like', 'walk']
-const EX2_TIMES = ['every day', 'every week']
+const EX2_CYCLES: Ex2Cycle[] = [
+  {
+    subjects: [
+      { text: 'He',           neg: "doesn't" },
+      { text: 'You',          neg: "don't"   },
+      { text: 'The dog',      neg: "doesn't" },
+      { text: 'Dan and Dana', neg: "don't"   },
+    ],
+    verbs: ['read', 'play', 'eat', 'walk'],
+    times: ['every day', 'every week'],
+  },
+  {
+    subjects: [
+      { text: 'She',          neg: "doesn't" },
+      { text: 'We',           neg: "don't"   },
+      { text: 'The boy',      neg: "doesn't" },
+      { text: 'Tom and Liat', neg: "don't"   },
+    ],
+    verbs: ['run', 'write', 'clean', 'sleep', 'visit'],
+    times: ['every day', 'every week'],
+  },
+]
 
 // ── Learn ──────────────────────────────────────────────────────────────────────
 
@@ -64,7 +83,8 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-rose-800 mb-4" dir="rtl">
-          <p>• שלילה בהווה = don&apos;t / doesn&apos;t + פועל בצורת הבסיס</p>
+          <p>• שלילה בהווה — do not / does not + פועל בצורת הבסיס</p>
+          <p>• צורת הקיצור: don&apos;t / doesn&apos;t</p>
           <p>• אחרי don&apos;t / doesn&apos;t הפועל תמיד ללא s</p>
         </div>
 
@@ -81,8 +101,8 @@ function LearnTab() {
 
         <div className="flex flex-col gap-1.5">
           {[
-            { neg: "don't" as Neg,   subj: 'I',   rest: 'play basketball on Monday.' },
-            { neg: "doesn't" as Neg, subj: 'She', rest: 'eat pasta every day.' },
+            { neg: "don't" as Neg,   subj: 'I',   rest: 'run every day.' },
+            { neg: "doesn't" as Neg, subj: 'She', rest: 'eat an ice cream every day.' },
             { neg: "don't" as Neg,   subj: 'We',  rest: 'walk to school every day.' },
             { neg: "doesn't" as Neg, subj: 'He',  rest: 'read books every week.' },
           ].map(({ neg, subj, rest }) => (
@@ -205,14 +225,14 @@ function Ex1() {
 
 const EX2_GOAL = 6
 
-function Ex2() {
+function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const cycle = EX2_CYCLES[cycleIdx]
   const [selSubject, setSelSubject] = useState<Ex2Subject | null>(null)
   const [selNeg, setSelNeg] = useState<Neg | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [resetKey, setResetKey] = useState(0)
 
   const allDone = sentences.length >= EX2_GOAL
 
@@ -231,20 +251,10 @@ function Ex2() {
     setError('')
   }
 
-  const again = () => {
-    setSentences([])
-    setSelSubject(null)
-    setSelNeg(null)
-    setSelVerb(null)
-    setSelTime(null)
-    setError('')
-    setResetKey(k => k + 1)
-  }
-
   return (
-    <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span dir="rtl">בנה משפטי שלילה</span>
+        <span>Round {cycleIdx + 1} / {EX2_CYCLES.length}</span>
         <span className="text-rose-500">{Math.min(sentences.length, EX2_GOAL)} / {EX2_GOAL} ✓</span>
       </div>
 
@@ -263,7 +273,7 @@ function Ex2() {
               <span className="font-display font-black text-white text-xs">Subject</span>
             </div>
             <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {EX2_SUBJECTS.map(s => (
+              {cycle.subjects.map(s => (
                 <button
                   key={s.text}
                   onClick={() => setSelSubject(s)}
@@ -305,7 +315,7 @@ function Ex2() {
               <span className="font-display font-black text-white text-xs">Verb</span>
             </div>
             <div className="bg-purple-50 border-2 border-purple-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {EX2_VERBS.map(v => (
+              {cycle.verbs.map(v => (
                 <button
                   key={v}
                   onClick={() => setSelVerb(v)}
@@ -323,7 +333,7 @@ function Ex2() {
               <span className="font-display font-black text-white text-xs">Time</span>
             </div>
             <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-              {EX2_TIMES.map(t => (
+              {cycle.times.map(t => (
                 <button
                   key={t}
                   onClick={() => setSelTime(t)}
@@ -363,8 +373,202 @@ function Ex2() {
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
-          <button onClick={again} className="btn-kid bg-rose-500">🔁 Again</button>
+          <div className="flex gap-3 justify-center">
+            {cycleIdx + 1 < EX2_CYCLES.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
+            )}
+          </div>
         </div>
+      )}
+    </div>
+  )
+}
+
+// ── Ex3: type the negative form ──────────────────────────────────────────────────
+
+interface Ex3Q {
+  positive: string
+  answer: string
+}
+
+const EX3_QUESTIONS: Ex3Q[] = [
+  { positive: 'I play football every day.',          answer: "I don't play football every day."          },
+  { positive: 'She eats an apple every day.',        answer: "She doesn't eat an apple every day."        },
+  { positive: 'We walk to school every day.',        answer: "We don't walk to school every day."         },
+  { positive: 'He reads books every week.',          answer: "He doesn't read books every week."          },
+  { positive: 'They watch TV every night.',          answer: "They don't watch TV every night."           },
+  { positive: 'The cat drinks milk every morning.',  answer: "The cat doesn't drink milk every morning."  },
+  { positive: 'You run every day.',                  answer: "You don't run every day."                   },
+  { positive: 'My mom cooks dinner every day.',      answer: "My mom doesn't cook dinner every day."      },
+  { positive: 'I clean my room every week.',         answer: "I don't clean my room every week."          },
+  { positive: 'Dan plays the guitar every day.',     answer: "Dan doesn't play the guitar every day."     },
+]
+
+// normalize apostrophes (straight/curly), whitespace and case for matching
+function normalize(s: string): string {
+  return s
+    .replace(/[‘’ʼ′]/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+}
+
+function Ex3() {
+  const [current, setCurrent] = useState(0)
+  const [input, setInput] = useState('')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [finished, setFinished] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const q = EX3_QUESTIONS[current]
+  const isLast = current === EX3_QUESTIONS.length - 1
+
+  useEffect(() => {
+    if (status === 'idle') inputRef.current?.focus()
+  }, [status, current])
+
+  const submit = () => {
+    if (!input.trim()) return
+    if (normalize(input) === normalize(q.answer)) {
+      setStatus('correct')
+      setTimeout(() => {
+        if (isLast) {
+          setFinished(true)
+        } else {
+          setCurrent(c => c + 1)
+          setInput('')
+          setStatus('idle')
+        }
+      }, 700)
+    } else {
+      setStatus('wrong')
+      setTimeout(() => {
+        setStatus('idle')
+        setInput('')
+      }, 800)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') submit()
+  }
+
+  const again = () => {
+    setCurrent(0)
+    setInput('')
+    setStatus('idle')
+    setFinished(false)
+  }
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
+        <button onClick={again} className="btn-kid bg-rose-500">🔁 Again</button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>Question {current + 1} / {EX3_QUESTIONS.length}</span>
+        <span className="text-rose-500">{current} / {EX3_QUESTIONS.length} ✓</span>
+      </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
+        כתבו את המשפט בצורת השלילה
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+        Write the negative form
+      </p>
+
+      <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl px-4 py-3 mb-3">
+        <p className="text-xs font-bold text-rose-500 mb-1">✅ Positive:</p>
+        <p className="font-bold text-rose-800 text-lg">{q.positive}</p>
+      </div>
+
+      <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
+        status === 'wrong'   ? 'bg-red-50 border-red-300' :
+        status === 'correct' ? 'bg-green-50 border-green-300' :
+        'bg-white border-gray-200'
+      }`}>
+        <p className="text-xs font-bold text-gray-500 mb-3">🚫 Negative:</p>
+        <div className="flex items-center gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={e => { if (status === 'idle') setInput(e.target.value) }}
+            onKeyDown={handleKeyDown}
+            disabled={status !== 'idle'}
+            placeholder="type the negative sentence..."
+            className={`flex-1 border-b-2 font-bold text-base focus:outline-none bg-transparent transition-colors ${
+              status === 'wrong'   ? 'border-red-400 text-red-600' :
+              status === 'correct' ? 'border-green-400 text-green-600' :
+              'border-gray-400 text-gray-700 placeholder:text-gray-300'
+            }`}
+          />
+          <button
+            onClick={submit}
+            disabled={status !== 'idle' || !input.trim()}
+            className="btn-kid bg-rose-500 !py-1 !px-3 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            ▶
+          </button>
+        </div>
+        {status === 'correct' && (
+          <p className="mt-3 font-bold text-green-600 text-sm">✅ {q.answer}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ── Wrapper (2-round flow for builder) ────────────────────────────────────────────
+
+function ExWrapper({
+  cycles, render,
+}: {
+  cycles: number
+  render: (cycleIdx: number, onAgain: () => void, onDone: () => void) => React.ReactNode
+}) {
+  const [cycleIdx, setCycleIdx] = useState(0)
+  const [key, setKey] = useState(0)
+  const [finished, setFinished] = useState(false)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
+          className="btn-kid bg-blue-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div key={key}>
+      {render(
+        Math.min(cycleIdx, cycles - 1),
+        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        () => setFinished(true),
       )}
     </div>
   )
@@ -379,6 +583,7 @@ export default function PresentSimpleNegativePage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -413,7 +618,13 @@ export default function PresentSimpleNegativePage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1 />}
-        {tab === 'ex2'   && <Ex2 />}
+        {tab === 'ex2'   && (
+          <ExWrapper
+            cycles={EX2_CYCLES.length}
+            render={(c, again, done) => <Ex2 key={c} cycleIdx={c} onAgain={again} onDone={done} />}
+          />
+        )}
+        {tab === 'ex3'   && <Ex3 />}
       </div>
     </div>
   )

@@ -71,7 +71,7 @@ export const SOUNDS: Sound[] = [
   },
   {
     id: 'sion', label: 'sion', hebrewLabel: 'sion — נשמע ז׳ן', subtitle: 'zhun sound',
-    note: 'הסיומת sion נשמעת כמו "ז׳ן" או "שן"',
+    note: 'הסיומת sion נשמעת כמו "ז׳ן"',
     color: 'from-indigo-500 to-blue-600', bgColor: 'bg-indigo-50', textColor: 'text-indigo-700', borderColor: 'border-indigo-300',
     emoji: '👁️',
     words: [

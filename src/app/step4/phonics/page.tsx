@@ -93,6 +93,32 @@ export default function PhonicsPage() {
           </Link>
         </div>
 
+        {/* Sound Sort exercises */}
+        <h2 className="font-display text-lg font-bold text-gray-600 mt-10 mb-3">
+          🎯 Sound Sort
+        </h2>
+        <div className="grid grid-cols-2 gap-3">
+          {[1, 2].map(n => (
+            <Link
+              key={n}
+              href={`/step4/phonics/sound-sort/${n}`}
+              className="
+                no-underline
+                bg-gradient-to-r from-green-500 to-teal-500 border-4 border-teal-300
+                rounded-2xl p-4 flex flex-col items-center gap-1 text-center
+                card-3d hover:rotate-1 group transition-transform
+              "
+            >
+              <span className="text-4xl mb-0.5 transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5 inline-block">
+                🎲
+              </span>
+              <span className="font-display font-black text-xl leading-none text-white">
+                Sound Sort {n}
+              </span>
+            </Link>
+          ))}
+        </div>
+
       </div>
     </div>
   )

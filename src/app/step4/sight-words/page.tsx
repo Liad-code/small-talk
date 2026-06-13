@@ -171,9 +171,9 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'I',            after: 'to play.',        correct: 'want',   wrong: 'well'   },
   { before: 'He has',       after: 'apples.',         correct: 'four',   wrong: 'no'     },
   { before: 'The bike is',  after: '.',               correct: 'white',  wrong: 'like'   },
-  { before: 'The cat is',   after: '.',               correct: 'black',  wrong: 'brown'  },
+  { before: 'The cat is',   after: '.',               correct: 'black',  wrong: 'but'    },
   { before: 'Please come',  after: '.',               correct: 'now',    wrong: 'no'     },
-  { before: 'I have',       after: 'books.',          correct: 'four',   wrong: 'new'    },
+  { before: 'I have',       after: 'books.',          correct: 'four',   wrong: 'he'     },
   { before: '',             after: 'is at the door?', correct: 'Who',    wrong: 'What'   },
 ]
 
@@ -187,7 +187,7 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
   { before: 'Sit',           after: 'the chair.',    correct: 'on',     wrong: 'out'    },
   { before: 'I am',          after: 'home.',         correct: 'at',     wrong: 'on'     },
   { before: '',              after: 'is my friend.', correct: 'She',    wrong: 'They'   },
-  { before: 'The dog is',    after: '.',             correct: 'white',  wrong: 'black'  },
+  { before: 'The dog is',    after: '.',             correct: 'white',  wrong: 'be'     },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────

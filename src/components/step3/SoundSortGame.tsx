@@ -96,8 +96,8 @@ function SortExercise({
 
   const unplaced = tiles.filter(t => !placed.has(t.id))
 
-  // 2 categories → 2 columns, else 3 columns
-  const gridCols = categories.length === 2 ? 'grid-cols-2' : 'grid-cols-3'
+  // 3 categories → 3 columns; 2 or 4 → 2 columns
+  const gridCols = categories.length === 3 ? 'grid-cols-3' : 'grid-cols-2'
 
   return (
     <div className="px-3 pb-10 max-w-xl mx-auto">
@@ -165,7 +165,7 @@ function SortExercise({
                   textColor="text-gray-700"
                   size="lg"
                   className="relative"
-                  onClick={() => speak(tile.word, 0.8)}
+                  onClick={() => speak(tile.word.toLowerCase(), 0.8)}
                   onDropped={handleDrop}
                 >
                   <span
@@ -175,7 +175,7 @@ function SortExercise({
                         : 'text-4xl leading-none'
                     }
                   >
-                    {isFlipped ? tile.word : tile.emoji}
+                    {isFlipped ? tile.word.toLowerCase() : tile.emoji}
                   </span>
                   <button
                     type="button"
@@ -202,9 +202,11 @@ function SortExercise({
 export function SoundSortGame({
   setNumber,
   categories,
+  backHref = '/step3/phonics',
 }: {
   setNumber: number
   categories: SoundSortCategory[]
+  backHref?: string
 }) {
   const [done, setDone] = useState(false)
   const [key, setKey] = useState(0)
@@ -217,7 +219,7 @@ export function SoundSortGame({
       <div className="bg-gradient-to-r from-green-500 to-teal-600 px-4 py-4">
         <div className="max-w-xl mx-auto">
           <Link
-            href="/step3/phonics"
+            href={backHref}
             className="text-white/70 font-bold text-sm no-underline hover:text-white"
           >
             ← Phonics

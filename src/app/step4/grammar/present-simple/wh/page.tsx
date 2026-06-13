@@ -18,22 +18,29 @@ const WH_WORDS: { word: string; hebrew: string; light: string; text: string }[] 
 
 // ── Ex1 data ──────────────────────────────────────────────────────────────────
 
+// Ex1: complete the correct question word. Each item shows a present-simple
+// question with the Wh-word missing (blank at the start) plus a short answer/hint
+// that uniquely points to the correct wh-word.
 interface Ex1Q {
-  question: string
+  sentence: string   // the rest of the question after the blank
+  hint: string       // the short answer that reveals the wh-word
+  options: string[]
   answer: string
 }
 
+const WH_OPTIONS = ['Who', 'What', 'Where', 'When', 'Why', 'How']
+
 const EX1_QUESTIONS: Ex1Q[] = [
-  { question: 'Where does your mom buy food?', answer: 'at the supermarket' },
-  { question: 'What do you eat for breakfast?', answer: 'eggs and bread' },
-  { question: 'When do you go to school?',     answer: 'in the morning' },
-  { question: 'Where do cats sleep?',          answer: 'on the sofa' },
-  { question: 'What does the dog like?',        answer: 'a big bone' },
-  { question: 'How do you go to school?',       answer: 'by bus' },
-  { question: 'Why do you like summer?',        answer: 'because it is sunny' },
-  { question: 'Who does the dishes at home?',   answer: 'my dad' },
-  { question: 'When does the show start?',       answer: 'at eight o\'clock' },
-  { question: 'Where do you play football?',     answer: 'in the park' },
+  { sentence: 'do you live?',                  hint: '— In Tel Aviv.',        options: WH_OPTIONS, answer: 'Where' },
+  { sentence: 'does she eat for breakfast?',   hint: '— Eggs.',               options: WH_OPTIONS, answer: 'What'  },
+  { sentence: 'do they go to school?',         hint: "— At 8 o'clock.",       options: WH_OPTIONS, answer: 'When'  },
+  { sentence: 'does he go to the park?',       hint: '— Because he likes it.',options: WH_OPTIONS, answer: 'Why'   },
+  { sentence: 'do you go to school?',          hint: '— By bus.',             options: WH_OPTIONS, answer: 'How'   },
+  { sentence: 'lives in this house?',          hint: '— My grandma.',         options: WH_OPTIONS, answer: 'Who'   },
+  { sentence: 'do you do after school?',       hint: '— I play football.',    options: WH_OPTIONS, answer: 'What'  },
+  { sentence: 'does the show start?',          hint: '— At seven.',           options: WH_OPTIONS, answer: 'When'  },
+  { sentence: 'do you feel sad?',              hint: '— Because it is raining.', options: WH_OPTIONS, answer: 'Why' },
+  { sentence: 'do they make pizza?',           hint: '— In the kitchen.',     options: WH_OPTIONS, answer: 'Where' },
 ]
 
 // ── Ex2 data (pick correct short answer) ────────────────────────────────────────
@@ -57,14 +64,16 @@ interface Ex2Q {
   group: Group
 }
 
+// `group` = the pronoun used in the SHORT ANSWER (not the subject of the question):
+// you→I, I→you, he→he, she→she, it→it, we→we, they→they, plural noun→they, singular noun→he/she/it
 const EX2_QUESTIONS: Ex2Q[] = [
-  { question: 'Do you like apples?',         group: 'you'  },
+  { question: 'Do you like apples?',         group: 'I'    },
   { question: 'Does he play tennis?',        group: 'he'   },
   { question: 'Do they walk to school?',     group: 'they' },
   { question: 'Does she read every day?',    group: 'she'  },
   { question: 'Do we eat lunch at noon?',    group: 'we'   },
   { question: 'Does it rain in winter?',     group: 'it'   },
-  { question: 'Do I sing well?',             group: 'I'    },
+  { question: 'Do I sing well?',             group: 'you'  },
   { question: 'Does the cat like milk?',     group: 'it'   },
   { question: 'Do the boys play outside?',   group: 'they' },
   { question: 'Does your mom cook fish?',    group: 'she'  },
@@ -83,29 +92,21 @@ function LearnTab() {
           שאלות Wh בהווה פשוט
         </p>
 
-        <div className="flex flex-col gap-1 text-sm font-bold text-amber-800 mb-4" dir="rtl">
-          <p>• מילת שאלה (Who, What, Where, When, Why, How) + do / does + נושא + פועל</p>
-          <p>• do — עם I, you, we, they · does — עם he, she, it</p>
+        <div className="flex flex-col gap-1.5 text-sm font-bold text-amber-800 mb-4" dir="rtl">
+          <p>• המבנה לשאלה: מילת שאלה + do / does + נושא + פועל</p>
+          <div className="bg-white rounded-xl px-3 py-1.5 border-2 border-amber-100 my-1" dir="ltr">
+            <span className="font-bold text-gray-700 text-base">Where do you live?</span>
+          </div>
+          <p>• נשתמש ב- do עם I, you, we, they</p>
+          <p>• נשתמש ב- does עם he, she, it</p>
+          <p>• לא מוסיפים s לפועל בשאלה</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 mb-4">
+        <div className="grid grid-cols-2 gap-2">
           {WH_WORDS.map(({ word, hebrew, light, text }) => (
             <div key={word} className={`${light} border-2 rounded-2xl px-4 py-2 flex items-center justify-between`}>
               <span className={`font-display font-black text-xl ${text}`}>{word}</span>
               <span className={`font-bold text-sm ${text} opacity-80`} dir="rtl">{hebrew}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          {[
-            'Where do you live?',
-            'Where does he go?',
-            'What do they eat?',
-            'How does she travel?',
-          ].map(q => (
-            <div key={q} className="flex items-center gap-1.5 bg-white rounded-xl px-3 py-1.5 border-2 border-amber-100">
-              <span className="font-bold text-gray-700 text-base">{q}</span>
             </div>
           ))}
         </div>
@@ -114,67 +115,106 @@ function LearnTab() {
   )
 }
 
-// ── Ex1: read the wh-question, reveal the answer ────────────────────────────────
+// ── Ex1: complete the correct question word ─────────────────────────────────────
 
 function Ex1() {
-  const [revealed, setRevealed] = useState<Set<number>>(new Set())
+  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [wrongs, setWrongs] = useState<Record<number, string>>({})
+  const [resetKey, setResetKey] = useState(0)
 
-  const toggle = (idx: number) => {
-    setRevealed(prev => {
-      const s = new Set(prev)
-      if (s.has(idx)) s.delete(idx)
-      else s.add(idx)
-      return s
-    })
+  const total = EX1_QUESTIONS.length
+  const done = Object.keys(answers).length
+  const allDone = done === total
+
+  const choose = (idx: number, choice: string) => {
+    if (answers[idx]) return
+    if (choice === EX1_QUESTIONS[idx].answer) {
+      setAnswers(prev => ({ ...prev, [idx]: choice }))
+    } else {
+      setWrongs(prev => ({ ...prev, [idx]: choice }))
+      setTimeout(() => setWrongs(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
+    }
+  }
+
+  const again = () => {
+    setAnswers({})
+    setWrongs({})
+    setResetKey(k => k + 1)
   }
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+    <div key={resetKey} className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="mb-4">
         <h2 className="font-display font-black text-xl text-amber-700 text-center mb-1">
-          Wh Questions &amp; Answers
+          Choose the Question Word
         </h2>
         <p className="font-bold text-sm text-amber-600 text-center" dir="rtl">
-          קרא את השאלה ונסה לחשוב על תשובה. לחיצה על ? תציג את התשובה
+          בחר את מילת השאלה הנכונה לפי התשובה בסוגריים
         </p>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex justify-end text-sm font-bold text-amber-500 mb-3">
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-3 mb-5">
         {EX1_QUESTIONS.map((q, idx) => {
-          const whWord = q.question.split(' ')[0]
-          const wc = WH_WORDS.find(w => w.word === whWord)
+          const chosen = answers[idx]
+          const wc = chosen ? WH_WORDS.find(w => w.word === chosen) : null
           return (
-            <div
-              key={idx}
-              className="bg-white border-2 border-amber-200 rounded-2xl px-4 py-3 shadow-sm"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex-1 text-base font-bold leading-relaxed text-gray-700">
-                  <span className="text-gray-400 font-black text-sm mr-2">{idx + 1}.</span>
-                  <span className={`font-black ${wc ? wc.text : 'text-gray-700'}`}>{whWord}</span>
-                  <span className="text-gray-700"> {q.question.slice(whWord.length + 1)}</span>
-                </div>
-                <button
-                  onClick={() => toggle(idx)}
-                  aria-label="Show answer"
-                  className={`flex-shrink-0 w-8 h-8 rounded-full font-display font-black text-base border-2 transition-colors active:scale-95 ${
-                    revealed.has(idx)
-                      ? 'bg-amber-500 text-white border-amber-500'
-                      : 'bg-amber-50 text-amber-600 border-amber-300 hover:bg-amber-100'
-                  }`}
-                >
-                  ?
-                </button>
+            <div key={idx} className="bg-white border-2 border-amber-200 rounded-2xl px-3 py-3 shadow-sm">
+              <div className="flex items-center gap-1.5 flex-wrap mb-2">
+                <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
+                {chosen ? (
+                  <span className={`font-display font-black text-base ${wc ? wc.text : 'text-amber-700'}`}>{chosen}</span>
+                ) : (
+                  <span className="text-amber-300 font-black text-base">___</span>
+                )}
+                <span className="font-bold text-gray-700 text-base">{q.sentence}</span>
+                <span className="font-bold text-gray-400 text-sm">({q.hint})</span>
+                {chosen && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
               </div>
-              {revealed.has(idx) && (
-                <p className="mt-2 pt-2 border-t border-amber-100 font-bold text-amber-700 text-base">
-                  ({q.answer})
-                </p>
+
+              {!chosen && (
+                <div className="flex gap-1.5 flex-wrap">
+                  {q.options.map(opt => {
+                    const oc = WH_WORDS.find(w => w.word === opt)
+                    const isWrong = wrongs[idx] === opt
+                    return (
+                      <button
+                        key={opt}
+                        onClick={() => choose(idx, opt)}
+                        className={`font-display font-black text-sm px-3 py-1 rounded-xl border-2 transition-colors active:scale-95 ${
+                          isWrong
+                            ? 'bg-red-500 text-white border-red-500'
+                            : oc
+                            ? `${oc.light} ${oc.text} hover:opacity-80`
+                            : 'bg-gray-100 text-gray-600 border-gray-300'
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    )
+                  })}
+                </div>
               )}
             </div>
           )
         })}
       </div>
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
+          <button onClick={again} className="btn-kid bg-amber-500">🔁 Again</button>
+        </div>
+      )}
     </div>
   )
 }

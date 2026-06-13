@@ -15,17 +15,26 @@ interface Rule {
 const RULES: Rule[] = [
   {
     hebrew: 'כותבים c לפני האותיות a, o, u',
-    examples: [{ word: 'cat', emoji: '🐱' }, { word: 'corn', emoji: '🌽' }, { word: 'cup', emoji: '☕' }],
+    examples: [
+      { word: 'cat', emoji: '🐱' }, { word: 'corn', emoji: '🌽' }, { word: 'cup', emoji: '☕' },
+      { word: 'car', emoji: '🚗' }, { word: 'cake', emoji: '🎂' }, { word: 'cow', emoji: '🐄' },
+    ],
     bgColor: 'bg-rose-50', textColor: 'text-rose-700', borderColor: 'border-rose-300',
   },
   {
     hebrew: 'כותבים k לפני האותיות e, i',
-    examples: [{ word: 'key', emoji: '🔑' }, { word: 'kite', emoji: '🪁' }, { word: 'king', emoji: '👑' }],
+    examples: [
+      { word: 'key', emoji: '🔑' }, { word: 'kite', emoji: '🪁' }, { word: 'king', emoji: '👑' },
+      { word: 'kid', emoji: '🧒' }, { word: 'kiss', emoji: '💋' }, { word: 'kitchen', emoji: '🍳' },
+    ],
     bgColor: 'bg-amber-50', textColor: 'text-amber-700', borderColor: 'border-amber-300',
   },
   {
     hebrew: 'בסוף מילה קצרה אחרי תנועה קצרה כותבים ck',
-    examples: [{ word: 'back', emoji: '🔙' }, { word: 'duck', emoji: '🦆' }, { word: 'sock', emoji: '🧦' }],
+    examples: [
+      { word: 'back', emoji: '🔙' }, { word: 'duck', emoji: '🦆' }, { word: 'sock', emoji: '🧦' },
+      { word: 'black', emoji: '⬛' }, { word: 'sick', emoji: '🤒' }, { word: 'lock', emoji: '🔒' },
+    ],
     bgColor: 'bg-emerald-50', textColor: 'text-emerald-700', borderColor: 'border-emerald-300',
   },
 ]

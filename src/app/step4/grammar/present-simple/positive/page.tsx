@@ -37,9 +37,12 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       {/* Section 1: Positive sentences */}
       <div className="bg-teal-50 border-4 border-teal-300 rounded-3xl p-5">
-        <h2 className="font-display font-black text-3xl text-teal-700 text-center mb-2">
+        <h2 className="font-display font-black text-3xl text-teal-700 text-center mb-1">
           Present Simple
         </h2>
+        <p className="font-display font-black text-xl text-teal-600 text-center mb-2" dir="rtl">
+          הווה פשוט
+        </p>
         <p className="font-bold text-teal-800 text-sm text-center mb-4" dir="rtl">
           משתמשים ב-Present Simple כדי לדבר על דברים שאנחנו עושים באופן קבוע
         </p>
@@ -51,17 +54,17 @@ function LearnTab() {
           </div>
           <div className="grid grid-cols-2 border-t border-teal-100">
             <div className="text-center py-2 font-bold text-gray-700 text-sm border-r border-teal-100">I / You / We / They</div>
-            <div className="text-center py-2 font-black text-teal-600 text-sm">verb<br /><span className="text-xs font-bold text-gray-500">I eat, You eat, We eat, They eat</span></div>
+            <div className="text-center py-2 font-black text-teal-600 text-sm">verb<br /><span className="text-xs font-bold text-gray-500">I read, you read, we read, they read</span></div>
           </div>
           <div className="grid grid-cols-2 border-t border-teal-100 bg-emerald-50">
             <div className="text-center py-2 font-bold text-gray-700 text-sm border-r border-teal-100">He / She / It</div>
-            <div className="text-center py-2 font-black text-emerald-600 text-sm">verb + s<br /><span className="text-xs font-bold text-gray-500">He eats, She eats, It eats</span></div>
+            <div className="text-center py-2 font-black text-emerald-600 text-sm">verb + s<br /><span className="text-xs font-bold text-gray-500">he reads, she reads, it reads</span></div>
           </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">I brush my teeth every morning.</div>
-          <div className="bg-emerald-100 rounded-xl px-3 py-1.5 font-bold text-emerald-700 text-base">He cleans his room on Thursday.</div>
+          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">I wash my face every morning.</div>
+          <div className="bg-emerald-100 rounded-xl px-3 py-1.5 font-bold text-emerald-700 text-base">She drinks water every day.</div>
         </div>
       </div>
 
@@ -75,14 +78,14 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-wrap gap-2 justify-center mb-4">
-          {['every day', 'every week', 'every year', 'every morning', 'every night', 'every summer', 'on Sunday', 'on Tuesday'].map(t => (
+          {['every day', 'every week', 'every year', 'every morning', 'every night', 'every summer', 'on Sunday', 'on Tuesday', 'usually', 'always'].map(t => (
             <span key={t} className="bg-white border-2 border-emerald-200 rounded-full px-3 py-1 font-bold text-emerald-700 text-sm">{t}</span>
           ))}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <div className="bg-emerald-100 rounded-xl px-3 py-1.5 font-bold text-emerald-700 text-base">Every week, I play the guitar.</div>
-          <div className="bg-emerald-100 rounded-xl px-3 py-1.5 font-bold text-emerald-700 text-base">He watches TV every night.</div>
+          <div className="bg-emerald-100 rounded-xl px-3 py-1.5 font-bold text-emerald-700 text-base">Every day, I eat lunch.</div>
+          <div className="bg-emerald-100 rounded-xl px-3 py-1.5 font-bold text-emerald-700 text-base">She brushes her teeth every night.</div>
         </div>
       </div>
 
@@ -91,30 +94,25 @@ function LearnTab() {
         <h3 className="font-display font-black text-2xl text-teal-700 text-center mb-2">
           Spelling Rules (he / she / it)
         </h3>
-        <p className="font-bold text-teal-800 text-sm text-center mb-4" dir="rtl">
-          איך מוסיפים את הסיומת לגוף שלישי יחיד
-        </p>
-
         <div className="flex flex-col gap-3">
           <div className="bg-white border-2 border-teal-200 rounded-2xl p-3">
             <div className="font-display font-black text-teal-700 text-base mb-1">+ s</div>
-            <p className="font-bold text-gray-600 text-sm" dir="rtl">רוב הפעלים — מוסיפים s</p>
-            <p className="font-bold text-teal-600 text-base mt-1">play → plays</p>
+            <p className="font-bold text-gray-600 text-sm" dir="rtl">לרוב הפעלים מוסיפים s</p>
+            <p className="font-bold text-teal-600 text-base mt-1">eat → eats</p>
           </div>
           <div className="bg-white border-2 border-emerald-200 rounded-2xl p-3">
             <div className="font-display font-black text-emerald-700 text-base mb-1">+ es</div>
-            <p className="font-bold text-gray-600 text-sm" dir="rtl">מסתיים ב- ss, sh, ch, x, o — מוסיפים es</p>
-            <p className="font-bold text-emerald-600 text-base mt-1">brush → brushes, watch → watches, go → goes</p>
+            <p className="font-bold text-gray-600 text-sm" dir="rtl">לפועל שמסתיים ב- ss, sh, ch, x, o נוסיף es</p>
+            <p className="font-bold text-emerald-600 text-base mt-1">go → goes, watch → watches</p>
           </div>
           <div className="bg-white border-2 border-teal-200 rounded-2xl p-3">
             <div className="font-display font-black text-teal-700 text-base mb-1">y → ies</div>
-            <p className="font-bold text-gray-600 text-sm" dir="rtl">עיצור + y — מורידים y ומוסיפים ies</p>
-            <p className="font-bold text-teal-600 text-base mt-1">cry → cries, study → studies</p>
+            <p className="font-bold text-gray-600 text-sm" dir="rtl">לפועל שמסתיים ב- y ולפניה עיצור (אות רגילה) — מורידים את ה-y ומוסיפים ies</p>
+            <p className="font-bold text-teal-600 text-base mt-1">cry → cries, fly → flies</p>
           </div>
           <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-3">
             <div className="font-display font-black text-amber-700 text-base mb-1">irregular ⚠️</div>
-            <p className="font-bold text-gray-600 text-sm" dir="rtl">יוצא דופן</p>
-            <p className="font-bold text-amber-600 text-base mt-1">have → has</p>
+            <p className="font-bold text-gray-600 text-sm" dir="rtl">יוצאי דופן: to be → am, is, are ; to have → has, have</p>
           </div>
         </div>
       </div>
@@ -162,15 +160,15 @@ const EX5_QUESTIONS: ChoiceQ[] = [
   { before: 'Gil',        after: 'a cake every Sunday.',        base: 'make',  third: 'makes',   answer: 'third' },
   { before: 'I',          after: 'to school every morning.',    base: 'go',    third: 'goes',    answer: 'base'  },
   { before: 'The bird',   after: 'every summer.',               base: 'fly',   third: 'flies',   answer: 'third' },
-  { before: 'We',         after: 'our room every Sunday.',      base: 'study', third: 'studies', answer: 'base'  },
+  { before: 'We',         after: 'our room every Sunday.',      base: 'clean', third: 'cleans', answer: 'base'  },
   { before: 'She',        after: 'a movie every week.',         base: 'watch', third: 'watches', answer: 'third' },
   { before: 'They',       after: 'their teeth every morning.',  base: 'brush', third: 'brushes', answer: 'base'  },
   { before: 'Dana',       after: 'her homework every day.',     base: 'make',  third: 'makes',   answer: 'third' },
   { before: 'You',        after: 'a story every night.',        base: 'read',  third: 'reads',   answer: 'base'  },
   { before: 'He',         after: 'to the park every day.',      base: 'go',    third: 'goes',    answer: 'third' },
   { before: 'My friends', after: 'a picture every week.',       base: 'see',   third: 'sees',    answer: 'base'  },
-  { before: 'The boy',    after: 'when he is sad every day.',   base: 'cry',   third: 'cries',   answer: 'third' },
-  { before: 'I',          after: 'my house every Sunday.',      base: 'visit', third: 'visits',  answer: 'base'  },
+  { before: 'The boy',    after: 'when he is sad.',             base: 'cry',   third: 'cries',   answer: 'third' },
+  { before: 'I',          after: 'my grandma every Saturday.',  base: 'visit', third: 'visits',  answer: 'base'  },
 ]
 
 function ChoiceExercise({ questions, onDone }: { questions: ChoiceQ[]; onDone: () => void }) {
@@ -290,12 +288,12 @@ interface BuilderConfig {
 
 const EX2_CONFIG: BuilderConfig = {
   subjects: [
-    { text: 'she',        third: true  },
-    { text: 'you',        third: false },
-    { text: 'the boy',    third: true  },
-    { text: 'my parents', third: false },
+    { text: 'She',        third: true  },
+    { text: 'You',        third: false },
+    { text: 'The boy',    third: true  },
+    { text: 'My parents', third: false },
     { text: 'I',          third: false },
-    { text: 'he',         third: true  },
+    { text: 'He',         third: true  },
   ],
   verbs: [
     { base: 'write', third: 'writes' },
@@ -306,14 +304,32 @@ const EX2_CONFIG: BuilderConfig = {
   goal: 6,
 }
 
+const EX2_CONFIG_R2: BuilderConfig = {
+  subjects: [
+    { text: 'She',        third: true  },
+    { text: 'You',        third: false },
+    { text: 'The girl',   third: true  },
+    { text: 'My friends', third: false },
+    { text: 'I',          third: false },
+    { text: 'He',         third: true  },
+  ],
+  verbs: [
+    { base: 'read',  third: 'reads'  },
+    { base: 'clean', third: 'cleans' },
+    { base: 'sleep', third: 'sleeps' },
+  ],
+  times: ['every day', 'every week'],
+  goal: 6,
+}
+
 const EX6_CONFIG: BuilderConfig = {
   subjects: [
-    { text: 'she',        third: true  },
-    { text: 'you',        third: false },
-    { text: 'the girl',   third: true  },
-    { text: 'my friends', third: false },
+    { text: 'She',        third: true  },
+    { text: 'You',        third: false },
+    { text: 'The girl',   third: true  },
+    { text: 'My friends', third: false },
     { text: 'I',          third: false },
-    { text: 'he',         third: true  },
+    { text: 'He',         third: true  },
   ],
   verbs: [
     { base: 'study', third: 'studies' },
@@ -480,6 +496,46 @@ function BuilderExercise({ config, onDone }: { config: BuilderConfig; onDone: ()
   )
 }
 
+// ── 2-round builder flow (Ex 2) ─────────────────────────────────────────────────
+
+function TwoRoundBuilder({ configs, onDone }: { configs: BuilderConfig[]; onDone: () => void }) {
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-teal-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === configs.length - 1
+
+  return (
+    <div>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-teal-100 text-teal-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {configs.length}
+        </span>
+      </div>
+      <BuilderExercise
+        key={round}
+        config={configs[round]}
+        onDone={() => { if (isLast) onDone(); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ── EX 3 & EX 7: reading-passage fill ──────────────────────────────────────────
 
 interface PassageSegment {
@@ -527,57 +583,59 @@ const EX3_CONFIG: PassageConfig = {
   bank: ['take', 'takes', 'eat', 'eats', 'play', 'plays'],
 }
 
-// EX7: all spelling rules (study/studies, go/goes, watch/watches, cry/cries, play/plays)
+// EX7: all spelling rules (study/studies, go/goes, give/gives, cry/cries, play/plays)
 const EX7_CONFIG: PassageConfig = {
   segments: [
     { type: 'text', text: 'Maya is a busy girl. Every day, she ' },
     { type: 'blank', blankIndex: 0 },
     { type: 'text', text: ' to school by bus. Her teacher ' },
     { type: 'blank', blankIndex: 1 },
-    { type: 'text', text: ' a funny movie every week. After school, Maya and her friends ' },
+    { type: 'text', text: ' her homework. After school, Maya and her friends ' },
     { type: 'blank', blankIndex: 2 },
     { type: 'text', text: ' in the garden. At home, she ' },
     { type: 'blank', blankIndex: 3 },
     { type: 'text', text: ' English every night. Her baby brother ' },
     { type: 'blank', blankIndex: 4 },
-    { type: 'text', text: ' when he is hungry. On Sunday, my friends and I ' },
+    { type: 'text', text: ' when he is hungry. On Sunday her family ' },
     { type: 'blank', blankIndex: 5 },
     { type: 'text', text: ' to the park together.' },
   ],
   blanks: [
     { index: 0, answer: 'goes' },     // she goes
-    { index: 1, answer: 'watches' },  // Her teacher watches
+    { index: 1, answer: 'gives' },    // Her teacher gives her homework
     { index: 2, answer: 'play' },     // Maya and her friends play
     { index: 3, answer: 'studies' },  // she studies
     { index: 4, answer: 'cries' },    // Her baby brother cries
-    { index: 5, answer: 'go' },       // my friends and I go
+    { index: 5, answer: 'go' },       // her family go
   ],
-  bank: ['go', 'goes', 'watch', 'watches', 'play', 'plays', 'study', 'studies', 'cry', 'cries'],
+  bank: ['go', 'goes', 'give', 'gives', 'play', 'plays', 'study', 'studies', 'cry', 'cries'],
 }
 
 function PassageExercise({ config, onDone }: { config: PassageConfig; onDone: () => void }) {
   const [filled, setFilled] = useState<Record<number, string>>({})
-  const [selectedWord, setSelectedWord] = useState<string | null>(null)
+  const [draggedWord, setDraggedWord] = useState<string | null>(null)
+  const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
   const allFilled = config.blanks.every(b => filled[b.index] !== undefined)
 
-  const handleWordClick = (word: string) => {
-    setSelectedWord(prev => prev === word ? null : word)
-  }
-
-  const handleBlankClick = (blankIdx: number) => {
+  const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
-    if (selectedWord === null) return
     const blank = config.blanks.find(b => b.index === blankIdx)
     if (!blank) return
-    if (selectedWord.toLowerCase() === blank.answer.toLowerCase()) {
+    if (word.toLowerCase() === blank.answer.toLowerCase()) {
       setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
-      setSelectedWord(null)
     } else {
       setFlashWrong(blankIdx)
       setTimeout(() => setFlashWrong(null), 800)
-      setSelectedWord(null)
     }
+  }
+
+  const handleDrop = (e: React.DragEvent, blankIdx: number) => {
+    e.preventDefault()
+    setDragOverBlank(null)
+    const word = e.dataTransfer.getData('text/plain') || draggedWord
+    if (word) tryPlace(blankIdx, word)
+    setDraggedWord(null)
   }
 
   return (
@@ -588,31 +646,28 @@ function PassageExercise({ config, onDone }: { config: PassageConfig; onDone: ()
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        בחר מילה מהבנק ואז לחץ על המקום הריק המתאים
+        גרור מילה מהבנק אל המקום הריק המתאים
       </p>
 
       {/* Word bank */}
       <div className="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-2 justify-center">
           {config.bank.map(word => (
-            <button
+            <div
               key={word}
-              onClick={() => handleWordClick(word)}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all ${
-                selectedWord === word
+              draggable
+              onDragStart={e => { setDraggedWord(word); e.dataTransfer.setData('text/plain', word); e.dataTransfer.effectAllowed = 'move' }}
+              onDragEnd={() => { setDraggedWord(null); setDragOverBlank(null) }}
+              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all cursor-grab active:cursor-grabbing select-none ${
+                draggedWord === word
                   ? 'bg-yellow-400 text-yellow-900 border-yellow-400 scale-105'
-                  : 'bg-white text-teal-700 border-teal-300 hover:bg-teal-100 active:scale-95'
+                  : 'bg-white text-teal-700 border-teal-300 hover:bg-teal-100'
               }`}
             >
               {word}
-            </button>
+            </div>
           ))}
         </div>
-        {selectedWord && (
-          <p className="text-center text-xs font-bold text-teal-600 mt-2" dir="rtl">
-            בחרת: <span className="font-black">{selectedWord}</span> — עכשיו לחץ על המקום הריק הנכון
-          </p>
-        )}
       </div>
 
       {/* Passage */}
@@ -624,22 +679,26 @@ function PassageExercise({ config, onDone }: { config: PassageConfig; onDone: ()
           const blankIdx = seg.blankIndex!
           const val = filled[blankIdx]
           const isFlash = flashWrong === blankIdx
+          const isOver = dragOverBlank === blankIdx
           return (
-            <button
+            <span
               key={i}
-              onClick={() => handleBlankClick(blankIdx)}
-              className={`inline-block min-w-[3.5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 transition-all ${
+              data-drop-target="true"
+              onDragOver={e => { if (!val) { e.preventDefault(); setDragOverBlank(blankIdx) } }}
+              onDragLeave={() => setDragOverBlank(prev => prev === blankIdx ? null : prev)}
+              onDrop={e => handleDrop(e, blankIdx)}
+              className={`inline-block min-w-[3.5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 text-center transition-all ${
                 val
                   ? 'bg-green-100 border-green-300 text-green-700'
                   : isFlash
                   ? 'bg-red-200 border-red-400 text-red-700 scale-95'
-                  : selectedWord !== null
-                  ? 'bg-teal-50 border-teal-400 text-teal-400 hover:bg-teal-100 cursor-pointer'
-                  : 'bg-teal-50 border-teal-300 text-teal-400 hover:bg-teal-100'
+                  : isOver
+                  ? 'bg-teal-100 border-teal-500 text-teal-500 scale-105'
+                  : 'bg-teal-50 border-teal-300 text-teal-400'
               }`}
             >
               {val || `(${blankIdx + 1})`}
-            </button>
+            </span>
           )
         })}
       </div>
@@ -678,14 +737,26 @@ const EX4_ITEMS: SortVerb[] = [
   { base: 'fly',    third: 'flies',    category: '-ies' },
 ]
 
-function SortExercise({ onDone }: { onDone: () => void }) {
+const EX4_ITEMS_R2: SortVerb[] = [
+  { base: 'jump',  third: 'jumps',   category: '-s'   },
+  { base: 'help',  third: 'helps',   category: '-s'   },
+  { base: 'sing',  third: 'sings',   category: '-s'   },
+  { base: 'push',  third: 'pushes',  category: '-es'  },
+  { base: 'fix',   third: 'fixes',   category: '-es'  },
+  { base: 'kiss',  third: 'kisses',  category: '-es'  },
+  { base: 'carry', third: 'carries', category: '-ies' },
+  { base: 'hurry', third: 'hurries', category: '-ies' },
+  { base: 'copy',  third: 'copies',  category: '-ies' },
+]
+
+function SortExercise({ items, onDone }: { items: SortVerb[]; onDone: () => void }) {
   const [selectedWord, setSelectedWord] = useState<SortVerb | null>(null)
   const [placed, setPlaced] = useState<Record<string, SortVerb[]>>({ '-s': [], '-es': [], '-ies': [] })
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
   const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
 
-  const remaining = EX4_ITEMS.filter(v => !usedBases.has(v.base))
-  const allDone = usedBases.size === EX4_ITEMS.length
+  const remaining = items.filter(v => !usedBases.has(v.base))
+  const allDone = usedBases.size === items.length
 
   const handleWordClick = (item: SortVerb) => {
     if (usedBases.has(item.base)) return
@@ -714,7 +785,7 @@ function SortExercise({ onDone }: { onDone: () => void }) {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
         <span>Sort by spelling</span>
-        <span className="text-teal-500">{usedBases.size} / {EX4_ITEMS.length} ✓</span>
+        <span className="text-teal-500">{usedBases.size} / {items.length} ✓</span>
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">לחץ על פועל ואז על הקטגוריה הנכונה</p>
@@ -780,6 +851,46 @@ function SortExercise({ onDone }: { onDone: () => void }) {
   )
 }
 
+// ── 2-round sort flow (Ex 4) ────────────────────────────────────────────────────
+
+function TwoRoundSort({ rounds, onDone }: { rounds: SortVerb[][]; onDone: () => void }) {
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-teal-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-teal-100 text-teal-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <SortExercise
+        key={round}
+        items={rounds[round]}
+        onDone={() => { if (isLast) onDone(); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ── Page ────────────────────────────────────────────────────────────────────────
 
 export default function PresentSimplePositivePage() {
@@ -830,9 +941,9 @@ export default function PresentSimplePositivePage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1' && <ExWrapper render={done => <ChoiceExercise questions={EX1_QUESTIONS} onDone={done} />} />}
-        {tab === 'ex2' && <ExWrapper render={done => <BuilderExercise config={EX2_CONFIG} onDone={done} />} />}
+        {tab === 'ex2' && <ExWrapper render={done => <TwoRoundBuilder configs={[EX2_CONFIG, EX2_CONFIG_R2]} onDone={done} />} />}
         {tab === 'ex3' && <ExWrapper render={done => <PassageExercise config={EX3_CONFIG} onDone={done} />} />}
-        {tab === 'ex4' && <ExWrapper render={done => <SortExercise onDone={done} />} />}
+        {tab === 'ex4' && <ExWrapper render={done => <TwoRoundSort rounds={[EX4_ITEMS, EX4_ITEMS_R2]} onDone={done} />} />}
         {tab === 'ex5' && <ExWrapper render={done => <ChoiceExercise questions={EX5_QUESTIONS} onDone={done} />} />}
         {tab === 'ex6' && <ExWrapper render={done => <BuilderExercise config={EX6_CONFIG} onDone={done} />} />}
         {tab === 'ex7' && <ExWrapper render={done => <PassageExercise config={EX7_CONFIG} onDone={done} />} />}
