@@ -20,7 +20,7 @@ const EX1_R1: Ex1Q[] = [
   { before: 'I',          after: 'with my dog now.',          correct: 'am not walking',  wrong: "isn't walking"  },
   { before: 'Gil',        after: 'football now.',             correct: "isn't playing",   wrong: "aren't playing" },
   { before: 'We',         after: 'lunch at the moment.',      correct: "aren't eating",   wrong: "isn't eating"   },
-  { before: 'She',        after: 'a song right now.',         correct: "isn't learning",  wrong: 'am not learning'},
+  { before: 'She',        after: 'a song right now.',         correct: "isn't singing",   wrong: 'am not singing' },
   { before: 'They',       after: 'water now.',                correct: "aren't drinking", wrong: "isn't drinking" },
   { before: 'My brother', after: 'now.',                      correct: "isn't sleeping",  wrong: "aren't sleeping"},
   { before: 'You',        after: 'the table today.',          correct: "aren't cleaning", wrong: 'am not cleaning'},
@@ -95,12 +95,12 @@ interface BuilderSubject {
 }
 
 const EX4_SUBJECTS: BuilderSubject[] = [
-  { text: 'I',      aux: 'am not' },
-  { text: 'they',   aux: "aren't" },
-  { text: 'girls',  aux: "aren't" },
-  { text: 'Dan',    aux: "isn't"  },
-  { text: 'sister', aux: "isn't"  },
-  { text: 'father', aux: "isn't"  },
+  { text: 'I',          aux: 'am not' },
+  { text: 'They',       aux: "aren't" },
+  { text: 'The girls',  aux: "aren't" },
+  { text: 'Dan',        aux: "isn't"  },
+  { text: 'My sister',  aux: "isn't"  },
+  { text: 'My father',  aux: "isn't"  },
 ]
 const EX4_VERBS = ['reading', 'playing', 'eating', 'running', 'sleeping', 'making']
 const EX4_TIMES = ['now', 'today', 'at the moment']
@@ -125,11 +125,11 @@ function LearnTab() {
             <div className="text-white/80 font-bold text-sm">I</div>
           </div>
           <div className="bg-red-500 rounded-2xl p-3 text-center">
-            <div className="font-display font-black text-white text-xl mb-1">isn&apos;t</div>
+            <div className="font-display font-black text-white text-xl mb-1">is not</div>
             <div className="text-white/80 font-bold text-sm">he, she, it</div>
           </div>
           <div className="bg-pink-500 rounded-2xl p-3 text-center">
-            <div className="font-display font-black text-white text-xl mb-1">aren&apos;t</div>
+            <div className="font-display font-black text-white text-xl mb-1">are not</div>
             <div className="text-white/80 font-bold text-sm">you, we, they</div>
           </div>
         </div>
@@ -137,11 +137,10 @@ function LearnTab() {
         {/* example sentences */}
         <div className="flex flex-col gap-1.5">
           {[
-            { sub: 'I',    neg: 'am not',  rest: 'walking.' },
-            { sub: 'He',   neg: "isn't",   rest: 'walking.' },
-            { sub: 'She',  neg: "isn't",   rest: 'walking.' },
-            { sub: 'We',   neg: "aren't",  rest: 'walking.' },
-            { sub: 'They', neg: "aren't",  rest: 'walking.' },
+            { sub: 'I',    neg: 'am not',  rest: 'eating an apple now.' },
+            { sub: 'She',  neg: 'is not',  rest: 'eating now.' },
+            { sub: 'They', neg: 'are not', rest: 'eating now.' },
+            { sub: 'He',   neg: 'is not',  rest: 'reading at the moment.' },
           ].map(({ sub, neg, rest }) => (
             <div key={sub} className="flex items-center gap-1.5 bg-rose-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-rose-700 text-base">{sub}</span>

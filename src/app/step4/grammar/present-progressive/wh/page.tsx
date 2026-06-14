@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4'
 
 type Aux = 'am' | 'is' | 'are'
 
@@ -495,6 +495,140 @@ function Ex3() {
   )
 }
 
+// ── Ex 4: complete the correct wh-word ──────────────────────────────────────
+
+const EX4_WH_WORDS: { word: string; light: string; text: string }[] = [
+  { word: 'Who',   light: 'bg-rose-100 border-rose-300',      text: 'text-rose-700'    },
+  { word: 'What',  light: 'bg-sky-100 border-sky-300',        text: 'text-sky-700'     },
+  { word: 'Where', light: 'bg-emerald-100 border-emerald-300', text: 'text-emerald-700'},
+  { word: 'When',  light: 'bg-violet-100 border-violet-300',  text: 'text-violet-700'  },
+  { word: 'Why',   light: 'bg-amber-100 border-amber-300',    text: 'text-amber-700'   },
+  { word: 'How',   light: 'bg-teal-100 border-teal-300',      text: 'text-teal-700'    },
+]
+
+const EX4_WH_OPTIONS = ['Who', 'What', 'Where', 'When', 'Why', 'How']
+
+interface Ex4Q {
+  sentence: string   // the rest of the question after the blank
+  hint: string       // the short answer that reveals the wh-word
+  answer: string
+}
+
+const EX4_QUESTIONS: Ex4Q[] = [
+  { sentence: 'are you going?',          hint: '— To the park.',            answer: 'Where' },
+  { sentence: 'is she eating?',          hint: '— An apple.',               answer: 'What'  },
+  { sentence: 'are they playing?',       hint: '— Football.',               answer: 'What'  },
+  { sentence: 'is he crying?',           hint: '— Because he is sad.',      answer: 'Why'   },
+  { sentence: 'are you reading now?',    hint: '— At home.',                answer: 'Where' },
+  { sentence: 'is cooking dinner?',      hint: '— My mom.',                 answer: 'Who'   },
+  { sentence: 'are you doing?',          hint: '— My homework.',            answer: 'What'  },
+  { sentence: 'is the baby sleeping?',   hint: '— Now.',                    answer: 'When'  },
+  { sentence: 'are the kids running?',   hint: '— In the yard.',            answer: 'Where' },
+  { sentence: 'is she smiling?',         hint: '— Because she is happy.',   answer: 'Why'   },
+]
+
+function Ex4() {
+  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [wrongs, setWrongs] = useState<Record<number, string>>({})
+  const [resetKey, setResetKey] = useState(0)
+
+  const total = EX4_QUESTIONS.length
+  const done = Object.keys(answers).length
+  const allDone = done === total
+
+  const choose = (idx: number, choice: string) => {
+    if (answers[idx]) return
+    if (choice === EX4_QUESTIONS[idx].answer) {
+      setAnswers(prev => ({ ...prev, [idx]: choice }))
+    } else {
+      setWrongs(prev => ({ ...prev, [idx]: choice }))
+      setTimeout(() => setWrongs(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
+    }
+  }
+
+  const again = () => {
+    setAnswers({})
+    setWrongs({})
+    setResetKey(k => k + 1)
+  }
+
+  return (
+    <div key={resetKey} className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-amber-700 text-center mb-1">
+          Choose the Question Word
+        </h2>
+        <p className="font-bold text-sm text-amber-600 text-center" dir="rtl">
+          בחר את מילת השאלה הנכונה לפי התשובה בסוגריים
+        </p>
+      </div>
+
+      <div className="flex justify-end text-sm font-bold text-amber-500 mb-3">
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-3 mb-5">
+        {EX4_QUESTIONS.map((q, idx) => {
+          const chosen = answers[idx]
+          const wc = chosen ? EX4_WH_WORDS.find(w => w.word === chosen) : null
+          return (
+            <div key={idx} className="bg-white border-2 border-amber-200 rounded-2xl px-3 py-3 shadow-sm">
+              <div className="flex items-center gap-1.5 flex-wrap mb-2">
+                <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
+                {chosen ? (
+                  <span className={`font-display font-black text-base ${wc ? wc.text : 'text-amber-700'}`}>{chosen}</span>
+                ) : (
+                  <span className="text-amber-300 font-black text-base">___</span>
+                )}
+                <span className="font-bold text-gray-700 text-base">{q.sentence}</span>
+                <span className="font-bold text-gray-400 text-sm">({q.hint})</span>
+                {chosen && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+              </div>
+
+              {!chosen && (
+                <div className="flex gap-1.5 flex-wrap">
+                  {EX4_WH_OPTIONS.map(opt => {
+                    const oc = EX4_WH_WORDS.find(w => w.word === opt)
+                    const isWrong = wrongs[idx] === opt
+                    return (
+                      <button
+                        key={opt}
+                        onClick={() => choose(idx, opt)}
+                        className={`font-display font-black text-sm px-3 py-1 rounded-xl border-2 transition-colors active:scale-95 ${
+                          isWrong
+                            ? 'bg-red-500 text-white border-red-500'
+                            : oc
+                            ? `${oc.light} ${oc.text} hover:opacity-80`
+                            : 'bg-gray-100 text-gray-600 border-gray-300'
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
+          <button onClick={again} className="btn-kid bg-amber-500">🔁 Again</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function PresentProgressiveWhPage() {
@@ -505,6 +639,7 @@ export default function PresentProgressiveWhPage() {
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
     { id: 'ex3',   label: 'Ex 3' },
+    { id: 'ex4',   label: 'Ex 4' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -543,6 +678,7 @@ export default function PresentProgressiveWhPage() {
           <ExWrapper cycles={EX2_CYCLES.length} render={(c, again, done) => <Ex2 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
         )}
         {tab === 'ex3' && <Ex3 />}
+        {tab === 'ex4' && <Ex4 />}
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── WH words ────────────────────────────────────────────────────────────────────
 
@@ -30,17 +30,31 @@ interface Ex1Q {
 
 const WH_OPTIONS = ['Who', 'What', 'Where', 'When', 'Why', 'How']
 
-const EX1_QUESTIONS: Ex1Q[] = [
-  { sentence: 'do you live?',                  hint: '— In Tel Aviv.',        options: WH_OPTIONS, answer: 'Where' },
-  { sentence: 'does she eat for breakfast?',   hint: '— Eggs.',               options: WH_OPTIONS, answer: 'What'  },
-  { sentence: 'do they go to school?',         hint: "— At 8 o'clock.",       options: WH_OPTIONS, answer: 'When'  },
-  { sentence: 'does he go to the park?',       hint: '— Because he likes it.',options: WH_OPTIONS, answer: 'Why'   },
-  { sentence: 'do you go to school?',          hint: '— By bus.',             options: WH_OPTIONS, answer: 'How'   },
-  { sentence: 'lives in this house?',          hint: '— My grandma.',         options: WH_OPTIONS, answer: 'Who'   },
-  { sentence: 'do you do after school?',       hint: '— I play football.',    options: WH_OPTIONS, answer: 'What'  },
-  { sentence: 'does the show start?',          hint: '— At seven.',           options: WH_OPTIONS, answer: 'When'  },
-  { sentence: 'do you feel sad?',              hint: '— Because it is raining.', options: WH_OPTIONS, answer: 'Why' },
-  { sentence: 'do they make pizza?',           hint: '— In the kitchen.',     options: WH_OPTIONS, answer: 'Where' },
+const EX1_ROUNDS: Ex1Q[][] = [
+  [
+    { sentence: 'do you live?',                  hint: '— In Tel Aviv.',        options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'does she eat for breakfast?',   hint: '— Eggs.',               options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'do they go to school?',         hint: "— At 8 o'clock.",       options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'does he go to the park?',       hint: '— Because he likes it.',options: WH_OPTIONS, answer: 'Why'   },
+    { sentence: 'do you go to school?',          hint: '— By bus.',             options: WH_OPTIONS, answer: 'How'   },
+    { sentence: 'lives in this house?',          hint: '— My grandma.',         options: WH_OPTIONS, answer: 'Who'   },
+    { sentence: 'do you do after school?',       hint: '— I play football.',    options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'does the show start?',          hint: '— At seven.',           options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'do you feel sad?',              hint: '— Because it is raining.', options: WH_OPTIONS, answer: 'Why' },
+    { sentence: 'do they make pizza?',           hint: '— In the kitchen.',     options: WH_OPTIONS, answer: 'Where' },
+  ],
+  [
+    { sentence: 'do you eat lunch?',             hint: '— At noon.',            options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'does she go after school?',     hint: '— To the park.',        options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'do you read books?',            hint: '— Because I like stories.', options: WH_OPTIONS, answer: 'Why' },
+    { sentence: 'do they play?',                 hint: '— Football.',           options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'helps you with homework?',      hint: '— My sister.',          options: WH_OPTIONS, answer: 'Who'   },
+    { sentence: 'do you get to school?',         hint: '— By bike.',            options: WH_OPTIONS, answer: 'How'   },
+    { sentence: 'does your mom work?',           hint: '— In an office.',       options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'do you wake up?',               hint: '— At seven.',           options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'do you want?',                  hint: '— A new book.',         options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'is your best friend?',          hint: '— Dana.',               options: WH_OPTIONS, answer: 'Who'   },
+  ],
 ]
 
 // ── Ex2 data (pick correct short answer) ────────────────────────────────────────
@@ -78,6 +92,63 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { question: 'Do the boys play outside?',   group: 'they' },
   { question: 'Does your mom cook fish?',    group: 'she'  },
 ]
+
+// ── Ex3 data (think of an answer, reveal a sample) ──────────────────────────────
+
+interface Ex3Q { question: string; answer: string }
+
+const EX3_QUESTIONS: Ex3Q[] = [
+  { question: 'Where do you live?',            answer: 'I live in Tel Aviv.'   },
+  { question: 'What do you eat for breakfast?',answer: 'I eat eggs.'           },
+  { question: 'When do you go to school?',     answer: "At 8 o'clock."         },
+  { question: 'Why do you like summer?',       answer: 'Because it is warm.'   },
+  { question: 'How do you go to school?',      answer: 'By bus.'               },
+  { question: 'Who do you play with?',         answer: 'With my friends.'      },
+  { question: 'Where does your dad work?',     answer: 'At a hospital.'        },
+  { question: 'What does your mom cook?',      answer: 'She cooks pasta.'      },
+  { question: 'When does the movie start?',    answer: 'At five o\'clock.'     },
+  { question: 'How does he feel today?',       answer: 'He feels happy.'       },
+]
+
+// ── ExWrapper ───────────────────────────────────────────────────────────────────
+
+function ExWrapper({
+  cycles,
+  render,
+}: {
+  cycles: number
+  render: (cycleIdx: number, onAgain: () => void, onDone: () => void) => React.ReactNode
+}) {
+  const [cycleIdx, setCycleIdx] = useState(0)
+  const [key, setKey] = useState(0)
+  const [finished, setFinished] = useState(false)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
+          className="btn-kid bg-amber-500"
+        >
+          🔁 Again
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div key={key}>
+      {render(
+        Math.min(cycleIdx, cycles - 1),
+        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        () => setFinished(true),
+      )}
+    </div>
+  )
+}
 
 // ── Learn ──────────────────────────────────────────────────────────────────────
 
@@ -117,18 +188,19 @@ function LearnTab() {
 
 // ── Ex1: complete the correct question word ─────────────────────────────────────
 
-function Ex1() {
+function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const questions = EX1_ROUNDS[cycleIdx]
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [wrongs, setWrongs] = useState<Record<number, string>>({})
-  const [resetKey, setResetKey] = useState(0)
 
-  const total = EX1_QUESTIONS.length
+  const total = questions.length
   const done = Object.keys(answers).length
   const allDone = done === total
+  const isLastRound = cycleIdx === EX1_ROUNDS.length - 1
 
   const choose = (idx: number, choice: string) => {
     if (answers[idx]) return
-    if (choice === EX1_QUESTIONS[idx].answer) {
+    if (choice === questions[idx].answer) {
       setAnswers(prev => ({ ...prev, [idx]: choice }))
     } else {
       setWrongs(prev => ({ ...prev, [idx]: choice }))
@@ -140,14 +212,8 @@ function Ex1() {
     }
   }
 
-  const again = () => {
-    setAnswers({})
-    setWrongs({})
-    setResetKey(k => k + 1)
-  }
-
   return (
-    <div key={resetKey} className="max-w-xl mx-auto px-4 py-6 pb-16">
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="mb-4">
         <h2 className="font-display font-black text-xl text-amber-700 text-center mb-1">
           Choose the Question Word
@@ -157,12 +223,13 @@ function Ex1() {
         </p>
       </div>
 
-      <div className="flex justify-end text-sm font-bold text-amber-500 mb-3">
+      <div className="flex justify-between text-sm font-bold text-amber-500 mb-3">
+        <span>Round {cycleIdx + 1} / {EX1_ROUNDS.length}</span>
         <span>{done} / {total} ✓</span>
       </div>
 
       <div className="flex flex-col gap-3 mb-5">
-        {EX1_QUESTIONS.map((q, idx) => {
+        {questions.map((q, idx) => {
           const chosen = answers[idx]
           const wc = chosen ? WH_WORDS.find(w => w.word === chosen) : null
           return (
@@ -212,7 +279,11 @@ function Ex1() {
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
-          <button onClick={again} className="btn-kid bg-amber-500">🔁 Again</button>
+          {isLastRound ? (
+            <button onClick={onDone} className="btn-kid bg-amber-500">🔁 Again</button>
+          ) : (
+            <button onClick={onAgain} className="btn-kid bg-amber-500">סבב הבא →</button>
+          )}
         </div>
       )}
     </div>
@@ -325,6 +396,56 @@ function Ex2() {
   )
 }
 
+// ── Ex3: think of an answer, reveal a sample ────────────────────────────────────
+
+function Ex3() {
+  const [revealed, setRevealed] = useState<Set<number>>(new Set())
+
+  const toggle = (idx: number) => {
+    setRevealed(prev => {
+      const s = new Set(prev)
+      if (s.has(idx)) s.delete(idx)
+      else s.add(idx)
+      return s
+    })
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <p className="text-center font-bold text-amber-600 text-sm mb-4" dir="rtl">
+        קרא את השאלה וחשוב על תשובה נכונה אפשרית. לחץ על ? כדי לראות תשובה נכונה אפשרית.
+      </p>
+
+      <div className="flex flex-col gap-3">
+        {EX3_QUESTIONS.map((q, idx) => (
+          <div key={idx} className="bg-white border-2 border-amber-200 rounded-2xl px-4 py-3 shadow-sm">
+            <div className="flex items-center gap-3">
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="flex-1 text-base font-bold text-gray-700">{q.question}</span>
+              <button
+                onClick={() => toggle(idx)}
+                aria-label="Show answer"
+                className={`flex-shrink-0 w-8 h-8 rounded-full font-display font-black text-base border-2 transition-colors active:scale-95 ${
+                  revealed.has(idx)
+                    ? 'bg-amber-500 text-white border-amber-500'
+                    : 'bg-amber-50 text-amber-600 border-amber-300 hover:bg-amber-100'
+                }`}
+              >
+                ?
+              </button>
+            </div>
+            {revealed.has(idx) && (
+              <p className="mt-2 pt-2 border-t border-amber-100 font-bold text-amber-700 text-base">
+                {q.answer}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ── Page ────────────────────────────────────────────────────────────────────────
 
 export default function PresentSimpleWhPage() {
@@ -334,6 +455,7 @@ export default function PresentSimpleWhPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -367,8 +489,11 @@ export default function PresentSimpleWhPage() {
 
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
-        {tab === 'ex1'   && <Ex1 />}
+        {tab === 'ex1'   && (
+          <ExWrapper cycles={EX1_ROUNDS.length} render={(c, again, done) => <Ex1 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
+        )}
         {tab === 'ex2'   && <Ex2 />}
+        {tab === 'ex3'   && <Ex3 />}
       </div>
     </div>
   )

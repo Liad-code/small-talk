@@ -788,6 +788,7 @@ function SortExercise({ items, onDone }: { items: SortVerb[]; onDone: () => void
         <span className="text-teal-500">{usedBases.size} / {items.length} ✓</span>
       </div>
 
+      <p className="text-center font-display font-black text-teal-700 text-base mb-1" dir="rtl">תרגול איות הפועל ל- he, she, it</p>
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">לחץ על פועל ואז על הקטגוריה הנכונה</p>
       {selectedWord ? (
         <p className="text-center font-bold text-teal-500 text-sm mb-3">

@@ -3,9 +3,43 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5'
+type Tab = 'learn' | 'sort' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5'
 
 type Aux = 'am' | 'is' | 'are'
+
+// ── Sort data: sort base verbs by ing-spelling rule ───────────────────────────
+
+type IngCat = '+ing' | 'e' | 'double'
+
+interface SortVerb {
+  base: string
+  ing: string
+  category: IngCat
+}
+
+const SORT_R1: SortVerb[] = [
+  { base: 'play',  ing: 'playing',  category: '+ing'   },
+  { base: 'read',  ing: 'reading',  category: '+ing'   },
+  { base: 'eat',   ing: 'eating',   category: '+ing'   },
+  { base: 'write', ing: 'writing',  category: 'e'      },
+  { base: 'make',  ing: 'making',   category: 'e'      },
+  { base: 'ride',  ing: 'riding',   category: 'e'      },
+  { base: 'run',   ing: 'running',  category: 'double' },
+  { base: 'stop',  ing: 'stopping', category: 'double' },
+  { base: 'swim',  ing: 'swimming', category: 'double' },
+]
+
+const SORT_R2: SortVerb[] = [
+  { base: 'walk',  ing: 'walking',  category: '+ing'   },
+  { base: 'learn', ing: 'learning', category: '+ing'   },
+  { base: 'drink', ing: 'drinking', category: '+ing'   },
+  { base: 'dance', ing: 'dancing',  category: 'e'      },
+  { base: 'bake',  ing: 'baking',   category: 'e'      },
+  { base: 'smile', ing: 'smiling',  category: 'e'      },
+  { base: 'sit',   ing: 'sitting',  category: 'double' },
+  { base: 'hit',   ing: 'hitting',  category: 'double' },
+  { base: 'get',   ing: 'getting',  category: 'double' },
+]
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
@@ -135,12 +169,12 @@ interface BuilderSubject {
 }
 
 const EX4_SUBJECTS: BuilderSubject[] = [
-  { text: 'I',      aux: 'am'  },
-  { text: 'cats',   aux: 'are' },
-  { text: 'girls',  aux: 'are' },
-  { text: 'Oren',   aux: 'is'  },
-  { text: 'Dana',   aux: 'is'  },
-  { text: 'mother', aux: 'is'  },
+  { text: 'I',         aux: 'am'  },
+  { text: 'The cats',  aux: 'are' },
+  { text: 'The girls', aux: 'are' },
+  { text: 'Oren',      aux: 'is'  },
+  { text: 'Dana',      aux: 'is'  },
+  { text: 'My mother', aux: 'is'  },
 ]
 const EX4_VERBS = ['reading', 'playing', 'eating', 'running', 'sleeping', 'making']
 const EX4_TIMES = ['now', 'today', 'at the moment']
@@ -195,8 +229,11 @@ function LearnTab() {
         <h2 className="font-display font-black text-3xl text-violet-700 text-center mb-2">
           Present Progressive
         </h2>
-        <p className="font-bold text-violet-800 text-sm mb-4 text-center" dir="rtl">
-          מתארים פעולה שקורית עכשיו, ברגע זה. הנוסחה: am / is / are + פועל עם ing
+        <p className="font-bold text-violet-800 text-sm mb-2 text-center" dir="rtl">
+          בזמן הווה ממושך מתארים פעולות אשר קורות ברגע זה.
+        </p>
+        <p className="font-display font-black text-purple-600 text-lg mb-4 text-center">
+          is / am / are + verb + ing
         </p>
 
         {/* aux table */}
@@ -218,11 +255,11 @@ function LearnTab() {
         {/* example sentences */}
         <div className="flex flex-col gap-1.5 mb-4">
           {[
-            { sub: 'I',   aux: 'am' as Aux,  rest: 'walking.' },
-            { sub: 'He',  aux: 'is' as Aux,  rest: 'walking.' },
-            { sub: 'She', aux: 'is' as Aux,  rest: 'walking.' },
-            { sub: 'We',  aux: 'are' as Aux, rest: 'walking.' },
-            { sub: 'They',aux: 'are' as Aux, rest: 'walking.' },
+            { sub: 'I',   aux: 'am' as Aux,  rest: 'drinking.' },
+            { sub: 'He',  aux: 'is' as Aux,  rest: 'drinking.' },
+            { sub: 'She', aux: 'is' as Aux,  rest: 'drinking.' },
+            { sub: 'We',  aux: 'are' as Aux, rest: 'drinking.' },
+            { sub: 'They',aux: 'are' as Aux, rest: 'drinking.' },
           ].map(({ sub, aux, rest }) => (
             <div key={sub} className="flex items-center gap-1.5 bg-violet-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-violet-700 text-base">{sub}</span>
@@ -249,10 +286,9 @@ function LearnTab() {
         <h3 className="font-display font-black text-purple-700 text-lg mb-3 text-center">✏️ ING spelling rules</h3>
         <div className="flex flex-col gap-2">
           {[
-            { rule: 'רוב הפעלים: פשוט מוסיפים ing', ex: 'play → playing' },
-            { rule: 'מסתיים ב-e שקטה: מורידים את ה-e', ex: 'write → writing, make → making' },
-            { rule: 'מכפילים את העיצור האחרון', ex: 'run → running, stop → stopping, swim → swimming' },
-            { rule: 'מסתיים ב-y: משאירים את ה-y', ex: 'cry → crying, mix → mixing' },
+            { rule: 'לרוב הפעלים מוסיפים ing', ex: 'play → playing' },
+            { rule: 'לפועל שמסתיים ב- e: מורידים את ה-e ומוסיפים ing', ex: 'write → writing, make → making' },
+            { rule: 'כאשר הפועל מסתיים ב- cvc (עיצור-תנועה-עיצור): מכפילים את האות האחרונה ומוסיפים ing', ex: 'run → running, stop → stopping' },
           ].map(({ rule, ex }) => (
             <div key={ex} className="bg-purple-50 rounded-xl px-3 py-2">
               <div className="font-bold text-purple-600 text-sm" dir="rtl">{rule}</div>
@@ -724,30 +760,32 @@ function Ex4() {
 
 function Ex5() {
   const [filled, setFilled] = useState<Record<number, string>>({})
-  const [selectedWord, setSelectedWord] = useState<string | null>(null)
+  const [draggedWord, setDraggedWord] = useState<string | null>(null)
+  const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
   const allFilled = EX5_BLANKS.every(b => filled[b.index] !== undefined)
 
-  const handleWordClick = (word: string) => {
-    setSelectedWord(prev => prev === word ? null : word)
-  }
-
-  const handleBlankClick = (blankIdx: number) => {
+  const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
-    if (selectedWord === null) return
     const blank = EX5_BLANKS.find(b => b.index === blankIdx)
     if (!blank) return
-    if (selectedWord.toLowerCase() === blank.answer.toLowerCase()) {
+    if (word.toLowerCase() === blank.answer.toLowerCase()) {
       setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
-      setSelectedWord(null)
     } else {
       setFlashWrong(blankIdx)
       setTimeout(() => setFlashWrong(null), 800)
-      setSelectedWord(null)
     }
   }
 
-  const restart = () => { setFilled({}); setSelectedWord(null); setFlashWrong(null) }
+  const handleDrop = (e: React.DragEvent, blankIdx: number) => {
+    e.preventDefault()
+    setDragOverBlank(null)
+    const word = e.dataTransfer.getData('text/plain') || draggedWord
+    if (word) tryPlace(blankIdx, word)
+    setDraggedWord(null)
+  }
+
+  const restart = () => { setFilled({}); setDraggedWord(null); setDragOverBlank(null); setFlashWrong(null) }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
@@ -757,30 +795,27 @@ function Ex5() {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        בחר צירוף מהבנק ואז לחץ על המקום הריק המתאים
+        גרור צירוף מהבנק אל המקום הריק המתאים
       </p>
 
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-2 justify-center">
           {EX5_WORD_BANK.map(word => (
-            <button
+            <div
               key={word}
-              onClick={() => handleWordClick(word)}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all ${
-                selectedWord === word
+              draggable
+              onDragStart={e => { setDraggedWord(word); e.dataTransfer.setData('text/plain', word); e.dataTransfer.effectAllowed = 'move' }}
+              onDragEnd={() => { setDraggedWord(null); setDragOverBlank(null) }}
+              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all cursor-grab active:cursor-grabbing select-none ${
+                draggedWord === word
                   ? 'bg-yellow-400 text-yellow-900 border-yellow-400 scale-105'
-                  : 'bg-white text-violet-700 border-violet-300 hover:bg-violet-100 active:scale-95'
+                  : 'bg-white text-violet-700 border-violet-300 hover:bg-violet-100'
               }`}
             >
               {word}
-            </button>
+            </div>
           ))}
         </div>
-        {selectedWord && (
-          <p className="text-center text-xs font-bold text-violet-600 mt-2" dir="rtl">
-            בחרת: <span className="font-black">{selectedWord}</span> — עכשיו לחץ על המקום הריק הנכון
-          </p>
-        )}
       </div>
 
       <div className="bg-white border-2 border-violet-200 rounded-2xl p-4 text-base font-bold text-gray-700 leading-loose">
@@ -791,20 +826,26 @@ function Ex5() {
           const blankIdx = seg.blankIndex!
           const val = filled[blankIdx]
           const isFlash = flashWrong === blankIdx
+          const isOver = dragOverBlank === blankIdx
           return (
-            <button
+            <span
               key={i}
-              onClick={() => handleBlankClick(blankIdx)}
-              className={`inline-block min-w-[5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 transition-all ${
+              data-drop-target="true"
+              onDragOver={e => { if (!val) { e.preventDefault(); setDragOverBlank(blankIdx) } }}
+              onDragLeave={() => setDragOverBlank(prev => prev === blankIdx ? null : prev)}
+              onDrop={e => handleDrop(e, blankIdx)}
+              className={`inline-block min-w-[5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 text-center transition-all ${
                 val
                   ? 'bg-green-100 border-green-300 text-green-700'
                   : isFlash
                   ? 'bg-red-200 border-red-400 text-red-700 scale-95'
-                  : 'bg-violet-50 border-violet-300 text-violet-400 hover:bg-violet-100'
+                  : isOver
+                  ? 'bg-violet-100 border-violet-500 text-violet-500 scale-105'
+                  : 'bg-violet-50 border-violet-300 text-violet-400'
               }`}
             >
               {val || `(${blankIdx + 1})`}
-            </button>
+            </span>
           )
         })}
       </div>
@@ -820,6 +861,167 @@ function Ex5() {
   )
 }
 
+// ── Sort: sort base verbs by ing-spelling rule ────────────────────────────────
+
+function SortExercise({ items, onDone }: { items: SortVerb[]; onDone: () => void }) {
+  const [selectedWord, setSelectedWord] = useState<SortVerb | null>(null)
+  const [placed, setPlaced] = useState<Record<IngCat, SortVerb[]>>({ '+ing': [], 'e': [], 'double': [] })
+  const [flashWrong, setFlashWrong] = useState<IngCat | null>(null)
+  const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
+
+  const remaining = items.filter(v => !usedBases.has(v.base))
+  const allDone = usedBases.size === items.length
+
+  const handleWordClick = (item: SortVerb) => {
+    if (usedBases.has(item.base)) return
+    setSelectedWord(prev => prev?.base === item.base ? null : item)
+  }
+
+  const handleCategoryClick = (cat: IngCat) => {
+    if (!selectedWord) return
+    if (selectedWord.category === cat) {
+      setPlaced(prev => ({ ...prev, [cat]: [...prev[cat], selectedWord] }))
+      setUsedBases(prev => { const s = new Set(prev); s.add(selectedWord.base); return s })
+      setSelectedWord(null)
+    } else {
+      setFlashWrong(cat)
+      setTimeout(() => { setFlashWrong(null); setSelectedWord(null) }, 800)
+    }
+  }
+
+  const CATS: { id: IngCat; label: string; color: string }[] = [
+    { id: '+ing',   label: '+ing',       color: 'border-violet-400 bg-violet-50'    },
+    { id: 'e',      label: 'e → ing',    color: 'border-purple-400 bg-purple-50'    },
+    { id: 'double', label: 'double + ing', color: 'border-fuchsia-400 bg-fuchsia-50' },
+  ]
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
+        <span>Sort by spelling</span>
+        <span className="text-violet-500">{usedBases.size} / {items.length} ✓</span>
+      </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">לחץ על פועל ואז על כלל ה-ing הנכון</p>
+      {selectedWord ? (
+        <p className="text-center font-bold text-violet-500 text-sm mb-3">
+          Selected: <span className="font-black">{selectedWord.base}</span> — now click a category
+        </p>
+      ) : <div className="mb-3" />}
+
+      {/* Word bank */}
+      <div className="bg-white border-2 border-gray-200 rounded-2xl p-3 mb-5 min-h-[60px] flex flex-wrap gap-2 justify-center">
+        {remaining.map(item => (
+          <button
+            key={item.base}
+            onClick={() => handleWordClick(item)}
+            className={`px-4 py-2 rounded-xl font-display font-black text-base border-2 transition-all ${
+              selectedWord?.base === item.base
+                ? 'bg-violet-500 text-white border-violet-500 scale-105'
+                : 'bg-white text-violet-700 border-violet-300 hover:bg-violet-50 active:scale-95'
+            }`}
+          >
+            {item.base}
+          </button>
+        ))}
+        {remaining.length === 0 && !allDone && (
+          <span className="text-gray-400 font-bold text-sm self-center">All placed!</span>
+        )}
+      </div>
+
+      {/* Category boxes */}
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        {CATS.map(cat => {
+          const isFlash = flashWrong === cat.id
+          return (
+            <div
+              key={cat.id}
+              onClick={() => handleCategoryClick(cat.id)}
+              className={`rounded-2xl border-2 p-2 min-h-[120px] cursor-pointer transition-all ${
+                isFlash ? 'border-red-400 bg-red-50' : cat.color
+              } ${selectedWord ? 'ring-2 ring-offset-1 ring-violet-300 hover:scale-105' : ''}`}
+            >
+              <div className="font-display font-black text-center text-base text-violet-700 mb-2">{cat.label}</div>
+              <div className="flex flex-col gap-1">
+                {placed[cat.id].map(item => (
+                  <div key={item.base} className="bg-white rounded-lg px-2 py-1 text-center font-bold text-violet-600 text-sm border border-violet-200">
+                    {item.ing}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-3">All sorted correctly!</p>
+          <button onClick={onDone} className="btn-kid bg-violet-500">✅ Done</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function SortTab() {
+  const rounds = [SORT_R1, SORT_R2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-violet-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-violet-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-violet-100 text-violet-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <SortExercise
+        key={round}
+        items={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function PresentProgressivePositivePage() {
@@ -827,6 +1029,7 @@ export default function PresentProgressivePositivePage() {
 
   const tabs: { id: Tab; label: string }[] = [
     { id: 'learn', label: '📚 Learn' },
+    { id: 'sort',  label: 'Sort' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
     { id: 'ex3',   label: 'Ex 3' },
@@ -865,6 +1068,7 @@ export default function PresentProgressivePositivePage() {
 
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
+        {tab === 'sort' && <SortTab />}
         {tab === 'ex1' && <Ex1 />}
         {tab === 'ex2' && <Ex2 />}
         {tab === 'ex3' && <Ex3 />}

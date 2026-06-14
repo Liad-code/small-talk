@@ -436,10 +436,12 @@ const ANSWER_GROUPS: AnswerGroup[] = ['I', 'he', 'she', 'it', 'you', 'we', 'they
 
 interface Ex3Q { question: string; group: AnswerGroup }
 
+// `group` = the pronoun used in the SHORT ANSWER (not always the subject):
+// you→I, I→you, he→he, she→she, it→it, we→we, they→they
 const EX3_QUESTIONS: Ex3Q[] = [
   { question: 'Is she eating breakfast now?',     group: 'she'  },
-  { question: 'Are you cleaning your room?',      group: 'you'  },
-  { question: 'Am I reading the book?',           group: 'I'    },
+  { question: 'Are you cleaning your room?',      group: 'I'    },
+  { question: 'Am I reading the book?',           group: 'you'  },
   { question: 'Is he playing football now?',      group: 'he'   },
   { question: 'Are they watching TV?',            group: 'they' },
   { question: 'Is it raining now?',               group: 'it'   },

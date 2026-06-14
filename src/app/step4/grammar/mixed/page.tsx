@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'ex1' | 'ex2' | 'ex3' | 'ex4'
+type Tab = 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5' | 'ex6' | 'ex7'
 
 type Tense = 'simple' | 'progressive'
 
@@ -325,32 +325,41 @@ const EX4_CHIPS: SortChip[] = [
   { text: 'right now',     tense: 'progressive' },
   { text: 'every morning', tense: 'simple'      },
   { text: 'today',         tense: 'progressive' },
+  { text: 'usually',       tense: 'simple'      },
+  { text: 'always',        tense: 'simple'      },
+  { text: 'often',         tense: 'simple'      },
+  { text: 'never',         tense: 'simple'      },
+  { text: 'sometimes',     tense: 'simple'      },
 ]
 
 function Ex4({ onDone }: { onDone: () => void }) {
-  const [selected, setSelected] = useState<SortChip | null>(null)
   const [placed, setPlaced] = useState<Record<Tense, SortChip[]>>({ simple: [], progressive: [] })
   const [flashWrong, setFlashWrong] = useState<Tense | null>(null)
   const [used, setUsed] = useState<Set<string>>(new Set())
+  const [draggedChip, setDraggedChip] = useState<SortChip | null>(null)
+  const [dragOverCat, setDragOverCat] = useState<Tense | null>(null)
 
   const remaining = EX4_CHIPS.filter(c => !used.has(c.text))
   const allDone = used.size === EX4_CHIPS.length
 
-  const handleChipClick = (chip: SortChip) => {
+  const tryPlace = (cat: Tense, chip: SortChip) => {
     if (used.has(chip.text)) return
-    setSelected(prev => prev?.text === chip.text ? null : chip)
-  }
-
-  const handleCategoryClick = (cat: Tense) => {
-    if (!selected) return
-    if (selected.tense === cat) {
-      setPlaced(prev => ({ ...prev, [cat]: [...prev[cat], selected] }))
-      setUsed(prev => { const s = new Set(prev); s.add(selected.text); return s })
-      setSelected(null)
+    if (chip.tense === cat) {
+      setPlaced(prev => ({ ...prev, [cat]: [...prev[cat], chip] }))
+      setUsed(prev => { const s = new Set(prev); s.add(chip.text); return s })
     } else {
       setFlashWrong(cat)
-      setTimeout(() => { setFlashWrong(null); setSelected(null) }, 800)
+      setTimeout(() => setFlashWrong(null), 800)
     }
+  }
+
+  const handleDrop = (e: React.DragEvent, cat: Tense) => {
+    e.preventDefault()
+    setDragOverCat(null)
+    const text = e.dataTransfer.getData('text/plain')
+    const chip = draggedChip ?? EX4_CHIPS.find(c => c.text === text) ?? null
+    if (chip) tryPlace(cat, chip)
+    setDraggedChip(null)
   }
 
   const CATS: { id: Tense; label: string; color: string }[] = [
@@ -365,31 +374,26 @@ function Ex4({ onDone }: { onDone: () => void }) {
         <span className="text-orange-500">{used.size} / {EX4_CHIPS.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        מיינו כל מילת זמן לזמן המתאים
+      <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
+        גררו כל מילת זמן אל הזמן המתאים
       </p>
-      {selected ? (
-        <p className="text-center font-bold text-orange-500 text-sm mb-3">
-          Selected: <span className="font-black">{selected.text}</span> — now click a category
-        </p>
-      ) : (
-        <div className="mb-3" />
-      )}
 
       {/* Chip bank */}
       <div className="bg-white border-2 border-gray-200 rounded-2xl p-3 mb-5 min-h-[60px] flex flex-wrap gap-2 justify-center">
         {remaining.map(chip => (
-          <button
+          <div
             key={chip.text}
-            onClick={() => handleChipClick(chip)}
-            className={`px-4 py-2 rounded-xl font-display font-black text-sm border-2 transition-all ${
-              selected?.text === chip.text
+            draggable
+            onDragStart={e => { setDraggedChip(chip); e.dataTransfer.setData('text/plain', chip.text); e.dataTransfer.effectAllowed = 'move' }}
+            onDragEnd={() => { setDraggedChip(null); setDragOverCat(null) }}
+            className={`px-4 py-2 rounded-xl font-display font-black text-sm border-2 transition-all cursor-grab active:cursor-grabbing select-none ${
+              draggedChip?.text === chip.text
                 ? 'bg-orange-500 text-white border-orange-500 scale-105'
-                : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50 active:scale-95'
+                : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50'
             }`}
           >
             {chip.text}
-          </button>
+          </div>
         ))}
         {remaining.length === 0 && !allDone && (
           <span className="text-gray-400 font-bold text-sm self-center">All placed!</span>
@@ -400,13 +404,16 @@ function Ex4({ onDone }: { onDone: () => void }) {
       <div className="grid grid-cols-2 gap-3 mb-6">
         {CATS.map(cat => {
           const isFlash = flashWrong === cat.id
+          const isOver = dragOverCat === cat.id
           return (
             <div
               key={cat.id}
-              onClick={() => handleCategoryClick(cat.id)}
-              className={`rounded-2xl border-2 p-2 min-h-[140px] cursor-pointer transition-all ${
-                isFlash ? 'border-red-400 bg-red-50' : cat.color
-              } ${selected ? 'ring-2 ring-offset-1 ring-orange-300 hover:scale-105' : ''}`}
+              onDragOver={e => { e.preventDefault(); setDragOverCat(cat.id) }}
+              onDragLeave={() => setDragOverCat(prev => prev === cat.id ? null : prev)}
+              onDrop={e => handleDrop(e, cat.id)}
+              className={`rounded-2xl border-2 p-2 min-h-[140px] transition-all ${
+                isFlash ? 'border-red-400 bg-red-50' : isOver ? 'border-orange-500 bg-orange-100 scale-105' : cat.color
+              }`}
             >
               <div className="font-display font-black text-center text-sm text-gray-700 mb-2">{cat.label}</div>
               <div className="flex flex-col gap-1">
@@ -432,6 +439,145 @@ function Ex4({ onDone }: { onDone: () => void }) {
   )
 }
 
+// ── Ex 5 / 6 / 7: pick correct option by signal (two choices) ─────────────────
+
+interface PickQ {
+  before: string   // text before the blank (incl. subject / wh-word)
+  after: string    // text after the blank ('.' / '?' attaches directly)
+  optA: string     // first option
+  optB: string     // second option
+  answer: string   // the correct one (must equal optA or optB)
+}
+
+const EX5_QUESTIONS: PickQ[] = [
+  { before: 'We',          after: 'to school every day.',   optA: "don't walk",   optB: "aren't walking",  answer: "don't walk" },
+  { before: 'Look! The baby', after: 'now.',                optA: "doesn't sleep", optB: "isn't sleeping", answer: "isn't sleeping" },
+  { before: 'She',         after: 'her homework every evening.', optA: "doesn't do", optB: "isn't doing",  answer: "doesn't do" },
+  { before: 'I',           after: 'a book at the moment.',  optA: "don't read",   optB: "am not reading",  answer: "am not reading" },
+  { before: 'They',        after: 'football every week.',   optA: "don't play",   optB: "aren't playing",  answer: "don't play" },
+  { before: 'Look! He',    after: 'right now.',             optA: "doesn't run",  optB: "isn't running",   answer: "isn't running" },
+  { before: 'My mom',      after: 'dinner every day.',      optA: "doesn't cook", optB: "isn't cooking",   answer: "doesn't cook" },
+  { before: 'We',          after: 'TV now.',                optA: "don't watch",  optB: "aren't watching", answer: "aren't watching" },
+  { before: 'He',          after: 'to the park on Sunday.', optA: "doesn't go",   optB: "isn't going",     answer: "doesn't go" },
+  { before: 'I',           after: 'tea every morning.',     optA: "don't drink",  optB: "am not drinking", answer: "don't drink" },
+]
+
+const EX6_QUESTIONS: PickQ[] = [
+  { before: '',  after: 'you walk to school every day?', optA: 'Do',   optB: 'Are', answer: 'Do' },
+  { before: '',  after: 'she eating now?',               optA: 'Does', optB: 'Is',  answer: 'Is' },
+  { before: '',  after: 'they play football every week?', optA: 'Do',  optB: 'Are', answer: 'Do' },
+  { before: '',  after: 'he reading at the moment?',      optA: 'Does', optB: 'Is',  answer: 'Is' },
+  { before: '',  after: 'you watching TV right now?',     optA: 'Do',   optB: 'Are', answer: 'Are' },
+  { before: '',  after: 'your mom cook dinner every day?', optA: 'Does', optB: 'Is', answer: 'Does' },
+  { before: '',  after: 'the baby sleeping now?',         optA: 'Does', optB: 'Is',  answer: 'Is' },
+  { before: '',  after: 'they go to the park on Sunday?', optA: 'Do',   optB: 'Are', answer: 'Do' },
+  { before: '',  after: 'she drink tea every morning?',   optA: 'Does', optB: 'Is',  answer: 'Does' },
+  { before: '',  after: 'you running right now?',         optA: 'Do',   optB: 'Are', answer: 'Are' },
+]
+
+const EX7_QUESTIONS: PickQ[] = [
+  { before: 'Where', after: 'you live?',           optA: 'do',   optB: 'are', answer: 'do' },
+  { before: 'What',  after: 'she doing now?',       optA: 'does', optB: 'is',  answer: 'is' },
+  { before: 'When',  after: 'they go to school?',   optA: 'do',   optB: 'are', answer: 'do' },
+  { before: 'Why',   after: 'he crying right now?',  optA: 'does', optB: 'is',  answer: 'is' },
+  { before: 'What',  after: 'you eat every day?',    optA: 'do',   optB: 'are', answer: 'do' },
+  { before: 'Where', after: 'they playing at the moment?', optA: 'do', optB: 'are', answer: 'are' },
+  { before: 'How',   after: 'she go to work every morning?', optA: 'does', optB: 'is', answer: 'does' },
+  { before: 'Why',   after: 'you laughing now?',     optA: 'do',   optB: 'are', answer: 'are' },
+  { before: 'When',  after: 'he watch TV every evening?', optA: 'does', optB: 'is', answer: 'does' },
+  { before: 'What',  after: 'the baby doing right now?', optA: 'does', optB: 'is', answer: 'is' },
+]
+
+function PickBySignalEx({
+  questions,
+  hint,
+  onDone,
+}: {
+  questions: PickQ[]
+  hint: string
+  onDone: () => void
+}) {
+  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [wrongs, setWrongs] = useState<Record<number, string>>({})
+  const [order] = useState<boolean[]>(() => questions.map(() => Math.random() < 0.5))
+  const total = questions.length
+  const answered = Object.keys(answers).length
+  const allDone = answered === total
+
+  const choose = (idx: number, val: string) => {
+    if (answers[idx]) return
+    if (val === questions[idx].answer) {
+      setAnswers(prev => ({ ...prev, [idx]: val }))
+    } else {
+      setWrongs(prev => ({ ...prev, [idx]: val }))
+      setTimeout(() => setWrongs(prev => { const n = { ...prev }; delete n[idx]; return n }), 700)
+    }
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>{total} sentences</span>
+        <span className="text-orange-500">{answered} / {total} ✓</span>
+      </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
+        בחרו את הצורה הנכונה לפי מילת הזמן
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-4">{hint}</p>
+
+      <div className="flex flex-col gap-2.5 mb-6">
+        {questions.map((q, idx) => {
+          const ans = answers[idx]
+          const opts = order[idx] ? [q.optA, q.optB] : [q.optB, q.optA]
+          return (
+            <div key={idx} className="bg-white border-2 border-gray-200 rounded-2xl px-3 py-3 flex items-center gap-2 flex-wrap">
+              <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
+              <span className="text-base font-bold text-gray-700">
+                {q.before ? q.before + ' ' : ''}
+                {ans ? (
+                  <span className="font-black text-green-600 bg-green-100 rounded px-1">{ans}</span>
+                ) : (
+                  <span className="text-gray-300 font-black">___</span>
+                )}
+                {' ' + q.after}
+              </span>
+              {!ans ? (
+                <div className="flex gap-1.5 ml-auto">
+                  {opts.map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => choose(idx, opt)}
+                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
+                        wrongs[idx] === opt
+                          ? 'bg-red-500 text-white border-red-500'
+                          : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <span className="ml-auto text-green-500 font-bold text-lg">✓</span>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-5xl mb-2">👏</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
+          <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function MixedPracticePage() {
@@ -442,6 +588,9 @@ export default function MixedPracticePage() {
     { id: 'ex2', label: 'Ex 2' },
     { id: 'ex3', label: 'Ex 3' },
     { id: 'ex4', label: 'Ex 4' },
+    { id: 'ex5', label: 'Ex 5' },
+    { id: 'ex6', label: 'Ex 6' },
+    { id: 'ex7', label: 'Ex 7' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -460,7 +609,7 @@ export default function MixedPracticePage() {
       </div>
 
       <div className="bg-white border-b border-gray-200 px-3 py-2 overflow-x-auto">
-        <div className="flex gap-1.5 min-w-max mx-auto justify-center">
+        <div className="flex gap-1.5 min-w-max mx-auto">
           {tabs.map(t => (
             <button
               key={t.id}
@@ -485,6 +634,15 @@ export default function MixedPracticePage() {
         )}
         {tab === 'ex4' && (
           <ExWrapper render={done => <Ex4 onDone={done} />} />
+        )}
+        {tab === 'ex5' && (
+          <ExWrapper render={done => <PickBySignalEx questions={EX5_QUESTIONS} hint="every day → don't / doesn't · now / Look! → am not / isn't / aren't" onDone={done} />} />
+        )}
+        {tab === 'ex6' && (
+          <ExWrapper render={done => <PickBySignalEx questions={EX6_QUESTIONS} hint="every day → Do / Does · now / at the moment → Am / Is / Are" onDone={done} />} />
+        )}
+        {tab === 'ex7' && (
+          <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
         )}
       </div>
     </div>

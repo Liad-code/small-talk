@@ -416,6 +416,7 @@ const EX3_QUESTIONS: Ex3Q[] = [
 function normalize(s: string): string {
   return s
     .replace(/[‘’ʼ′]/g, "'")
+    .replace(/[.!?]+\s*$/, '')   // accept the sentence with or without an ending period
     .replace(/\s+/g, ' ')
     .trim()
     .toLowerCase()
