@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -188,6 +188,21 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
   { before: 'I am',          after: 'home.',         correct: 'at',     wrong: 'on'     },
   { before: '',              after: 'is my friend.', correct: 'She',    wrong: 'They'   },
   { before: 'The dog is',    after: '.',             correct: 'white',  wrong: 'be'     },
+]
+
+// ── Ex3 data ──────────────────────────────────────────────────────────────────
+
+const EX3_QUESTIONS: Ex2Q[] = [
+  { before: 'I',                 after: 'apples for lunch.',  correct: 'eat',    wrong: 'are'    },
+  { before: 'We',               after: 'a new car.',         correct: 'have',   wrong: 'want'   },
+  { before: 'Let us go',         after: 'now.',               correct: 'out',    wrong: 'into'   },
+  { before: 'The book is',       after: 'the table.',         correct: 'on',     wrong: 'soon'   },
+  { before: 'Can you',           after: 'with me?',           correct: 'ride',   wrong: 'say'    },
+  { before: 'I',                 after: 'ice cream.',         correct: 'like',   wrong: 'must'   },
+  { before: '',                  after: 'is your name?',      correct: 'What',   wrong: 'Who'    },
+  { before: 'Be home',           after: ', okay?',            correct: 'soon',   wrong: 'well'   },
+  { before: 'Look',              after: 'is the cat!',        correct: 'there',  wrong: 'four'   },
+  { before: '',                  after: 'sit down.',          correct: 'Please', wrong: 'Pretty' },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -458,6 +473,112 @@ function Ex2Tab() {
   )
 }
 
+// ── Ex 3 Tab ──────────────────────────────────────────────────────────────────
+
+function Ex3Tab() {
+  const [answered, setAnswered] = useState<Record<number, boolean>>({})
+  const [wrong, setWrong] = useState<Record<number, string>>({})
+  const [order, setOrder] = useState<boolean[]>(() => EX3_QUESTIONS.map(() => Math.random() < 0.5))
+  const [resetKey, setResetKey] = useState(0)
+
+  const questions = EX3_QUESTIONS
+  const total = questions.length
+  const done = Object.keys(answered).length
+  const allDone = done === total
+
+  const choose = (idx: number, val: string) => {
+    if (answered[idx]) return
+    if (val === questions[idx].correct) {
+      setAnswered(prev => ({ ...prev, [idx]: true }))
+    } else {
+      setWrong(prev => ({ ...prev, [idx]: val }))
+      setTimeout(() => setWrong(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
+    }
+  }
+
+  const again = () => {
+    setAnswered({})
+    setWrong({})
+    setOrder(EX3_QUESTIONS.map(() => Math.random() < 0.5))
+    setResetKey(k => k + 1)
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-emerald-700 text-center mb-1">
+          Choose the correct word
+        </h2>
+        <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
+          לחצו על המילה הנכונה כדי להשלים את המשפט
+        </p>
+      </div>
+
+      <div className="flex justify-between items-center text-sm font-bold text-emerald-500 mb-3">
+        <span className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-0.5">
+          תרגיל 3
+        </span>
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {questions.map((q, idx) => {
+          const isAnswered = answered[idx]
+          const opts = order[idx] ? [q.correct, q.wrong] : [q.wrong, q.correct]
+          return (
+            <div
+              key={idx}
+              className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
+            >
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="text-base font-bold text-gray-700">
+                {q.before ? q.before + ' ' : ''}
+                {isAnswered ? (
+                  <span className="font-black text-emerald-600 bg-emerald-100 rounded px-1">{q.correct}</span>
+                ) : (
+                  <span className="text-emerald-300 font-black">___</span>
+                )}
+                {q.after === '.' || q.after === '?' ? q.after : ' ' + q.after}
+              </span>
+              {!isAnswered && (
+                <div className="flex gap-1.5 ml-auto">
+                  {opts.map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => choose(idx, opt)}
+                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
+                        wrong[idx] === opt
+                          ? 'bg-red-500 text-white border-red-500'
+                          : 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {isAnswered && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function SightWordsPage() {
@@ -467,6 +588,7 @@ export default function SightWordsPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-4 py-1.5 rounded-full font-bold text-sm transition-colors whitespace-nowrap'
@@ -509,6 +631,7 @@ export default function SightWordsPage() {
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1Tab />}
         {tab === 'ex2'   && <Ex2Tab />}
+        {tab === 'ex3'   && <Ex3Tab />}
       </div>
     </div>
   )

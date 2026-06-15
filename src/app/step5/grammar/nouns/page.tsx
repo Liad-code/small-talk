@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { shuffle } from '@/utils/shuffle'
 
 type Tab = 'learn' | 'plural' | 'ex1' | 'ex2' | 'ex3' | 'ex4'
 
@@ -57,9 +58,9 @@ function LearnTab() {
         </p>
         <div className="flex flex-col gap-1.5">
           {[
-            { en: 'a girl → two girls', he: 'ילדה → שתי ילדות' },
-            { en: 'a pen', he: 'עט' },
-            { en: 'The pen is on the table.', he: 'העט על השולחן.' },
+            { en: 'a boy – two boys', he: 'ילד → שני ילדים' },
+            { en: 'a book', he: 'ספר' },
+            { en: 'The book is open.', he: 'הספר פתוח.' },
           ].map(({ en, he }) => (
             <div key={en} className="flex items-center justify-between bg-orange-50 rounded-xl px-3 py-1.5 gap-3">
               <span className="font-black text-orange-700 text-base">{en}</span>
@@ -71,12 +72,18 @@ function LearnTab() {
 
       {/* Non-count nouns */}
       <div className="bg-white border-2 border-amber-200 rounded-2xl p-4">
-        <h3 className="font-display font-black text-amber-700 text-lg mb-2 text-center">🚫 Non-count nouns</h3>
-        <p className="font-bold text-gray-600 text-sm mb-3 text-center" dir="rtl">
-          שמות עצם שאי אפשר לספור — אין a / an ואין צורת רבים. משתמשים ב- some
-        </p>
+        <h3 className="font-display font-black text-amber-700 text-lg mb-3 text-center">🚫 Non-count nouns</h3>
+        <ul className="flex flex-col gap-2 mb-3" dir="rtl">
+          <li className="font-bold text-gray-600 text-sm">שמות עצם שאי אפשר לספור.</li>
+          <li className="font-bold text-gray-600 text-sm">
+            משתמשים בדרך כלל בצורת היחיד:
+            <span className="block font-black text-amber-700 mt-1" dir="ltr">There is water on the table.</span>
+          </li>
+          <li className="font-bold text-gray-600 text-sm">לא משתמשים ב- a או an לפני שמות עצם בלתי ספירים.</li>
+          <li className="font-bold text-gray-600 text-sm">אפשר להשתמש ב- the לפני שמות עצם בלתי ספירים.</li>
+        </ul>
         <div className="flex flex-wrap gap-2 justify-center">
-          {['bread', 'meat', 'milk', 'money', 'oil', 'sugar', 'water'].map(w => (
+          {['bread', 'meat', 'milk', 'money', 'oil', 'sugar', 'water', 'pasta', 'soup', 'rice', 'time'].map(w => (
             <span key={w} className="bg-amber-100 text-amber-700 font-black rounded-full px-3 py-1 text-sm">{w}</span>
           ))}
         </div>
@@ -86,6 +93,11 @@ function LearnTab() {
       <div className="bg-white border-2 border-orange-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-orange-700 text-lg mb-3 text-center">some / any</h3>
 
+        <ul className="flex flex-col gap-2 mb-3" dir="rtl">
+          <li className="font-bold text-gray-600 text-sm">נשתמש ב- some או any כאשר יש לנו כמות לא מוגדרת.</li>
+          <li className="font-bold text-gray-600 text-sm">אפשר להשתמש ב- some או any לפני שמות עצם ספירים וגם לפני שמות עצם לא ספירים.</li>
+        </ul>
+
         <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-3 mb-3">
           <div className="font-display font-black text-green-700 text-center text-base mb-1">some</div>
           <p className="font-bold text-gray-600 text-sm text-center mb-2" dir="rtl">
@@ -93,8 +105,8 @@ function LearnTab() {
           </p>
           <div className="flex flex-col gap-1.5">
             {[
-              'There are some bananas on the table.',
-              'I have some money in my bag.',
+              'There are some oranges on the plate.',
+              'You have some water in your bag.',
             ].map(s => (
               <div key={s} className="bg-white rounded-xl px-3 py-1.5 font-bold text-green-700 text-sm text-center border border-green-100">
                 {s}
@@ -110,8 +122,7 @@ function LearnTab() {
           </p>
           <div className="flex flex-col gap-1.5">
             {[
-              "I don't have any books in my room.",
-              "There isn't any sugar on the table.",
+              "We don't have any milk.",
               'Do you have any water?',
             ].map(s => (
               <div key={s} className="bg-white rounded-xl px-3 py-1.5 font-bold text-rose-700 text-sm text-center border border-rose-100">
@@ -263,8 +274,9 @@ function Ex1({ onDone }: { onDone: () => void }) {
   const [placed, setPlaced] = useState<Record<CountCat, SortNoun[]>>({ count: [], noncount: [] })
   const [flashWrong, setFlashWrong] = useState<CountCat | null>(null)
   const [usedWords, setUsedWords] = useState<Set<string>>(new Set())
+  const [bank] = useState<SortNoun[]>(() => shuffle(EX1_ITEMS))
 
-  const remaining = EX1_ITEMS.filter(n => !usedWords.has(n.word))
+  const remaining = bank.filter(n => !usedWords.has(n.word))
   const allDone = usedWords.size === EX1_ITEMS.length
 
   const handleWordClick = (item: SortNoun) => {

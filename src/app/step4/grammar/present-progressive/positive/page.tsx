@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { shuffle } from '@/utils/shuffle'
 
 type Tab = 'learn' | 'sort' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5'
 
@@ -868,8 +869,10 @@ function SortExercise({ items, onDone }: { items: SortVerb[]; onDone: () => void
   const [placed, setPlaced] = useState<Record<IngCat, SortVerb[]>>({ '+ing': [], 'e': [], 'double': [] })
   const [flashWrong, setFlashWrong] = useState<IngCat | null>(null)
   const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
+  // Shuffle the word bank so verbs aren't shown grouped by their ing-rule.
+  const [shuffledItems] = useState<SortVerb[]>(() => shuffle(items))
 
-  const remaining = items.filter(v => !usedBases.has(v.base))
+  const remaining = shuffledItems.filter(v => !usedBases.has(v.base))
   const allDone = usedBases.size === items.length
 
   const handleWordClick = (item: SortVerb) => {

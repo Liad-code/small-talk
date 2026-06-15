@@ -12,13 +12,13 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-violet-50 border-4 border-violet-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-3xl text-violet-700 text-center mb-1">
-          Possessive &apos;s
+          Possessive &quot;s&quot;
         </h2>
         <p className="font-display font-black text-xl text-violet-600 text-center mb-2" dir="rtl">
-          שייכות עם &apos;s
+          שייכות עם &quot;s&quot;
         </p>
         <p className="font-bold text-violet-800 text-sm text-center" dir="rtl">
-          מראים למי שייך משהו על ידי הוספת &apos;s
+          על מנת לתאר שייכות יש להוסיף &quot;s&quot; לשם האדם או שם העצם שהחפץ שייך לו.
         </p>
       </div>
 
@@ -29,8 +29,8 @@ function LearnTab() {
           ליחיד מוסיפים &apos;s
         </p>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">Ben<span className="text-purple-900 underline">&apos;s</span> dog</div>
-          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">the cat<span className="text-purple-900 underline">&apos;s</span> food</div>
+          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">the boy<span className="text-purple-900 underline">&apos;s</span> dog</div>
+          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">the teacher<span className="text-purple-900 underline">&apos;s</span> pen</div>
         </div>
       </div>
 
@@ -38,11 +38,11 @@ function LearnTab() {
       <div className="bg-violet-50 border-4 border-violet-300 rounded-3xl p-5">
         <h3 className="font-display font-black text-2xl text-violet-700 text-center mb-1">Plural with s &rarr; &apos;</h3>
         <p className="font-bold text-violet-800 text-sm text-center mb-3" dir="rtl">
-          לרבים שמסתיים ב-s מוסיפים רק גרש &apos;
+          למילה ברבים שמסתיימת ב-s יש להוסיף גרש (&apos;) אחרי ה-s
         </p>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">the girls<span className="text-violet-900 underline">&apos;</span> parents</div>
-          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">the neighbors<span className="text-violet-900 underline">&apos;</span> dog</div>
+          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">my friends<span className="text-violet-900 underline">&apos;</span> bikes</div>
+          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">the pupils<span className="text-violet-900 underline">&apos;</span> bags</div>
         </div>
       </div>
 
@@ -50,11 +50,11 @@ function LearnTab() {
       <div className="bg-fuchsia-50 border-4 border-fuchsia-300 rounded-3xl p-5">
         <h3 className="font-display font-black text-2xl text-fuchsia-700 text-center mb-1">Irregular plural &rarr; &apos;s</h3>
         <p className="font-bold text-fuchsia-800 text-sm text-center mb-3" dir="rtl">
-          לרבים חריג (שלא מסתיים ב-s) מוסיפים &apos;s
+          למילה ברבים אשר לא מסתיימת ב-s נוסיף &apos;s
         </p>
         <div className="flex flex-col gap-1.5">
           <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">the children<span className="text-fuchsia-900 underline">&apos;s</span> toys</div>
-          <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">the men<span className="text-fuchsia-900 underline">&apos;s</span> shoes</div>
+          <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">the men<span className="text-fuchsia-900 underline">&apos;s</span> hats</div>
         </div>
       </div>
     </div>
@@ -70,21 +70,21 @@ interface Phrase {
 }
 
 const PHRASES: Phrase[] = [
-  { english: 'the baby\'s toy',        emoji: '🧸',  hebrew: 'הצעצוע של התינוק' },
-  { english: 'the children\'s dog',    emoji: '🐕',  hebrew: 'הכלב של הילדים' },
-  { english: 'the girls\' teacher',    emoji: '👩‍🏫', hebrew: 'המורה של הבנות' },
+  { english: 'The baby\'s toy',        emoji: '🧸',  hebrew: 'הצעצוע של התינוק' },
+  { english: 'The children\'s dog',    emoji: '🐕',  hebrew: 'הכלב של הילדים' },
+  { english: 'The girls\' teacher',    emoji: '👩‍🏫', hebrew: 'המורה של הבנות' },
   { english: 'Ben\'s bike',            emoji: '🚲',  hebrew: 'האופניים של בן' },
-  { english: 'the cat\'s food',        emoji: '🍽️',  hebrew: 'האוכל של החתול' },
-  { english: 'my sister\'s book',      emoji: '📖',  hebrew: 'הספר של אחותי' },
-  { english: 'the boys\' ball',        emoji: '⚽',  hebrew: 'הכדור של הבנים' },
-  { english: 'the men\'s shoes',       emoji: '👞',  hebrew: 'הנעליים של הגברים' },
-  { english: 'the teacher\'s desk',    emoji: '🪑',  hebrew: 'השולחן של המורה' },
-  { english: 'the neighbors\' garden', emoji: '🌳',  hebrew: 'הגינה של השכנים' },
+  { english: 'The cat\'s food',        emoji: '🍽️',  hebrew: 'האוכל של החתול' },
+  { english: 'My sister\'s book',      emoji: '📖',  hebrew: 'הספר של אחותי' },
+  { english: 'The boys\' ball',        emoji: '⚽',  hebrew: 'הכדור של הבנים' },
+  { english: 'The men\'s shoes',       emoji: '👞',  hebrew: 'הנעליים של הגברים' },
+  { english: 'The teacher\'s desk',    emoji: '🪑',  hebrew: 'השולחן של המורה' },
+  { english: 'The neighbors\' garden', emoji: '🌳',  hebrew: 'הגינה של השכנים' },
   { english: 'Dana\'s phone',          emoji: '📱',  hebrew: 'הטלפון של דנה' },
-  { english: 'the women\'s hats',      emoji: '👒',  hebrew: 'הכובעים של הנשים' },
-  { english: 'the dog\'s tail',        emoji: '🐶',  hebrew: 'הזנב של הכלב' },
-  { english: 'the students\' books',   emoji: '📚',  hebrew: 'הספרים של התלמידים' },
-  { english: 'my mom\'s car',          emoji: '🚗',  hebrew: 'המכונית של אמא שלי' },
+  { english: 'The women\'s hats',      emoji: '👒',  hebrew: 'הכובעים של הנשים' },
+  { english: 'The dog\'s tail',        emoji: '🐶',  hebrew: 'הזנב של הכלב' },
+  { english: 'The students\' books',   emoji: '📚',  hebrew: 'הספרים של התלמידים' },
+  { english: 'My mom\'s car',          emoji: '🚗',  hebrew: 'המכונית של אמא שלי' },
 ]
 
 function Ex1Tab() {
@@ -167,8 +167,8 @@ export default function PossessiveSPage() {
           <Link href="/step5/grammar" className="text-white/70 font-bold text-sm no-underline hover:text-white">
             ← Grammar
           </Link>
-          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Possessive &apos;s 🔑</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">שייכות באנגלית — &apos;s</p>
+          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Possessive &quot;s&quot; 🔑</h1>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">שייכות באנגלית — &quot;s&quot;</p>
         </div>
       </div>
 

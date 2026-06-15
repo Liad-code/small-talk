@@ -52,10 +52,10 @@ function LearnTab() {
 
         <div className="flex flex-col gap-1.5">
           <div className="bg-pink-100 rounded-xl px-3 py-1.5 font-bold text-pink-700 text-base">
-            a <span className="font-black text-rose-600">big</span> house
+            <span className="font-black text-rose-600">green</span> eyes
           </div>
           <div className="bg-rose-100 rounded-xl px-3 py-1.5 font-bold text-rose-700 text-base">
-            a <span className="font-black text-pink-600">good</span> man
+            a <span className="font-black text-pink-600">red</span> pen
           </div>
         </div>
       </div>
@@ -64,13 +64,13 @@ function LearnTab() {
       <div className="bg-white border-2 border-pink-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-pink-700 text-lg mb-2 text-center">a / an / the + adjective</h3>
         <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">
-          שם התואר נכנס בין ה- a/an/the לבין שם העצם
+          the / an / a יבואו לפני שם התואר
         </p>
         <div className="flex flex-col gap-1.5">
           {[
-            { a: 'a dog', b: 'a small dog' },
-            { a: 'a book', b: 'an interesting book' },
-            { a: 'the pen', b: 'the red pen' },
+            { a: 'a house', b: 'a big house' },
+            { a: 'a man', b: 'an old man' },
+            { a: 'the man', b: 'the old man' },
           ].map(({ a, b }) => (
             <div key={a} className="flex items-center justify-between bg-pink-50 rounded-xl px-3 py-1.5">
               <span className="font-bold text-gray-500 text-sm">{a}</span>
@@ -85,10 +85,10 @@ function LearnTab() {
       <div className="bg-white border-2 border-rose-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-rose-700 text-lg mb-2 text-center">After “to be” (am / is / are)</h3>
         <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">
-          שם התואר יכול לבוא גם אחרי הפועל to be
+          שם התואר יבוא אחרי to be
         </p>
         <div className="flex flex-col gap-1.5">
-          {['I am tired.', 'He is happy.', 'They are funny.'].map(s => (
+          {['I am happy.', 'She is hungry.', 'We are tall.'].map(s => (
             <div key={s} className="bg-rose-50 rounded-xl px-3 py-1.5 font-bold text-rose-700 text-base">{s}</div>
           ))}
         </div>
@@ -98,14 +98,14 @@ function LearnTab() {
       <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4">
         <h3 className="font-display font-black text-amber-700 text-lg mb-2 text-center">as … as</h3>
         <p className="font-bold text-amber-800 text-sm mb-3 text-center" dir="rtl">
-          להשוואת שני דברים שווים: as + adjective + as
+          להשוואת שני שמות עצם: as + adjective + as
         </p>
         <div className="flex flex-col gap-1.5">
           <div className="bg-white border border-amber-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 text-base">
-            Orna is <span className="font-black text-amber-700">as old as</span> Ella.
+            Dan is <span className="font-black text-amber-700">as old as</span> Dana.
           </div>
           <div className="bg-white border border-amber-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 text-base">
-            Orna is <span className="font-black text-red-600">not as old as</span> her sister.
+            Dan is <span className="font-black text-red-600">not as old as</span> Dana.
           </div>
         </div>
       </div>
@@ -118,9 +118,8 @@ function ComparativeTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-pink-50 border-4 border-pink-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-3xl text-pink-700 text-center mb-1">Comparative</h2>
-        <p className="font-display font-black text-xl text-rose-600 text-center mb-2" dir="rtl">דרגת ההשוואה</p>
         <p className="font-bold text-pink-800 text-sm text-center mb-4" dir="rtl">
-          משווים בין שני דברים: מוסיפים <span className="font-black">-er + than</span> או <span className="font-black">more … than</span>
+          כאשר משווים שני שמות עצם שונים
         </p>
 
         <div className="bg-white border-2 border-pink-200 rounded-2xl overflow-hidden">
@@ -129,8 +128,8 @@ function ComparativeTab() {
             <div className="font-display font-black text-pink-700 text-center py-1.5 text-sm">Long adjective</div>
           </div>
           <div className="grid grid-cols-2 border-t border-pink-100">
-            <div className="text-center py-2 font-black text-pink-600 text-sm border-r border-pink-100">-er + than<br /><span className="text-xs font-bold text-gray-500">tall → taller than</span></div>
-            <div className="text-center py-2 font-black text-rose-600 text-sm">more … than<br /><span className="text-xs font-bold text-gray-500">more dangerous than</span></div>
+            <div className="text-center py-2 font-black text-pink-600 text-sm border-r border-pink-100">-er + than<br /><span className="text-xs font-bold text-gray-500">tall → taller than</span><br /><span className="text-xs font-bold text-gray-400" dir="rtl">גבוה מ...</span></div>
+            <div className="text-center py-2 font-black text-rose-600 text-sm">more … than<br /><span className="text-xs font-bold text-gray-500">more dangerous than</span><br /><span className="text-xs font-bold text-gray-400" dir="rtl">יותר מסוכן מ...</span></div>
           </div>
         </div>
       </div>
@@ -169,9 +168,8 @@ function SuperlativeTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-pink-50 border-4 border-pink-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-3xl text-pink-700 text-center mb-1">Superlative</h2>
-        <p className="font-display font-black text-xl text-rose-600 text-center mb-2" dir="rtl">דרגת ההפלגה</p>
         <p className="font-bold text-pink-800 text-sm text-center mb-4" dir="rtl">
-          ה<span className="font-black">הכי</span>… מבין כולם: <span className="font-black">the + -est</span> או <span className="font-black">the most</span>
+          כאשר רוצים להגיד שמשהו או מישהו הוא הכי... מכולם: the + est או the most
         </p>
 
         <div className="bg-white border-2 border-pink-200 rounded-2xl overflow-hidden">
@@ -305,46 +303,38 @@ function Ex1() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  EX 2 — choose the adjective (bank: new, small, long, sweet)
+//  EX 2 — choose the adjective (2 options per sentence, no word bank)
 // ════════════════════════════════════════════════════════════════════════════
 
-const EX2_BANK = ['new', 'small', 'long', 'sweet']
-
-interface Ex2Q { before: string; after: string; correct: string }
+interface Ex2Q { before: string; after: string; correct: string; wrong: string }
 
 const EX2_QUESTIONS: Ex2Q[] = [
-  { before: 'I bought a',          after: 'phone.',          correct: 'new'   },
-  { before: 'The',                 after: 'cake is tasty.',  correct: 'sweet' },
-  { before: 'An elephant has a',   after: 'trunk.',          correct: 'long'  },
-  { before: 'A mouse is',          after: '.',               correct: 'small' },
-  { before: 'She has a',           after: 'bike.',           correct: 'new'   },
-  { before: 'This honey is very',  after: '.',               correct: 'sweet' },
-  { before: 'A giraffe has a',     after: 'neck.',           correct: 'long'  },
-  { before: 'My baby brother is',  after: '.',               correct: 'small' },
-  { before: 'We moved to a',       after: 'house.',          correct: 'new'   },
-  { before: 'The candy is so',     after: '.',               correct: 'sweet' },
-  { before: 'The snake is very',   after: '.',               correct: 'long'  },
-  { before: 'An ant is',           after: '.',               correct: 'small' },
-  { before: 'He got a',            after: 'computer.',       correct: 'new'   },
-  { before: 'The river is',        after: '.',               correct: 'long'  },
-  { before: 'This apple is',       after: '.',               correct: 'sweet' },
+  { before: 'The baby is very',     after: '.',                 correct: 'small',       wrong: 'cold'        },
+  { before: 'I am',                 after: ', I want to eat.',  correct: 'hungry',      wrong: 'new'         },
+  { before: 'This book is',         after: '.',                 correct: 'interesting', wrong: 'sweet'       },
+  { before: 'The ice is',           after: '.',                 correct: 'cold',        wrong: 'young'       },
+  { before: 'My grandpa is',        after: '.',                 correct: 'old',         wrong: 'new'         },
+  { before: 'She got a',            after: 'phone today.',      correct: 'new',         wrong: 'old'         },
+  { before: 'The princess is so',   after: '.',                 correct: 'beautiful',   wrong: 'hungry'      },
+  { before: 'An elephant is',       after: '.',                 correct: 'big',         wrong: 'small'      },
+  { before: 'This cake is very',    after: '.',                 correct: 'sweet',       wrong: 'cold'        },
+  { before: 'My little sister is',  after: '.',                 correct: 'young',       wrong: 'old'         },
+  { before: 'The flower is',        after: '.',                 correct: 'pretty',      wrong: 'hungry'      },
+  { before: 'My teacher is very',   after: '.',                 correct: 'nice',        wrong: 'cold'        },
+  { before: 'A mouse is',           after: '.',                 correct: 'small',       wrong: 'big'         },
+  { before: 'In winter the days are', after: '.',               correct: 'cold',        wrong: 'sweet'       },
+  { before: 'The honey is',         after: '.',                 correct: 'sweet',       wrong: 'interesting' },
 ]
 
-// build a 3-option set: correct + 2 distractors from the bank
-function ex2Options(correct: string, seed: number): string[] {
-  const others = EX2_BANK.filter(w => w !== correct)
-  // pick 2 distinct distractors deterministically-ish
-  const d1 = others[seed % others.length]
-  const d2 = others[(seed + 1) % others.length]
-  const opts = d1 === d2 ? [correct, d1] : [correct, d1, d2]
-  // shuffle by seed
-  return [...opts].sort((a, b) => ((a.charCodeAt(0) + seed) % 7) - ((b.charCodeAt(0) + seed) % 7))
+// 2 options per question (correct + wrong), order toggled by index
+function ex2Options(q: Ex2Q, idx: number): string[] {
+  return idx % 2 === 0 ? [q.correct, q.wrong] : [q.wrong, q.correct]
 }
 
 function Ex2({ onDone }: { onDone: () => void }) {
   const [answered, setAnswered] = useState<Record<number, boolean>>({})
   const [wrong, setWrong] = useState<Record<number, string>>({})
-  const [options] = useState<string[][]>(() => EX2_QUESTIONS.map((q, i) => ex2Options(q.correct, i + 1)))
+  const [options] = useState<string[][]>(() => EX2_QUESTIONS.map((q, i) => ex2Options(q, i)))
 
   const total = EX2_QUESTIONS.length
   const done = Object.keys(answered).length
@@ -369,12 +359,6 @@ function Ex2({ onDone }: { onDone: () => void }) {
         </p>
       </div>
 
-      <div className="bg-pink-50 border-2 border-pink-200 rounded-2xl p-2 mb-4 flex flex-wrap gap-2 justify-center">
-        {EX2_BANK.map(w => (
-          <span key={w} className="bg-white border-2 border-pink-200 rounded-full px-3 py-0.5 font-display font-black text-pink-700 text-sm">{w}</span>
-        ))}
-      </div>
-
       <div className="flex justify-end text-sm font-bold text-pink-500 mb-3">
         <span>{done} / {total} ✓</span>
       </div>
@@ -388,7 +372,7 @@ function Ex2({ onDone }: { onDone: () => void }) {
               <span className="text-base font-bold text-gray-700">
                 {q.before + ' '}
                 {isAnswered ? (
-                  <span className="font-black text-pink-600 bg-pink-100 rounded px-1">{q.correct}</span>
+                  <span className="font-black text-green-600 bg-green-100 rounded px-1">{q.correct}</span>
                 ) : (
                   <span className="text-pink-300 font-black">___</span>
                 )}

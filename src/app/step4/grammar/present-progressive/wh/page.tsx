@@ -138,7 +138,7 @@ function Ex1Tab() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <p className="text-center font-bold text-amber-600 text-sm mb-4" dir="rtl">
-        קראו את השאלה. לחיצה על ? תציג את התשובה
+        קרא את השאלה וחשוב על תשובה נכונה אפשרית. לחץ על ? כדי לראות תשובה נכונה אפשרית.
       </p>
 
       <div className="flex flex-col gap-3">
@@ -380,7 +380,7 @@ interface Ex3Q { question: string; group: AnswerGroup }
 
 const EX3_QUESTIONS: Ex3Q[] = [
   { question: 'Is she eating now?',          group: 'she'  },
-  { question: 'Are you reading a book?',     group: 'you'  },
+  { question: 'Are you doing homework?',     group: 'I'    },
   { question: 'Am I doing it right?',        group: 'I'    },
   { question: 'Is he going home?',           group: 'he'   },
   { question: 'Are they playing football?',  group: 'they' },

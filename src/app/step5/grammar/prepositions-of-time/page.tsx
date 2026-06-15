@@ -61,9 +61,9 @@ function LearnTab() {
           ))}
         </div>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-cyan-100 rounded-xl px-3 py-1.5 font-bold text-cyan-700 text-base">My birthday is <span className="text-cyan-900 underline">in</span> December.</div>
-          <div className="bg-cyan-100 rounded-xl px-3 py-1.5 font-bold text-cyan-700 text-base">It rains <span className="text-cyan-900 underline">in</span> the winter.</div>
-          <div className="bg-cyan-100 rounded-xl px-3 py-1.5 font-bold text-cyan-700 text-base">I do homework <span className="text-cyan-900 underline">in</span> the afternoon.</div>
+          <div className="bg-cyan-100 rounded-xl px-3 py-1.5 font-bold text-cyan-700 text-base">We swim <span className="text-cyan-900 underline">in</span> the summer.</div>
+          <div className="bg-cyan-100 rounded-xl px-3 py-1.5 font-bold text-cyan-700 text-base">The party is <span className="text-cyan-900 underline">in</span> June.</div>
+          <div className="bg-cyan-100 rounded-xl px-3 py-1.5 font-bold text-cyan-700 text-base">The show is <span className="text-cyan-900 underline">in</span> the morning.</div>
         </div>
       </div>
 
@@ -74,12 +74,12 @@ function LearnTab() {
           ימים בשבוע
         </p>
         <div className="flex flex-wrap gap-2 justify-center mb-3">
-          {['Sunday', 'Monday', 'Saturday', 'days'].map(t => (
+          {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(t => (
             <span key={t} className="bg-white border-2 border-sky-200 rounded-full px-3 py-1 font-bold text-sky-700 text-sm">{t}</span>
           ))}
         </div>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-sky-100 rounded-xl px-3 py-1.5 font-bold text-sky-700 text-base">We don&apos;t go to school <span className="text-sky-900 underline">on</span> Saturday.</div>
+          <div className="bg-sky-100 rounded-xl px-3 py-1.5 font-bold text-sky-700 text-base">I play basketball <span className="text-sky-900 underline">on</span> Monday.</div>
         </div>
       </div>
 
@@ -87,16 +87,16 @@ function LearnTab() {
       <div className="bg-blue-50 border-4 border-blue-300 rounded-3xl p-5">
         <h3 className="font-display font-black text-3xl text-blue-700 text-center mb-2">AT</h3>
         <p className="font-bold text-blue-800 text-sm text-center mb-3" dir="rtl">
-          שעות מדויקות ובלילה
+          שעות מדויקות וחלקים ספציפיים במהלך היום
         </p>
         <div className="flex flex-wrap gap-2 justify-center mb-3">
-          {['7:30', '8 o\'clock', 'night', 'clock times'].map(t => (
+          {['7:30', '8 o\'clock', 'night', 'lunchtime', 'sunset', 'the moment'].map(t => (
             <span key={t} className="bg-white border-2 border-blue-200 rounded-full px-3 py-1 font-bold text-blue-700 text-sm">{t}</span>
           ))}
         </div>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">I go to school <span className="text-blue-900 underline">at</span> 7:30.</div>
-          <div className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">They watch movies <span className="text-blue-900 underline">at</span> night.</div>
+          <div className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">My English lesson is <span className="text-blue-900 underline">at</span> 10 o&apos;clock.</div>
+          <div className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">I watch TV <span className="text-blue-900 underline">at</span> night.</div>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -92,14 +92,14 @@ const SENTENCES: Sentence[] = [
     hebrew: 'אני תמיד הולך לבית הספר.',
   },
   {
-    parts: parseSentence('Please open the round box.', ['open', 'round']),
+    parts: parseSentence('Please open the box.', ['open']),
     emoji: '📦',
-    hebrew: 'בבקשה פתח את הקופסה העגולה.',
+    hebrew: 'בבקשה פתח את הקופסה.',
   },
   {
     parts: parseSentence('We buy bread before lunch.', ['buy', 'before']),
     emoji: '🍞',
-    hebrew: 'אנחנו קונים לחם לפני הצהריים.',
+    hebrew: 'אנחנו קונים לחם לפני ארוחת צהריים',
   },
   {
     parts: parseSentence('She has both books.', ['has', 'both']),
@@ -107,9 +107,9 @@ const SENTENCES: Sentence[] = [
     hebrew: 'יש לה את שני הספרים.',
   },
   {
-    parts: parseSentence('I think this is the best.', ['think', 'best']),
+    parts: parseSentence('I think this is the best idea.', ['think', 'best']),
     emoji: '💭',
-    hebrew: 'אני חושב שזה הכי טוב.',
+    hebrew: 'אני חושב שזה הרעיון הכי טוב.',
   },
   {
     parts: parseSentence('Take some water.', ['Take', 'some']),
@@ -127,9 +127,9 @@ const SENTENCES: Sentence[] = [
     hebrew: 'בבקשה תן להם את הספר שלה.',
   },
   {
-    parts: parseSentence('I just walk because it is fun.', ['just', 'walk', 'because']),
+    parts: parseSentence('I walk because it is fun.', ['walk', 'because']),
     emoji: '😄',
-    hebrew: 'אני פשוט הולך כי זה כיף.',
+    hebrew: 'אני הולך כי זה כיף.',
   },
   {
     parts: parseSentence('Birds fly from every tree.', ['fly', 'from', 'every']),
@@ -146,6 +146,11 @@ const SENTENCES: Sentence[] = [
     emoji: '🎄',
     hebrew: 'פעם בשנה אנחנו שמים עץ ליד הדלת.',
   },
+  {
+    parts: parseSentence('The earth is round.', ['round']),
+    emoji: '🌍',
+    hebrew: 'כדור הארץ עגול.',
+  },
 ]
 
 // ── Ex2 data ──────────────────────────────────────────────────────────────────
@@ -160,14 +165,14 @@ interface Ex2Q {
 const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'I',            after: 'to school.',   correct: 'walk',   wrong: 'fly'    },
   { before: 'Please',       after: 'the door.',    correct: 'open',   wrong: 'put'    },
-  { before: 'We',           after: 'bread.',       correct: 'buy',    wrong: 'ask'    },
+  { before: 'We',           after: 'bread for dinner.', correct: 'buy', wrong: 'ask'   },
   { before: 'She',          after: 'two cats.',    correct: 'has',    wrong: 'them'   },
   { before: 'I',            after: 'this is fun.', correct: 'think',  wrong: 'know'   },
   { before: 'Take',         after: 'water.',       correct: 'some',   wrong: 'any'    },
   { before: 'We',           after: 'in a house.',  correct: 'live',   wrong: 'give'   },
   { before: 'Birds can',    after: 'high.',        correct: 'fly',    wrong: 'walk'   },
-  { before: 'This is the',  after: 'cake.',        correct: 'best',   wrong: 'old'    },
-  { before: 'I read every', after: 'day.',         correct: 'after',  wrong: 'before' },
+  { before: 'This is the',  after: 'cheese cake.', correct: 'best',   wrong: 'old'    },
+  { before: 'I play with my friends', after: 'school.', correct: 'after', wrong: 'before' },
 ]
 
 const EX2_QUESTIONS_R2: Ex2Q[] = [
@@ -181,6 +186,21 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
   { before: 'This is',         after: 'old house.',    correct: 'his',   wrong: 'her'    },
   { before: 'Do you have',     after: 'milk?',         correct: 'any',   wrong: 'some'   },
   { before: 'Please',          after: 'and look.',     correct: 'stop',  wrong: 'fly'    },
+]
+
+// ── Ex3 data ──────────────────────────────────────────────────────────────────
+
+const EX3_QUESTIONS: Ex2Q[] = [
+  { before: 'We will go to the park',     after: 'school.',        correct: 'after',  wrong: 'before' },
+  { before: 'Can you sing the song',      after: ', please?',      correct: 'again',  wrong: 'once'   },
+  { before: 'Do you have',                after: 'questions?',     correct: 'any',    wrong: 'both'   },
+  { before: 'Brush your teeth',           after: 'you sleep.',     correct: 'before', wrong: 'after'  },
+  { before: 'This is the',                after: 'day ever!',      correct: 'best',   wrong: 'old'    },
+  { before: 'I want to',                  after: 'a new game.',    correct: 'buy',    wrong: 'walk'   },
+  { before: 'I got a letter',             after: 'my friend.',     correct: 'from',   wrong: 'some'   },
+  { before: 'I',                          after: 'how to read.',   correct: 'know',   wrong: 'open'   },
+  { before: 'Please',                     after: 'the window.',    correct: 'open',   wrong: 'take'   },
+  { before: 'We',                         after: 'to school each day.', correct: 'walk', wrong: 'put' },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -451,6 +471,112 @@ function Ex2Tab() {
   )
 }
 
+// ── Ex 3 Tab ──────────────────────────────────────────────────────────────────
+
+function Ex3Tab() {
+  const [answered, setAnswered] = useState<Record<number, boolean>>({})
+  const [wrong, setWrong] = useState<Record<number, string>>({})
+  const [order, setOrder] = useState<boolean[]>(() => EX3_QUESTIONS.map(() => Math.random() < 0.5))
+  const [resetKey, setResetKey] = useState(0)
+
+  const questions = EX3_QUESTIONS
+  const total = questions.length
+  const done = Object.keys(answered).length
+  const allDone = done === total
+
+  const choose = (idx: number, val: string) => {
+    if (answered[idx]) return
+    if (val === questions[idx].correct) {
+      setAnswered(prev => ({ ...prev, [idx]: true }))
+    } else {
+      setWrong(prev => ({ ...prev, [idx]: val }))
+      setTimeout(() => setWrong(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
+    }
+  }
+
+  const again = () => {
+    setAnswered({})
+    setWrong({})
+    setOrder(EX3_QUESTIONS.map(() => Math.random() < 0.5))
+    setResetKey(k => k + 1)
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-emerald-700 text-center mb-1">
+          Choose the correct word
+        </h2>
+        <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
+          לחצו על המילה הנכונה כדי להשלים את המשפט
+        </p>
+      </div>
+
+      <div className="flex justify-between items-center text-sm font-bold text-emerald-500 mb-3">
+        <span className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-0.5">
+          תרגיל 3
+        </span>
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {questions.map((q, idx) => {
+          const isAnswered = answered[idx]
+          const opts = order[idx] ? [q.correct, q.wrong] : [q.wrong, q.correct]
+          return (
+            <div
+              key={idx}
+              className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
+            >
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="text-base font-bold text-gray-700">
+                {q.before ? q.before + ' ' : ''}
+                {isAnswered ? (
+                  <span className="font-black text-emerald-600 bg-emerald-100 rounded px-1">{q.correct}</span>
+                ) : (
+                  <span className="text-emerald-300 font-black">___</span>
+                )}
+                {q.after === '.' || q.after === '?' ? q.after : ' ' + q.after}
+              </span>
+              {!isAnswered && (
+                <div className="flex gap-1.5 ml-auto">
+                  {opts.map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => choose(idx, opt)}
+                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
+                        wrong[idx] === opt
+                          ? 'bg-red-500 text-white border-red-500'
+                          : 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {isAnswered && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function SightWordsPage() {
@@ -460,6 +586,7 @@ export default function SightWordsPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-4 py-1.5 rounded-full font-bold text-sm transition-colors whitespace-nowrap'
@@ -502,6 +629,7 @@ export default function SightWordsPage() {
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1Tab />}
         {tab === 'ex2'   && <Ex2Tab />}
+        {tab === 'ex3'   && <Ex3Tab />}
       </div>
     </div>
   )
