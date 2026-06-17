@@ -137,26 +137,39 @@ function ComparativeTab() {
       {/* Spelling */}
       <div className="bg-white border-2 border-pink-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-pink-700 text-lg mb-3 text-center">Spelling rules</h3>
-        <div className="flex flex-col gap-2">
-          {[
-            { rule: '+ er', ex: 'big → bigger (double), late → later' },
-            { rule: 'y → ier', ex: 'easy → easier' },
-            { rule: 'irregular ⚠️', ex: 'good → better than, bad → worse than' },
-          ].map(({ rule, ex }) => (
-            <div key={rule} className="bg-pink-50 rounded-xl px-3 py-2">
-              <div className="font-display font-black text-pink-700 text-base">{rule}</div>
-              <div className="font-bold text-pink-800 text-base">{ex}</div>
-            </div>
-          ))}
+        <div className="flex flex-col gap-3">
+          {/* Box 1 — +er */}
+          <div className="bg-pink-50 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-pink-700 text-lg mb-1.5">+er</div>
+            <ul className="list-disc pr-5 flex flex-col gap-1 font-bold text-pink-800 text-sm" dir="rtl">
+              <li>נוסיף לשם התואר er</li>
+              <li>כאשר שם התואר מסתיים ב-e — נוסיף רק r</li>
+              <li>כאשר שם התואר מסתיים ב-cvc (עיצור-תנועה-עיצור) נכפיל את האות האחרונה ונוסיף er. את האותיות w, x, y לא נכפיל</li>
+            </ul>
+            <div className="font-bold text-pink-700 text-base mt-2">bigger, later</div>
+          </div>
+          {/* Box 2 — y → ier */}
+          <div className="bg-pink-50 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-pink-700 text-lg mb-1.5">y → ier</div>
+            <ul className="list-disc pr-5 flex flex-col gap-1 font-bold text-pink-800 text-sm" dir="rtl">
+              <li>כאשר שם התואר מסתיים ב-y ולפניה עיצור — נוריד את ה-y ונוסיף ier</li>
+            </ul>
+            <div className="font-bold text-pink-700 text-base mt-2">easier</div>
+          </div>
+          {/* Box 3 — more … than */}
+          <div className="bg-pink-50 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-pink-700 text-lg mb-1.5">more … than</div>
+            <ul className="list-disc pr-5 flex flex-col gap-1 font-bold text-pink-800 text-sm" dir="rtl">
+              <li>כאשר שם התואר ארוך נשתמש במבנה: more + adjective + than</li>
+            </ul>
+            <div className="font-bold text-pink-700 text-base mt-2">more dangerous than</div>
+          </div>
         </div>
       </div>
 
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 flex flex-col gap-1.5">
         <div className="bg-white border border-rose-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 text-base">
           A lion is <span className="font-black text-rose-600">more dangerous than</span> a mouse.
-        </div>
-        <div className="bg-white border border-rose-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 text-base">
-          Apples are <span className="font-black text-rose-600">healthier than</span> pizza.
         </div>
       </div>
     </div>
@@ -187,24 +200,34 @@ function SuperlativeTab() {
       {/* Spelling */}
       <div className="bg-white border-2 border-pink-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-pink-700 text-lg mb-3 text-center">Spelling rules</h3>
-        <div className="flex flex-col gap-2">
-          {[
-            { rule: 'the + est', ex: 'nice → the nicest, hot → the hottest (double)' },
-            { rule: 'y → iest', ex: 'easy → the easiest' },
-            { rule: 'irregular ⚠️', ex: 'good → the best, bad → the worst' },
-          ].map(({ rule, ex }) => (
-            <div key={rule} className="bg-pink-50 rounded-xl px-3 py-2">
-              <div className="font-display font-black text-pink-700 text-base">{rule}</div>
-              <div className="font-bold text-pink-800 text-base">{ex}</div>
-            </div>
-          ))}
+        <div className="flex flex-col gap-3">
+          {/* Box 1 — the + est */}
+          <div className="bg-pink-50 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-pink-700 text-lg mb-1.5">the + est</div>
+            <ul className="list-disc pr-5 flex flex-col gap-1 font-bold text-pink-800 text-sm" dir="rtl">
+              <li>נוסיף לשם התואר est</li>
+              <li>כאשר שם התואר מסתיים ב-e — נוסיף רק st</li>
+              <li>כאשר שם התואר מסתיים ב-cvc (עיצור-תנועה-עיצור) נכפיל את האות האחרונה ונוסיף est. את האותיות w, x, y לא נכפיל</li>
+            </ul>
+            <div className="font-bold text-pink-700 text-base mt-2">nice → the nicest, hot → the hottest</div>
+          </div>
+          {/* Box 2 — y → iest */}
+          <div className="bg-pink-50 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-pink-700 text-lg mb-1.5">y → iest</div>
+            <div className="font-bold text-pink-800 text-base">easy → the easiest</div>
+          </div>
+          {/* Box 3 — the most … */}
+          <div className="bg-pink-50 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-pink-700 text-lg mb-1.5">the most …</div>
+            <ul className="list-disc pr-5 flex flex-col gap-1 font-bold text-pink-800 text-sm" dir="rtl">
+              <li>כאשר שם התואר ארוך נשתמש במבנה: the most + adjective</li>
+            </ul>
+            <div className="font-bold text-pink-700 text-base mt-2">the most beautiful</div>
+          </div>
         </div>
       </div>
 
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-4 flex flex-col gap-1.5">
-        <div className="bg-white border border-rose-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 text-base">
-          She is <span className="font-black text-rose-600">the tallest</span> girl in the class.
-        </div>
         <div className="bg-white border border-rose-200 rounded-xl px-3 py-1.5 font-bold text-gray-700 text-base">
           This is <span className="font-black text-rose-600">the most beautiful</span> painting in the world.
         </div>
@@ -419,11 +442,11 @@ function Ex2({ onDone }: { onDone: () => void }) {
 
 interface Score { name: string; math: number; english: number }
 const SCORES: Score[] = [
-  { name: 'Gil',   math: 80,  english: 80  },
-  { name: 'Dana',  math: 100, english: 100 },
-  { name: 'Maya',  math: 95,  english: 100 },
-  { name: 'Dan',   math: 100, english: 90  },
-  { name: 'Yuval', math: 85,  english: 95  },
+  { name: 'Gil',   math: 80,  english: 90  },
+  { name: 'Dana',  math: 100, english: 90  },
+  { name: 'Maya',  math: 80,  english: 100 },
+  { name: 'Dan',   math: 100, english: 80  },
+  { name: 'Yuval', math: 90,  english: 100 },
 ]
 const scoreMap = Object.fromEntries(SCORES.map(s => [s.name, s])) as Record<string, Score>
 
@@ -432,14 +455,14 @@ interface Ex3Q { a: string; b: string; subject: 'math' | 'english' }
 const EX3_QUESTIONS: Ex3Q[] = [
   { a: 'Gil',   b: 'Dana',  subject: 'math'    }, // 80 < 100 -> not
   { a: 'Dana',  b: 'Dan',   subject: 'math'    }, // 100 = 100 -> as
-  { a: 'Maya',  b: 'Gil',   subject: 'math'    }, // 95 >= 80 -> as
-  { a: 'Yuval', b: 'Maya',  subject: 'math'    }, // 85 < 95 -> not
-  { a: 'Dana',  b: 'Maya',  subject: 'english' }, // 100 >= 100 -> as
-  { a: 'Dan',   b: 'Gil',   subject: 'english' }, // 90 >= 80 -> as
-  { a: 'Gil',   b: 'Yuval', subject: 'english' }, // 80 < 95 -> not
-  { a: 'Maya',  b: 'Dan',   subject: 'english' }, // 100 >= 90 -> as
-  { a: 'Yuval', b: 'Dana',  subject: 'math'    }, // 85 < 100 -> not
-  { a: 'Dan',   b: 'Yuval', subject: 'english' }, // 90 < 95 -> not
+  { a: 'Maya',  b: 'Gil',   subject: 'math'    }, // 80 = 80  -> as
+  { a: 'Yuval', b: 'Dana',  subject: 'math'    }, // 90 < 100 -> not
+  { a: 'Gil',   b: 'Dana',  subject: 'english' }, // 90 = 90  -> as
+  { a: 'Maya',  b: 'Dan',   subject: 'english' }, // 100 >= 80 -> as
+  { a: 'Dan',   b: 'Yuval', subject: 'english' }, // 80 < 100 -> not
+  { a: 'Yuval', b: 'Maya',  subject: 'english' }, // 100 = 100 -> as
+  { a: 'Dan',   b: 'Maya',  subject: 'math'    }, // 100 >= 80 -> as
+  { a: 'Gil',   b: 'Yuval', subject: 'math'    }, // 80 < 90  -> not
 ]
 
 function ex3IsAsGood(q: Ex3Q): boolean {
@@ -660,14 +683,14 @@ type CompCat = '+er' | 'ier' | 'double' | 'more'
 
 interface SortAdj { base: string; comparative: string; category: CompCat }
 
-const EX5_ITEMS: SortAdj[] = [
+const EX5_ROUND1: SortAdj[] = [
   { base: 'nice',      comparative: 'nicer',                category: '+er'    },
   { base: 'late',      comparative: 'later',                category: '+er'    },
   { base: 'tall',      comparative: 'taller',               category: '+er'    },
+  { base: 'long',      comparative: 'longer',               category: '+er'    },
   { base: 'angry',     comparative: 'angrier',              category: 'ier'    },
   { base: 'pretty',    comparative: 'prettier',             category: 'ier'    },
   { base: 'happy',     comparative: 'happier',              category: 'ier'    },
-  { base: 'fat',       comparative: 'fatter',               category: 'double' },
   { base: 'big',       comparative: 'bigger',               category: 'double' },
   { base: 'hot',       comparative: 'hotter',               category: 'double' },
   { base: 'beautiful', comparative: 'more beautiful than',  category: 'more'   },
@@ -675,14 +698,28 @@ const EX5_ITEMS: SortAdj[] = [
   { base: 'popular',   comparative: 'more popular than',    category: 'more'   },
 ]
 
-function Ex5({ onDone }: { onDone: () => void }) {
+const EX5_ROUND2: SortAdj[] = [
+  { base: 'expensive', comparative: 'more expensive than',  category: 'more'   },
+  { base: 'hungry',    comparative: 'hungrier',             category: 'ier'    },
+  { base: 'strong',    comparative: 'stronger',             category: '+er'    },
+  { base: 'funny',     comparative: 'funnier',              category: 'ier'    },
+  { base: 'cute',      comparative: 'cuter',                category: '+er'    },
+  { base: 'sad',       comparative: 'sadder',               category: 'double' },
+  { base: 'young',     comparative: 'younger',              category: '+er'    },
+  { base: 'large',     comparative: 'larger',               category: '+er'    },
+  { base: 'dirty',     comparative: 'dirtier',              category: 'ier'    },
+  { base: 'thin',      comparative: 'thinner',              category: 'double' },
+  { base: 'old',       comparative: 'older',                category: '+er'    },
+]
+
+function Ex5Round({ items, onDone }: { items: SortAdj[]; onDone: () => void }) {
   const [selectedWord, setSelectedWord] = useState<SortAdj | null>(null)
   const [placed, setPlaced] = useState<Record<CompCat, SortAdj[]>>({ '+er': [], 'ier': [], 'double': [], 'more': [] })
   const [flashWrong, setFlashWrong] = useState<CompCat | null>(null)
   const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
 
-  const remaining = EX5_ITEMS.filter(v => !usedBases.has(v.base))
-  const allDone = usedBases.size === EX5_ITEMS.length
+  const remaining = items.filter(v => !usedBases.has(v.base))
+  const allDone = usedBases.size === items.length
 
   const handleWordClick = (item: SortAdj) => {
     if (usedBases.has(item.base)) return
@@ -712,7 +749,7 @@ function Ex5({ onDone }: { onDone: () => void }) {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
         <span>Sort the comparatives</span>
-        <span className="text-pink-500">{usedBases.size} / {EX5_ITEMS.length} ✓</span>
+        <span className="text-pink-500">{usedBases.size} / {items.length} ✓</span>
       </div>
 
       <p className="text-center font-display font-black text-pink-700 text-base mb-1" dir="rtl">מיון שמות תואר לפי כלל ההשוואה</p>
@@ -779,6 +816,63 @@ function Ex5({ onDone }: { onDone: () => void }) {
   )
 }
 
+function Ex5() {
+  const rounds = [EX5_ROUND1, EX5_ROUND2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-pink-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-pink-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-pink-100 text-pink-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <Ex5Round
+        key={round}
+        items={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 //  Shared TYPE-IN exercise (Ex 6 comparative, Ex 7 superlative)
 // ════════════════════════════════════════════════════════════════════════════
@@ -815,7 +909,7 @@ function normalize(str: string): string {
   return str.trim().toLowerCase().replace(/\s+/g, ' ')
 }
 
-function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () => void }) {
+function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]; onDone: () => void; instruction: string }) {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
@@ -861,7 +955,7 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        הקלידו את הצורה הנכונה של שם התואר שבסוגריים
+        {instruction}
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Type the correct form of the adjective
@@ -886,7 +980,7 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
             onChange={e => { if (status === 'idle') setInput(e.target.value) }}
             onKeyDown={handleKeyDown}
             disabled={status !== 'idle'}
-            placeholder={q.answer}
+            placeholder=""
             className={`border-b-2 font-bold text-base text-center min-w-[160px] focus:outline-none bg-transparent transition-colors ${
               status === 'wrong'   ? 'border-red-400 text-red-600' :
               status === 'correct' ? 'border-green-400 text-green-600' :
@@ -982,9 +1076,9 @@ export default function AdjectivesPage() {
         {tab === 'ex2'         && <ExWrapper render={done => <Ex2 onDone={done} />} />}
         {tab === 'ex3'         && <ExWrapper render={done => <Ex3 onDone={done} />} />}
         {tab === 'ex4'         && <ExWrapper render={done => <Ex4 onDone={done} />} />}
-        {tab === 'ex5'         && <ExWrapper render={done => <Ex5 onDone={done} />} />}
-        {tab === 'ex6'         && <ExWrapper render={done => <TypeInExercise questions={EX6_QS} onDone={done} />} />}
-        {tab === 'ex7'         && <ExWrapper render={done => <TypeInExercise questions={EX7_QS} onDone={done} />} />}
+        {tab === 'ex5'         && <Ex5 />}
+        {tab === 'ex6'         && <ExWrapper render={done => <TypeInExercise questions={EX6_QS} onDone={done} instruction="הקלידו את הצורה הנכונה של שם התואר לפי חוקי ה-comparative" />} />}
+        {tab === 'ex7'         && <ExWrapper render={done => <TypeInExercise questions={EX7_QS} onDone={done} instruction="הקלידו את הצורה הנכונה של שם התואר לפי חוקי ה-superlative" />} />}
       </div>
     </div>
   )

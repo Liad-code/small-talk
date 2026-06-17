@@ -53,8 +53,8 @@ export default function Step5GrammarPage() {
         <TopicCard href="/step5/grammar/nouns" emoji="🧮" title="Nouns: Count & Non-Count" hebrewTitle="שמות עצם ספירים ולא ספירים" description="a book · some water" color="from-orange-500 to-amber-600" available />
         <TopicCard href="/step5/grammar/possessive-s" emoji="🔑" title="Possessive 's" hebrewTitle="שייכות עם 's" description="Dan's ball · the dog's tail" color="from-violet-500 to-purple-600" available />
         <TopicCard href="/step5/grammar/adjectives-and-adverbs" emoji="📐" title="Adjectives & Adverbs" hebrewTitle="שמות תואר ותארי הפועל" description="quick · quickly" color="from-pink-500 to-rose-600" available />
-        <TopicCard emoji="⏪" title="To Be: Was / Were" hebrewTitle="פועל היה — was / were" description="I was · They were" color="from-teal-500 to-emerald-600" available={false} />
-        <TopicCard emoji="📅" title="Past Simple" hebrewTitle="עבר פשוט" description="I played · She went" color="from-amber-500 to-orange-600" available={false} />
+        <TopicCard href="/step5/grammar/was-were" emoji="⏪" title="To Be: Was / Were" hebrewTitle="פועל היה — was / were" description="I was · They were" color="from-teal-500 to-emerald-600" available />
+        <TopicCard href="/step5/grammar/past-simple" emoji="📅" title="Past Simple" hebrewTitle="עבר פשוט" description="I played · She went" color="from-amber-500 to-orange-600" available />
         <TopicCard emoji="💪" title="Can / Could" hebrewTitle="יכול / היה יכול" description="I can · I could" color="from-lime-500 to-green-600" available={false} />
         <TopicCard emoji="🔮" title="Future: Will" hebrewTitle="עתיד — will" description="I will play" color="from-blue-500 to-indigo-600" available={false} />
         <TopicCard emoji="🎯" title="Future: Going To" hebrewTitle="עתיד — going to" description="I am going to play" color="from-cyan-500 to-blue-600" available={false} />
