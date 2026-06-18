@@ -447,6 +447,19 @@ export const SUBJECTS: Subject[] = [
     href: '/step5',
     levels: [],
   },
+  // ── STEP 6 ────────────────────────────────────────────────────────────────
+  {
+    id: 'step6',
+    title: 'Step 6',
+    hebrewTitle: 'שלב שישי',
+    emoji: '🏆',
+    color: 'bg-fuchsia-100',
+    textColor: 'text-fuchsia-700',
+    borderColor: 'border-fuchsia-400',
+    category: 'step6',
+    href: '/step6',
+    levels: [],
+  },
 ]
 
 export const getSubject = (id: string) => SUBJECTS.find(s => s.id === id)
@@ -491,5 +504,13 @@ export const CATEGORIES = [
     emoji: '🚀',
     color: 'from-indigo-400 to-blue-500',
     description: 'Sight words and advanced grammar — tenses, nouns, adjectives and more.',
+  },
+  {
+    id: 'step6',
+    title: 'Step 6',
+    hebrewTitle: 'שלב שישי',
+    emoji: '🏆',
+    color: 'from-fuchsia-400 to-purple-500',
+    description: 'Mixed-tense practice and sight words — putting it all together.',
   },
 ]
