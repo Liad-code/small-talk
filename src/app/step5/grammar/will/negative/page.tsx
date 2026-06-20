@@ -9,20 +9,20 @@ type Tab = 'learn' | 'ex1' | 'ex2'
 
 interface Ex1Cycle {
   subjects: string[]
-  verbs: string[]      // BASE form (after didn't the verb returns to base)
+  verbs: string[]      // BASE form (after won't the verb stays in base)
   times: string[]
 }
 
 const EX1_CYCLES: Ex1Cycle[] = [
   {
-    subjects: ['I', 'He', 'The dog', 'Dan and Dana'],
-    verbs: ['walk', 'play', 'eat', 'sleep'],
-    times: ['yesterday', 'last week'],
+    subjects: ['I', 'He', 'It', 'They'],
+    verbs: ['help', 'go', 'play', 'rain'],
+    times: ['tomorrow', 'tonight'],
   },
   {
-    subjects: ['She', 'We', 'The boy', 'Tom and Liat'],
-    verbs: ['run', 'go', 'clean', 'watch', 'study'],
-    times: ['last night', 'last summer'],
+    subjects: ['She', 'We', 'The dog', 'Tom and Liat'],
+    verbs: ['eat', 'come', 'run', 'watch', 'study'],
+    times: ['soon', 'later', 'next week'],
   },
 ]
 
@@ -34,18 +34,18 @@ interface Ex2Q {
 }
 
 const EX2_QUESTIONS: Ex2Q[] = [
-  { positive: 'He walked to school yesterday.',     answer: "He did not walk to school yesterday."     },
-  { positive: 'She played football last week.',     answer: "She did not play football last week."     },
-  { positive: 'We watched a movie last night.',     answer: "We did not watch a movie last night."     },
-  { positive: 'They cleaned the room yesterday.',   answer: "They did not clean the room yesterday."   },
-  { positive: 'I studied English last night.',      answer: "I did not study English last night."      },
-  { positive: 'He went to the park yesterday.',     answer: "He did not go to the park yesterday."      },
-  { positive: 'She ate an apple this morning.',     answer: "She did not eat an apple this morning."    },
-  { positive: 'We saw a great show last week.',     answer: "We did not see a great show last week."    },
-  { positive: 'Dan ran in the race yesterday.',     answer: "Dan did not run in the race yesterday."    },
-  { positive: 'The cat slept on the bed last night.', answer: "The cat did not sleep on the bed last night." },
-  { positive: 'I made a cake yesterday.',           answer: "I did not make a cake yesterday."         },
-  { positive: 'They took the bus last week.',       answer: "They did not take the bus last week."     },
+  { positive: 'It will rain tomorrow.',           answer: 'It will not rain tomorrow.'           },
+  { positive: 'She will help tonight.',           answer: 'She will not help tonight.'           },
+  { positive: 'He will go to school tomorrow.',   answer: 'He will not go to school tomorrow.'   },
+  { positive: 'They will play football later.',   answer: 'They will not play football later.'   },
+  { positive: 'I will eat lunch soon.',           answer: 'I will not eat lunch soon.'           },
+  { positive: 'We will come to the party tonight.', answer: 'We will not come to the party tonight.' },
+  { positive: 'The dog will run in the park.',    answer: 'The dog will not run in the park.'    },
+  { positive: 'You will watch a movie later.',    answer: 'You will not watch a movie later.'    },
+  { positive: 'My mom will make a cake tomorrow.', answer: 'My mom will not make a cake tomorrow.' },
+  { positive: 'Dan will study English tonight.',  answer: 'Dan will not study English tonight.'  },
+  { positive: 'She will call me next week.',      answer: 'She will not call me next week.'      },
+  { positive: 'They will travel to London soon.', answer: 'They will not travel to London soon.' },
 ]
 
 // ── Learn ──────────────────────────────────────────────────────────────────────
@@ -55,41 +55,41 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-blue-50 border-4 border-blue-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-3xl text-blue-700 text-center mb-1">
-          did not / didn&apos;t
+          will not / won&apos;t
         </h2>
         <p className="font-display font-black text-xl text-indigo-600 text-center mb-4" dir="rtl">
-          שלילה בעבר פשוט
+          שלילה בעתיד
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-blue-800 mb-4" dir="rtl">
-          <p>• שלילה בעבר — did not + פועל בצורת הבסיס</p>
-          <p>• אחרי did not הפועל חוזר לצורת הבסיס (בלי -ed ובלי צורת עבר מיוחדת)</p>
-          <p>• צורת הקיצור: did not → didn&apos;t</p>
+          <p>• שלילה בעתיד — will not + פועל בצורת הבסיס</p>
+          <p>• הפועל נשאר בצורת הבסיס (בלי שינוי)</p>
+          <p>• צורת הקיצור: will not → won&apos;t</p>
         </div>
 
         {/* transformation */}
         <div className="bg-white border-2 border-blue-200 rounded-2xl px-4 py-3 mb-4 text-center">
-          <span className="font-bold text-gray-500 text-base">He ate.</span>
+          <span className="font-bold text-gray-500 text-base">It will not rain.</span>
           <span className="text-blue-400 font-black mx-2">→</span>
-          <span className="font-black text-blue-700 text-base">He did not eat.</span>
+          <span className="font-black text-blue-700 text-base">It won&apos;t rain.</span>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="bg-blue-500 rounded-2xl p-3 text-center">
-            <div className="font-display font-black text-white text-xl mb-1">did not</div>
+            <div className="font-display font-black text-white text-xl mb-1">will not</div>
             <div className="text-white/80 font-bold text-sm">+ base verb</div>
           </div>
           <div className="bg-indigo-600 rounded-2xl p-3 text-center">
-            <div className="font-display font-black text-white text-xl mb-1">didn&apos;t</div>
+            <div className="font-display font-black text-white text-xl mb-1">won&apos;t</div>
             <div className="text-white/80 font-bold text-sm">short form</div>
           </div>
         </div>
 
         <p className="font-bold text-blue-800 text-sm mb-2 text-center" dir="rtl">
-          צורת הפועל בשלילה בעבר זהה לכל הגופים.
+          צורת הפועל בשלילה בעתיד זהה לכל הגופים.
         </p>
         <div className="flex flex-col gap-1.5">
-          {['I did not eat.', 'You did not eat.', 'He did not eat.', 'She did not eat.', 'It did not eat.', 'We did not eat.', 'They did not eat.'].map(s => (
+          {['I will not rain.', 'You will not help.', 'He will not go.', 'She will not eat.', 'It will not rain.', 'We will not come.', 'They will not play.'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}
         </div>
@@ -98,15 +98,15 @@ function LearnTab() {
       {/* base-verb reminder */}
       <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 text-center">
         <p className="font-bold text-amber-800 text-sm" dir="rtl">
-          ⚠️ זכרו: אחרי <span className="font-black">did not / didn&apos;t</span> הפועל תמיד בצורת הבסיס.
-          לא נכון: <span className="font-black">He didn&apos;t walked</span> · נכון: <span className="font-black">He didn&apos;t walk</span>.
+          ⚠️ זכרו: אחרי <span className="font-black">will not / won&apos;t</span> הפועל תמיד בצורת הבסיס.
+          לא נכון: <span className="font-black">It won&apos;t rains</span> · נכון: <span className="font-black">It won&apos;t rain</span>.
         </p>
       </div>
     </div>
   )
 }
 
-// ── Ex1: builder (subject + didn't + base verb + time) ───────────────────────────
+// ── Ex1: builder (subject + won't + base verb + time) ─────────────────────────────
 
 const EX1_GOAL = 6
 
@@ -121,7 +121,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selTime) return
-    const sentence = `${selSubject} didn't ${selVerb} ${selTime}.`
+    const sentence = `${selSubject} won't ${selVerb} ${selTime}.`
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)
@@ -137,8 +137,8 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-3 text-sm font-bold text-blue-700" dir="rtl">
         <p>1. יש ליצור 6 משפטים על מנת לסיים את המשימה.</p>
-        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט שלילה בעבר.</p>
-        <p>3. שימו לב: אחרי didn&apos;t הפועל בצורת הבסיס.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט שלילה בעתיד.</p>
+        <p>3. שימו לב: אחרי won&apos;t הפועל בצורת הבסיס.</p>
         <p>4. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
       </div>
 
@@ -162,14 +162,14 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             </div>
           </div>
 
-          {/* didn't column (fixed) */}
+          {/* won't column (fixed) */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-indigo-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">didn&apos;t</span>
+              <span className="font-display font-black text-white text-xs">won&apos;t</span>
             </div>
             <div className="bg-indigo-50 border-2 border-indigo-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               <div className="text-xs font-display font-black rounded-lg px-1 py-1 text-center bg-indigo-600 text-white border-2 border-indigo-600">
-                didn&apos;t
+                won&apos;t
               </div>
               <p className="text-[10px] font-bold text-indigo-500 text-center mt-1" dir="rtl">לכל הנושאים</p>
             </div>
@@ -216,7 +216,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       {selSubject && selVerb && selTime && !allDone && (
         <div className="bg-blue-50 border-2 border-blue-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-blue-700 text-base flex-1">
-            {selSubject} didn&apos;t {selVerb} {selTime}.
+            {selSubject} won&apos;t {selVerb} {selTime}.
           </span>
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
@@ -282,11 +282,11 @@ function Ex2() {
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
-  // accept both "did not" and "didn't"
+  // accept both "will not" and "won't"
   function accepts(value: string): boolean {
     const v = normalize(value)
-    const long = normalize(q.answer)                       // did not
-    const short = normalize(q.answer.replace(/did not/g, "didn't"))
+    const long = normalize(q.answer)                          // will not
+    const short = normalize(q.answer.replace(/will not/g, "won't"))
     return v === long || v === short
   }
 
@@ -342,10 +342,10 @@ function Ex2() {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        כתבו את המשפט בצורת השלילה בעבר
+        כתבו את המשפט בצורת השלילה בעתיד
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
-        Write the negative form (did not / didn&apos;t + base verb)
+        Write the negative form (will not / won&apos;t + base verb)
       </p>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-4 py-3 mb-3">
@@ -431,7 +431,7 @@ function ExWrapper({
 
 // ── Page ────────────────────────────────────────────────────────────────────────
 
-export default function PastSimpleNegativePage() {
+export default function WillNegativePage() {
   const [tab, setTab] = useState<Tab>('learn')
 
   const tabs: { id: Tab; label: string }[] = [
@@ -448,10 +448,10 @@ export default function PastSimpleNegativePage() {
 
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-4">
         <div className="max-w-xl mx-auto">
-          <Link href="/step5/grammar/past-simple" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Past Simple</Link>
-          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Past Simple — Negative ❌</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">שלילה בעבר פשוט</p>
-          <p className="text-white/70 font-bold text-xs mt-0.5">He did not walk · She didn&apos;t eat</p>
+          <Link href="/step5/grammar/will" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Future: Will</Link>
+          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Future: Will — Negative 🚫</h1>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">שלילה בעתיד</p>
+          <p className="text-white/70 font-bold text-xs mt-0.5">will not · It won&apos;t rain</p>
         </div>
       </div>
 

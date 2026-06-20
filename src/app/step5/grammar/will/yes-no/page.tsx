@@ -8,8 +8,8 @@ type Tab = 'learn' | 'ex1' | 'ex2'
 // ── Ex1 (builder) data ───────────────────────────────────────────────────────────
 
 const EX1_SUBJECTS = ['you', 'they', 'he', 'she', 'the boys', 'Dana']
-const EX1_VERBS = ['walk', 'play', 'eat', 'go', 'watch', 'clean']   // BASE form
-const EX1_TIMES = ['yesterday', 'last week']
+const EX1_VERBS = ['help', 'play', 'eat', 'go', 'watch', 'clean']   // BASE form
+const EX1_TIMES = ['tomorrow', 'next week']
 
 // ── Ex2 data (pick correct short answer) ────────────────────────────────────────
 
@@ -17,13 +17,13 @@ const EX1_TIMES = ['yesterday', 'last week']
 type Group = 'I' | 'you' | 'we' | 'they' | 'he' | 'she' | 'it'
 
 const ANSWER_BANK: Record<Group, { yes: string; no: string }> = {
-  I:    { yes: 'Yes, I did.',    no: "No, I didn't."    },
-  you:  { yes: 'Yes, you did.',  no: "No, you didn't."  },
-  we:   { yes: 'Yes, we did.',   no: "No, we didn't."   },
-  they: { yes: 'Yes, they did.', no: "No, they didn't." },
-  he:   { yes: 'Yes, he did.',   no: "No, he didn't."   },
-  she:  { yes: 'Yes, she did.',  no: "No, she didn't."  },
-  it:   { yes: 'Yes, it did.',   no: "No, it didn't."   },
+  I:    { yes: 'Yes, I will.',    no: "No, I won't."    },
+  you:  { yes: 'Yes, you will.',  no: "No, you won't."  },
+  we:   { yes: 'Yes, we will.',   no: "No, we won't."   },
+  they: { yes: 'Yes, they will.', no: "No, they won't." },
+  he:   { yes: 'Yes, he will.',   no: "No, he won't."   },
+  she:  { yes: 'Yes, she will.',  no: "No, she won't."  },
+  it:   { yes: 'Yes, it will.',   no: "No, it won't."   },
 }
 
 const GROUPS: Group[] = ['I', 'you', 'we', 'they', 'he', 'she', 'it']
@@ -36,16 +36,16 @@ interface Ex2Q {
 // `group` = the pronoun used in the SHORT ANSWER (not the subject of the question):
 // you→I, I→you, he→he, she→she, it→it, we→we, they→they, plural noun→they, singular noun→he/she/it
 const EX2_QUESTIONS: Ex2Q[] = [
-  { question: 'Did you enjoy the concert?',     group: 'I'    },
-  { question: 'Did she play the piano?',        group: 'she'  },
-  { question: 'Did they walk to school?',       group: 'they' },
-  { question: 'Did he eat breakfast?',          group: 'he'   },
-  { question: 'Did we win the game?',           group: 'we'   },
-  { question: 'Did it rain last night?',        group: 'it'   },
-  { question: 'Did I sing well?',               group: 'you'  },
-  { question: 'Did Dana clean her room?',       group: 'she'  },
-  { question: 'Did the boys run fast?',         group: 'they' },
-  { question: 'Did the dog sleep outside?',     group: 'it'   },
+  { question: 'Will you come to the party?',     group: 'I'    },
+  { question: 'Will she play the piano?',        group: 'she'  },
+  { question: 'Will they walk to school?',       group: 'they' },
+  { question: 'Will he eat breakfast?',          group: 'he'   },
+  { question: 'Will we win the game?',           group: 'we'   },
+  { question: 'Will it rain tomorrow?',          group: 'it'   },
+  { question: 'Will I sing well?',               group: 'you'  },
+  { question: 'Will Dana clean her room?',       group: 'she'  },
+  { question: 'Will the boys run fast?',         group: 'they' },
+  { question: 'Will the dog sleep outside?',     group: 'it'   },
 ]
 
 // ── Learn ──────────────────────────────────────────────────────────────────────
@@ -55,28 +55,28 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-blue-50 border-4 border-blue-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-3xl text-blue-700 text-center mb-1">
-          Did + base verb
+          Will + base verb
         </h2>
         <p className="font-display font-black text-xl text-indigo-600 text-center mb-4" dir="rtl">
-          שאלות כן / לא בעבר פשוט
+          שאלות כן / לא בעתיד
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-blue-800 mb-4" dir="rtl">
-          <p>• שאלות כן / לא בעבר — מתחילות ב-Did</p>
-          <p>• המבנה: Did + נושא + פועל בצורת הבסיס</p>
-          <p>• Did מתאים לכל הנושאים (I / you / he / she / it / we / they)</p>
-          <p>• אחרי Did הפועל תמיד בצורת הבסיס</p>
+          <p>• שאלות כן / לא בעתיד — מתחילות ב-Will</p>
+          <p>• המבנה: Will + נושא + פועל בצורת הבסיס</p>
+          <p>• Will מתאים לכל הנושאים (I / you / he / she / it / we / they)</p>
+          <p>• אחרי Will הפועל תמיד בצורת הבסיס</p>
         </div>
 
         {/* transformation */}
         <div className="bg-white border-2 border-blue-200 rounded-2xl px-4 py-3 mb-4 text-center">
-          <span className="font-bold text-gray-500 text-base">She ate.</span>
+          <span className="font-bold text-gray-500 text-base">He will help.</span>
           <span className="text-blue-400 font-black mx-2">→</span>
-          <span className="font-black text-blue-700 text-lg">Did she eat?</span>
+          <span className="font-black text-blue-700 text-lg">Will he help?</span>
         </div>
 
         <div className="bg-indigo-600 rounded-2xl p-3 text-center mb-2">
-          <div className="font-display font-black text-white text-xl mb-1">Did</div>
+          <div className="font-display font-black text-white text-xl mb-1">Will</div>
           <div className="text-white/80 font-bold text-sm">+ subject + verb</div>
         </div>
         <p className="font-bold text-blue-800 text-sm mb-4 text-center" dir="rtl">
@@ -87,7 +87,7 @@ function LearnTab() {
           הצורה זהה לכל הנושאים
         </p>
         <div className="flex flex-col gap-1.5">
-          {['Did I clean?', 'Did you clean?', 'Did he clean?', 'Did she clean?', 'Did it clean?', 'Did we clean?', 'Did they clean?'].map(s => (
+          {['Will I help?', 'Will you help?', 'Will he help?', 'Will she help?', 'Will it help?', 'Will we help?', 'Will they help?'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}
         </div>
@@ -96,13 +96,13 @@ function LearnTab() {
       <div className="bg-amber-50 border-4 border-amber-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-2xl text-amber-700 mb-1">תשובות קצרות</h2>
         <p className="font-bold text-amber-700 text-sm mb-3" dir="rtl">
-          בדרך כלל עונים על שאלות כן / לא בעבר בתשובות קצרות עם did / didn&apos;t.
+          בדרך כלל עונים על שאלות כן / לא בעתיד בתשובות קצרות עם will / won&apos;t.
         </p>
 
         <div className="flex flex-col gap-3">
           {[
-            { q: 'Did they walk to school?',   yes: 'Yes, they did.', no: "No, they didn't." },
-            { q: 'Did you clean the room?',     yes: 'Yes, I did.',    no: "No, I didn't." },
+            { q: 'Will she come to the party?', yes: 'Yes, she will.', no: "No, she won't." },
+            { q: 'Will they walk to school?',   yes: 'Yes, they will.', no: "No, they won't." },
           ].map(({ q, yes, no }) => (
             <div key={q} className="bg-white rounded-2xl border-2 border-amber-200 p-3">
               <p className="font-bold text-amber-800 text-base mb-1.5 italic">{q}</p>
@@ -118,7 +118,7 @@ function LearnTab() {
   )
 }
 
-// ── Ex1: builder (Did + subject + base verb + time) ───────────────────────────────
+// ── Ex1: builder (Will + subject + base verb + time) ───────────────────────────────
 
 const EX1_GOAL = 6
 
@@ -133,7 +133,7 @@ function Ex1() {
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selTime) return
-    const sentence = `Did ${selSubject} ${selVerb} ${selTime}?`
+    const sentence = `Will ${selSubject} ${selVerb} ${selTime}?`
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)
@@ -151,27 +151,27 @@ function Ex1() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span dir="rtl">בנה שאלות כן / לא בעבר</span>
+        <span dir="rtl">בנה שאלות כן / לא בעתיד</span>
         <span className="text-blue-500">{Math.min(sentences.length, EX1_GOAL)} / {EX1_GOAL} ✓</span>
       </div>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-3 text-sm font-bold text-blue-700" dir="rtl">
         <p>1. יש ליצור 6 שאלות על מנת לסיים את המשימה.</p>
-        <p>2. כל שאלה מתחילה ב-Did. בחר נושא, פועל וזמן.</p>
-        <p>3. שימו לב: אחרי Did הפועל בצורת הבסיס.</p>
+        <p>2. כל שאלה מתחילה ב-Will. בחר נושא, פועל וזמן.</p>
+        <p>3. שימו לב: אחרי Will הפועל בצורת הבסיס.</p>
         <p>4. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>
       </div>
 
       {!allDone && (
         <div className="grid grid-cols-4 gap-2 mb-4">
-          {/* Did column (fixed) */}
+          {/* Will column (fixed) */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-indigo-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Did</span>
+              <span className="font-display font-black text-white text-xs">Will</span>
             </div>
             <div className="bg-indigo-50 border-2 border-indigo-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               <div className="text-xs font-display font-black rounded-lg px-1 py-1 text-center bg-indigo-600 text-white border-2 border-indigo-600">
-                Did
+                Will
               </div>
               <p className="text-[10px] font-bold text-indigo-500 text-center mt-1" dir="rtl">לכל הנושאים</p>
             </div>
@@ -236,7 +236,7 @@ function Ex1() {
       {selSubject && selVerb && selTime && !allDone && (
         <div className="bg-blue-50 border-2 border-blue-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-blue-700 text-base flex-1">
-            Did {selSubject} {selVerb} {selTime}?
+            Will {selSubject} {selVerb} {selTime}?
           </span>
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
@@ -372,7 +372,7 @@ function Ex2() {
 
 // ── Page ────────────────────────────────────────────────────────────────────────
 
-export default function PastSimpleYesNoPage() {
+export default function WillYesNoPage() {
   const [tab, setTab] = useState<Tab>('learn')
 
   const tabs: { id: Tab; label: string }[] = [
@@ -389,10 +389,10 @@ export default function PastSimpleYesNoPage() {
 
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-4">
         <div className="max-w-xl mx-auto">
-          <Link href="/step5/grammar/past-simple" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Past Simple</Link>
-          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Past Simple — Yes/No Questions ❓</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">שאלות כן / לא בעבר פשוט</p>
-          <p className="text-white/70 font-bold text-xs mt-0.5">Did she wait? · Did they play?</p>
+          <Link href="/step5/grammar/will" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Future: Will</Link>
+          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Future: Will — Yes / No Questions ❓</h1>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">שאלות כן / לא בעתיד</p>
+          <p className="text-white/70 font-bold text-xs mt-0.5">Will she come? · Will they play?</p>
         </div>
       </div>
 

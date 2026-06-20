@@ -164,6 +164,15 @@ function ComparativeTab() {
             </ul>
             <div className="font-bold text-pink-700 text-base mt-2">more dangerous than</div>
           </div>
+          {/* Box 4 — irregular */}
+          <div className="bg-amber-50 border-2 border-amber-300 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-amber-700 text-lg mb-1">irregular ⚠️</div>
+            <p className="font-bold text-amber-800 text-sm mb-2" dir="rtl">יוצאי דופן</p>
+            <div className="flex flex-col gap-1.5">
+              <div className="bg-white border border-amber-200 rounded-lg px-3 py-1.5 font-bold text-amber-700 text-base">good → better than</div>
+              <div className="bg-white border border-amber-200 rounded-lg px-3 py-1.5 font-bold text-amber-700 text-base">bad → worse than</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -223,6 +232,15 @@ function SuperlativeTab() {
               <li>כאשר שם התואר ארוך נשתמש במבנה: the most + adjective</li>
             </ul>
             <div className="font-bold text-pink-700 text-base mt-2">the most beautiful</div>
+          </div>
+          {/* Box 4 — irregular */}
+          <div className="bg-amber-50 border-2 border-amber-300 rounded-xl px-3 py-3">
+            <div className="font-display font-black text-amber-700 text-lg mb-1">irregular ⚠️</div>
+            <p className="font-bold text-amber-800 text-sm mb-2" dir="rtl">יוצאי דופן</p>
+            <div className="flex flex-col gap-1.5">
+              <div className="bg-white border border-amber-200 rounded-lg px-3 py-1.5 font-bold text-amber-700 text-base">good → the best</div>
+              <div className="bg-white border border-amber-200 rounded-lg px-3 py-1.5 font-bold text-amber-700 text-base">bad → the worst</div>
+            </div>
           </div>
         </div>
       </div>
@@ -458,8 +476,6 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { a: 'Maya',  b: 'Gil',   subject: 'math'    }, // 80 = 80  -> as
   { a: 'Yuval', b: 'Dana',  subject: 'math'    }, // 90 < 100 -> not
   { a: 'Gil',   b: 'Dana',  subject: 'english' }, // 90 = 90  -> as
-  { a: 'Maya',  b: 'Dan',   subject: 'english' }, // 100 >= 80 -> as
-  { a: 'Dan',   b: 'Yuval', subject: 'english' }, // 80 < 100 -> not
   { a: 'Yuval', b: 'Maya',  subject: 'english' }, // 100 = 100 -> as
   { a: 'Dan',   b: 'Maya',  subject: 'math'    }, // 100 >= 80 -> as
   { a: 'Gil',   b: 'Yuval', subject: 'math'    }, // 80 < 90  -> not
@@ -531,7 +547,7 @@ function Ex3({ onDone }: { onDone: () => void }) {
                 ) : (
                   <span className="text-pink-300 font-black">___</span>
                 )}
-                {' ' + q.b + ' in ' + q.subject + '.'}
+                {' ' + q.b + ' in ' + (q.subject.charAt(0).toUpperCase() + q.subject.slice(1)) + '.'}
               </span>
               {!isAnswered && (
                 <div className="flex gap-1.5 ml-auto flex-wrap justify-end">

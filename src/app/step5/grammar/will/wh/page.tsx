@@ -18,9 +18,9 @@ const WH_WORDS: { word: string; hebrew: string; light: string; text: string }[] 
 
 // ── Ex1 data ──────────────────────────────────────────────────────────────────
 
-// Ex1: complete the correct question word. Each item shows a past-simple
+// Ex1: complete the correct question word. Each item shows a future "will"
 // question with the Wh-word missing (blank at the start) plus a short answer/hint
-// that uniquely points to the correct wh-word. After "did" the verb is BASE form.
+// that uniquely points to the correct wh-word. After "will" the verb is BASE form.
 interface Ex1Q {
   sentence: string   // the rest of the question after the blank
   hint: string       // the short answer that reveals the wh-word
@@ -32,28 +32,28 @@ const WH_OPTIONS = ['Who', 'What', 'Where', 'When', 'Why', 'How']
 
 const EX1_ROUNDS: Ex1Q[][] = [
   [
-    { sentence: 'did you live last year?',          hint: '— In Tel Aviv.',          options: WH_OPTIONS, answer: 'Where' },
-    { sentence: 'did she eat for breakfast?',       hint: '— Eggs.',                 options: WH_OPTIONS, answer: 'What'  },
-    { sentence: 'did they go to school?',           hint: "— At 8 o'clock.",         options: WH_OPTIONS, answer: 'When'  },
-    { sentence: 'did he go to the park?',           hint: '— Because he was bored.', options: WH_OPTIONS, answer: 'Why'   },
-    { sentence: 'did you get to school?',           hint: '— By bus.',               options: WH_OPTIONS, answer: 'How'   },
-    { sentence: 'lived in this house?',             hint: '— My grandma.',           options: WH_OPTIONS, answer: 'Who'   },
-    { sentence: 'did you do after school?',         hint: '— I played football.',    options: WH_OPTIONS, answer: 'What'  },
-    { sentence: 'did the show start?',              hint: '— At seven.',             options: WH_OPTIONS, answer: 'When'  },
-    { sentence: 'did you feel sad?',                hint: '— Because it rained.',    options: WH_OPTIONS, answer: 'Why'   },
-    { sentence: 'did they make the pizza?',         hint: '— In the kitchen.',       options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'will you live next year?',         hint: '— In Tel Aviv.',          options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'will she eat for breakfast?',      hint: '— Eggs.',                 options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'will they go to school?',          hint: "— At 8 o'clock.",         options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'will he go to the park?',          hint: '— Because he is bored.',  options: WH_OPTIONS, answer: 'Why'   },
+    { sentence: 'will you get to school?',          hint: '— By bus.',               options: WH_OPTIONS, answer: 'How'   },
+    { sentence: 'will help us tomorrow?',           hint: '— My grandma.',           options: WH_OPTIONS, answer: 'Who'   },
+    { sentence: 'will you do after school?',        hint: '— I will play football.', options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'will the show start?',             hint: '— At seven.',             options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'will you feel sad?',               hint: '— Because it will rain.', options: WH_OPTIONS, answer: 'Why'   },
+    { sentence: 'will they make the pizza?',        hint: '— In the kitchen.',       options: WH_OPTIONS, answer: 'Where' },
   ],
   [
-    { sentence: 'did you eat lunch?',               hint: '— At noon.',              options: WH_OPTIONS, answer: 'When'  },
-    { sentence: 'did she go after school?',         hint: '— To the park.',          options: WH_OPTIONS, answer: 'Where' },
-    { sentence: 'did you read that book?',          hint: '— Because I liked it.',   options: WH_OPTIONS, answer: 'Why'   },
-    { sentence: 'did they play yesterday?',         hint: '— Football.',             options: WH_OPTIONS, answer: 'What'  },
-    { sentence: 'helped you with the homework?',    hint: '— My sister.',            options: WH_OPTIONS, answer: 'Who'   },
-    { sentence: 'did you get to the party?',        hint: '— By bike.',              options: WH_OPTIONS, answer: 'How'   },
-    { sentence: 'did your mom work?',               hint: '— In an office.',         options: WH_OPTIONS, answer: 'Where' },
-    { sentence: 'did you wake up?',                 hint: '— At seven.',             options: WH_OPTIONS, answer: 'When'  },
-    { sentence: 'did you want for your birthday?',  hint: '— A new book.',           options: WH_OPTIONS, answer: 'What'  },
-    { sentence: 'won the game?',                    hint: '— Dana.',                 options: WH_OPTIONS, answer: 'Who'   },
+    { sentence: 'will you eat lunch?',              hint: '— At noon.',              options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'will she go after school?',        hint: '— To the park.',          options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'will you read that book?',         hint: '— Because I like it.',    options: WH_OPTIONS, answer: 'Why'   },
+    { sentence: 'will they play tomorrow?',         hint: '— Football.',             options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'will help you with the homework?', hint: '— My sister.',            options: WH_OPTIONS, answer: 'Who'   },
+    { sentence: 'will you get to the party?',       hint: '— By bike.',              options: WH_OPTIONS, answer: 'How'   },
+    { sentence: 'will your mom work?',              hint: '— In an office.',         options: WH_OPTIONS, answer: 'Where' },
+    { sentence: 'will you wake up?',                hint: '— At seven.',             options: WH_OPTIONS, answer: 'When'  },
+    { sentence: 'will you want for your birthday?', hint: '— A new book.',           options: WH_OPTIONS, answer: 'What'  },
+    { sentence: 'will win the game?',               hint: '— Dana.',                 options: WH_OPTIONS, answer: 'Who'   },
   ],
 ]
 
@@ -62,7 +62,7 @@ const EX1_ROUNDS: Ex1Q[][] = [
 interface Ex2Cycle {
   whWords: string[]
   subjects: string[]
-  verbs: string[]   // BASE form (after did the verb returns to base)
+  verbs: string[]   // BASE form (after will the verb is base)
 }
 
 const EX2_CYCLES: Ex2Cycle[] = [
@@ -78,16 +78,16 @@ const EX2_CYCLES: Ex2Cycle[] = [
 interface Ex3Q { question: string; answer: string }
 
 const EX3_QUESTIONS: Ex3Q[] = [
-  { question: 'Where did you live last year?',     answer: 'I lived in Tel Aviv.'  },
-  { question: 'What did you eat for breakfast?',   answer: 'I ate eggs.'           },
-  { question: 'When did you go to school?',        answer: "At 8 o'clock."         },
-  { question: 'Why did you like summer?',          answer: 'Because it was warm.'  },
-  { question: 'How did you get to school?',        answer: 'By bus.'               },
-  { question: 'Who did you play with?',            answer: 'With my friends.'      },
-  { question: 'Where did your dad work?',          answer: 'At a hospital.'        },
-  { question: 'What did your mom cook?',           answer: 'She cooked pasta.'     },
-  { question: 'When did the movie start?',         answer: "At five o'clock."      },
-  { question: 'How did he feel yesterday?',        answer: 'He felt happy.'        },
+  { question: 'Where will you live next year?',    answer: 'I will live in Tel Aviv.'  },
+  { question: 'What will you eat for breakfast?',  answer: 'I will eat eggs.'          },
+  { question: 'When will you go to school?',       answer: "At 8 o'clock."             },
+  { question: 'Why will you like summer?',         answer: 'Because it will be warm.'  },
+  { question: 'How will you get to school?',       answer: 'By bus.'                   },
+  { question: 'Who will you play with?',           answer: 'With my friends.'          },
+  { question: 'Where will your dad work?',         answer: 'At a hospital.'            },
+  { question: 'What will your mom cook?',          answer: 'She will cook pasta.'      },
+  { question: 'When will the movie start?',        answer: "At five o'clock."          },
+  { question: 'How will he feel tomorrow?',        answer: 'He will feel happy.'       },
 ]
 
 // ── ExWrapper ───────────────────────────────────────────────────────────────────
@@ -140,16 +140,16 @@ function LearnTab() {
           WH Questions
         </h2>
         <p className="font-display font-black text-xl text-indigo-600 text-center mb-4" dir="rtl">
-          שאלות Wh בעבר פשוט
+          שאלות Wh בעתיד
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-blue-800 mb-4" dir="rtl">
-          <p>• המבנה לשאלה: מילת שאלה + did + נושא + פועל בצורת הבסיס</p>
+          <p>• המבנה לשאלה: מילת שאלה + will + נושא + פועל בצורת הבסיס</p>
           <div className="bg-white rounded-xl px-3 py-1.5 border-2 border-blue-100 my-1" dir="ltr">
-            <span className="font-bold text-gray-700 text-base">When did she work?</span>
+            <span className="font-bold text-gray-700 text-base">When will we go?</span>
           </div>
-          <p>• did מתאים לכל הנושאים (I / you / he / she / it / we / they)</p>
-          <p>• אחרי did הפועל תמיד בצורת הבסיס (בלי -ed)</p>
+          <p>• will מתאים לכל הנושאים (I / you / he / she / it / we / they)</p>
+          <p>• אחרי will הפועל תמיד בצורת הבסיס</p>
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -165,7 +165,7 @@ function LearnTab() {
           הצורה זהה לכל הנושאים
         </p>
         <div className="flex flex-col gap-1.5">
-          {['When did I read?', 'When did you read?', 'When did he read?', 'When did she read?', 'When did it read?', 'When did we read?', 'When did they read?'].map(s => (
+          {['When will I go?', 'When will you go?', 'When will he go?', 'When will she go?', 'When will it go?', 'When will we go?', 'When will they go?'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}
         </div>
@@ -278,7 +278,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   )
 }
 
-// ── Ex2: wh-question builder (Wh + did + subject + base verb) ─────────────────────
+// ── Ex2: wh-question builder (Wh + will + subject + base verb) ────────────────────
 
 function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
   const cycle = EX2_CYCLES[cycleIdx]
@@ -296,7 +296,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   const handleAdd = () => {
     if (!selWh || !selSubject || !selVerb) return
-    const sentence = `${selWh} did ${selSubject} ${selVerb}?`
+    const sentence = `${selWh} will ${selSubject} ${selVerb}?`
     setSentences(prev => [...prev, sentence])
     setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject); return s })
     setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
@@ -315,7 +315,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-3 text-sm font-bold text-blue-700" dir="rtl">
         <p>1. יש ליצור {cycle.subjects.length} שאלות על מנת לסיים את המשימה.</p>
         <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור שאלה.</p>
-        <p>3. שימו לב: אחרי did הפועל בצורת הבסיס.</p>
+        <p>3. שימו לב: אחרי will הפועל בצורת הבסיס.</p>
         <p>4. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>
       </div>
 
@@ -339,14 +339,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             </div>
           </div>
 
-          {/* did (fixed) */}
+          {/* will (fixed) */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-indigo-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">did</span>
+              <span className="font-display font-black text-white text-xs">will</span>
             </div>
             <div className="bg-indigo-50 border-2 border-indigo-200 rounded-b-xl p-1 flex flex-col gap-1">
               <div className="text-xs font-display font-black rounded-lg px-1 py-1 text-center bg-indigo-600 text-white border-2 border-indigo-600">
-                did
+                will
               </div>
               <p className="text-[10px] font-bold text-indigo-500 text-center mt-1" dir="rtl">לכל הגופים</p>
             </div>
@@ -393,7 +393,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       {selWh && selSubject && selVerb && !allDone && (
         <div className="bg-blue-50 border-2 border-blue-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-blue-700 text-base flex-1">
-            {selWh} did {selSubject} {selVerb}?
+            {selWh} will {selSubject} {selVerb}?
           </span>
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
@@ -476,7 +476,7 @@ function Ex3() {
 
 // ── Page ────────────────────────────────────────────────────────────────────────
 
-export default function PastSimpleWhPage() {
+export default function WillWhPage() {
   const [tab, setTab] = useState<Tab>('learn')
 
   const tabs: { id: Tab; label: string }[] = [
@@ -494,10 +494,10 @@ export default function PastSimpleWhPage() {
 
       <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-4">
         <div className="max-w-xl mx-auto">
-          <Link href="/step5/grammar/past-simple" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Past Simple</Link>
-          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Past Simple — Wh Questions ❔</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">שאלות Wh בעבר פשוט</p>
-          <p className="text-white/70 font-bold text-xs mt-0.5">When did she work? · What did you eat?</p>
+          <Link href="/step5/grammar/will" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Future: Will</Link>
+          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Future: Will — Wh Questions ❔</h1>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">שאלות Wh בעתיד</p>
+          <p className="text-white/70 font-bold text-xs mt-0.5">When will we go? · What will you eat?</p>
         </div>
       </div>
 

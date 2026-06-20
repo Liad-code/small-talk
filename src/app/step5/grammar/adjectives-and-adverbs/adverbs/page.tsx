@@ -5,31 +5,6 @@ import { Header } from '@/components/layout/Header'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4'
 
-// ── ExWrapper ─────────────────────────────────────────────────────────────────
-
-function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode }) {
-  const [finished, setFinished] = useState(false)
-  const [key, setKey] = useState(0)
-
-  if (finished) {
-    return (
-      <div className="text-center py-14 px-4 bounce-in">
-        <div className="text-6xl mb-4">🌟</div>
-        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את התרגול!</p>
-        <button
-          onClick={() => { setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-rose-500"
-        >
-          🔁 Start Over
-        </button>
-      </div>
-    )
-  }
-
-  return <div key={key}>{render(() => setFinished(true))}</div>
-}
-
 // ════════════════════════════════════════════════════════════════════════════
 //  LEARN
 // ════════════════════════════════════════════════════════════════════════════
@@ -254,7 +229,7 @@ type AdvCat = '+ly' | 'le' | 'ily' | 'irregular'
 
 interface SortAdv { base: string; adverb: string; category: AdvCat }
 
-const EX2_ITEMS: SortAdv[] = [
+const EX2_ROUND1: SortAdv[] = [
   { base: 'quick',     adverb: 'quickly',  category: '+ly'       },
   { base: 'slow',      adverb: 'slowly',   category: '+ly'       },
   { base: 'soft',      adverb: 'softly',   category: '+ly'       },
@@ -269,14 +244,28 @@ const EX2_ITEMS: SortAdv[] = [
   { base: 'good',      adverb: 'well',     category: 'irregular' },
 ]
 
-function Ex2({ onDone }: { onDone: () => void }) {
+const EX2_ROUND2: SortAdv[] = [
+  { base: 'clear',     adverb: 'clearly',  category: '+ly'       },
+  { base: 'real',      adverb: 'really',   category: '+ly'       },
+  { base: 'loud',      adverb: 'loudly',   category: '+ly'       },
+  { base: 'terrible',  adverb: 'terribly', category: 'le'        },
+  { base: 'gentle',    adverb: 'gently',   category: 'le'        },
+  { base: 'simple',    adverb: 'simply',   category: 'le'        },
+  { base: 'lucky',     adverb: 'luckily',  category: 'ily'       },
+  { base: 'angry',     adverb: 'angrily',  category: 'ily'       },
+  { base: 'noisy',     adverb: 'noisily',  category: 'ily'       },
+  { base: 'fast',      adverb: 'fast',     category: 'irregular' },
+  { base: 'hard',      adverb: 'hard',     category: 'irregular' },
+]
+
+function Ex2Round({ items, onDone }: { items: SortAdv[]; onDone: () => void }) {
   const [selectedWord, setSelectedWord] = useState<SortAdv | null>(null)
   const [placed, setPlaced] = useState<Record<AdvCat, SortAdv[]>>({ '+ly': [], 'le': [], 'ily': [], 'irregular': [] })
   const [flashWrong, setFlashWrong] = useState<AdvCat | null>(null)
   const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
 
-  const remaining = EX2_ITEMS.filter(v => !usedBases.has(v.base))
-  const allDone = usedBases.size === EX2_ITEMS.length
+  const remaining = items.filter(v => !usedBases.has(v.base))
+  const allDone = usedBases.size === items.length
 
   const handleWordClick = (item: SortAdv) => {
     if (usedBases.has(item.base)) return
@@ -306,7 +295,7 @@ function Ex2({ onDone }: { onDone: () => void }) {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
         <span>Sort the adverbs</span>
-        <span className="text-rose-500">{usedBases.size} / {EX2_ITEMS.length} ✓</span>
+        <span className="text-rose-500">{usedBases.size} / {items.length} ✓</span>
       </div>
 
       <p className="text-center font-display font-black text-rose-700 text-base mb-1" dir="rtl">מיון תארי הפועל לפי כלל האיות</p>
@@ -373,18 +362,75 @@ function Ex2({ onDone }: { onDone: () => void }) {
   )
 }
 
+function Ex2() {
+  const rounds = [EX2_ROUND1, EX2_ROUND2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-rose-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-rose-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-rose-100 text-rose-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <Ex2Round
+        key={round}
+        items={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 //  EX 3 — choose the adverb (2 options per sentence, no word bank)
 // ════════════════════════════════════════════════════════════════════════════
 
 interface Ex3Q { before: string; after: string; correct: string; wrong: string }
 
-const EX3_QUESTIONS: Ex3Q[] = [
+const EX3_ROUND1: Ex3Q[] = [
   { before: 'The turtle walks',       after: '.',              correct: 'slowly',      wrong: 'fast'        },
-  { before: 'She sings',              after: '.',              correct: 'beautifully', wrong: 'badly'       },
+  { before: 'She sings',              after: '.',              correct: 'beautifully', wrong: 'late'        },
   { before: 'The cheetah runs',       after: '.',              correct: 'fast',        wrong: 'slowly'      },
   { before: 'Please speak',           after: ', the baby is sleeping.', correct: 'quietly', wrong: 'loudly' },
-  { before: 'He passed the easy test very', after: '.',        correct: 'easily',      wrong: 'badly'       },
+  { before: 'He passed the test very', after: '.',             correct: 'easily',      wrong: 'hard'        },
   { before: 'The lion roars',         after: '.',              correct: 'loudly',      wrong: 'quietly'     },
   { before: 'She plays the piano',    after: '.',              correct: 'well',        wrong: 'fast'        },
   { before: 'The children are working', after: '.',            correct: 'hard',        wrong: 'happily'     },
@@ -392,23 +438,36 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { before: 'We got up',              after: 'to catch the bus.', correct: 'early',    wrong: 'late'        },
 ]
 
+const EX3_ROUND2: Ex3Q[] = [
+  { before: 'The old man walks',      after: '.',              correct: 'slowly',      wrong: 'quickly'     },
+  { before: 'She answered the question', after: '.',           correct: 'correctly',   wrong: 'badly'       },
+  { before: 'The dog waited',         after: 'for its owner.', correct: 'patiently',   wrong: 'angrily'     },
+  { before: 'He shouted',             after: 'at the game.',   correct: 'loudly',      wrong: 'softly'      },
+  { before: 'The plane landed',       after: '.',              correct: 'safely',      wrong: 'terribly'    },
+  { before: 'She closed the door',    after: '.',              correct: 'quietly',     wrong: 'noisily'     },
+  { before: 'The runner finished',    after: 'the race.',      correct: 'quickly',     wrong: 'slowly'      },
+  { before: 'He drives his car',      after: '.',              correct: 'carefully',   wrong: 'badly'       },
+  { before: 'The students listened',  after: '.',              correct: 'carefully',   wrong: 'angrily'     },
+  { before: 'We arrived',             after: 'for the show.',  correct: 'early',       wrong: 'late'        },
+]
+
 // 2 options per question (correct + wrong), order toggled by index
 function ex3Options(q: Ex3Q, idx: number): string[] {
   return idx % 2 === 0 ? [q.correct, q.wrong] : [q.wrong, q.correct]
 }
 
-function Ex3({ onDone }: { onDone: () => void }) {
+function Ex3Round({ questions, onDone }: { questions: Ex3Q[]; onDone: () => void }) {
   const [answered, setAnswered] = useState<Record<number, boolean>>({})
   const [wrong, setWrong] = useState<Record<number, string>>({})
-  const [options] = useState<string[][]>(() => EX3_QUESTIONS.map((q, i) => ex3Options(q, i)))
+  const [options] = useState<string[][]>(() => questions.map((q, i) => ex3Options(q, i)))
 
-  const total = EX3_QUESTIONS.length
+  const total = questions.length
   const done = Object.keys(answered).length
   const allDone = done === total
 
   const choose = (idx: number, val: string) => {
     if (answered[idx]) return
-    if (val === EX3_QUESTIONS[idx].correct) {
+    if (val === questions[idx].correct) {
       setAnswered(prev => ({ ...prev, [idx]: true }))
     } else {
       setWrong(prev => ({ ...prev, [idx]: val }))
@@ -430,7 +489,7 @@ function Ex3({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {EX3_QUESTIONS.map((q, idx) => {
+        {questions.map((q, idx) => {
           const isAnswered = answered[idx]
           return (
             <div key={idx} className="bg-white border-2 border-rose-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap">
@@ -479,13 +538,70 @@ function Ex3({ onDone }: { onDone: () => void }) {
   )
 }
 
+function Ex3() {
+  const rounds = [EX3_ROUND1, EX3_ROUND2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-rose-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-rose-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-rose-100 text-rose-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <Ex3Round
+        key={round}
+        questions={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 //  EX 4 — type the adverb (clean input)
 // ════════════════════════════════════════════════════════════════════════════
 
 interface TypeQ { before: string; after: string; adj: string; answer: string; alts?: string[] }
 
-const EX4_QS: TypeQ[] = [
+const EX4_ROUND1: TypeQ[] = [
   { before: 'The runner moved',        after: 'down the track.',   adj: 'quick',     answer: 'quickly' },
   { before: 'The baby smiled',         after: 'at her mom.',       adj: 'happy',     answer: 'happily' },
   { before: 'He played the violin',    after: '.',                 adj: 'terrible',  answer: 'terribly' },
@@ -496,6 +612,19 @@ const EX4_QS: TypeQ[] = [
   { before: 'She held the kitten',     after: '.',                 adj: 'gentle',    answer: 'gently' },
   { before: 'The team worked',         after: 'all day.',          adj: 'hard',      answer: 'hard' },
   { before: 'We walked',               after: 'in the park.',      adj: 'slow',      answer: 'slowly' },
+]
+
+const EX4_ROUND2: TypeQ[] = [
+  { before: 'She explained the rules', after: '.',                 adj: 'clear',     answer: 'clearly' },
+  { before: 'We won the game',         after: '.',                 adj: 'lucky',     answer: 'luckily' },
+  { before: 'He touched the baby',     after: '.',                 adj: 'gentle',    answer: 'gently' },
+  { before: 'I',                       after: 'enjoyed the movie.', adj: 'real',     answer: 'really' },
+  { before: 'She solved it',           after: '.',                 adj: 'simple',    answer: 'simply' },
+  { before: 'The team trained',        after: 'all week.',         adj: 'hard',      answer: 'hard' },
+  { before: 'He looked at me',         after: '.',                 adj: 'angry',     answer: 'angrily' },
+  { before: 'The kids played',         after: 'in the yard.',      adj: 'noisy',     answer: 'noisily' },
+  { before: 'He sang',                 after: 'on the stage.',     adj: 'terrible',  answer: 'terribly' },
+  { before: 'The car drove',          after: 'on the highway.',   adj: 'fast',      answer: 'fast' },
 ]
 
 function normalize(str: string): string {
@@ -607,6 +736,63 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
   )
 }
 
+function Ex4() {
+  const rounds = [EX4_ROUND1, EX4_ROUND2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-rose-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-rose-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-rose-100 text-rose-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <TypeInExercise
+        key={round}
+        questions={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 //  PAGE
 // ════════════════════════════════════════════════════════════════════════════
@@ -656,9 +842,9 @@ export default function AdverbsPage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1 />}
-        {tab === 'ex2'   && <ExWrapper render={done => <Ex2 onDone={done} />} />}
-        {tab === 'ex3'   && <ExWrapper render={done => <Ex3 onDone={done} />} />}
-        {tab === 'ex4'   && <ExWrapper render={done => <TypeInExercise questions={EX4_QS} onDone={done} />} />}
+        {tab === 'ex2'   && <Ex2 />}
+        {tab === 'ex3'   && <Ex3 />}
+        {tab === 'ex4'   && <Ex4 />}
       </div>
     </div>
   )

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5' | 'ex6'
 
 type WasWere = 'was' | 'were'
 type WasntWerent = "wasn't" | "weren't"
@@ -73,13 +73,13 @@ function LearnTab() {
         {/* singular/plural example list */}
         <div className="flex flex-col gap-1.5 mb-4">
           {[
-            { sub: 'I',    aux: 'was'  as WasWere, rest: 'late.' },
-            { sub: 'He',   aux: 'was'  as WasWere, rest: 'late.' },
-            { sub: 'She',  aux: 'was'  as WasWere, rest: 'late.' },
-            { sub: 'It',   aux: 'was'  as WasWere, rest: 'late.' },
-            { sub: 'You',  aux: 'were' as WasWere, rest: 'late.' },
-            { sub: 'We',   aux: 'were' as WasWere, rest: 'late.' },
-            { sub: 'They', aux: 'were' as WasWere, rest: 'late.' },
+            { sub: 'I',    aux: 'was'  as WasWere, rest: 'happy.' },
+            { sub: 'He',   aux: 'was'  as WasWere, rest: 'happy.' },
+            { sub: 'She',  aux: 'was'  as WasWere, rest: 'happy.' },
+            { sub: 'It',   aux: 'was'  as WasWere, rest: 'happy.' },
+            { sub: 'You',  aux: 'were' as WasWere, rest: 'happy.' },
+            { sub: 'We',   aux: 'were' as WasWere, rest: 'happy.' },
+            { sub: 'They', aux: 'were' as WasWere, rest: 'happy.' },
           ].map(({ sub, aux, rest }) => (
             <div key={sub} className="flex items-center gap-1.5 bg-emerald-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-emerald-700 text-base">{sub}</span>
@@ -93,7 +93,7 @@ function LearnTab() {
         <h4 className="font-display font-black text-emerald-700 text-base mb-2 text-center">⏪ Time words</h4>
         <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">מילים שמראות שהפעולה קרתה בעבר</p>
         <div className="flex flex-wrap gap-2 justify-center">
-          {['yesterday', 'last year', 'last Monday', 'a few days ago', 'a week ago', 'in 1990'].map(t => (
+          {['yesterday', 'last year', 'last Sunday', 'a few days ago', 'a week ago', 'in 1974'].map(t => (
             <span key={t} className="bg-white border-2 border-emerald-200 rounded-full px-3 py-1 font-bold text-emerald-700 text-sm">{t}</span>
           ))}
         </div>
@@ -122,8 +122,8 @@ function LearnTab() {
 
         {/* examples */}
         <div className="flex flex-col gap-1.5">
-          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">I <span className="text-teal-900 underline">wasn&apos;t</span> at school yesterday.</div>
-          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">The girls <span className="text-teal-900 underline">weren&apos;t</span> at the mall last night.</div>
+          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">I <span className="text-teal-900 underline">wasn&apos;t</span> at the park yesterday.</div>
+          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">The girls <span className="text-teal-900 underline">weren&apos;t</span> at school last week.</div>
         </div>
       </div>
 
@@ -162,6 +162,62 @@ function LearnTab() {
           </div>
         </div>
       </div>
+
+      {/* WH QUESTIONS */}
+      <div className="bg-teal-50 border-4 border-teal-300 rounded-3xl p-5">
+        <h3 className="font-display font-black text-2xl text-teal-700 text-center mb-1">❔ Wh Questions</h3>
+        <p className="font-bold text-teal-800 text-sm text-center mb-4" dir="rtl">
+          שאלות Wh — מילת שאלה + was / were + נושא
+        </p>
+
+        {/* structure */}
+        <div className="bg-white border-2 border-teal-200 rounded-2xl px-3 py-2 mb-4 text-center">
+          <span className="font-display font-black text-base text-teal-700">Wh-word + was / were + subject?</span>
+        </div>
+
+        {/* examples */}
+        <div className="flex flex-col gap-1.5 mb-4">
+          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">Where were you?</div>
+          <div className="bg-teal-100 rounded-xl px-3 py-1.5 font-bold text-teal-700 text-base">Was he busy?</div>
+        </div>
+
+        {/* Wh words */}
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          {[
+            { word: 'Who',   hebrew: 'מי' },
+            { word: 'What',  hebrew: 'מה' },
+            { word: 'Where', hebrew: 'איפה' },
+            { word: 'When',  hebrew: 'מתי' },
+            { word: 'Why',   hebrew: 'למה' },
+            { word: 'How',   hebrew: 'איך' },
+          ].map(({ word, hebrew }) => (
+            <div key={word} className="bg-white border-2 border-teal-200 rounded-2xl px-4 py-2 flex items-center justify-between">
+              <span className="font-display font-black text-xl text-teal-700">{word}</span>
+              <span className="font-bold text-sm text-teal-600" dir="rtl">{hebrew}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* singular / plural lists */}
+        <div className="grid grid-cols-2 gap-2">
+          <div className="bg-teal-500 rounded-2xl p-3">
+            <div className="font-display font-black text-white text-center text-sm mb-2">Singular</div>
+            <div className="flex flex-col gap-1">
+              {['Where was I?', 'Where were you?', 'Where was he?', 'Where was she?', 'Where was it?'].map(s => (
+                <div key={s} className="bg-white/90 rounded-lg px-2 py-1 font-bold text-teal-700 text-sm text-center">{s}</div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-emerald-500 rounded-2xl p-3">
+            <div className="font-display font-black text-white text-center text-sm mb-2">Plural</div>
+            <div className="flex flex-col gap-1">
+              {['Where were we?', 'Where were you?', 'Where were they?'].map(s => (
+                <div key={s} className="bg-white/90 rounded-lg px-2 py-1 font-bold text-emerald-700 text-sm text-center">{s}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -187,6 +243,21 @@ const EX1_QUESTIONS: Ex1Q[] = [
   { before: 'We',         after: 'sick last week.',     answer: 'were' },
   { before: 'Dana',       after: 'at the mall.',        answer: 'was'  },
   { before: 'My friends', after: 'at the party.',       answer: 'were' },
+]
+
+const EX1_QUESTIONS_R2: Ex1Q[] = [
+  { before: 'You',        after: 'very kind.',          answer: 'were' },
+  { before: 'It',         after: 'a sunny day.',        answer: 'was'  },
+  { before: 'My parents', after: 'at the beach.',       answer: 'were' },
+  { before: 'The dog',    after: 'in the yard.',        answer: 'was'  },
+  { before: 'I',          after: 'hungry this morning.',answer: 'was'  },
+  { before: 'We',         after: 'in the same class.',  answer: 'were' },
+  { before: 'He',         after: 'born in 1974.',       answer: 'was'  },
+  { before: 'The books',  after: 'on the table.',       answer: 'were' },
+  { before: 'She',        after: 'my best friend.',     answer: 'was'  },
+  { before: 'They',       after: 'late last Sunday.',   answer: 'were' },
+  { before: 'The movie',  after: 'really funny.',       answer: 'was'  },
+  { before: 'You and I',  after: 'a great team.',       answer: 'were' },
 ]
 
 const EX1_OPTS: WasWere[] = ['was', 'were']
@@ -277,6 +348,56 @@ function ChoiceWasWere({ questions, onDone }: { questions: Ex1Q[]; onDone: () =>
           <button onClick={onDone} className="btn-kid bg-teal-500">✅ Done</button>
         </div>
       )}
+    </div>
+  )
+}
+
+// ── EX 1 wrapper: two rounds ────────────────────────────────────────────────────
+
+const EX1_ROUNDS: Ex1Q[][] = [EX1_QUESTIONS, EX1_QUESTIONS_R2]
+
+function Ex1TwoRounds({ onDone }: { onDone: () => void }) {
+  const [round, setRound] = useState(0)
+  const [between, setBetween] = useState(false)
+  const [key, setKey] = useState(0)
+
+  const isLastRound = round === EX1_ROUNDS.length - 1
+
+  const handleRoundDone = () => {
+    if (isLastRound) {
+      onDone()
+    } else {
+      setBetween(true)
+    }
+  }
+
+  const nextRound = () => {
+    setBetween(false)
+    setRound(r => r + 1)
+    setKey(k => k + 1)
+  }
+
+  if (between) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">✅</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">כל הכבוד! מוכנים לסבב הבא?</p>
+        <button onClick={nextRound} className="btn-kid bg-teal-500">
+          ➡️ Round {round + 2}
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4">
+        <div className="text-center text-sm font-bold text-teal-500">
+          Round {round + 1} / {EX1_ROUNDS.length}
+        </div>
+      </div>
+      <ChoiceWasWere questions={EX1_ROUNDS[round]} onDone={handleRoundDone} />
     </div>
   )
 }
@@ -713,7 +834,7 @@ const EX5_BLANKS: PassageBlank[] = [
   { index: 5, answer: 'was'  },
 ]
 
-const EX5_WORD_BANK = ['was', 'were', 'was', 'were', 'was', 'were']
+const EX5_WORD_BANK = ['was', 'were']
 
 function Ex5Passage({ onDone }: { onDone: () => void }) {
   const [filled, setFilled] = useState<Record<number, string>>({})
@@ -816,6 +937,151 @@ function Ex5Passage({ onDone }: { onDone: () => void }) {
   )
 }
 
+// ── EX 6: Wh-question builder (Wh | was/were | Subject) ──────────────────────────
+
+const EX6_WH_WORDS = ['Who', 'What', 'Where', 'When', 'Why', 'How']
+
+const EX6_SUBJECTS: BuilderSubject[] = [
+  { text: 'I',    form: 'was'  },
+  { text: 'he',   form: 'was'  },
+  { text: 'she',  form: 'was'  },
+  { text: 'it',   form: 'was'  },
+  { text: 'you',  form: 'were' },
+  { text: 'we',   form: 'were' },
+  { text: 'they', form: 'were' },
+]
+
+function Ex6Builder({ onDone }: { onDone: () => void }) {
+  const [selWh, setSelWh] = useState<string | null>(null)
+  const [selForm, setSelForm] = useState<WasWere | null>(null)
+  const [selSubject, setSelSubject] = useState<BuilderSubject | null>(null)
+  const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
+  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
+
+  // Wh words are reusable; subjects are consumed.
+  const availSubjects = EX6_SUBJECTS.filter(s => !usedSubjects.has(s.text))
+  const allDone = sentences.length === EX6_SUBJECTS.length
+
+  const handleAdd = () => {
+    if (!selWh || !selForm || !selSubject) return
+    if (selSubject.form !== selForm) {
+      setError('❌ Try a different form (was/were)!')
+      return
+    }
+    const sentence = `${selWh} ${selForm} ${selSubject.text}?`
+    setSentences(prev => [...prev, sentence])
+    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
+    setSelWh(null); setSelForm(null); setSelSubject(null)
+    setError('')
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>Wh-Question Builder</span>
+        <span className="text-teal-500">{sentences.length} / {EX6_SUBJECTS.length} ✓</span>
+      </div>
+
+      <div className="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3 mb-3 text-sm font-bold text-teal-700" dir="rtl">
+        <p>1. יש ליצור {EX6_SUBJECTS.length} שאלות על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור שאלה.</p>
+        <p>3. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>
+        <p>4. במידה ו-was/were לא מתאים לנושא, יופיע X אדום.</p>
+      </div>
+
+      {!allDone && (
+        <div className="grid grid-cols-3 gap-1.5 mb-4">
+          {/* Wh-word (reusable) */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-teal-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Wh</span>
+            </div>
+            <div className="bg-teal-50 border-2 border-teal-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {EX6_WH_WORDS.map(w => (
+                <button
+                  key={w}
+                  onClick={() => setSelWh(w)}
+                  className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors ${selWh === w ? 'bg-teal-600 text-white' : 'bg-white text-teal-700 border border-teal-200 hover:bg-teal-100'}`}
+                >
+                  {w}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* was / were */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-emerald-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">was/were</span>
+            </div>
+            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {(['was', 'were'] as WasWere[]).map(f => (
+                <button
+                  key={f}
+                  onClick={() => setSelForm(f)}
+                  className={`text-sm font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${selForm === f ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-emerald-700 border-emerald-300 hover:bg-emerald-100'}`}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Subject (consumed) */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-cyan-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Subject</span>
+            </div>
+            <div className="bg-cyan-50 border-2 border-cyan-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availSubjects.map(s => (
+                <button
+                  key={s.text}
+                  onClick={() => setSelSubject(s)}
+                  className={`text-sm font-bold rounded-lg px-1 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-700 border border-cyan-200 hover:bg-cyan-100'}`}
+                >
+                  {s.text}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selWh && selForm && selSubject && !allDone && (
+        <div className="bg-teal-50 border-2 border-teal-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
+          <span className="font-bold text-teal-700 text-base flex-1">
+            {selWh} {selForm} {selSubject.text}?
+          </span>
+          <button onClick={handleAdd} className="btn-kid bg-teal-500 !py-1 !px-3 text-sm">➕ Add</button>
+        </div>
+      )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3">{error}</p>}
+
+      {sentences.length > 0 && (
+        <div className="flex flex-col gap-1.5 mb-4">
+          {sentences.map((s, i) => (
+            <div key={i} className="bg-teal-100 border-2 border-teal-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
+              <span className="font-bold text-teal-400 text-sm">{i + 1}.</span>
+              <span className="font-bold text-teal-800 text-base">{s}</span>
+              <span className="ml-auto text-green-500 font-bold">✓</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
+          <button onClick={onDone} className="btn-kid bg-teal-500">✅ Done</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ────────────────────────────────────────────────────────────────────────
 
 export default function WasWerePage() {
@@ -828,6 +1094,7 @@ export default function WasWerePage() {
     { id: 'ex3',   label: 'Ex 3' },
     { id: 'ex4',   label: 'Ex 4' },
     { id: 'ex5',   label: 'Ex 5' },
+    { id: 'ex6',   label: 'Ex 6' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -862,11 +1129,12 @@ export default function WasWerePage() {
 
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
-        {tab === 'ex1' && <ExWrapper render={done => <ChoiceWasWere questions={EX1_QUESTIONS} onDone={done} />} />}
+        {tab === 'ex1' && <ExWrapper render={done => <Ex1TwoRounds onDone={done} />} />}
         {tab === 'ex2' && <ExWrapper render={done => <ChoiceWasntWerent questions={EX2_QUESTIONS} onDone={done} />} />}
         {tab === 'ex3' && <ExWrapper render={done => <ChoiceWasWereCap questions={EX3_QUESTIONS} onDone={done} />} />}
         {tab === 'ex4' && <ExWrapper render={done => <Ex4Builder onDone={done} />} />}
         {tab === 'ex5' && <ExWrapper render={done => <Ex5Passage onDone={done} />} />}
+        {tab === 'ex6' && <ExWrapper render={done => <Ex6Builder onDone={done} />} />}
       </div>
     </div>
   )

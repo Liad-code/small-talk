@@ -56,8 +56,8 @@ export default function Step5GrammarPage() {
         <TopicCard href="/step5/grammar/was-were" emoji="⏪" title="To Be: Was / Were" hebrewTitle="פועל היה — was / were" description="I was · They were" color="from-teal-500 to-emerald-600" available />
         <TopicCard href="/step5/grammar/past-simple" emoji="📅" title="Past Simple" hebrewTitle="עבר פשוט" description="I played · She went" color="from-amber-500 to-orange-600" available />
         <TopicCard href="/step5/grammar/could" emoji="💪" title="Could" hebrewTitle="יכולת בעבר — could" description="I could swim" color="from-lime-500 to-green-600" available />
-        <TopicCard emoji="🔮" title="Future: Will" hebrewTitle="עתיד — will" description="I will play" color="from-blue-500 to-indigo-600" available={false} />
-        <TopicCard emoji="🎯" title="Future: Going To" hebrewTitle="עתיד — going to" description="I am going to play" color="from-cyan-500 to-blue-600" available={false} />
+        <TopicCard href="/step5/grammar/will" emoji="🔮" title="Future: Will" hebrewTitle="עתיד — will" description="I will play" color="from-blue-500 to-indigo-600" available />
+        <TopicCard href="/step5/grammar/be-going-to" emoji="🎯" title="Future: Going To" hebrewTitle="עתיד — going to" description="I am going to play" color="from-cyan-500 to-blue-600" available />
       </div>
     </div>
   )

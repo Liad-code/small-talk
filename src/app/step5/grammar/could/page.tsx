@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5' | 'ex6'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex6'
 
 type Could = 'could' | "couldn't"
 
@@ -32,9 +32,10 @@ const EX1_QUESTIONS: Ex1Q[] = [
 
 // ── Ex2 (builder) data ──────────────────────────────────────────────────────────
 
+const EX2_COULD = ['could']
 const EX2_SUBJECTS = ['you', 'she', 'they', 'he', 'we']
 const EX2_VERBS = ['swim', 'read', 'run', 'cook']
-const EX2_TIMES = ['last year', 'as a child']
+const EX2_TIMES = ['last year', 'last week', 'a few years ago']
 const EX2_GOAL = 6
 
 // ── Ex3 data (pick short answer) ────────────────────────────────────────────────
@@ -186,14 +187,11 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       {/* Intro */}
       <div className="bg-lime-50 border-4 border-lime-300 rounded-3xl p-5">
-        <h2 className="font-display font-black text-3xl text-lime-700 text-center mb-1">
+        <h2 className="font-display font-black text-3xl text-lime-700 text-center mb-2">
           Could 💪
         </h2>
-        <p className="font-display font-black text-xl text-green-600 text-center mb-2" dir="rtl">
-          יכולת בעבר
-        </p>
         <p className="font-bold text-lime-800 text-sm text-center" dir="rtl">
-          could היא צורת העבר של can — אומרים מה מישהו היה מסוגל לעשות בעבר
+          could היא צורת העבר של can — מתארים מה מישהו או משהו יכלו לעשות בעבר.
         </p>
       </div>
 
@@ -201,7 +199,7 @@ function LearnTab() {
       <div className="bg-green-50 border-4 border-green-300 rounded-3xl p-5">
         <h3 className="font-display font-black text-2xl text-green-700 text-center mb-2">could + verb</h3>
         <p className="font-bold text-green-800 text-sm text-center mb-3" dir="rtl">
-          חיוב — אומרים שמישהו היה מסוגל לעשות משהו בעבר. אותו דבר לכל הגופים!
+          חיוב — מתארים מה מישהו או משהו יכלו לעשות בעבר.
         </p>
         <div className="bg-white border-2 border-green-200 rounded-2xl p-3 mb-3">
           <p className="font-bold text-green-700 text-sm text-center" dir="rtl">
@@ -210,9 +208,9 @@ function LearnTab() {
         </div>
         <div className="flex flex-col gap-1.5">
           {[
-            { subj: 'I',    rest: 'swim.' },
-            { subj: 'He',   rest: 'swim.' },
-            { subj: 'They', rest: 'swim.' },
+            { subj: 'I',    rest: 'jump.' },
+            { subj: 'He',   rest: 'jump.' },
+            { subj: 'They', rest: 'jump.' },
           ].map(({ subj, rest }) => (
             <div key={subj} className="flex items-center gap-1.5 bg-green-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-green-800 text-base">{subj}</span>
@@ -227,7 +225,7 @@ function LearnTab() {
       <div className="bg-lime-50 border-4 border-lime-300 rounded-3xl p-5">
         <h3 className="font-display font-black text-2xl text-lime-700 text-center mb-2">couldn&apos;t + verb</h3>
         <p className="font-bold text-lime-800 text-sm text-center mb-3" dir="rtl">
-          שלילה — אומרים שמישהו לא היה מסוגל לעשות משהו בעבר
+          שלילה — מתארים מה מישהו או משהו לא יכלו לעשות בעבר.
         </p>
         <div className="bg-white border-2 border-lime-200 rounded-2xl p-3 mb-3">
           <p className="font-bold text-lime-700 text-sm text-center">
@@ -236,9 +234,9 @@ function LearnTab() {
         </div>
         <div className="flex flex-col gap-1.5">
           {[
-            { subj: 'I',    rest: 'swim.' },
-            { subj: 'He',   rest: 'swim.' },
-            { subj: 'They', rest: 'swim.' },
+            { subj: 'I',    rest: 'jump.' },
+            { subj: 'He',   rest: 'jump.' },
+            { subj: 'They', rest: 'jump.' },
           ].map(({ subj, rest }) => (
             <div key={subj} className="flex items-center gap-1.5 bg-lime-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-lime-800 text-base">{subj}</span>
@@ -256,7 +254,7 @@ function LearnTab() {
           שאלות כן / לא — מתחילים את השאלה ב- Could
         </p>
         <div className="bg-white rounded-2xl border-2 border-emerald-200 p-3">
-          <p className="font-bold text-emerald-800 text-base mb-1.5 italic text-center">Could he swim?</p>
+          <p className="font-bold text-emerald-800 text-base mb-1.5 italic text-center">Could he jump?</p>
           <div className="flex gap-3 flex-wrap justify-center">
             <span className="bg-green-100 text-green-700 font-bold text-sm px-3 py-1 rounded-xl">Yes, he could.</span>
             <span className="bg-rose-100 text-rose-700 font-bold text-sm px-3 py-1 rounded-xl">No, he couldn&apos;t.</span>
@@ -272,7 +270,7 @@ function LearnTab() {
         </p>
         <div className="flex flex-col gap-1.5 mb-3">
           <div className="bg-white rounded-xl px-3 py-1.5 border-2 border-teal-100 text-center">
-            <span className="font-bold text-gray-700 text-base">When could he swim?</span>
+            <span className="font-bold text-gray-700 text-base">When could he jump?</span>
           </div>
           <div className="bg-white rounded-xl px-3 py-1.5 border-2 border-teal-100 text-center">
             <span className="font-bold text-gray-700 text-base">Why couldn&apos;t you come?</span>
@@ -296,19 +294,14 @@ function LearnTab() {
 function Ex1() {
   const questions = EX1_QUESTIONS
   const [answers, setAnswers] = useState<Record<number, Could>>({})
-  const [wrongs, setWrongs] = useState<Set<number>>(new Set())
   const total = questions.length
   const answered = Object.keys(answers).length
   const allDone = answered === total
 
+  // Every tap counts as correct — whatever the student picks is accepted.
   const choose = (idx: number, val: Could) => {
-    if (answers[idx] || wrongs.has(idx)) return
-    if (val === questions[idx].answer) {
-      setAnswers(prev => ({ ...prev, [idx]: val }))
-    } else {
-      setWrongs(prev => { const s = new Set(prev); s.add(idx); return s })
-      setTimeout(() => setWrongs(prev => { const s = new Set(prev); s.delete(idx); return s }), 800)
-    }
+    if (answers[idx]) return
+    setAnswers(prev => ({ ...prev, [idx]: val }))
   }
 
   return (
@@ -322,9 +315,8 @@ function Ex1() {
       <div className="flex flex-col gap-2 mb-6">
         {questions.map((q, idx) => {
           const ans = answers[idx]
-          const isWrong = wrongs.has(idx)
           return (
-            <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 flex-wrap ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
+            <div key={idx} className="bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 flex-wrap border-gray-200">
               <span className="text-base font-bold text-gray-700 flex-1 min-w-0">
                 {q.before}{' '}
                 {ans ? (
@@ -334,7 +326,7 @@ function Ex1() {
                 )}
                 {' '}{q.after}
               </span>
-              {!ans && !isWrong ? (
+              {!ans ? (
                 <div className="flex gap-1.5">
                   {(['could', "couldn't"] as Could[]).map(v => (
                     <button
@@ -350,8 +342,6 @@ function Ex1() {
                     </button>
                   ))}
                 </div>
-              ) : isWrong ? (
-                <span className="font-bold text-sm text-red-500">✗</span>
               ) : (
                 <span className="font-bold text-sm text-green-600">✓</span>
               )}
@@ -373,6 +363,7 @@ function Ex1() {
 // ── Ex2: builder (Could + subject + verb + time?) ───────────────────────────────
 
 function Ex2() {
+  const [selCould, setSelCould] = useState<string | null>(null)
   const [selSubject, setSelSubject] = useState<string | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
@@ -380,12 +371,14 @@ function Ex2() {
   const [resetKey, setResetKey] = useState(0)
 
   const allDone = sentences.length >= EX2_GOAL
+  const ready = selCould && selSubject && selVerb && selTime
 
   const handleAdd = () => {
-    if (!selSubject || !selVerb || !selTime) return
-    // Every Could-question the student builds is grammatically valid
+    if (!ready) return
+    // Every well-formed Could-question the student builds is accepted
     const sentence = `Could ${selSubject} ${selVerb} ${selTime}?`
     setSentences(prev => [...prev, sentence])
+    setSelCould(null)
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
@@ -393,6 +386,7 @@ function Ex2() {
 
   const again = () => {
     setSentences([])
+    setSelCould(null)
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
@@ -414,7 +408,25 @@ function Ex2() {
       </div>
 
       {!allDone && (
-        <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="grid grid-cols-4 gap-2 mb-4">
+          {/* Could column */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-green-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-sm">could</span>
+            </div>
+            <div className="bg-green-50 border-2 border-green-200 rounded-b-xl p-1.5 flex flex-col gap-1">
+              {EX2_COULD.map(c => (
+                <button
+                  key={c}
+                  onClick={() => setSelCould(c)}
+                  className={`text-sm font-bold rounded-lg px-2 py-1 text-center transition-colors ${selCould === c ? 'bg-green-600 text-white' : 'bg-white text-green-700 border border-green-200 hover:bg-green-100'}`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Subject column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-green-500 rounded-t-xl py-1 text-center">
@@ -471,7 +483,7 @@ function Ex2() {
         </div>
       )}
 
-      {selSubject && selVerb && selTime && !allDone && (
+      {ready && !allDone && (
         <div className="bg-lime-50 border-2 border-lime-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-lime-700 text-base flex-1">
             Could {selSubject} {selVerb} {selTime}?
@@ -712,112 +724,6 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   )
 }
 
-// ── Ex5: pick the correct short answer to a Wh/Could question ────────────────────
-
-function Ex5() {
-  const [current, setCurrent] = useState(0)
-  const [flash, setFlash] = useState<string | null>(null)
-  const [finished, setFinished] = useState(false)
-  const [key, setKey] = useState(0)
-
-  const q = EX3_QUESTIONS[current]
-  const isLast = current === EX3_QUESTIONS.length - 1
-
-  const handleClick = (group: Group, side: 'yes' | 'no') => {
-    if (flash) return
-    if (group !== q.group) return
-    const tileKey = `${group}-${side}`
-    setFlash(tileKey)
-    setTimeout(() => {
-      setFlash(null)
-      if (isLast) setFinished(true)
-      else setCurrent(c => c + 1)
-    }, 350)
-  }
-
-  if (finished) {
-    return (
-      <div className="text-center py-14 px-4 bounce-in">
-        <div className="text-6xl mb-4">🌟</div>
-        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
-        <button
-          onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-teal-500"
-        >
-          🔁 Start Over
-        </button>
-      </div>
-    )
-  }
-
-  return (
-    <div key={key} className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Question {current + 1} / {EX3_QUESTIONS.length}</span>
-        <span className="text-teal-500">{current} ✓</span>
-      </div>
-
-      <div className="bg-teal-50 border-4 border-teal-300 rounded-3xl p-6 text-center mb-5">
-        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הקצרה הנכונה. ניתן לענות בחיוב או בשלילה.</p>
-        <p className="font-display font-black text-2xl text-teal-700">{q.question}</p>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-green-500 rounded-t-xl py-1.5 text-center">
-            <span className="font-display font-black text-white text-sm">YES ✓</span>
-          </div>
-          <div className="bg-green-50 border-2 border-green-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {GROUPS.map(g => {
-              const tileKey = `${g}-yes`
-              const isFlashing = flash === tileKey
-              return (
-                <button
-                  key={g}
-                  onClick={() => handleClick(g, 'yes')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                    isFlashing
-                      ? 'bg-green-500 text-white border-green-500 scale-105'
-                      : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
-                  }`}
-                >
-                  {ANSWER_BANK[g].yes}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-rose-500 rounded-t-xl py-1.5 text-center">
-            <span className="font-display font-black text-white text-sm">NO ✗</span>
-          </div>
-          <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {GROUPS.map(g => {
-              const tileKey = `${g}-no`
-              const isFlashing = flash === tileKey
-              return (
-                <button
-                  key={g}
-                  onClick={() => handleClick(g, 'no')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                    isFlashing
-                      ? 'bg-rose-500 text-white border-rose-500 scale-105'
-                      : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'
-                  }`}
-                >
-                  {ANSWER_BANK[g].no}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 // ── Ex6: think of an answer, reveal a sample ────────────────────────────────────
 
 function Ex6() {
@@ -879,8 +785,7 @@ export default function CouldPage() {
     { id: 'ex2',   label: 'Ex 2' },
     { id: 'ex3',   label: 'Ex 3' },
     { id: 'ex4',   label: 'Ex 4' },
-    { id: 'ex5',   label: 'Ex 5' },
-    { id: 'ex6',   label: 'Ex 6' },
+    { id: 'ex6',   label: 'Ex 5' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -920,7 +825,6 @@ export default function CouldPage() {
         {tab === 'ex4'   && (
           <ExWrapper cycles={EX4_ROUNDS.length} render={(c, again, done) => <Ex4 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
         )}
-        {tab === 'ex5'   && <Ex5 />}
         {tab === 'ex6'   && <Ex6 />}
       </div>
     </div>

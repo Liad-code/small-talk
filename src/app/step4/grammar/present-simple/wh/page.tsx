@@ -57,40 +57,38 @@ const EX1_ROUNDS: Ex1Q[][] = [
   ],
 ]
 
-// ── Ex2 data (pick correct short answer) ────────────────────────────────────────
+// ── Ex2 data (wh-question builder) ──────────────────────────────────────────────
 
-type Group = 'I' | 'you' | 'we' | 'they' | 'he' | 'she' | 'it'
+type Aux = 'do' | 'does'
 
-const ANSWER_BANK: Record<Group, { yes: string; no: string }> = {
-  I:    { yes: 'Yes, I do.',    no: "No, I don't."    },
-  you:  { yes: 'Yes, you do.',  no: "No, you don't."  },
-  we:   { yes: 'Yes, we do.',   no: "No, we don't."   },
-  they: { yes: 'Yes, they do.', no: "No, they don't." },
-  he:   { yes: 'Yes, he does.', no: "No, he doesn't." },
-  she:  { yes: 'Yes, she does.',no: "No, she doesn't."},
-  it:   { yes: 'Yes, it does.', no: "No, it doesn't." },
+const AUX_COLORS: Record<Aux, { bg: string; light: string; text: string; border: string }> = {
+  do:   { bg: 'bg-indigo-500',  light: 'bg-indigo-50',  text: 'text-indigo-700',  border: 'border-indigo-300'  },
+  does: { bg: 'bg-emerald-500', light: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-300' },
 }
 
-const GROUPS: Group[] = ['I', 'you', 'we', 'they', 'he', 'she', 'it']
+const AUXES: Aux[] = ['do', 'does']
 
-interface Ex2Q {
-  question: string
-  group: Group
+interface Ex2Subject { text: string; aux: Aux }
+
+interface Ex2Cycle {
+  whWords: string[]
+  subjects: Ex2Subject[]
+  verbs: string[]
 }
 
-// `group` = the pronoun used in the SHORT ANSWER (not the subject of the question):
-// you→I, I→you, he→he, she→she, it→it, we→we, they→they, plural noun→they, singular noun→he/she/it
-const EX2_QUESTIONS: Ex2Q[] = [
-  { question: 'Do you like apples?',         group: 'I'    },
-  { question: 'Does he play tennis?',        group: 'he'   },
-  { question: 'Do they walk to school?',     group: 'they' },
-  { question: 'Does she read every day?',    group: 'she'  },
-  { question: 'Do we eat lunch at noon?',    group: 'we'   },
-  { question: 'Does it rain in winter?',     group: 'it'   },
-  { question: 'Do I sing well?',             group: 'you'  },
-  { question: 'Does the cat like milk?',     group: 'it'   },
-  { question: 'Do the boys play outside?',   group: 'they' },
-  { question: 'Does your mom cook fish?',    group: 'she'  },
+const EX2_CYCLES: Ex2Cycle[] = [
+  {
+    whWords: ['What', 'Where', 'When', 'Why', 'How', 'Who'],
+    subjects: [
+      { text: 'you',  aux: 'do'   },
+      { text: 'he',   aux: 'does' },
+      { text: 'they', aux: 'do'   },
+      { text: 'she',  aux: 'does' },
+      { text: 'we',   aux: 'do'   },
+      { text: 'it',   aux: 'does' },
+    ],
+    verbs: ['live', 'eat', 'go', 'play', 'like', 'watch'],
+  },
 ]
 
 // ── Ex3 data (think of an answer, reveal a sample) ──────────────────────────────
@@ -290,108 +288,166 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   )
 }
 
-// ── Ex2: pick the correct short answer ──────────────────────────────────────────
+// ── Ex2: wh-question builder ─────────────────────────────────────────────────────
 
-function Ex2() {
-  const [current, setCurrent] = useState(0)
-  const [flash, setFlash] = useState<string | null>(null)
-  const [finished, setFinished] = useState(false)
-  const [key, setKey] = useState(0)
+function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+  const cycle = EX2_CYCLES[cycleIdx]
+  const [selWh, setSelWh] = useState<string | null>(null)
+  const [selAux, setSelAux] = useState<Aux | null>(null)
+  const [selSubject, setSelSubject] = useState<Ex2Subject | null>(null)
+  const [selVerb, setSelVerb] = useState<string | null>(null)
+  const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
+  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
+  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
 
-  const q = EX2_QUESTIONS[current]
-  const isLast = current === EX2_QUESTIONS.length - 1
+  const allDone = sentences.length === cycle.subjects.length
+  const availWh = cycle.whWords
+  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
+  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
 
-  const handleClick = (group: Group, side: 'yes' | 'no') => {
-    if (flash) return
-    if (group !== q.group) return
-    const tileKey = `${group}-${side}`
-    setFlash(tileKey)
-    setTimeout(() => {
-      setFlash(null)
-      if (isLast) setFinished(true)
-      else setCurrent(c => c + 1)
-    }, 350)
-  }
-
-  if (finished) {
-    return (
-      <div className="text-center py-14 px-4 bounce-in">
-        <div className="text-6xl mb-4">🌟</div>
-        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QUESTIONS.length} השאלות!</p>
-        <button
-          onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-amber-500"
-        >
-          🔁 Start Over
-        </button>
-      </div>
-    )
+  const handleAdd = () => {
+    if (!selWh || !selAux || !selSubject || !selVerb) return
+    if (selSubject.aux !== selAux) {
+      setError('❌ Try a different do/does!')
+      return
+    }
+    const sentence = `${selWh} ${selAux} ${selSubject.text} ${selVerb}?`
+    setSentences(prev => [...prev, sentence])
+    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
+    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
+    setSelWh(null)
+    setSelAux(null)
+    setSelSubject(null)
+    setSelVerb(null)
+    setError('')
   }
 
   return (
-    <div key={key} className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Question {current + 1} / {EX2_QUESTIONS.length}</span>
-        <span className="text-amber-500">{current} ✓</span>
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
+        <span>Cycle {cycleIdx + 1} / {EX2_CYCLES.length}</span>
+        <span className="text-amber-500">{sentences.length} / {cycle.subjects.length} ✓</span>
       </div>
 
-      <div className="bg-amber-50 border-4 border-amber-300 rounded-3xl p-6 text-center mb-5">
-        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הקצרה הנכונה. ניתן לענות בחיוב או בשלילה.</p>
-        <p className="font-display font-black text-2xl text-amber-700">{q.question}</p>
+      <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-3 text-sm font-bold text-amber-700" dir="rtl">
+        <p>1. יש ליצור 6 שאלות על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור שאלה.</p>
+        <p>3. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>
+        <p>4. במידה והשאלה לא נכונה, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-green-500 rounded-t-xl py-1.5 text-center">
-            <span className="font-display font-black text-white text-sm">YES ✓</span>
-          </div>
-          <div className="bg-green-50 border-2 border-green-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {GROUPS.map(g => {
-              const tileKey = `${g}-yes`
-              const isFlashing = flash === tileKey
-              return (
+      {!allDone && (
+        <div className="grid grid-cols-4 gap-1.5 mb-4">
+          {/* Wh-word */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-amber-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Wh</span>
+            </div>
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availWh.map((w, i) => (
                 <button
-                  key={g}
-                  onClick={() => handleClick(g, 'yes')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                    isFlashing
-                      ? 'bg-green-500 text-white border-green-500 scale-105'
-                      : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
-                  }`}
+                  key={`${w}-${i}`}
+                  onClick={() => setSelWh(w)}
+                  className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors ${selWh === w ? 'bg-amber-600 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
                 >
-                  {ANSWER_BANK[g].yes}
+                  {w}
                 </button>
-              )
-            })}
+              ))}
+            </div>
+          </div>
+
+          {/* do/does */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-sky-600 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">do/does</span>
+            </div>
+            <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {AUXES.map(v => {
+                const c = AUX_COLORS[v]
+                return (
+                  <button
+                    key={v}
+                    onClick={() => setSelAux(v)}
+                    className={`text-sm font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${selAux === v ? `${c.bg} text-white ${c.border}` : `${c.light} ${c.text} ${c.border} hover:opacity-80`}`}
+                  >
+                    {v}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Subject */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-purple-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Subject</span>
+            </div>
+            <div className="bg-purple-50 border-2 border-purple-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availSubjects.map(s => (
+                <button
+                  key={s.text}
+                  onClick={() => setSelSubject(s)}
+                  className={`text-sm font-bold rounded-lg px-1 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-purple-500 text-white' : 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-100'}`}
+                >
+                  {s.text}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Verb */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-emerald-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">Verb</span>
+            </div>
+            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1 flex flex-col gap-1">
+              {availVerbs.map(v => (
+                <button
+                  key={v}
+                  onClick={() => setSelVerb(v)}
+                  className={`text-xs font-bold rounded-lg px-1 py-1 text-center transition-colors ${selVerb === v ? 'bg-emerald-500 text-white' : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-100'}`}
+                >
+                  {v}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
+      )}
 
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-rose-500 rounded-t-xl py-1.5 text-center">
-            <span className="font-display font-black text-white text-sm">NO ✗</span>
-          </div>
-          <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {GROUPS.map(g => {
-              const tileKey = `${g}-no`
-              const isFlashing = flash === tileKey
-              return (
-                <button
-                  key={g}
-                  onClick={() => handleClick(g, 'no')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                    isFlashing
-                      ? 'bg-rose-500 text-white border-rose-500 scale-105'
-                      : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'
-                  }`}
-                >
-                  {ANSWER_BANK[g].no}
-                </button>
-              )
-            })}
+      {selWh && selAux && selSubject && selVerb && !allDone && (
+        <div className="bg-amber-50 border-2 border-amber-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
+          <span className="font-bold text-amber-700 text-base flex-1">
+            {selWh} {selAux} {selSubject.text} {selVerb}?
+          </span>
+          <button onClick={handleAdd} className="btn-kid bg-amber-500 !py-1 !px-3 text-sm">➕ Add</button>
+        </div>
+      )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3">{error}</p>}
+
+      {sentences.length > 0 && (
+        <div className="flex flex-col gap-1.5 mb-4">
+          {sentences.map((s, i) => (
+            <div key={i} className="bg-amber-100 border-2 border-amber-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
+              <span className="font-bold text-amber-500 text-sm">{i + 1}.</span>
+              <span className="font-bold text-amber-800 text-base">{s}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
+          <div className="flex gap-3 justify-center">
+            <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -492,7 +548,9 @@ export default function PresentSimpleWhPage() {
         {tab === 'ex1'   && (
           <ExWrapper cycles={EX1_ROUNDS.length} render={(c, again, done) => <Ex1 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
         )}
-        {tab === 'ex2'   && <Ex2 />}
+        {tab === 'ex2'   && (
+          <ExWrapper cycles={EX2_CYCLES.length} render={(c, again, done) => <Ex2 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
+        )}
         {tab === 'ex3'   && <Ex3 />}
       </div>
     </div>

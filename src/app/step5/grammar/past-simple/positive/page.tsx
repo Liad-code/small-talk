@@ -21,20 +21,24 @@ function LearnTab() {
           עבר פשוט
         </p>
         <p className="font-bold text-blue-800 text-sm mb-3 text-center" dir="rtl">
-          בעבר פשוט מתארים פעולות שכבר קרו ונגמרו. לפועל מוסיפים -ed (או צורת עבר מיוחדת).
+          תיאור פעולות שהתרחשו בעבר והסתיימו.
         </p>
 
-        <div className="bg-white border-2 border-blue-200 rounded-2xl px-4 py-3 mb-4 text-center">
-          <span className="font-bold text-gray-500 text-base">I walk</span>
+        <div className="bg-white border-2 border-blue-200 rounded-2xl px-4 py-3 mb-2 text-center">
+          <span className="font-bold text-gray-500 text-base">I play</span>
           <span className="text-blue-400 font-black mx-2">→</span>
-          <span className="font-black text-blue-700 text-lg">I walked</span>
+          <span className="font-black text-blue-700 text-lg">I played</span>
         </div>
+
+        <p className="font-bold text-blue-800 text-sm mb-4 text-center" dir="rtl">
+          צורת הפועל בעבר זהה לכל הגופים.
+        </p>
 
         <p className="font-bold text-blue-800 text-sm mb-2 text-center" dir="rtl">
           הצורה זהה לכל הנושאים (I / you / he / she / it / we / they)
         </p>
         <div className="flex flex-col gap-1.5">
-          {['I walked home.', 'You walked home.', 'He walked home.', 'She walked home.', 'It walked home.', 'We walked home.', 'They walked home.'].map(s => (
+          {['I played.', 'You played.', 'He played.', 'She played.', 'It played.', 'We played.', 'They played.'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}
         </div>
@@ -61,9 +65,9 @@ function LearnTab() {
       {/* Time expressions */}
       <div className="bg-white border-2 border-blue-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-blue-700 text-lg mb-2 text-center">⏰ Time words</h3>
-        <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">מילים שמראות שהפעולה כבר קרתה</p>
+        <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">ביטויי זמן לפעולה שהתרחשה בעבר</p>
         <div className="flex flex-wrap gap-2 justify-center">
-          {['yesterday', 'three hours ago', 'a month ago', 'two years ago', 'last week', 'last year', 'last Sunday', 'in 1988'].map(t => (
+          {['yesterday', 'one hour ago', 'a month ago', 'three years ago', 'last week', 'last year', 'last Friday', 'a few minutes ago'].map(t => (
             <span key={t} className="bg-blue-100 text-blue-700 font-black rounded-full px-3 py-1 text-sm">{t}</span>
           ))}
         </div>
@@ -107,7 +111,7 @@ function IrregularTab() {
       <div className="bg-blue-50 border-4 border-blue-300 rounded-3xl p-5 text-center">
         <h2 className="font-display font-black text-2xl text-blue-700 mb-1">Irregular Verbs</h2>
         <p className="font-bold text-blue-800 text-sm" dir="rtl">
-          פעלים חריגים — אין -ed, יש צורת עבר מיוחדת. למדו אותם בעל פה לפי הקבוצות.
+          לפעלים אלה אין תוספת של ed ויש ללמוד בעל פה את צורת העבר שלהם.
         </p>
       </div>
 
@@ -725,17 +729,17 @@ interface PassageBlank {
 const EX4_SEGMENTS: PassageSeg[] = [
   { type: 'text', text: 'Last summer we ' },
   { type: 'blank', blankIndex: 0 },
-  { type: 'text', text: ' (go) to the beach. I ' },
+  { type: 'text', text: ' to the beach. I ' },
   { type: 'blank', blankIndex: 1 },
-  { type: 'text', text: ' (swim) in the sea. My brother ' },
+  { type: 'text', text: ' in the sea. My brother ' },
   { type: 'blank', blankIndex: 2 },
-  { type: 'text', text: ' (build) a sandcastle. We ' },
+  { type: 'text', text: ' a sandcastle. We ' },
   { type: 'blank', blankIndex: 3 },
-  { type: 'text', text: ' (eat) ice cream. Mom ' },
+  { type: 'text', text: ' ice cream. Mom ' },
   { type: 'blank', blankIndex: 4 },
-  { type: 'text', text: ' (take) photos. We ' },
+  { type: 'text', text: ' photos. We ' },
   { type: 'blank', blankIndex: 5 },
-  { type: 'text', text: ' (have) a great day!' },
+  { type: 'text', text: ' a great day!' },
 ]
 
 const EX4_BLANKS: PassageBlank[] = [
@@ -789,7 +793,7 @@ function Ex4() {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        גרור את צורת העבר מהבנק אל המקום הריק המתאים (לפי הפועל שבסוגריים)
+        גרור את צורת העבר מהבנק אל המקום הריק המתאים לפי המשמעות
       </p>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-4">

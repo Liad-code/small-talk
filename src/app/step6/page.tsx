@@ -65,6 +65,7 @@ export default function Step6Page() {
 
       <div className="max-w-2xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 gap-5">
         <TopicCard
+          href="/step6/mixed-practice"
           emoji="🔀"
           title="Tenses: Mixed Practice"
           hebrewTitle="תרגול מעורב בזמנים"
@@ -72,7 +73,7 @@ export default function Step6Page() {
           hebrewDesc="כל הזמנים ביחד"
           color="from-fuchsia-500 to-purple-600"
           textColor="text-white"
-          available={false}
+          available
         />
         <TopicCard
           emoji="👁️"

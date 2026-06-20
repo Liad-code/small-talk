@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex4'
 
 type Aux = 'am' | 'is' | 'are'
 
@@ -183,7 +183,7 @@ interface Ex2Cycle {
 
 const EX2_CYCLES: Ex2Cycle[] = [
   {
-    whWords: ['What', 'Where', 'Who', 'Why', 'What', 'Where'],
+    whWords: ['What', 'Where', 'Who', 'Why'],
     subjects: [
       { text: 'you',  aux: 'are' },
       { text: 'he',   aux: 'is'  },
@@ -204,12 +204,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedWh, setUsedWh] = useState<Set<string>>(new Set())
   const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
   const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
-  const availWh = cycle.whWords.filter((w, i) => !usedWh.has(`${w}-${i}`))
+  const availWh = cycle.whWords
   const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
   const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
 
@@ -221,7 +220,6 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     }
     const sentence = `${selWh} ${selAux} ${selSubject.text} ${selVerb}?`
     setSentences(prev => [...prev, sentence])
-    setUsedWh(prev => { const s = new Set(prev); s.add(selWh); return s })
     setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
     setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelWh(null)
@@ -356,141 +354,6 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-// ── Ex 3: Pick the correct short answer ──────────────────────────────────────
-
-type AnswerGroup = 'I' | 'he' | 'she' | 'it' | 'you' | 'we' | 'they'
-
-const ANSWER_BANK: Record<AnswerGroup, { yes: string; no: string }> = {
-  I:    { yes: 'Yes, I am.',     no: "No, I'm not."     },
-  he:   { yes: 'Yes, he is.',    no: "No, he isn't."    },
-  she:  { yes: 'Yes, she is.',   no: "No, she isn't."   },
-  it:   { yes: 'Yes, it is.',    no: "No, it isn't."    },
-  you:  { yes: 'Yes, you are.',  no: "No, you aren't."  },
-  we:   { yes: 'Yes, we are.',   no: "No, we aren't."   },
-  they: { yes: 'Yes, they are.', no: "No, they aren't." },
-}
-
-const ANSWER_GROUPS: AnswerGroup[] = ['I', 'he', 'she', 'it', 'you', 'we', 'they']
-
-interface Ex3Q { question: string; group: AnswerGroup }
-
-const EX3_QUESTIONS: Ex3Q[] = [
-  { question: 'Is she eating now?',          group: 'she'  },
-  { question: 'Are you doing homework?',     group: 'I'    },
-  { question: 'Am I doing it right?',        group: 'I'    },
-  { question: 'Is he going home?',           group: 'he'   },
-  { question: 'Are they playing football?',  group: 'they' },
-  { question: 'Is it working now?',          group: 'it'   },
-  { question: 'Are we winning?',             group: 'we'   },
-  { question: 'Is she watching TV?',         group: 'she'  },
-  { question: 'Are they singing?',           group: 'they' },
-  { question: 'Is he sleeping now?',         group: 'he'   },
-]
-
-function Ex3() {
-  const [current, setCurrent] = useState(0)
-  const [flash, setFlash] = useState<string | null>(null)
-  const [finished, setFinished] = useState(false)
-  const [key, setKey] = useState(0)
-
-  const q = EX3_QUESTIONS[current]
-  const isLast = current === EX3_QUESTIONS.length - 1
-
-  const handleClick = (group: AnswerGroup, side: 'yes' | 'no') => {
-    if (flash) return
-    if (group !== q.group) return
-    const tileKey = `${group}-${side}`
-    setFlash(tileKey)
-    setTimeout(() => {
-      setFlash(null)
-      if (isLast) setFinished(true)
-      else setCurrent(c => c + 1)
-    }, 350)
-  }
-
-  if (finished) {
-    return (
-      <div className="text-center py-14 px-4 bounce-in">
-        <div className="text-6xl mb-4">🌟</div>
-        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
-        <button
-          onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
-      </div>
-    )
-  }
-
-  return (
-    <div key={key} className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Question {current + 1} / {EX3_QUESTIONS.length}</span>
-        <span className="text-amber-500">{current} ✓</span>
-      </div>
-
-      <div className="bg-amber-50 border-4 border-amber-300 rounded-3xl p-6 text-center mb-5">
-        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הנכונה. ניתן לענות בחיוב או בשלילה.</p>
-        <p className="font-display font-black text-2xl text-amber-700">{q.question}</p>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        {/* YES */}
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-green-500 rounded-t-xl py-1.5 text-center">
-            <span className="font-display font-black text-white text-sm">YES ✓</span>
-          </div>
-          <div className="bg-green-50 border-2 border-green-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {ANSWER_GROUPS.map(g => {
-              const isFlashing = flash === `${g}-yes`
-              return (
-                <button
-                  key={g}
-                  onClick={() => handleClick(g, 'yes')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                    isFlashing
-                      ? 'bg-green-500 text-white border-green-500 scale-105'
-                      : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
-                  }`}
-                >
-                  {ANSWER_BANK[g].yes}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* NO */}
-        <div className="flex flex-col gap-1.5">
-          <div className="bg-rose-500 rounded-t-xl py-1.5 text-center">
-            <span className="font-display font-black text-white text-sm">NO ✗</span>
-          </div>
-          <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {ANSWER_GROUPS.map(g => {
-              const isFlashing = flash === `${g}-no`
-              return (
-                <button
-                  key={g}
-                  onClick={() => handleClick(g, 'no')}
-                  className={`text-sm font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                    isFlashing
-                      ? 'bg-rose-500 text-white border-rose-500 scale-105'
-                      : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'
-                  }`}
-                >
-                  {ANSWER_BANK[g].no}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
@@ -638,7 +501,6 @@ export default function PresentProgressiveWhPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
-    { id: 'ex3',   label: 'Ex 3' },
     { id: 'ex4',   label: 'Ex 4' },
   ]
 
@@ -677,7 +539,6 @@ export default function PresentProgressiveWhPage() {
         {tab === 'ex2' && (
           <ExWrapper cycles={EX2_CYCLES.length} render={(c, again, done) => <Ex2 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
         )}
-        {tab === 'ex3' && <Ex3 />}
         {tab === 'ex4' && <Ex4 />}
       </div>
     </div>

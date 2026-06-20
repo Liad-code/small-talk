@@ -333,32 +333,35 @@ function Ex2() {
 
 function Ex3() {
   const [filled, setFilled] = useState<Record<number, string>>({})
-  const [selectedWord, setSelectedWord] = useState<string | null>(null)
+  const [draggedWord, setDraggedWord] = useState<string | null>(null)
+  const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
   const allFilled = PA_EX3_BLANKS.every(b => filled[b.index] !== undefined)
 
-  const handleWordClick = (word: string) => {
-    setSelectedWord(prev => prev === word ? null : word)
-  }
-
-  const handleBlankClick = (blankIdx: number) => {
+  const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
-    if (selectedWord === null) return
     const blank = PA_EX3_BLANKS.find(b => b.index === blankIdx)
     if (!blank) return
-    if (selectedWord.toLowerCase() === blank.answer.toLowerCase()) {
+    if (word.toLowerCase() === blank.answer.toLowerCase()) {
       setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
-      setSelectedWord(null)
     } else {
       setFlashWrong(blankIdx)
       setTimeout(() => setFlashWrong(null), 800)
-      setSelectedWord(null)
     }
+  }
+
+  const handleDrop = (e: React.DragEvent, blankIdx: number) => {
+    e.preventDefault()
+    setDragOverBlank(null)
+    const word = e.dataTransfer.getData('text/plain') || draggedWord
+    if (word) tryPlace(blankIdx, word)
+    setDraggedWord(null)
   }
 
   const restart = () => {
     setFilled({})
-    setSelectedWord(null)
+    setDraggedWord(null)
+    setDragOverBlank(null)
     setFlashWrong(null)
   }
 
@@ -370,31 +373,28 @@ function Ex3() {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        בחר מילה מהבנק ואז לחץ על המקום הריק המתאים
+        גרור מילה מהבנק אל המקום הריק המתאים
       </p>
 
       {/* Word bank — words always stay visible */}
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-2 justify-center">
           {PA_EX3_WORD_BANK.map(word => (
-            <button
+            <div
               key={word}
-              onClick={() => handleWordClick(word)}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all ${
-                selectedWord === word
+              draggable
+              onDragStart={e => { setDraggedWord(word); e.dataTransfer.setData('text/plain', word); e.dataTransfer.effectAllowed = 'move' }}
+              onDragEnd={() => { setDraggedWord(null); setDragOverBlank(null) }}
+              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all cursor-grab active:cursor-grabbing select-none ${
+                draggedWord === word
                   ? 'bg-yellow-400 text-yellow-900 border-yellow-400 scale-105'
-                  : 'bg-white text-violet-700 border-violet-300 hover:bg-violet-100 active:scale-95'
+                  : 'bg-white text-violet-700 border-violet-300 hover:bg-violet-100'
               }`}
             >
               {word}
-            </button>
+            </div>
           ))}
         </div>
-        {selectedWord && (
-          <p className="text-center text-xs font-bold text-violet-600 mt-2" dir="rtl">
-            בחרת: <span className="font-black">{selectedWord}</span> — עכשיו לחץ על המקום הריק הנכון
-          </p>
-        )}
       </div>
 
       {/* Passage */}
@@ -406,22 +406,26 @@ function Ex3() {
           const blankIdx = seg.blankIndex!
           const val = filled[blankIdx]
           const isFlash = flashWrong === blankIdx
+          const isOver = dragOverBlank === blankIdx
           return (
-            <button
+            <span
               key={i}
-              onClick={() => handleBlankClick(blankIdx)}
-              className={`inline-block min-w-[3.5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 transition-all ${
+              data-drop-target="true"
+              onDragOver={e => { if (!val) { e.preventDefault(); setDragOverBlank(blankIdx) } }}
+              onDragLeave={() => setDragOverBlank(prev => prev === blankIdx ? null : prev)}
+              onDrop={e => handleDrop(e, blankIdx)}
+              className={`inline-block min-w-[3.5rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 text-center transition-all ${
                 val
                   ? 'bg-green-100 border-green-300 text-green-700'
                   : isFlash
                   ? 'bg-red-200 border-red-400 text-red-700 scale-95'
-                  : selectedWord !== null
-                  ? 'bg-violet-50 border-violet-400 text-violet-400 hover:bg-violet-100 cursor-pointer'
-                  : 'bg-violet-50 border-violet-300 text-violet-400 hover:bg-violet-100'
+                  : isOver
+                  ? 'bg-violet-100 border-violet-500 text-violet-500 scale-105'
+                  : 'bg-violet-50 border-violet-300 text-violet-400'
               }`}
             >
               {val || `(${blankIdx + 1})`}
-            </button>
+            </span>
           )
         })}
       </div>
