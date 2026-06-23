@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 type Aux = 'am' | 'is' | 'are'
 
@@ -72,6 +72,33 @@ const EX2_WORD_BANK = [
   'are going to have',
 ]
 
+// ── Ex3 data: circle the correct "X going to" phrase ──────────────────────────
+
+interface Ex3Q {
+  before: string
+  after: string
+  correct: string
+  wrong: string
+}
+
+const EX3_QS: Ex3Q[] = [
+  { before: 'The girls',  after: 'bake a cake for the party.', correct: 'are going to', wrong: 'is going to'  },
+  { before: 'My friend',  after: 'study French next year.',    correct: 'is going to',  wrong: 'am going to'  },
+  { before: 'I',          after: 'play basketball tomorrow.',  correct: 'am going to',  wrong: 'are going to' },
+  { before: 'He',         after: 'read a new book.',           correct: 'is going to',  wrong: 'are going to' },
+  { before: 'We',         after: 'run in the park.',           correct: 'are going to', wrong: 'is going to'  },
+  { before: 'My parents', after: 'cook dinner tonight.',       correct: 'are going to', wrong: 'is going to'  },
+  { before: 'She',        after: 'sleep early today.',         correct: 'is going to',  wrong: 'am going to'  },
+  { before: 'I',          after: 'eat an apple.',              correct: 'am going to',  wrong: 'is going to'  },
+  { before: 'They',       after: 'watch a movie tonight.',     correct: 'are going to', wrong: 'am going to'  },
+  { before: 'The dog',    after: 'swim in the lake.',          correct: 'is going to',  wrong: 'are going to' },
+]
+
+// 2 options per question (correct + wrong), order toggled by index
+function ex3Options(q: Ex3Q, idx: number): string[] {
+  return idx % 2 === 0 ? [q.correct, q.wrong] : [q.wrong, q.correct]
+}
+
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
 function LearnTab() {
@@ -107,17 +134,28 @@ function LearnTab() {
         {/* example sentences */}
         <div className="flex flex-col gap-1.5">
           {[
-            { sub: 'I',    aux: 'am' as Aux,  rest: 'going to eat.' },
-            { sub: 'He',   aux: 'is' as Aux,  rest: 'going to eat.' },
-            { sub: 'She',  aux: 'is' as Aux,  rest: 'going to eat.' },
-            { sub: 'We',   aux: 'are' as Aux, rest: 'going to eat.' },
-            { sub: 'They', aux: 'are' as Aux, rest: 'going to eat.' },
+            { sub: 'I',    aux: 'am' as Aux,  rest: 'going to study.' },
+            { sub: 'He',   aux: 'is' as Aux,  rest: 'going to study.' },
+            { sub: 'She',  aux: 'is' as Aux,  rest: 'going to study.' },
+            { sub: 'We',   aux: 'are' as Aux, rest: 'going to study.' },
+            { sub: 'They', aux: 'are' as Aux, rest: 'going to study.' },
           ].map(({ sub, aux, rest }) => (
             <div key={sub} className="flex items-center gap-1.5 bg-cyan-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-cyan-700 text-base">{sub}</span>
               <span className="font-black text-base text-blue-600">{aux}</span>
               <span className="font-bold text-cyan-700 text-base">{rest}</span>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* going to + verb examples */}
+      <div className="bg-white border-2 border-blue-200 rounded-2xl p-4">
+        <h3 className="font-display font-black text-blue-700 text-lg mb-2 text-center">🎯 going to + verb</h3>
+        <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">going to + פועל בצורת הבסיס</p>
+        <div className="flex flex-wrap gap-2 justify-center">
+          {['going to eat', 'going to play', 'going to run', 'going to read', 'going to sleep', 'going to study'].map(p => (
+            <span key={p} className="bg-blue-100 text-blue-700 font-black rounded-full px-3 py-1 text-sm">{p}</span>
           ))}
         </div>
       </div>
@@ -413,6 +451,93 @@ function Ex2() {
   )
 }
 
+// ── Ex3: circle the correct words ─────────────────────────────────────────────
+
+function Ex3() {
+  const [answered, setAnswered] = useState<Record<number, boolean>>({})
+  const [wrong, setWrong] = useState<Record<number, string>>({})
+  const [options] = useState<string[][]>(() => EX3_QS.map((q, i) => ex3Options(q, i)))
+  const [key, setKey] = useState(0)
+
+  const total = EX3_QS.length
+  const done = Object.keys(answered).length
+  const allDone = done === total
+
+  const choose = (idx: number, val: string) => {
+    if (answered[idx]) return
+    if (val === EX3_QS[idx].correct) {
+      setAnswered(prev => ({ ...prev, [idx]: true }))
+    } else {
+      setWrong(prev => ({ ...prev, [idx]: val }))
+      setTimeout(() => setWrong(prev => { const n = { ...prev }; delete n[idx]; return n }), 700)
+    }
+  }
+
+  const restart = () => { setAnswered({}); setWrong({}); setKey(k => k + 1) }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={key}>
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-cyan-700 text-center mb-1">Circle the correct words</h2>
+        <p className="font-bold text-sm text-cyan-600 text-center" dir="rtl">
+          בחרו את הצירוף הנכון (am / is / are going to) לפי הנושא
+        </p>
+      </div>
+
+      <div className="flex justify-end text-sm font-bold text-cyan-500 mb-3">
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {EX3_QS.map((q, idx) => {
+          const isAnswered = answered[idx]
+          return (
+            <div key={idx} className="bg-white border-2 border-cyan-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap">
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="text-base font-bold text-gray-700">
+                {q.before + ' '}
+                {isAnswered ? (
+                  <span className="font-black text-green-600 bg-green-100 rounded px-1">{q.correct}</span>
+                ) : (
+                  <span className="text-cyan-300 font-black">___</span>
+                )}
+                {' ' + q.after}
+              </span>
+              {!isAnswered && (
+                <div className="flex gap-1.5 ml-auto flex-wrap justify-end">
+                  {options[idx].map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => choose(idx, opt)}
+                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
+                        wrong[idx] === opt
+                          ? 'bg-red-500 text-white border-red-500'
+                          : 'bg-cyan-50 text-cyan-700 border-cyan-300 hover:bg-cyan-100'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {isAnswered && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <button onClick={restart} className="btn-kid bg-cyan-500">🔁 Again</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function BeGoingToPositivePage() {
@@ -422,6 +547,7 @@ export default function BeGoingToPositivePage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -457,6 +583,7 @@ export default function BeGoingToPositivePage() {
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1' && <Ex1 />}
         {tab === 'ex2' && <Ex2 />}
+        {tab === 'ex3' && <Ex3 />}
       </div>
     </div>
   )

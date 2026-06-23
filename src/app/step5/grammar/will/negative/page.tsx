@@ -15,13 +15,13 @@ interface Ex1Cycle {
 
 const EX1_CYCLES: Ex1Cycle[] = [
   {
-    subjects: ['I', 'He', 'It', 'They'],
-    verbs: ['help', 'go', 'play', 'rain'],
-    times: ['tomorrow', 'tonight'],
+    subjects: ['I', 'He', 'It', 'They', 'she', 'you', 'we'],
+    verbs: ['help my dad', 'go to school', 'play with you', 'read a book', 'run fast'],
+    times: ['tomorrow', 'tonight', 'next week', 'soon'],
   },
   {
-    subjects: ['She', 'We', 'The dog', 'Tom and Liat'],
-    verbs: ['eat', 'come', 'run', 'watch', 'study'],
+    subjects: ['She', 'We', 'The dog', 'Tom and Liat', 'she', 'you', 'we'],
+    verbs: ['help my dad', 'go to school', 'play with you', 'read a book', 'run fast'],
     times: ['soon', 'later', 'next week'],
   },
 ]
@@ -69,9 +69,9 @@ function LearnTab() {
 
         {/* transformation */}
         <div className="bg-white border-2 border-blue-200 rounded-2xl px-4 py-3 mb-4 text-center">
-          <span className="font-bold text-gray-500 text-base">It will not rain.</span>
+          <span className="font-bold text-gray-500 text-base">They will not eat.</span>
           <span className="text-blue-400 font-black mx-2">→</span>
-          <span className="font-black text-blue-700 text-base">It won&apos;t rain.</span>
+          <span className="font-black text-blue-700 text-base">They won&apos;t eat.</span>
         </div>
 
         <div className="grid grid-cols-2 gap-3 mb-4">

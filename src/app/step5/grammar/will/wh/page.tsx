@@ -69,7 +69,7 @@ const EX2_CYCLES: Ex2Cycle[] = [
   {
     whWords: ['When', 'Where', 'What', 'Why', 'Who', 'How'],
     subjects: ['you', 'he', 'I', 'they', 'she', 'we'],
-    verbs: ['eat', 'go', 'read', 'play', 'clean', 'watch'],
+    verbs: ['watch on t.v', 'go outside', 'play basketball', 'eat for breakfast', 'clean the room', 'meet you', 'be late', 'meet after the movie'],
   },
 ]
 
@@ -81,13 +81,13 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { question: 'Where will you live next year?',    answer: 'I will live in Tel Aviv.'  },
   { question: 'What will you eat for breakfast?',  answer: 'I will eat eggs.'          },
   { question: 'When will you go to school?',       answer: "At 8 o'clock."             },
-  { question: 'Why will you like summer?',         answer: 'Because it will be warm.'  },
   { question: 'How will you get to school?',       answer: 'By bus.'                   },
   { question: 'Who will you play with?',           answer: 'With my friends.'          },
   { question: 'Where will your dad work?',         answer: 'At a hospital.'            },
   { question: 'What will your mom cook?',          answer: 'She will cook pasta.'      },
   { question: 'When will the movie start?',        answer: "At five o'clock."          },
   { question: 'How will he feel tomorrow?',        answer: 'He will feel happy.'       },
+  { question: 'What will you do tomorrow?',        answer: 'I will visit my friends.' },
 ]
 
 // ── ExWrapper ───────────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ function LearnTab() {
         <div className="flex flex-col gap-1.5 text-sm font-bold text-blue-800 mb-4" dir="rtl">
           <p>• המבנה לשאלה: מילת שאלה + will + נושא + פועל בצורת הבסיס</p>
           <div className="bg-white rounded-xl px-3 py-1.5 border-2 border-blue-100 my-1" dir="ltr">
-            <span className="font-bold text-gray-700 text-base">When will we go?</span>
+            <span className="font-bold text-gray-700 text-base">When will he swim?</span>
           </div>
           <p>• will מתאים לכל הנושאים (I / you / he / she / it / we / they)</p>
           <p>• אחרי will הפועל תמיד בצורת הבסיס</p>
@@ -165,7 +165,7 @@ function LearnTab() {
           הצורה זהה לכל הנושאים
         </p>
         <div className="flex flex-col gap-1.5">
-          {['When will I go?', 'When will you go?', 'When will he go?', 'When will she go?', 'When will it go?', 'When will we go?', 'When will they go?'].map(s => (
+          {['When will I swim?', 'When will you swim?', 'When will he swim?', 'When will she swim?', 'When will it swim?', 'When will we swim?', 'When will they swim?'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}
         </div>

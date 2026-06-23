@@ -85,7 +85,7 @@ function LearnTab() {
         </div>
 
         <div className="bg-white rounded-2xl border-2 border-cyan-200 p-3 mb-4 text-center">
-          <p className="font-display font-black text-cyan-700 text-lg">When are they going to swim?</p>
+          <p className="font-display font-black text-cyan-700 text-lg">When are they going to come?</p>
         </div>
 
         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -102,12 +102,12 @@ function LearnTab() {
         </p>
         <div className="flex flex-col gap-1.5">
           {[
-            { aux: 'am' as Aux,  rest: 'I going to swim?' },
-            { aux: 'is' as Aux,  rest: 'he going to swim?' },
-            { aux: 'is' as Aux,  rest: 'she going to swim?' },
-            { aux: 'are' as Aux, rest: 'you going to swim?' },
-            { aux: 'are' as Aux, rest: 'we going to swim?' },
-            { aux: 'are' as Aux, rest: 'they going to swim?' },
+            { aux: 'am' as Aux,  rest: 'I going to come?' },
+            { aux: 'is' as Aux,  rest: 'he going to come?' },
+            { aux: 'is' as Aux,  rest: 'she going to come?' },
+            { aux: 'are' as Aux, rest: 'you going to come?' },
+            { aux: 'are' as Aux, rest: 'we going to come?' },
+            { aux: 'are' as Aux, rest: 'they going to come?' },
           ].map(({ aux, rest }) => (
             <div key={rest} className="flex items-center gap-1.5 bg-white rounded-xl px-3 py-1.5 border-2 border-cyan-100">
               <span className="font-display font-black text-base text-cyan-700">When</span>
@@ -133,13 +133,13 @@ const EX1_QUESTIONS: Ex1Q[] = [
   { sentence: 'are you going to go?',         hint: '— To the park.',          answer: 'Where' },
   { sentence: 'is she going to eat?',         hint: '— An apple.',             answer: 'What'  },
   { sentence: 'are they going to swim?',      hint: '— At noon.',              answer: 'When'  },
-  { sentence: 'is he going to cry?',          hint: '— Because he is sad.',    answer: 'Why'   },
+  { sentence: 'is he going to cry?',          hint: '— Because he is going to lose.', answer: 'Why'   },
   { sentence: 'is going to cook dinner?',     hint: '— My mom.',               answer: 'Who'   },
   { sentence: 'are you going to get there?',  hint: '— By bus.',               answer: 'How'   },
   { sentence: 'are you going to play?',       hint: '— Football.',             answer: 'What'  },
   { sentence: 'is the show going to start?',  hint: '— At seven.',             answer: 'When'  },
-  { sentence: 'are the kids going to run?',   hint: '— In the yard.',          answer: 'Where' },
-  { sentence: 'is she going to smile?',       hint: '— Because she is happy.', answer: 'Why'   },
+  { sentence: 'are the kids going to run?',   hint: '— In the park.',          answer: 'Where' },
+  { sentence: 'is she going to smile?',       hint: '— Because she is going to win.', answer: 'Why'   },
 ]
 
 function Ex1() {
@@ -274,6 +274,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selWh, setSelWh] = useState<string | null>(null)
   const [selAux, setSelAux] = useState<Aux | null>(null)
   const [selSubject, setSelSubject] = useState<Ex2Subject | null>(null)
+  const [selGoingTo, setSelGoingTo] = useState<string | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
@@ -286,18 +287,19 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
 
   const handleAdd = () => {
-    if (!selWh || !selAux || !selSubject || !selVerb) return
+    if (!selWh || !selAux || !selSubject || !selGoingTo || !selVerb) return
     if (selSubject.aux !== selAux) {
       setError('❌ Try a different aux!')
       return
     }
-    const sentence = `${selWh} ${selAux} ${selSubject.text} going to ${selVerb}?`
+    const sentence = `${selWh} ${selAux} ${selSubject.text} ${selGoingTo} ${selVerb}?`
     setSentences(prev => [...prev, sentence])
     setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
     setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelWh(null)
     setSelAux(null)
     setSelSubject(null)
+    setSelGoingTo(null)
     setSelVerb(null)
     setError('')
   }
@@ -317,7 +319,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       </div>
 
       {!allDone && (
-        <div className="grid grid-cols-4 gap-1.5 mb-4">
+        <div className="grid grid-cols-5 gap-1.5 mb-4">
           {/* Wh-word (reusable) */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-cyan-600 rounded-t-xl py-1 text-center">
@@ -375,10 +377,25 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             </div>
           </div>
 
-          {/* Verb (going to + base) */}
+          {/* going to */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-amber-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">going to</span>
+            </div>
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1 flex flex-col gap-1">
+              <button
+                onClick={() => setSelGoingTo('going to')}
+                className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors ${selGoingTo === 'going to' ? 'bg-amber-500 text-white' : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100'}`}
+              >
+                going to
+              </button>
+            </div>
+          </div>
+
+          {/* Verb (base form) */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-emerald-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">going to +</span>
+              <span className="font-display font-black text-white text-xs">Verb</span>
             </div>
             <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1 flex flex-col gap-1">
               {availVerbs.map(v => (
@@ -395,10 +412,10 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         </div>
       )}
 
-      {selWh && selAux && selSubject && selVerb && !allDone && (
+      {selWh && selAux && selSubject && selGoingTo && selVerb && !allDone && (
         <div className="bg-cyan-50 border-2 border-cyan-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-cyan-700 text-base flex-1">
-            {selWh} {selAux} {selSubject.text} going to {selVerb}?
+            {selWh} {selAux} {selSubject.text} {selGoingTo} {selVerb}?
           </span>
           <button onClick={handleAdd} className="btn-kid bg-cyan-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>

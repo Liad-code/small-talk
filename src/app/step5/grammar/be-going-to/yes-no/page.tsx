@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 type Aux = 'Am' | 'Is' | 'Are'
 
@@ -97,12 +97,12 @@ function LearnTab() {
 
         <div className="flex flex-col gap-1.5">
           {[
-            { aux: 'Am' as Aux,  rest: 'I going to run?' },
-            { aux: 'Is' as Aux,  rest: 'he going to run?' },
-            { aux: 'Is' as Aux,  rest: 'she going to run?' },
-            { aux: 'Are' as Aux, rest: 'you going to run?' },
-            { aux: 'Are' as Aux, rest: 'we going to run?' },
-            { aux: 'Are' as Aux, rest: 'they going to run?' },
+            { aux: 'Am' as Aux,  rest: 'I going to swim?' },
+            { aux: 'Is' as Aux,  rest: 'he going to swim?' },
+            { aux: 'Is' as Aux,  rest: 'she going to swim?' },
+            { aux: 'Are' as Aux, rest: 'you going to swim?' },
+            { aux: 'Are' as Aux, rest: 'we going to swim?' },
+            { aux: 'Are' as Aux, rest: 'they going to swim?' },
           ].map(({ aux, rest }) => (
             <div key={rest} className="flex items-center gap-1.5 bg-white rounded-xl px-3 py-1.5 border-2 border-cyan-100">
               <span className={`font-display font-black text-base ${AUX_COLORS[aux].text}`}>{aux}</span>
@@ -119,10 +119,10 @@ function LearnTab() {
 
         <div className="flex flex-col gap-3">
           {[
-            { q: 'Am I going to wait?',       yes: 'Yes, I am.',     no: "No, I'm not."    },
-            { q: 'Is he going to eat?',       yes: 'Yes, he is.',    no: "No, he isn't."   },
+            { q: 'Am I going to go?',         yes: 'Yes, I am.',     no: "No, I'm not."    },
+            { q: 'Is he going to drink?',     yes: 'Yes, he is.',    no: "No, he isn't."   },
             { q: 'Is she going to sleep?',    yes: 'Yes, she is.',   no: "No, she isn't."  },
-            { q: 'Are you going to wait?',    yes: 'Yes, I am.',     no: "No, I'm not."    },
+            { q: 'Are you going to go?',      yes: 'Yes, I am.',     no: "No, I'm not."    },
             { q: 'Are they going to swim?',   yes: 'Yes, they are.', no: "No, they aren't." },
           ].map(({ q, yes, no }) => (
             <div key={q} className="bg-white rounded-2xl border-2 border-amber-200 p-3">
@@ -158,7 +158,7 @@ const EX1_CYCLES: Ex1Cycle[] = [
       { text: 'he',   aux: 'Is'  },
       { text: 'we',   aux: 'Are' },
     ],
-    verbs: ['wait', 'eat', 'sleep', 'swim', 'run', 'play'],
+    verbs: ['wait', 'eat lunch', 'sleep late', 'swim', 'run fast', 'play tennis'],
   },
 ]
 
@@ -440,6 +440,121 @@ function Ex2() {
   )
 }
 
+// ── Ex 3: complete with Am / Is / Are ────────────────────────────────────────
+
+interface Ex3Q { after: string; answer: Aux }
+
+const EX3_QUESTIONS: Ex3Q[] = [
+  { after: 'he going to listen to his MP3 player?', answer: 'Is'  },
+  { after: 'Hadas going to play in the garden?',    answer: 'Is'  },
+  { after: 'I going to be late?',                   answer: 'Am'  },
+  { after: 'you going to wait?',                    answer: 'Are' },
+  { after: 'she going to eat lunch?',               answer: 'Is'  },
+  { after: 'they going to swim?',                   answer: 'Are' },
+  { after: 'we going to play tennis?',              answer: 'Are' },
+  { after: 'it going to rain?',                     answer: 'Is'  },
+  { after: 'I going to win the game?',              answer: 'Am'  },
+  { after: 'the boys going to run fast?',           answer: 'Are' },
+]
+
+function Ex3() {
+  const [answers, setAnswers] = useState<Record<number, Aux>>({})
+  const [wrongs, setWrongs] = useState<Record<number, Aux>>({})
+  const [resetKey, setResetKey] = useState(0)
+
+  const total = EX3_QUESTIONS.length
+  const done = Object.keys(answers).length
+  const allDone = done === total
+
+  const choose = (idx: number, choice: Aux) => {
+    if (answers[idx]) return
+    if (choice === EX3_QUESTIONS[idx].answer) {
+      setAnswers(prev => ({ ...prev, [idx]: choice }))
+    } else {
+      setWrongs(prev => ({ ...prev, [idx]: choice }))
+      setTimeout(() => setWrongs(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
+    }
+  }
+
+  const again = () => {
+    setAnswers({})
+    setWrongs({})
+    setResetKey(k => k + 1)
+  }
+
+  return (
+    <div key={resetKey} className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-cyan-700 text-center mb-1">
+          Complete with Am / Is / Are
+        </h2>
+        <p className="font-bold text-sm text-cyan-600 text-center" dir="rtl">
+          בחר את מילת הפתיחה הנכונה — Am / Is / Are
+        </p>
+      </div>
+
+      <div className="flex justify-end text-sm font-bold text-cyan-500 mb-3">
+        <span>{done} / {total} ✓</span>
+      </div>
+
+      <div className="flex flex-col gap-3 mb-5">
+        {EX3_QUESTIONS.map((q, idx) => {
+          const chosen = answers[idx]
+          return (
+            <div key={idx} className="bg-white border-2 border-cyan-200 rounded-2xl px-3 py-3 shadow-sm">
+              <div className="flex items-center gap-1.5 flex-wrap mb-2">
+                <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
+                {chosen ? (
+                  <span className={`font-display font-black text-base ${AUX_COLORS[chosen].text}`}>{chosen}</span>
+                ) : (
+                  <span className="text-cyan-300 font-black text-base">___</span>
+                )}
+                <span className="font-bold text-gray-700 text-base">{q.after}</span>
+                {chosen && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+              </div>
+
+              {!chosen && (
+                <div className="flex gap-1.5 flex-wrap">
+                  {AUXES.map(opt => {
+                    const c = AUX_COLORS[opt]
+                    const isWrong = wrongs[idx] === opt
+                    return (
+                      <button
+                        key={opt}
+                        onClick={() => choose(idx, opt)}
+                        className={`font-display font-black text-sm px-3 py-1 rounded-xl border-2 transition-colors active:scale-95 ${
+                          isWrong
+                            ? 'bg-red-500 text-white border-red-500'
+                            : `${c.light} ${c.text} ${c.border} hover:opacity-80`
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      {allDone && (
+        <div className="text-center bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
+          <button onClick={again} className="btn-kid bg-cyan-500">🔁 Again</button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function BeGoingToYesNoPage() {
@@ -449,6 +564,7 @@ export default function BeGoingToYesNoPage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -486,6 +602,7 @@ export default function BeGoingToYesNoPage() {
           <ExWrapper cycles={EX1_CYCLES.length} render={(c, again, done) => <Ex1 key={c} cycleIdx={c} onAgain={again} onDone={done} />} />
         )}
         {tab === 'ex2' && <Ex2 />}
+        {tab === 'ex3' && <Ex3 />}
       </div>
     </div>
   )

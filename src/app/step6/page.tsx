@@ -76,6 +76,7 @@ export default function Step6Page() {
           available
         />
         <TopicCard
+          href="/step6/sight-words"
           emoji="👁️"
           title="Sight Words"
           hebrewTitle="מילות ראייה"
@@ -83,7 +84,7 @@ export default function Step6Page() {
           hebrewDesc="עוד מילים נפוצות לזיהוי מיידי"
           color="from-purple-500 to-violet-600"
           textColor="text-white"
-          available={false}
+          available
         />
       </div>
     </div>

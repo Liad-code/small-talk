@@ -178,7 +178,7 @@ function Ex1() {
 
 interface Ex2Q { before: string; after: string; correct: string; wrong: string }
 
-const EX2_QUESTIONS: Ex2Q[] = [
+const EX2_R1: Ex2Q[] = [
   { before: 'I am walking to school',          after: '.',  correct: 'now',          wrong: 'yesterday'    },
   { before: 'She visited her aunt',            after: '.',  correct: 'last week',     wrong: 'tomorrow'     },
   { before: 'They will travel',                after: '.',  correct: 'next year',     wrong: 'yesterday'    },
@@ -191,22 +191,50 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'We bought a new car',             after: '.',  correct: 'two years ago', wrong: 'tonight'      },
 ]
 
+const EX2_R2: Ex2Q[] = [
+  { before: 'My sister is reading a book',     after: '.',  correct: 'right now',     wrong: 'last week'    },
+  { before: 'We played in the park',           after: '.',  correct: 'yesterday',     wrong: 'tomorrow'     },
+  { before: 'I will call you',                 after: '.',  correct: 'tonight',       wrong: 'last year'    },
+  { before: 'She drinks milk',                 after: '.',  correct: 'every morning', wrong: 'an hour ago'  },
+  { before: 'Listen! The dog is barking',      after: '.',  correct: 'now',           wrong: 'next week'    },
+  { before: 'They finished the test',          after: '.',  correct: 'two hours ago', wrong: 'soon'         },
+  { before: 'The train arrives',               after: '.',  correct: 'soon',          wrong: 'yesterday'    },
+  { before: 'My brother walks the dog',        after: '.',  correct: 'on Fridays',    wrong: 'right now'    },
+  { before: 'The kids are swimming',           after: '.',  correct: 'at the moment', wrong: 'last month'   },
+  { before: 'We moved to a new house',         after: '.',  correct: 'last month',    wrong: 'tomorrow'     },
+]
+
+const EX2_R3: Ex2Q[] = [
+  { before: 'I am doing my homework',          after: '.',  correct: 'at the moment', wrong: 'last week'    },
+  { before: 'He cleaned his room',             after: '.',  correct: 'yesterday',     wrong: 'soon'         },
+  { before: 'We will visit Grandma',           after: '.',  correct: 'next week',     wrong: 'an hour ago'  },
+  { before: 'She helps her mom',               after: '.',  correct: 'every day',     wrong: 'right now'    },
+  { before: 'Look! The cat is jumping',        after: '.',  correct: 'now',           wrong: 'last year'    },
+  { before: 'My dad fixed the car',            after: '.',  correct: 'last Sunday',   wrong: 'tomorrow'     },
+  { before: 'The movie starts',                after: '.',  correct: 'soon',          wrong: 'yesterday'    },
+  { before: 'They usually eat breakfast',      after: '.',  correct: 'at seven',      wrong: 'right now'    },
+  { before: 'The students are writing',        after: '.',  correct: 'right now',     wrong: 'last week'    },
+  { before: 'I saw a great film',              after: '.',  correct: 'two days ago',  wrong: 'tonight'      },
+]
+
+const EX2_ROUNDS: Ex2Q[][] = [EX2_R1, EX2_R2, EX2_R3]
+
 function ex2Options(q: Ex2Q, idx: number): string[] {
   return idx % 2 === 0 ? [q.correct, q.wrong] : [q.wrong, q.correct]
 }
 
-function Ex2({ onDone }: { onDone: () => void }) {
+function Ex2({ questions, onDone }: { questions: Ex2Q[]; onDone: () => void }) {
   const [answered, setAnswered] = useState<Record<number, boolean>>({})
   const [wrong, setWrong] = useState<Record<number, string>>({})
-  const [options] = useState<string[][]>(() => EX2_QUESTIONS.map((q, i) => ex2Options(q, i)))
+  const [options] = useState<string[][]>(() => questions.map((q, i) => ex2Options(q, i)))
 
-  const total = EX2_QUESTIONS.length
+  const total = questions.length
   const done = Object.keys(answered).length
   const allDone = done === total
 
   const choose = (idx: number, val: string) => {
     if (answered[idx]) return
-    if (val === EX2_QUESTIONS[idx].correct) {
+    if (val === questions[idx].correct) {
       setAnswered(prev => ({ ...prev, [idx]: true }))
     } else {
       setWrong(prev => ({ ...prev, [idx]: val }))
@@ -228,7 +256,7 @@ function Ex2({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="flex flex-col gap-2.5">
-        {EX2_QUESTIONS.map((q, idx) => {
+        {questions.map((q, idx) => {
           const isAnswered = answered[idx]
           return (
             <div key={idx} className="bg-white border-2 border-fuchsia-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap">
@@ -401,7 +429,7 @@ function TypeInExercise({
 
 // ── Ex3 data: POSITIVE verb forms ─────────────────────────────────────────────
 
-const EX3_QS: TypeQ[] = [
+const EX3_R1: TypeQ[] = [
   { before: 'The bell',  after: 'soon.',                base: 'ring',  answer: 'will ring',  alts: ['is going to ring'] },
   { before: 'Ido',       after: 'to his friend at the moment.', base: 'talk', answer: 'is talking' },
   { before: 'I',         after: 'at home tomorrow.',    base: 'stay',  answer: 'will stay',  alts: ['am going to stay'] },
@@ -412,9 +440,33 @@ const EX3_QS: TypeQ[] = [
   { before: 'He',        after: 'a book now.',          base: 'read',  answer: 'is reading' },
 ]
 
+const EX3_R2: TypeQ[] = [
+  { before: 'My friends', after: 'to the beach tomorrow.', base: 'drive', answer: 'will drive', alts: ['are going to drive'] },
+  { before: 'Maya',      after: 'a cake at the moment.', base: 'bake',  answer: 'is baking' },
+  { before: 'I',         after: 'a new bike soon.',      base: 'buy',   answer: 'will buy',   alts: ['am going to buy'] },
+  { before: 'We',        after: 'the train next week.',  base: 'take',  answer: 'will take',  alts: ['are going to take'] },
+  { before: 'She',       after: 'her keys yesterday.',   base: 'lose',  answer: 'lost' },
+  { before: 'He',        after: 'to school every day.',  base: 'walk',  answer: 'walks' },
+  { before: 'They',      after: 'a sandcastle last summer.', base: 'build', answer: 'built' },
+  { before: 'The boys',  after: 'in the pool right now.', base: 'swim', answer: 'are swimming' },
+]
+
+const EX3_R3: TypeQ[] = [
+  { before: 'It',        after: 'tomorrow.',             base: 'rain',  answer: 'will rain',  alts: ['is going to rain'] },
+  { before: 'The girls', after: 'in the garden now.',    base: 'play',  answer: 'are playing' },
+  { before: 'We',        after: 'a film next Saturday.', base: 'watch', answer: 'will watch', alts: ['are going to watch'] },
+  { before: 'I',         after: 'you after lunch.',      base: 'call',  answer: 'will call',  alts: ['am going to call'] },
+  { before: 'My dad',    after: 'the car last week.',    base: 'wash',  answer: 'washed' },
+  { before: 'She',       after: 'the piano every evening.', base: 'practise', answer: 'practises' },
+  { before: 'They',      after: 'pizza two days ago.',   base: 'make',  answer: 'made' },
+  { before: 'He',        after: 'a letter at the moment.', base: 'write', answer: 'is writing' },
+]
+
+const EX3_ROUNDS: TypeQ[][] = [EX3_R1, EX3_R2, EX3_R3]
+
 // ── Ex4 data: NEGATIVE verb forms ─────────────────────────────────────────────
 
-const EX4_QS: TypeQ[] = [
+const EX4_R1: TypeQ[] = [
   { before: 'My mom',  after: 'every day.',     base: 'not work',  answer: "doesn't work",     alts: ['does not work'] },
   { before: 'Yaniv',   after: 'to Rome last year.', base: 'not go', answer: "didn't go",       alts: ['did not go'] },
   { before: 'They',    after: 'TV right now.',   base: 'not watch', answer: "aren't watching", alts: ['are not watching'] },
@@ -425,9 +477,33 @@ const EX4_QS: TypeQ[] = [
   { before: 'You',     after: 'the movie tonight.', base: 'not enjoy', answer: "won't enjoy",  alts: ['will not enjoy', "aren't going to enjoy", 'are not going to enjoy'] },
 ]
 
+const EX4_R2: TypeQ[] = [
+  { before: 'My dad',  after: 'coffee every morning.', base: 'not drink', answer: "doesn't drink", alts: ['does not drink'] },
+  { before: 'We',      after: 'to the party last night.', base: 'not come', answer: "didn't come", alts: ['did not come'] },
+  { before: 'The baby', after: 'right now.',     base: 'not sleep', answer: "isn't sleeping",   alts: ['is not sleeping'] },
+  { before: 'They',    after: 'us next week.',   base: 'not visit', answer: "won't visit",      alts: ['will not visit', "aren't going to visit", 'are not going to visit'] },
+  { before: 'I',       after: 'the homework yesterday.', base: 'not finish', answer: "didn't finish", alts: ['did not finish'] },
+  { before: 'You',     after: 'lunch at the moment.', base: 'not have', answer: "aren't having", alts: ['are not having'] },
+  { before: 'She',     after: 'the bus on Sundays.', base: 'not take', answer: "doesn't take",  alts: ['does not take'] },
+  { before: 'He',      after: 'the game tomorrow.', base: 'not win',  answer: "won't win",       alts: ['will not win', "isn't going to win", 'is not going to win'] },
+]
+
+const EX4_R3: TypeQ[] = [
+  { before: 'My sister', after: 'meat.',         base: 'not eat',   answer: "doesn't eat",     alts: ['does not eat'] },
+  { before: 'We',      after: 'the test last week.', base: 'not pass', answer: "didn't pass",  alts: ['did not pass'] },
+  { before: 'The dogs', after: 'in the garden now.', base: 'not run', answer: "aren't running", alts: ['are not running'] },
+  { before: 'I',       after: 'late tomorrow.',  base: 'not be',    answer: "won't be",        alts: ['will not be', 'am not going to be'] },
+  { before: 'They',    after: 'the door yesterday.', base: 'not lock', answer: "didn't lock", alts: ['did not lock'] },
+  { before: 'He',      after: 'a shower right now.', base: 'not take', answer: "isn't taking", alts: ['is not taking'] },
+  { before: 'You',     after: 'your room every day.', base: 'not clean', answer: "don't clean", alts: ['do not clean'] },
+  { before: 'She',     after: 'the cake tonight.', base: 'not make', answer: "won't make",     alts: ['will not make', "isn't going to make", 'is not going to make'] },
+]
+
+const EX4_ROUNDS: TypeQ[][] = [EX4_R1, EX4_R2, EX4_R3]
+
 // ── Ex5 data: complete the QUESTION by the answer's tense ──────────────────────
 
-const EX5_QS: TypeQ[] = [
+const EX5_R1: TypeQ[] = [
   { before: 'When',  after: '?', answer: 'did Nava call',            hint: 'Nava called an hour ago.' },
   { before: 'What',  after: '?', answer: 'is Mom cooking',           alts: ['is mom cooking'], hint: 'Mom is cooking rice and meat.' },
   { before: 'Who',   after: '?', answer: 'will win the game',        hint: 'Our team will win the game.' },
@@ -436,11 +512,39 @@ const EX5_QS: TypeQ[] = [
   { before: 'Why',   after: '?', answer: 'is Shira going to move to Haifa', hint: 'Shira is going to move to Haifa because she got a job there.' },
 ]
 
+const EX5_R2: TypeQ[] = [
+  { before: 'When',  after: '?', answer: 'did Tom arrive',           hint: 'Tom arrived yesterday.' },
+  { before: 'What',  after: '?', answer: 'is Dana reading',          alts: ['is dana reading'], hint: 'Dana is reading a comic book.' },
+  { before: 'Who',   after: '?', answer: 'will bring the cake',      hint: 'My aunt will bring the cake.' },
+  { before: 'Where', after: '?', answer: 'does Noa work',            hint: 'Noa works in Tel Aviv.' },
+  { before: 'How',   after: '?', answer: 'did Ron break the window', hint: 'Ron broke the window with a ball.' },
+  { before: 'Why',   after: '?', answer: 'is Dad going to sell the car', hint: 'Dad is going to sell the car because it is too old.' },
+]
+
+const EX5_R3: TypeQ[] = [
+  { before: 'When',  after: '?', answer: 'did the film start',       hint: 'The film started two hours ago.' },
+  { before: 'What',  after: '?', answer: 'is Omer drawing',          alts: ['is omer drawing'], hint: 'Omer is drawing a dragon.' },
+  { before: 'Who',   after: '?', answer: 'will help the teacher',    hint: 'The new boy will help the teacher.' },
+  { before: 'Where', after: '?', answer: 'does Lior study',          hint: 'Lior studies at the library.' },
+  { before: 'How',   after: '?', answer: 'did Maya make the soup',   hint: 'Maya made the soup with fresh vegetables.' },
+  { before: 'Why',   after: '?', answer: 'is the team going to travel to Eilat', hint: 'The team is going to travel to Eilat because of the big match.' },
+]
+
+const EX5_ROUNDS: TypeQ[][] = [EX5_R1, EX5_R2, EX5_R3]
+
 // ════════════════════════════════════════════════════════════════════════════
-//  ExWrapper — completion + restart for the type-in / choose exercises
+//  RoundFlow — 3-round flow with round badge, between-rounds + finished screens
 // ════════════════════════════════════════════════════════════════════════════
 
-function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode }) {
+function RoundFlow({
+  rounds,
+  render,
+}: {
+  rounds: number
+  render: (roundIdx: number, onDone: () => void) => React.ReactNode
+}) {
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
   const [finished, setFinished] = useState(false)
   const [key, setKey] = useState(0)
 
@@ -449,9 +553,9 @@ function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את התרגול!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
         <button
-          onClick={() => { setFinished(false); setKey(k => k + 1) }}
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
           className="btn-kid bg-fuchsia-500"
         >
           🔁 Start Over
@@ -460,7 +564,36 @@ function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode
     )
   }
 
-  return <div key={key}>{render(() => setFinished(true))}</div>
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-fuchsia-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-fuchsia-100 text-fuchsia-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds}
+        </span>
+      </div>
+      <div key={round}>
+        {render(round, () => { if (isLast) setFinished(true); else setBetweenRounds(true) })}
+      </div>
+    </div>
+  )
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -509,10 +642,10 @@ export default function MixedPracticePage() {
 
       <div className="pt-4">
         {tab === 'ex1' && <Ex1 />}
-        {tab === 'ex2' && <ExWrapper render={done => <Ex2 onDone={done} />} />}
-        {tab === 'ex3' && <ExWrapper render={done => <TypeInExercise questions={EX3_QS} onDone={done} showBase instruction="השלימו את המשפטים בצורת הפועל הנכונה לפי הזמן." />} />}
-        {tab === 'ex4' && <ExWrapper render={done => <TypeInExercise questions={EX4_QS} onDone={done} showBase instruction="השלימו את המשפטים בצורת השלילה הנכונה לפי הזמן." />} />}
-        {tab === 'ex5' && <ExWrapper render={done => <TypeInExercise questions={EX5_QS} onDone={done} instruction="השלימו את השאלה לפי הזמן של התשובה." />} />}
+        {tab === 'ex2' && <RoundFlow rounds={EX2_ROUNDS.length} render={(r, done) => <Ex2 questions={EX2_ROUNDS[r]} onDone={done} />} />}
+        {tab === 'ex3' && <RoundFlow rounds={EX3_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX3_ROUNDS[r]} onDone={done} showBase instruction="השלימו את המשפטים בצורת הפועל הנכונה לפי הזמן." />} />}
+        {tab === 'ex4' && <RoundFlow rounds={EX4_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX4_ROUNDS[r]} onDone={done} showBase instruction="השלימו את המשפטים בצורת השלילה הנכונה לפי הזמן." />} />}
+        {tab === 'ex5' && <RoundFlow rounds={EX5_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX5_ROUNDS[r]} onDone={done} instruction="השלימו את השאלה לפי הזמן של התשובה." />} />}
       </div>
     </div>
   )

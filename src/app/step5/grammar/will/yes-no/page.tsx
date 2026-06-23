@@ -8,8 +8,8 @@ type Tab = 'learn' | 'ex1' | 'ex2'
 // ── Ex1 (builder) data ───────────────────────────────────────────────────────────
 
 const EX1_SUBJECTS = ['you', 'they', 'he', 'she', 'the boys', 'Dana']
-const EX1_VERBS = ['help', 'play', 'eat', 'go', 'watch', 'clean']   // BASE form
-const EX1_TIMES = ['tomorrow', 'next week']
+const EX1_VERBS = ['watch t.v', 'go outside', 'play basketball', 'eat breakfast', 'clean the room', 'make a cake']   // BASE form
+const EX1_TIMES = ['tomorrow', 'next week', 'later', 'soon']
 
 // ── Ex2 data (pick correct short answer) ────────────────────────────────────────
 
@@ -55,7 +55,7 @@ function LearnTab() {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16 flex flex-col gap-5">
       <div className="bg-blue-50 border-4 border-blue-300 rounded-3xl p-5">
         <h2 className="font-display font-black text-3xl text-blue-700 text-center mb-1">
-          Will + base verb
+          will you? will he?
         </h2>
         <p className="font-display font-black text-xl text-indigo-600 text-center mb-4" dir="rtl">
           שאלות כן / לא בעתיד
@@ -70,23 +70,17 @@ function LearnTab() {
 
         {/* transformation */}
         <div className="bg-white border-2 border-blue-200 rounded-2xl px-4 py-3 mb-4 text-center">
-          <span className="font-bold text-gray-500 text-base">He will help.</span>
+          <span className="font-bold text-gray-500 text-base">He will come.</span>
           <span className="text-blue-400 font-black mx-2">→</span>
-          <span className="font-black text-blue-700 text-lg">Will he help?</span>
+          <span className="font-black text-blue-700 text-lg">Will he come?</span>
         </div>
 
         <div className="bg-indigo-600 rounded-2xl p-3 text-center mb-2">
           <div className="font-display font-black text-white text-xl mb-1">Will</div>
           <div className="text-white/80 font-bold text-sm">+ subject + verb</div>
         </div>
-        <p className="font-bold text-blue-800 text-sm mb-4 text-center" dir="rtl">
-          הצורה זהה לכל הגופים
-        </p>
 
-        <p className="font-bold text-blue-800 text-sm mb-2 text-center" dir="rtl">
-          הצורה זהה לכל הנושאים
-        </p>
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 mt-4">
           {['Will I help?', 'Will you help?', 'Will he help?', 'Will she help?', 'Will it help?', 'Will we help?', 'Will they help?'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}

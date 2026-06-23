@@ -7,42 +7,36 @@ type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
-const SIGHT_WORDS: { word: string; hebrew: string }[] = [
-  { word: 'after',   hebrew: 'אחרי' },
-  { word: 'again',   hebrew: 'שוב' },
-  { word: 'any',     hebrew: 'כלשהו' },
-  { word: 'ask',     hebrew: 'לשאול' },
-  { word: 'by',      hebrew: 'ליד, באמצעות' },
-  { word: 'every',   hebrew: 'כל' },
-  { word: 'fly',     hebrew: 'לעוף' },
-  { word: 'from',    hebrew: 'מ-' },
-  { word: 'give',    hebrew: 'לתת' },
-  { word: 'has',     hebrew: 'יש ל-' },
-  { word: 'her',     hebrew: 'שלה' },
-  { word: 'his',     hebrew: 'שלו' },
-  { word: 'just',    hebrew: 'בדיוק' },
-  { word: 'know',    hebrew: 'לדעת' },
-  { word: 'live',    hebrew: 'לגור' },
-  { word: 'of',      hebrew: 'של' },
-  { word: 'old',     hebrew: 'ישן/זקן' },
-  { word: 'once',    hebrew: 'פעם' },
-  { word: 'open',    hebrew: 'לפתוח' },
-  { word: 'round',   hebrew: 'עגול' },
-  { word: 'put',     hebrew: 'לשים' },
-  { word: 'some',    hebrew: 'קצת' },
-  { word: 'stop',    hebrew: 'לעצור' },
-  { word: 'take',    hebrew: 'לקחת' },
-  { word: 'thank',   hebrew: 'להודות' },
-  { word: 'them',    hebrew: 'אותם' },
-  { word: 'then',    hebrew: 'אז' },
-  { word: 'think',   hebrew: 'לחשוב' },
-  { word: 'walk',    hebrew: 'ללכת' },
-  { word: 'always',  hebrew: 'תמיד' },
-  { word: 'because', hebrew: 'כי' },
-  { word: 'before',  hebrew: 'לפני' },
-  { word: 'best',    hebrew: 'הכי טוב' },
-  { word: 'both',    hebrew: 'שניהם' },
-  { word: 'buy',     hebrew: 'לקנות' },
+const SIGHT_WORDS: { word: string; hebrew: string; emoji: string }[] = [
+  { word: 'call',   hebrew: 'להתקשר/לקרוא', emoji: '📞' },
+  { word: 'cold',   hebrew: 'קר',           emoji: '🥶' },
+  { word: 'fast',   hebrew: 'מהר',          emoji: '🏃' },
+  { word: 'first',  hebrew: 'ראשון',        emoji: '🥇' },
+  { word: 'five',   hebrew: 'חמש',          emoji: '✋' },
+  { word: 'green',  hebrew: 'ירוק',         emoji: '🟢' },
+  { word: 'many',   hebrew: 'הרבה',         emoji: '🔢' },
+  { word: 'or',     hebrew: 'או',           emoji: '🔤' },
+  { word: 'off',    hebrew: 'כבוי/מכובה',   emoji: '🔌' },
+  { word: 'pull',   hebrew: 'למשוך',        emoji: '🪢' },
+  { word: 'read',   hebrew: 'לקרוא',        emoji: '📖' },
+  { word: 'sing',   hebrew: 'לשיר',         emoji: '🎤' },
+  { word: 'sit',    hebrew: 'לשבת',         emoji: '🪑' },
+  { word: 'sleep',  hebrew: 'לישון',        emoji: '😴' },
+  { word: 'tell',   hebrew: 'לספר',         emoji: '🗣️' },
+  { word: 'us',     hebrew: 'אותנו',        emoji: '🔤' },
+  { word: 'use',    hebrew: 'להשתמש',       emoji: '🛠️' },
+  { word: 'very',   hebrew: 'מאוד',         emoji: '🔤' },
+  { word: 'wash',   hebrew: 'לרחוץ',        emoji: '🧼' },
+  { word: 'why',    hebrew: 'למה',          emoji: '❓' },
+  { word: 'wish',   hebrew: 'לאחל/משאלה',   emoji: '🌟' },
+  { word: 'work',   hebrew: 'לעבוד',        emoji: '💼' },
+  { word: 'write',  hebrew: 'לכתוב',        emoji: '✍️' },
+  { word: 'about',  hebrew: 'על אודות',     emoji: '🔤' },
+  { word: 'better', hebrew: 'יותר טוב',     emoji: '👍' },
+  { word: 'bring',  hebrew: 'להביא',        emoji: '🎁' },
+  { word: 'carry',  hebrew: 'לסחוב',        emoji: '🧳' },
+  { word: 'clean',  hebrew: 'נקי/לנקות',    emoji: '🧹' },
+  { word: 'cut',    hebrew: 'לחתוך',        emoji: '✂️' },
 ]
 
 // Set of sight word strings (lowercase) for quick lookup
@@ -87,69 +81,69 @@ function parseSentence(raw: string, highlightWords: string[]): SentencePart[] {
 
 const SENTENCES: Sentence[] = [
   {
-    parts: parseSentence('I always walk to school.', ['always', 'walk']),
-    emoji: '🚶',
-    hebrew: 'אני תמיד הולך לבית הספר.',
+    parts: parseSentence('Please call me later.', ['call']),
+    emoji: '📞',
+    hebrew: 'בבקשה התקשר אליי מאוחר יותר.',
   },
   {
-    parts: parseSentence('Please open the box.', ['open']),
-    emoji: '📦',
-    hebrew: 'בבקשה פתח את הקופסה.',
+    parts: parseSentence('I can read and write.', ['read', 'write']),
+    emoji: '📖',
+    hebrew: 'אני יכול לקרוא ולכתוב.',
   },
   {
-    parts: parseSentence('We buy bread before lunch.', ['buy', 'before']),
-    emoji: '🍞',
-    hebrew: 'אנחנו קונים לחם לפני ארוחת צהריים',
+    parts: parseSentence('The water is very cold.', ['very', 'cold']),
+    emoji: '🥶',
+    hebrew: 'המים מאוד קרים.',
   },
   {
-    parts: parseSentence('She has both books.', ['has', 'both']),
+    parts: parseSentence('She came first in the race.', ['first']),
+    emoji: '🥇',
+    hebrew: 'היא הגיעה ראשונה במרוץ.',
+  },
+  {
+    parts: parseSentence('I have five green pens.', ['five', 'green']),
+    emoji: '🖊️',
+    hebrew: 'יש לי חמישה עטים ירוקים.',
+  },
+  {
+    parts: parseSentence('Please sit and sing with us.', ['sit', 'sing', 'us']),
+    emoji: '🎤',
+    hebrew: 'בבקשה שב ושיר איתנו.',
+  },
+  {
+    parts: parseSentence('Turn off the light and sleep.', ['off', 'sleep']),
+    emoji: '😴',
+    hebrew: 'כבה את האור ולך לישון.',
+  },
+  {
+    parts: parseSentence('Wash and clean your hands.', ['wash', 'clean']),
+    emoji: '🧼',
+    hebrew: 'רחץ ונקה את הידיים שלך.',
+  },
+  {
+    parts: parseSentence('Why do you work so fast?', ['why', 'work', 'fast']),
+    emoji: '💼',
+    hebrew: 'למה אתה עובד כל כך מהר?',
+  },
+  {
+    parts: parseSentence('Bring tea or coffee, please.', ['bring', 'or']),
+    emoji: '☕',
+    hebrew: 'תביא תה או קפה, בבקשה.',
+  },
+  {
+    parts: parseSentence('I wish to carry many books.', ['wish', 'carry', 'many']),
     emoji: '📚',
-    hebrew: 'יש לה את שני הספרים.',
+    hebrew: 'אני רוצה לסחוב הרבה ספרים.',
   },
   {
-    parts: parseSentence('I think this is the best idea.', ['think', 'best']),
-    emoji: '💭',
-    hebrew: 'אני חושב שזה הרעיון הכי טוב.',
+    parts: parseSentence('Use this to cut the paper.', ['use', 'cut']),
+    emoji: '✂️',
+    hebrew: 'השתמש בזה כדי לחתוך את הנייר.',
   },
   {
-    parts: parseSentence('Take some water.', ['Take', 'some']),
-    emoji: '💧',
-    hebrew: 'קח קצת מים.',
-  },
-  {
-    parts: parseSentence('We know his old house.', ['know', 'his', 'old']),
-    emoji: '🏚️',
-    hebrew: 'אנחנו מכירים את הבית הישן שלו.',
-  },
-  {
-    parts: parseSentence('Please give them her book.', ['give', 'them', 'her']),
-    emoji: '🎁',
-    hebrew: 'בבקשה תן להם את הספר שלה.',
-  },
-  {
-    parts: parseSentence('I walk because it is fun.', ['walk', 'because']),
-    emoji: '😄',
-    hebrew: 'אני הולך כי זה כיף.',
-  },
-  {
-    parts: parseSentence('Birds fly from every tree.', ['fly', 'from', 'every']),
-    emoji: '🐦',
-    hebrew: 'ציפורים עפות מכל עץ.',
-  },
-  {
-    parts: parseSentence('Stop and ask again.', ['Stop', 'ask', 'again']),
-    emoji: '✋',
-    hebrew: 'עצור ושאל שוב.',
-  },
-  {
-    parts: parseSentence('Once a year we put a tree by the door.', ['Once', 'put', 'by']),
-    emoji: '🎄',
-    hebrew: 'פעם בשנה אנחנו שמים עץ ליד הדלת.',
-  },
-  {
-    parts: parseSentence('The earth is round.', ['round']),
-    emoji: '🌍',
-    hebrew: 'כדור הארץ עגול.',
+    parts: parseSentence('Tell me more about it.', ['tell', 'about']),
+    emoji: '🗣️',
+    hebrew: 'ספר לי עוד על זה.',
   },
 ]
 
@@ -163,57 +157,57 @@ interface Ex2Q {
 }
 
 const EX2_QUESTIONS: Ex2Q[] = [
-  { before: 'I',            after: 'to school.',   correct: 'walk',   wrong: 'fly'    },
-  { before: 'Please',       after: 'the door.',    correct: 'open',   wrong: 'put'    },
-  { before: 'We',           after: 'bread for dinner.', correct: 'buy', wrong: 'ask'   },
-  { before: 'She',          after: 'two cats.',    correct: 'has',    wrong: 'them'   },
-  { before: 'I',            after: 'this is fun.', correct: 'think',  wrong: 'know'   },
-  { before: 'Take',         after: 'water.',       correct: 'some',   wrong: 'any'    },
-  { before: 'We',           after: 'in a house.',  correct: 'live',   wrong: 'give'   },
-  { before: 'Birds can',    after: 'high.',        correct: 'fly',    wrong: 'walk'   },
-  { before: 'This is the',  after: 'cheese cake.', correct: 'best',   wrong: 'old'    },
-  { before: 'I play with my friends', after: 'school.', correct: 'after', wrong: 'before' },
+  { before: 'Please',          after: 'me on the phone.',  correct: 'call',  wrong: 'sing'  },
+  { before: 'The ice is',      after: '.',                 correct: 'cold',  wrong: 'green' },
+  { before: 'I can run very',  after: '.',                 correct: 'fast',  wrong: 'many'  },
+  { before: 'She was the',     after: 'to win.',           correct: 'first', wrong: 'off'   },
+  { before: 'I have',          after: 'red apples.',       correct: 'five',  wrong: 'why'   },
+  { before: 'The grass is',    after: '.',                 correct: 'green', wrong: 'cold'  },
+  { before: 'I have',          after: 'friends.',          correct: 'many',  wrong: 'first' },
+  { before: 'Do you want tea', after: 'coffee?',           correct: 'or',    wrong: 'us'    },
+  { before: 'Turn',            after: 'the TV.',           correct: 'off',   wrong: 'or'    },
+  { before: 'Please',          after: 'the rope.',         correct: 'pull',  wrong: 'wash'  },
 ]
 
 const EX2_QUESTIONS_R2: Ex2Q[] = [
-  { before: 'Please',          after: 'me a pen.',     correct: 'give',  wrong: 'take'   },
-  { before: 'I like both of',  after: '.',             correct: 'them',  wrong: 'her'    },
-  { before: 'The ball is',     after: '.',             correct: 'round', wrong: 'open'   },
-  { before: 'I',              after: 'the answer.',    correct: 'know',  wrong: 'ask'    },
-  { before: 'We say',          after: 'you.',          correct: 'thank', wrong: 'before' },
-  { before: 'I',              after: 'go to bed late.', correct: 'always', wrong: 'once'  },
-  { before: 'Wash your hands', after: 'lunch.',        correct: 'before', wrong: 'after'  },
-  { before: 'This is',         after: 'old house.',    correct: 'his',   wrong: 'her'    },
-  { before: 'Do you have',     after: 'milk?',         correct: 'any',   wrong: 'some'   },
-  { before: 'Please',          after: 'and look.',     correct: 'stop',  wrong: 'fly'    },
+  { before: 'I like to',       after: 'a good book.',      correct: 'read',  wrong: 'sing'  },
+  { before: 'We',             after: 'songs at school.',   correct: 'sing',  wrong: 'read'  },
+  { before: 'Please',          after: 'on the chair.',     correct: 'sit',   wrong: 'cut'   },
+  { before: 'I go to',         after: 'at night.',         correct: 'sleep', wrong: 'work'  },
+  { before: 'Can you',         after: 'me a story?',       correct: 'tell',  wrong: 'pull'  },
+  { before: 'Come and play with', after: '.',              correct: 'us',    wrong: 'or'    },
+  { before: 'I',              after: 'a pen to write.',    correct: 'use',   wrong: 'wash'  },
+  { before: 'This cake is',    after: 'good.',             correct: 'very',  wrong: 'off'   },
+  { before: 'Please',          after: 'your face.',        correct: 'wash',  wrong: 'tell'  },
+  { before: '',                after: 'are you sad?',       correct: 'Why',   wrong: 'Many'  },
 ]
 
 // ── Ex3 data ──────────────────────────────────────────────────────────────────
 
 const EX3_QUESTIONS: Ex2Q[] = [
-  { before: 'We will go to the park',     after: 'school.',        correct: 'after',  wrong: 'before' },
-  { before: 'Can you sing the song',      after: ', please?',      correct: 'again',  wrong: 'once'   },
-  { before: 'Do you have',                after: 'questions?',     correct: 'any',    wrong: 'both'   },
-  { before: 'Brush your teeth',           after: 'you sleep.',     correct: 'before', wrong: 'after'  },
-  { before: 'This is the',                after: 'day ever!',      correct: 'best',   wrong: 'old'    },
-  { before: 'I want to',                  after: 'a new game.',    correct: 'buy',    wrong: 'walk'   },
-  { before: 'I got a letter',             after: 'my friend.',     correct: 'from',   wrong: 'some'   },
-  { before: 'I',                          after: 'how to read.',   correct: 'know',   wrong: 'open'   },
-  { before: 'Please',                     after: 'the window.',    correct: 'open',   wrong: 'take'   },
-  { before: 'We',                         after: 'to school each day.', correct: 'walk', wrong: 'put' },
+  { before: 'I make a',        after: 'on my birthday.',   correct: 'wish',  wrong: 'work'  },
+  { before: 'My dad goes to',  after: 'every day.',        correct: 'work',  wrong: 'sing'  },
+  { before: 'I can',           after: 'my name.',          correct: 'write', wrong: 'read'  },
+  { before: 'This book is',    after: 'a brave dog.',      correct: 'about', wrong: 'very'  },
+  { before: 'This pen is',     after: 'than that one.',    correct: 'better', wrong: 'first' },
+  { before: 'Please',          after: 'me my bag.',        correct: 'bring', wrong: 'sit'   },
+  { before: 'I can',           after: 'the heavy box.',    correct: 'carry', wrong: 'sleep' },
+  { before: 'Please',          after: 'your room.',        correct: 'clean', wrong: 'tell'  },
+  { before: 'Use scissors to', after: 'the paper.',        correct: 'cut',   wrong: 'pull'  },
+  { before: 'I',              after: 'a book every day.',  correct: 'read',  wrong: 'use'   },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
 
 const ROW_COLORS = [
-  'bg-emerald-50 border-emerald-200',
-  'bg-teal-50 border-teal-200',
-  'bg-green-50 border-green-200',
-  'bg-cyan-50 border-cyan-200',
+  'bg-purple-50 border-purple-200',
+  'bg-violet-50 border-violet-200',
+  'bg-fuchsia-50 border-fuchsia-200',
+  'bg-indigo-50 border-indigo-200',
 ]
 
 function LearnTab() {
-  // Split words into rows of 4 columns (word | hebrew | word | hebrew)
+  // Split words into rows of 2 (word | hebrew | word | hebrew)
   const rows: typeof SIGHT_WORDS[] = []
   for (let i = 0; i < SIGHT_WORDS.length; i += 2) {
     rows.push(SIGHT_WORDS.slice(i, i + 2))
@@ -221,20 +215,20 @@ function LearnTab() {
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="bg-emerald-50 border-4 border-emerald-300 rounded-3xl p-5 mb-4">
-        <h2 className="font-display font-black text-2xl text-emerald-700 text-center mb-1">
-          36 Sight Words
+      <div className="bg-purple-50 border-4 border-purple-300 rounded-3xl p-5 mb-4">
+        <h2 className="font-display font-black text-2xl text-purple-700 text-center mb-1">
+          {SIGHT_WORDS.length} Sight Words
         </h2>
-        <p className="font-bold text-emerald-600 text-sm text-center mb-4" dir="rtl">
+        <p className="font-bold text-purple-600 text-sm text-center mb-4" dir="rtl">
           מילים נפוצות שחשוב להכיר
         </p>
 
         {/* Header row */}
         <div className="grid grid-cols-4 gap-1 mb-2 px-1">
-          <div className="font-display font-black text-xs text-emerald-700 text-center uppercase tracking-wide">Word</div>
-          <div className="font-bold text-xs text-emerald-600 text-center" dir="rtl">עברית</div>
-          <div className="font-display font-black text-xs text-emerald-700 text-center uppercase tracking-wide">Word</div>
-          <div className="font-bold text-xs text-emerald-600 text-center" dir="rtl">עברית</div>
+          <div className="font-display font-black text-xs text-purple-700 text-center uppercase tracking-wide">Word</div>
+          <div className="font-bold text-xs text-purple-600 text-center" dir="rtl">עברית</div>
+          <div className="font-display font-black text-xs text-purple-700 text-center uppercase tracking-wide">Word</div>
+          <div className="font-bold text-xs text-purple-600 text-center" dir="rtl">עברית</div>
         </div>
 
         {/* Word rows */}
@@ -245,14 +239,14 @@ function LearnTab() {
               className={`grid grid-cols-4 gap-1 rounded-xl border-2 px-2 py-1.5 ${ROW_COLORS[rowIdx % ROW_COLORS.length]}`}
             >
               {pair.map((item, colIdx) => (
-                <>
-                  <div key={`w-${colIdx}`} className="font-display font-black text-base text-emerald-800 text-center">
-                    {item.word}
+                <div key={colIdx} className="contents">
+                  <div className="font-display font-black text-base text-purple-800 text-center">
+                    <span className="mr-1">{item.emoji}</span>{item.word}
                   </div>
-                  <div key={`h-${colIdx}`} className="font-bold text-sm text-gray-600 text-center" dir="rtl">
+                  <div className="font-bold text-sm text-gray-600 text-center" dir="rtl">
                     {item.hebrew}
                   </div>
-                </>
+                </div>
               ))}
               {/* Pad if odd row */}
               {pair.length === 1 && (
@@ -290,10 +284,10 @@ function Ex1Tab() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="mb-4">
-        <h2 className="font-display font-black text-xl text-emerald-700 text-center mb-1">
+        <h2 className="font-display font-black text-xl text-purple-700 text-center mb-1">
           Sight Words in Sentences
         </h2>
-        <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
+        <p className="font-bold text-sm text-purple-600 text-center" dir="rtl">
           קרא את המשפטים ותרגם אותם לעברית. לחיצה על ? תציג את תרגום המשפט
         </p>
       </div>
@@ -302,7 +296,7 @@ function Ex1Tab() {
         {SENTENCES.map((sentence, idx) => (
           <div
             key={idx}
-            className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm"
+            className="bg-white border-2 border-purple-200 rounded-2xl px-4 py-3 shadow-sm"
           >
             <div className="flex items-center gap-3">
               <div className="flex-1 text-base font-bold leading-relaxed text-gray-700">
@@ -312,7 +306,7 @@ function Ex1Tab() {
                     key={pIdx}
                     className={
                       part.highlight
-                        ? 'font-black text-emerald-600 bg-emerald-100 rounded px-0.5'
+                        ? 'font-black text-purple-600 bg-purple-100 rounded px-0.5'
                         : 'text-gray-700'
                     }
                   >
@@ -326,15 +320,15 @@ function Ex1Tab() {
                 aria-label="Show translation"
                 className={`flex-shrink-0 w-8 h-8 rounded-full font-display font-black text-base border-2 transition-colors active:scale-95 ${
                   revealed.has(idx)
-                    ? 'bg-emerald-500 text-white border-emerald-500'
-                    : 'bg-emerald-50 text-emerald-600 border-emerald-300 hover:bg-emerald-100'
+                    ? 'bg-purple-500 text-white border-purple-500'
+                    : 'bg-purple-50 text-purple-600 border-purple-300 hover:bg-purple-100'
                 }`}
               >
                 ?
               </button>
             </div>
             {revealed.has(idx) && (
-              <p className="mt-2 pt-2 border-t border-emerald-100 font-bold text-emerald-700 text-base text-right" dir="rtl">
+              <p className="mt-2 pt-2 border-t border-purple-100 font-bold text-purple-700 text-base text-right" dir="rtl">
                 {sentence.hebrew}
               </p>
             )}
@@ -393,16 +387,16 @@ function Ex2Tab() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
       <div className="mb-4">
-        <h2 className="font-display font-black text-xl text-emerald-700 text-center mb-1">
+        <h2 className="font-display font-black text-xl text-purple-700 text-center mb-1">
           Choose the correct word
         </h2>
-        <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
+        <p className="font-bold text-sm text-purple-600 text-center" dir="rtl">
           לחצו על המילה הנכונה כדי להשלים את המשפט
         </p>
       </div>
 
-      <div className="flex justify-between items-center text-sm font-bold text-emerald-500 mb-3">
-        <span className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-0.5">
+      <div className="flex justify-between items-center text-sm font-bold text-purple-500 mb-3">
+        <span className="bg-purple-100 text-purple-700 rounded-full px-3 py-0.5">
           {round === 0 ? 'סבב 1' : 'סבב 2'}
         </span>
         <span>{done} / {total} ✓</span>
@@ -415,15 +409,15 @@ function Ex2Tab() {
           return (
             <div
               key={idx}
-              className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
+              className="bg-white border-2 border-purple-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
             >
               <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
               <span className="text-base font-bold text-gray-700">
                 {q.before ? q.before + ' ' : ''}
                 {isAnswered ? (
-                  <span className="font-black text-emerald-600 bg-emerald-100 rounded px-1">{q.correct}</span>
+                  <span className="font-black text-purple-600 bg-purple-100 rounded px-1">{q.correct}</span>
                 ) : (
-                  <span className="text-emerald-300 font-black">___</span>
+                  <span className="text-purple-300 font-black">___</span>
                 )}
                 {q.after === '.' || q.after === '?' ? q.after : ' ' + q.after}
               </span>
@@ -436,7 +430,7 @@ function Ex2Tab() {
                       className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
                         wrong[idx] === opt
                           ? 'bg-red-500 text-white border-red-500'
-                          : 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                          : 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100'
                       }`}
                     >
                       {opt}
@@ -455,7 +449,7 @@ function Ex2Tab() {
           <div className="text-5xl mb-2">👏</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את סבב 1!</p>
-          <button onClick={nextRound} className="btn-kid bg-emerald-500">סבב הבא →</button>
+          <button onClick={nextRound} className="btn-kid bg-purple-500">סבב הבא →</button>
         </div>
       )}
 
@@ -464,7 +458,7 @@ function Ex2Tab() {
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
+          <button onClick={again} className="btn-kid bg-purple-500">🔁 Again</button>
         </div>
       )}
     </div>
@@ -508,16 +502,16 @@ function Ex3Tab() {
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16" key={resetKey}>
       <div className="mb-4">
-        <h2 className="font-display font-black text-xl text-emerald-700 text-center mb-1">
+        <h2 className="font-display font-black text-xl text-purple-700 text-center mb-1">
           Choose the correct word
         </h2>
-        <p className="font-bold text-sm text-emerald-600 text-center" dir="rtl">
+        <p className="font-bold text-sm text-purple-600 text-center" dir="rtl">
           לחצו על המילה הנכונה כדי להשלים את המשפט
         </p>
       </div>
 
-      <div className="flex justify-between items-center text-sm font-bold text-emerald-500 mb-3">
-        <span className="bg-emerald-100 text-emerald-700 rounded-full px-3 py-0.5">
+      <div className="flex justify-between items-center text-sm font-bold text-purple-500 mb-3">
+        <span className="bg-purple-100 text-purple-700 rounded-full px-3 py-0.5">
           תרגיל 3
         </span>
         <span>{done} / {total} ✓</span>
@@ -530,15 +524,15 @@ function Ex3Tab() {
           return (
             <div
               key={idx}
-              className="bg-white border-2 border-emerald-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
+              className="bg-white border-2 border-purple-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
             >
               <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
               <span className="text-base font-bold text-gray-700">
                 {q.before ? q.before + ' ' : ''}
                 {isAnswered ? (
-                  <span className="font-black text-emerald-600 bg-emerald-100 rounded px-1">{q.correct}</span>
+                  <span className="font-black text-purple-600 bg-purple-100 rounded px-1">{q.correct}</span>
                 ) : (
-                  <span className="text-emerald-300 font-black">___</span>
+                  <span className="text-purple-300 font-black">___</span>
                 )}
                 {q.after === '.' || q.after === '?' ? q.after : ' ' + q.after}
               </span>
@@ -551,7 +545,7 @@ function Ex3Tab() {
                       className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
                         wrong[idx] === opt
                           ? 'bg-red-500 text-white border-red-500'
-                          : 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                          : 'bg-purple-50 text-purple-700 border-purple-300 hover:bg-purple-100'
                       }`}
                     >
                       {opt}
@@ -570,7 +564,7 @@ function Ex3Tab() {
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
+          <button onClick={again} className="btn-kid bg-purple-500">🔁 Again</button>
         </div>
       )}
     </div>
@@ -579,7 +573,7 @@ function Ex3Tab() {
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
-export default function SightWordsPage() {
+export default function SightWordsSet1Page() {
   const [tab, setTab] = useState<Tab>('learn')
 
   const tabs: { id: Tab; label: string }[] = [
@@ -596,12 +590,12 @@ export default function SightWordsPage() {
       <Header />
 
       {/* Banner */}
-      <div className="bg-gradient-to-r from-emerald-500 to-green-600 px-4 py-4">
+      <div className="bg-gradient-to-r from-purple-500 to-violet-600 px-4 py-4">
         <div className="max-w-xl mx-auto">
-          <Link href="/step5" className="text-white/70 font-bold text-sm no-underline hover:text-white">
-            ← Step 5
+          <Link href="/step6/sight-words" className="text-white/70 font-bold text-sm no-underline hover:text-white">
+            ← Sight Words
           </Link>
-          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Sight Words 👁️</h1>
+          <h1 className="font-display text-2xl font-bold text-white mt-0.5">Sight Words — Set 1 👁️</h1>
           <p className="text-white/70 font-bold text-xs" dir="rtl">מילות ראייה — מילים נפוצות לזיהוי מיידי</p>
         </div>
       </div>
@@ -615,7 +609,7 @@ export default function SightWordsPage() {
               onClick={() => setTab(t.id)}
               className={`${TAB} ${
                 tab === t.id
-                  ? 'bg-emerald-500 text-white'
+                  ? 'bg-purple-500 text-white'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >

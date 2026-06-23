@@ -1,14 +1,14 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2'
+type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
 // ── Ex1 data: 4-part builder (Subject + will + Verb + Time) ────────────────────
 
 const EX1_SUBJECTS = ['I', 'He', 'She', 'We', 'They', 'The dog']
-const EX1_VERBS = ['help', 'go', 'play', 'eat', 'come', 'rain']
+const EX1_VERBS = ['help you', 'go to school', 'play with a ball', 'eat lunch', 'come home', 'read a book']
 const EX1_TIMES = ['tomorrow', 'tonight', 'soon', 'later', 'next week']
 
 // ── Ex2 data: reading-passage drag-fill ───────────────────────────────────────
@@ -35,9 +35,7 @@ const EX2_SEGMENTS: PassageSeg[] = [
   { type: 'blank', blankIndex: 3 },
   { type: 'text', text: ' a big lunch. In the evening my cousins ' },
   { type: 'blank', blankIndex: 4 },
-  { type: 'text', text: ' to my house. I hope it ' },
-  { type: 'blank', blankIndex: 5 },
-  { type: 'text', text: ' not rain!' },
+  { type: 'text', text: ' to my house. I hope it will be fun.' },
 ]
 
 const EX2_BLANKS: PassageBlank[] = [
@@ -46,10 +44,9 @@ const EX2_BLANKS: PassageBlank[] = [
   { index: 2, answer: 'will play' },
   { index: 3, answer: 'will eat' },
   { index: 4, answer: 'will come' },
-  { index: 5, answer: 'will rain' },
 ]
 
-const EX2_WORD_BANK = ['will help', 'will go', 'will play', 'will eat', 'will come', 'will rain']
+const EX2_WORD_BANK = ['will help', 'will go', 'will play', 'will eat', 'will come']
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -65,16 +62,14 @@ function LearnTab() {
         </p>
 
         <div className="flex flex-col gap-1.5 text-sm font-bold text-blue-800 mb-4" dir="rtl">
-          <p>• עתיד — will + פועל בצורת הבסיס</p>
-          <p>• אותה צורה לכל הגופים (I, He, She, We, They)</p>
-          <p>• הפועל לא משתנה — נשאר בצורת הבסיס תמיד</p>
+          <p>• נשתמש בצורת העתיד על מנת לתאר פעולות שיתרחשו בעתיד.</p>
+          <p>• מבנה המשפט — will + פועל בצורת הבסיס</p>
+          <p>• המבנה זהה לכל הגופים</p>
+          <p>• הפועל תמיד בצורת הבסיס</p>
         </div>
 
-        <p className="font-bold text-blue-800 text-sm mb-2 text-center" dir="rtl">
-          צורת הפועל בעתיד זהה לכל הגופים.
-        </p>
         <div className="flex flex-col gap-1.5 mb-4">
-          {['I will help.', 'You will help.', 'He will help.', 'She will help.', 'It will help.', 'We will help.', 'They will help.'].map(s => (
+          {['I will read.', 'You will read.', 'He will read.', 'She will read.', 'It will read.', 'We will read.', 'They will read.'].map(s => (
             <div key={s} className="bg-blue-100 rounded-xl px-3 py-1.5 font-bold text-blue-700 text-base">{s}</div>
           ))}
         </div>
@@ -104,7 +99,7 @@ function LearnTab() {
         <h3 className="font-display font-black text-blue-700 text-lg mb-2 text-center">⏰ Time words</h3>
         <p className="font-bold text-gray-500 text-sm mb-3 text-center" dir="rtl">מילים שמראות שהפעולה תקרה בעתיד</p>
         <div className="flex flex-wrap gap-2 justify-center">
-          {['tomorrow', 'tonight', 'soon', 'later', 'next week', 'in 2025'].map(t => (
+          {['tomorrow', 'tonight', 'soon', 'later', 'next week', 'in 2030'].map(t => (
             <span key={t} className="bg-blue-100 text-blue-700 font-black rounded-full px-3 py-1 text-sm">{t}</span>
           ))}
         </div>
@@ -356,6 +351,151 @@ function Ex2() {
   )
 }
 
+// ── Ex3: type-in writing (will + base verb) ───────────────────────────────────
+
+interface Ex3Q { before: string; after: string; base: string; answer: string }
+
+const EX3_QUESTIONS: Ex3Q[] = [
+  { before: 'Dan',       after: 'to school tomorrow.',   base: 'go',    answer: 'will go'    },
+  { before: 'I',         after: 'my homework tonight.',  base: 'do',    answer: 'will do'    },
+  { before: 'She',       after: 'a book later.',         base: 'read',  answer: 'will read'  },
+  { before: 'We',        after: 'football next week.',   base: 'play',  answer: 'will play'  },
+  { before: 'They',      after: 'lunch soon.',           base: 'eat',   answer: 'will eat'   },
+  { before: 'He',        after: 'home tomorrow.',        base: 'come',  answer: 'will come'  },
+  { before: 'My mom',    after: 'a cake tonight.',       base: 'make',  answer: 'will make'  },
+  { before: 'You',       after: 'a movie later.',        base: 'watch', answer: 'will watch' },
+  { before: 'The team',  after: 'fast tomorrow.',        base: 'run',   answer: 'will run'   },
+  { before: 'I',         after: 'you with the bags.',    base: 'help',  answer: 'will help'  },
+]
+
+// normalize whitespace and case for matching
+function normalizeEx3(str: string): string {
+  return str.trim().toLowerCase().replace(/\s+/g, ' ')
+}
+
+function Ex3() {
+  const [current, setCurrent] = useState(0)
+  const [input, setInput] = useState('')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [finished, setFinished] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const q = EX3_QUESTIONS[current]
+  const isLast = current === EX3_QUESTIONS.length - 1
+
+  useEffect(() => {
+    if (status === 'idle') inputRef.current?.focus()
+  }, [status, current])
+
+  const submit = () => {
+    if (!input.trim()) return
+    if (normalizeEx3(input) === normalizeEx3(q.answer)) {
+      setStatus('correct')
+      setTimeout(() => {
+        if (isLast) {
+          setFinished(true)
+        } else {
+          setCurrent(c => c + 1)
+          setInput('')
+          setStatus('idle')
+        }
+      }, 700)
+    } else {
+      setStatus('wrong')
+      setTimeout(() => { setStatus('idle'); setInput('') }, 900)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') submit()
+  }
+
+  const again = () => {
+    setCurrent(0)
+    setInput('')
+    setStatus('idle')
+    setFinished(false)
+  }
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
+        <button onClick={again} className="btn-kid bg-blue-500">🔁 Again</button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>Question {current + 1} / {EX3_QUESTIONS.length}</span>
+        <span className="text-blue-500">{current} ✓</span>
+      </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
+        הקלידו will + הפועל בצורת הבסיס.
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+        Type will + base verb
+      </p>
+
+      <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-4 py-3 mb-3">
+        <p className="text-xs font-bold text-blue-500 mb-1">Base verb:</p>
+        <p className="font-black text-blue-800 text-lg">{q.base}</p>
+      </div>
+
+      <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
+        status === 'wrong'   ? 'bg-red-50 border-red-300' :
+        status === 'correct' ? 'bg-green-50 border-green-300' :
+        'bg-white border-gray-200'
+      }`}>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-bold text-gray-700 text-base">{q.before}</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={e => { if (status === 'idle') setInput(e.target.value) }}
+            onKeyDown={handleKeyDown}
+            disabled={status !== 'idle'}
+            placeholder=""
+            className={`border-b-2 font-bold text-base text-center min-w-[140px] focus:outline-none bg-transparent transition-colors ${
+              status === 'wrong'   ? 'border-red-400 text-red-600' :
+              status === 'correct' ? 'border-green-400 text-green-600' :
+              'border-gray-400 text-gray-700 placeholder:text-gray-300'
+            }`}
+          />
+          <span className="font-bold text-gray-700 text-base">{q.after}</span>
+          <span className="text-blue-400 font-black text-sm">({q.base})</span>
+          {status === 'wrong'   && <span className="text-xl">❌</span>}
+          {status === 'correct' && <span className="text-xl">✅</span>}
+        </div>
+        {status === 'correct' && (
+          <p className="mt-2 font-bold text-green-600 text-sm">✔ {q.answer}</p>
+        )}
+        {status === 'wrong' && (
+          <p className="mt-2 font-bold text-red-500 text-sm" dir="rtl">נסו שוב — will + הפועל בצורת הבסיס</p>
+        )}
+      </div>
+
+      {status === 'idle' && (
+        <div className="flex justify-center">
+          <button
+            onClick={submit}
+            disabled={!input.trim()}
+            className="btn-kid bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            ▶ Check
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function WillPositivePage() {
@@ -365,6 +505,7 @@ export default function WillPositivePage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
+    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -400,6 +541,7 @@ export default function WillPositivePage() {
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1'   && <Ex1 />}
         {tab === 'ex2'   && <Ex2 />}
+        {tab === 'ex3'   && <Ex3 />}
       </div>
     </div>
   )

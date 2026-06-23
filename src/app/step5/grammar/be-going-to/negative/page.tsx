@@ -84,10 +84,10 @@ function LearnTab() {
         {/* example sentences */}
         <div className="flex flex-col gap-1.5">
           {[
-            { sub: 'I',    neg: 'am not',  rest: 'going to sleep.' },
-            { sub: 'He',   neg: 'is not',  rest: 'going to sleep.' },
-            { sub: 'She',  neg: 'is not',  rest: 'going to sleep.' },
-            { sub: 'They', neg: 'are not', rest: 'going to sleep.' },
+            { sub: 'I',    neg: 'am not',  rest: 'going to read.' },
+            { sub: 'He',   neg: 'is not',  rest: 'going to read.' },
+            { sub: 'She',  neg: 'is not',  rest: 'going to read.' },
+            { sub: 'They', neg: 'are not', rest: 'going to read.' },
           ].map(({ sub, neg, rest }) => (
             <div key={sub} className="flex items-center gap-1.5 bg-rose-100 rounded-xl px-3 py-1.5">
               <span className="font-bold text-rose-700 text-base">{sub}</span>
@@ -305,7 +305,7 @@ function Ex2() {
             onChange={e => { if (status === 'idle') setInput(e.target.value) }}
             onKeyDown={handleKeyDown}
             disabled={status !== 'idle'}
-            placeholder="isn't going to run"
+            placeholder=""
             className={`border-b-2 font-bold text-base text-center min-w-[200px] focus:outline-none bg-transparent transition-colors ${
               status === 'wrong'   ? 'border-red-400 text-red-600' :
               status === 'correct' ? 'border-green-400 text-green-600' :
