@@ -174,7 +174,8 @@ function Ex1Round({
   onNextRound: () => void
   onDone: () => void
 }) {
-  const [selectedWord, setSelectedWord] = useState<NounSortItem | null>(null)
+  const [draggedWord, setDraggedWord] = useState<NounSortItem | null>(null)
+  const [dragOverCat, setDragOverCat] = useState<'-s' | '-es' | '-ies' | null>(null)
   const [placed, setPlaced] = useState<Record<string, NounSortItem[]>>({
     '-s': [], '-es': [], '-ies': [],
   })
@@ -184,27 +185,28 @@ function Ex1Round({
   const remaining = items.filter(n => !usedSingulars.has(n.singular))
   const allDone = usedSingulars.size === items.length
 
-  const handleWordClick = (item: NounSortItem) => {
+  const tryPlace = (item: NounSortItem, cat: '-s' | '-es' | '-ies') => {
     if (usedSingulars.has(item.singular)) return
-    setSelectedWord(prev => prev?.singular === item.singular ? null : item)
-  }
-
-  const handleCategoryClick = (cat: '-s' | '-es' | '-ies') => {
-    if (!selectedWord) return
-    if (selectedWord.category === cat) {
+    if (item.category === cat) {
       setPlaced(prev => ({
         ...prev,
-        [cat]: [...prev[cat], selectedWord],
+        [cat]: [...prev[cat], item],
       }))
-      setUsedSingulars(prev => { const s = new Set(prev); s.add(selectedWord.singular); return s })
-      setSelectedWord(null)
+      setUsedSingulars(prev => { const s = new Set(prev); s.add(item.singular); return s })
     } else {
+      // wrong drop flashes red, tile returns to the bank
       setFlashWrong(cat)
-      setTimeout(() => {
-        setFlashWrong(null)
-        setSelectedWord(null)
-      }, 800)
+      setTimeout(() => setFlashWrong(null), 800)
     }
+  }
+
+  const handleDrop = (e: React.DragEvent, cat: '-s' | '-es' | '-ies') => {
+    e.preventDefault()
+    setDragOverCat(null)
+    const singular = e.dataTransfer.getData('text/plain')
+    const item = draggedWord ?? items.find(n => n.singular === singular) ?? null
+    if (item) tryPlace(item, cat)
+    setDraggedWord(null)
   }
 
   const CATS: { id: '-s' | '-es' | '-ies'; label: string; color: string; flash: string }[] = [
@@ -222,45 +224,45 @@ function Ex1Round({
         <span className="text-orange-500">{usedSingulars.size} / {items.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">גרור את המילה לקטגוריה הנכונה</p>
-      {selectedWord && (
-        <p className="text-center font-bold text-orange-500 text-sm mb-3">
-          Selected: <span className="font-black">{selectedWord.singular}</span> — now click a category
-        </p>
-      )}
-      {!selectedWord && <div className="mb-3" />}
+      <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">גרור כל שם עצם לטבלה הנכונה לצורת הרבים</p>
 
-      {/* Word bank */}
+      {/* Word bank — draggable tiles */}
       <div className="bg-white border-2 border-gray-200 rounded-2xl p-3 mb-5 min-h-[60px] flex flex-wrap gap-2 justify-center">
         {remaining.map(item => (
-          <button
+          <div
             key={item.singular}
-            onClick={() => handleWordClick(item)}
-            className={`px-4 py-2 rounded-xl font-display font-black text-base border-2 transition-all ${
-              selectedWord?.singular === item.singular
-                ? 'bg-orange-500 text-white border-orange-500 scale-105'
-                : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50 active:scale-95'
+            draggable
+            onDragStart={e => { setDraggedWord(item); e.dataTransfer.setData('text/plain', item.singular); e.dataTransfer.effectAllowed = 'move' }}
+            onDragEnd={() => { setDraggedWord(null); setDragOverCat(null) }}
+            className={`px-4 py-2 rounded-xl font-display font-black text-base border-2 transition-all cursor-grab active:cursor-grabbing select-none ${
+              draggedWord?.singular === item.singular
+                ? 'bg-yellow-400 text-yellow-900 border-yellow-400 scale-105'
+                : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50'
             }`}
           >
             {item.singular}
-          </button>
+          </div>
         ))}
         {remaining.length === 0 && !allDone && (
           <span className="text-gray-400 font-bold text-sm self-center">All placed!</span>
         )}
       </div>
 
-      {/* Category boxes */}
+      {/* Category boxes — drop targets */}
       <div className="grid grid-cols-3 gap-3 mb-6">
         {CATS.map(cat => {
           const isFlash = flashWrong === cat.id
+          const isOver = dragOverCat === cat.id
           return (
             <div
               key={cat.id}
-              onClick={() => handleCategoryClick(cat.id)}
-              className={`rounded-2xl border-2 p-2 min-h-[120px] cursor-pointer transition-all ${
+              data-drop-target="true"
+              onDragOver={e => { e.preventDefault(); setDragOverCat(cat.id) }}
+              onDragLeave={() => setDragOverCat(prev => prev === cat.id ? null : prev)}
+              onDrop={e => handleDrop(e, cat.id)}
+              className={`rounded-2xl border-2 p-2 min-h-[120px] transition-all ${
                 isFlash ? cat.flash : cat.color
-              } ${selectedWord ? 'ring-2 ring-offset-1 ring-orange-300 hover:scale-105' : ''}`}
+              } ${isOver ? 'ring-2 ring-offset-1 ring-orange-400 scale-105' : ''}`}
             >
               <div className="font-display font-black text-center text-lg text-orange-700 mb-2">{cat.label}</div>
               <div className="flex flex-col gap-1">

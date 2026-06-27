@@ -411,12 +411,11 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selPlace, setSelPlace] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedPlaces, setUsedPlaces] = useState<Set<string>>(new Set())
 
+  // Tiles stay PERMANENTLY available — never consumed.
   const allDone = sentences.length === cycle.subjects.length
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availablePlaces = cycle.places.filter(p => !usedPlaces.has(p))
+  const availableSubjects = cycle.subjects
+  const availablePlaces = cycle.places
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selPlace) return
@@ -426,8 +425,6 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     }
     const sentence = `${selVerb} ${selSubject.text} ${selPlace}.`
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedPlaces(prev => { const s = new Set(prev); s.add(selPlace); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelPlace(null)

@@ -166,6 +166,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const cycle = EX1_CYCLES[cycleIdx]
   const [selAux, setSelAux] = useState<Aux | null>(null)
   const [selSubject, setSelSubject] = useState<Ex1Subject | null>(null)
+  const [selGoingTo, setSelGoingTo] = useState<string | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
@@ -177,7 +178,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
 
   const handleAdd = () => {
-    if (!selAux || !selSubject || !selVerb) return
+    if (!selAux || !selSubject || !selGoingTo || !selVerb) return
     if (selSubject.aux !== selAux) {
       setError('❌ Try a different aux!')
       return
@@ -188,6 +189,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelAux(null)
     setSelSubject(null)
+    setSelGoingTo(null)
     setSelVerb(null)
     setError('')
   }
@@ -207,7 +209,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       </div>
 
       {!allDone && (
-        <div className="grid grid-cols-3 gap-1.5 mb-4">
+        <div className="grid grid-cols-4 gap-1.5 mb-4">
           {/* Aux */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-cyan-600 rounded-t-xl py-1 text-center">
@@ -247,10 +249,25 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             </div>
           </div>
 
-          {/* Verb (going to + base) */}
+          {/* going to */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-sky-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">going to</span>
+            </div>
+            <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1 flex flex-col gap-1">
+              <button
+                onClick={() => setSelGoingTo('going to')}
+                className={`text-sm font-bold rounded-lg px-1 py-1 text-center transition-colors ${selGoingTo === 'going to' ? 'bg-sky-500 text-white' : 'bg-white text-sky-700 border border-sky-200 hover:bg-sky-100'}`}
+              >
+                going to
+              </button>
+            </div>
+          </div>
+
+          {/* Verb */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-emerald-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">going to +</span>
+              <span className="font-display font-black text-white text-xs">verb</span>
             </div>
             <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1 flex flex-col gap-1">
               {availVerbs.map(v => (
@@ -267,7 +284,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         </div>
       )}
 
-      {selAux && selSubject && selVerb && !allDone && (
+      {selAux && selSubject && selGoingTo && selVerb && !allDone && (
         <div className="bg-cyan-50 border-2 border-cyan-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-cyan-700 text-base flex-1">
             {selAux} {selSubject.text} going to {selVerb}?
@@ -445,9 +462,9 @@ function Ex2() {
 interface Ex3Q { after: string; answer: Aux }
 
 const EX3_QUESTIONS: Ex3Q[] = [
-  { after: 'he going to listen to his MP3 player?', answer: 'Is'  },
-  { after: 'Hadas going to play in the garden?',    answer: 'Is'  },
-  { after: 'I going to be late?',                   answer: 'Am'  },
+  { after: 'he going to eat lunch?',               answer: 'Is'  },
+  { after: 'you going to play tennis tonight?',     answer: 'Are' },
+  { after: 'I going to win the game?',              answer: 'Am'  },
   { after: 'you going to wait?',                    answer: 'Are' },
   { after: 'she going to eat lunch?',               answer: 'Is'  },
   { after: 'they going to swim?',                   answer: 'Are' },

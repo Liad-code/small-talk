@@ -1,9 +1,10 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { shuffle } from '@/utils/shuffle'
 
-type Tab = 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5' | 'ex6' | 'ex7'
+type Tab = 'ex1' | 'ex2' | 'ex4' | 'ex5' | 'ex6' | 'ex7' | 'write1' | 'write2'
 
 type Tense = 'simple' | 'progressive'
 
@@ -76,7 +77,7 @@ function ChooseTenseEx({
   onDone,
 }: {
   questions: ChooseQ[]
-  accent: 'orange' | 'amber'
+  accent: 'sky' | 'violet'
   onDone: () => void
 }) {
   const [answers, setAnswers] = useState<Record<number, Tense>>({})
@@ -96,13 +97,15 @@ function ChooseTenseEx({
     }
   }
 
-  const accentText = accent === 'orange' ? 'text-orange-500' : 'text-amber-500'
+  const C = accent === 'sky'
+    ? { count: 'text-sky-500', card: 'border-sky-200', blank: 'text-sky-300', pick: 'bg-sky-50 text-sky-700 border-sky-300 hover:bg-sky-100' }
+    : { count: 'text-violet-500', card: 'border-violet-200', blank: 'text-violet-300', pick: 'bg-violet-50 text-violet-700 border-violet-300 hover:bg-violet-100' }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <span>{total} sentences</span>
-        <span className={accentText}>{answered} / {total} ✓</span>
+        <span className={C.count}>{answered} / {total} ✓</span>
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
@@ -118,14 +121,14 @@ function ChooseTenseEx({
           const correctVal = q.answer === 'simple' ? q.simple : q.progressive
           const opts: Tense[] = order[idx] ? ['simple', 'progressive'] : ['progressive', 'simple']
           return (
-            <div key={idx} className="bg-white border-2 border-gray-200 rounded-2xl px-3 py-3 flex items-center gap-2 flex-wrap">
+            <div key={idx} className={`bg-white border-2 ${C.card} rounded-2xl px-3 py-3 flex items-center gap-2 flex-wrap`}>
               <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
               <span className="text-base font-bold text-gray-700">
                 {q.before}{' '}
                 {ans ? (
                   <span className="font-black text-green-600 bg-green-100 rounded px-1">{correctVal}</span>
                 ) : (
-                  <span className="text-gray-300 font-black">___</span>
+                  <span className={`${C.blank} font-black`}>___</span>
                 )}
                 {q.after === '.' ? q.after : ' ' + q.after}
               </span>
@@ -140,7 +143,7 @@ function ChooseTenseEx({
                         className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
                           wrongs[idx] === t
                             ? 'bg-red-500 text-white border-red-500'
-                            : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+                            : C.pick
                         }`}
                       >
                         {label}
@@ -162,150 +165,6 @@ function ChooseTenseEx({
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
           <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-        </div>
-      )}
-    </div>
-  )
-}
-
-// ── Ex 3: builder (Subject | Time-signal → pick verb form) ────────────────────
-
-interface BuildSubject { text: string; aux: string; thirdSing: boolean }
-
-interface BuildRound {
-  subject: BuildSubject
-  signal: string
-  signalTense: Tense
-  base: string       // base verb, e.g. "play"
-  simple: string     // present simple form (with s if 3rd sing), e.g. "plays" / "play"
-  ing: string        // -ing form, e.g. "playing"
-}
-
-const EX3_ROUNDS: BuildRound[] = [
-  { subject: { text: 'She', aux: 'is',  thirdSing: true  }, signal: 'now',           signalTense: 'progressive', base: 'eat',   simple: 'eats',  ing: 'eating'   },
-  { subject: { text: 'We',  aux: 'are', thirdSing: false }, signal: 'every day',     signalTense: 'simple',      base: 'walk',  simple: 'walk',  ing: 'walking'  },
-  { subject: { text: 'He',  aux: 'is',  thirdSing: true  }, signal: 'every evening', signalTense: 'simple',      base: 'do',    simple: 'does',  ing: 'doing'    },
-  { subject: { text: 'They', aux: 'are', thirdSing: false }, signal: 'right now',    signalTense: 'progressive', base: 'play',  simple: 'play',  ing: 'playing'  },
-  { subject: { text: 'I',   aux: 'am',  thirdSing: false }, signal: 'at the moment', signalTense: 'progressive', base: 'read',  simple: 'read',  ing: 'reading'  },
-  { subject: { text: 'My mom', aux: 'is', thirdSing: true }, signal: 'every morning', signalTense: 'simple',     base: 'cook',  simple: 'cooks', ing: 'cooking'  },
-]
-
-function Ex3({ onDone }: { onDone: () => void }) {
-  const [currentIdx, setCurrentIdx] = useState(0)
-  const [flashWrong, setFlashWrong] = useState<string | null>(null)
-  const [completed, setCompleted] = useState<string[]>([])
-  const [finished, setFinished] = useState(false)
-
-  const round = EX3_ROUNDS[currentIdx]
-  const total = EX3_ROUNDS.length
-
-  // Build options: simple form + progressive (aux + ing). Correct depends on signal.
-  const simpleForm = round.simple
-  const progForm = `${round.subject.aux} ${round.ing}`
-  const correct = round.signalTense === 'simple' ? simpleForm : progForm
-
-  const choose = (val: string) => {
-    if (flashWrong) return
-    if (val === correct) {
-      const sentence = round.signalTense === 'simple'
-        ? `${round.subject.text} ${simpleForm} ${round.signal}.`
-        : `${round.subject.text} ${progForm} ${round.signal}.`
-      const newCompleted = [...completed, sentence]
-      setCompleted(newCompleted)
-      if (currentIdx + 1 < total) {
-        setTimeout(() => setCurrentIdx(i => i + 1), 600)
-      } else {
-        setTimeout(() => setFinished(true), 600)
-      }
-    } else {
-      setFlashWrong(val)
-      setTimeout(() => setFlashWrong(null), 800)
-    }
-  }
-
-  if (finished) {
-    return (
-      <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-        <div className="text-center bounce-in mb-6">
-          <div className="text-6xl mb-4">🌟</div>
-          <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-          <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את כל המשפטים!</p>
-          <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          {completed.map((s, i) => (
-            <div key={i} className="bg-orange-100 border-2 border-orange-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
-              <span className="font-bold text-orange-500 text-sm">{i + 1}.</span>
-              <span className="font-bold text-orange-800 text-base">{s}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  // Options: both verb forms, shuffled stably by index parity
-  const options = currentIdx % 2 === 0 ? [simpleForm, progForm] : [progForm, simpleForm]
-
-  return (
-    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Sentence {currentIdx + 1} / {total}</span>
-        <span className="text-orange-500">{completed.length} / {total} ✓</span>
-      </div>
-
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
-        בחרו את צורת הפועל הנכונה לפי הנושא ומילת הזמן. המעבר אוטומטי.
-      </p>
-
-      {/* Subject + Time signal */}
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        <div className="bg-purple-50 border-2 border-purple-200 rounded-2xl p-3 text-center">
-          <div className="font-bold text-purple-400 text-xs mb-1">Subject</div>
-          <div className="font-display font-black text-purple-700 text-xl">{round.subject.text}</div>
-        </div>
-        <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 text-center">
-          <div className="font-bold text-amber-400 text-xs mb-1">Time signal</div>
-          <div className="font-display font-black text-amber-700 text-xl">{round.signal}</div>
-        </div>
-      </div>
-
-      {/* Current sentence preview */}
-      <div className="bg-white border-2 border-orange-200 rounded-2xl px-4 py-4 mb-4 text-center">
-        <p className="text-xl font-bold text-gray-700">
-          {round.subject.text}{' '}
-          <span className="bg-orange-100 rounded-lg px-2 py-0.5 text-orange-400">___</span>
-          {' '}{round.signal}.
-        </p>
-      </div>
-
-      {/* Verb form options */}
-      <div className="flex gap-3 justify-center flex-wrap">
-        {options.map(opt => (
-          <button
-            key={opt}
-            onClick={() => choose(opt)}
-            className={`px-5 py-3 rounded-2xl font-display font-black text-lg border-2 transition-all active:scale-95 ${
-              flashWrong === opt
-                ? 'bg-red-500 text-white border-red-500 scale-95'
-                : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50'
-            }`}
-          >
-            {opt}
-          </button>
-        ))}
-      </div>
-
-      {/* Completed */}
-      {completed.length > 0 && (
-        <div className="mt-6 flex flex-col gap-1.5">
-          {completed.map((s, i) => (
-            <div key={i} className="bg-orange-100 border-2 border-orange-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
-              <span className="font-bold text-orange-500 text-sm">{i + 1}.</span>
-              <span className="font-bold text-orange-800 text-base">{s}</span>
-              <span className="ml-auto text-green-500 font-bold">✓</span>
-            </div>
-          ))}
         </div>
       )}
     </div>
@@ -338,8 +197,10 @@ function Ex4({ onDone }: { onDone: () => void }) {
   const [used, setUsed] = useState<Set<string>>(new Set())
   const [draggedChip, setDraggedChip] = useState<SortChip | null>(null)
   const [dragOverCat, setDragOverCat] = useState<Tense | null>(null)
+  // Shuffle the word bank once at mount so the student must think where each word goes.
+  const [shuffledChips] = useState<SortChip[]>(() => shuffle(EX4_CHIPS))
 
-  const remaining = EX4_CHIPS.filter(c => !used.has(c.text))
+  const remaining = shuffledChips.filter(c => !used.has(c.text))
   const allDone = used.size === EX4_CHIPS.length
 
   const tryPlace = (cat: Tense, chip: SortChip) => {
@@ -491,10 +352,12 @@ const EX7_QUESTIONS: PickQ[] = [
 function PickBySignalEx({
   questions,
   hint,
+  theme,
   onDone,
 }: {
   questions: PickQ[]
   hint: string
+  theme: 'rose' | 'teal' | 'emerald'
   onDone: () => void
 }) {
   const [answers, setAnswers] = useState<Record<number, string>>({})
@@ -514,11 +377,17 @@ function PickBySignalEx({
     }
   }
 
+  const C = theme === 'rose'
+    ? { count: 'text-rose-500', card: 'border-rose-200', blank: 'text-rose-300', pick: 'bg-rose-50 text-rose-700 border-rose-300 hover:bg-rose-100' }
+    : theme === 'teal'
+    ? { count: 'text-teal-500', card: 'border-teal-200', blank: 'text-teal-300', pick: 'bg-teal-50 text-teal-700 border-teal-300 hover:bg-teal-100' }
+    : { count: 'text-emerald-500', card: 'border-emerald-200', blank: 'text-emerald-300', pick: 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100' }
+
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <span>{total} sentences</span>
-        <span className="text-orange-500">{answered} / {total} ✓</span>
+        <span className={C.count}>{answered} / {total} ✓</span>
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
@@ -531,14 +400,14 @@ function PickBySignalEx({
           const ans = answers[idx]
           const opts = order[idx] ? [q.optA, q.optB] : [q.optB, q.optA]
           return (
-            <div key={idx} className="bg-white border-2 border-gray-200 rounded-2xl px-3 py-3 flex items-center gap-2 flex-wrap">
+            <div key={idx} className={`bg-white border-2 ${C.card} rounded-2xl px-3 py-3 flex items-center gap-2 flex-wrap`}>
               <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
               <span className="text-base font-bold text-gray-700">
                 {q.before ? q.before + ' ' : ''}
                 {ans ? (
                   <span className="font-black text-green-600 bg-green-100 rounded px-1">{ans}</span>
                 ) : (
-                  <span className="text-gray-300 font-black">___</span>
+                  <span className={`${C.blank} font-black`}>___</span>
                 )}
                 {' ' + q.after}
               </span>
@@ -551,7 +420,7 @@ function PickBySignalEx({
                       className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
                         wrongs[idx] === opt
                           ? 'bg-red-500 text-white border-red-500'
-                          : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+                          : C.pick
                       }`}
                     >
                       {opt}
@@ -578,6 +447,182 @@ function PickBySignalEx({
   )
 }
 
+// ── Writing exercises: type-in the verb in the correct tense ──────────────────
+
+interface WriteQ {
+  before: string       // text before the blank (incl. subject)
+  base: string         // base verb shown in brackets
+  after: string        // text after the blank (incl. time signal)
+  answers: string[]    // accepted answers (lowercase)
+  display: string      // the canonical correct answer to reveal
+}
+
+// New writing A — POSITIVE: mix of Present Simple & Present Progressive
+const WRITE_POSITIVE: WriteQ[] = [
+  { before: 'We',          base: 'walk',  after: 'to school every day.',    answers: ['walk'],          display: 'walk' },
+  { before: 'Look! The baby', base: 'sleep', after: 'right now.',           answers: ['is sleeping'],   display: 'is sleeping' },
+  { before: 'He',          base: 'do',    after: 'his homework every evening.', answers: ['does'],     display: 'does' },
+  { before: 'I',           base: 'read',  after: 'a book at the moment.',   answers: ['am reading', "i'm reading"], display: 'am reading' },
+  { before: 'She',         base: 'drink', after: 'tea every morning.',      answers: ['drinks'],        display: 'drinks' },
+  { before: 'They',        base: 'play',  after: 'football right now.',     answers: ['are playing'],   display: 'are playing' },
+  { before: 'My mom',      base: 'cook',  after: 'dinner every day.',       answers: ['cooks'],         display: 'cooks' },
+  { before: 'We',          base: 'watch', after: 'TV now.',                 answers: ['are watching'],  display: 'are watching' },
+  { before: 'He',          base: 'go',    after: 'to the park on Sunday.',  answers: ['goes'],          display: 'goes' },
+  { before: 'Look! It',    base: 'rain',  after: 'now.',                    answers: ['is raining'],    display: 'is raining' },
+]
+
+// New writing B — NEGATIVE: mix of Present Simple & Present Progressive
+const WRITE_NEGATIVE: WriteQ[] = [
+  { before: 'We',          base: 'walk',  after: 'to school every day.',    answers: ["don't walk", 'do not walk'],          display: "don't walk" },
+  { before: 'Look! The baby', base: 'sleep', after: 'right now.',           answers: ["isn't sleeping", 'is not sleeping'],  display: "isn't sleeping" },
+  { before: 'He',          base: 'do',    after: 'his homework every evening.', answers: ["doesn't do", 'does not do'],   display: "doesn't do" },
+  { before: 'I',           base: 'read',  after: 'a book at the moment.',   answers: ["am not reading", "i'm not reading"],  display: 'am not reading' },
+  { before: 'She',         base: 'drink', after: 'tea every morning.',      answers: ["doesn't drink", 'does not drink'],    display: "doesn't drink" },
+  { before: 'They',        base: 'play',  after: 'football right now.',     answers: ["aren't playing", 'are not playing'],  display: "aren't playing" },
+  { before: 'My mom',      base: 'cook',  after: 'dinner every day.',       answers: ["doesn't cook", 'does not cook'],      display: "doesn't cook" },
+  { before: 'We',          base: 'watch', after: 'TV now.',                 answers: ["aren't watching", 'are not watching'],display: "aren't watching" },
+  { before: 'He',          base: 'go',    after: 'to the park on Sunday.',  answers: ["doesn't go", 'does not go'],          display: "doesn't go" },
+  { before: 'They',        base: 'eat',   after: 'breakfast every morning.', answers: ["don't eat", 'do not eat'],          display: "don't eat" },
+]
+
+function WritingEx({
+  questions,
+  instruction,
+  theme,
+  onDone,
+}: {
+  questions: WriteQ[]
+  instruction: string
+  theme: 'cyan' | 'pink'
+  onDone: () => void
+}) {
+  const [current, setCurrent] = useState(0)
+  const [input, setInput] = useState('')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'reveal' | 'correct'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
+  const [finished, setFinished] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const q = questions[current]
+  const isLast = current === questions.length - 1
+
+  useEffect(() => {
+    if (status === 'idle') inputRef.current?.focus()
+  }, [status, current])
+
+  const advance = () => {
+    if (isLast) {
+      setFinished(true)
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
+  const submit = () => {
+    if (status !== 'idle') return
+    if (!input.trim()) return
+    const trimmed = input.trim().toLowerCase().replace(/\s+/g, ' ')
+    if (q.answers.includes(trimmed)) {
+      setStatus('correct')
+      setTimeout(advance, 700)
+      return
+    }
+    // wrong
+    const nextWrong = wrongCount + 1
+    setWrongCount(nextWrong)
+    if (nextWrong < 2) {
+      setStatus('wrong')
+      setTimeout(() => { setStatus('idle'); setInput('') }, 800)
+    } else {
+      // reveal the correct answer, keep on screen 3000ms, then advance + reset
+      setStatus('reveal')
+      setTimeout(advance, 3000)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') submit()
+  }
+
+  const C = theme === 'cyan'
+    ? { count: 'text-cyan-500', chip: 'bg-cyan-50 border-cyan-200', chipLabel: 'text-cyan-500', chipText: 'text-cyan-800', btn: 'bg-cyan-500' }
+    : { count: 'text-pink-500', chip: 'bg-pink-50 border-pink-200', chipLabel: 'text-pink-500', chipText: 'text-pink-800', btn: 'bg-pink-500' }
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל המשפטים!</p>
+        <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>Question {current + 1} / {questions.length}</span>
+        <span className={C.count}>{current} ✓</span>
+      </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">{instruction}</p>
+
+      <div className={`border-2 rounded-2xl px-4 py-3 mb-3 ${C.chip}`}>
+        <p className={`text-xs font-bold mb-1 ${C.chipLabel}`}>Base verb:</p>
+        <p className={`font-black text-lg ${C.chipText}`}>{q.base}</p>
+      </div>
+
+      <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
+        status === 'wrong'   ? 'bg-red-50 border-red-300' :
+        status === 'reveal'  ? 'bg-green-50 border-green-300' :
+        status === 'correct' ? 'bg-green-50 border-green-300' :
+        'bg-white border-gray-200'
+      }`}>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-bold text-gray-700 text-base">{q.before}</span>
+          {status === 'reveal' ? (
+            <span className="font-black text-green-600 bg-green-100 rounded px-2 py-0.5 text-base">✔ {q.display}</span>
+          ) : (
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={e => { if (status === 'idle') setInput(e.target.value) }}
+              onKeyDown={handleKeyDown}
+              disabled={status !== 'idle'}
+              placeholder="..."
+              className={`border-b-2 font-bold text-base text-center min-w-[140px] focus:outline-none bg-transparent transition-colors ${
+                status === 'wrong'   ? 'border-red-400 text-red-600' :
+                status === 'correct' ? 'border-green-400 text-green-600' :
+                'border-gray-400 text-gray-700 placeholder:text-gray-300'
+              }`}
+            />
+          )}
+          <span className="font-bold text-gray-700 text-base">{q.after}</span>
+          {status === 'wrong'   && <span className="text-xl">❌</span>}
+          {status === 'correct' && <span className="text-xl">✅</span>}
+        </div>
+      </div>
+
+      {status === 'idle' && (
+        <div className="flex justify-center">
+          <button
+            onClick={submit}
+            disabled={!input.trim()}
+            className={`btn-kid ${C.btn} disabled:opacity-40 disabled:cursor-not-allowed`}
+          >
+            ▶ Check
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function MixedPracticePage() {
@@ -586,11 +631,12 @@ export default function MixedPracticePage() {
   const tabs: { id: Tab; label: string }[] = [
     { id: 'ex1', label: 'Ex 1' },
     { id: 'ex2', label: 'Ex 2' },
-    { id: 'ex3', label: 'Ex 3' },
     { id: 'ex4', label: 'Ex 4' },
     { id: 'ex5', label: 'Ex 5' },
     { id: 'ex6', label: 'Ex 6' },
     { id: 'ex7', label: 'Ex 7' },
+    { id: 'write1', label: '✍️ Writing +' },
+    { id: 'write2', label: '✍️ Writing −' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -624,25 +670,28 @@ export default function MixedPracticePage() {
 
       <div className="pt-4">
         {tab === 'ex1' && (
-          <ExWrapper render={done => <ChooseTenseEx questions={EX1_QUESTIONS} accent="orange" onDone={done} />} />
+          <ExWrapper render={done => <ChooseTenseEx questions={EX1_QUESTIONS} accent="sky" onDone={done} />} />
         )}
         {tab === 'ex2' && (
-          <ExWrapper render={done => <ChooseTenseEx questions={EX2_QUESTIONS} accent="amber" onDone={done} />} />
-        )}
-        {tab === 'ex3' && (
-          <ExWrapper render={done => <Ex3 onDone={done} />} />
+          <ExWrapper render={done => <ChooseTenseEx questions={EX2_QUESTIONS} accent="violet" onDone={done} />} />
         )}
         {tab === 'ex4' && (
           <ExWrapper render={done => <Ex4 onDone={done} />} />
         )}
         {tab === 'ex5' && (
-          <ExWrapper render={done => <PickBySignalEx questions={EX5_QUESTIONS} hint="every day → don't / doesn't · now / Look! → am not / isn't / aren't" onDone={done} />} />
+          <ExWrapper render={done => <PickBySignalEx questions={EX5_QUESTIONS} theme="rose" hint="every day → don't / doesn't · now / Look! → am not / isn't / aren't" onDone={done} />} />
         )}
         {tab === 'ex6' && (
-          <ExWrapper render={done => <PickBySignalEx questions={EX6_QUESTIONS} hint="every day → Do / Does · now / at the moment → Am / Is / Are" onDone={done} />} />
+          <ExWrapper render={done => <PickBySignalEx questions={EX6_QUESTIONS} theme="teal" hint="every day → Do / Does · now / at the moment → Am / Is / Are" onDone={done} />} />
         )}
         {tab === 'ex7' && (
-          <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
+          <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} theme="emerald" hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
+        )}
+        {tab === 'write1' && (
+          <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instruction="השלימו את הפועל בצורה הנכונה לפי זמן המשפט." onDone={done} />} />
+        )}
+        {tab === 'write2' && (
+          <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" instruction="השלימו את הפועל בצורה השלילית הנכונה לפי זמן המשפט." onDone={done} />} />
         )}
       </div>
     </div>

@@ -54,7 +54,7 @@ function LearnTab() {
       <div className="bg-white border-2 border-orange-200 rounded-2xl p-4">
         <h3 className="font-display font-black text-orange-700 text-lg mb-2 text-center">✅ Count nouns</h3>
         <p className="font-bold text-gray-600 text-sm mb-3 text-center" dir="rtl">
-          שמות עצם שאפשר לספור — משתמשים ב- a / an ליחיד, ובמספרים או צורת רבים להרבה
+          שמות עצם שאפשר לספור: נשתמש ב-a או an לפני שם עצם יחיד, נשתמש בצורת הרבים לשמות עצם ברבים.
         </p>
         <div className="flex flex-col gap-1.5">
           {[
@@ -106,7 +106,7 @@ function LearnTab() {
           <div className="flex flex-col gap-1.5">
             {[
               'There are some oranges on the plate.',
-              'You have some water in your bag.',
+              'We have some milk in the fridge.',
             ].map(s => (
               <div key={s} className="bg-white rounded-xl px-3 py-1.5 font-bold text-green-700 text-sm text-center border border-green-100">
                 {s}
@@ -245,7 +245,7 @@ function PluralTab() {
   )
 }
 
-// ── Ex 1: Sort count vs non-count ─────────────────────────────────────────────
+// ── Ex 1: Sort count vs non-count (2 rounds) ──────────────────────────────────
 
 type CountCat = 'count' | 'noncount'
 
@@ -254,7 +254,7 @@ interface SortNoun {
   category: CountCat
 }
 
-const EX1_ITEMS: SortNoun[] = [
+const EX1_R1: SortNoun[] = [
   { word: 'bread', category: 'noncount' },
   { word: 'milk',  category: 'noncount' },
   { word: 'money', category: 'noncount' },
@@ -269,15 +269,30 @@ const EX1_ITEMS: SortNoun[] = [
   { word: 'ball',  category: 'count' },
 ]
 
-function Ex1({ onDone }: { onDone: () => void }) {
+const EX1_R2: SortNoun[] = [
+  { word: 'oil',    category: 'noncount' },
+  { word: 'soup',   category: 'noncount' },
+  { word: 'meat',   category: 'noncount' },
+  { word: 'pasta',  category: 'noncount' },
+  { word: 'tea',    category: 'noncount' },
+  { word: 'salt',   category: 'noncount' },
+  { word: 'cat',    category: 'count' },
+  { word: 'bag',    category: 'count' },
+  { word: 'chair',  category: 'count' },
+  { word: 'banana', category: 'count' },
+  { word: 'box',    category: 'count' },
+  { word: 'cup',    category: 'count' },
+]
+
+function Ex1Round({ items, onDone }: { items: SortNoun[]; onDone: () => void }) {
   const [selectedWord, setSelectedWord] = useState<SortNoun | null>(null)
   const [placed, setPlaced] = useState<Record<CountCat, SortNoun[]>>({ count: [], noncount: [] })
   const [flashWrong, setFlashWrong] = useState<CountCat | null>(null)
   const [usedWords, setUsedWords] = useState<Set<string>>(new Set())
-  const [bank] = useState<SortNoun[]>(() => shuffle(EX1_ITEMS))
+  const [bank] = useState<SortNoun[]>(() => shuffle(items))
 
   const remaining = bank.filter(n => !usedWords.has(n.word))
-  const allDone = usedWords.size === EX1_ITEMS.length
+  const allDone = usedWords.size === items.length
 
   const handleWordClick = (item: SortNoun) => {
     if (usedWords.has(item.word)) return
@@ -305,7 +320,7 @@ function Ex1({ onDone }: { onDone: () => void }) {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
         <span>Sort the nouns</span>
-        <span className="text-orange-500">{usedWords.size} / {EX1_ITEMS.length} ✓</span>
+        <span className="text-orange-500">{usedWords.size} / {items.length} ✓</span>
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">לחץ על מילה ואז על הקטגוריה הנכונה</p>
@@ -371,6 +386,63 @@ function Ex1({ onDone }: { onDone: () => void }) {
   )
 }
 
+function Ex1() {
+  const rounds = [EX1_R1, EX1_R2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-orange-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-orange-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-orange-100 text-orange-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <Ex1Round
+        key={round}
+        items={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ── Ex 2: some / any (choose) ─────────────────────────────────────────────────
 
 interface ChoiceQ {
@@ -398,9 +470,9 @@ const EX2_QUESTIONS: ChoiceQ[] = [
   { before: 'Is there',        after: 'meat in the soup?',  correct: 'any',  options: ['some', 'any'] },
 ]
 
-// ── Ex 3: a / an / the / some / any (choose) ──────────────────────────────────
+// ── Ex 3: a / an / the / some / any (choose, 2 rounds) ─────────────────────────
 
-const EX3_QUESTIONS: ChoiceQ[] = [
+const EX3_R1: ChoiceQ[] = [
   { before: 'I have',          after: 'dog.',                correct: 'a',    options: ['a', 'an', 'the'] },
   { before: 'There is',        after: 'orange on the table.',correct: 'an',   options: ['a', 'an', 'the'] },
   { before: 'There is',        after: 'water in the cup.',   correct: 'some', options: ['some', 'any', 'a'] },
@@ -416,6 +488,24 @@ const EX3_QUESTIONS: ChoiceQ[] = [
   { before: "There isn't",     after: 'bread on the plate.', correct: 'any',  options: ['some', 'any', 'a'] },
   { before: 'Please pass',     after: 'salt.',               correct: 'the',  options: ['the', 'an', 'any'] },
   { before: 'We have',         after: 'rice for dinner.',    correct: 'some', options: ['some', 'any', 'an'] },
+]
+
+const EX3_R2: ChoiceQ[] = [
+  { before: 'I want',          after: 'apple, please.',       correct: 'an',   options: ['a', 'an', 'the'] },
+  { before: 'She has',         after: 'cat at home.',         correct: 'a',    options: ['a', 'an', 'the'] },
+  { before: 'There is',        after: 'oil in the bottle.',   correct: 'some', options: ['some', 'any', 'a'] },
+  { before: '',                after: 'sky is blue today.',   correct: 'The',  options: ['The', 'A', 'An'] },
+  { before: "We don't have",   after: 'bread.',               correct: 'any',  options: ['some', 'any', 'a'] },
+  { before: 'He is',           after: 'honest boy.',          correct: 'an',   options: ['a', 'an', 'the'] },
+  { before: 'I have',          after: 'pen in my bag.',       correct: 'a',    options: ['a', 'an', 'the'] },
+  { before: 'Is there',        after: 'milk in the fridge?',  correct: 'any',  options: ['some', 'any', 'the'] },
+  { before: '',                after: 'door is open.',        correct: 'The',  options: ['The', 'A', 'An'] },
+  { before: 'There is',        after: 'sugar in my tea.',     correct: 'some', options: ['some', 'any', 'an'] },
+  { before: 'My dad is',       after: 'doctor.',              correct: 'a',    options: ['a', 'an', 'the'] },
+  { before: 'I eat',           after: 'orange every day.',    correct: 'an',   options: ['a', 'an', 'the'] },
+  { before: "There isn't",     after: 'water in the glass.',  correct: 'any',  options: ['some', 'any', 'a'] },
+  { before: 'Please close',    after: 'window.',              correct: 'the',  options: ['the', 'an', 'any'] },
+  { before: 'They have',       after: 'pasta for lunch.',     correct: 'some', options: ['some', 'any', 'an'] },
 ]
 
 function ChoiceExercise({
@@ -503,6 +593,71 @@ function ChoiceExercise({
   )
 }
 
+function ChoiceRounds({
+  rounds,
+  instruction,
+  themeBtn,
+}: {
+  rounds: ChoiceQ[][]
+  instruction: string
+  themeBtn: string
+}) {
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className={`btn-kid ${themeBtn}`}
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className={`btn-kid ${themeBtn}`}
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-orange-100 text-orange-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <ChoiceExercise
+        key={round}
+        questions={rounds[round]}
+        instruction={instruction}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
+    </div>
+  )
+}
+
 // ── Ex 4: type-in plural ──────────────────────────────────────────────────────
 
 interface PluralQ {
@@ -533,7 +688,8 @@ const EX4_QUESTIONS: PluralQ[] = [
 function Ex4({ onDone }: { onDone: () => void }) {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const q = EX4_QUESTIONS[current]
@@ -543,23 +699,36 @@ function Ex4({ onDone }: { onDone: () => void }) {
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
+  const advance = () => {
+    if (isLast) {
+      onDone()
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
   const submit = () => {
-    if (!input.trim()) return
+    if (!input.trim() || status !== 'idle') return
     const trimmed = input.trim().toLowerCase().replace(/\s+/g, ' ')
     if (trimmed === q.answer.toLowerCase()) {
       setStatus('correct')
-      setTimeout(() => {
-        if (isLast) {
-          onDone()
-        } else {
-          setCurrent(c => c + 1)
-          setInput('')
-          setStatus('idle')
-        }
-      }, 800)
+      setTimeout(advance, 800)
     } else {
-      setStatus('wrong')
-      setTimeout(() => { setStatus('idle'); setInput('') }, 800)
+      const nextWrong = wrongCount + 1
+      setWrongCount(nextWrong)
+      if (nextWrong >= 2) {
+        // second wrong → reveal the correct answer green, hold 3s, then auto-advance
+        setStatus('reveal')
+        setInput(q.answer)
+        setTimeout(advance, 3000)
+      } else {
+        // first wrong → flash red, clear, retry the SAME question
+        setStatus('wrong')
+        setTimeout(() => { setStatus('idle'); setInput('') }, 800)
+      }
     }
   }
 
@@ -587,8 +756,8 @@ function Ex4({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
-        status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        status === 'wrong'                          ? 'bg-red-50 border-red-300' :
+        status === 'correct' || status === 'reveal' ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <div className="flex items-center gap-2 flex-wrap">
@@ -600,20 +769,20 @@ function Ex4({ onDone }: { onDone: () => void }) {
             onChange={e => { if (status === 'idle') setInput(e.target.value) }}
             onKeyDown={handleKeyDown}
             disabled={status !== 'idle'}
-            placeholder={`${q.base}?`}
+            placeholder=""
             className={`border-b-2 font-bold text-base text-center min-w-[120px] focus:outline-none bg-transparent transition-colors ${
-              status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
+              status === 'wrong'                          ? 'border-red-400 text-red-600' :
+              status === 'correct' || status === 'reveal' ? 'border-green-400 text-green-600' :
               'border-gray-400 text-gray-700 placeholder:text-gray-300'
             }`}
           />
           <span className="font-bold text-gray-700 text-base">{q.after}</span>
-          {status === 'wrong'   && <span className="text-xl">❌</span>}
-          {status === 'correct' && <span className="text-xl">✅</span>}
+          {status === 'wrong'                          && <span className="text-xl">❌</span>}
+          {(status === 'correct' || status === 'reveal') && <span className="text-xl">✅</span>}
         </div>
-        {status === 'correct' && (
+        {(status === 'correct' || status === 'reveal') && (
           <p className="mt-2 font-bold text-green-600 text-sm">
-            ✓ {q.base} → <span className="font-black">{q.answer}</span>
+            ✔ <span className="font-black">{q.answer}</span>
           </p>
         )}
       </div>
@@ -679,9 +848,7 @@ export default function CountNonCountNounsPage() {
       <div className="pt-4">
         {tab === 'learn'  && <LearnTab />}
         {tab === 'plural' && <PluralTab />}
-        {tab === 'ex1' && (
-          <ExWrapper render={done => <Ex1 onDone={done} />} />
-        )}
+        {tab === 'ex1' && <Ex1 />}
         {tab === 'ex2' && (
           <ExWrapper render={done => (
             <ChoiceExercise
@@ -692,13 +859,11 @@ export default function CountNonCountNounsPage() {
           )} />
         )}
         {tab === 'ex3' && (
-          <ExWrapper render={done => (
-            <ChoiceExercise
-              questions={EX3_QUESTIONS}
-              instruction="בחר את המילה הנכונה: a / an / the / some / any"
-              onDone={done}
-            />
-          )} />
+          <ChoiceRounds
+            rounds={[EX3_R1, EX3_R2]}
+            instruction="בחר את המילה הנכונה: a / an / the / some / any"
+            themeBtn="bg-orange-500"
+          />
         )}
         {tab === 'ex4' && (
           <ExWrapper render={done => <Ex4 onDone={done} />} />

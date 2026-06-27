@@ -332,10 +332,10 @@ const EX6_CONFIG: BuilderConfig = {
     { text: 'He',         third: true  },
   ],
   verbs: [
-    { base: 'study', third: 'studies' },
-    { base: 'watch', third: 'watches' },
-    { base: 'go',    third: 'goes'    },
-    { base: 'cry',   third: 'cries'   },
+    { base: 'study English', third: 'studies English' },
+    { base: 'watch T.V',     third: 'watches T.V'      },
+    { base: 'go to school',  third: 'goes to school'   },
+    { base: 'cry',           third: 'cries'            },
   ],
   times: ['every day', 'every week'],
   goal: 6,
@@ -555,60 +555,54 @@ interface PassageConfig {
   bank: string[]
 }
 
-// EX3: only +s verbs (take, eat, play)
+// EX3: Dan's day passage
 const EX3_CONFIG: PassageConfig = {
   segments: [
-    { type: 'text', text: 'My name is Dan. Every morning, I ' },
+    { type: 'text', text: 'My name is Dan. Every morning I ' },
     { type: 'blank', blankIndex: 0 },
-    { type: 'text', text: ' a shower. My mom ' },
+    { type: 'text', text: ' and ' },
     { type: 'blank', blankIndex: 1 },
-    { type: 'text', text: ' breakfast with us. My little brother ' },
+    { type: 'text', text: ' breakfast. My mom ' },
     { type: 'blank', blankIndex: 2 },
-    { type: 'text', text: ' a banana every day. After school, my friends and I ' },
+    { type: 'text', text: ' breakfast with us and my little brother ' },
     { type: 'blank', blankIndex: 3 },
-    { type: 'text', text: ' football in the park. My sister ' },
+    { type: 'text', text: ' juice. After school my friends and I ' },
     { type: 'blank', blankIndex: 4 },
-    { type: 'text', text: ' the bus home, and we all ' },
+    { type: 'text', text: ' football. My sister also plays with her friends. We all ' },
     { type: 'blank', blankIndex: 5 },
     { type: 'text', text: ' dinner together at night.' },
   ],
   blanks: [
-    { index: 0, answer: 'take' },   // I take
-    { index: 1, answer: 'eats' },   // My mom eats
-    { index: 2, answer: 'eats' },   // My little brother eats
-    { index: 3, answer: 'play' },   // my friends and I play
-    { index: 4, answer: 'takes' },  // My sister takes
-    { index: 5, answer: 'eat' },    // we all eat
+    { index: 0, answer: 'wake up' }, // I wake up
+    { index: 1, answer: 'eat' },     // I eat breakfast
+    { index: 2, answer: 'eats' },    // My mom eats
+    { index: 3, answer: 'drinks' },  // my little brother drinks
+    { index: 4, answer: 'play' },    // my friends and I play
+    { index: 5, answer: 'eat' },     // we all eat
   ],
-  bank: ['take', 'takes', 'eat', 'eats', 'play', 'plays'],
+  bank: ['wake up', 'eat', 'eats', 'drinks', 'play', 'eat'],
 }
 
-// EX7: all spelling rules (study/studies, go/goes, give/gives, cry/cries, play/plays)
+// EX7: spelling rules (go/goes, give/gives, play/plays, study/studies)
 const EX7_CONFIG: PassageConfig = {
   segments: [
     { type: 'text', text: 'Maya is a busy girl. Every day, she ' },
     { type: 'blank', blankIndex: 0 },
     { type: 'text', text: ' to school by bus. Her teacher ' },
     { type: 'blank', blankIndex: 1 },
-    { type: 'text', text: ' her homework. After school, Maya and her friends ' },
+    { type: 'text', text: ' her homework. On Monday, Maya and her friends ' },
     { type: 'blank', blankIndex: 2 },
-    { type: 'text', text: ' in the garden. At home, she ' },
+    { type: 'text', text: ' in the garden. Every Tuesday and Wednesday she plays tennis. On Thursday Maya and her friends eat ice cream. At home, she ' },
     { type: 'blank', blankIndex: 3 },
-    { type: 'text', text: ' English every night. Her baby brother ' },
-    { type: 'blank', blankIndex: 4 },
-    { type: 'text', text: ' when he is hungry. On Sunday her family ' },
-    { type: 'blank', blankIndex: 5 },
-    { type: 'text', text: ' to the park together.' },
+    { type: 'text', text: ' English every night.' },
   ],
   blanks: [
     { index: 0, answer: 'goes' },     // she goes
     { index: 1, answer: 'gives' },    // Her teacher gives her homework
     { index: 2, answer: 'play' },     // Maya and her friends play
     { index: 3, answer: 'studies' },  // she studies
-    { index: 4, answer: 'cries' },    // Her baby brother cries
-    { index: 5, answer: 'go' },       // her family go
   ],
-  bank: ['go', 'goes', 'give', 'gives', 'play', 'plays', 'study', 'studies', 'cry', 'cries'],
+  bank: ['go', 'goes', 'give', 'gives', 'play', 'plays', 'study', 'studies'],
 }
 
 function PassageExercise({ config, onDone }: { config: PassageConfig; onDone: () => void }) {
@@ -652,9 +646,9 @@ function PassageExercise({ config, onDone }: { config: PassageConfig; onDone: ()
       {/* Word bank */}
       <div className="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-2 justify-center">
-          {config.bank.map(word => (
+          {config.bank.map((word, bi) => (
             <div
-              key={word}
+              key={`${word}-${bi}`}
               draggable
               onDragStart={e => { setDraggedWord(word); e.dataTransfer.setData('text/plain', word); e.dataTransfer.effectAllowed = 'move' }}
               onDragEnd={() => { setDraggedWord(null); setDragOverBlank(null) }}

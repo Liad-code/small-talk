@@ -44,7 +44,7 @@ export default function Step6SightWordsHubPage() {
         <div className="max-w-2xl mx-auto">
           <Link href="/step6" className="text-white/70 font-bold text-sm no-underline hover:text-white">← Step 6</Link>
           <h1 className="font-display text-3xl font-bold text-white mt-1">Sight Words 👁️</h1>
-          <p className="text-white/80 font-bold text-lg" dir="rtl">מילות ראייה — בחר קבוצה</p>
+          <p className="text-white/80 font-bold text-lg" dir="rtl">בחר קבוצה</p>
         </div>
       </div>
 

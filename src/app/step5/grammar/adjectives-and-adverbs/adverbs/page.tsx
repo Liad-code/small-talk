@@ -634,7 +634,8 @@ function normalize(str: string): string {
 function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () => void }) {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const q = questions[current]
@@ -644,24 +645,36 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
+  const advance = () => {
+    if (isLast) {
+      onDone()
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
   const submit = () => {
+    if (status !== 'idle') return
     if (!input.trim()) return
     const trimmed = normalize(input)
     const accepted = [q.answer, ...(q.alts ?? [])].map(normalize)
     if (accepted.includes(trimmed)) {
       setStatus('correct')
-      setTimeout(() => {
-        if (isLast) {
-          onDone()
-        } else {
-          setCurrent(c => c + 1)
-          setInput('')
-          setStatus('idle')
-        }
-      }, 700)
+      setTimeout(advance, 700)
     } else {
-      setStatus('wrong')
-      setTimeout(() => { setStatus('idle'); setInput('') }, 900)
+      const nextWrong = wrongCount + 1
+      setWrongCount(nextWrong)
+      if (nextWrong >= 2) {
+        setStatus('reveal')
+        setInput(q.answer)
+        setTimeout(advance, 3000)
+      } else {
+        setStatus('wrong')
+        setTimeout(() => { setStatus('idle'); setInput('') }, 900)
+      }
     }
   }
 
@@ -690,7 +703,7 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
         status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        status === 'correct' || status === 'reveal' ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <div className="flex items-center gap-2 flex-wrap">
@@ -705,15 +718,15 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
             placeholder=""
             className={`border-b-2 font-bold text-base text-center min-w-[160px] focus:outline-none bg-transparent transition-colors ${
               status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
+              status === 'correct' || status === 'reveal' ? 'border-green-400 text-green-600' :
               'border-gray-400 text-gray-700 placeholder:text-gray-300'
             }`}
           />
           <span className="font-bold text-gray-700 text-base">{q.after}</span>
           {status === 'wrong'   && <span className="text-xl">❌</span>}
-          {status === 'correct' && <span className="text-xl">✅</span>}
+          {(status === 'correct' || status === 'reveal') && <span className="text-xl">✅</span>}
         </div>
-        {status === 'correct' && (
+        {(status === 'correct' || status === 'reveal') && (
           <p className="mt-2 font-bold text-green-600 text-sm">✔ {q.answer}</p>
         )}
         {status === 'wrong' && (

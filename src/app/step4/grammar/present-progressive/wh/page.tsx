@@ -183,7 +183,7 @@ interface Ex2Cycle {
 
 const EX2_CYCLES: Ex2Cycle[] = [
   {
-    whWords: ['What', 'Where', 'Who', 'Why'],
+    whWords: ['What', 'Where', 'Who', 'Why', 'When', 'How'],
     subjects: [
       { text: 'you',  aux: 'are' },
       { text: 'he',   aux: 'is'  },
@@ -192,7 +192,7 @@ const EX2_CYCLES: Ex2Cycle[] = [
       { text: 'she',  aux: 'is'  },
       { text: 'we',   aux: 'are' },
     ],
-    verbs: ['doing', 'going', 'reading', 'eating', 'playing', 'watching'],
+    verbs: ['doing', 'going', 'reading', 'eating', 'playing', 'watching', 'feeling', 'coming', 'singing', 'cooking'],
   },
 ]
 

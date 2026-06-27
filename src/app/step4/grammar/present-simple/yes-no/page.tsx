@@ -40,14 +40,16 @@ interface Ex2Subject {
 }
 
 const EX2_SUBJECTS: Ex2Subject[] = [
-  { text: 'girls',  doDoes: 'Do'   },
-  { text: 'cats',   doDoes: 'Do'   },
-  { text: 'oren',      doDoes: 'Does' },
-  { text: 'dana',      doDoes: 'Does' },
-  { text: 'my mother', doDoes: 'Does' },
+  { text: 'they',         doDoes: 'Do'   },
+  { text: 'we',           doDoes: 'Do'   },
+  { text: 'cats',         doDoes: 'Do'   },
+  { text: 'Oren',         doDoes: 'Does' },
+  { text: 'Dana',         doDoes: 'Does' },
+  { text: 'my mother',    doDoes: 'Does' },
+  { text: 'the children', doDoes: 'Do'   },
 ]
 
-const EX2_VERBS = ['read', 'play', 'eat', 'walk']
+const EX2_VERBS = ['read books', 'play tennis', 'learn math', 'drink water', 'eat dinner', 'walk to school']
 const EX2_TIMES = ['every day', 'every week']
 
 // ── Ex3 data ──────────────────────────────────────────────────────────────────

@@ -1,9 +1,9 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1'
+type Tab = 'learn' | 'ex1' | 'ex2'
 
 // ── LEARN ──────────────────────────────────────────────────────────────────────
 
@@ -29,8 +29,14 @@ function LearnTab() {
           ליחיד מוסיפים &apos;s
         </p>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">the boy<span className="text-purple-900 underline">&apos;s</span> dog</div>
-          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">the teacher<span className="text-purple-900 underline">&apos;s</span> pen</div>
+          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">
+            the boy<span className="text-purple-900 underline">&apos;s</span> dog
+            <span className="block font-bold text-purple-500 text-sm mt-0.5" dir="rtl">הכלב של הילד</span>
+          </div>
+          <div className="bg-purple-100 rounded-xl px-3 py-1.5 font-bold text-purple-700 text-base">
+            the teacher<span className="text-purple-900 underline">&apos;s</span> pen
+            <span className="block font-bold text-purple-500 text-sm mt-0.5" dir="rtl">העט של המורה</span>
+          </div>
         </div>
       </div>
 
@@ -41,8 +47,14 @@ function LearnTab() {
           למילה ברבים שמסתיימת ב-s יש להוסיף גרש (&apos;) אחרי ה-s
         </p>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">my friends<span className="text-violet-900 underline">&apos;</span> bikes</div>
-          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">the pupils<span className="text-violet-900 underline">&apos;</span> bags</div>
+          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">
+            my friends<span className="text-violet-900 underline">&apos;</span> bikes
+            <span className="block font-bold text-violet-500 text-sm mt-0.5" dir="rtl">האופניים של החברים שלי</span>
+          </div>
+          <div className="bg-violet-100 rounded-xl px-3 py-1.5 font-bold text-violet-700 text-base">
+            the pupils<span className="text-violet-900 underline">&apos;</span> bags
+            <span className="block font-bold text-violet-500 text-sm mt-0.5" dir="rtl">התיקים של התלמידים</span>
+          </div>
         </div>
       </div>
 
@@ -53,8 +65,14 @@ function LearnTab() {
           למילה ברבים אשר לא מסתיימת ב-s נוסיף &apos;s
         </p>
         <div className="flex flex-col gap-1.5">
-          <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">the children<span className="text-fuchsia-900 underline">&apos;s</span> toys</div>
-          <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">the men<span className="text-fuchsia-900 underline">&apos;s</span> hats</div>
+          <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">
+            the children<span className="text-fuchsia-900 underline">&apos;s</span> toys
+            <span className="block font-bold text-fuchsia-500 text-sm mt-0.5" dir="rtl">הצעצועים של הילדים</span>
+          </div>
+          <div className="bg-fuchsia-100 rounded-xl px-3 py-1.5 font-bold text-fuchsia-700 text-base">
+            the men<span className="text-fuchsia-900 underline">&apos;s</span> hats
+            <span className="block font-bold text-fuchsia-500 text-sm mt-0.5" dir="rtl">הכובעים של הגברים</span>
+          </div>
         </div>
       </div>
     </div>
@@ -146,6 +164,172 @@ function Ex1Tab() {
   )
 }
 
+// ── EX 2: type-in writing (build the possessive phrase) ─────────────────────────
+
+interface Ex2Q { owner: string; object: string; answer: string }
+
+const EX2_QUESTIONS: Ex2Q[] = [
+  { owner: 'Dan',         object: 'ball',  answer: "Dan's ball"          },
+  { owner: 'the boys',    object: 'bags',  answer: "the boys' bags"      },
+  { owner: 'the children', object: 'toys', answer: "the children's toys" },
+  { owner: 'Maya',        object: 'book',  answer: "Maya's book"         },
+  { owner: 'the girls',   object: 'room',  answer: "the girls' room"     },
+  { owner: 'the men',     object: 'hats',  answer: "the men's hats"      },
+  { owner: 'the teacher', object: 'pen',   answer: "the teacher's pen"   },
+  { owner: 'the dogs',    object: 'food',  answer: "the dogs' food"      },
+  { owner: 'the women',   object: 'shoes', answer: "the women's shoes"   },
+  { owner: 'Tom',         object: 'bike',  answer: "Tom's bike"          },
+]
+
+// normalize whitespace, case, and curly apostrophes for matching
+function normalize(str: string): string {
+  return str.trim().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ')
+}
+
+function Ex2() {
+  const [current, setCurrent] = useState(0)
+  const [input, setInput] = useState('')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
+  const [finished, setFinished] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const q = EX2_QUESTIONS[current]
+  const isLast = current === EX2_QUESTIONS.length - 1
+
+  useEffect(() => {
+    if (status === 'idle') inputRef.current?.focus()
+  }, [status, current])
+
+  const advance = () => {
+    if (isLast) {
+      setFinished(true)
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
+  const submit = () => {
+    if (!input.trim()) return
+    if (normalize(input) === normalize(q.answer)) {
+      setStatus('correct')
+      setTimeout(advance, 700)
+    } else {
+      const next = wrongCount + 1
+      setWrongCount(next)
+      setStatus('wrong')
+      if (next >= 2) {
+        // reveal the answer, keep on screen, then auto-advance
+        setTimeout(() => {
+          setStatus('correct')
+          setInput(q.answer)
+          setTimeout(advance, 3000)
+        }, 600)
+      } else {
+        // flash red, clear, retry SAME question
+        setTimeout(() => { setStatus('idle'); setInput('') }, 900)
+      }
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') submit()
+  }
+
+  const again = () => {
+    setCurrent(0)
+    setInput('')
+    setStatus('idle')
+    setWrongCount(0)
+    setFinished(false)
+  }
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QUESTIONS.length} השאלות!</p>
+        <button onClick={again} className="btn-kid bg-violet-500">🔁 Again</button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
+      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
+        <span>Question {current + 1} / {EX2_QUESTIONS.length}</span>
+        <span className="text-violet-500">{current} ✓</span>
+      </div>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
+        כתבו את צורת השייכות הנכונה.
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+        Write the correct possessive phrase
+      </p>
+
+      <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl px-4 py-3 mb-3 flex items-center justify-center gap-3">
+        <div className="text-center">
+          <p className="text-xs font-bold text-violet-400 mb-0.5">Owner</p>
+          <p className="font-black text-violet-800 text-lg">{q.owner}</p>
+        </div>
+        <span className="text-violet-300 font-black text-2xl">+</span>
+        <div className="text-center">
+          <p className="text-xs font-bold text-violet-400 mb-0.5">Object</p>
+          <p className="font-black text-violet-800 text-lg">{q.object}</p>
+        </div>
+      </div>
+
+      <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
+        status === 'wrong'   ? 'bg-red-50 border-red-300' :
+        status === 'correct' ? 'bg-green-50 border-green-300' :
+        'bg-white border-gray-200'
+      }`}>
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={e => { if (status === 'idle') setInput(e.target.value) }}
+            onKeyDown={handleKeyDown}
+            disabled={status !== 'idle'}
+            placeholder="..."
+            className={`border-b-2 font-bold text-base text-center min-w-[180px] focus:outline-none bg-transparent transition-colors ${
+              status === 'wrong'   ? 'border-red-400 text-red-600' :
+              status === 'correct' ? 'border-green-400 text-green-600' :
+              'border-gray-400 text-gray-700 placeholder:text-gray-300'
+            }`}
+          />
+          {status === 'wrong'   && <span className="text-xl">❌</span>}
+          {status === 'correct' && <span className="text-xl">✅</span>}
+        </div>
+        {status === 'correct' && (
+          <p className="mt-2 font-bold text-green-600 text-sm text-center">✔ {q.answer}</p>
+        )}
+        {status === 'wrong' && (
+          <p className="mt-2 font-bold text-red-500 text-sm text-center" dir="rtl">נסו שוב</p>
+        )}
+      </div>
+
+      {status === 'idle' && (
+        <div className="flex justify-center">
+          <button
+            onClick={submit}
+            disabled={!input.trim()}
+            className="btn-kid bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            ▶ Check
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Page ────────────────────────────────────────────────────────────────────────
 
 export default function PossessiveSPage() {
@@ -154,6 +338,7 @@ export default function PossessiveSPage() {
   const tabs: { id: Tab; label: string }[] = [
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
+    { id: 'ex2',   label: 'Ex 2' },
   ]
 
   const TAB = 'px-4 py-1.5 rounded-full font-bold text-sm transition-colors whitespace-nowrap'
@@ -189,6 +374,7 @@ export default function PossessiveSPage() {
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1' && <Ex1Tab />}
+        {tab === 'ex2' && <Ex2 />}
       </div>
     </div>
   )

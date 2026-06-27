@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import {
-  PA_EX1, PA_EX2, PA_EX2_R2, PA_EX3_SEGMENTS, PA_EX3_BLANKS, PA_EX3_WORD_BANK, PA_WORD_BANK,
+  PA_EX1, PA_EX2, PA_EX2_R2, PA_EX3_ROUNDS, PA_WORD_BANK,
   type PossAdj,
 } from '@/data/step3/possessive-adjectives'
 
@@ -331,16 +331,26 @@ function Ex2() {
 
 // ── Ex3 ───────────────────────────────────────────────────────────────────────
 
-function Ex3() {
+function Ex3Round({
+  roundIdx,
+  onNextRound,
+  onRestart,
+}: {
+  roundIdx: number
+  onNextRound: () => void
+  onRestart: () => void
+}) {
+  const round = PA_EX3_ROUNDS[roundIdx]
   const [filled, setFilled] = useState<Record<number, string>>({})
   const [draggedWord, setDraggedWord] = useState<string | null>(null)
   const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
-  const allFilled = PA_EX3_BLANKS.every(b => filled[b.index] !== undefined)
+  const allFilled = round.blanks.every(b => filled[b.index] !== undefined)
+  const isLastRound = roundIdx === PA_EX3_ROUNDS.length - 1
 
   const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
-    const blank = PA_EX3_BLANKS.find(b => b.index === blankIdx)
+    const blank = round.blanks.find(b => b.index === blankIdx)
     if (!blank) return
     if (word.toLowerCase() === blank.answer.toLowerCase()) {
       setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
@@ -358,18 +368,11 @@ function Ex3() {
     setDraggedWord(null)
   }
 
-  const restart = () => {
-    setFilled({})
-    setDraggedWord(null)
-    setDragOverBlank(null)
-    setFlashWrong(null)
-  }
-
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Reading Passage</span>
-        <span className="text-violet-500">{Object.keys(filled).length} / {PA_EX3_BLANKS.length} ✓</span>
+        <span>סבב {roundIdx + 1} / {PA_EX3_ROUNDS.length}</span>
+        <span className="text-violet-500">{Object.keys(filled).length} / {round.blanks.length} ✓</span>
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
@@ -379,7 +382,7 @@ function Ex3() {
       {/* Word bank — words always stay visible */}
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-2 justify-center">
-          {PA_EX3_WORD_BANK.map(word => (
+          {round.wordBank.map(word => (
             <div
               key={word}
               draggable
@@ -399,7 +402,7 @@ function Ex3() {
 
       {/* Passage */}
       <div className="bg-white border-2 border-violet-200 rounded-2xl p-4 text-base font-bold text-gray-700 leading-relaxed">
-        {PA_EX3_SEGMENTS.map((seg, i) => {
+        {round.segments.map((seg, i) => {
           if (seg.type === 'text') {
             return <span key={i}>{seg.text}</span>
           }
@@ -432,11 +435,37 @@ function Ex3() {
 
       {allFilled && (
         <div className="text-center mt-6 bounce-in">
-          <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent work!</p>
-          <button onClick={restart} className="btn-kid bg-blue-500">🔁 Again</button>
+          <div className="text-4xl mb-2">{isLastRound ? '🌟' : '🎉'}</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-1">
+            {isLastRound ? 'Amazing!' : 'Excellent work!'}
+          </p>
+          <p className="font-bold text-gray-500 mb-3" dir="rtl">
+            {isLastRound ? 'סיימת את כל הסבבים!' : `סיימת את סבב ${roundIdx + 1}!`}
+          </p>
+          <div className="flex gap-3 justify-center">
+            {!isLastRound ? (
+              <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
+            ) : (
+              <button onClick={onRestart} className="btn-kid bg-blue-500">🔁 Again</button>
+            )}
+          </div>
         </div>
       )}
+    </div>
+  )
+}
+
+function Ex3() {
+  const [roundIdx, setRoundIdx] = useState(0)
+  const [key, setKey] = useState(0)
+
+  return (
+    <div key={key}>
+      <Ex3Round
+        roundIdx={roundIdx}
+        onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
+        onRestart={() => { setRoundIdx(0); setKey(k => k + 1) }}
+      />
     </div>
   )
 }

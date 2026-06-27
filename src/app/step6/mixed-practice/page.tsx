@@ -185,7 +185,7 @@ const EX2_R1: Ex2Q[] = [
   { before: 'He brushes his teeth',            after: '.',  correct: 'every day',     wrong: 'right now'    },
   { before: 'We are watching a film',          after: '.',  correct: 'at the moment', wrong: 'last Friday'  },
   { before: 'My dad cooked dinner',            after: '.',  correct: 'an hour ago',   wrong: 'tomorrow'     },
-  { before: 'The bus leaves',                  after: '.',  correct: 'soon',          wrong: 'last year'    },
+  { before: 'The bus will leave',              after: '.',  correct: 'soon',          wrong: 'last year'    },
   { before: 'My mom usually reads',            after: '.',  correct: 'on Sundays',    wrong: 'right now'    },
   { before: 'Look! The baby is sleeping',      after: '.',  correct: 'right now',     wrong: 'last week'    },
   { before: 'We bought a new car',             after: '.',  correct: 'two years ago', wrong: 'tonight'      },
@@ -198,7 +198,7 @@ const EX2_R2: Ex2Q[] = [
   { before: 'She drinks milk',                 after: '.',  correct: 'every morning', wrong: 'an hour ago'  },
   { before: 'Listen! The dog is barking',      after: '.',  correct: 'now',           wrong: 'next week'    },
   { before: 'They finished the test',          after: '.',  correct: 'two hours ago', wrong: 'soon'         },
-  { before: 'The train arrives',               after: '.',  correct: 'soon',          wrong: 'yesterday'    },
+  { before: 'The train will arrive',           after: '.',  correct: 'soon',          wrong: 'yesterday'    },
   { before: 'My brother walks the dog',        after: '.',  correct: 'on Fridays',    wrong: 'right now'    },
   { before: 'The kids are swimming',           after: '.',  correct: 'at the moment', wrong: 'last month'   },
   { before: 'We moved to a new house',         after: '.',  correct: 'last month',    wrong: 'tomorrow'     },
@@ -211,7 +211,7 @@ const EX2_R3: Ex2Q[] = [
   { before: 'She helps her mom',               after: '.',  correct: 'every day',     wrong: 'right now'    },
   { before: 'Look! The cat is jumping',        after: '.',  correct: 'now',           wrong: 'last year'    },
   { before: 'My dad fixed the car',            after: '.',  correct: 'last Sunday',   wrong: 'tomorrow'     },
-  { before: 'The movie starts',                after: '.',  correct: 'soon',          wrong: 'yesterday'    },
+  { before: 'The movie will start',            after: '.',  correct: 'soon',          wrong: 'yesterday'    },
   { before: 'They usually eat breakfast',      after: '.',  correct: 'at seven',      wrong: 'right now'    },
   { before: 'The students are writing',        after: '.',  correct: 'right now',     wrong: 'last week'    },
   { before: 'I saw a great film',              after: '.',  correct: 'two days ago',  wrong: 'tonight'      },
@@ -318,7 +318,8 @@ function TypeInExercise({
 }) {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'revealed'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const q = questions[current]
@@ -328,24 +329,36 @@ function TypeInExercise({
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
+  const advance = () => {
+    if (isLast) {
+      onDone()
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
   const submit = () => {
     if (!input.trim()) return
     const trimmed = normalize(input)
     const accepted = [q.answer, ...(q.alts ?? [])].map(normalize)
     if (accepted.includes(trimmed)) {
       setStatus('correct')
-      setTimeout(() => {
-        if (isLast) {
-          onDone()
-        } else {
-          setCurrent(c => c + 1)
-          setInput('')
-          setStatus('idle')
-        }
-      }, 700)
+      setTimeout(advance, 700)
     } else {
-      setStatus('wrong')
-      setTimeout(() => { setStatus('idle'); setInput('') }, 900)
+      const nextWrong = wrongCount + 1
+      setWrongCount(nextWrong)
+      if (nextWrong >= 2) {
+        // Reveal the correct answer, hold for 3s, then auto-advance + reset.
+        setInput(q.answer)
+        setStatus('revealed')
+        setTimeout(advance, 3000)
+      } else {
+        setStatus('wrong')
+        setTimeout(() => { setStatus('idle'); setInput('') }, 900)
+      }
     }
   }
 
@@ -373,7 +386,7 @@ function TypeInExercise({
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-3 transition-colors ${
         status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        (status === 'correct' || status === 'revealed') ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <div className="flex items-center gap-2 flex-wrap">
@@ -388,16 +401,16 @@ function TypeInExercise({
             placeholder=""
             className={`border-b-2 font-bold text-base text-center min-w-[160px] focus:outline-none bg-transparent transition-colors ${
               status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
+              (status === 'correct' || status === 'revealed') ? 'border-green-400 text-green-600' :
               'border-gray-400 text-gray-700 placeholder:text-gray-300'
             }`}
           />
           <span className="font-bold text-gray-700 text-base">{q.after}</span>
           {q.base && <span className="text-fuchsia-400 font-black text-sm">({q.base})</span>}
           {status === 'wrong'   && <span className="text-xl">❌</span>}
-          {status === 'correct' && <span className="text-xl">✅</span>}
+          {(status === 'correct' || status === 'revealed') && <span className="text-xl">✅</span>}
         </div>
-        {status === 'correct' && (
+        {(status === 'correct' || status === 'revealed') && (
           <p className="mt-2 font-bold text-green-600 text-sm">✔ {q.answer}</p>
         )}
         {status === 'wrong' && (

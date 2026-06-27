@@ -82,9 +82,9 @@ interface Ex3Q {
 }
 
 const EX3_QS: Ex3Q[] = [
-  { before: 'The girls',  after: 'bake a cake for the party.', correct: 'are going to', wrong: 'is going to'  },
-  { before: 'My friend',  after: 'study French next year.',    correct: 'is going to',  wrong: 'am going to'  },
-  { before: 'I',          after: 'play basketball tomorrow.',  correct: 'am going to',  wrong: 'are going to' },
+  { before: 'The girls',  after: 'sing a song.',               correct: 'are going to', wrong: 'is going to'  },
+  { before: 'We',         after: 'do homework tonight.',       correct: 'are going to', wrong: 'is going to'  },
+  { before: 'I',          after: 'read the book tomorrow.',     correct: 'am going to',  wrong: 'are going to' },
   { before: 'He',         after: 'read a new book.',           correct: 'is going to',  wrong: 'are going to' },
   { before: 'We',         after: 'run in the park.',           correct: 'are going to', wrong: 'is going to'  },
   { before: 'My parents', after: 'cook dinner tonight.',       correct: 'are going to', wrong: 'is going to'  },

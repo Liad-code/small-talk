@@ -341,20 +341,21 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selPhrase, setSelPhrase] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedPhrases, setUsedPhrases] = useState<Set<string>>(new Set())
 
+  // Tiles stay PERMANENTLY available — never consumed.
   const allDone = sentences.length === cycle.subjects.length
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availablePhrases = cycle.phrases.filter(p => !usedPhrases.has(p))
+  const availableSubjects = cycle.subjects
+  const availablePhrases = cycle.phrases
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selPhrase) return
-    // Every sentence the student builds is accepted as correct (can or can't both valid)
+    // Build + check: the chosen can / can't must match the subject's reality.
+    if (selSubject.verb !== selVerb) {
+      setError('❌ Try a different verb!')
+      return
+    }
     const sentence = `${selSubject.text} ${selVerb} ${selPhrase}`
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedPhrases(prev => { const s = new Set(prev); s.add(selPhrase); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelPhrase(null)
@@ -372,7 +373,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <p>1. יש ליצור 5 משפטים על מנת לסיים את הסבב.</p>
         <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
         <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
-        <p>4. כל משפט שתבנו יתקבל — אפשר ליצור משפטים עם can או can&apos;t.</p>
+        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
       </div>
 
       {!allDone && (

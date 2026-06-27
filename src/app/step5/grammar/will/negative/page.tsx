@@ -271,7 +271,8 @@ function normalize(s: string): string {
 function Ex2() {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -290,25 +291,37 @@ function Ex2() {
     return v === long || v === short
   }
 
+  const advance = () => {
+    if (isLast) {
+      setFinished(true)
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
   const submit = () => {
+    if (status !== 'idle') return
     if (!input.trim()) return
     if (accepts(input)) {
       setStatus('correct')
-      setTimeout(() => {
-        if (isLast) {
-          setFinished(true)
-        } else {
-          setCurrent(c => c + 1)
-          setInput('')
-          setStatus('idle')
-        }
-      }, 700)
+      setTimeout(advance, 700)
     } else {
-      setStatus('wrong')
-      setTimeout(() => {
-        setStatus('idle')
-        setInput('')
-      }, 800)
+      const nextWrong = wrongCount + 1
+      setWrongCount(nextWrong)
+      if (nextWrong >= 2) {
+        setStatus('reveal')
+        setInput(q.answer)
+        setTimeout(advance, 3000)
+      } else {
+        setStatus('wrong')
+        setTimeout(() => {
+          setStatus('idle')
+          setInput('')
+        }, 800)
+      }
     }
   }
 
@@ -320,6 +333,7 @@ function Ex2() {
     setCurrent(0)
     setInput('')
     setStatus('idle')
+    setWrongCount(0)
     setFinished(false)
   }
 
@@ -355,7 +369,7 @@ function Ex2() {
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
         status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        status === 'correct' || status === 'reveal' ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <p className="text-xs font-bold text-gray-500 mb-3">🚫 Negative:</p>
@@ -370,7 +384,7 @@ function Ex2() {
             placeholder="type the negative sentence..."
             className={`flex-1 border-b-2 font-bold text-base focus:outline-none bg-transparent transition-colors ${
               status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
+              status === 'correct' || status === 'reveal' ? 'border-green-400 text-green-600' :
               'border-gray-400 text-gray-700 placeholder:text-gray-300'
             }`}
           />
@@ -382,7 +396,7 @@ function Ex2() {
             ▶
           </button>
         </div>
-        {status === 'correct' && (
+        {(status === 'correct' || status === 'reveal') && (
           <p className="mt-3 font-bold text-green-600 text-sm">✅ {q.answer}</p>
         )}
       </div>

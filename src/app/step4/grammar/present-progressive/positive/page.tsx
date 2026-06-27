@@ -193,33 +193,39 @@ interface PassageBlank {
   answer: string
 }
 
-// Passage: "Now I ___(am playing) in the park. My friend Dan ___(is making) ..."
+// Passage: "It is a sunny day. Right now I [am playing] football with my friends. My dogs
+// [are running] in the park and my brother [is watching] them. My mother and father
+// [are sitting] on a bench. They [are reading] a book. My sister [is eating] a banana.
+// We [are having] a wonderful day!"
 const EX5_SEGMENTS: PassageSeg[] = [
   { type: 'text', text: 'It is a sunny day. Right now I ' },
   { type: 'blank', blankIndex: 0 },
-  { type: 'text', text: ' in the park. My friend Dan ' },
+  { type: 'text', text: ' football with my friends. My dogs ' },
   { type: 'blank', blankIndex: 1 },
-  { type: 'text', text: ' a sandcastle. The girls ' },
+  { type: 'text', text: ' in the park and my brother ' },
   { type: 'blank', blankIndex: 2 },
-  { type: 'text', text: ' near the tree. My mother ' },
+  { type: 'text', text: ' them. My mother and father ' },
   { type: 'blank', blankIndex: 3 },
-  { type: 'text', text: ' a sandwich for us. Two dogs ' },
+  { type: 'text', text: ' on a bench. They ' },
   { type: 'blank', blankIndex: 4 },
-  { type: 'text', text: ' on the grass. We ' },
+  { type: 'text', text: ' a book. My sister ' },
   { type: 'blank', blankIndex: 5 },
+  { type: 'text', text: ' a banana. We ' },
+  { type: 'blank', blankIndex: 6 },
   { type: 'text', text: ' a wonderful day!' },
 ]
 
 const EX5_BLANKS: PassageBlank[] = [
   { index: 0, answer: 'am playing' },
-  { index: 1, answer: 'is making' },
-  { index: 2, answer: 'are reading' },
-  { index: 3, answer: 'is making' },
-  { index: 4, answer: 'are running' },
-  { index: 5, answer: 'are having' },
+  { index: 1, answer: 'are running' },
+  { index: 2, answer: 'is watching' },
+  { index: 3, answer: 'are sitting' },
+  { index: 4, answer: 'are reading' },
+  { index: 5, answer: 'is eating' },
+  { index: 6, answer: 'are having' },
 ]
 
-const EX5_WORD_BANK = ['am playing', 'is making', 'are reading', 'are running', 'are having', 'is playing']
+const EX5_WORD_BANK = ['am playing', 'are running', 'is watching', 'are sitting', 'are reading', 'is eating', 'are having']
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -493,7 +499,8 @@ function Ex2() {
 function Ex3() {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -504,23 +511,36 @@ function Ex3() {
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
+  const advance = () => {
+    if (isLast) {
+      setFinished(true)
+    } else {
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+    }
+  }
+
   const submit = () => {
+    if (status !== 'idle') return
     if (!input.trim()) return
     const trimmed = input.trim().toLowerCase().replace(/\s+/g, ' ')
     if (trimmed === q.answer.toLowerCase()) {
       setStatus('correct')
-      setTimeout(() => {
-        if (isLast) {
-          setFinished(true)
-        } else {
-          setCurrent(c => c + 1)
-          setInput('')
-          setStatus('idle')
-        }
-      }, 600)
+      setTimeout(advance, 600)
     } else {
-      setStatus('wrong')
-      setTimeout(() => { setStatus('idle'); setInput('') }, 800)
+      const next = wrongCount + 1
+      setWrongCount(next)
+      if (next >= 2) {
+        // reveal the correct answer, keep on screen 3000ms, then auto-advance
+        setInput(q.answer)
+        setStatus('reveal')
+        setTimeout(advance, 3000)
+      } else {
+        setStatus('wrong')
+        setTimeout(() => { setStatus('idle'); setInput('') }, 800)
+      }
     }
   }
 
@@ -535,7 +555,7 @@ function Ex3() {
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QS.length} השאלות!</p>
         <button
-          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setFinished(false) }}
+          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setFinished(false) }}
           className="btn-kid bg-blue-500"
         >
           🔁 Start Over
@@ -564,8 +584,8 @@ function Ex3() {
       </div>
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
-        status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        status === 'wrong'                       ? 'bg-red-50 border-red-300' :
+        status === 'correct' || status === 'reveal' ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <div className="flex items-center gap-2 flex-wrap">
@@ -577,17 +597,20 @@ function Ex3() {
             onChange={e => { if (status === 'idle') setInput(e.target.value) }}
             onKeyDown={handleKeyDown}
             disabled={status !== 'idle'}
-            placeholder="is running"
+            placeholder=""
             className={`border-b-2 font-bold text-base text-center min-w-[140px] focus:outline-none bg-transparent transition-colors ${
-              status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
-              'border-gray-400 text-gray-700 placeholder:text-gray-300'
+              status === 'wrong'                          ? 'border-red-400 text-red-600' :
+              status === 'correct' || status === 'reveal' ? 'border-green-400 text-green-600' :
+              'border-gray-400 text-gray-700'
             }`}
           />
           <span className="font-bold text-gray-700 text-base">{q.after}</span>
           {status === 'wrong'   && <span className="text-xl">❌</span>}
           {status === 'correct' && <span className="text-xl">✅</span>}
         </div>
+        {status === 'reveal' && (
+          <p className="mt-3 font-display font-black text-green-600 text-base">✔ {q.answer}</p>
+        )}
       </div>
 
       {status === 'idle' && (

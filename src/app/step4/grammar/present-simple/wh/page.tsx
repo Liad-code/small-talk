@@ -87,7 +87,7 @@ const EX2_CYCLES: Ex2Cycle[] = [
       { text: 'we',   aux: 'do'   },
       { text: 'it',   aux: 'does' },
     ],
-    verbs: ['live', 'eat', 'go', 'play', 'like', 'watch'],
+    verbs: ['eat for lunch', 'play every Sunday', 'watch on T.V', 'go after school', 'drink every day', 'feel', 'get to school'],
   },
 ]
 

@@ -222,33 +222,36 @@ function Ex2() {
   const [selNoun, setSelNoun] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [verbError, setVerbError] = useState(false)
-  const [usedNouns, setUsedNouns] = useState<Set<string>>(new Set())
 
+  // Tiles stay PERMANENTLY available — never consumed.
   const allDone = sentences.length >= TARGET_SENTENCES
-  const availableNouns = ALL_NOUNS.filter(n => !usedNouns.has(n))
+  const availableSubjects = ALL_SUBJECTS
+  const availableNouns = ALL_NOUNS
 
   const handleSubjectClick = (s: Ex2Subject) => {
     setSelSubject(prev => prev?.text === s.text ? null : s)
-    // Reset verb if subject changes (to avoid stale invalid selection)
-    setSelVerb(null)
     setVerbError(false)
   }
 
   const handleVerbClick = (v: MixedVerb) => {
-    if (selSubject && !isVerbValidForSubject(v, selSubject.verbGroup)) {
-      setVerbError(true)
-      setTimeout(() => setVerbError(false), 800)
-      return
-    }
     setSelVerb(prev => prev === v ? null : v)
     setVerbError(false)
   }
 
   const handleNounClick = (n: string) => {
-    if (!selSubject || !selVerb) return
-    const sentence = `${selSubject.text} ${selVerb} ${n}.`
+    setSelNoun(prev => prev === n ? null : n)
+    setVerbError(false)
+  }
+
+  // Build + check + retry: validate the built sentence only when Add is pressed.
+  const handleAdd = () => {
+    if (!selSubject || !selVerb || !selNoun) return
+    if (!isVerbValidForSubject(selVerb, selSubject.verbGroup)) {
+      setVerbError(true)
+      return
+    }
+    const sentence = `${selSubject.text} ${selVerb} ${selNoun}.`
     setSentences(prev => [...prev, sentence])
-    setUsedNouns(prev => { const s = new Set(prev); s.add(n); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelNoun(null)
@@ -260,12 +263,8 @@ function Ex2() {
     setSelVerb(null)
     setSelNoun(null)
     setSentences([])
-    setUsedNouns(new Set())
     setVerbError(false)
   }
-
-  // suppress unused warning
-  void selNoun
 
   if (allDone) {
     return (
@@ -296,24 +295,21 @@ function Ex2() {
       </div>
 
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-4 text-sm font-bold text-violet-700" dir="rtl">
-        <p>1. בחר נושא (Subject) — לחץ כדי לבחור</p>
-        <p>2. בחר פועל (Verb) — אם הפועל לא מתאים לנושא, תקבל שגיאה</p>
-        <p>3. בחר עצם (Noun) — המשפט יתווסף אוטומטית</p>
-        <p>4. יש לבנות {TARGET_SENTENCES} משפטים</p>
+        <p>1. יש לבנות {TARGET_SENTENCES} משפטים על מנת לסיים את המשימה.</p>
+        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
+        <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
+        <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
       </div>
 
-      {/* Preview sentence */}
-      <div className="bg-white border-2 border-violet-200 rounded-xl px-4 py-3 mb-4 min-h-[52px] flex items-center">
-        {selSubject || selVerb ? (
-          <span className="font-bold text-violet-700 text-base">
-            {selSubject?.text ?? '___'}{' '}
-            {selVerb ?? '___'}{' '}
-            <span className="text-gray-400">___</span>.
+      {/* Preview sentence + Add */}
+      {selSubject && selVerb && selNoun && (
+        <div className="bg-violet-50 border-2 border-violet-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
+          <span className="font-bold text-violet-700 text-base flex-1">
+            {selSubject.text} {selVerb} {selNoun}.
           </span>
-        ) : (
-          <span className="text-gray-400 font-bold text-sm" dir="rtl">המשפט יופיע כאן...</span>
-        )}
-      </div>
+          <button onClick={handleAdd} className="btn-kid bg-violet-500 !py-1 !px-3 text-sm">➕ Add</button>
+        </div>
+      )}
 
       {verbError && (
         <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">
@@ -328,7 +324,7 @@ function Ex2() {
             <span className="font-display font-black text-white text-sm">Subject</span>
           </div>
           <div className="bg-violet-50 border-2 border-violet-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            {ALL_SUBJECTS.map(s => (
+            {availableSubjects.map(s => (
               <button
                 key={s.text}
                 onClick={() => handleSubjectClick(s)}
@@ -376,10 +372,9 @@ function Ex2() {
               <button
                 key={n}
                 onClick={() => handleNounClick(n)}
-                disabled={!selSubject || !selVerb}
                 className={`text-xs font-bold rounded-lg px-1 py-1 text-center transition-colors ${
-                  !selSubject || !selVerb
-                    ? 'bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed'
+                  selNoun === n
+                    ? 'bg-amber-500 text-white'
                     : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-100 active:scale-95'
                 }`}
               >

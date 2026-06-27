@@ -602,7 +602,7 @@ export default function SightWordsPage() {
             ← Step 5
           </Link>
           <h1 className="font-display text-2xl font-bold text-white mt-0.5">Sight Words 👁️</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">מילות ראייה — מילים נפוצות לזיהוי מיידי</p>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">מילים נפוצות לזיהוי מיידי</p>
         </div>
       </div>
 

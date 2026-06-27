@@ -241,7 +241,7 @@ function LearnTab() {
               {pair.map((item, colIdx) => (
                 <div key={colIdx} className="contents">
                   <div className="font-display font-black text-base text-purple-800 text-center">
-                    <span className="mr-1">{item.emoji}</span>{item.word}
+                    {item.word}
                   </div>
                   <div className="font-bold text-sm text-gray-600 text-center" dir="rtl">
                     {item.hebrew}
@@ -596,7 +596,7 @@ export default function SightWordsSet1Page() {
             ← Sight Words
           </Link>
           <h1 className="font-display text-2xl font-bold text-white mt-0.5">Sight Words — Set 1 👁️</h1>
-          <p className="text-white/70 font-bold text-xs" dir="rtl">מילות ראייה — מילים נפוצות לזיהוי מיידי</p>
+          <p className="text-white/70 font-bold text-xs" dir="rtl">מילים נפוצות לזיהוי מיידי</p>
         </div>
       </div>
 
