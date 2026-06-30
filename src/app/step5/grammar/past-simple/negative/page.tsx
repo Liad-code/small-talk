@@ -15,14 +15,14 @@ interface Ex1Cycle {
 
 const EX1_CYCLES: Ex1Cycle[] = [
   {
-    subjects: ['I', 'He', 'The dog', 'Dan and Dana'],
-    verbs: ['walk', 'play', 'eat', 'sleep'],
-    times: ['yesterday', 'last week'],
+    subjects: ['I', 'He', 'She', 'We', 'My family', 'My friend'],
+    verbs: ['walk to school', 'play a game', 'eat lunch', 'sleep late', 'read a book', 'go to the beach', 'buy an ice cream'],
+    times: ['yesterday', 'last night', 'last year', 'an hour ago', 'two days ago'],
   },
   {
-    subjects: ['She', 'We', 'The boy', 'Tom and Liat'],
-    verbs: ['run', 'go', 'clean', 'watch', 'study'],
-    times: ['last night', 'last summer'],
+    subjects: ['The children', 'My teacher', 'They', 'He', 'She', 'We'],
+    verbs: ['run fast', 'win the game', 'clean the room', 'study for the test', 'go to school', 'drink enough water'],
+    times: ['two hours ago', 'last week', 'yesterday'],
   },
 ]
 

@@ -78,7 +78,7 @@ export default function Step3Page() {
           href="/step3/sight-words"
           emoji="👁️"
           title="Sight Words"
-          hebrewTitle="מילות ראייה"
+          hebrewTitle=""
           description="Common words to recognize instantly"
           hebrewDesc="מילים נפוצות לזיהוי מיידי"
           color="from-emerald-400 to-green-500"

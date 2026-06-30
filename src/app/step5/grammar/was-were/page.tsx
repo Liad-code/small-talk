@@ -809,43 +809,76 @@ interface PassageBlank {
   answer: string
 }
 
-const EX5_SEGMENTS: PassageSeg[] = [
-  { type: 'text', text: 'Yesterday I ' },
-  { type: 'blank', blankIndex: 0 },
-  { type: 'text', text: ' at my grandma’s house. The weather ' },
-  { type: 'blank', blankIndex: 1 },
-  { type: 'text', text: ' sunny. My cousins ' },
-  { type: 'blank', blankIndex: 2 },
-  { type: 'text', text: ' there too. We ' },
-  { type: 'blank', blankIndex: 3 },
-  { type: 'text', text: ' very happy. The food ' },
-  { type: 'blank', blankIndex: 4 },
-  { type: 'text', text: ' delicious. It ' },
-  { type: 'blank', blankIndex: 5 },
-  { type: 'text', text: ' a wonderful day!' },
-]
+interface PassageRound {
+  segments: PassageSeg[]
+  blanks: PassageBlank[]
+}
 
-const EX5_BLANKS: PassageBlank[] = [
-  { index: 0, answer: 'was'  },
-  { index: 1, answer: 'was'  },
-  { index: 2, answer: 'were' },
-  { index: 3, answer: 'were' },
-  { index: 4, answer: 'was'  },
-  { index: 5, answer: 'was'  },
+const EX5_ROUNDS: PassageRound[] = [
+  {
+    segments: [
+      { type: 'text', text: 'Yesterday I ' },
+      { type: 'blank', blankIndex: 0 },
+      { type: 'text', text: ' at my grandma’s house. The weather ' },
+      { type: 'blank', blankIndex: 1 },
+      { type: 'text', text: ' sunny. My brother and my sister ' },
+      { type: 'blank', blankIndex: 2 },
+      { type: 'text', text: ' there too. We ' },
+      { type: 'blank', blankIndex: 3 },
+      { type: 'text', text: ' very happy. The food ' },
+      { type: 'blank', blankIndex: 4 },
+      { type: 'text', text: ' delicious. It ' },
+      { type: 'blank', blankIndex: 5 },
+      { type: 'text', text: ' a wonderful day!' },
+    ],
+    blanks: [
+      { index: 0, answer: 'was'  },
+      { index: 1, answer: 'was'  },
+      { index: 2, answer: 'were' },
+      { index: 3, answer: 'were' },
+      { index: 4, answer: 'was'  },
+      { index: 5, answer: 'was'  },
+    ],
+  },
+  {
+    segments: [
+      { type: 'text', text: 'Last week our class ' },
+      { type: 'blank', blankIndex: 0 },
+      { type: 'text', text: ' on a trip to the zoo. The bus ' },
+      { type: 'blank', blankIndex: 1 },
+      { type: 'text', text: ' full of children. My friends ' },
+      { type: 'blank', blankIndex: 2 },
+      { type: 'text', text: ' very excited. The guide ' },
+      { type: 'blank', blankIndex: 3 },
+      { type: 'text', text: ' funny and kind. The animals ' },
+      { type: 'blank', blankIndex: 4 },
+      { type: 'text', text: ' amazing. It ' },
+      { type: 'blank', blankIndex: 5 },
+      { type: 'text', text: ' the best day ever!' },
+    ],
+    blanks: [
+      { index: 0, answer: 'was'  },
+      { index: 1, answer: 'was'  },
+      { index: 2, answer: 'were' },
+      { index: 3, answer: 'was'  },
+      { index: 4, answer: 'were' },
+      { index: 5, answer: 'was'  },
+    ],
+  },
 ]
 
 const EX5_WORD_BANK = ['was', 'were']
 
-function Ex5Passage({ onDone }: { onDone: () => void }) {
+function Ex5PassageRound({ round, onDone }: { round: PassageRound; onDone: () => void }) {
   const [filled, setFilled] = useState<Record<number, string>>({})
   const [draggedWord, setDraggedWord] = useState<string | null>(null)
   const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
-  const allFilled = EX5_BLANKS.every(b => filled[b.index] !== undefined)
+  const allFilled = round.blanks.every(b => filled[b.index] !== undefined)
 
   const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
-    const blank = EX5_BLANKS.find(b => b.index === blankIdx)
+    const blank = round.blanks.find(b => b.index === blankIdx)
     if (!blank) return
     if (word.toLowerCase() === blank.answer.toLowerCase()) {
       setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
@@ -867,7 +900,7 @@ function Ex5Passage({ onDone }: { onDone: () => void }) {
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <span>Reading Passage</span>
-        <span className="text-teal-500">{Object.keys(filled).length} / {EX5_BLANKS.length} ✓</span>
+        <span className="text-teal-500">{Object.keys(filled).length} / {round.blanks.length} ✓</span>
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
@@ -895,7 +928,7 @@ function Ex5Passage({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="bg-white border-2 border-teal-200 rounded-2xl p-4 text-base font-bold text-gray-700 leading-loose">
-        {EX5_SEGMENTS.map((seg, i) => {
+        {round.segments.map((seg, i) => {
           if (seg.type === 'text') {
             return <span key={i}>{seg.text}</span>
           }
@@ -937,144 +970,155 @@ function Ex5Passage({ onDone }: { onDone: () => void }) {
   )
 }
 
-// ── EX 6: Wh-question builder (Wh | was/were | Subject) ──────────────────────────
+function Ex5Passage({ onDone }: { onDone: () => void }) {
+  const [round, setRound] = useState(0)
+  const [between, setBetween] = useState(false)
+  const [key, setKey] = useState(0)
 
-const EX6_WH_WORDS = ['Who', 'What', 'Where', 'When', 'Why', 'How']
+  const isLastRound = round === EX5_ROUNDS.length - 1
 
-const EX6_SUBJECTS: BuilderSubject[] = [
-  { text: 'I',    form: 'was'  },
-  { text: 'he',   form: 'was'  },
-  { text: 'she',  form: 'was'  },
-  { text: 'it',   form: 'was'  },
-  { text: 'you',  form: 'were' },
-  { text: 'we',   form: 'were' },
-  { text: 'they', form: 'were' },
+  const handleRoundDone = () => {
+    if (isLastRound) {
+      onDone()
+    } else {
+      setBetween(true)
+    }
+  }
+
+  const nextRound = () => {
+    setBetween(false)
+    setRound(r => r + 1)
+    setKey(k => k + 1)
+  }
+
+  if (between) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">✅</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">כל הכבוד! מוכנים לסבב הבא?</p>
+        <button onClick={nextRound} className="btn-kid bg-teal-500">
+          ➡️ Round {round + 2}
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4">
+        <div className="text-center text-sm font-bold text-teal-500">
+          Round {round + 1} / {EX5_ROUNDS.length}
+        </div>
+      </div>
+      <Ex5PassageRound round={EX5_ROUNDS[round]} onDone={handleRoundDone} />
+    </div>
+  )
+}
+
+// ── EX 6: was/were Yes-No questions (choose Was / Were) ──────────────────────────
+
+interface Ex6Q {
+  after: string
+  answer: WasWereCap
+}
+
+const EX6_QUESTIONS: Ex6Q[] = [
+  { after: 'you at the shop?',        answer: 'Were' },
+  { after: 'the party fun?',          answer: 'Was'  },
+  { after: 'the test hard?',          answer: 'Was'  },
+  { after: 'the meeting long?',       answer: 'Was'  },
+  { after: 'you there two hours ago?',answer: 'Were' },
+  { after: 'he crying?',              answer: 'Was'  },
+  { after: 'your book good?',         answer: 'Was'  },
+  { after: 'she happy?',              answer: 'Was'  },
+  { after: 'the game fun?',           answer: 'Was'  },
 ]
 
-function Ex6Builder({ onDone }: { onDone: () => void }) {
-  const [selWh, setSelWh] = useState<string | null>(null)
-  const [selForm, setSelForm] = useState<WasWere | null>(null)
-  const [selSubject, setSelSubject] = useState<BuilderSubject | null>(null)
-  const [sentences, setSentences] = useState<string[]>([])
-  const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
+const EX6_OPTS: WasWereCap[] = ['Was', 'Were']
 
-  // Wh words are reusable; subjects are consumed.
-  const availSubjects = EX6_SUBJECTS.filter(s => !usedSubjects.has(s.text))
-  const allDone = sentences.length === EX6_SUBJECTS.length
+function Ex6YesNoQuestions({ questions, onDone }: { questions: Ex6Q[]; onDone: () => void }) {
+  const [answers, setAnswers] = useState<Record<number, boolean>>({})
+  const [wrong, setWrong] = useState<Record<number, WasWereCap>>({})
 
-  const handleAdd = () => {
-    if (!selWh || !selForm || !selSubject) return
-    if (selSubject.form !== selForm) {
-      setError('❌ Try a different form (was/were)!')
-      return
+  const total = questions.length
+  const done = Object.keys(answers).length
+  const allDone = done === total
+
+  const choose = (idx: number, val: WasWereCap) => {
+    if (answers[idx]) return
+    if (val === questions[idx].answer) {
+      setAnswers(prev => ({ ...prev, [idx]: true }))
+    } else {
+      setWrong(prev => ({ ...prev, [idx]: val }))
+      setTimeout(() => setWrong(prev => {
+        const next = { ...prev }
+        delete next[idx]
+        return next
+      }), 700)
     }
-    const sentence = `${selWh} ${selForm} ${selSubject.text}?`
-    setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setSelWh(null); setSelForm(null); setSelSubject(null)
-    setError('')
   }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Wh-Question Builder</span>
-        <span className="text-teal-500">{sentences.length} / {EX6_SUBJECTS.length} ✓</span>
+      <div className="mb-4">
+        <h2 className="font-display font-black text-xl text-teal-700 text-center mb-1">
+          Build the Yes / No question
+        </h2>
+        <p className="font-bold text-sm text-teal-600 text-center" dir="rtl">
+          בחרו Was או Were כדי לפתוח את השאלה
+        </p>
       </div>
 
-      <div className="bg-teal-50 border-2 border-teal-200 rounded-2xl p-3 mb-3 text-sm font-bold text-teal-700" dir="rtl">
-        <p>1. יש ליצור {EX6_SUBJECTS.length} שאלות על מנת לסיים את המשימה.</p>
-        <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור שאלה.</p>
-        <p>3. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>
-        <p>4. במידה ו-was/were לא מתאים לנושא, יופיע X אדום.</p>
+      <div className="flex justify-end text-sm font-bold text-teal-500 mb-3">
+        <span>{done} / {total} ✓</span>
       </div>
 
-      {!allDone && (
-        <div className="grid grid-cols-3 gap-1.5 mb-4">
-          {/* Wh-word (reusable) */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-teal-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Wh</span>
+      <div className="flex flex-col gap-2.5">
+        {questions.map((q, idx) => {
+          const isAnswered = answers[idx]
+          return (
+            <div
+              key={idx}
+              className="bg-white border-2 border-teal-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
+            >
+              <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
+              <span className="text-base font-bold text-gray-700">
+                {isAnswered ? (
+                  <span className="font-black text-teal-600 bg-teal-100 rounded px-1">{q.answer}</span>
+                ) : (
+                  <span className="text-teal-300 font-black">___</span>
+                )}
+                {' ' + q.after}
+              </span>
+              {!isAnswered && (
+                <div className="flex gap-1.5 ml-auto">
+                  {EX6_OPTS.map(opt => (
+                    <button
+                      key={opt}
+                      onClick={() => choose(idx, opt)}
+                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
+                        wrong[idx] === opt
+                          ? 'bg-red-500 text-white border-red-500'
+                          : 'bg-teal-50 text-teal-700 border-teal-300 hover:bg-teal-100'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {isAnswered && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
             </div>
-            <div className="bg-teal-50 border-2 border-teal-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {EX6_WH_WORDS.map(w => (
-                <button
-                  key={w}
-                  onClick={() => setSelWh(w)}
-                  className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors ${selWh === w ? 'bg-teal-600 text-white' : 'bg-white text-teal-700 border border-teal-200 hover:bg-teal-100'}`}
-                >
-                  {w}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* was / were */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-emerald-600 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">was/were</span>
-            </div>
-            <div className="bg-emerald-50 border-2 border-emerald-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {(['was', 'were'] as WasWere[]).map(f => (
-                <button
-                  key={f}
-                  onClick={() => setSelForm(f)}
-                  className={`text-sm font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${selForm === f ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-emerald-700 border-emerald-300 hover:bg-emerald-100'}`}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Subject (consumed) */}
-          <div className="flex flex-col gap-1.5">
-            <div className="bg-cyan-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-xs">Subject</span>
-            </div>
-            <div className="bg-cyan-50 border-2 border-cyan-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {availSubjects.map(s => (
-                <button
-                  key={s.text}
-                  onClick={() => setSelSubject(s)}
-                  className={`text-sm font-bold rounded-lg px-1 py-1 text-center transition-colors ${selSubject?.text === s.text ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-700 border border-cyan-200 hover:bg-cyan-100'}`}
-                >
-                  {s.text}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {selWh && selForm && selSubject && !allDone && (
-        <div className="bg-teal-50 border-2 border-teal-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
-          <span className="font-bold text-teal-700 text-base flex-1">
-            {selWh} {selForm} {selSubject.text}?
-          </span>
-          <button onClick={handleAdd} className="btn-kid bg-teal-500 !py-1 !px-3 text-sm">➕ Add</button>
-        </div>
-      )}
-
-      {error && <p className="text-center text-red-500 font-bold text-sm mb-3">{error}</p>}
-
-      {sentences.length > 0 && (
-        <div className="flex flex-col gap-1.5 mb-4">
-          {sentences.map((s, i) => (
-            <div key={i} className="bg-teal-100 border-2 border-teal-200 rounded-xl px-3 py-1.5 flex items-center gap-2">
-              <span className="font-bold text-teal-400 text-sm">{i + 1}.</span>
-              <span className="font-bold text-teal-800 text-base">{s}</span>
-              <span className="ml-auto text-green-500 font-bold">✓</span>
-            </div>
-          ))}
-        </div>
-      )}
+          )
+        })}
+      </div>
 
       {allDone && (
-        <div className="text-center bounce-in">
-          <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל השאלות!</p>
           <button onClick={onDone} className="btn-kid bg-teal-500">✅ Done</button>
         </div>
       )}
@@ -1134,7 +1178,7 @@ export default function WasWerePage() {
         {tab === 'ex3' && <ExWrapper render={done => <ChoiceWasWereCap questions={EX3_QUESTIONS} onDone={done} />} />}
         {tab === 'ex4' && <ExWrapper render={done => <Ex4Builder onDone={done} />} />}
         {tab === 'ex5' && <ExWrapper render={done => <Ex5Passage onDone={done} />} />}
-        {tab === 'ex6' && <ExWrapper render={done => <Ex6Builder onDone={done} />} />}
+        {tab === 'ex6' && <ExWrapper render={done => <Ex6YesNoQuestions questions={EX6_QUESTIONS} onDone={done} />} />}
       </div>
     </div>
   )

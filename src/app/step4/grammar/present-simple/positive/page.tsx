@@ -592,7 +592,11 @@ const EX7_CONFIG: PassageConfig = {
     { type: 'blank', blankIndex: 1 },
     { type: 'text', text: ' her homework. On Monday, Maya and her friends ' },
     { type: 'blank', blankIndex: 2 },
-    { type: 'text', text: ' in the garden. Every Tuesday and Wednesday she plays tennis. On Thursday Maya and her friends eat ice cream. At home, she ' },
+    { type: 'text', text: ' in the garden. Every Tuesday and Wednesday she ' },
+    { type: 'blank', blankIndex: 4 },
+    { type: 'text', text: ' tennis. On Thursday Maya and her friends ' },
+    { type: 'blank', blankIndex: 5 },
+    { type: 'text', text: ' ice cream. At home, she ' },
     { type: 'blank', blankIndex: 3 },
     { type: 'text', text: ' English every night.' },
   ],
@@ -600,9 +604,11 @@ const EX7_CONFIG: PassageConfig = {
     { index: 0, answer: 'goes' },     // she goes
     { index: 1, answer: 'gives' },    // Her teacher gives her homework
     { index: 2, answer: 'play' },     // Maya and her friends play
+    { index: 4, answer: 'plays' },    // she plays tennis
+    { index: 5, answer: 'eat' },      // her friends eat ice cream
     { index: 3, answer: 'studies' },  // she studies
   ],
-  bank: ['go', 'goes', 'give', 'gives', 'play', 'plays', 'study', 'studies'],
+  bank: ['go', 'goes', 'give', 'gives', 'play', 'plays', 'study', 'studies', 'eat'],
 }
 
 function PassageExercise({ config, onDone }: { config: PassageConfig; onDone: () => void }) {

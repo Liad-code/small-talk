@@ -67,9 +67,9 @@ interface Ex2Cycle {
 
 const EX2_CYCLES: Ex2Cycle[] = [
   {
-    whWords: ['When', 'Where', 'What', 'Why', 'Who', 'How'],
-    subjects: ['you', 'he', 'I', 'they', 'she', 'we'],
-    verbs: ['eat', 'go', 'read', 'play', 'clean', 'watch'],
+    whWords: ['When', 'Where', 'What', 'Why', 'How'],
+    subjects: ['you', 'I', 'she', 'we', 'the children', 'my family', 'Ben', 'the show'],
+    verbs: ['eat for lunch', 'start', 'go after the party', 'do after school', 'clean the classroom', 'get for your birthday', 'feel'],
   },
 ]
 
@@ -289,7 +289,8 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
   const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
 
-  const allDone = sentences.length === cycle.subjects.length
+  const goal = Math.min(cycle.subjects.length, cycle.verbs.length)
+  const allDone = sentences.length === goal
   const availWh = cycle.whWords
   const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s))
   const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
@@ -309,11 +310,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-3">
         <span>Cycle {cycleIdx + 1} / {EX2_CYCLES.length}</span>
-        <span className="text-blue-500">{sentences.length} / {cycle.subjects.length} ✓</span>
+        <span className="text-blue-500">{sentences.length} / {goal} ✓</span>
       </div>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-3 text-sm font-bold text-blue-700" dir="rtl">
-        <p>1. יש ליצור {cycle.subjects.length} שאלות על מנת לסיים את המשימה.</p>
+        <p>1. יש ליצור {goal} שאלות על מנת לסיים את המשימה.</p>
         <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור שאלה.</p>
         <p>3. שימו לב: אחרי did הפועל בצורת הבסיס.</p>
         <p>4. השאלה תופיע למטה, לחץ Add על מנת להוסיף אותה.</p>

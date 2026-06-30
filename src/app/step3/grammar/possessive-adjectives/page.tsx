@@ -4,10 +4,41 @@ import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import {
   PA_EX1, PA_EX2, PA_EX2_R2, PA_EX3_ROUNDS, PA_WORD_BANK,
-  type PossAdj,
+  type PossAdj, type PAEx3Round,
 } from '@/data/step3/possessive-adjectives'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
+
+// ── Ex3 Round 2 — dialogue between two friends (fill the possessive adjectives) ──
+// Defined here so Round 1 stays exactly as in the data file.
+const PA_EX3_R2_DIALOGUE: PAEx3Round = {
+  segments: [
+    { type: 'text',  text: 'A: "Hi Dan! Is this ' },
+    { type: 'blank', blankIndex: 0 },
+    { type: 'text',  text: ' bag?"\nB: "No, it\'s not ' },
+    { type: 'blank', blankIndex: 1 },
+    { type: 'text',  text: ' bag. It\'s ' },
+    { type: 'blank', blankIndex: 2 },
+    { type: 'text',  text: ' sister\'s bag."\nA: "Where are ' },
+    { type: 'blank', blankIndex: 3 },
+    { type: 'text',  text: ' parents?"\nB: "' },
+    { type: 'blank', blankIndex: 4 },
+    { type: 'text',  text: ' parents are at work. And ' },
+    { type: 'blank', blankIndex: 5 },
+    { type: 'text',  text: ' dog is at home."' },
+  ],
+  blanks: [
+    { index: 0, answer: 'your' },
+    { index: 1, answer: 'my'   },
+    { index: 2, answer: 'her'  },
+    { index: 3, answer: 'your' },
+    { index: 4, answer: 'My'   },
+    { index: 5, answer: 'our'  },
+  ],
+  wordBank: ['my', 'your', 'his', 'her', 'our', 'their'],
+}
+
+const PA_EX3_ROUNDS_LOCAL: PAEx3Round[] = [PA_EX3_ROUNDS[0], PA_EX3_R2_DIALOGUE]
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
@@ -340,13 +371,13 @@ function Ex3Round({
   onNextRound: () => void
   onRestart: () => void
 }) {
-  const round = PA_EX3_ROUNDS[roundIdx]
+  const round = PA_EX3_ROUNDS_LOCAL[roundIdx]
   const [filled, setFilled] = useState<Record<number, string>>({})
   const [draggedWord, setDraggedWord] = useState<string | null>(null)
   const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
   const allFilled = round.blanks.every(b => filled[b.index] !== undefined)
-  const isLastRound = roundIdx === PA_EX3_ROUNDS.length - 1
+  const isLastRound = roundIdx === PA_EX3_ROUNDS_LOCAL.length - 1
 
   const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
@@ -401,7 +432,7 @@ function Ex3Round({
       </div>
 
       {/* Passage */}
-      <div className="bg-white border-2 border-violet-200 rounded-2xl p-4 text-base font-bold text-gray-700 leading-relaxed">
+      <div className="bg-white border-2 border-violet-200 rounded-2xl p-4 text-base font-bold text-gray-700 leading-relaxed whitespace-pre-line">
         {round.segments.map((seg, i) => {
           if (seg.type === 'text') {
             return <span key={i}>{seg.text}</span>

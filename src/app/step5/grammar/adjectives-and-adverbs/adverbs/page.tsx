@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { shuffle } from '@/utils/shuffle'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4'
 
@@ -263,8 +264,11 @@ function Ex2Round({ items, onDone }: { items: SortAdv[]; onDone: () => void }) {
   const [placed, setPlaced] = useState<Record<AdvCat, SortAdv[]>>({ '+ly': [], 'le': [], 'ily': [], 'irregular': [] })
   const [flashWrong, setFlashWrong] = useState<AdvCat | null>(null)
   const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
+  // Shuffle the word bank once at mount so tiles are in an unpredictable order
+  // and the student must work out which category each adverb belongs to.
+  const [shuffledItems] = useState<SortAdv[]>(() => shuffle(items))
 
-  const remaining = items.filter(v => !usedBases.has(v.base))
+  const remaining = shuffledItems.filter(v => !usedBases.has(v.base))
   const allDone = usedBases.size === items.length
 
   const handleWordClick = (item: SortAdv) => {

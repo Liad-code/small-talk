@@ -578,12 +578,30 @@ function Ex2() {
 //  EX 3 — 4-part builder (Subject | Verb (past) | Object | Time)
 // ════════════════════════════════════════════════════════════════════════════
 
-const EX3_SUBJECTS = ['I', 'We', 'She', 'The boys', 'Dan', 'My mom']
-const EX3_VERBS = ['played', 'ate', 'watched', 'made', 'read', 'cleaned']
-const EX3_OBJECTS = ['football', 'an apple', 'a movie', 'a cake', 'a book', 'the room']
-const EX3_TIMES = ['yesterday', 'last week', 'last night']
+interface Ex3Round {
+  subjects: string[]
+  verbs: string[]
+  objects: string[]
+  times: string[]
+}
 
-function Ex3() {
+// Round 1 — original verbs minus "made" (and "bought"), reordered
+const EX3_ROUND1: Ex3Round = {
+  subjects: ['I', 'We', 'She', 'The boys', 'Dan', 'My mom'],
+  verbs: ['watched', 'cleaned', 'read', 'played', 'ate'],
+  objects: ['a movie', 'the room', 'a book', 'football', 'an apple'],
+  times: ['yesterday', 'last week', 'last night'],
+}
+
+// Round 2 — a different set of past verbs with matching objects
+const EX3_ROUND2: Ex3Round = {
+  subjects: ['I', 'We', 'He', 'The girls', 'Tom', 'My dad'],
+  verbs: ['went', 'took', 'drank', 'wrote', 'saw'],
+  objects: ['to the park', 'the bus', 'some water', 'a letter', 'a movie'],
+  times: ['yesterday', 'last night', 'an hour ago'],
+}
+
+function Ex3Builder({ round, onDone }: { round: Ex3Round; onDone: () => void }) {
   const TARGET = 6
   const [selSubject, setSelSubject] = useState<string | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
@@ -598,10 +616,6 @@ function Ex3() {
     const sentence = `${selSubject} ${selVerb} ${selObject} ${selTime}.`
     setSentences(prev => [...prev, sentence])
     setSelSubject(null); setSelVerb(null); setSelObject(null); setSelTime(null)
-  }
-
-  const restart = () => {
-    setSentences([]); setSelSubject(null); setSelVerb(null); setSelObject(null); setSelTime(null)
   }
 
   return (
@@ -625,7 +639,7 @@ function Ex3() {
               <span className="font-display font-black text-white text-xs">Subject</span>
             </div>
             <div className="bg-blue-50 border-2 border-blue-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {EX3_SUBJECTS.map(s => (
+              {round.subjects.map(s => (
                 <button
                   key={s}
                   onClick={() => setSelSubject(s)}
@@ -643,7 +657,7 @@ function Ex3() {
               <span className="font-display font-black text-white text-xs">Verb</span>
             </div>
             <div className="bg-indigo-50 border-2 border-indigo-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {EX3_VERBS.map(v => (
+              {round.verbs.map(v => (
                 <button
                   key={v}
                   onClick={() => setSelVerb(v)}
@@ -661,7 +675,7 @@ function Ex3() {
               <span className="font-display font-black text-white text-xs">Object</span>
             </div>
             <div className="bg-sky-50 border-2 border-sky-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {EX3_OBJECTS.map(o => (
+              {round.objects.map(o => (
                 <button
                   key={o}
                   onClick={() => setSelObject(o)}
@@ -679,7 +693,7 @@ function Ex3() {
               <span className="font-display font-black text-white text-xs">Time</span>
             </div>
             <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1 flex flex-col gap-1">
-              {EX3_TIMES.map(t => (
+              {round.times.map(t => (
                 <button
                   key={t}
                   onClick={() => setSelTime(t)}
@@ -717,9 +731,66 @@ function Ex3() {
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
-          <button onClick={restart} className="btn-kid bg-blue-500">🔁 Again</button>
+          <button onClick={onDone} className="btn-kid bg-blue-500">✅ Done</button>
         </div>
       )}
+    </div>
+  )
+}
+
+function Ex3() {
+  const rounds = [EX3_ROUND1, EX3_ROUND2]
+  const [round, setRound] = useState(0)
+  const [betweenRounds, setBetweenRounds] = useState(false)
+  const [finished, setFinished] = useState(false)
+  const [key, setKey] = useState(0)
+
+  if (finished) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-6xl mb-4">🌟</div>
+        <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <button
+          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
+          className="btn-kid bg-blue-500"
+        >
+          🔁 Start Over
+        </button>
+      </div>
+    )
+  }
+
+  if (betweenRounds) {
+    return (
+      <div className="text-center py-14 px-4 bounce-in">
+        <div className="text-5xl mb-3">👏</div>
+        <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
+        <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
+        <button
+          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+          className="btn-kid bg-blue-500"
+        >
+          סבב הבא →
+        </button>
+      </div>
+    )
+  }
+
+  const isLast = round === rounds.length - 1
+
+  return (
+    <div key={key}>
+      <div className="max-w-xl mx-auto px-4 pt-4 -mb-2">
+        <span className="inline-block bg-blue-100 text-blue-700 font-display font-black text-sm rounded-full px-3 py-1">
+          Round {round + 1} / {rounds.length}
+        </span>
+      </div>
+      <Ex3Builder
+        key={round}
+        round={rounds[round]}
+        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+      />
     </div>
   )
 }
@@ -740,31 +811,34 @@ interface PassageBlank {
 }
 
 const EX4_SEGMENTS: PassageSeg[] = [
-  { type: 'text', text: 'Last summer we ' },
+  { type: 'text', text: 'Last summer, my family and me ' },
   { type: 'blank', blankIndex: 0 },
-  { type: 'text', text: ' to the beach. I ' },
+  { type: 'text', text: ' to the beach. My father and me ' },
   { type: 'blank', blankIndex: 1 },
-  { type: 'text', text: ' in the sea. My brother ' },
+  { type: 'text', text: ' in the sea and my sister ' },
   { type: 'blank', blankIndex: 2 },
-  { type: 'text', text: ' a sandcastle. We ' },
+  { type: 'text', text: ' a sandcastle. After we ' },
   { type: 'blank', blankIndex: 3 },
-  { type: 'text', text: ' ice cream. Mom ' },
+  { type: 'text', text: ', we all ' },
   { type: 'blank', blankIndex: 4 },
-  { type: 'text', text: ' photos. We ' },
+  { type: 'text', text: ' lunch and ' },
   { type: 'blank', blankIndex: 5 },
+  { type: 'text', text: ' an ice cream. We ' },
+  { type: 'blank', blankIndex: 6 },
   { type: 'text', text: ' a great day!' },
 ]
 
 const EX4_BLANKS: PassageBlank[] = [
-  { index: 0, answer: 'went'  },
-  { index: 1, answer: 'swam'  },
-  { index: 2, answer: 'built' },
-  { index: 3, answer: 'ate'   },
-  { index: 4, answer: 'took'  },
-  { index: 5, answer: 'had'   },
+  { index: 0, answer: 'went'   },
+  { index: 1, answer: 'swam'   },
+  { index: 2, answer: 'built'  },
+  { index: 3, answer: 'played' },
+  { index: 4, answer: 'ate'    },
+  { index: 5, answer: 'bought' },
+  { index: 6, answer: 'had'    },
 ]
 
-const EX4_WORD_BANK = ['went', 'swam', 'built', 'ate', 'took', 'had']
+const EX4_WORD_BANK = ['went', 'swam', 'built', 'played', 'ate', 'bought', 'had']
 
 function Ex4() {
   const [filled, setFilled] = useState<Record<number, string>>({})

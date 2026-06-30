@@ -7,8 +7,8 @@ type Tab = 'learn' | 'ex1' | 'ex2'
 
 // ── Ex1 (builder) data ───────────────────────────────────────────────────────────
 
-const EX1_SUBJECTS = ['you', 'they', 'he', 'she', 'the boys', 'Dana']
-const EX1_VERBS = ['walk', 'play', 'eat', 'go', 'watch', 'clean']   // BASE form
+const EX1_SUBJECTS = ['you', 'they', 'he', 'she', 'the boys', 'Dana', 'my teacher', 'the children', 'my friends']
+const EX1_VERBS = ['walk to school', 'play basketball', 'eat a pizza', 'swim in the pool', 'read a book', 'drink coffee', 'give homework', 'run fast']   // BASE form
 const EX1_TIMES = ['yesterday', 'last week']
 
 // ── Ex2 data (pick correct short answer) ────────────────────────────────────────

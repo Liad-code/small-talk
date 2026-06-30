@@ -492,7 +492,7 @@ function WritingEx({
   onDone,
 }: {
   questions: WriteQ[]
-  instruction: string
+  instruction: React.ReactNode
   theme: 'cyan' | 'pink'
   onDone: () => void
 }) {
@@ -688,10 +688,10 @@ export default function MixedPracticePage() {
           <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} theme="emerald" hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
         )}
         {tab === 'write1' && (
-          <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instruction="השלימו את הפועל בצורה הנכונה לפי זמן המשפט." onDone={done} />} />
+          <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instruction={<>השלימו את הפועל בצורה <span className="text-xl font-black text-green-600">חיובית</span> לפי הזמן במשפט.</>} onDone={done} />} />
         )}
         {tab === 'write2' && (
-          <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" instruction="השלימו את הפועל בצורה השלילית הנכונה לפי זמן המשפט." onDone={done} />} />
+          <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" instruction={<>השלימו את הפועל בצורה <span className="text-xl font-black text-red-600">שלילית</span> הנכונה לפי זמן המשפט.</>} onDone={done} />} />
         )}
       </div>
     </div>

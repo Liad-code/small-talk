@@ -79,7 +79,7 @@ export default function Step6Page() {
           href="/step6/sight-words"
           emoji="👁️"
           title="Sight Words"
-          hebrewTitle="מילות ראייה"
+          hebrewTitle=""
           description="More common words to recognize instantly"
           hebrewDesc="עוד מילים נפוצות לזיהוי מיידי"
           color="from-purple-500 to-violet-600"

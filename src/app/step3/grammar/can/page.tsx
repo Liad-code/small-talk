@@ -48,23 +48,17 @@ interface CanEx2Cycle {
 const EX2_CYCLES: CanEx2Cycle[] = [
   {
     subjects: [
-      { text: 'A fish',   verb: 'can'   },
-      { text: 'A bird',   verb: 'can'   },
-      { text: 'A dog',    verb: 'can'   },
-      { text: 'A baby',   verb: "can't" },
-      { text: 'A turtle', verb: "can't" },
+      { text: 'fish',     verb: 'can'   },
+      { text: 'a bird',   verb: 'can'   },
+      { text: 'dogs',     verb: 'can'   },
+      { text: 'a baby',   verb: "can't" },
+      { text: 'a turtle', verb: "can't" },
+      { text: 'I',        verb: 'can'   },
+      { text: 'you',      verb: 'can'   },
+      { text: 'snakes',   verb: "can't" },
+      { text: 'frogs',    verb: 'can'   },
     ],
-    phrases: ['swim.', 'run.', 'jump.', 'fly high.', 'climb.'],
-  },
-  {
-    subjects: [
-      { text: 'I',          verb: 'can'   },
-      { text: 'You',        verb: 'can'   },
-      { text: 'A frog',     verb: 'can'   },
-      { text: 'A snake',    verb: "can't" },
-      { text: 'A penguin',  verb: "can't" },
-    ],
-    phrases: ['read a book.', 'drive a car.', 'jump high.', 'walk.', 'swim.'],
+    phrases: ['swim.', 'run.', 'jump.', 'fly high.', 'climb.', 'walk.'],
   },
 ]
 
@@ -423,7 +417,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           {/* Phrase column */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-amber-500 rounded-t-xl py-1 text-center">
-              <span className="font-display font-black text-white text-sm">Phrase</span>
+              <span className="font-display font-black text-white text-sm">verbs</span>
             </div>
             <div className="bg-amber-50 border-2 border-amber-200 rounded-b-xl p-1.5 flex flex-col gap-1">
               {availablePhrases.map(p => (

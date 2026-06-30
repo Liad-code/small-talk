@@ -925,7 +925,7 @@ function normalize(str: string): string {
   return str.trim().toLowerCase().replace(/\s+/g, ' ')
 }
 
-function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]; onDone: () => void; instruction: string }) {
+function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]; onDone: () => void; instruction: React.ReactNode }) {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
@@ -1106,8 +1106,8 @@ export default function AdjectivesPage() {
         {tab === 'ex3'         && <ExWrapper render={done => <Ex3 onDone={done} />} />}
         {tab === 'ex4'         && <ExWrapper render={done => <Ex4 onDone={done} />} />}
         {tab === 'ex5'         && <Ex5 />}
-        {tab === 'ex6'         && <ExWrapper render={done => <TypeInExercise questions={EX6_QS} onDone={done} instruction="הקלידו את הצורה הנכונה של שם התואר לפי חוקי ה-comparative" />} />}
-        {tab === 'ex7'         && <ExWrapper render={done => <TypeInExercise questions={EX7_QS} onDone={done} instruction="הקלידו את הצורה הנכונה של שם התואר לפי חוקי ה-superlative" />} />}
+        {tab === 'ex6'         && <ExWrapper render={done => <TypeInExercise questions={EX6_QS} onDone={done} instruction={<>הקלידו את הצורה הנכונה של שם התואר <span className="text-lg font-black text-pink-600">לפי חוקי ה-comparative</span></>} />} />}
+        {tab === 'ex7'         && <ExWrapper render={done => <TypeInExercise questions={EX7_QS} onDone={done} instruction={<>הקלידו את הצורה הנכונה של שם התואר <span className="text-lg font-black text-pink-600">לפי חוקי ה-superlative</span></>} />} />}
       </div>
     </div>
   )
