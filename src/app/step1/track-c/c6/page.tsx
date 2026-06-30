@@ -18,31 +18,32 @@ function C6Batch({ batch, onDone }: BatchProps) {
   // Shuffle images to a DIFFERENT order from words
   const [shuffledImages] = useState(() => shuffle(batch.map(w => w.word)))
   const [matched, setMatched] = useState<Record<string, boolean>>({})
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  // Order-agnostic selection: remember which side the first tap came from
+  const [selected, setSelected] = useState<{ word: string; side: 'word' | 'image' } | null>(null)
 
   const allDone = batch.every(w => matched[w.word])
 
-  function handleImageTap(word: string) {
+  function handleTap(word: string, side: 'word' | 'image') {
     speak(ttsFor(word))
-    setSelectedImage(prev => prev === word ? null : word)
-  }
-
-  function handleWordTap(word: string) {
-    if (!selectedImage) return
-    if (selectedImage === word) {
+    // First tap (or re-tap to toggle off) — select from either column
+    if (!selected || selected.side === side) {
+      setSelected(prev => (prev && prev.word === word && prev.side === side) ? null : { word, side })
+      return
+    }
+    // Second tap on the OPPOSITE column — validate the match
+    if (selected.word === word) {
       setMatched(prev => ({ ...prev, [word]: true }))
-      setSelectedImage(null)
-      speak(ttsFor(word))
+      setSelected(null)
     } else {
       // Wrong match — deselect
-      setSelectedImage(null)
+      setSelected(null)
     }
   }
 
   return (
     <div className="p-4 max-w-sm mx-auto">
       <p className="text-center text-gray-600 text-sm font-bold mb-4" dir="rtl">
-        לחץ על תמונה → לחץ על המילה שלה
+        לחץ על תמונה או על מילה ואז על ההתאמה שלה
       </p>
 
       <div className="grid grid-cols-2 gap-4">
@@ -52,15 +53,18 @@ function C6Batch({ batch, onDone }: BatchProps) {
           {batch.map(w => {
             const vc = VOWEL_COLORS[w.vowel]
             const done = matched[w.word]
+            const isSelected = selected?.side === 'word' && selected.word === w.word
             return (
               <button
                 key={`word_${w.word}`}
-                onClick={() => !done && handleWordTap(w.word)}
+                onClick={() => !done && handleTap(w.word, 'word')}
                 disabled={done}
                 className={`
-                  w-full py-2 rounded-xl border-4 font-display font-black text-2xl
+                  w-full h-16 flex items-center justify-center rounded-xl border-4 font-display font-black text-2xl
                   transition-all duration-150 cursor-pointer select-none
-                  ${done ? `${vc.bg} ${vc.border} ${vc.text}` : 'bg-white border-gray-200 text-gray-600 hover:scale-105 active:scale-95'}
+                  ${done ? `${vc.bg} ${vc.border} ${vc.text}` : ''}
+                  ${isSelected ? 'bg-purple-100 border-purple-400 scale-105 shadow-lg' : ''}
+                  ${!done && !isSelected ? 'bg-white border-gray-200 text-gray-600 hover:scale-105 active:scale-95' : ''}
                 `}
               >
                 {done && <span className="mr-1">✓</span>}
@@ -77,18 +81,18 @@ function C6Batch({ batch, onDone }: BatchProps) {
             const w = CVC_WORDS.find(c => c.word === word)!
             const vc = VOWEL_COLORS[w.vowel]
             const done = matched[word]
-            const selected = selectedImage === word
+            const isSelected = selected?.side === 'image' && selected.word === word
             return (
               <button
                 key={`img_${word}`}
-                onClick={() => !done && handleImageTap(word)}
+                onClick={() => !done && handleTap(word, 'image')}
                 disabled={done}
                 className={`
-                  w-full py-2 rounded-xl border-4 text-5xl
+                  w-full h-16 flex items-center justify-center rounded-xl border-4 text-5xl
                   transition-all duration-150 cursor-pointer select-none
                   ${done ? `${vc.bg} ${vc.border}` : ''}
-                  ${selected ? 'bg-purple-100 border-purple-400 scale-110 shadow-lg' : ''}
-                  ${!done && !selected ? 'bg-white border-gray-200 hover:scale-105 active:scale-95' : ''}
+                  ${isSelected ? 'bg-purple-100 border-purple-400 scale-110 shadow-lg' : ''}
+                  ${!done && !isSelected ? 'bg-white border-gray-200 hover:scale-105 active:scale-95' : ''}
                 `}
               >
                 <WordEmoji word={w} className="text-5xl" />

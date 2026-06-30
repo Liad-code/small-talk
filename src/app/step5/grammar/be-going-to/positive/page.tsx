@@ -3,11 +3,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 
-type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
+type Tab = 'learn' | 'ex1' | 'ex2'
 
 type Aux = 'am' | 'is' | 'are'
 
-// ── Ex1 data: 4-part builder ──────────────────────────────────────────────────
+// ── Ex1 data: 5-part builder ──────────────────────────────────────────────────
 
 interface BuilderSubject {
   text: string
@@ -22,57 +22,10 @@ const EX1_SUBJECTS: BuilderSubject[] = [
   { text: 'She',       aux: 'is'  },
   { text: 'My mother', aux: 'is'  },
 ]
-const EX1_VERBS = ['eat', 'play', 'run', 'read', 'sleep', 'study']
-const EX1_TIMES = ['tomorrow', 'tonight', 'next week']
+const EX1_VERBS = ['eat pasta', 'play tennis', 'run the race', 'read the book', 'sleep late', 'study hard']
+const EX1_TIMES = ['tomorrow', 'tonight', 'next week', 'next Monday']
 
-// ── Ex2 data: reading-passage fill ────────────────────────────────────────────
-
-interface PassageSeg {
-  type: 'text' | 'blank'
-  text?: string
-  blankIndex?: number
-}
-
-interface PassageBlank {
-  index: number
-  answer: string
-}
-
-const EX2_SEGMENTS: PassageSeg[] = [
-  { type: 'text', text: 'It is the weekend! Tomorrow I ' },
-  { type: 'blank', blankIndex: 0 },
-  { type: 'text', text: ' to the beach. My friend Dan ' },
-  { type: 'blank', blankIndex: 1 },
-  { type: 'text', text: ' a big sandcastle. My sisters ' },
-  { type: 'blank', blankIndex: 2 },
-  { type: 'text', text: ' in the sea. My mother ' },
-  { type: 'blank', blankIndex: 3 },
-  { type: 'text', text: ' a picnic for us. My brothers ' },
-  { type: 'blank', blankIndex: 4 },
-  { type: 'text', text: ' football on the sand. We ' },
-  { type: 'blank', blankIndex: 5 },
-  { type: 'text', text: ' a wonderful day!' },
-]
-
-const EX2_BLANKS: PassageBlank[] = [
-  { index: 0, answer: 'am going to go' },
-  { index: 1, answer: 'is going to build' },
-  { index: 2, answer: 'are going to swim' },
-  { index: 3, answer: 'is going to make' },
-  { index: 4, answer: 'are going to play' },
-  { index: 5, answer: 'are going to have' },
-]
-
-const EX2_WORD_BANK = [
-  'am going to go',
-  'is going to build',
-  'are going to swim',
-  'is going to make',
-  'are going to play',
-  'are going to have',
-]
-
-// ── Ex3 data: circle the correct "X going to" phrase ──────────────────────────
+// ── Ex2 data: circle the correct "X going to" phrase ──────────────────────────
 
 interface Ex3Q {
   before: string
@@ -200,27 +153,29 @@ function Ex1() {
   const TARGET = 6
   const [selSubject, setSelSubject] = useState<BuilderSubject | null>(null)
   const [selAux, setSelAux] = useState<Aux | null>(null)
+  const [selGoingTo, setSelGoingTo] = useState(false)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
 
   const allDone = sentences.length === TARGET
+  const allPicked = !!selSubject && !!selAux && selGoingTo && !!selVerb && !!selTime
 
   const handleAdd = () => {
-    if (!selSubject || !selAux || !selVerb || !selTime) return
+    if (!selSubject || !selAux || !selGoingTo || !selVerb || !selTime) return
     if (selSubject.aux !== selAux) {
       setError('❌ Try a different aux (am/is/are)!')
       return
     }
     const sentence = `${selSubject.text} ${selAux} going to ${selVerb} ${selTime}.`
     setSentences(prev => [...prev, sentence])
-    setSelSubject(null); setSelAux(null); setSelVerb(null); setSelTime(null)
+    setSelSubject(null); setSelAux(null); setSelGoingTo(false); setSelVerb(null); setSelTime(null)
     setError('')
   }
 
   const restart = () => {
-    setSentences([]); setSelSubject(null); setSelAux(null); setSelVerb(null); setSelTime(null); setError('')
+    setSentences([]); setSelSubject(null); setSelAux(null); setSelGoingTo(false); setSelVerb(null); setSelTime(null); setError('')
   }
 
   return (
@@ -238,7 +193,7 @@ function Ex1() {
       </div>
 
       {!allDone && (
-        <div className="grid grid-cols-4 gap-1.5 mb-4">
+        <div className="grid grid-cols-5 gap-1.5 mb-4">
           {/* Subject */}
           <div className="flex flex-col gap-1.5">
             <div className="bg-cyan-500 rounded-t-xl py-1 text-center">
@@ -272,6 +227,21 @@ function Ex1() {
                   {a}
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* going to */}
+          <div className="flex flex-col gap-1.5">
+            <div className="bg-indigo-500 rounded-t-xl py-1 text-center">
+              <span className="font-display font-black text-white text-xs">going to</span>
+            </div>
+            <div className="bg-indigo-50 border-2 border-indigo-200 rounded-b-xl p-1 flex flex-col gap-1">
+              <button
+                onClick={() => setSelGoingTo(true)}
+                className={`text-xs font-display font-black rounded-lg px-1 py-1 text-center transition-colors border-2 ${selGoingTo ? 'bg-indigo-500 text-white border-indigo-500' : 'bg-white text-indigo-700 border-indigo-300 hover:bg-indigo-100'}`}
+              >
+                going to
+              </button>
             </div>
           </div>
 
@@ -313,7 +283,7 @@ function Ex1() {
         </div>
       )}
 
-      {selSubject && selAux && selVerb && selTime && !allDone && (
+      {allPicked && selSubject && !allDone && (
         <div className="bg-cyan-50 border-2 border-cyan-200 rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <span className="font-bold text-cyan-700 text-base flex-1">
             {selSubject.text} {selAux} going to {selVerb} {selTime}.
@@ -346,114 +316,9 @@ function Ex1() {
   )
 }
 
-// ── Ex2: reading-passage fill ─────────────────────────────────────────────────
+// ── Ex2: circle the correct words ─────────────────────────────────────────────
 
 function Ex2() {
-  const [filled, setFilled] = useState<Record<number, string>>({})
-  const [draggedWord, setDraggedWord] = useState<string | null>(null)
-  const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
-  const [flashWrong, setFlashWrong] = useState<number | null>(null)
-  const allFilled = EX2_BLANKS.every(b => filled[b.index] !== undefined)
-
-  const tryPlace = (blankIdx: number, word: string) => {
-    if (filled[blankIdx]) return
-    const blank = EX2_BLANKS.find(b => b.index === blankIdx)
-    if (!blank) return
-    if (word.toLowerCase() === blank.answer.toLowerCase()) {
-      setFilled(prev => ({ ...prev, [blankIdx]: blank.answer }))
-    } else {
-      setFlashWrong(blankIdx)
-      setTimeout(() => setFlashWrong(null), 800)
-    }
-  }
-
-  const handleDrop = (e: React.DragEvent, blankIdx: number) => {
-    e.preventDefault()
-    setDragOverBlank(null)
-    const word = e.dataTransfer.getData('text/plain') || draggedWord
-    if (word) tryPlace(blankIdx, word)
-    setDraggedWord(null)
-  }
-
-  const restart = () => { setFilled({}); setDraggedWord(null); setDragOverBlank(null); setFlashWrong(null) }
-
-  return (
-    <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>Reading Passage</span>
-        <span className="text-cyan-500">{Object.keys(filled).length} / {EX2_BLANKS.length} ✓</span>
-      </div>
-
-      <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        גרור צירוף מהבנק אל המקום הריק המתאים
-      </p>
-
-      <div className="bg-cyan-50 border-2 border-cyan-200 rounded-2xl p-3 mb-4">
-        <div className="flex flex-wrap gap-2 justify-center">
-          {EX2_WORD_BANK.map(word => (
-            <div
-              key={word}
-              draggable
-              onDragStart={e => { setDraggedWord(word); e.dataTransfer.setData('text/plain', word); e.dataTransfer.effectAllowed = 'move' }}
-              onDragEnd={() => { setDraggedWord(null); setDragOverBlank(null) }}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-sm border-2 transition-all cursor-grab active:cursor-grabbing select-none ${
-                draggedWord === word
-                  ? 'bg-yellow-400 text-yellow-900 border-yellow-400 scale-105'
-                  : 'bg-white text-cyan-700 border-cyan-300 hover:bg-cyan-100'
-              }`}
-            >
-              {word}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-white border-2 border-cyan-200 rounded-2xl p-4 text-base font-bold text-gray-700 leading-loose">
-        {EX2_SEGMENTS.map((seg, i) => {
-          if (seg.type === 'text') {
-            return <span key={i}>{seg.text}</span>
-          }
-          const blankIdx = seg.blankIndex!
-          const val = filled[blankIdx]
-          const isFlash = flashWrong === blankIdx
-          const isOver = dragOverBlank === blankIdx
-          return (
-            <span
-              key={i}
-              data-drop-target="true"
-              onDragOver={e => { if (!val) { e.preventDefault(); setDragOverBlank(blankIdx) } }}
-              onDragLeave={() => setDragOverBlank(prev => prev === blankIdx ? null : prev)}
-              onDrop={e => handleDrop(e, blankIdx)}
-              className={`inline-block min-w-[6rem] px-2 py-0.5 mx-0.5 rounded-lg font-black text-base border-2 text-center transition-all ${
-                val
-                  ? 'bg-green-100 border-green-300 text-green-700'
-                  : isFlash
-                  ? 'bg-red-200 border-red-400 text-red-700 scale-95'
-                  : isOver
-                  ? 'bg-cyan-100 border-cyan-500 text-cyan-500 scale-105'
-                  : 'bg-cyan-50 border-cyan-300 text-cyan-400'
-              }`}
-            >
-              {val || `(${blankIdx + 1})`}
-            </span>
-          )
-        })}
-      </div>
-
-      {allFilled && (
-        <div className="text-center mt-6 bounce-in">
-          <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent work!</p>
-          <button onClick={restart} className="btn-kid bg-cyan-500">🔁 Again</button>
-        </div>
-      )}
-    </div>
-  )
-}
-
-// ── Ex3: circle the correct words ─────────────────────────────────────────────
-
-function Ex3() {
   const [answered, setAnswered] = useState<Record<number, boolean>>({})
   const [wrong, setWrong] = useState<Record<number, string>>({})
   const [options] = useState<string[][]>(() => EX3_QS.map((q, i) => ex3Options(q, i)))
@@ -547,7 +412,6 @@ export default function BeGoingToPositivePage() {
     { id: 'learn', label: '📚 Learn' },
     { id: 'ex1',   label: 'Ex 1' },
     { id: 'ex2',   label: 'Ex 2' },
-    { id: 'ex3',   label: 'Ex 3' },
   ]
 
   const TAB = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -583,7 +447,6 @@ export default function BeGoingToPositivePage() {
         {tab === 'learn' && <LearnTab />}
         {tab === 'ex1' && <Ex1 />}
         {tab === 'ex2' && <Ex2 />}
-        {tab === 'ex3' && <Ex3 />}
       </div>
     </div>
   )

@@ -19,11 +19,6 @@ const EX1_CYCLES: Ex1Cycle[] = [
     verbs: ['help my dad', 'go to school', 'play with you', 'read a book', 'run fast'],
     times: ['tomorrow', 'tonight', 'next week', 'soon'],
   },
-  {
-    subjects: ['She', 'We', 'The dog', 'Tom and Liat', 'she', 'you', 'we'],
-    verbs: ['help my dad', 'go to school', 'play with you', 'read a book', 'run fast'],
-    times: ['soon', 'later', 'next week'],
-  },
 ]
 
 // ── Ex2 data (type the negative form) ────────────────────────────────────────────

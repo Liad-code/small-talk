@@ -11,6 +11,21 @@ function getGroup(letter: string) {
   return LETTER_GROUPS.find(g => g.letters.includes(letter.toLowerCase()))
 }
 
+// Shuffle the word's letters but never return the correct order.
+// Falls back gracefully if no different arrangement exists (e.g. all-same letters).
+function scrambleWord(word: string): string[] {
+  const letters = word.split('')
+  // If every arrangement equals the word (1 char or all identical), nothing to do.
+  if (new Set(letters).size <= 1) return letters
+  let attempt = shuffle(letters)
+  let guard = 0
+  while (attempt.join('') === word && guard < 50) {
+    attempt = shuffle(letters)
+    guard++
+  }
+  return attempt
+}
+
 const INSTRUCTION = 'לחץ על התמונה כדי לשמוע את המילה- לחץ על האותיות לפי הסדר הנכון כדי לבנות את המילה'
 
 function C9Exercise({ onComplete }: { onComplete: () => void }) {
@@ -27,7 +42,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
 
   useEffect(() => {
     if (!current) return
-    setLetterOrder(shuffle(current.word.split('')))
+    setLetterOrder(scrambleWord(current.word))
     setSelected([])
     setWrong(false)
     setCorrect(false)

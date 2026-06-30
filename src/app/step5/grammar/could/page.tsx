@@ -33,9 +33,9 @@ const EX1_QUESTIONS: Ex1Q[] = [
 // ── Ex2 (builder) data ──────────────────────────────────────────────────────────
 
 const EX2_COULD = ['could']
-const EX2_SUBJECTS = ['you', 'she', 'they', 'he', 'we']
-const EX2_VERBS = ['swim', 'read', 'run', 'cook']
-const EX2_TIMES = ['last year', 'last week', 'a few years ago']
+const EX2_SUBJECTS = ['you', 'she', 'they', 'he', 'my brother', 'Dana', 'the baby', 'the children']
+const EX2_VERBS = ['meet us', 'swim', 'read books', 'run fast', 'cook', 'speak English', 'ride a bike', 'walk']
+const EX2_TIMES = ['last year', 'last week', 'a few years ago', 'yesterday']
 const EX2_GOAL = 6
 
 // ── Ex3 data (pick short answer) ────────────────────────────────────────────────

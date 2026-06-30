@@ -17,7 +17,9 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
   const current = queue[idx]
 
   useEffect(() => {
-    if (current) setTimeout(() => speak(ttsFor(current.word)), 400)
+    if (!current) return
+    const t = setTimeout(() => speak(ttsFor(current.word)), 400)
+    return () => clearTimeout(t)  // prevent stale speech on fast navigation
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
@@ -25,7 +27,6 @@ function C2Exercise({ onComplete }: { onComplete: () => void }) {
     if (!current || correct) return
     if (vowel === current.vowel) {
       setCorrect(vowel)
-      speak(ttsFor(current.word))
       setTimeout(() => {
         setScore(s => s + 1)
         setCorrect(null)
