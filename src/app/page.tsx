@@ -1,9 +1,11 @@
 'use client'
+import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { Mascot } from '@/components/ui/Mascot'
 import { useProgress } from '@/hooks/useProgress'
 import { SUBJECTS, CATEGORIES } from '@/data/subjects'
+import { STEP_GUIDES } from '@/data/stepGuides'
 
 /* Decorative sparkle scattered in the hero */
 function Sparkle({ emoji, style }: { emoji: string; style: string }) {
@@ -16,6 +18,7 @@ function Sparkle({ emoji, style }: { emoji: string; style: string }) {
 
 export default function HomePage() {
   const { getLevelProgress } = useProgress()
+  const [openGuide, setOpenGuide] = useState<string | null>(null)
 
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -74,6 +77,7 @@ export default function HomePage() {
       <div className="max-w-5xl mx-auto px-4 pb-16 space-y-12">
         {CATEGORIES.map((cat, catIdx) => {
           const catSubjects = SUBJECTS.filter(s => s.category === cat.id)
+          const guide = STEP_GUIDES[cat.id]
           return (
             <section key={cat.id} className={`slide-up`} style={{ animationDelay: `${0.1 + catIdx * 0.1}s` }}>
 
@@ -90,8 +94,39 @@ export default function HomePage() {
                     <p className="font-bold opacity-90 text-sm" dir="rtl">{cat.hebrewTitle}</p>
                     <p className="text-sm opacity-75 mt-0.5">{cat.description}</p>
                   </div>
+
+                  {guide && (
+                    <button
+                      onClick={() => setOpenGuide(prev => (prev === cat.id ? null : cat.id))}
+                      aria-expanded={openGuide === cat.id}
+                      className="sm:ml-auto flex-shrink-0 flex items-center gap-1.5 bg-white/25 hover:bg-white/35 text-white font-bold text-sm rounded-full px-4 py-2 border-2 border-white/40 transition-colors whitespace-nowrap active:scale-95"
+                      dir="rtl"
+                    >
+                      📘 מדריך <span className="text-xs">{openGuide === cat.id ? '▲' : '▼'}</span>
+                    </button>
+                  )}
                 </div>
               </div>
+
+              {/* Expandable parent guide */}
+              {guide && openGuide === cat.id && (
+                <div className="bg-white rounded-3xl shadow-lg border-4 border-gray-100 overflow-hidden mb-5 bounce-in" dir="rtl">
+                  <div className={`bg-gradient-to-r ${cat.color} px-5 py-3 flex items-center gap-2`}>
+                    <span className="text-2xl">📘</span>
+                    <span className="font-display font-bold text-white text-lg">מדריך — {cat.title}</span>
+                  </div>
+                  <div className="p-5 flex flex-col gap-4">
+                    {guide.sections.map(s => (
+                      <div key={s.heading}>
+                        <h3 className="font-display font-black text-gray-800 text-base mb-1">
+                          <span className="ml-1">{s.icon}</span>{s.heading}
+                        </h3>
+                        <p className="font-bold text-gray-600 text-sm leading-relaxed">{s.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Subject cards grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
