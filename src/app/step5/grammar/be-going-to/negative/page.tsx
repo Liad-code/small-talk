@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 
@@ -207,6 +208,7 @@ function Ex1() {
         <div className="text-center bounce-in">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-3">{total}/{total} correct!</p>
+          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={restart} className="btn-kid bg-rose-500">🔁 Again</button>
         </div>
       )}
@@ -275,6 +277,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QS.length} השאלות!</p>
+        <div className="mb-4"><StarOnComplete step="step5" /></div>
         <button
           onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setFinished(false) }}
           className="btn-kid bg-blue-500"

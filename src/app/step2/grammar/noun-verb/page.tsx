@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { NV_CYCLES } from '@/data/step2/grammar'
 import { shuffle } from '@/utils/shuffle'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 // ── Learn tab ────────────────────────────────────────────────────────────────
 
@@ -161,6 +162,7 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
         <div className="text-center py-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
+          {cycleIdx + 1 >= NV_CYCLES.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < NV_CYCLES.length && (
               <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>

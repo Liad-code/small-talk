@@ -6,6 +6,7 @@ import { DraggableTile } from '@/components/step1/DraggableTile'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { FAMILY, FamilyItem } from '@/data/step2/vocabulary'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1'
 
@@ -104,6 +105,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-amber-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-amber-500">🔁 Again</button>
       </div>
     )
@@ -194,6 +196,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-amber-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-amber-500">🔁 Again</button>
       </div>
     )
@@ -365,6 +368,7 @@ function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing!</p>
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-amber-500">🔁 Again</button>
         </div>
       )}
@@ -584,6 +588,7 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">כל הכבוד!</p>
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-amber-500">🔁 Again</button>
         </div>
       )}

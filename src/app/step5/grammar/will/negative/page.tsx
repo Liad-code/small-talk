@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 
@@ -232,6 +233,9 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
+          {cycleIdx + 1 >= EX1_CYCLES.length && (
+            <div className="mb-4"><StarOnComplete step="step5" /></div>
+          )}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < EX1_CYCLES.length ? (
               <>
@@ -338,6 +342,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QUESTIONS.length} השאלות!</p>
+        <div className="mb-4"><StarOnComplete step="step5" /></div>
         <button onClick={again} className="btn-kid bg-blue-500">🔁 Again</button>
       </div>
     )

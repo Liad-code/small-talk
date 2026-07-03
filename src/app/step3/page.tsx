@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { useStepStars } from '@/hooks/useStepStars'
 
 interface TopicCardProps {
   href?: string
@@ -50,6 +51,9 @@ function TopicCard({ href, emoji, title, hebrewTitle, description, hebrewDesc, c
 }
 
 export default function Step3Page() {
+  const { starsFor } = useStepStars()
+  const step3Stars = starsFor('step3')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -60,6 +64,13 @@ export default function Step3Page() {
           Step 3
         </h1>
         <p className="text-xl font-bold text-orange-600 mb-1">Grammar, Sight Words and More!</p>
+
+        {step3Stars > 0 && (
+          <div className="inline-flex items-center gap-2 mt-4 bg-yellow-100 border-2 border-yellow-300 rounded-2xl px-4 py-2">
+            <span className="text-2xl">⭐</span>
+            <span className="font-black text-yellow-700 text-lg">{step3Stars} stars earned!</span>
+          </div>
+        )}
       </section>
 
       <div className="max-w-2xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 gap-5">

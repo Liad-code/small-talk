@@ -7,6 +7,7 @@ import {
   WH_WORDS, WH_WORD_COLORS, WH_EX1, WH_EX2, WH_EX3,
 } from '@/data/step2/wh-questions'
 import { shuffle } from '@/utils/shuffle'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -123,6 +124,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
+          {cycleIdx + 1 >= WH_EX1.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < WH_EX1.length ? (
               <>
@@ -235,6 +237,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great work!</p>
+          {cycleIdx + 1 >= WH_EX2.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < WH_EX2.length ? (
               <>
@@ -344,6 +347,7 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent!</p>
+          {cycleIdx + 1 >= WH_EX3.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < WH_EX3.length ? (
               <>

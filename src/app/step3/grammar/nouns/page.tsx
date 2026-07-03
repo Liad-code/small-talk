@@ -8,6 +8,7 @@ import {
   NOUN_EX3, NOUN_EX3_R2,
   type NounSortItem,
 } from '@/data/step3/nouns'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'irregular' | 'ex1' | 'ex2' | 'ex3'
 
@@ -26,7 +27,8 @@ function ExWrapper({
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
+        <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
+        <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
           onClick={() => { setFinished(false); setKey(k => k + 1) }}
           className="btn-kid bg-blue-500"

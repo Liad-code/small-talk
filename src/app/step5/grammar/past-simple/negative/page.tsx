@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 
@@ -343,6 +344,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QUESTIONS.length} השאלות!</p>
+        <div className="mb-4"><StarOnComplete step="step5" /></div>
         <button onClick={again} className="btn-kid bg-blue-500">🔁 Again</button>
       </div>
     )
@@ -422,6 +424,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
+        <div className="mb-4"><StarOnComplete step="step5" /></div>
         <button
           onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
           className="btn-kid bg-blue-500"

@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { FRUIT_VEG, FruitVegItem } from '@/data/step2/vocabulary'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2'
 
@@ -103,6 +104,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-red-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-red-500">🔁 Again</button>
       </div>
     )
@@ -193,6 +195,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-red-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-red-500">🔁 Again</button>
       </div>
     )
@@ -418,6 +421,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
           ) : (
             <>
               <p className="font-display font-bold text-xl text-green-600 mb-3">כל המילים נמצאו! 🌟</p>
+              <StarOnComplete step="step2" />
               <button onClick={onRestart} className="btn-kid bg-red-500">🔁 Again</button>
             </>
           )}
@@ -525,6 +529,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
         ) : (
           <>
             <p className="font-display font-bold text-2xl text-red-700" dir="rtl">כל הכבוד! מצאת הכל!</p>
+            <StarOnComplete step="step2" />
             <button onClick={onRestart} className="btn-kid bg-red-500 mt-6">🔁 Again</button>
           </>
         )}

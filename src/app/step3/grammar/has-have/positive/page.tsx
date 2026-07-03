@@ -6,6 +6,7 @@ import {
   HH_POS_EX1, HH_POS_EX2,
   type HHSubject, type HHVerb,
 } from '@/data/step3/has-have'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 
@@ -344,7 +345,8 @@ function ExWrapper({
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
+        <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
+        <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
           onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
           className="btn-kid bg-blue-500"

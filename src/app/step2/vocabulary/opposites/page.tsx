@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { OPPOSITES, OppositePair } from '@/data/step2/vocabulary'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'quiz1' | 'ex1' | 'ex2'
 
@@ -103,6 +104,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-orange-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+      <StarOnComplete step="step2" />
       <button onClick={onAgain} className="btn-kid bg-orange-500">🔁 Again</button>
     </div>
   )
@@ -259,6 +261,7 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
           <p className="font-display font-bold text-xl text-orange-600 mb-3">
             {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : 'כל הכבוד!'}
           </p>
+          {roundIdx + 1 >= totalRounds && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {roundIdx + 1 < totalRounds
               ? <button onClick={onNext} className="btn-kid bg-orange-500">סבב הבא →</button>
@@ -353,6 +356,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-orange-600 mb-3">{score}/{OPPOSITES.length} correct!</p>
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-orange-500">🔁 Again</button>
         </div>
       )}

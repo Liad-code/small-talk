@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { ACTIONS, ActionItem } from '@/data/step2/vocabulary'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'ex2' | 'ex3'
 
@@ -101,6 +102,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-emerald-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+      <StarOnComplete step="step2" />
       <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
     </div>
   )
@@ -186,6 +188,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-emerald-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+      <StarOnComplete step="step2" />
       <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
     </div>
   )
@@ -296,6 +299,7 @@ function MatchActionRound({ items, roundIdx, totalRounds, onNext, onDone }: {
           <p className="font-display font-bold text-xl text-emerald-600 mb-3">
             {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : `${score}/${items.length} correct!`}
           </p>
+          {roundIdx + 1 >= totalRounds && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {roundIdx + 1 < totalRounds
               ? <button onClick={onNext} className="btn-kid bg-emerald-500">סבב הבא →</button>
@@ -393,6 +397,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{ACTION_SENTENCES.length} correct!</p>
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
         </div>
       )}
@@ -476,6 +481,7 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{FILL2_SENTENCES.length} correct!</p>
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
         </div>
       )}

@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -255,6 +256,7 @@ function Ex1() {
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל השאלות!</p>
+          <div className="mb-2"><StarOnComplete step="step4" /></div>
           <button onClick={again} className="btn-kid bg-sky-500">🔁 Again</button>
         </div>
       )}
@@ -423,7 +425,8 @@ function Ex2() {
       {allDone && (
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
+          <p className="font-display font-bold text-xl text-green-600 mb-1">Great questions!</p>
+          <div className="mb-3"><StarOnComplete step="step4" /></div>
           <button onClick={again} className="btn-kid bg-sky-500">🔁 Again</button>
         </div>
       )}
@@ -459,7 +462,8 @@ function Ex3() {
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
+        <p className="font-bold text-gray-500 mb-4" dir="rtl">ענית על כל {EX3_QUESTIONS.length} השאלות!</p>
+        <div className="mb-4"><StarOnComplete step="step4" /></div>
         <button
           onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
           className="btn-kid bg-sky-500"

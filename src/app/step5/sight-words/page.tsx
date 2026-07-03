@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -463,7 +464,8 @@ function Ex2Tab() {
         <div className="text-center bounce-in mt-6">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
-          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <p className="font-bold text-gray-500 mb-2" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
         </div>
       )}
@@ -569,7 +571,8 @@ function Ex3Tab() {
         <div className="text-center bounce-in mt-6">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
-          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <p className="font-bold text-gray-500 mb-2" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
         </div>
       )}

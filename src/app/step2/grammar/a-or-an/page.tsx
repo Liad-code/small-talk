@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { AOA_EX1, AOA_EX2 } from '@/data/step2/a-or-an'
 import { shuffle } from '@/utils/shuffle'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 type Article = 'a' | 'an'
@@ -159,6 +160,7 @@ function Ex1Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <div className="text-center py-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
+          {cycleIdx + 1 >= AOA_EX1.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < AOA_EX1.length ? (
               <>
@@ -243,6 +245,7 @@ function Ex2Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Perfect!</p>
+          {cycleIdx + 1 >= AOA_EX2.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < AOA_EX2.length && (
               <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>

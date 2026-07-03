@@ -6,6 +6,7 @@ import {
   PA_EX1, PA_EX2, PA_EX2_R2, PA_EX3_ROUNDS, PA_WORD_BANK,
   type PossAdj, type PAEx3Round,
 } from '@/data/step3/possessive-adjectives'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -58,7 +59,8 @@ function ExWrapper({
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
+        <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
+        <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
           onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
           className="btn-kid bg-blue-500"
@@ -271,8 +273,9 @@ function Ex2Round({
         <div className="text-center bounce-in mb-6">
           <div className="text-6xl mb-4">🌟</div>
           <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-          <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את סבב {roundIdx + 1}!</p>
-          <div className="flex gap-3 justify-center">
+          <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את סבב {roundIdx + 1}!</p>
+          {isLastRound && <div className="mb-2"><StarOnComplete step="step3" /></div>}
+          <div className="flex gap-3 justify-center mt-2">
             {!isLastRound ? (
               <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
             ) : (
@@ -473,6 +476,7 @@ function Ex3Round({
           <p className="font-bold text-gray-500 mb-3" dir="rtl">
             {isLastRound ? 'סיימת את כל הסבבים!' : `סיימת את סבב ${roundIdx + 1}!`}
           </p>
+          {isLastRound && <div className="mb-3"><StarOnComplete step="step3" /></div>}
           <div className="flex gap-3 justify-center">
             {!isLastRound ? (
               <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>

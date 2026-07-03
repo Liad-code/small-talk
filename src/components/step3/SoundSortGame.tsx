@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { DraggableTile } from '@/components/step1/DraggableTile'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 import type { SoundSortCategory } from '@/data/step3/soundSortSets'
@@ -203,10 +204,12 @@ export function SoundSortGame({
   setNumber,
   categories,
   backHref = '/step3/phonics',
+  starStep = 'step3',
 }: {
   setNumber: number
   categories: SoundSortCategory[]
   backHref?: string
+  starStep?: 'step3' | 'step4'
 }) {
   const [done, setDone] = useState(false)
   const [key, setKey] = useState(0)
@@ -238,9 +241,10 @@ export function SoundSortGame({
           <div className="text-center py-10 px-4 bounce-in">
             <div className="text-6xl mb-4">🎉</div>
             <p className="font-display font-bold text-3xl text-green-600 mb-1">Well done!</p>
-            <p className="font-bold text-gray-500 mb-6" dir="rtl">
+            <p className="font-bold text-gray-500 mb-2" dir="rtl">
               כל הכבוד! מיינת את כל התמונות!
             </p>
+            <div className="mb-6"><StarOnComplete step={starStep} /></div>
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => {

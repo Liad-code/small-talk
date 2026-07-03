@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex3'
 
@@ -80,7 +81,8 @@ function ExWrapper({
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
+        <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
+        <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
           onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
           className="btn-kid bg-blue-500"
@@ -307,7 +309,8 @@ function Ex3() {
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל 10 השאלות!</p>
+        <p className="font-bold text-gray-500 mb-2" dir="rtl">ענית על כל 10 השאלות!</p>
+        <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
           onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
           className="btn-kid bg-blue-500"

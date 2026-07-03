@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -94,7 +95,8 @@ function ExWrapper({
       <div className="text-center py-14 px-4 bounce-in">
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-        <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
+        <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
+        <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
           onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
           className="btn-kid bg-rose-500"
@@ -260,6 +262,7 @@ function VerbFillEx({
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">{total}/{total} correct!</p>
+          <StarOnComplete step="step3" />
         </div>
       )}
     </div>

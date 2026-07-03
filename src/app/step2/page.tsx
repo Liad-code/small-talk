@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { useStepStars } from '@/hooks/useStepStars'
 
 interface TopicCardProps {
   href?: string
@@ -50,6 +51,9 @@ function TopicCard({ href, emoji, title, hebrewTitle, description, hebrewDesc, c
 }
 
 export default function Step2Page() {
+  const { starsFor } = useStepStars()
+  const step2Stars = starsFor('step2')
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -61,6 +65,13 @@ export default function Step2Page() {
           Step 2
         </h1>
         <p className="text-xl font-bold text-purple-600 mb-1">Digraphs, Vowel Patterns and Grammar!</p>
+
+        {step2Stars > 0 && (
+          <div className="inline-flex items-center gap-2 mt-4 bg-yellow-100 border-2 border-yellow-300 rounded-2xl px-4 py-2">
+            <span className="text-2xl">⭐</span>
+            <span className="font-black text-purple-700 text-lg">{step2Stars} stars earned!</span>
+          </div>
+        )}
       </section>
 
       {/* 3 topic squares */}

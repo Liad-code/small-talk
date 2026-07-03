@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { TBN_EX1, TBN_EX2, type TBNSubject } from '@/data/step2/to-be-negative'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 type NegVerb = 'am not' | "isn't" | "aren't"
@@ -214,6 +215,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">{correctCount}/{questions.length} correct!</p>
+          {cycleIdx + 1 >= TBN_EX1.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < TBN_EX1.length ? (
               <>
@@ -372,6 +374,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
+          {cycleIdx + 1 >= TBN_EX2.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < TBN_EX2.length ? (
               <>

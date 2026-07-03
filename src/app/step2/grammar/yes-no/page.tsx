@@ -7,6 +7,7 @@ import {
   YN_EX1, YN_EX2, YN_EX3, YN_ANSWER_BANK, PRONOUN_GROUPS,
   type YNSubject, type PronounGroup, type YNVerb,
 } from '@/data/step2/yes-no'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -192,6 +193,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
+          {cycleIdx + 1 >= YN_EX1.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < YN_EX1.length ? (
               <>
@@ -350,6 +352,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
+          {cycleIdx + 1 >= YN_EX2.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < YN_EX2.length ? (
               <>
@@ -398,6 +401,7 @@ function Ex3() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל 15 השאלות!</p>
+        <StarOnComplete step="step2" />
         <button
           onClick={() => { setCurrent(0); setFinished(false); setKey(k => k + 1) }}
           className="btn-kid bg-blue-500"

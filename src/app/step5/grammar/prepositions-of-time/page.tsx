@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2'
 
@@ -214,6 +215,7 @@ function ChoiceExercise({ questions, onDone }: { questions: ChoiceQ[]; onDone: (
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
+          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={onDone} className="btn-kid bg-cyan-500">✅ Done</button>
         </div>
       )}
@@ -378,6 +380,7 @@ function BuilderExercise({ items, onDone }: { items: BuilderItem[]; onDone: () =
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great sentences!</p>
+          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={onDone} className="btn-kid bg-cyan-500">✅ Done</button>
         </div>
       )}

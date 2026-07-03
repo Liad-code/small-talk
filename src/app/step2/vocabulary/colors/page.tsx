@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
 import { COLORS, ColorItem } from '@/data/step2/vocabulary'
 import { useSpeak } from '@/hooks/useSpeak'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'quiz1' | 'quiz2' | 'bubble' | 'memory' | 'match'
 
@@ -88,6 +89,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-pink-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-pink-500">🔁 Again</button>
       </div>
     )
@@ -180,6 +182,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-pink-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-pink-500">🔁 Again</button>
       </div>
     )
@@ -374,6 +377,7 @@ function BubbleInner({ onAgain }: { onAgain: () => void }) {
 
       {allPopped && (
         <div className="flex flex-col items-center gap-3 mt-2">
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-pink-500">🔁 Again</button>
         </div>
       )}
@@ -436,6 +440,7 @@ function ColorMemoryInner({ onAgain }: { onAgain: () => void }) {
       <div className="text-center py-12 bounce-in">
         <div className="text-5xl mb-3">🎉</div>
         <p className="font-display font-bold text-2xl text-green-600 mb-4">Amazing!</p>
+        <StarOnComplete step="step2" />
         <button onClick={onAgain} className="btn-kid bg-pink-500">🔁 Again</button>
       </div>
     )
@@ -592,6 +597,7 @@ function MatchInner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
+          <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-pink-500">🔁 Again</button>
         </div>
       )}

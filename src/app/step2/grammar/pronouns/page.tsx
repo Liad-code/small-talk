@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { PR_EX1, PR_EX2, PR_EX3, PR_EX4, PR_EX5 } from '@/data/step2/grammar'
 import { shuffle } from '@/utils/shuffle'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5'
 
@@ -146,6 +147,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center pt-2 bounce-in">
           <div className="text-4xl mb-2">{score === questions.length ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{score}/{questions.length}</p>
+          {cycleIdx + 1 >= PR_EX1.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center mt-3">
             {cycleIdx + 1 < PR_EX1.length ? (
               <>
@@ -216,6 +218,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-display font-bold text-xl text-green-600 mb-3">
             {Object.entries(answers).filter(([i,v]) => questions[+i].answer === v).length}/{total} correct!
           </p>
+          {cycleIdx + 1 >= PR_EX2.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < PR_EX2.length ? (
               <>
@@ -320,6 +323,7 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
+          {cycleIdx + 1 >= PR_EX3.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < PR_EX3.length ? (
               <>
@@ -420,6 +424,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center pt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
+          {cycleIdx + 1 >= PR_EX4.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
             {cycleIdx + 1 < PR_EX4.length ? (
               <>
@@ -499,6 +504,7 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">{correctCount === total ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{correctCount}/{total} correct!</p>
+          {cycleIdx + 1 >= PR_EX5.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center mt-3">
             {cycleIdx + 1 < PR_EX5.length ? (
               <>

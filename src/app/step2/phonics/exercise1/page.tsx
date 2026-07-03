@@ -2,6 +2,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { StarOnComplete } from '@/components/shared/StarOnComplete'
 import { DraggableTile } from '@/components/step1/DraggableTile'
 import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
@@ -232,6 +233,7 @@ export default function Exercise1Page() {
             <div className="text-6xl mb-4">🎉</div>
             <p className="font-display font-bold text-3xl text-green-600 mb-1">Well done!</p>
             <p className="font-bold text-gray-500 mb-6" dir="rtl">כל הכבוד! מיינת את כל התמונות!</p>
+            <StarOnComplete step="step2" />
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => { setDone(false); setKey(k => k + 1) }}
