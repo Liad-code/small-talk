@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Nunito, Baloo_2 } from 'next/font/google'
+import { AuthProvider } from '@/components/providers/AuthProvider'
 import './globals.css'
 
 const nunito = Nunito({
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${nunito.variable} ${baloo.variable}`}>
       <body className="font-kid antialiased">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )

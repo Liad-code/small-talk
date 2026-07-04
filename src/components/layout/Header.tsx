@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useCombinedStars } from '@/hooks/useCombinedStars'
 import { useMute } from '@/hooks/useMute'
+import { AuthButton } from './AuthButton'
 
 export function Header() {
   const totalStars = useCombinedStars()
@@ -49,6 +50,9 @@ export function Header() {
           >
             {muted ? '🔇' : '🔊'}
           </button>
+
+          {/* Sign in / account */}
+          <AuthButton />
 
         </div>
       </div>
