@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
+import { CatBoxIllustration } from '@/components/shared/CatBoxIllustration'
 
 type Prep = 'in' | 'on' | 'under' | 'next to'
 
@@ -14,13 +15,9 @@ const ROUNDS: PrepRound[] = [
   { prep: 'next to', label: 'next to' },
 ]
 
-// Position config for ball relative to box
-const POSITIONS: Record<Prep, { top: string; left: string; label: string }> = {
-  in:       { top: '38%',  left: '45%',  label: 'inside the box' },
-  on:       { top: '-12%', left: '45%',  label: 'on top of the box' },
-  under:    { top: '88%',  left: '45%',  label: 'under the box' },
-  'next to':{ top: '35%',  left: '95%',  label: 'next to the box' },
-}
+// Answer buttons (order fixed; the scene itself is drawn by CatBoxIllustration
+// — the exact same cat + box art the Learn flashcards use)
+const PREP_OPTIONS: Prep[] = ['in', 'on', 'under', 'next to']
 
 interface Props { onComplete: () => void }
 
@@ -72,23 +69,14 @@ export function PrepositionsBallInBox({ onComplete }: Props) {
         {score}/{rounds.length} ✓
       </div>
 
-      {/* Box scene */}
+      {/* Box scene — identical art to the Learn flashcards (cat + box) */}
       <div className="relative flex items-center justify-center mb-6" style={{ height: '160px' }}>
-        {/* Box */}
-        <div className="text-7xl relative z-0">📦</div>
-
-        {/* Ball (positioned relative to box) */}
-        {ballPos && (
-          <div
-            className={`absolute text-3xl transition-all duration-300 z-10 ${wrong ? 'shake' : ''}`}
-            style={{
-              top: POSITIONS[ballPos].top,
-              left: POSITIONS[ballPos].left,
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            ⚽
+        {ballPos ? (
+          <div className={wrong ? 'shake' : ''}>
+            <CatBoxIllustration id={ballPos === 'next to' ? 'next-to' : ballPos} large />
           </div>
+        ) : (
+          <div className="text-7xl">📦</div>
         )}
       </div>
 
@@ -109,7 +97,7 @@ export function PrepositionsBallInBox({ onComplete }: Props) {
       {/* Position buttons */}
       {!done && (
         <div className="grid grid-cols-2 gap-2">
-          {(Object.keys(POSITIONS) as Prep[]).map(pos => (
+          {PREP_OPTIONS.map(pos => (
             <button
               key={pos}
               onClick={() => handlePlaceBall(pos)}

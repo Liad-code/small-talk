@@ -416,8 +416,8 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         לחץ על המילה ועל המספר שלה
       </p>
 
-      <div className="flex gap-3">
-        <div className="flex-1 flex flex-col gap-2">
+      <div className="flex gap-2">
+        <div className="flex-1 flex flex-col gap-1">
           {shuffledWords.map(n => {
             const isMatched = matched.has(n.digit)
             const isSel = selected?.type === 'word' && selected.value === n.digit
@@ -428,8 +428,8 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
                 onClick={() => !isMatched && handleWordClick(n.digit)}
                 disabled={isMatched}
                 className={`
-                  py-2 px-3 rounded-xl border-4 font-bold text-lg text-left
-                  transition-all duration-150 cursor-pointer select-none min-h-[48px]
+                  py-1 px-3 rounded-xl border-4 font-bold text-base text-left
+                  transition-all duration-150 cursor-pointer select-none h-[44px]
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isSel ? 'bg-blue-200 border-blue-500 text-blue-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
@@ -442,7 +442,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
           })}
         </div>
 
-        <div className="flex flex-col gap-2 w-16">
+        <div className="flex flex-col gap-1 w-16">
           {NUMBERS_11_19.map(n => {
             const isMatched = matched.has(n.digit)
             const isDigitSel = selected?.type === 'digit' && selected.value === n.digit
@@ -453,7 +453,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
                 onClick={() => !isMatched && handleDigitClick(n.digit)}
                 disabled={isMatched}
                 className={`
-                  h-[48px] w-full rounded-xl border-4 font-black text-lg
+                  h-[44px] w-full rounded-xl border-4 font-black text-lg
                   transition-all duration-150 cursor-pointer select-none
                   ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
                   ${isDigitSel ? 'bg-indigo-200 border-indigo-500 text-indigo-900 scale-105 shadow-lg' : ''}

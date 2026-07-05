@@ -4,9 +4,15 @@ import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 import { TrackDItem } from '@/data/step1/trackDCategories'
 
-interface Props { items: TrackDItem[]; onComplete: () => void; limit?: number }
+interface Props {
+  items: TrackDItem[]
+  onComplete: () => void
+  limit?: number
+  /** Custom visual for the picture column (e.g. prepositions cat-box art) — defaults to the item emoji */
+  renderVisual?: (item: TrackDItem) => React.ReactNode
+}
 
-export function GenericMatch({ items, onComplete, limit = 6 }: Props) {
+export function GenericMatch({ items, onComplete, limit = 6, renderVisual }: Props) {
   const speak = useSpeak()
   const [pool] = useState<TrackDItem[]>(() => shuffle([...items]).slice(0, limit))
   const [shuffledWords] = useState(() => shuffle([...pool]))
@@ -71,8 +77,8 @@ export function GenericMatch({ items, onComplete, limit = 6 }: Props) {
                 onClick={() => !isMatched && handleWordClick(item.word)}
                 disabled={isMatched}
                 className={`
-                  py-3 px-3 rounded-xl border-4 font-display font-black text-xl text-center
-                  transition-all duration-150 cursor-pointer select-none min-h-[56px]
+                  ${renderVisual ? 'h-20' : 'h-14'} px-3 rounded-xl border-4 font-display font-black text-lg text-center leading-tight
+                  transition-all duration-150 cursor-pointer select-none flex items-center justify-center
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-900' : ''}
                   ${isSelected ? 'bg-amber-300 border-amber-600 text-amber-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-200 border-red-500 text-red-900 shake' : ''}
@@ -97,7 +103,7 @@ export function GenericMatch({ items, onComplete, limit = 6 }: Props) {
                 onClick={() => !isMatched && handleEmojiClick(item.word)}
                 disabled={isMatched}
                 className={`
-                  min-h-[56px] w-full rounded-xl border-4 text-3xl
+                  ${renderVisual ? 'h-20' : 'h-14'} w-full rounded-xl border-4 text-3xl
                   transition-all duration-150 cursor-pointer select-none flex items-center justify-center
                   ${isMatched ? 'bg-green-200 border-green-500' : ''}
                   ${isSelected ? 'bg-amber-300 border-amber-600 scale-105 shadow-lg' : ''}
@@ -105,7 +111,7 @@ export function GenericMatch({ items, onComplete, limit = 6 }: Props) {
                   ${!isMatched && !isSelected && !isWrong ? 'bg-amber-100 border-amber-400 hover:bg-amber-200 hover:scale-105' : ''}
                 `}
               >
-                {item.emoji}
+                {renderVisual ? renderVisual(item) : item.emoji}
               </button>
             )
           })}

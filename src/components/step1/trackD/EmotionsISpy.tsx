@@ -86,8 +86,8 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
         <p className="font-display font-bold text-white text-lg">🔍 I Spy</p>
         <span className="text-xs font-bold text-white/70">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
-      <p className="font-bold text-white/70 text-xs mb-3" dir="rtl">
-        ספור כמה פעמים כל רגש מופיע ולחץ על המספר הנכון
+      <p className="font-black text-white text-lg leading-snug mb-3" dir="rtl">
+        ספור באנגלית כמה פעמים מופיע כל רגש וסמן את המספר הנכון.
       </p>
 
       {/* Emoji scene */}

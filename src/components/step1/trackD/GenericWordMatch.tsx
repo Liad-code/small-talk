@@ -3,35 +3,43 @@ import { useState } from 'react'
 import { shuffle } from '@/utils/shuffle'
 import { TrackDItem } from '@/data/step1/trackDCategories'
 
-interface Row { word: string; correct: string; choices: string[] }
+interface Row { word: string; choices: string[] } // choices = item words (correct = row.word)
 
 function buildRows(items: TrackDItem[], limit: number): Row[] {
   const pool = shuffle([...items]).slice(0, limit)
   return pool.map(item => {
-    const others = items.filter(i => i.word !== item.word && i.emoji !== item.emoji)
-    const distractors = shuffle(others).slice(0, 2).map(i => i.emoji)
+    const others = items.filter(i => i.word !== item.word)
+    const distractors = shuffle(others).slice(0, 2).map(i => i.word)
     return {
       word: item.word,
-      correct: item.emoji,
-      choices: shuffle([item.emoji, ...distractors]),
+      choices: shuffle([item.word, ...distractors]),
     }
   })
 }
 
-export function GenericWordMatch({ items, onComplete, limit = 6 }: { items: TrackDItem[]; onComplete: () => void; limit?: number }) {
+interface Props {
+  items: TrackDItem[]
+  onComplete: () => void
+  limit?: number
+  /** Custom visual for choice tiles (e.g. prepositions cat-box art) — defaults to the item emoji */
+  renderVisual?: (item: TrackDItem) => React.ReactNode
+}
+
+export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }: Props) {
   const [rows] = useState<Row[]>(() => buildRows(items, limit))
-  // answers: word -> correct emoji (only set when correct → locks row)
+  const itemByWord = new Map(items.map(i => [i.word, i]))
+  // answers: word -> chosen word (only set when correct → locks row)
   const [answers, setAnswers] = useState<Record<string, string>>({})
-  // wrongFlash: word -> wrong emoji chosen (transient red flash, then cleared)
+  // wrongFlash: word -> wrong word chosen (transient red flash, then cleared)
   const [wrongFlash, setWrongFlash] = useState<Record<string, string>>({})
 
   const allAnswered = Object.keys(answers).length === rows.length
   const score = rows.length // all locked rows are correct
 
-  function handlePick(word: string, choice: string, correct: string) {
+  function handlePick(word: string, choice: string) {
     if (answers[word]) return
     if (wrongFlash[word]) return
-    if (choice === correct) {
+    if (choice === word) {
       const next = { ...answers, [word]: choice }
       setAnswers(next)
       if (Object.keys(next).length === rows.length) setTimeout(onComplete, 400)
@@ -42,6 +50,8 @@ export function GenericWordMatch({ items, onComplete, limit = 6 }: { items: Trac
       }, 600)
     }
   }
+
+  const tileSize = renderVisual ? 'w-20 h-20' : 'w-14 h-14'
 
   return (
     <div className="max-w-sm mx-auto pb-16">
@@ -73,15 +83,16 @@ export function GenericWordMatch({ items, onComplete, limit = 6 }: { items: Trac
               </div>
               {/* Choices */}
               <div className="flex gap-2 flex-1 justify-end">
-                {row.choices.map((c, ci) => {
-                  const isChosenWrong = wrongChoice === c
-                  const isCorrectChoice = c === row.correct
+                {row.choices.map((choiceWord, ci) => {
+                  const choiceItem = itemByWord.get(choiceWord)
+                  const isChosenWrong = wrongChoice === choiceWord
+                  const isCorrectChoice = choiceWord === row.word
                   return (
                     <button
                       key={ci}
-                      onClick={() => handlePick(row.word, c, row.correct)}
+                      onClick={() => handlePick(row.word, choiceWord)}
                       disabled={isDone}
-                      className={`w-14 h-14 rounded-xl border-3 text-2xl transition-all cursor-pointer
+                      className={`${tileSize} rounded-xl border-3 text-2xl transition-all cursor-pointer flex items-center justify-center
                         ${isDone && isCorrectChoice ? 'bg-green-200 border-green-500 scale-110' : ''}
                         ${isDone && !isCorrectChoice ? 'opacity-30 border-gray-200 bg-gray-50' : ''}
                         ${!isDone && isChosenWrong ? 'bg-red-200 border-red-400 shake' : ''}
@@ -89,7 +100,7 @@ export function GenericWordMatch({ items, onComplete, limit = 6 }: { items: Trac
                       `}
                       style={{ border: '3px solid' }}
                     >
-                      {c}
+                      {choiceItem ? (renderVisual ? renderVisual(choiceItem) : choiceItem.emoji) : choiceWord}
                     </button>
                   )
                 })}

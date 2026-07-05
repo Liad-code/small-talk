@@ -8,7 +8,7 @@ import { useSpeak } from '@/hooks/useSpeak'
 import { FAMILY, FamilyItem } from '@/data/step2/vocabulary'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
-type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1'
+type Tab = 'learn' | 'quiz1' | 'quiz2' | 'ex1' | 'search'
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -140,7 +140,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
               `}
             >
               <span className="text-5xl">{opt.emoji}</span>
-              <span className="font-bold text-sm text-gray-500">{opt.name}</span>
             </button>
           )
         })}
@@ -601,13 +600,232 @@ function Ex2Tab() {
   return <CrosswordInner key={k} onAgain={() => setK(n => n + 1)} />
 }
 
+// ── Search: Word Search (2 rounds) ───────────────────────────────────────────
+
+const WS_COLS = 8
+const WS_ROWS = 10
+const ALPHA = 'abcdefghijklmnopqrstuvwxyz'
+
+interface WsItem { id: string; name: string; emoji: string }
+
+const WS_ROUNDS: WsItem[][] = [
+  [
+    { id: 'mom',     name: 'MOM',     emoji: '👩' },
+    { id: 'dad',     name: 'DAD',     emoji: '👨' },
+    { id: 'sister',  name: 'SISTER',  emoji: '👧' },
+    { id: 'brother', name: 'BROTHER', emoji: '👦' },
+    { id: 'baby',    name: 'BABY',    emoji: '👶' },
+  ],
+  [
+    { id: 'grandma', name: 'GRANDMA', emoji: '👵' },
+    { id: 'grandpa', name: 'GRANDPA', emoji: '👴' },
+    { id: 'uncle',   name: 'UNCLE',   emoji: '👨‍🦰' },
+    { id: 'aunt',    name: 'AUNT',    emoji: '👩‍🦰' },
+    { id: 'cousin',  name: 'COUSIN',  emoji: '🧒' },
+  ],
+]
+
+interface WsPlacement { word: string; row: number; col: number; dir: 'h' | 'v' }
+
+function generateWordSearch(items: WsItem[]): { grid: string[][]; placements: WsPlacement[] } {
+  const words = items.map(f => f.name.toLowerCase())
+  const grid: string[][] = Array(WS_ROWS).fill(null).map(() => Array(WS_COLS).fill(''))
+  const placements: WsPlacement[] = []
+  const sorted = [...words].sort((a, b) => b.length - a.length)
+
+  for (const word of sorted) {
+    let placed = false
+    for (let attempt = 0; attempt < 200 && !placed; attempt++) {
+      const dir: 'h' | 'v' = Math.random() < 0.5 ? 'h' : 'v'
+      const maxRow = dir === 'h' ? WS_ROWS - 1 : WS_ROWS - word.length
+      const maxCol = dir === 'h' ? WS_COLS - word.length : WS_COLS - 1
+      if (maxRow < 0 || maxCol < 0) continue
+      const row = Math.floor(Math.random() * (maxRow + 1))
+      const col = Math.floor(Math.random() * (maxCol + 1))
+      let valid = true
+      for (let i = 0; i < word.length; i++) {
+        const r = dir === 'h' ? row : row + i
+        const c = dir === 'h' ? col + i : col
+        if (grid[r][c] !== '' && grid[r][c] !== word[i]) { valid = false; break }
+      }
+      if (valid) {
+        for (let i = 0; i < word.length; i++) {
+          const r = dir === 'h' ? row : row + i
+          const c = dir === 'h' ? col + i : col
+          grid[r][c] = word[i]
+        }
+        placements.push({ word, row, col, dir })
+        placed = true
+      }
+    }
+  }
+
+  for (let r = 0; r < WS_ROWS; r++)
+    for (let c = 0; c < WS_COLS; c++)
+      if (grid[r][c] === '') grid[r][c] = ALPHA[Math.floor(Math.random() * 26)]
+
+  return { grid, placements }
+}
+
+function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
+  items: WsItem[]
+  roundIdx: number
+  totalRounds: number
+  onNext: () => void
+  onRestart: () => void
+}) {
+  const [{ grid, placements }] = useState(() => generateWordSearch(items))
+  const [found, setFound] = useState<Set<string>>(new Set())
+  const [highlighted, setHighlighted] = useState<Set<string>>(new Set())
+  const [selPath, setSelPath] = useState<[number, number][]>([])
+  const [flashRed, setFlashRed] = useState(false)
+
+  const allFound = found.size === placements.length
+
+  function cellKey(r: number, c: number) { return `${r},${c}` }
+
+  function handleCellClick(r: number, c: number) {
+    if (flashRed) return
+    const key = cellKey(r, c)
+    if (highlighted.has(key)) return
+
+    const selKeys = new Set(selPath.map(([pr, pc]) => cellKey(pr, pc)))
+    if (selKeys.has(key)) { setSelPath([]); return }
+
+    if (selPath.length === 0) { setSelPath([[r, c]]); return }
+
+    const [lastR, lastC] = selPath[selPath.length - 1]
+    const dr = r - lastR
+    const dc = c - lastC
+
+    if (Math.abs(dr) + Math.abs(dc) !== 1) {
+      setFlashRed(true)
+      setTimeout(() => { setFlashRed(false); setSelPath([]) }, 400)
+      return
+    }
+
+    if (selPath.length >= 2) {
+      const dir = selPath[1][0] === selPath[0][0] ? 'h' : 'v'
+      if ((dir === 'h' && dr !== 0) || (dir === 'v' && dc !== 0)) {
+        setFlashRed(true)
+        setTimeout(() => { setFlashRed(false); setSelPath([]) }, 400)
+        return
+      }
+    }
+
+    const newPath: [number, number][] = [...selPath, [r, c]]
+    const letters = newPath.map(([pr, pc]) => grid[pr][pc]).join('')
+    const match = placements.find(p => p.word === letters && !found.has(p.word))
+    if (match) {
+      setFound(prev => { const s = new Set<string>(); prev.forEach(v => s.add(v)); s.add(match.word); return s })
+      const newHighlighted = new Set(highlighted)
+      newPath.forEach(([pr, pc]) => newHighlighted.add(cellKey(pr, pc)))
+      setHighlighted(newHighlighted)
+      setSelPath([])
+    } else {
+      setSelPath(newPath)
+    }
+  }
+
+  const selKeys = new Set(selPath.map(([r, c]) => cellKey(r, c)))
+  const cellPx = Math.floor((Math.min(340, typeof window !== 'undefined' ? window.innerWidth - 32 : 340)) / WS_COLS)
+
+  return (
+    <div className="max-w-sm mx-auto px-2 pb-16">
+      <div className="flex justify-between items-center mb-2">
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על האותיות אחת אחת ומצא את המילים</p>
+        <span className="text-xs font-bold text-amber-500">סבב {roundIdx + 1}/{totalRounds}</span>
+      </div>
+      <div className="flex justify-center mb-3 text-sm font-bold text-gray-500">
+        {found.size} / {placements.length} מילים נמצאו
+      </div>
+
+      <div className={`border-2 mb-4 select-none ${flashRed ? 'border-red-400' : 'border-gray-300'}`} style={{ width: 'fit-content' }}>
+        {Array.from({ length: WS_ROWS }, (_, r) => (
+          <div key={r} className="flex">
+            {Array.from({ length: WS_COLS }, (_, c) => {
+              const key = cellKey(r, c)
+              const isFound = highlighted.has(key)
+              const isSel = selKeys.has(key)
+              return (
+                <div
+                  key={c}
+                  onClick={() => handleCellClick(r, c)}
+                  className={`
+                    flex items-center justify-center border border-gray-100 cursor-pointer select-none
+                    font-display font-black transition-colors duration-100
+                    ${isFound ? 'bg-green-200 text-green-800' : flashRed && isSel ? 'bg-red-200 text-red-800' : isSel ? 'bg-yellow-200 text-yellow-800' : 'bg-white text-gray-700'}
+                  `}
+                  style={{ width: cellPx, height: cellPx, fontSize: Math.max(9, cellPx - 10) }}
+                >
+                  {grid[r][c]}
+                </div>
+              )
+            })}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 gap-1.5 mb-4">
+        {items.map(f => {
+          const isFound = found.has(f.name.toLowerCase())
+          return (
+            <div
+              key={f.id}
+              className={`flex items-center gap-2 px-2 py-1 rounded-xl border-2 text-sm font-bold
+                ${isFound ? 'bg-green-100 border-green-400 text-green-700 line-through' : 'bg-white border-gray-200 text-gray-700'}`}
+            >
+              <span className="text-lg">{f.emoji}</span>
+              <span>{f.name}</span>
+            </div>
+          )
+        })}
+      </div>
+
+      {allFound && (
+        <div className="text-center mt-3 bounce-in">
+          <div className="text-4xl mb-2">🎉</div>
+          {roundIdx + 1 < totalRounds ? (
+            <>
+              <p className="font-display font-bold text-xl text-green-600 mb-3">סבב {roundIdx + 1} הושלם!</p>
+              <button onClick={onNext} className="btn-kid bg-amber-500">סבב הבא →</button>
+            </>
+          ) : (
+            <>
+              <p className="font-display font-bold text-xl text-green-600 mb-3">כל המילים נמצאו! 🌟</p>
+              <StarOnComplete step="step2" />
+              <button onClick={onRestart} className="btn-kid bg-amber-500">🔁 Again</button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function SearchTab() {
+  const [round, setRound] = useState(0)
+  const [k, setK] = useState(0)
+  return (
+    <WordSearchRound
+      key={`${round}-${k}`}
+      items={WS_ROUNDS[round]}
+      roundIdx={round}
+      totalRounds={WS_ROUNDS.length}
+      onNext={() => setRound(r => r + 1)}
+      onRestart={() => { setRound(0); setK(n => n + 1) }}
+    />
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'learn', label: '📚 Learn'   },
-  { id: 'quiz1', label: '🔊 Quiz 1' },
-  { id: 'quiz2', label: '🎯 Quiz 2' },
-  { id: 'ex1',   label: '🌳 Tree'   },
+  { id: 'learn',  label: '📚 Learn'  },
+  { id: 'quiz1',  label: '🔊 Quiz 1' },
+  { id: 'quiz2',  label: '🎯 Quiz 2' },
+  { id: 'ex1',    label: '🌳 Tree'   },
+  { id: 'search', label: '🔍 Search' },
 ]
 
 const TAB_BASE = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
@@ -640,6 +858,7 @@ export default function FamilyPage() {
         {tab === 'quiz1' && <Quiz1Tab />}
         {tab === 'quiz2' && <Quiz2Tab />}
         {tab === 'ex1'   && <Ex1Tab />}
+        {tab === 'search' && <SearchTab />}
       </div>
     </div>
   )

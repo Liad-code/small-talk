@@ -21,13 +21,14 @@ function buildRounds(items: TrackDItem[]): SpyItem[][] {
   return rounds
 }
 
-function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly }: {
+function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly, instruction }: {
   items: SpyItem[]
   roundIdx: number
   totalRounds: number
   onNext: () => void
   onRestart: () => void
   wordOnly: boolean
+  instruction: string
 }) {
   const [layout] = useState(() => {
     const all: { uid: string; emoji: string }[] = []
@@ -83,8 +84,8 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly }
         <p className="font-display font-bold text-white text-lg">🔍 I Spy</p>
         <span className="text-xs font-bold text-white/80">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
-      <p className="font-bold text-white/80 text-xs mb-3" dir="rtl">
-        ספור כמה פעמים כל פריט מופיע ולחץ על המספר הנכון
+      <p className="font-black text-white text-lg leading-snug mb-3" dir="rtl">
+        {instruction}
       </p>
 
       {/* Emoji scene */}
@@ -133,7 +134,9 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly }
   )
 }
 
-export function GenericISpy({ items, onComplete, wordOnly = false }: { items: TrackDItem[]; onComplete: () => void; wordOnly?: boolean }) {
+const DEFAULT_INSTRUCTION = 'ספור כמה פעמים כל פריט מופיע ולחץ על המספר הנכון'
+
+export function GenericISpy({ items, onComplete, wordOnly = false, instruction = DEFAULT_INSTRUCTION }: { items: TrackDItem[]; onComplete: () => void; wordOnly?: boolean; instruction?: string }) {
   const [rounds] = useState<SpyItem[][]>(() => buildRounds(items))
   const [round, setRound] = useState(0)
   const [k, setK] = useState(0)
@@ -157,6 +160,7 @@ export function GenericISpy({ items, onComplete, wordOnly = false }: { items: Tr
       onNext={handleNext}
       onRestart={handleRestart}
       wordOnly={wordOnly}
+      instruction={instruction}
     />
   )
 }

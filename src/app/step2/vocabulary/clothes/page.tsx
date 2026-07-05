@@ -135,7 +135,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
             `}
           >
             <span className="text-5xl">{opt.emoji}</span>
-            <span className="font-bold text-xs text-gray-500">{opt.name}</span>
           </button>
         ))}
       </div>
@@ -308,19 +307,24 @@ function Ex1Tab() {
 
 // ── Ex2: Sort — Spring/Summer vs Fall/Winter ──────────────────────────────────
 
+// "glasses" appears as "sunglasses" (🕶️) in the Sort exercise
+const SORT_ITEMS: ClothesItem[] = CLOTHES.map(c =>
+  c.id === 'glasses' ? { ...c, name: 'sunglasses', emoji: '🕶️' } : c
+)
+
 function ClothesSort({ onAgain }: { onAgain: () => void }) {
   const [placed, setPlaced] = useState<Record<string, 'summer' | 'winter'>>({})
   const [wrong, setWrong] = useState<string | null>(null)
 
-  const allDone = Object.keys(placed).length === CLOTHES.length
-  const bank = CLOTHES.filter(c => !placed[c.id])
-  const summerPlaced = CLOTHES.filter(c => placed[c.id] === 'summer')
-  const winterPlaced = CLOTHES.filter(c => placed[c.id] === 'winter')
+  const allDone = Object.keys(placed).length === SORT_ITEMS.length
+  const bank = SORT_ITEMS.filter(c => !placed[c.id])
+  const summerPlaced = SORT_ITEMS.filter(c => placed[c.id] === 'summer')
+  const winterPlaced = SORT_ITEMS.filter(c => placed[c.id] === 'winter')
 
   const handleDrop = useCallback((tileId: string, targetEl: Element): boolean => {
     const zone = targetEl.getAttribute('data-zone') as 'summer' | 'winter' | null
     if (!zone) return false
-    const item = CLOTHES.find(c => c.id === tileId)
+    const item = SORT_ITEMS.find(c => c.id === tileId)
     if (!item) return false
     const correct = (zone === 'summer') === item.warmSeason
     if (!correct) {

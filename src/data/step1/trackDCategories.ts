@@ -224,6 +224,9 @@ export const TRACK_D_CATEGORIES: TrackDCategory[] = [
     items: [
       { word: 'tree', emoji: '🌳' }, { word: 'flower', emoji: '🌸' },
       { word: 'water', emoji: '💧' }, { word: 'garden', emoji: '🌸' },
+      { word: 'sun', emoji: '☀️' },       // שמש
+      { word: 'grass', emoji: '🌿' },     // דשא
+      { word: 'waterfall', emoji: '🏞️' }, // מפל
     ],
   },
 ]

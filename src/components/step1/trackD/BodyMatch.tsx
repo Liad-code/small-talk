@@ -79,8 +79,8 @@ export function BodyMatch({ onComplete }: { onComplete: () => void }) {
                 onClick={() => !isMatched && handleWordClick(item.word)}
                 disabled={isMatched}
                 className={`
-                  py-3 px-3 rounded-xl border-4 font-display font-black text-xl text-center
-                  transition-all duration-150 cursor-pointer select-none min-h-[56px]
+                  h-14 px-3 rounded-xl border-4 font-display font-black text-lg text-center leading-tight
+                  transition-all duration-150 cursor-pointer select-none flex items-center justify-center
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-900' : ''}
                   ${isSelected ? 'bg-amber-300 border-amber-600 text-amber-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-200 border-red-500 text-red-900 shake' : ''}
@@ -105,7 +105,7 @@ export function BodyMatch({ onComplete }: { onComplete: () => void }) {
                 onClick={() => !isMatched && handleEmojiClick(item.word)}
                 disabled={isMatched}
                 className={`
-                  min-h-[56px] w-full rounded-xl border-4 text-3xl
+                  h-14 w-full rounded-xl border-4 text-3xl
                   transition-all duration-150 cursor-pointer select-none flex items-center justify-center
                   ${isMatched ? 'bg-green-200 border-green-500' : ''}
                   ${isSelected ? 'bg-amber-300 border-amber-600 scale-105 shadow-lg' : ''}

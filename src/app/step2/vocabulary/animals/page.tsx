@@ -140,7 +140,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
               `}
             >
               <span className="text-5xl">{opt.emoji}</span>
-              <span className="font-bold text-sm text-gray-500">{opt.name}</span>
             </button>
           )
         })}
@@ -645,7 +644,7 @@ function MatchRound({ items, roundIdx, totalRounds, onNext, onDone }: {
                 className={`
                   py-1 px-3 rounded-xl border-4 font-bold text-base text-left
                   transition-all duration-150 cursor-pointer select-none h-[52px]
-                  ${isMatched ? 'bg-green-100 border-green-400 text-green-800 opacity-60' : ''}
+                  ${isMatched ? 'bg-blue-100 border-blue-400 text-blue-800 opacity-60' : ''}
                   ${isSel ? 'bg-green-200 border-green-500 text-green-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-100 border-red-400 text-red-800 shake' : ''}
                   ${!isMatched && !isSel && !isWrong ? 'bg-green-50 border-green-300 text-green-800 hover:bg-green-100 hover:scale-105' : ''}
@@ -667,7 +666,7 @@ function MatchRound({ items, roundIdx, totalRounds, onNext, onDone }: {
                 className={`
                   h-[52px] w-full rounded-xl border-4 flex items-center justify-center text-3xl
                   transition-all duration-150 cursor-pointer select-none
-                  ${isMatched ? 'bg-green-100 border-green-400 opacity-50' : ''}
+                  ${isMatched ? 'bg-blue-100 border-blue-400 opacity-50' : ''}
                   ${isEmojiSel ? 'bg-green-200 border-green-500 scale-110 shadow-lg' : ''}
                   ${isEmojiWrong ? 'bg-red-100 border-red-400 shake' : ''}
                   ${!isMatched && !isEmojiSel && !isEmojiWrong ? 'bg-white border-green-200 hover:bg-green-50 hover:scale-105 active:scale-95' : ''}

@@ -18,7 +18,6 @@ import { EmotionsISpy } from '@/components/step1/trackD/EmotionsISpy'
 import { DaysWordSearch } from '@/components/step1/trackD/DaysWordSearch'
 import { BodyWorksheet } from '@/components/step1/trackD/BodyWorksheet'
 import { BodyMatch } from '@/components/step1/trackD/BodyMatch'
-import { SensesWordMatch } from '@/components/step1/trackD/SensesWordMatch'
 import { FruitsISpy } from '@/components/step1/trackD/FruitsISpy'
 import { OppositeMatch } from '@/components/step1/trackD/OppositeMatch'
 import { GenericMatch } from '@/components/step1/trackD/GenericMatch'
@@ -107,10 +106,17 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 // Categories that have pick3 exercise
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 // Categories WITHOUT a generic I Spy: emotions/fruits have bespoke ones; the
-// rest were dropped per spec (general changes 2).
-const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face'])
+// rest were dropped per spec (general changes 2 + seasons/body/senses/
+// prepositions/actions/opposites/house dropped per later spec).
+const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face', 'seasons', 'body', 'senses', 'prepositions', 'actions', 'opposites', 'house'])
 
-type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'senses-match' | 'fruits-ispy' | 'opposites-match' | 'g-match' | 'g-ispy' | 'g-wordmatch'
+// Category-specific I Spy instruction (large bold Hebrew line inside GenericISpy)
+const ISPY_INSTRUCTIONS: Record<string, string> = {
+  colors: 'ספור באנגלית כמה פעמים מופיע כל צבע וסמן את המספר הנכון.',
+  school: 'ספור באנגלית כמה פעמים מופיע כל פריט וסמן את המספר הנכון.',
+}
+
+type Tab = 'flashcards' | 'quiz' | 'bubblepop' | 'pick3' | 'seasons-sort' | 'days-order' | 'days-match' | 'clothesline' | 'count' | 'worksheet' | 'day-night' | 'emotions-ispy' | 'days-search' | 'days-worksheets' | 'body-ws' | 'body-match' | 'fruits-ispy' | 'opposites-match' | 'g-match' | 'g-ispy' | 'g-wordmatch'
 
 function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: string }[] {
   const tabs: { id: Tab; label: string; emoji: string }[] = []
@@ -137,7 +143,6 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
     tabs.push({ id: 'body-ws',    label: 'Ex 1',  emoji: '📄' })
     tabs.push({ id: 'body-match', label: 'Match', emoji: '🔗' })
   }
-  if (categoryId === 'senses') tabs.push({ id: 'senses-match', label: 'Match', emoji: '🔗' })
   if (categoryId === 'fruits') tabs.push({ id: 'fruits-ispy', label: 'I Spy', emoji: '🔍' })
   if (categoryId === 'opposites') tabs.push({ id: 'opposites-match', label: 'Match', emoji: '🔗' })
 
@@ -251,6 +256,28 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   const isDaysCategory = categoryId === 'days'
   const isOpposites = categoryId === 'opposites'
   const isPrepositions = categoryId === 'prepositions'
+
+  // Exercise visuals must match the Learn drawings (prepositions cat-box art,
+  // house special SVGs, opposites big-elephant/small-mouse).
+  const exerciseVisual: ((item: TrackDItem) => React.ReactNode) | undefined = isPrepositions
+    ? item => <CatBoxIllustration id={item.word === 'next to' ? 'next-to' : item.word} />
+    : isOpposites
+    ? item =>
+        item.emoji === '🐘🐭' ? (
+          <span className="flex items-end gap-0.5 leading-none">
+            <span className="text-3xl">🐘</span>
+            <span className="text-sm">🐭</span>
+          </span>
+        ) : (
+          <span className="text-3xl">{item.emoji}</span>
+        )
+    : categoryId === 'house'
+    ? item =>
+        item.word === 'table' ? <TableSvg size="2.2em" />
+        : item.word === 'floor' ? <FloorSvg size="2.2em" />
+        : item.word === 'garden' ? <GardenSvg size="2.2em" />
+        : <span className="text-3xl">{item.emoji}</span>
+    : undefined
 
   // Learn card styling (supports always-on color for body)
   const learnBg = cat.learnCardBg
@@ -510,9 +537,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         {tab === 'body-match' && (
           <BodyMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
-        {tab === 'senses-match' && (
-          <SensesWordMatch key={extraKey} onComplete={handleExtraComplete} />
-        )}
         {tab === 'fruits-ispy' && (
           <FruitsISpy key={extraKey} onComplete={handleExtraComplete} />
         )}
@@ -520,13 +544,13 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           <OppositeMatch key={extraKey} onComplete={handleExtraComplete} />
         )}
         {tab === 'g-match' && cat && (
-          <GenericMatch key={extraKey} items={cat.items} limit={categoryId === 'numbers' ? cat.items.length : 6} onComplete={handleExtraComplete} />
+          <GenericMatch key={extraKey} items={cat.items} limit={categoryId === 'numbers' ? cat.items.length : 6} renderVisual={exerciseVisual} onComplete={handleExtraComplete} />
         )}
         {tab === 'g-ispy' && cat && (
-          <GenericISpy key={extraKey} items={cat.items} wordOnly={categoryId === 'colors' || categoryId === 'seasons'} onComplete={handleExtraComplete} />
+          <GenericISpy key={extraKey} items={cat.items} wordOnly={categoryId === 'colors'} instruction={ISPY_INSTRUCTIONS[categoryId]} onComplete={handleExtraComplete} />
         )}
         {tab === 'g-wordmatch' && cat && (
-          <GenericWordMatch key={extraKey} items={cat.items} limit={categoryId === 'numbers' ? cat.items.length : 6} onComplete={handleExtraComplete} />
+          <GenericWordMatch key={extraKey} items={cat.items} limit={categoryId === 'numbers' ? cat.items.length : 6} renderVisual={exerciseVisual} onComplete={handleExtraComplete} />
         )}
       </div>
 

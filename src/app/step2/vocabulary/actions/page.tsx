@@ -134,7 +134,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
             `}
           >
             <span className="text-5xl">{opt.emoji}</span>
-            <span className="font-bold text-xs text-gray-500">{opt.name}</span>
           </button>
         ))}
       </div>
@@ -342,9 +341,12 @@ const ACTION_SENTENCES = [
 ]
 
 function Ex2Inner({ onAgain }: { onAgain: () => void }) {
+  // Shuffle the option order per question at mount so the correct answer
+  // appears in a varying position (not always first/left)
+  const [items] = useState(() => ACTION_SENTENCES.map(s => ({ ...s, choices: shuffle([...s.choices]) })))
   const [answers, setAnswers] = useState<Record<number, string>>({})
-  const score = Object.entries(answers).filter(([i, ans]) => ans === ACTION_SENTENCES[Number(i)].correct).length
-  const allDone = Object.keys(answers).length === ACTION_SENTENCES.length
+  const score = Object.entries(answers).filter(([i, ans]) => ans === items[Number(i)].correct).length
+  const allDone = Object.keys(answers).length === items.length
 
   function handlePick(i: number, choice: string) {
     if (answers[i] !== undefined) return
@@ -355,10 +357,10 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
     <div className="max-w-sm mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את הפעולה הנכונה</p>
-        <span className="text-emerald-500">✅ {score}/{ACTION_SENTENCES.length}</span>
+        <span className="text-emerald-500">✅ {score}/{items.length}</span>
       </div>
       <div className="flex flex-col gap-3">
-        {ACTION_SENTENCES.map((s, i) => {
+        {items.map((s, i) => {
           const ans = answers[i]
           const isCorrect = ans === s.correct
           const isWrong = ans !== undefined && !isCorrect
@@ -396,7 +398,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
       {allDone && (
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{ACTION_SENTENCES.length} correct!</p>
+          <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{items.length} correct!</p>
           <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
         </div>
@@ -429,9 +431,12 @@ const FILL2_SENTENCES = [
 ]
 
 function Ex3Inner({ onAgain }: { onAgain: () => void }) {
+  // Shuffle the option order per question at mount so the correct answer
+  // appears in a varying position (not always first/left)
+  const [items] = useState(() => FILL2_SENTENCES.map(s => ({ ...s, choices: shuffle([...s.choices]) })))
   const [answers, setAnswers] = useState<Record<number, string>>({})
-  const score = Object.entries(answers).filter(([i, ans]) => ans === FILL2_SENTENCES[Number(i)].correct).length
-  const allDone = Object.keys(answers).length === FILL2_SENTENCES.length
+  const score = Object.entries(answers).filter(([i, ans]) => ans === items[Number(i)].correct).length
+  const allDone = Object.keys(answers).length === items.length
 
   function handlePick(i: number, choice: string) {
     if (answers[i] !== undefined) return
@@ -442,10 +447,10 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
     <div className="max-w-sm mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
         <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את הפעולה הנכונה</p>
-        <span className="text-emerald-500">✅ {score}/{FILL2_SENTENCES.length}</span>
+        <span className="text-emerald-500">✅ {score}/{items.length}</span>
       </div>
       <div className="flex flex-col gap-3">
-        {FILL2_SENTENCES.map((s, i) => {
+        {items.map((s, i) => {
           const ans = answers[i]
           const isCorrect = ans === s.correct
           const isWrong = ans !== undefined && !isCorrect
@@ -480,7 +485,7 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
       {allDone && (
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{FILL2_SENTENCES.length} correct!</p>
+          <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{items.length} correct!</p>
           <StarOnComplete step="step2" />
           <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
         </div>

@@ -2,46 +2,25 @@
 import { useState } from 'react'
 import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
+import { CatBoxIllustration } from '@/components/shared/CatBoxIllustration'
 
 type Prep = 'in' | 'on' | 'under' | 'next to'
 
 interface PrepScene {
-  object: string   // small/moving object emoji
-  reference: string // reference/container emoji
-  prep: Prep
+  prep: Prep       // scene drawn with CatBoxIllustration — same cat + box art as Learn
   options: Prep[]  // always 3
 }
 
 const ALL_SCENES: PrepScene[] = [
-  { object: '🐱', reference: '⚽',  prep: 'on',      options: ['on', 'in', 'next to'] },
-  { object: '🎒', reference: '🛏️', prep: 'under',   options: ['under', 'on', 'next to'] },
-  { object: '🍎', reference: '📦',  prep: 'in',      options: ['in', 'on', 'under'] },
-  { object: '🐶', reference: '🌳',  prep: 'next to', options: ['next to', 'on', 'under'] },
-  { object: '⚽', reference: '🪑',  prep: 'on',      options: ['on', 'under', 'in'] },
-  { object: '🐱', reference: '🪑',  prep: 'under',   options: ['under', 'on', 'in'] },
-  { object: '🐠', reference: '🪣',  prep: 'in',      options: ['in', 'on', 'next to'] },
-  { object: '🎩', reference: '👦',  prep: 'on',      options: ['on', 'under', 'next to'] },
-  { object: '🐦', reference: '🌿',  prep: 'on',      options: ['on', 'in', 'next to'] },
-  { object: '⚽', reference: '🛏️', prep: 'under',   options: ['under', 'in', 'on'] },
-  { object: '🎒', reference: '🚪',  prep: 'next to', options: ['next to', 'in', 'on'] },
-  { object: '🐱', reference: '📦',  prep: 'in',      options: ['in', 'under', 'next to'] },
-  { object: '🐶', reference: '🐱',  prep: 'next to', options: ['next to', 'on', 'under'] },
-  { object: '🌸', reference: '🫙',  prep: 'in',      options: ['in', 'on', 'next to'] },
-  { object: '⚽', reference: '📚',  prep: 'on',      options: ['on', 'under', 'in'] },
-  { object: '👟', reference: '🛏️', prep: 'under',   options: ['under', 'next to', 'on'] },
-  { object: '☕', reference: '🪑',  prep: 'on',      options: ['on', 'in', 'under'] },
-  { object: '📚', reference: '✏️',  prep: 'next to', options: ['next to', 'on', 'under'] },
-  { object: '☂️', reference: '🫙',  prep: 'in',      options: ['in', 'on', 'next to'] },
-  { object: '🍌', reference: '🪣',  prep: 'in',      options: ['in', 'under', 'next to'] },
+  { prep: 'in',      options: ['in', 'on', 'under'] },
+  { prep: 'on',      options: ['on', 'in', 'next to'] },
+  { prep: 'under',   options: ['under', 'on', 'next to'] },
+  { prep: 'next to', options: ['next to', 'on', 'under'] },
+  { prep: 'in',      options: ['in', 'under', 'next to'] },
+  { prep: 'on',      options: ['on', 'under', 'in'] },
+  { prep: 'under',   options: ['under', 'in', 'on'] },
+  { prep: 'next to', options: ['next to', 'in', 'on'] },
 ]
-
-// Positions of the object relative to the reference inside a 100×100 box
-const OBJECT_POS: Record<Prep, { top: string; left: string }> = {
-  'in':      { top: '35%', left: '50%' },
-  'on':      { top: '-5%', left: '50%' },
-  'under':   { top: '85%', left: '50%' },
-  'next to': { top: '35%', left: '95%' },
-}
 
 interface Props { onComplete: () => void }
 
@@ -104,7 +83,6 @@ export function PrepCircleImage({ onComplete }: Props) {
   }
 
   if (!current) return null
-  const objPos = OBJECT_POS[current.prep]
 
   return (
     <div key={resetKey} className="p-4 max-w-sm mx-auto">
@@ -113,28 +91,10 @@ export function PrepCircleImage({ onComplete }: Props) {
         <span>✅ {score}</span>
       </div>
 
-      {/* Scene illustration */}
-      <div className="flex justify-center mb-6">
-        <div className="relative" style={{ width: 120, height: 100 }}>
-          {/* Reference object */}
-          <div
-            className="absolute text-8xl"
-            style={{ top: '30%', left: '50%', transform: 'translate(-50%, -50%)' }}
-          >
-            {current.reference}
-          </div>
-          {/* Moving object */}
-          <div
-            className="absolute text-6xl transition-all duration-300"
-            style={{
-              top: objPos.top,
-              left: objPos.left,
-              transform: 'translate(-50%, -50%)',
-              zIndex: current.prep === 'in' ? 0 : 10,
-            }}
-          >
-            {current.object}
-          </div>
+      {/* Scene illustration — identical art to the Learn flashcards (cat + box) */}
+      <div className="flex justify-center items-center mb-6" style={{ minHeight: 100 }}>
+        <div className="bg-white rounded-3xl border-4 border-gray-300 p-4 shadow-md">
+          <CatBoxIllustration id={current.prep === 'next to' ? 'next-to' : current.prep} large />
         </div>
       </div>
 

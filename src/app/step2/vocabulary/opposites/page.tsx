@@ -9,6 +9,18 @@ import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'quiz1' | 'ex1' | 'ex2'
 
+// The big/small pair: render the elephant ("big" 🐘) LARGE and the mouse ("small" 🐭) SMALL,
+// relative to the base emoji size used at each spot.
+function emojiSizeClass(word: string | undefined, base: 'text-4xl' | 'text-3xl' | 'text-xl'): string {
+  if (word === 'big') {
+    return { 'text-4xl': 'text-6xl', 'text-3xl': 'text-5xl', 'text-xl': 'text-4xl' }[base]
+  }
+  if (word === 'small') {
+    return { 'text-4xl': 'text-xl', 'text-3xl': 'text-lg', 'text-xl': 'text-sm' }[base]
+  }
+  return base
+}
+
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
 function LearnTab() {
@@ -25,7 +37,7 @@ function LearnTab() {
               onClick={() => speak(p.word1, 0.8)}
               className="flex flex-col items-center w-16 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <span className="text-4xl">{p.emoji1}</span>
+              <span className={emojiSizeClass(p.word1, 'text-4xl')}>{p.emoji1}</span>
               <span className="font-display font-black text-orange-800 text-base">{p.word1}</span>
               <span className="font-bold text-gray-500 text-sm" dir="rtl">{p.hebrew1}</span>
             </button>
@@ -34,7 +46,7 @@ function LearnTab() {
               onClick={() => speak(p.word2, 0.8)}
               className="flex flex-col items-center w-16 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              <span className="text-4xl">{p.emoji2}</span>
+              <span className={emojiSizeClass(p.word2, 'text-4xl')}>{p.emoji2}</span>
               <span className="font-display font-black text-orange-800 text-base">{p.word2}</span>
               <span className="font-bold text-gray-500 text-sm" dir="rtl">{p.hebrew2}</span>
             </button>
@@ -123,7 +135,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
                      flex items-center justify-center"
         >🔊</button>
         <div className="flex flex-col items-center">
-          <span className="text-4xl">{current?.emoji}</span>
+          <span className={emojiSizeClass(current?.word, 'text-4xl')}>{current?.emoji}</span>
           <span className="font-display font-black text-orange-800 text-2xl">{current?.word}</span>
         </div>
         <p className="text-sm font-bold text-gray-500" dir="rtl">מה ההפך?</p>
@@ -144,8 +156,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
                 ${!isCorrect && !isWrong ? 'bg-orange-50 border-orange-200 hover:bg-orange-100 hover:scale-105 active:scale-95' : ''}
               `}
             >
-              <span className="text-4xl">{opt.emoji}</span>
-              <span className="font-display font-black text-sm text-gray-700">{opt.word}</span>
+              <span className={emojiSizeClass(opt.word, 'text-4xl')}>{opt.emoji}</span>
             </button>
           )
         })}
@@ -225,7 +236,7 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
                   ${!isMatched && !isSel && !isWrong ? 'bg-orange-50 border-orange-300 text-orange-800 hover:bg-orange-100 hover:scale-105 active:scale-95 cursor-pointer' : ''}
                 `}
               >
-                <span className="text-xl">{item.emoji}</span>
+                <span className={emojiSizeClass(item.word, 'text-xl')}>{item.emoji}</span>
                 <span>{item.word}</span>
               </button>
             )
@@ -248,7 +259,7 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
                   ${!isMatched && !isSel && !isWrong ? 'bg-orange-50 border-orange-300 text-orange-800 hover:bg-orange-100 hover:scale-105 active:scale-95 cursor-pointer' : ''}
                 `}
               >
-                <span className="text-xl">{item.emoji}</span>
+                <span className={emojiSizeClass(item.word, 'text-xl')}>{item.emoji}</span>
                 <span>{item.word}</span>
               </button>
             )
@@ -327,7 +338,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400' : 'bg-white border-orange-200'}`}
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-3xl">{q.emoji}</span>
+                <span className={emojiSizeClass(q.word, 'text-3xl')}>{q.emoji}</span>
                 <span className="font-display font-black text-orange-800 text-lg">{q.word}</span>
                 <span className="text-gray-400 text-sm ml-auto" dir="rtl">ההפך הוא?</span>
               </div>

@@ -2,8 +2,14 @@
 import { useState } from 'react'
 import { shuffle } from '@/utils/shuffle'
 
-const PAIRS = [
-  { id: 'big-small', left: { word: 'big',  emoji: '🐘' }, right: { word: 'small', emoji: '🐭' } },
+interface OppItem {
+  word: string
+  emoji: string
+  emojiClass?: string // size override — big elephant rendered LARGE, small mouse rendered SMALL (matches Learn)
+}
+
+const PAIRS: { id: string; left: OppItem; right: OppItem }[] = [
+  { id: 'big-small', left: { word: 'big',  emoji: '🐘', emojiClass: 'text-5xl' }, right: { word: 'small', emoji: '🐭', emojiClass: 'text-base' } },
   { id: 'hot-cold',  left: { word: 'hot',  emoji: '🔥' }, right: { word: 'cold',  emoji: '❄️' } },
   { id: 'up-down',   left: { word: 'up',   emoji: '⬆️' }, right: { word: 'down',  emoji: '⬇️' } },
   { id: 'slow-fast', left: { word: 'slow', emoji: '🐢' }, right: { word: 'fast',  emoji: '🐇' } },
@@ -70,7 +76,7 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
                   ${!isMatched && !isSel && !isWrong ? 'bg-pink-100 border-pink-400 text-pink-800 hover:bg-pink-200 hover:scale-105 active:scale-95 cursor-pointer' : ''}
                 `}
               >
-                <span className="text-2xl">{item.emoji}</span>
+                <span className={item.emojiClass ?? 'text-2xl'}>{item.emoji}</span>
                 <span>{item.word}</span>
               </button>
             )
@@ -94,7 +100,7 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
                   ${!isMatched && !isSel && !isWrong ? 'bg-pink-100 border-pink-400 text-pink-800 hover:bg-pink-200 hover:scale-105 active:scale-95 cursor-pointer' : ''}
                 `}
               >
-                <span className="text-2xl">{item.emoji}</span>
+                <span className={item.emojiClass ?? 'text-2xl'}>{item.emoji}</span>
                 <span>{item.word}</span>
               </button>
             )

@@ -26,7 +26,13 @@ const NIGHT_BASE = [
   { id: 'washface',   label: 'Wash Your Face',    emoji: '🧼', fitsNight: true  },
 ]
 
-const TOTAL_CORRECT = DAY_BASE.filter(a => a.fitsDay).length + NIGHT_BASE.filter(a => a.fitsNight).length
+// Schoolbag: any answer is fine — day ✓, night ✓, or left unmarked.
+// It never counts as wrong and is never required for completion.
+const FREE_IDS = new Set(['schoolbag', 'schoolbag2'])
+
+const TOTAL_CORRECT =
+  DAY_BASE.filter(a => a.fitsDay && !FREE_IDS.has(a.id)).length +
+  NIGHT_BASE.filter(a => a.fitsNight && !FREE_IDS.has(a.id)).length
 
 export function DayNightGame({ onComplete }: { onComplete: () => void }) {
   const [dayColumn] = useState(() => shuffle([...DAY_BASE]))
@@ -37,6 +43,13 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
 
   function handleCheck(id: string, isCorrect: boolean) {
     if (checked.has(id) || flash[id]) return
+    if (FREE_IDS.has(id)) {
+      // Schoolbag: whatever the kid marks is correct, but it never gates completion
+      const next = new Set(checked); next.add(id)
+      setChecked(next)
+      setFlash(f => ({ ...f, [id]: 'correct' }))
+      return
+    }
     if (isCorrect) {
       const next = new Set(checked); next.add(id)
       setChecked(next)
@@ -79,7 +92,7 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
                 <div
                   key={a.id}
                   onClick={() => !done && !f && handleCheck(a.id, a.fitsDay)}
-                  className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsDay)}`}
+                  className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsDay || FREE_IDS.has(a.id))}`}
                 >
                   <span className="text-3xl shrink-0">{a.emoji}</span>
                   <span className="text-sm font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>
@@ -107,7 +120,7 @@ export function DayNightGame({ onComplete }: { onComplete: () => void }) {
                 <div
                   key={a.id}
                   onClick={() => !done && !f && handleCheck(a.id, a.fitsNight)}
-                  className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsNight)}`}
+                  className={`flex items-center gap-2 px-2 py-2 transition-colors select-none ${rowClass(a.id, a.fitsNight || FREE_IDS.has(a.id))}`}
                 >
                   <span className="text-3xl shrink-0">{a.emoji}</span>
                   <span className="text-sm font-bold text-gray-700 flex-1 leading-tight">{a.label}</span>

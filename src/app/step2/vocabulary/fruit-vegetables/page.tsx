@@ -139,7 +139,6 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
               `}
             >
               <span className="text-5xl">{opt.emoji}</span>
-              <span className="font-bold text-sm text-gray-500">{opt.name}</span>
             </button>
           )
         })}
@@ -543,7 +542,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
         <p className="font-display font-bold text-red-700 text-lg">🔍 I Spy</p>
         <span className="text-xs font-bold text-red-500">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
-      <p className="font-bold text-gray-500 text-xs mb-3" dir="rtl">
+      <p className="font-black text-gray-600 text-lg mb-3" dir="rtl">
         ספור כמה פעמים כל פרי/ירק מופיע ולחץ על המספר הנכון
       </p>
 
