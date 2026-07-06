@@ -360,6 +360,7 @@ function Ex3() {
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -381,6 +382,7 @@ function Ex3() {
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -394,15 +396,20 @@ function Ex3() {
       const next = wrongCount + 1
       setWrongCount(next)
       if (next >= 2) {
-        // reveal the correct answer, keep on screen 3000ms, then auto-advance
+        // reveal the correct answer; the student must tick "הבנתי" to move on
         setInput(q.answer)
         setStatus('reveal')
-        setTimeout(advance, 3000)
       } else {
         setStatus('wrong')
         setTimeout(() => { setStatus('idle'); setInput('') }, 800)
       }
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -417,7 +424,7 @@ function Ex3() {
         <p className="font-bold text-gray-500 mb-4" dir="rtl">ענית על כל {EX3_QS.length} השאלות!</p>
         <div className="mb-4"><StarOnComplete step="step4" /></div>
         <button
-          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setFinished(false) }}
+          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setUnderstood(false); setFinished(false) }}
           className="btn-kid bg-blue-500"
         >
           🔁 Start Over
@@ -474,6 +481,30 @@ function Ex3() {
           <p className="mt-3 font-display font-black text-green-600 text-base">✔ {q.answer}</p>
         )}
       </div>
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-rose-400 text-rose-700 hover:bg-rose-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-rose-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
+          </button>
+        </div>
+      )}
 
       {status === 'idle' && (
         <div className="flex justify-center">

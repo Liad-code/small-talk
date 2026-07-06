@@ -1,4 +1,4 @@
-export interface SoundWord { word: string; emoji: string; tts?: string }
+export interface SoundWord { word: string; emoji: string; hebrew?: string; tts?: string }
 export interface Sound {
   id: string
   label: string
@@ -20,8 +20,8 @@ export const SOUNDS: Sound[] = [
     color: 'from-slate-500 to-gray-600', bgColor: 'bg-slate-50', textColor: 'text-slate-700', borderColor: 'border-slate-300',
     emoji: '🦵',
     words: [
-      { word: 'KNEE', emoji: '🦵' }, { word: 'KNIFE', emoji: '🔪' }, { word: 'KNOCK', emoji: '🚪' },
-      { word: 'KNIT', emoji: '🧶' }, { word: 'KNOW', emoji: '💡' }, { word: 'KNIGHT', emoji: '⚔️' },
+      { word: 'KNEE', emoji: '🦵', hebrew: 'ברך' }, { word: 'KNIFE', emoji: '🔪', hebrew: 'סכין' }, { word: 'KNOCK', emoji: '🚪', hebrew: 'לדפוק' },
+      { word: 'KNIT', emoji: '🧶', hebrew: 'לסרוג' }, { word: 'KNOW', emoji: '💡', hebrew: 'לדעת' }, { word: 'KNIGHT', emoji: '⚔️', hebrew: 'אביר' },
     ],
   },
   {
@@ -30,8 +30,8 @@ export const SOUNDS: Sound[] = [
     color: 'from-violet-500 to-purple-600', bgColor: 'bg-violet-50', textColor: 'text-violet-700', borderColor: 'border-violet-300',
     emoji: '👑',
     words: [
-      { word: 'QUEEN', emoji: '👑' }, { word: 'QUICK', emoji: '⚡' }, { word: 'QUIET', emoji: '🤫' },
-      { word: 'QUIZ', emoji: '❓' }, { word: 'QUARTER', emoji: '🪙' },
+      { word: 'QUEEN', emoji: '👑', hebrew: 'מלכה' }, { word: 'QUICK', emoji: '⚡', hebrew: 'מהיר' }, { word: 'QUIET', emoji: '🤫', hebrew: 'שקט' },
+      { word: 'QUIZ', emoji: '❓', hebrew: 'חידון' }, { word: 'QUARTER', emoji: '🪙', hebrew: 'רבע' },
     ],
   },
   {
@@ -40,8 +40,8 @@ export const SOUNDS: Sound[] = [
     color: 'from-rose-500 to-pink-600', bgColor: 'bg-rose-50', textColor: 'text-rose-700', borderColor: 'border-rose-300',
     emoji: '✍️',
     words: [
-      { word: 'WRITE', emoji: '✍️' }, { word: 'WRAP', emoji: '🎁' },
-      { word: 'WRIST', emoji: '⌚' }, { word: 'WRONG', emoji: '❌' },
+      { word: 'WRITE', emoji: '✍️', hebrew: 'לכתוב' }, { word: 'WRAP', emoji: '🎁', hebrew: 'לעטוף' },
+      { word: 'WRIST', emoji: '⌚', hebrew: 'פרק כף היד' }, { word: 'WRONG', emoji: '❌', hebrew: 'לא נכון' },
     ],
   },
   {
@@ -50,9 +50,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-green-500 to-emerald-600', bgColor: 'bg-green-50', textColor: 'text-green-700', borderColor: 'border-green-300',
     emoji: '🔔',
     words: [
-      { word: 'RING', emoji: '💍' }, { word: 'SING', emoji: '🎤' }, { word: 'KING', emoji: '👑' },
-      { word: 'LONG', emoji: '📏' }, { word: 'STRONG', emoji: '💪' }, { word: 'BRING', emoji: '🎁' },
-      { word: 'SONG', emoji: '🎵' }, { word: 'WING', emoji: '🦋' },
+      { word: 'RING', emoji: '💍', hebrew: 'טבעת' }, { word: 'SING', emoji: '🎤', hebrew: 'לשיר' }, { word: 'KING', emoji: '👑', hebrew: 'מלך' },
+      { word: 'LONG', emoji: '📏', hebrew: 'ארוך' }, { word: 'STRONG', emoji: '💪', hebrew: 'חזק' }, { word: 'BRING', emoji: '🎁', hebrew: 'להביא' },
+      { word: 'SONG', emoji: '🎵', hebrew: 'שיר' }, { word: 'WING', emoji: '🦋', hebrew: 'כנף' },
     ],
   },
   {
@@ -62,11 +62,11 @@ export const SOUNDS: Sound[] = [
     emoji: '🌊',
     words: [
       // ow words
-      { word: 'SNOW', emoji: '❄️' }, { word: 'BLOW', emoji: '💨' },
-      { word: 'THROW', emoji: '⚾' }, { word: 'WINDOW', emoji: '🪟' }, { word: 'YELLOW', emoji: '💛' },
+      { word: 'SNOW', emoji: '❄️', hebrew: 'שלג' }, { word: 'BLOW', emoji: '💨', hebrew: 'לנשוף' },
+      { word: 'THROW', emoji: '⚾', hebrew: 'לזרוק' }, { word: 'WINDOW', emoji: '🪟', hebrew: 'חלון' }, { word: 'YELLOW', emoji: '💛', hebrew: 'צהוב' },
       // oa words
-      { word: 'COAT', emoji: '🧥' }, { word: 'ROAD', emoji: '🛣️' }, { word: 'GOAT', emoji: '🐐' },
-      { word: 'TOAST', emoji: '🍞' }, { word: 'BOAT', emoji: '⛵' }, { word: 'SOAP', emoji: '🧼' },
+      { word: 'COAT', emoji: '🧥', hebrew: 'מעיל' }, { word: 'ROAD', emoji: '🛣️', hebrew: 'כביש' }, { word: 'GOAT', emoji: '🐐', hebrew: 'עז' },
+      { word: 'TOAST', emoji: '🍞', hebrew: 'טוסט' }, { word: 'BOAT', emoji: '⛵', hebrew: 'סירה' }, { word: 'SOAP', emoji: '🧼', hebrew: 'סבון' },
     ],
   },
   {
@@ -76,12 +76,12 @@ export const SOUNDS: Sound[] = [
     emoji: '☁️',
     words: [
       // ow words
-      { word: 'TOWN', emoji: '🏘️' }, { word: 'BROWN', emoji: '🤎' },
-      { word: 'DOWN', emoji: '⬇️' }, { word: 'COW', emoji: '🐄' }, { word: 'CROWN', emoji: '👑' },
+      { word: 'TOWN', emoji: '🏘️', hebrew: 'עיירה' }, { word: 'BROWN', emoji: '🤎', hebrew: 'חום' },
+      { word: 'DOWN', emoji: '⬇️', hebrew: 'למטה' }, { word: 'COW', emoji: '🐄', hebrew: 'פרה' }, { word: 'CROWN', emoji: '👑', hebrew: 'כתר' },
       // ou words
-      { word: 'CLOUD', emoji: '☁️' }, { word: 'HOUSE', emoji: '🏠' }, { word: 'FOUND', emoji: '🔍' },
-      { word: 'MOUTH', emoji: '👄' }, { word: 'COUNT', emoji: '🔢' },
-      { word: 'OUT', emoji: '🚪' }, { word: 'MOUSE', emoji: '🐭' }, { word: 'ROUND', emoji: '⭕' },
+      { word: 'CLOUD', emoji: '☁️', hebrew: 'ענן' }, { word: 'HOUSE', emoji: '🏠', hebrew: 'בית' }, { word: 'FOUND', emoji: '🔍', hebrew: 'מצא' },
+      { word: 'MOUTH', emoji: '👄', hebrew: 'פה' }, { word: 'COUNT', emoji: '🔢', hebrew: 'לספור' },
+      { word: 'OUT', emoji: '🚪', hebrew: 'בחוץ' }, { word: 'MOUSE', emoji: '🐭', hebrew: 'עכבר' }, { word: 'ROUND', emoji: '⭕', hebrew: 'עגול' },
     ],
   },
   {
@@ -91,10 +91,10 @@ export const SOUNDS: Sound[] = [
     emoji: '🪙',
     words: [
       // oi words
-      { word: 'OIL', emoji: '🫙' }, { word: 'COIN', emoji: '🪙' }, { word: 'JOIN', emoji: '🤝' },
-      { word: 'POINT', emoji: '☝️' }, { word: 'NOISE', emoji: '🔊' },
+      { word: 'OIL', emoji: '🫙', hebrew: 'שמן' }, { word: 'COIN', emoji: '🪙', hebrew: 'מטבע' }, { word: 'JOIN', emoji: '🤝', hebrew: 'להצטרף' },
+      { word: 'POINT', emoji: '☝️', hebrew: 'להצביע' }, { word: 'NOISE', emoji: '🔊', hebrew: 'רעש' },
       // oy words
-      { word: 'BOY', emoji: '👦' }, { word: 'TOY', emoji: '🧸' }, { word: 'ENJOY', emoji: '😊' },
+      { word: 'BOY', emoji: '👦', hebrew: 'ילד' }, { word: 'TOY', emoji: '🧸', hebrew: 'צעצוע' }, { word: 'ENJOY', emoji: '😊', hebrew: 'ליהנות' },
     ],
   },
   {
@@ -104,15 +104,15 @@ export const SOUNDS: Sound[] = [
     emoji: '🐦',
     words: [
       // ir
-      { word: 'BIRD', emoji: '🐦' }, { word: 'GIRL', emoji: '👧' }, { word: 'SHIRT', emoji: '👕' },
+      { word: 'BIRD', emoji: '🐦', hebrew: 'ציפור' }, { word: 'GIRL', emoji: '👧', hebrew: 'ילדה' }, { word: 'SHIRT', emoji: '👕', hebrew: 'חולצה' },
       // ur
-      { word: 'TURN', emoji: '↩️' }, { word: 'BURN', emoji: '🔥' }, { word: 'NURSE', emoji: '👩‍⚕️' },
+      { word: 'TURN', emoji: '↩️', hebrew: 'להסתובב' }, { word: 'BURN', emoji: '🔥', hebrew: 'לשרוף' }, { word: 'NURSE', emoji: '👩‍⚕️', hebrew: 'אחות' },
       // or
-      { word: 'CORN', emoji: '🌽' }, { word: 'FORK', emoji: '🍴' }, { word: 'STORM', emoji: '⛈️' },
+      { word: 'CORN', emoji: '🌽', hebrew: 'תירס' }, { word: 'FORK', emoji: '🍴', hebrew: 'מזלג' }, { word: 'STORM', emoji: '⛈️', hebrew: 'סערה' },
       // ar
-      { word: 'CAR', emoji: '🚗' }, { word: 'STAR', emoji: '⭐' }, { word: 'PARK', emoji: '🌳' }, { word: 'SHARK', emoji: '🦈' },
+      { word: 'CAR', emoji: '🚗', hebrew: 'מכונית' }, { word: 'STAR', emoji: '⭐', hebrew: 'כוכב' }, { word: 'PARK', emoji: '🌳', hebrew: 'פארק' }, { word: 'SHARK', emoji: '🦈', hebrew: 'כריש' },
       // er
-      { word: 'HER', emoji: '👩' }, { word: 'MOTHER', emoji: '👩‍👦' }, { word: 'SUMMER', emoji: '☀️' }, { word: 'COMPUTER', emoji: '💻' },
+      { word: 'HER', emoji: '👩', hebrew: 'שלה' }, { word: 'MOTHER', emoji: '👩‍👦', hebrew: 'אמא' }, { word: 'SUMMER', emoji: '☀️', hebrew: 'קיץ' }, { word: 'COMPUTER', emoji: '💻', hebrew: 'מחשב' },
     ],
   },
   {
@@ -121,9 +121,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-cyan-500 to-teal-600', bgColor: 'bg-cyan-50', textColor: 'text-cyan-700', borderColor: 'border-cyan-300',
     emoji: '🔑',
     words: [
-      { word: 'KEY', emoji: '🔑' }, { word: 'MONEY', emoji: '💰' }, { word: 'HONEY', emoji: '🍯' },
-      { word: 'TURKEY', emoji: '🦃' }, { word: 'MONKEY', emoji: '🐒' }, { word: 'VALLEY', emoji: '🏔️' },
-      { word: 'DONKEY', emoji: '🫏' },
+      { word: 'KEY', emoji: '🔑', hebrew: 'מפתח' }, { word: 'MONEY', emoji: '💰', hebrew: 'כסף' }, { word: 'HONEY', emoji: '🍯', hebrew: 'דבש' },
+      { word: 'TURKEY', emoji: '🦃', hebrew: 'תרנגול הודו' }, { word: 'MONKEY', emoji: '🐒', hebrew: 'קוף' }, { word: 'VALLEY', emoji: '🏔️', hebrew: 'עמק' },
+      { word: 'DONKEY', emoji: '🫏', hebrew: 'חמור' },
     ],
   },
   {
@@ -132,9 +132,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-indigo-500 to-blue-600', bgColor: 'bg-indigo-50', textColor: 'text-indigo-700', borderColor: 'border-indigo-300',
     emoji: '🌙',
     words: [
-      { word: 'NIGHT', emoji: '🌙' }, { word: 'LIGHT', emoji: '💡' }, { word: 'RIGHT', emoji: '✅' },
-      { word: 'HIGH', emoji: '⬆️' }, { word: 'FIGHT', emoji: '🥊' }, { word: 'BRIGHT', emoji: '☀️' },
-      { word: 'FLIGHT', emoji: '✈️' }, { word: 'TIGHT', emoji: '🤏' },
+      { word: 'NIGHT', emoji: '🌙', hebrew: 'לילה' }, { word: 'LIGHT', emoji: '💡', hebrew: 'אור' }, { word: 'RIGHT', emoji: '✅', hebrew: 'נכון' },
+      { word: 'HIGH', emoji: '⬆️', hebrew: 'גבוה' }, { word: 'FIGHT', emoji: '🥊', hebrew: 'להילחם' }, { word: 'BRIGHT', emoji: '☀️', hebrew: 'בהיר' },
+      { word: 'FLIGHT', emoji: '✈️', hebrew: 'טיסה' }, { word: 'TIGHT', emoji: '🤏', hebrew: 'הדוק' },
     ],
   },
   {
@@ -144,11 +144,11 @@ export const SOUNDS: Sound[] = [
     emoji: '💧',
     words: [
       // ew words
-      { word: 'NEW', emoji: '✨' }, { word: 'FEW', emoji: '🤏' },
-      { word: 'GREW', emoji: '🌱' }, { word: 'THREW', emoji: '⚾' },
+      { word: 'NEW', emoji: '✨', hebrew: 'חדש' }, { word: 'FEW', emoji: '🤏', hebrew: 'מעט' },
+      { word: 'GREW', emoji: '🌱', hebrew: 'גדל' }, { word: 'THREW', emoji: '⚾', hebrew: 'זרק' },
       // ue words
-      { word: 'BLUE', emoji: '💙' }, { word: 'GLUE', emoji: '🔧' },
-      { word: 'CLUE', emoji: '🔍' }, { word: 'TRUE', emoji: '✅' },
+      { word: 'BLUE', emoji: '💙', hebrew: 'כחול' }, { word: 'GLUE', emoji: '🔧', hebrew: 'דבק' },
+      { word: 'CLUE', emoji: '🔍', hebrew: 'רמז' }, { word: 'TRUE', emoji: '✅', hebrew: 'אמיתי' },
     ],
   },
   {
@@ -157,9 +157,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-teal-500 to-green-600', bgColor: 'bg-teal-50', textColor: 'text-teal-700', borderColor: 'border-teal-300',
     emoji: '💧',
     words: [
-      { word: 'WATER', emoji: '💧' }, { word: 'WATCH', emoji: '⌚' }, { word: 'WALK', emoji: '🚶' },
-      { word: 'WANT', emoji: '🙏' }, { word: 'WASH', emoji: '🚿' }, { word: 'WASP', emoji: '🐝' },
-      { word: 'WALL', emoji: '🧱' },
+      { word: 'WATER', emoji: '💧', hebrew: 'מים' }, { word: 'WATCH', emoji: '⌚', hebrew: 'שעון' }, { word: 'WALK', emoji: '🚶', hebrew: 'ללכת' },
+      { word: 'WANT', emoji: '🙏', hebrew: 'לרצות' }, { word: 'WASH', emoji: '🚿', hebrew: 'לשטוף' }, { word: 'WASP', emoji: '🐝', hebrew: 'צרעה' },
+      { word: 'WALL', emoji: '🧱', hebrew: 'קיר' },
     ],
   },
   {
@@ -169,14 +169,14 @@ export const SOUNDS: Sound[] = [
     emoji: '🦒',
     words: [
       // ge
-      { word: 'GEM', emoji: '💎' }, { word: 'GENTLY', emoji: '🤲' },
-      { word: 'PAGE', emoji: '📄' }, { word: 'ANGEL', emoji: '👼' },
-      { word: 'DANGER', emoji: '⚠️' }, { word: 'BRIDGE', emoji: '🌉' },
+      { word: 'GEM', emoji: '💎', hebrew: 'אבן חן' }, { word: 'GENTLY', emoji: '🤲', hebrew: 'בעדינות' },
+      { word: 'PAGE', emoji: '📄', hebrew: 'דף' }, { word: 'ANGEL', emoji: '👼', hebrew: 'מלאך' },
+      { word: 'DANGER', emoji: '⚠️', hebrew: 'סכנה' }, { word: 'BRIDGE', emoji: '🌉', hebrew: 'גשר' },
       // gi
-      { word: 'GIRAFFE', emoji: '🦒' }, { word: 'GINGER', emoji: '🌿' },
-      { word: 'GIANT', emoji: '🏔️' }, { word: 'MAGIC', emoji: '✨' },
+      { word: 'GIRAFFE', emoji: '🦒', hebrew: 'ג׳ירפה' }, { word: 'GINGER', emoji: '🌿', hebrew: 'ג׳ינג׳ר (זנגביל)' },
+      { word: 'GIANT', emoji: '🏔️', hebrew: 'ענק' }, { word: 'MAGIC', emoji: '✨', hebrew: 'קסם' },
       // gy
-      { word: 'GYM', emoji: '🏋️' }, { word: 'ENERGY', emoji: '⚡' },
+      { word: 'GYM', emoji: '🏋️', hebrew: 'חדר כושר' }, { word: 'ENERGY', emoji: '⚡', hebrew: 'אנרגיה' },
     ],
   },
   {
@@ -186,11 +186,11 @@ export const SOUNDS: Sound[] = [
     emoji: '🏙️',
     words: [
       // ce
-      { word: 'FACE', emoji: '😊' }, { word: 'DANCE', emoji: '💃' },
-      { word: 'PLACE', emoji: '📍' }, { word: 'ICE', emoji: '🧊' },
-      { word: 'RICE', emoji: '🍚' }, { word: 'POLICE', emoji: '👮' },
+      { word: 'FACE', emoji: '😊', hebrew: 'פנים' }, { word: 'DANCE', emoji: '💃', hebrew: 'לרקוד' },
+      { word: 'PLACE', emoji: '📍', hebrew: 'מקום' }, { word: 'ICE', emoji: '🧊', hebrew: 'קרח' },
+      { word: 'RICE', emoji: '🍚', hebrew: 'אורז' }, { word: 'POLICE', emoji: '👮', hebrew: 'משטרה' },
       // ci
-      { word: 'CITY', emoji: '🏙️' }, { word: 'CIRCLE', emoji: '⭕' }, { word: 'PENCIL', emoji: '✏️' },
+      { word: 'CITY', emoji: '🏙️', hebrew: 'עיר' }, { word: 'CIRCLE', emoji: '⭕', hebrew: 'עיגול' }, { word: 'PENCIL', emoji: '✏️', hebrew: 'עיפרון' },
     ],
   },
 ]

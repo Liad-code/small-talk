@@ -121,7 +121,7 @@ export default function Step1HubPage() {
         )}
       </section>
 
-      {/* 4 Track cards */}
+      {/* 3 Track cards */}
       <div className="max-w-2xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 gap-5">
         <TrackCard
           href="/step1/track-a"
@@ -140,7 +140,7 @@ export default function Step1HubPage() {
         <TrackCard
           href="/step1/track-c"
           emoji="📖"
-          title="Track C — CVC Words"
+          title="Track B — CVC Words"
           hebrewTitle="מילים — מבנה CVC"
           description="Build and read short 3-letter words like cat, dog, sun."
           hebrewDesc="זיהוי תנועות, הרכבת מילה, תמונה ← מילה"
@@ -154,7 +154,7 @@ export default function Step1HubPage() {
         <TrackCard
           href="/step1/track-d"
           emoji="🎨"
-          title="Track D — Vocabulary"
+          title="Track C — Vocabulary"
           hebrewTitle="אוצר מילים"
           description="Learn words in 24 picture categories — voice only, no reading needed!"
           hebrewDesc="24 קטגוריות — מספרים, צבעים, חיות ועוד"
@@ -169,7 +169,7 @@ export default function Step1HubPage() {
       {/* Footer note */}
       <div className="text-center pb-10 px-4">
         <p className="text-sm text-gray-400 font-bold" dir="rtl">
-          כל 4 המסלולים פעילים בו-זמנית — התחל מאיפה שרוצה!
+          כל 3 המסלולים פעילים בו-זמנית — התחל מאיפה שרוצה!
         </p>
         <Link href="/" className="text-sm text-purple-400 font-bold hover:text-purple-600 no-underline mt-1 inline-block">
           ← Back to all subjects

@@ -94,39 +94,8 @@ export default function HomePage() {
                     <p className="font-bold opacity-90 text-sm" dir="rtl">{cat.hebrewTitle}</p>
                     <p className="text-sm opacity-75 mt-0.5">{cat.description}</p>
                   </div>
-
-                  {guide && (
-                    <button
-                      onClick={() => setOpenGuide(prev => (prev === cat.id ? null : cat.id))}
-                      aria-expanded={openGuide === cat.id}
-                      className="sm:ml-auto flex-shrink-0 flex items-center gap-1.5 bg-white/25 hover:bg-white/35 text-white font-bold text-sm rounded-full px-4 py-2 border-2 border-white/40 transition-colors whitespace-nowrap active:scale-95"
-                      dir="rtl"
-                    >
-                      📘 מדריך <span className="text-xs">{openGuide === cat.id ? '▲' : '▼'}</span>
-                    </button>
-                  )}
                 </div>
               </div>
-
-              {/* Expandable parent guide */}
-              {guide && openGuide === cat.id && (
-                <div className="bg-white rounded-3xl shadow-lg border-4 border-gray-100 overflow-hidden mb-5 bounce-in" dir="rtl">
-                  <div className={`bg-gradient-to-r ${cat.color} px-5 py-3 flex items-center gap-2`}>
-                    <span className="text-2xl">📘</span>
-                    <span className="font-display font-bold text-white text-lg">מדריך — {cat.title}</span>
-                  </div>
-                  <div className="p-5 flex flex-col gap-4">
-                    {guide.sections.map(s => (
-                      <div key={s.heading}>
-                        <h3 className="font-display font-black text-gray-800 text-base mb-1">
-                          <span className="ml-1">{s.icon}</span>{s.heading}
-                        </h3>
-                        <p className="font-bold text-gray-600 text-sm leading-relaxed">{s.body}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Subject cards grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -190,7 +159,57 @@ export default function HomePage() {
                     </Link>
                   )
                 })}
+
+                {/* Guide square — sits next to the step card; click opens the guide */}
+                {guide && (
+                  <button
+                    onClick={() => setOpenGuide(prev => (prev === cat.id ? null : cat.id))}
+                    aria-expanded={openGuide === cat.id}
+                    className={`
+                      bg-white border-4 border-gray-200
+                      rounded-3xl p-4 flex flex-col items-center justify-center gap-2.5 text-center
+                      card-3d hover:-rotate-1 group cursor-pointer
+                      ${openGuide === cat.id ? 'ring-4 ring-offset-2 ring-gray-300' : ''}
+                    `}
+                    dir="rtl"
+                  >
+                    <span className="text-5xl transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1 inline-block">
+                      📘
+                    </span>
+                    <div>
+                      <div className="font-display font-bold text-base leading-tight text-gray-700">
+                        מדריך
+                      </div>
+                      <div className="text-xs text-gray-500 font-bold mt-0.5">
+                        {cat.title}
+                      </div>
+                    </div>
+                    <div className="text-xs font-bold text-gray-400">
+                      {openGuide === cat.id ? 'סגור ▲' : 'לחצו לפתיחה ▼'}
+                    </div>
+                  </button>
+                )}
               </div>
+
+              {/* Expandable guide panel */}
+              {guide && openGuide === cat.id && (
+                <div className="bg-white rounded-3xl shadow-lg border-4 border-gray-100 overflow-hidden mt-5 bounce-in" dir="rtl">
+                  <div className={`bg-gradient-to-r ${cat.color} px-5 py-3 flex items-center gap-2`}>
+                    <span className="text-2xl">📘</span>
+                    <span className="font-display font-bold text-white text-lg">מדריך — {cat.title}</span>
+                  </div>
+                  <div className="p-5 flex flex-col gap-4">
+                    {guide.sections.map(s => (
+                      <div key={s.heading}>
+                        <h3 className="font-display font-black text-gray-800 text-base mb-1">
+                          <span className="ml-1">{s.icon}</span>{s.heading}
+                        </h3>
+                        <p className="font-bold text-gray-600 text-sm leading-relaxed whitespace-pre-line">{s.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </section>
           )
         })}

@@ -502,6 +502,7 @@ function WritingEx({
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'reveal' | 'correct'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -520,6 +521,7 @@ function WritingEx({
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -539,10 +541,15 @@ function WritingEx({
       setStatus('wrong')
       setTimeout(() => { setStatus('idle'); setInput('') }, 800)
     } else {
-      // reveal the correct answer, keep on screen 3000ms, then advance + reset
+      // reveal the correct answer; the student must tick "הבנתי" to move on
       setStatus('reveal')
-      setTimeout(advance, 3000)
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -550,8 +557,8 @@ function WritingEx({
   }
 
   const C = theme === 'cyan'
-    ? { count: 'text-cyan-500', chip: 'bg-cyan-50 border-cyan-200', chipLabel: 'text-cyan-500', chipText: 'text-cyan-800', btn: 'bg-cyan-500' }
-    : { count: 'text-pink-500', chip: 'bg-pink-50 border-pink-200', chipLabel: 'text-pink-500', chipText: 'text-pink-800', btn: 'bg-pink-500' }
+    ? { count: 'text-cyan-500', chip: 'bg-cyan-50 border-cyan-200', chipLabel: 'text-cyan-500', chipText: 'text-cyan-800', btn: 'bg-cyan-500', check: 'border-cyan-400 text-cyan-700 hover:bg-cyan-50', checkBox: 'border-cyan-400' }
+    : { count: 'text-pink-500', chip: 'bg-pink-50 border-pink-200', chipLabel: 'text-pink-500', chipText: 'text-pink-800', btn: 'bg-pink-500', check: 'border-pink-400 text-pink-700 hover:bg-pink-50', checkBox: 'border-pink-400' }
 
   if (finished) {
     return (
@@ -609,6 +616,28 @@ function WritingEx({
           {status === 'correct' && <span className="text-xl">✅</span>}
         </div>
       </div>
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood ? 'bg-green-500 border-green-500 text-white' : `bg-white ${C.check}`
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : `${C.checkBox} text-transparent`
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
+          </button>
+        </div>
+      )}
 
       {status === 'idle' && (
         <div className="flex justify-center">

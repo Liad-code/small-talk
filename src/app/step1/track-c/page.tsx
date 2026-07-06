@@ -26,7 +26,7 @@ export default function TrackCPage() {
         <div className="max-w-2xl mx-auto flex items-center gap-4">
           <Link href="/step1" className="w-11 h-11 flex items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-white font-black text-lg no-underline flex-shrink-0"><span aria-hidden="true">←</span></Link>
           <div>
-            <h1 className="font-display text-2xl font-bold text-white">Track C — CVC Words</h1>
+            <h1 className="font-display text-2xl font-bold text-white">Track B — CVC Words</h1>
             <p className="text-white/80 font-bold text-sm" dir="rtl">מילים במבנה CVC — cat, dog, sun</p>
           </div>
         </div>
