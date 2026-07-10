@@ -29,6 +29,74 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  children ChildProfile[]
+}
+
+// ── Phase 1: child profiles + per-child progress ─────────────────────────────
+// Minimal child PII by design: display name + optional age band only.
+
+model ChildProfile {
+  id          String   @id @default(cuid())
+  userId      String
+  displayName String
+  avatar      String   @default("🦉") // emoji avatar
+  ageBand     String?  // e.g. "7-8", "9-11"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  progress      Progress[]
+  step1Progress Step1Progress[]
+  stepStars     StepStars[]
+
+  @@index([userId])
+}
+
+// Mirrors the client useProgress shape: per subject+level
+model Progress {
+  id             String   @id @default(cuid())
+  childProfileId String
+  subjectId      String
+  level          Int
+  lessonDone     Boolean  @default(false)
+  quizScore      Int      @default(0)
+  stars          Int      @default(0)
+  gameHighScore  Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  child ChildProfile @relation(fields: [childProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([childProfileId, subjectId, level])
+  @@index([childProfileId])
+}
+
+// Mirrors useStep1Progress: exerciseKey → done; stars kept as a counter row
+model Step1Progress {
+  id             String   @id @default(cuid())
+  childProfileId String
+  exerciseKey    String   // "track_group_exercise" or "__stars__" counter row
+  done           Boolean  @default(true)
+  stars          Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  child ChildProfile @relation(fields: [childProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([childProfileId, exerciseKey])
+  @@index([childProfileId])
+}
+
+// Mirrors useStepStars: per-step star counters for steps 2-6
+model StepStars {
+  id             String   @id @default(cuid())
+  childProfileId String
+  step           String   // "step2" ... "step6"
+  stars          Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  child ChildProfile @relation(fields: [childProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([childProfileId, step])
+  @@index([childProfileId])
 }
 
 model Account {

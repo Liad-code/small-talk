@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
 import type { UserProgress } from '@/types'
+import { pushProgress, PROGRESS_REFRESH_EVENT } from '@/lib/progressSync'
 
 const STORAGE_KEY = 'smalltalk_progress'
 
@@ -15,13 +16,17 @@ function load(): UserProgress {
 
 function save(p: UserProgress) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(p))
+  pushProgress({ subjects: p }) // background server sync when signed in
 }
 
 export function useProgress() {
   const [progress, setProgress] = useState<UserProgress>({})
 
   useEffect(() => {
-    setProgress(load())
+    const refresh = () => setProgress(load())
+    refresh()
+    window.addEventListener(PROGRESS_REFRESH_EVENT, refresh)
+    return () => window.removeEventListener(PROGRESS_REFRESH_EVENT, refresh)
   }, [])
 
   const markLessonDone = useCallback((subjectId: string, level: number) => {

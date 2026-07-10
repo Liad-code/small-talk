@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import { pushProgress } from '@/lib/progressSync'
 
 const STORAGE_KEY = 'smalltalk_stepstars'
 const CHANGE_EVENT = 'smalltalk-stepstars-change'
@@ -24,6 +25,7 @@ export function awardStepStar(step: StarStep) {
   const current = load()
   const next = { ...current, [step]: (current[step] ?? 0) + 1 }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+  pushProgress({ stepStars: next }) // background server sync when signed in
   window.dispatchEvent(new Event(CHANGE_EVENT))
 }
 

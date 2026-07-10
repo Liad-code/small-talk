@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
+import { pushProgress, PROGRESS_REFRESH_EVENT } from '@/lib/progressSync'
 
 const STORAGE_KEY = 'smalltalk_step1'
 
@@ -27,7 +28,10 @@ export function useStep1Progress() {
   const [progress, setProgress] = useState<Step1Progress>({ done: {}, stars: 0 })
 
   useEffect(() => {
-    setProgress(load())
+    const refresh = () => setProgress(load())
+    refresh()
+    window.addEventListener(PROGRESS_REFRESH_EVENT, refresh)
+    return () => window.removeEventListener(PROGRESS_REFRESH_EVENT, refresh)
   }, [])
 
   /** Call this when an exercise is completed — awards 1 star (repeatable) */
@@ -39,6 +43,7 @@ export function useStep1Progress() {
         stars: prev.stars + 1,
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+      pushProgress({ step1: next }) // background server sync when signed in
       return next
     })
   }, [])
