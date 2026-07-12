@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getSessionUserId, MAX_CHILDREN } from '@/lib/children'
+import { getEntitlement, paywallEnabled } from '@/lib/entitlements'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,6 +33,15 @@ export async function POST(req: Request) {
   const count = await db.childProfile.count({ where: { userId } })
   if (count >= MAX_CHILDREN) {
     return NextResponse.json({ error: 'limit' }, { status: 403 })
+  }
+
+  // Per-seat enforcement: with the paywall on and an active subscription,
+  // #children may not exceed paid seats (upgrade via the Stripe portal).
+  if (paywallEnabled()) {
+    const ent = await getEntitlement(userId)
+    if (ent.hasAccess && count >= ent.seats) {
+      return NextResponse.json({ error: 'seats' }, { status: 403 })
+    }
   }
 
   const child = await db.childProfile.create({
