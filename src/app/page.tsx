@@ -176,6 +176,7 @@ export default function HomePage() {
                     <span className="text-5xl transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1 inline-block">
                       📘
                     </span>
+                    <div className="font-display font-bold text-sm text-gray-500 -mt-1">guide</div>
                     <div>
                       <div className="font-display font-bold text-base leading-tight text-gray-700">
                         מדריך
