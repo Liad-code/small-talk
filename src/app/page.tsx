@@ -205,7 +205,11 @@ export default function HomePage() {
                         <h3 className="font-display font-black text-gray-800 text-base mb-1">
                           <span className="ml-1">{s.icon}</span>{s.heading}
                         </h3>
-                        <p className="font-bold text-gray-600 text-sm leading-relaxed whitespace-pre-line">{s.body}</p>
+                        <p className="font-bold text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+                          {s.body.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+                            i % 2 === 1 ? <strong key={i} className="font-black text-gray-800">{part}</strong> : part
+                          )}
+                        </p>
                       </div>
                     ))}
                   </div>
