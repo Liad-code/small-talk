@@ -71,7 +71,7 @@ function LearnTab() {
 
 // ── Practice tab ─────────────────────────────────────────────────────────────
 
-function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+function PracticeRound({ cycleIdx, onMore, onAgain, onDone }: { cycleIdx: number; onMore: () => void; onAgain: () => void; onDone: () => void }) {
   const words = NV_CYCLES[cycleIdx]
   const [tiles] = useState(() => shuffle([...words]))
   const [placed, setPlaced] = useState<Record<string, 'noun' | 'verb'>>({})
@@ -164,10 +164,17 @@ function PracticeRound({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgai
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
           {cycleIdx + 1 >= NV_CYCLES.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < NV_CYCLES.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < NV_CYCLES.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onMore} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}
@@ -206,8 +213,14 @@ export default function NounVerbPage() {
   const [practiceKey, setPracticeKey] = useState(0)
   const [finished, setFinished] = useState(false)
 
-  const handleAgain = () => {
+  const handleMore = () => {
     setCycleIdx(i => i + 1)
+    setPracticeKey(k => k + 1)
+  }
+
+  // On the last round "Again" restarts from round 1
+  const handleAgain = () => {
+    setCycleIdx(0)
     setPracticeKey(k => k + 1)
   }
 
@@ -251,6 +264,7 @@ export default function NounVerbPage() {
           <PracticeRound
             key={practiceKey}
             cycleIdx={Math.min(cycleIdx, NV_CYCLES.length - 1)}
+            onMore={handleMore}
             onAgain={handleAgain}
             onDone={handleDone}
           />

@@ -11,6 +11,22 @@ import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
+// The teacher in the question banks is "Mr. Adam" (renamed from "Mr. Cohen")
+const renameTeacher = (s: string) => s.replace(/\bmr\.?\s*cohen\b/gi, 'Mr. Adam')
+
+const EX2_CYCLES: typeof WH_EX2 = WH_EX2.map(cycle => ({
+  bank: cycle.bank.map(renameTeacher),
+  dialogues: cycle.dialogues.map(d => ({
+    ...d,
+    question: renameTeacher(d.question),
+    answer: renameTeacher(d.answer),
+  })),
+}))
+
+const EX3_CYCLES: typeof WH_EX3 = WH_EX3.map(cycle =>
+  cycle.map(q => ({ ...q, question: renameTeacher(q.question), answer: renameTeacher(q.answer) }))
+)
+
 // ── Learn ────────────────────────────────────────────────────────────────────
 
 function LearnTab() {
@@ -147,8 +163,10 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 // ── Ex 2: Dialogue matching (drag-and-drop) ───────────────────────────────────
 
 function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
-  const cycle = WH_EX2[cycleIdx]
+  const cycle = EX2_CYCLES[cycleIdx]
   const [placed, setPlaced] = useState<Record<number, number>>({}) // dialogueIdx → bankIdx
+  // Shuffle the bank display order once at mount so questions are not listed in the required order
+  const [bankOrder] = useState(() => shuffle(cycle.bank.map((_, qi) => qi)))
   const allDone = Object.keys(placed).length === cycle.dialogues.length
 
   const usedBankIdxs = new Set(Object.values(placed))
@@ -167,7 +185,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
-        <span>Cycle {cycleIdx + 1} / {WH_EX2.length}</span>
+        <span>Cycle {cycleIdx + 1} / {EX2_CYCLES.length}</span>
         <span className="text-amber-500">{Object.keys(placed).length} / {cycle.dialogues.length} ✓</span>
       </div>
       <p className="text-center font-bold text-amber-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
@@ -180,8 +198,9 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
       <div className="sticky top-2 z-10 bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-4">
         <p className="font-bold text-amber-600 text-xs mb-2 text-center">Question bank — גרור שאלה:</p>
         <div className="flex flex-wrap gap-1.5 justify-center">
-          {cycle.bank.map((q, qi) => {
+          {bankOrder.map(qi => {
             if (usedBankIdxs.has(qi)) return null
+            const q = cycle.bank[qi]
             const whWord = q.split(' ')[0]
             const wc = WH_WORD_COLORS[whWord] ?? { bg: 'bg-gray-400', light: 'bg-gray-100', text: 'text-gray-600' }
             return (
@@ -237,9 +256,9 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great work!</p>
-          {cycleIdx + 1 >= WH_EX2.length && <StarOnComplete step="step2" />}
+          {cycleIdx + 1 >= EX2_CYCLES.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < WH_EX2.length ? (
+            {cycleIdx + 1 < EX2_CYCLES.length ? (
               <>
                 <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
                 <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
@@ -260,7 +279,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
 // ── Ex 3: Drag answer to matching question ────────────────────────────────────
 
 function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
-  const questions = WH_EX3[cycleIdx]
+  const questions = EX3_CYCLES[cycleIdx]
   const [placed, setPlaced] = useState<Record<number, string>>({}) // qIdx → answerId
   const [bankOrder] = useState(() => shuffle(questions.map(q => q.id)))
   const allDone = Object.keys(placed).length === questions.length
@@ -280,7 +299,7 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-1">
-        <span>Cycle {cycleIdx + 1} / {WH_EX3.length}</span>
+        <span>Cycle {cycleIdx + 1} / {EX3_CYCLES.length}</span>
         <span className="text-amber-500">{Object.keys(placed).length} / {questions.length} ✓</span>
       </div>
       <p className="text-center font-bold text-amber-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
@@ -347,9 +366,9 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent!</p>
-          {cycleIdx + 1 >= WH_EX3.length && <StarOnComplete step="step2" />}
+          {cycleIdx + 1 >= EX3_CYCLES.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < WH_EX3.length ? (
+            {cycleIdx + 1 < EX3_CYCLES.length ? (
               <>
                 <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
                 <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
@@ -457,13 +476,13 @@ export default function WHQuestionsPage() {
         )}
         {tab === 'ex2'   && (
           <ExWrapper
-            cycles={WH_EX2.length}
+            cycles={EX2_CYCLES.length}
             render={(c, again, done) => <Ex2Cycle key={c} cycleIdx={c} onAgain={again} onDone={done} />}
           />
         )}
         {tab === 'ex3'   && (
           <ExWrapper
-            cycles={WH_EX3.length}
+            cycles={EX3_CYCLES.length}
             render={(c, again, done) => <Ex3Cycle key={c} cycleIdx={c} onAgain={again} onDone={done} />}
           />
         )}

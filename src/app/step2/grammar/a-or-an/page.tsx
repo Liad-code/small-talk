@@ -15,6 +15,22 @@ const ARTICLE_COLORS: Record<Article, { bg: string; border: string; light: strin
   an: { bg: 'bg-emerald-500', border: 'border-emerald-400', light: 'bg-emerald-50', text: 'text-emerald-700', badge: 'bg-emerald-200 text-emerald-800' },
 }
 
+// Hebrew meaning for every Ex1 word (shown in the help table under the word list)
+const AOA_HEBREW: Record<string, string> = {
+  // Round 1
+  cat: 'חתול', book: 'ספר', dog: 'כלב', table: 'שולחן', boy: 'ילד', house: 'בית',
+  apple: 'תפוח', egg: 'ביצה', orange: 'תפוז', umbrella: 'מטרייה', insect: 'חרק', ant: 'נמלה',
+  // Round 2
+  bird: 'ציפור', car: 'מכונית', fish: 'דג', girl: 'ילדה', pen: 'עט', tree: 'עץ',
+  elephant: 'פיל', island: 'אי', oven: 'תנור', arm: 'זרוע', onion: 'בצל', ear: 'אוזן',
+  // Round 3
+  school: 'בית ספר', window: 'חלון', bus: 'אוטובוס', hat: 'כובע', horse: 'סוס', ball: 'כדור',
+  engine: 'מנוע', owl: 'ינשוף', idea: 'רעיון', envelope: 'מעטפה', album: 'אלבום', exit: 'יציאה',
+  // Round 4
+  park: 'פארק', sister: 'אחות', flower: 'פרח', king: 'מלך', cloud: 'ענן',
+  eye: 'עין', ice: 'קרח', animal: 'חיה', uncle: 'דוד', hour: 'שעה', eraser: 'מחק',
+}
+
 // ── Learn ────────────────────────────────────────────────────────────────────
 
 function LearnTab() {
@@ -176,6 +192,29 @@ function Ex1Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           </div>
         </div>
       )}
+
+      {/* Reference table — word meanings */}
+      <div className="mt-6 border-t-2 border-dashed border-gray-200 pt-4">
+        <p className="font-bold text-gray-500 text-base mb-2 text-center" dir="rtl">📖 עזרה — משמעות המילים</p>
+        <table className="w-full text-sm border-collapse">
+          <tbody>
+            {Array.from({ length: Math.ceil(words.length / 2) }, (_, i) => {
+              const w1 = words[i * 2]
+              const w2 = words[i * 2 + 1]
+              return (
+                <tr key={i} className="border-b border-gray-200">
+                  <td className="py-0.5 pr-2 font-bold text-gray-900 w-1/4">{w1.word}</td>
+                  <td className="py-0.5 font-bold text-gray-600 text-right w-1/4 pr-3" dir="rtl">{AOA_HEBREW[w1.word]}</td>
+                  {w2 && <>
+                    <td className="py-0.5 pr-2 font-bold text-gray-900 w-1/4 pl-3 border-l border-gray-200">{w2.word}</td>
+                    <td className="py-0.5 font-bold text-gray-600 text-right w-1/4" dir="rtl">{AOA_HEBREW[w2.word]}</td>
+                  </>}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
@@ -247,10 +286,17 @@ function Ex2Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <p className="font-display font-bold text-xl text-green-600 mb-3">Perfect!</p>
           {cycleIdx + 1 >= AOA_EX2.length && <StarOnComplete step="step2" />}
           <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < AOA_EX2.length && (
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+            {cycleIdx + 1 < AOA_EX2.length ? (
+              <>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+              </>
+            ) : (
+              <>
+                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              </>
             )}
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
           </div>
         </div>
       )}

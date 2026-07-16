@@ -417,13 +417,12 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selAdj, setSelAdj] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedAdjs, setUsedAdjs] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
 
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availableAdjs = cycle.adjectives.filter(a => !usedAdjs.has(a))
+  // All words stay on screen for the whole exercise — used words are never consumed
+  const availableSubjects = cycle.subjects
+  const availableAdjs = cycle.adjectives
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selAdj) return
@@ -432,9 +431,11 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selSubject.text} ${selVerb} ${selAdj}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedAdjs(prev => { const s = new Set(prev); s.add(selAdj); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelAdj(null)

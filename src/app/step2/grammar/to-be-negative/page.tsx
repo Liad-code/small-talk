@@ -244,13 +244,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selComp, setSelComp] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedComps, setUsedComps] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
 
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availableComps = cycle.complements.filter(c => !usedComps.has(c))
+  // All words stay on screen for the whole exercise — used words are never consumed
+  const availableSubjects = cycle.subjects
+  const availableComps = cycle.complements
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selComp) return
@@ -259,9 +258,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selSubject.text} ${selVerb} ${selComp}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedComps(prev => { const s = new Set(prev); s.add(selComp); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelComp(null)

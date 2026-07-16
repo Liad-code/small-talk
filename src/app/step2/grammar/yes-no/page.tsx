@@ -7,6 +7,7 @@ import {
   YN_EX1, YN_EX2, YN_EX3, YN_ANSWER_BANK, PRONOUN_GROUPS,
   type YNSubject, type PronounGroup, type YNVerb,
 } from '@/data/step2/yes-no'
+import { shuffle } from '@/utils/shuffle'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
@@ -18,6 +19,37 @@ const VERB_COLORS = {
 } as const
 
 const VERBS: YNVerb[] = ['Am', 'Is', 'Are']
+
+// Shuffle, then interleave by answer so no two consecutive questions share the
+// same answer: always pick from the largest remaining answer-group ≠ previous.
+function arrangeNoRuns<T extends { answer: string }>(items: T[]): T[] {
+  const groups: Record<string, T[]> = {}
+  for (const item of shuffle(items)) {
+    if (!groups[item.answer]) groups[item.answer] = []
+    groups[item.answer].push(item)
+  }
+  const keys = Object.keys(groups)
+  const result: T[] = []
+  let last: string | null = null
+  for (let n = 0; n < items.length; n++) {
+    let bestKey: string | null = null
+    let bestLen = 0
+    for (const key of keys) {
+      if (key !== last && groups[key].length > bestLen) {
+        bestKey = key
+        bestLen = groups[key].length
+      }
+    }
+    if (bestKey === null) {
+      // Only the just-used answer remains (unavoidable run at the tail)
+      bestKey = keys.find(key => groups[key].length > 0) ?? null
+      if (bestKey === null) break
+    }
+    result.push(groups[bestKey].pop()!)
+    last = bestKey
+  }
+  return result
+}
 
 // ── Learn ────────────────────────────────────────────────────────────────────
 
@@ -105,7 +137,7 @@ function LearnTab() {
 // ── Ex 1: Drag Am/Is/Are to start of question ─────────────────────────────────
 
 function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
-  const questions = YN_EX1[cycleIdx]
+  const [questions] = useState(() => arrangeNoRuns(YN_EX1[cycleIdx]))
   const [allTiles] = useState(() =>
     VERBS.flatMap(v =>
       Array.from({ length: 12 }, (_, i) => ({ id: `${v}-${i}`, verb: v }))
@@ -222,13 +254,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selComp, setSelComp] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedComps, setUsedComps] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
 
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availableComps = cycle.complements.filter(c => !usedComps.has(c))
+  // All words stay on screen for the whole exercise — used words are never consumed
+  const availableSubjects = cycle.subjects
+  const availableComps = cycle.complements
 
   const handleAdd = () => {
     if (!selVerb || !selSubject || !selComp) return
@@ -237,9 +268,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selVerb} ${selSubject.text} ${selComp}`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this question! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedComps(prev => { const s = new Set(prev); s.add(selComp); return s })
     setSelVerb(null)
     setSelSubject(null)
     setSelComp(null)
