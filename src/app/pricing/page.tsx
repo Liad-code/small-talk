@@ -129,6 +129,13 @@ function PricingContent() {
         <p className="text-center text-xs font-bold text-gray-400">
           שלב 1 נשאר חינמי לכולם · המחירים כוללים מע״מ · ניתן לבטל אונליין בכל עת
         </p>
+        <p className="text-center text-xs font-bold text-gray-300 mt-2">
+          <a href="/legal/terms" className="hover:text-primary no-underline">תנאי שימוש</a>
+          {' · '}
+          <a href="/legal/privacy" className="hover:text-primary no-underline">מדיניות פרטיות</a>
+          {' · '}
+          <a href="/legal/refunds" className="hover:text-primary no-underline">ביטולים והחזרים</a>
+        </p>
       </div>
     </div>
   )

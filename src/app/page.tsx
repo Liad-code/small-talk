@@ -223,6 +223,13 @@ export default function HomePage() {
       {/* ── Footer ─────────────────────────────────────────────────── */}
       <footer className="text-center py-8 text-gray-400 font-bold text-sm px-4">
         <p>🏫 Small Talk – Made with ❤️ for young English learners</p>
+        <p className="mt-2 text-xs" dir="rtl">
+          <Link href="/legal/terms" className="text-gray-400 hover:text-primary no-underline">תנאי שימוש</Link>
+          {' · '}
+          <Link href="/legal/privacy" className="text-gray-400 hover:text-primary no-underline">מדיניות פרטיות</Link>
+          {' · '}
+          <Link href="/legal/refunds" className="text-gray-400 hover:text-primary no-underline">ביטולים והחזרים</Link>
+        </p>
       </footer>
     </div>
   )

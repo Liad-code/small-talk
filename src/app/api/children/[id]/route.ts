@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
+import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
 import { getSessionUserId, ACTIVE_CHILD_COOKIE } from '@/lib/children'
 
@@ -13,6 +14,7 @@ const patchSchema = z.object({
 })
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+  if (!rateLimit(req, 'children-mutate', 30, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
@@ -29,6 +31,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+  if (!rateLimit(_req, 'children-mutate', 30, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 

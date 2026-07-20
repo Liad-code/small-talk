@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/auth'
+import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
 import { stripe, STRIPE_PRICE_ID } from '@/lib/stripe'
 
@@ -9,6 +10,7 @@ const TRIAL_DAYS = 7
 
 /** Start a subscription checkout. Quantity = number of child profiles (min 1). */
 export async function POST(req: Request) {
+  if (!rateLimit(req, 'billing', 10, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
   const session = await auth()
   const userId = session?.user?.id
   const email = session?.user?.email

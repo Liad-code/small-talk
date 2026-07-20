@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getSessionUserId, getActiveChild } from '@/lib/children'
+import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 
 export const dynamic = 'force-dynamic'
 
@@ -73,6 +74,7 @@ export async function GET() {
  * stale device can never erase progress.
  */
 export async function POST(req: Request) {
+  if (!rateLimit(req, 'progress-write', 120, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   const child = await getActiveChild(userId)
