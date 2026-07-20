@@ -81,6 +81,16 @@ export function AuthButton() {
           >
             ⚙️ החשבון שלי
           </Link>
+          {session.user.role === 'ADMIN' && (
+            <Link
+              href="/admin"
+              onClick={() => setMenuOpen(false)}
+              className="block w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-purple-600
+                         hover:bg-purple-50 transition-colors no-underline"
+            >
+              🛠️ Admin
+            </Link>
+          )}
           <button
             onClick={() => signOut()}
             className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-gray-600
