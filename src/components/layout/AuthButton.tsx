@@ -73,6 +73,14 @@ export function AuthButton() {
           >
             👨‍👩‍👧‍👦 החלפת פרופיל
           </Link>
+          <Link
+            href="/account"
+            onClick={() => setMenuOpen(false)}
+            className="block w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-gray-600
+                       hover:bg-purple-50 transition-colors no-underline"
+          >
+            ⚙️ החשבון שלי
+          </Link>
           <button
             onClick={() => signOut()}
             className="w-full text-left px-3 py-2 rounded-xl font-bold text-sm text-gray-600
