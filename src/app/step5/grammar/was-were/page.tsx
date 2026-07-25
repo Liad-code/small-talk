@@ -669,6 +669,10 @@ function Ex4Builder({ onDone }: { onDone: () => void }) {
       return
     }
     const sentence = `${selSubject.text} ${selForm} ${selRest} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null); setSelForm(null); setSelRest(null); setSelTime(null)
     setError('')
@@ -1025,16 +1029,17 @@ interface Ex6Q {
   answer: WasWereCap
 }
 
+// (ordered so the same answer never appears more than twice in a row)
 const EX6_QUESTIONS: Ex6Q[] = [
-  { after: 'you at the shop?',        answer: 'Were' },
   { after: 'the party fun?',          answer: 'Was'  },
   { after: 'the test hard?',          answer: 'Was'  },
+  { after: 'you at the shop?',        answer: 'Were' },
   { after: 'the meeting long?',       answer: 'Was'  },
-  { after: 'you there two hours ago?',answer: 'Were' },
   { after: 'he crying?',              answer: 'Was'  },
+  { after: 'you there two hours ago?',answer: 'Were' },
   { after: 'your book good?',         answer: 'Was'  },
   { after: 'she happy?',              answer: 'Was'  },
-  { after: 'the game fun?',           answer: 'Was'  },
+  { after: 'the games fun?',          answer: 'Were' },
 ]
 
 const EX6_OPTS: WasWereCap[] = ['Was', 'Were']

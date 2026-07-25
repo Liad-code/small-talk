@@ -60,6 +60,19 @@ const EX1_CATS: { id: TenseCat; label: string; hebrew: string; color: string }[]
   { id: 'future',              label: 'Future',              hebrew: 'עתיד',       color: 'border-pink-400 bg-pink-50'       },
 ]
 
+// Shuffle, but never let the same category appear more than twice in a row
+function shuffleMax2(items: TimeExpr[]): TimeExpr[] {
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const arr = shuffle(items)
+    let ok = true
+    for (let i = 2; i < arr.length; i++) {
+      if (arr[i].category === arr[i - 1].category && arr[i].category === arr[i - 2].category) { ok = false; break }
+    }
+    if (ok) return arr
+  }
+  return shuffle(items)
+}
+
 function Ex1() {
   const [placed, setPlaced] = useState<Record<TenseCat, TimeExpr[]>>({
     'present-simple': [], 'present-progressive': [], 'past-simple': [], 'future': [],
@@ -68,7 +81,7 @@ function Ex1() {
   const [draggedExpr, setDraggedExpr] = useState<string | null>(null)
   const [dragOverCat, setDragOverCat] = useState<TenseCat | null>(null)
   const [flashWrong, setFlashWrong] = useState<TenseCat | null>(null)
-  const [bank] = useState<TimeExpr[]>(() => shuffle(EX1_EXPRESSIONS))
+  const [bank, setBank] = useState<TimeExpr[]>(() => shuffleMax2(EX1_EXPRESSIONS))
   const [key, setKey] = useState(0)
 
   const remaining = bank.filter(e => !used.has(e.text))
@@ -97,7 +110,8 @@ function Ex1() {
 
   const restart = () => {
     setPlaced({ 'present-simple': [], 'present-progressive': [], 'past-simple': [], 'future': [] })
-    setUsed(new Set()); setDraggedExpr(null); setDragOverCat(null); setFlashWrong(null); setKey(k => k + 1)
+    setUsed(new Set()); setDraggedExpr(null); setDragOverCat(null); setFlashWrong(null)
+    setBank(shuffleMax2(EX1_EXPRESSIONS)); setKey(k => k + 1)
   }
 
   return (
@@ -322,6 +336,7 @@ function TypeInExercise({
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'revealed'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const q = questions[current]
@@ -339,6 +354,7 @@ function TypeInExercise({
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -353,15 +369,20 @@ function TypeInExercise({
       const nextWrong = wrongCount + 1
       setWrongCount(nextWrong)
       if (nextWrong >= 2) {
-        // Reveal the correct answer, hold for 3s, then auto-advance + reset.
+        // Reveal the correct answer; the student must tick "הבנתי" to move on
         setInput(q.answer)
         setStatus('revealed')
-        setTimeout(advance, 3000)
       } else {
         setStatus('wrong')
         setTimeout(() => { setStatus('idle'); setInput('') }, 900)
       }
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -435,6 +456,30 @@ function TypeInExercise({
             className="btn-kid bg-fuchsia-500 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             ▶ Check
+          </button>
+        </div>
+      )}
+
+      {status === 'revealed' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-fuchsia-400 text-fuchsia-700 hover:bg-fuchsia-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-fuchsia-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
           </button>
         </div>
       )}

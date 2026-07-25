@@ -15,30 +15,31 @@ interface ThereEx1Q {
   answer: ThereVerb
 }
 
+// Order is intentionally irregular (no fixed alternation, max 2 same answers in a row)
 const THERE_EX1_R1: ThereEx1Q[] = [
   { after: 'two pupils in the classroom.',    answer: 'There are' },
   { after: 'a book on the table.',            answer: 'There is'  },
-  { after: 'three pencils in my bag.',        answer: 'There are' },
   { after: 'a cat in the room.',              answer: 'There is'  },
+  { after: 'three pencils in my bag.',        answer: 'There are' },
   { after: 'five dogs in the park.',          answer: 'There are' },
   { after: 'a kite in the sky.',              answer: 'There is'  },
   { after: 'many flowers in the garden.',     answer: 'There are' },
   { after: 'a table in the classroom.',       answer: 'There is'  },
-  { after: 'two boys at the door.',           answer: 'There are' },
   { after: 'a bird on the tree.',             answer: 'There is'  },
+  { after: 'two boys at the door.',           answer: 'There are' },
 ]
 
 const THERE_EX1_R2: ThereEx1Q[] = [
   { after: 'a teacher in the school.',        answer: 'There is'  },
-  { after: 'six chairs around the table.',    answer: 'There are' },
   { after: 'a fish in the bowl.',             answer: 'There is'  },
-  { after: 'four windows in the room.',       answer: 'There are' },
+  { after: 'six chairs around the table.',    answer: 'There are' },
   { after: 'a sandwich in my bag.',           answer: 'There is'  },
+  { after: 'four windows in the room.',       answer: 'There are' },
   { after: 'three cats on the roof.',         answer: 'There are' },
   { after: 'a big park near our house.',      answer: 'There is'  },
   { after: 'many shoes at the door.',         answer: 'There are' },
-  { after: 'a dog in the yard.',              answer: 'There is'  },
   { after: 'two apples on the table.',        answer: 'There are' },
+  { after: 'a dog in the yard.',              answer: 'There is'  },
 ]
 
 const EX1_ROUNDS = [
@@ -51,28 +52,29 @@ interface ThereEx2Q {
   answer: ThereVerb
 }
 
+// Order is intentionally irregular (no fixed alternation, max 2 same answers in a row)
 const THERE_EX2_R1: ThereEx2Q[] = [
   { after: 'a book on the table.',            answer: 'There is'  },
   { after: 'shoes on the floor.',             answer: 'There are' },
-  { after: 'a kite in the park.',             answer: 'There is'  },
   { after: 'many children in the school.',    answer: 'There are' },
+  { after: 'a kite in the park.',             answer: 'There is'  },
   { after: 'a cat near the door.',            answer: 'There is'  },
   { after: 'six eggs in the basket.',         answer: 'There are' },
-  { after: 'a nice garden near the house.',   answer: 'There is'  },
   { after: 'two birds in the tree.',          answer: 'There are' },
-  { after: 'a pencil on the desk.',           answer: 'There is'  },
+  { after: 'a nice garden near the house.',   answer: 'There is'  },
   { after: 'three dogs in the yard.',         answer: 'There are' },
+  { after: 'a pencil on the desk.',           answer: 'There is'  },
 ]
 
 const THERE_EX2_R2: ThereEx2Q[] = [
-  { after: 'a red bag on the chair.',         answer: 'There is'  },
   { after: 'four books on the shelf.',        answer: 'There are' },
-  { after: 'a cat under the table.',          answer: 'There is'  },
   { after: 'many stars in the sky.',          answer: 'There are' },
-  { after: 'a big tree in the park.',         answer: 'There is'  },
+  { after: 'a red bag on the chair.',         answer: 'There is'  },
   { after: 'six children in the room.',       answer: 'There are' },
-  { after: 'a dog in the yard.',              answer: 'There is'  },
+  { after: 'a cat under the table.',          answer: 'There is'  },
+  { after: 'a big tree in the park.',         answer: 'There is'  },
   { after: 'two chairs near the window.',     answer: 'There are' },
+  { after: 'a dog in the yard.',              answer: 'There is'  },
   { after: 'a sandwich in my bag.',           answer: 'There is'  },
   { after: 'many flowers in the garden.',     answer: 'There are' },
 ]
@@ -112,7 +114,7 @@ const EX3_CYCLES: ThereEx3Cycle[] = [
       { text: 'a car',      verb: 'There is'  },
       { text: 'many fish',  verb: 'There are' },
     ],
-    places: ['in the room', 'under the tree', 'in the yard', 'near the door', 'on the roof', 'in the classroom'],
+    places: ['in the room', 'under the tree', 'in the garden', 'near the door', 'on the road', 'in the classroom', 'in the ocean'],
   },
 ]
 
@@ -150,7 +152,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // After the LAST round, "Again" restarts the whole exercise from round 1
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -241,10 +244,19 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
-          const display = ans ? `${ans} ${q.after}` : `___ ${q.after}`
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 flex-wrap ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
-              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{display}</span>
+              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">
+                {ans ? (
+                  <>
+                    {/* Inserted verb keeps its distinctive color inside the sentence */}
+                    <span className={`font-black ${ans === 'There is' ? 'text-sky-600' : 'text-blue-600'}`}>{ans}</span>
+                    {' '}{q.after}
+                  </>
+                ) : (
+                  `___ ${q.after}`
+                )}
+              </span>
               {!ans && !isWrong ? (
                 <div className="flex gap-1.5">
                   {(['There is', 'There are'] as ThereVerb[]).map(v => (
@@ -429,6 +441,10 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selVerb} ${selSubject.text} ${selPlace}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)

@@ -117,16 +117,22 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
 
   const allDone = sentences.length >= EX1_GOAL
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selTime) return
     const sentence = `${selSubject} didn't ${selVerb} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
+    setError('')
   }
 
   return (
@@ -223,6 +229,8 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         </div>
       )}
 
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>}
+
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">
           {sentences.map((s, i) => (
@@ -274,6 +282,7 @@ function Ex2() {
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -300,6 +309,7 @@ function Ex2() {
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -313,9 +323,9 @@ function Ex2() {
       const nextWrong = wrongCount + 1
       setWrongCount(nextWrong)
       if (nextWrong >= 2) {
+        // reveal the correct answer; the student must tick "הבנתי" to move on
         setStatus('reveal')
         setInput(q.answer)
-        setTimeout(advance, 3000)
       } else {
         setStatus('wrong')
         setTimeout(() => {
@@ -324,6 +334,12 @@ function Ex2() {
         }, 800)
       }
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -335,6 +351,7 @@ function Ex2() {
     setInput('')
     setStatus('idle')
     setWrongCount(0)
+    setUnderstood(false)
     setFinished(false)
   }
 
@@ -402,6 +419,30 @@ function Ex2() {
           <p className="mt-3 font-bold text-green-600 text-sm">✅ {q.answer}</p>
         )}
       </div>
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-blue-400 text-blue-700 hover:bg-blue-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-blue-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -439,7 +480,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // "Again" after the last round restarts the WHOLE exercise from round 1
+        () => { setCycleIdx(i => (i + 1) % cycles); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>

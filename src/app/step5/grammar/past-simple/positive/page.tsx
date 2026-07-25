@@ -189,12 +189,25 @@ const SORT_R3: SortVerb[] = [
   { base: 'hug',   past: 'hugged',  category: 'double' },
 ]
 
+// Shuffle, but never let the same category appear more than twice in a row
+function shuffleMax2(items: SortVerb[]): SortVerb[] {
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const arr = shuffle(items)
+    let ok = true
+    for (let i = 2; i < arr.length; i++) {
+      if (arr[i].category === arr[i - 1].category && arr[i].category === arr[i - 2].category) { ok = false; break }
+    }
+    if (ok) return arr
+  }
+  return shuffle(items)
+}
+
 function SortExercise({ items, onDone }: { items: SortVerb[]; onDone: () => void }) {
   const [selectedWord, setSelectedWord] = useState<SortVerb | null>(null)
   const [placed, setPlaced] = useState<Record<EdCat, SortVerb[]>>({ '+ed': [], 'e': [], 'ied': [], 'double': [] })
   const [flashWrong, setFlashWrong] = useState<EdCat | null>(null)
   const [usedBases, setUsedBases] = useState<Set<string>>(new Set())
-  const [shuffledItems] = useState<SortVerb[]>(() => shuffle(items))
+  const [shuffledItems] = useState<SortVerb[]>(() => shuffleMax2(items))
 
   const remaining = shuffledItems.filter(v => !usedBases.has(v.base))
   const allDone = usedBases.size === items.length
@@ -405,6 +418,7 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const q = questions[current]
@@ -422,6 +436,7 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -437,14 +452,20 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
       const nextWrong = wrongCount + 1
       setWrongCount(nextWrong)
       if (nextWrong >= 2) {
+        // reveal the correct answer; the student must tick "הבנתי" to move on
         setStatus('reveal')
         setInput(q.answer)
-        setTimeout(advance, 3000)
       } else {
         setStatus('wrong')
         setTimeout(() => { setStatus('idle'); setInput('') }, 900)
       }
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -512,6 +533,30 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
             className="btn-kid bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             ▶ Check
+          </button>
+        </div>
+      )}
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-blue-400 text-blue-700 hover:bg-blue-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-blue-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
           </button>
         </div>
       )}
@@ -611,14 +656,20 @@ function Ex3Builder({ round, onDone }: { round: Ex3Round; onDone: () => void }) 
   const [selObject, setSelObject] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
 
   const allDone = sentences.length === TARGET
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selObject || !selTime) return
     const sentence = `${selSubject} ${selVerb} ${selObject} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null); setSelVerb(null); setSelObject(null); setSelTime(null)
+    setError('')
   }
 
   return (
@@ -718,6 +769,8 @@ function Ex3Builder({ round, onDone }: { round: Ex3Round; onDone: () => void }) 
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
       )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>}
 
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">

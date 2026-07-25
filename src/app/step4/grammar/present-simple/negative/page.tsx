@@ -16,21 +16,23 @@ interface Ex1Q {
   answer: Neg
 }
 
+// Order is shuffled so the correct answer never follows a predictable pattern
+// (and the same answer never appears more than twice in a row).
 const EX1_QUESTIONS: Ex1Q[] = [
-  { before: 'I',                after: 'walk with my dog every day.',      answer: "don't"   },
   { before: 'Gil',             after: 'play football every week.',         answer: "doesn't" },
+  { before: 'I',                after: 'walk with my dog every day.',      answer: "don't"   },
   { before: 'We',              after: 'eat pizza every day.',              answer: "don't"   },
   { before: 'She',             after: 'read books every night.',           answer: "doesn't" },
-  { before: 'They',            after: 'do homework every day.',            answer: "don't"   },
   { before: 'He',              after: 'drink milk every morning.',         answer: "doesn't" },
-  { before: 'You',             after: 'watch TV every evening.',           answer: "don't"   },
+  { before: 'They',            after: 'do homework every day.',            answer: "don't"   },
   { before: 'Dana',            after: 'sing every week.',                  answer: "doesn't" },
+  { before: 'You',             after: 'watch TV every evening.',           answer: "don't"   },
   { before: 'My friends',      after: 'run every morning.',                answer: "don't"   },
   { before: 'The cat',         after: 'sleep on the bed every night.',     answer: "doesn't" },
-  { before: 'I',              after: 'study English every day.',           answer: "don't"   },
   { before: 'Tom',             after: 'ride a bike every week.',           answer: "doesn't" },
-  { before: 'The boys',        after: 'clean the room every day.',         answer: "don't"   },
+  { before: 'I',              after: 'study English every day.',           answer: "don't"   },
   { before: 'My mom',          after: 'cook fish every week.',             answer: "doesn't" },
+  { before: 'The boys',        after: 'clean the room every day.',         answer: "don't"   },
   { before: 'You and Dan',     after: 'swim every summer.',                answer: "don't"   },
 ]
 
@@ -248,6 +250,10 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selSubject.text} ${selNeg} ${selVerb} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelNeg(null)
@@ -626,7 +632,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // On the last round "Again" restarts the WHOLE exercise from round 1.
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>

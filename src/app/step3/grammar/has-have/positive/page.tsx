@@ -188,12 +188,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selNoun, setSelNoun] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedNouns, setUsedNouns] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availableNouns = cycle.nouns.filter(n => !usedNouns.has(n))
+
+  // All words stay on screen for the whole exercise — used words are never consumed
+  const availableSubjects = cycle.subjects
+  const availableNouns = cycle.nouns
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selNoun) return
@@ -202,9 +202,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selSubject.text} ${selVerb} ${selNoun}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedNouns(prev => { const s = new Set(prev); s.add(selNoun); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelNoun(null)
@@ -361,7 +363,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // At the last cycle the "Again" button restarts the whole exercise from cycle 1
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>

@@ -190,8 +190,9 @@ function normalize(str: string): string {
 function Ex2() {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -210,6 +211,7 @@ function Ex2() {
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -223,17 +225,22 @@ function Ex2() {
       setWrongCount(next)
       setStatus('wrong')
       if (next >= 2) {
-        // reveal the answer, keep on screen, then auto-advance
+        // reveal the answer; the student must tick "הבנתי" to move on
         setTimeout(() => {
-          setStatus('correct')
+          setStatus('reveal')
           setInput(q.answer)
-          setTimeout(advance, 3000)
         }, 600)
       } else {
         // flash red, clear, retry SAME question
         setTimeout(() => { setStatus('idle'); setInput('') }, 900)
       }
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -245,6 +252,7 @@ function Ex2() {
     setInput('')
     setStatus('idle')
     setWrongCount(0)
+    setUnderstood(false)
     setFinished(false)
   }
 
@@ -288,7 +296,7 @@ function Ex2() {
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
         status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        status === 'correct' || status === 'reveal' ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <div className="flex items-center justify-center gap-2 flex-wrap">
@@ -302,14 +310,14 @@ function Ex2() {
             placeholder="..."
             className={`border-b-2 font-bold text-base text-center min-w-[180px] focus:outline-none bg-transparent transition-colors ${
               status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
+              status === 'correct' || status === 'reveal' ? 'border-green-400 text-green-600' :
               'border-gray-400 text-gray-700 placeholder:text-gray-300'
             }`}
           />
           {status === 'wrong'   && <span className="text-xl">❌</span>}
-          {status === 'correct' && <span className="text-xl">✅</span>}
+          {(status === 'correct' || status === 'reveal') && <span className="text-xl">✅</span>}
         </div>
-        {status === 'correct' && (
+        {(status === 'correct' || status === 'reveal') && (
           <p className="mt-2 font-bold text-green-600 text-sm text-center">✔ {q.answer}</p>
         )}
         {status === 'wrong' && (
@@ -325,6 +333,30 @@ function Ex2() {
             className="btn-kid bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             ▶ Check
+          </button>
+        </div>
+      )}
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-violet-400 text-violet-700 hover:bg-violet-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-violet-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
           </button>
         </div>
       )}

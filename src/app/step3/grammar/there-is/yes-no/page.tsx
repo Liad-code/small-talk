@@ -15,29 +15,30 @@ interface Ex1Q {
   answer: ThereQVerb
 }
 
+// Order is intentionally irregular (no fixed alternation, max 2 same answers in a row)
 const EX1_R1: Ex1Q[] = [
-  { after: 'a teacher in the classroom?', answer: 'Is there'  },
   { after: 'six pencils on the table?',   answer: 'Are there' },
+  { after: 'a teacher in the classroom?', answer: 'Is there'  },
   { after: 'a cat in the room?',          answer: 'Is there'  },
   { after: 'three books on the shelf?',   answer: 'Are there' },
-  { after: 'a dog in the yard?',          answer: 'Is there'  },
   { after: 'many flowers in the garden?', answer: 'Are there' },
-  { after: 'a kite in the sky?',          answer: 'Is there'  },
+  { after: 'a dog in the yard?',          answer: 'Is there'  },
   { after: 'two boys at the door?',       answer: 'Are there' },
-  { after: 'a fish in the bowl?',         answer: 'Is there'  },
   { after: 'four windows in the room?',   answer: 'Are there' },
+  { after: 'a kite in the sky?',          answer: 'Is there'  },
+  { after: 'a fish in the bowl?',         answer: 'Is there'  },
 ]
 
 const EX1_R2: Ex1Q[] = [
   { after: 'a book on the table?',          answer: 'Is there'  },
   { after: 'five dogs in the park?',        answer: 'Are there' },
-  { after: 'an apple on the plate?',        answer: 'Is there'  },
   { after: 'many children in the school?',  answer: 'Are there' },
+  { after: 'an apple on the plate?',        answer: 'Is there'  },
   { after: 'a bird on the tree?',           answer: 'Is there'  },
   { after: 'three cats on the roof?',       answer: 'Are there' },
   { after: 'a car in the garage?',          answer: 'Is there'  },
-  { after: 'two chairs near the window?',   answer: 'Are there' },
   { after: 'a sandwich in my bag?',         answer: 'Is there'  },
+  { after: 'two chairs near the window?',   answer: 'Are there' },
   { after: 'six eggs in the basket?',       answer: 'Are there' },
 ]
 
@@ -97,7 +98,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // After the LAST round, "Again" restarts the whole exercise from round 1
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -217,10 +219,19 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
-          const display = ans ? `${ans} ${q.after}` : `___ ${q.after}`
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 flex-wrap ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
-              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{display}</span>
+              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">
+                {ans ? (
+                  <>
+                    {/* Inserted verb keeps its distinctive color inside the sentence */}
+                    <span className={`font-black ${ans === 'Is there' ? 'text-sky-600' : 'text-blue-600'}`}>{ans}</span>
+                    {' '}{q.after}
+                  </>
+                ) : (
+                  `___ ${q.after}`
+                )}
+              </span>
               {!ans && !isWrong ? (
                 <div className="flex gap-1.5">
                   {(['Is there', 'Are there'] as ThereQVerb[]).map(v => (

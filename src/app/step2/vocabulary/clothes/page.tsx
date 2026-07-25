@@ -316,8 +316,10 @@ function ClothesSort({ onAgain }: { onAgain: () => void }) {
   const [placed, setPlaced] = useState<Record<string, 'summer' | 'winter'>>({})
   const [wrong, setWrong] = useState<string | null>(null)
 
+  // Shuffle the bank once at mount so items are not listed grouped by season
+  const [bankOrder] = useState(() => shuffle([...SORT_ITEMS]))
   const allDone = Object.keys(placed).length === SORT_ITEMS.length
-  const bank = SORT_ITEMS.filter(c => !placed[c.id])
+  const bank = bankOrder.filter(c => !placed[c.id])
   const summerPlaced = SORT_ITEMS.filter(c => placed[c.id] === 'summer')
   const winterPlaced = SORT_ITEMS.filter(c => placed[c.id] === 'winter')
 

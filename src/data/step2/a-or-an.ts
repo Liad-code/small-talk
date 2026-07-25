@@ -72,29 +72,30 @@ export interface AOrAnSentence {
 }
 
 // Ex2: choose a or an to complete each sentence (2 cycles × 10 sentences)
+// Order is arranged so the same answer never appears more than twice in a row
 export const AOA_EX2: AOrAnSentence[][] = [
   [
-    { id: 's1_1',  before: 'Here is',  noun: 'window',   answer: 'a'  },
-    { id: 's1_2',  before: 'This is',  noun: 'house',    answer: 'a'  },
-    { id: 's1_3',  before: 'I have',   noun: 'dog',      answer: 'a'  },
     { id: 's1_4',  before: 'This is',  noun: 'apple',    answer: 'an' },
-    { id: 's1_5',  before: 'I see',    noun: 'bird',     answer: 'a'  },
+    { id: 's1_1',  before: 'Here is',  noun: 'window',   answer: 'a'  },
     { id: 's1_6',  before: 'This is',  noun: 'egg',      answer: 'an' },
-    { id: 's1_7',  before: 'I have',   noun: 'cat',      answer: 'a'  },
-    { id: 's1_8',  before: 'He has',   noun: 'orange',   answer: 'an' },
+    { id: 's1_3',  before: 'I have',   noun: 'dog',      answer: 'a'  },
     { id: 's1_9',  before: 'This is',  noun: 'book',     answer: 'a'  },
+    { id: 's1_8',  before: 'He has',   noun: 'orange',   answer: 'an' },
+    { id: 's1_2',  before: 'This is',  noun: 'house',    answer: 'a'  },
     { id: 's1_10', before: 'I have',   noun: 'insect',   answer: 'an' },
+    { id: 's1_5',  before: 'I see',    noun: 'bird',     answer: 'a'  },
+    { id: 's1_7',  before: 'I have',   noun: 'cat',      answer: 'a'  },
   ],
   [
-    { id: 's2_1',  before: 'This is',  noun: 'elephant',  answer: 'an' },
     { id: 's2_2',  before: 'I have',   noun: 'pen',       answer: 'a'  },
-    { id: 's2_3',  before: 'She has',  noun: 'oven',      answer: 'an' },
+    { id: 's2_1',  before: 'This is',  noun: 'elephant',  answer: 'an' },
     { id: 's2_4',  before: 'I see',    noun: 'car',       answer: 'a'  },
-    { id: 's2_5',  before: 'This is',  noun: 'onion',     answer: 'an' },
-    { id: 's2_6',  before: 'I have',   noun: 'fish',      answer: 'a'  },
     { id: 's2_7',  before: 'This is',  noun: 'island',    answer: 'an' },
-    { id: 's2_8',  before: 'She has',  noun: 'table',     answer: 'a'  },
-    { id: 's2_9',  before: 'I see',    noun: 'owl',       answer: 'an' },
+    { id: 's2_6',  before: 'I have',   noun: 'fish',      answer: 'a'  },
+    { id: 's2_3',  before: 'She has',  noun: 'oven',      answer: 'an' },
     { id: 's2_10', before: 'I have',   noun: 'school bag', answer: 'a' },
+    { id: 's2_9',  before: 'I see',    noun: 'owl',       answer: 'an' },
+    { id: 's2_8',  before: 'She has',  noun: 'table',     answer: 'a'  },
+    { id: 's2_5',  before: 'This is',  noun: 'onion',     answer: 'an' },
   ],
 ]

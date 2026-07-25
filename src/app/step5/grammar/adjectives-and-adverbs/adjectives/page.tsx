@@ -472,15 +472,16 @@ const scoreMap = Object.fromEntries(SCORES.map(s => [s.name, s])) as Record<stri
 
 interface Ex3Q { a: string; b: string; subject: 'math' | 'english' }
 // correct = "as good as" when a's score >= b's score
+// (ordered so the same answer never appears more than twice in a row)
 const EX3_QUESTIONS: Ex3Q[] = [
   { a: 'Gil',   b: 'Dana',  subject: 'math'    }, // 80 < 100 -> not
   { a: 'Dana',  b: 'Dan',   subject: 'math'    }, // 100 = 100 -> as
   { a: 'Maya',  b: 'Gil',   subject: 'math'    }, // 80 = 80  -> as
   { a: 'Yuval', b: 'Dana',  subject: 'math'    }, // 90 < 100 -> not
   { a: 'Gil',   b: 'Dana',  subject: 'english' }, // 90 = 90  -> as
-  { a: 'Yuval', b: 'Maya',  subject: 'english' }, // 100 = 100 -> as
   { a: 'Dan',   b: 'Maya',  subject: 'math'    }, // 100 >= 80 -> as
   { a: 'Gil',   b: 'Yuval', subject: 'math'    }, // 80 < 90  -> not
+  { a: 'Yuval', b: 'Maya',  subject: 'english' }, // 100 = 100 -> as
 ]
 
 function ex3IsAsGood(q: Ex3Q): boolean {
@@ -701,18 +702,19 @@ type CompCat = '+er' | 'ier' | 'double' | 'more'
 
 interface SortAdj { base: string; comparative: string; category: CompCat }
 
+// (ordered so the same category never appears more than twice in a row)
 const EX5_ROUND1: SortAdj[] = [
   { base: 'nice',      comparative: 'nicer',                category: '+er'    },
   { base: 'late',      comparative: 'later',                category: '+er'    },
-  { base: 'tall',      comparative: 'taller',               category: '+er'    },
-  { base: 'long',      comparative: 'longer',               category: '+er'    },
   { base: 'angry',     comparative: 'angrier',              category: 'ier'    },
-  { base: 'pretty',    comparative: 'prettier',             category: 'ier'    },
-  { base: 'happy',     comparative: 'happier',              category: 'ier'    },
   { base: 'big',       comparative: 'bigger',               category: 'double' },
-  { base: 'hot',       comparative: 'hotter',               category: 'double' },
+  { base: 'tall',      comparative: 'taller',               category: '+er'    },
   { base: 'beautiful', comparative: 'more beautiful than',  category: 'more'   },
+  { base: 'pretty',    comparative: 'prettier',             category: 'ier'    },
   { base: 'dangerous', comparative: 'more dangerous than',  category: 'more'   },
+  { base: 'long',      comparative: 'longer',               category: '+er'    },
+  { base: 'hot',       comparative: 'hotter',               category: 'double' },
+  { base: 'happy',     comparative: 'happier',              category: 'ier'    },
   { base: 'popular',   comparative: 'more popular than',    category: 'more'   },
 ]
 
@@ -933,6 +935,7 @@ function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]
   const [input, setInput] = useState('')
   const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
   const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const q = questions[current]
@@ -950,6 +953,7 @@ function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]
       setInput('')
       setStatus('idle')
       setWrongCount(0)
+      setUnderstood(false)
     }
   }
 
@@ -965,14 +969,20 @@ function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]
       const nextWrong = wrongCount + 1
       setWrongCount(nextWrong)
       if (nextWrong >= 2) {
+        // reveal the correct answer; the student must tick "הבנתי" to move on
         setStatus('reveal')
         setInput(q.answer)
-        setTimeout(advance, 3000)
       } else {
         setStatus('wrong')
         setTimeout(() => { setStatus('idle'); setInput('') }, 900)
       }
     }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -1039,6 +1049,30 @@ function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]
             className="btn-kid bg-pink-500 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             ▶ Check
+          </button>
+        </div>
+      )}
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-pink-400 text-pink-700 hover:bg-pink-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-pink-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
           </button>
         </div>
       )}

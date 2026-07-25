@@ -45,19 +45,21 @@ interface ChooseQ {
   answer: Tense
 }
 
+// Order is shuffled so the correct tense never follows a predictable pattern
+// (and the same answer never appears more than twice in a row).
 const EX1_QUESTIONS: ChooseQ[] = [
-  { before: 'We',        after: 'to school every day.',  simple: 'walk',  progressive: 'are walking', answer: 'simple' },
   { before: 'Look! The baby', after: 'now.',             simple: 'sleeps', progressive: 'is sleeping', answer: 'progressive' },
+  { before: 'We',        after: 'to school every day.',  simple: 'walk',  progressive: 'are walking', answer: 'simple' },
   { before: 'He',        after: 'his homework every evening.', simple: 'does', progressive: 'is doing', answer: 'simple' },
   { before: 'I',         after: 'a book at the moment.',  simple: 'read',  progressive: 'am reading', answer: 'progressive' },
-  { before: 'She',       after: 'tea every morning.',     simple: 'drinks', progressive: 'is drinking', answer: 'simple' },
   { before: 'They',      after: 'football right now.',    simple: 'play',  progressive: 'are playing', answer: 'progressive' },
-  { before: 'My mom',    after: 'dinner every day.',      simple: 'cooks', progressive: 'is cooking', answer: 'simple' },
+  { before: 'She',       after: 'tea every morning.',     simple: 'drinks', progressive: 'is drinking', answer: 'simple' },
   { before: 'We',        after: 'TV now.',                simple: 'watch', progressive: 'are watching', answer: 'progressive' },
+  { before: 'My mom',    after: 'dinner every day.',      simple: 'cooks', progressive: 'is cooking', answer: 'simple' },
   { before: 'He',        after: 'to the park on Sunday.', simple: 'goes',  progressive: 'is going', answer: 'simple' },
   { before: 'Look! It',  after: 'now.',                   simple: 'rains', progressive: 'is raining', answer: 'progressive' },
-  { before: 'I',         after: 'my teeth every morning.', simple: 'brush', progressive: 'am brushing', answer: 'simple' },
   { before: 'She',       after: 'a song at the moment.',  simple: 'sings', progressive: 'is singing', answer: 'progressive' },
+  { before: 'I',         after: 'my teeth every morning.', simple: 'brush', progressive: 'am brushing', answer: 'simple' },
 ]
 
 const EX2_QUESTIONS: ChooseQ[] = [

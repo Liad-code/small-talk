@@ -36,7 +36,7 @@ export const PA_EX1: PAEx1Q[][] = [
     { sentence: 'You have a pencil.',          blank: '___ pencil is short.',   options: ['Your', 'My'],    answer: 'Your'  },
     { sentence: 'We have a dog.',              blank: '___ dog is big.',        options: ['Our',  'Their'], answer: 'Our'   },
     { sentence: 'She has long hair.',          blank: '___ hair is brown.',     options: ['His',  'Her'],   answer: 'Her'   },
-    { sentence: 'I have a brother.',           blank: '___ name is Omer.',      options: ['My',   'Her'],   answer: 'My'    },
+    { sentence: 'I have a brother.',           blank: '___ name is Omer.',      options: ['My',   'His'],   answer: 'His'   },
   ],
 ]
 
@@ -132,42 +132,7 @@ export const PA_EX3_BLANKS: PAEx3Blank[] = [
 
 export const PA_EX3_WORD_BANK: string[] = ['My', 'Her', 'His', 'Its', 'Our', 'Their', 'Your']
 
-// ── Round 2 ───────────────────────────────────────────────────────────────────
-// Practices "your" and "their" as the correct answers (mixed with others)
-export const PA_EX3_SEGMENTS_R2: PAEx3Segment[] = [
-  { type: 'text',  text: 'My friends are great. ' },
-  { type: 'blank', blankIndex: 0 },
-  { type: 'text',  text: ' house is near the park. They have a dog. ' },
-  { type: 'blank', blankIndex: 1 },
-  { type: 'text',  text: ' dog is small and white. "Dan, is this ' },
-  { type: 'blank', blankIndex: 2 },
-  { type: 'text',  text: ' bag?" "Yes, and these are ' },
-  { type: 'blank', blankIndex: 3 },
-  { type: 'text',  text: ' books too!" Mira and Tal love sports. ' },
-  { type: 'blank', blankIndex: 4 },
-  { type: 'text',  text: ' team is the best. "Kids, where is ' },
-  { type: 'blank', blankIndex: 5 },
-  { type: 'text',  text: ' ball?" The children have a teacher. ' },
-  { type: 'blank', blankIndex: 6 },
-  { type: 'text',  text: ' teacher is kind. We all love ' },
-  { type: 'blank', blankIndex: 7 },
-  { type: 'text',  text: ' school!' },
-]
-
-export const PA_EX3_BLANKS_R2: PAEx3Blank[] = [
-  { index: 0, answer: 'Their' },
-  { index: 1, answer: 'Their' },
-  { index: 2, answer: 'your'  },
-  { index: 3, answer: 'my'    },
-  { index: 4, answer: 'Their' },
-  { index: 5, answer: 'your'  },
-  { index: 6, answer: 'Their' },
-  { index: 7, answer: 'our'   },
-]
-
-export const PA_EX3_WORD_BANK_R2: string[] = ['Their', 'your', 'my', 'our', 'His', 'Her', 'Its']
-
+// Ex3 has a single round
 export const PA_EX3_ROUNDS: PAEx3Round[] = [
-  { segments: PA_EX3_SEGMENTS,    blanks: PA_EX3_BLANKS,    wordBank: PA_EX3_WORD_BANK    },
-  { segments: PA_EX3_SEGMENTS_R2, blanks: PA_EX3_BLANKS_R2, wordBank: PA_EX3_WORD_BANK_R2 },
+  { segments: PA_EX3_SEGMENTS, blanks: PA_EX3_BLANKS, wordBank: PA_EX3_WORD_BANK },
 ]

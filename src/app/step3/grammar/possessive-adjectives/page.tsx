@@ -4,42 +4,11 @@ import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import {
   PA_EX1, PA_EX2, PA_EX2_R2, PA_EX3_ROUNDS, PA_WORD_BANK,
-  type PossAdj, type PAEx3Round,
+  type PossAdj,
 } from '@/data/step3/possessive-adjectives'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
-
-// ── Ex3 Round 2 — dialogue between two friends (fill the possessive adjectives) ──
-// Defined here so Round 1 stays exactly as in the data file.
-const PA_EX3_R2_DIALOGUE: PAEx3Round = {
-  segments: [
-    { type: 'text',  text: 'A: "Hi Dan! Is this ' },
-    { type: 'blank', blankIndex: 0 },
-    { type: 'text',  text: ' bag?"\nB: "No, it\'s not ' },
-    { type: 'blank', blankIndex: 1 },
-    { type: 'text',  text: ' bag. It\'s ' },
-    { type: 'blank', blankIndex: 2 },
-    { type: 'text',  text: ' sister\'s bag."\nA: "Where are ' },
-    { type: 'blank', blankIndex: 3 },
-    { type: 'text',  text: ' parents?"\nB: "' },
-    { type: 'blank', blankIndex: 4 },
-    { type: 'text',  text: ' parents are at work. And ' },
-    { type: 'blank', blankIndex: 5 },
-    { type: 'text',  text: ' dog is at home."' },
-  ],
-  blanks: [
-    { index: 0, answer: 'your' },
-    { index: 1, answer: 'my'   },
-    { index: 2, answer: 'her'  },
-    { index: 3, answer: 'your' },
-    { index: 4, answer: 'My'   },
-    { index: 5, answer: 'our'  },
-  ],
-  wordBank: ['my', 'your', 'his', 'her', 'our', 'their'],
-}
-
-const PA_EX3_ROUNDS_LOCAL: PAEx3Round[] = [PA_EX3_ROUNDS[0], PA_EX3_R2_DIALOGUE]
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
@@ -75,7 +44,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // At the last round the "Again" button restarts the whole exercise from round 1
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -363,24 +333,15 @@ function Ex2() {
   )
 }
 
-// ── Ex3 ───────────────────────────────────────────────────────────────────────
+// ── Ex3 — single round ────────────────────────────────────────────────────────
 
-function Ex3Round({
-  roundIdx,
-  onNextRound,
-  onRestart,
-}: {
-  roundIdx: number
-  onNextRound: () => void
-  onRestart: () => void
-}) {
-  const round = PA_EX3_ROUNDS_LOCAL[roundIdx]
+function Ex3Round({ onRestart }: { onRestart: () => void }) {
+  const round = PA_EX3_ROUNDS[0]
   const [filled, setFilled] = useState<Record<number, string>>({})
   const [draggedWord, setDraggedWord] = useState<string | null>(null)
   const [dragOverBlank, setDragOverBlank] = useState<number | null>(null)
   const [flashWrong, setFlashWrong] = useState<number | null>(null)
   const allFilled = round.blanks.every(b => filled[b.index] !== undefined)
-  const isLastRound = roundIdx === PA_EX3_ROUNDS_LOCAL.length - 1
 
   const tryPlace = (blankIdx: number, word: string) => {
     if (filled[blankIdx]) return
@@ -404,8 +365,7 @@ function Ex3Round({
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
-      <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <span>סבב {roundIdx + 1} / {PA_EX3_ROUNDS.length}</span>
+      <div className="flex justify-end text-sm font-bold text-gray-400 mb-4">
         <span className="text-violet-500">{Object.keys(filled).length} / {round.blanks.length} ✓</span>
       </div>
 
@@ -469,20 +429,12 @@ function Ex3Round({
 
       {allFilled && (
         <div className="text-center mt-6 bounce-in">
-          <div className="text-4xl mb-2">{isLastRound ? '🌟' : '🎉'}</div>
-          <p className="font-display font-bold text-xl text-green-600 mb-1">
-            {isLastRound ? 'Amazing!' : 'Excellent work!'}
-          </p>
-          <p className="font-bold text-gray-500 mb-3" dir="rtl">
-            {isLastRound ? 'סיימת את כל הסבבים!' : `סיימת את סבב ${roundIdx + 1}!`}
-          </p>
-          {isLastRound && <div className="mb-3"><StarOnComplete step="step3" /></div>}
+          <div className="text-4xl mb-2">🌟</div>
+          <p className="font-display font-bold text-xl text-green-600 mb-1">Amazing!</p>
+          <p className="font-bold text-gray-500 mb-3" dir="rtl">סיימת את התרגיל!</p>
+          <div className="mb-3"><StarOnComplete step="step3" /></div>
           <div className="flex gap-3 justify-center">
-            {!isLastRound ? (
-              <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
-            ) : (
-              <button onClick={onRestart} className="btn-kid bg-blue-500">🔁 Again</button>
-            )}
+            <button onClick={onRestart} className="btn-kid bg-blue-500">🔁 Again</button>
           </div>
         </div>
       )}
@@ -491,16 +443,11 @@ function Ex3Round({
 }
 
 function Ex3() {
-  const [roundIdx, setRoundIdx] = useState(0)
   const [key, setKey] = useState(0)
 
   return (
     <div key={key}>
-      <Ex3Round
-        roundIdx={roundIdx}
-        onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
-        onRestart={() => { setRoundIdx(0); setKey(k => k + 1) }}
-      />
+      <Ex3Round onRestart={() => setKey(k => k + 1)} />
     </div>
   )
 }

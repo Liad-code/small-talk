@@ -128,6 +128,7 @@ function Ex1() {
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
   const [resetKey, setResetKey] = useState(0)
 
   const allDone = sentences.length >= EX1_GOAL
@@ -135,10 +136,15 @@ function Ex1() {
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selTime) return
     const sentence = `Did ${selSubject} ${selVerb} ${selTime}?`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את השאלה הזאת! נסו שאלה חדשה 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
+    setError('')
   }
 
   const again = () => {
@@ -146,6 +152,7 @@ function Ex1() {
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
+    setError('')
     setResetKey(k => k + 1)
   }
 
@@ -242,6 +249,8 @@ function Ex1() {
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
       )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>}
 
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">

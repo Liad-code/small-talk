@@ -262,6 +262,10 @@ function BuilderExercise({ items, onDone }: { items: BuilderItem[]; onDone: () =
       return
     }
     const sentence = `${selSubject} ${selPrep} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelPrep(null)

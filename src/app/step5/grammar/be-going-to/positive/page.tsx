@@ -170,6 +170,10 @@ function Ex1() {
       return
     }
     const sentence = `${selSubject.text} ${selAux} going to ${selVerb} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null); setSelAux(null); setSelGoingTo(false); setSelVerb(null); setSelTime(null)
     setError('')

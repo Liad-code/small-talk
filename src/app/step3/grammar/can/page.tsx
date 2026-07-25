@@ -16,21 +16,22 @@ interface CanQ {
   answer: CanVerb
 }
 
+// Order is arranged so the same answer never appears more than twice in a row
 const EX1_QUESTIONS: CanQ[] = [
+  { before: 'Birds',     after: 'fly.',          answer: 'can'   },
   { before: 'Lions',     after: 'fly.',          answer: "can't" },
+  { before: 'Fish',      after: 'swim.',         answer: 'can'   },
   { before: 'Snakes',    after: 'walk.',         answer: "can't" },
   { before: 'Cats',      after: 'climb the tree.', answer: 'can'  },
-  { before: 'Birds',     after: 'fly.',          answer: 'can'   },
-  { before: 'Fish',      after: 'swim.',         answer: 'can'   },
   { before: 'A baby',    after: 'ride a bike.',  answer: "can't" },
   { before: 'Dogs',      after: 'run fast.',     answer: 'can'   },
-  { before: 'Cats',      after: 'climb trees.',  answer: 'can'   },
+  { before: 'I',         after: 'read a book.',  answer: 'can'   },
   { before: 'Elephants', after: 'jump high.',    answer: "can't" },
   { before: 'Monkeys',   after: 'climb trees.',  answer: 'can'   },
-  { before: 'A turtle',  after: 'run fast.',     answer: "can't" },
-  { before: 'I',         after: 'read a book.',  answer: 'can'   },
   { before: 'Penguins',  after: 'fly.',          answer: "can't" },
   { before: 'Frogs',     after: 'jump.',         answer: 'can'   },
+  { before: 'A turtle',  after: 'run fast.',     answer: "can't" },
+  { before: 'Cats',      after: 'climb trees.',  answer: 'can'   },
   { before: 'A snake',   after: 'walk.',         answer: "can't" },
 ]
 
@@ -137,7 +138,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // "More" mid-way advances; "Again" on the LAST round wraps back to round 1
+        () => { setCycleIdx(i => (i + 1) % cycles); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -352,6 +354,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selSubject.text} ${selVerb} ${selPhrase}`
+    // Duplicate guard — the same sentence never counts twice toward the goal
+    if (sentences.includes(sentence)) {
+      setError('❌ כבר בנית את המשפט הזה! נסה משפט חדש.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)

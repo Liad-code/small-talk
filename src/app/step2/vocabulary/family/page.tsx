@@ -446,6 +446,11 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
   const [selected, setSelected] = useState<number | null>(null)
   const [input, setInput] = useState('')
   const [flash, setFlash] = useState<'correct' | 'wrong' | null>(null)
+  // 2-strikes rule: after the 2nd mistake the answer is revealed and stays on
+  // screen until the student ticks the ✅ "הבנתי" checkbox
+  const [wrongCount, setWrongCount] = useState(0)
+  const [revealed, setRevealed] = useState(false)
+  const [understood, setUnderstood] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const allFound = found.size === CW_WORDS.length
@@ -454,35 +459,68 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
     setSelected(clue)
     setInput('')
     setFlash(null)
+    setWrongCount(0)
+    setRevealed(false)
+    setUnderstood(false)
     setTimeout(() => inputRef.current?.focus(), 50)
   }
 
-  function handleSubmit() {
-    if (!selected) return
-    const w = CW_WORDS.find(x => x.clue === selected)!
-    if (input.toUpperCase() === w.word) {
-      const newFilled = { ...filled }
+  function fillWord(w: CWWord) {
+    setFilled(prev => {
+      const newFilled = { ...prev }
       for (let i = 0; i < w.word.length; i++) {
         const r = w.dir === 'h' ? w.row : w.row + i
         const c = w.dir === 'h' ? w.col + i : w.col
         newFilled[`${r},${c}`] = w.word[i]
       }
-      setFilled(newFilled)
-      setFound(prev => { const s = new Set<number>(); prev.forEach(v => s.add(v)); s.add(selected); return s })
+      return newFilled
+    })
+    setFound(prev => { const s = new Set<number>(); prev.forEach(v => s.add(v)); s.add(w.clue); return s })
+  }
+
+  function handleSubmit() {
+    if (!selected || revealed) return
+    const w = CW_WORDS.find(x => x.clue === selected)!
+    if (input.toUpperCase() === w.word) {
+      fillWord(w)
       setFlash('correct')
       setTimeout(() => {
         setFlash(null)
         setSelected(null)
         setInput('')
+        setWrongCount(0)
       }, 800)
     } else {
-      setFlash('wrong')
-      setTimeout(() => {
+      const next = wrongCount + 1
+      setWrongCount(next)
+      if (next >= 2) {
+        // 2nd mistake — reveal the correct answer; advance only after "הבנתי"
+        setInput(w.word)
+        setRevealed(true)
         setFlash(null)
-        setInput('')
-        inputRef.current?.focus()
-      }, 600)
+      } else {
+        setFlash('wrong')
+        setTimeout(() => {
+          setFlash(null)
+          setInput('')
+          inputRef.current?.focus()
+        }, 600)
+      }
     }
+  }
+
+  function acknowledge() {
+    if (!selected || understood) return
+    const w = CW_WORDS.find(x => x.clue === selected)!
+    setUnderstood(true)
+    setTimeout(() => {
+      fillWord(w)
+      setSelected(null)
+      setInput('')
+      setWrongCount(0)
+      setRevealed(false)
+      setUnderstood(false)
+    }, 450)
   }
 
   const cellSize = 'w-9 h-9'
@@ -560,23 +598,51 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
                 {isFound && <span className="text-xs font-bold text-green-600 ml-auto">✅ {w.word}</span>}
               </div>
               {isSelected && !isFound && (
-                <div className={`flex gap-2 mt-2 ${flash === 'wrong' ? 'shake' : ''}`}>
-                  <input
-                    ref={inputRef}
-                    value={input}
-                    onChange={e => setInput(e.target.value.toUpperCase())}
-                    onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-                    maxLength={w.word.length}
-                    className={`flex-1 border-2 rounded-xl px-3 py-1.5 font-display font-bold text-lg uppercase focus:outline-none
-                      ${flash === 'correct' ? 'border-green-400 bg-green-50' : flash === 'wrong' ? 'border-red-400 bg-red-50' : 'border-gray-300 focus:border-amber-400'}
-                    `}
-                    placeholder="type here..."
-                  />
-                  <button
-                    onClick={handleSubmit}
-                    className="btn-kid bg-green-500 text-sm px-3 py-1.5"
-                  >✓</button>
-                </div>
+                <>
+                  <div className={`flex gap-2 mt-2 ${flash === 'wrong' ? 'shake' : ''}`}>
+                    <input
+                      ref={inputRef}
+                      value={input}
+                      onChange={e => !revealed && setInput(e.target.value.toUpperCase())}
+                      onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                      readOnly={revealed}
+                      maxLength={w.word.length}
+                      className={`flex-1 border-2 rounded-xl px-3 py-1.5 font-display font-bold text-lg uppercase focus:outline-none
+                        ${revealed ? 'border-green-400 bg-green-50 text-green-700' : flash === 'correct' ? 'border-green-400 bg-green-50' : flash === 'wrong' ? 'border-red-400 bg-red-50' : 'border-gray-300 focus:border-amber-400'}
+                      `}
+                      placeholder="type here..."
+                    />
+                    {!revealed && (
+                      <button
+                        onClick={handleSubmit}
+                        className="btn-kid bg-green-500 text-sm px-3 py-1.5"
+                      >✓</button>
+                    )}
+                  </div>
+                  {revealed && (
+                    <div className="flex justify-center mt-2">
+                      <button
+                        onClick={acknowledge}
+                        dir="rtl"
+                        className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-2 font-display font-black text-base transition-all active:scale-95 ${
+                          understood
+                            ? 'bg-green-500 border-green-500 text-white'
+                            : 'bg-white border-amber-400 text-amber-700 hover:bg-amber-50'
+                        }`}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`flex items-center justify-center w-6 h-6 rounded-md border-2 text-sm font-black bg-white ${
+                            understood ? 'border-white text-green-600' : 'border-amber-400 text-transparent'
+                          }`}
+                        >
+                          ✓
+                        </span>
+                        הבנתי
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )

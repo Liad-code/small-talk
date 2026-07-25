@@ -111,7 +111,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // "More" mid-way advances; "Again" on the LAST round wraps back to round 1
+        () => { setCycleIdx(i => (i + 1) % cycles); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>

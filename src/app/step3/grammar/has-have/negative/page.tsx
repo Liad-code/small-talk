@@ -187,12 +187,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selNoun, setSelNoun] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedNouns, setUsedNouns] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
-  const availableSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availableNouns = cycle.nouns.filter(n => !usedNouns.has(n))
+
+  // All words stay on screen for the whole exercise — used words are never consumed
+  const availableSubjects = cycle.subjects
+  const availableNouns = cycle.nouns
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selNoun) return
@@ -201,9 +201,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selSubject.text} ${selVerb} ${selNoun}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedNouns(prev => { const s = new Set(prev); s.add(selNoun); return s })
     setSelSubject(null)
     setSelVerb(null)
     setSelNoun(null)
@@ -329,10 +331,21 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
 // ── Ex 3: Type the negative form ──────────────────────────────────────────────
 
+// normalize apostrophes (straight/curly), whitespace and case for matching
+function normalize(s: string): string {
+  return s
+    .replace(/[‘’ʼ′]/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+}
+
 function Ex3() {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
-  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct'>('idle')
+  const [status, setStatus] = useState<'idle' | 'wrong' | 'correct' | 'reveal'>('idle')
+  const [wrongCount, setWrongCount] = useState(0)
+  const [understood, setUnderstood] = useState(false)
   const [finished, setFinished] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -343,27 +356,45 @@ function Ex3() {
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
-  const submit = () => {
-    if (!input.trim()) return
-    const trimmed = input.trim().toLowerCase()
-    if (trimmed === q.answer.toLowerCase()) {
-      setStatus('correct')
-      setTimeout(() => {
-        if (isLast) {
-          setFinished(true)
-        } else {
-          setCurrent(c => c + 1)
-          setInput('')
-          setStatus('idle')
-        }
-      }, 600)
+  const advance = () => {
+    if (isLast) {
+      setFinished(true)
     } else {
-      setStatus('wrong')
-      setTimeout(() => {
-        setStatus('idle')
-        setInput('')
-      }, 800)
+      setCurrent(c => c + 1)
+      setInput('')
+      setStatus('idle')
+      setWrongCount(0)
+      setUnderstood(false)
     }
+  }
+
+  const submit = () => {
+    if (status !== 'idle') return
+    if (!input.trim()) return
+    if (normalize(input) === normalize(q.answer)) {
+      setStatus('correct')
+      setTimeout(advance, 700)
+    } else {
+      const next = wrongCount + 1
+      setWrongCount(next)
+      if (next >= 2) {
+        // reveal the correct answer; the student must tick "הבנתי" to move on
+        setInput(q.answer)
+        setStatus('reveal')
+      } else {
+        setStatus('wrong')
+        setTimeout(() => {
+          setStatus('idle')
+          setInput('')
+        }, 800)
+      }
+    }
+  }
+
+  const acknowledge = () => {
+    if (understood) return
+    setUnderstood(true)
+    setTimeout(advance, 450)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -378,7 +409,7 @@ function Ex3() {
         <p className="font-bold text-gray-500 mb-2" dir="rtl">ענית על כל 10 השאלות!</p>
         <div className="mb-6"><StarOnComplete step="step3" /></div>
         <button
-          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setFinished(false) }}
+          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setUnderstood(false); setFinished(false) }}
           className="btn-kid bg-blue-500"
         >
           🔁 Start Over
@@ -407,8 +438,8 @@ function Ex3() {
       </div>
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
-        status === 'wrong'   ? 'bg-red-50 border-red-300' :
-        status === 'correct' ? 'bg-green-50 border-green-300' :
+        status === 'wrong'                          ? 'bg-red-50 border-red-300' :
+        status === 'correct' || status === 'reveal' ? 'bg-green-50 border-green-300' :
         'bg-white border-gray-200'
       }`}>
         <p className="text-xs font-bold text-gray-500 mb-3">🚫 Negative:</p>
@@ -423,8 +454,8 @@ function Ex3() {
             disabled={status !== 'idle'}
             placeholder="type here..."
             className={`border-b-2 font-bold text-base text-center min-w-[140px] focus:outline-none bg-transparent transition-colors ${
-              status === 'wrong'   ? 'border-red-400 text-red-600' :
-              status === 'correct' ? 'border-green-400 text-green-600' :
+              status === 'wrong'                          ? 'border-red-400 text-red-600' :
+              status === 'correct' || status === 'reveal' ? 'border-green-400 text-green-600' :
               'border-gray-400 text-gray-700 placeholder:text-gray-300'
             }`}
           />
@@ -432,7 +463,34 @@ function Ex3() {
           {status === 'wrong'   && <span className="text-xl">❌</span>}
           {status === 'correct' && <span className="text-xl">✅</span>}
         </div>
+        {status === 'reveal' && (
+          <p className="mt-3 font-display font-black text-green-600 text-sm">✔ {q.before} {q.answer} {q.after}</p>
+        )}
       </div>
+
+      {status === 'reveal' && (
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={acknowledge}
+            dir="rtl"
+            className={`flex items-center gap-3 rounded-2xl border-2 px-5 py-3 font-display font-black text-lg transition-all active:scale-95 ${
+              understood
+                ? 'bg-green-500 border-green-500 text-white'
+                : 'bg-white border-rose-400 text-rose-700 hover:bg-rose-50'
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`flex items-center justify-center w-7 h-7 rounded-md border-2 text-base font-black bg-white ${
+                understood ? 'border-white text-green-600' : 'border-rose-400 text-transparent'
+              }`}
+            >
+              ✓
+            </span>
+            הבנתי
+          </button>
+        </div>
+      )}
 
       {status === 'idle' && (
         <div className="flex justify-center">
@@ -482,7 +540,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // At the last cycle the "Again" button restarts the whole exercise from cycle 1
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>

@@ -143,7 +143,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // On the last round "Again" restarts the WHOLE exercise from round 1.
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -280,7 +281,10 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
           {isLastRound ? (
-            <button onClick={onDone} className="btn-kid bg-amber-500">🔁 Again</button>
+            <div className="flex gap-3 justify-center">
+              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+            </div>
           ) : (
             <button onClick={onAgain} className="btn-kid bg-amber-500">סבב הבא →</button>
           )}

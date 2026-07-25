@@ -185,7 +185,7 @@ const EX3_QUESTIONS: Ex2Q[] = [
   { before: 'We',          after: 'to the park.', correct: 'go',    wrong: 'is'    },
   { before: 'The sun is',  after: '.',           correct: 'yellow', wrong: 'run'   },
   { before: 'I',           after: 'my friend.',  correct: 'help',   wrong: 'blue'  },
-  { before: 'It is',       after: 'to me.',      correct: 'funny',  wrong: 'look'  },
+  { before: 'I can',       after: 'you dinner.', correct: 'make',   wrong: 'find'  },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────

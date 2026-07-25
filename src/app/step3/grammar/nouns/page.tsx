@@ -329,13 +329,15 @@ function Ex2Round({
   const questions = EX2_ROUNDS[roundIdx]
   const [currentIdx, setCurrentIdx] = useState(0)
   const [flashWrong, setFlashWrong] = useState<string | null>(null)
+  const [solved, setSolved] = useState(false)
   const [finished, setFinished] = useState(false)
 
   const isLastRound = roundIdx === EX2_ROUNDS.length - 1
 
-  // Shuffle options per question using a stable memo
+  // Shuffle options per question using a stable memo (explicit options are used as-is)
   const shuffledOptions = useMemo(() => {
     return questions.map(q => {
+      if (q.options) return q.options
       const opts = [q.singular, q.wrong, q.correct]
       return opts.sort(() => (q.noun.length % 3) - 1)
     })
@@ -345,14 +347,18 @@ function Ex2Round({
   const options = shuffledOptions[currentIdx]
 
   const choose = (val: string) => {
+    if (solved) return
     if (val === question.correct) {
+      // Insert the word into the sentence and keep it on screen for 1 second
+      setSolved(true)
       setTimeout(() => {
+        setSolved(false)
         if (currentIdx + 1 < questions.length) {
           setCurrentIdx(i => i + 1)
         } else {
           setFinished(true)
         }
-      }, 600)
+      }, 1000)
     } else {
       setFlashWrong(val)
       setTimeout(() => setFlashWrong(null), 800)
@@ -387,11 +393,19 @@ function Ex2Round({
       </p>
 
       {/* Question card */}
-      <div className="bg-white border-2 border-orange-200 rounded-2xl px-5 py-5 mb-5 text-center">
+      <div className={`bg-white border-2 rounded-2xl px-5 py-5 mb-5 text-center transition-colors ${solved ? 'border-green-300 bg-green-50' : 'border-orange-200'}`}>
         <p className="text-lg mb-1">
           <span className="font-black text-amber-800">{question.noun}</span>
         </p>
-        <p className="text-xl font-bold text-gray-800">{question.sentence}</p>
+        {solved ? (
+          <p className="text-xl font-bold text-gray-800">
+            {question.sentence.split('___')[0]}
+            <span className="text-green-600 font-black underline decoration-green-400 decoration-2">{question.correct}</span>
+            {question.sentence.split('___')[1]}
+          </p>
+        ) : (
+          <p className="text-xl font-bold text-gray-800">{question.sentence}</p>
+        )}
       </div>
 
       {/* Options */}
@@ -400,8 +414,11 @@ function Ex2Round({
           <button
             key={opt}
             onClick={() => choose(opt)}
+            disabled={solved}
             className={`px-5 py-3 rounded-2xl font-display font-black text-lg border-2 transition-all active:scale-95 ${
-              flashWrong === opt
+              solved && opt === question.correct
+                ? 'bg-green-500 text-white border-green-500'
+                : flashWrong === opt
                 ? 'bg-red-500 text-white border-red-500 scale-95'
                 : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50'
             }`}
@@ -492,7 +509,7 @@ function Ex3Round({
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
-        בכל משפט בחר את צורת היחיד או את צורת הרבים, המעבר לשאלה הבאה אוטומטי.
+        שימו לב ! בתרגיל זה עליך לבחור בין צורת היחיד לצורת הרבים לפי המשפט המוצג.
       </p>
 
       {/* Question sentence */}
@@ -518,7 +535,6 @@ function Ex3Round({
                   : 'bg-white text-orange-700 border-orange-300 hover:bg-orange-50'
               }`}
             >
-              <div className="text-xs font-bold text-gray-400 mb-0.5">{form}</div>
               {val}
             </button>
           )

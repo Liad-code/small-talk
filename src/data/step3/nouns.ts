@@ -6,34 +6,36 @@ export interface NounSortItem {
   category: '-s' | '-es' | '-ies'
 }
 
+// Bank order is intentionally MIXED (not grouped by plural rule) so the student
+// must think about each word. Same category never appears more than twice in a row.
 export const NOUN_SORT_ITEMS: NounSortItem[] = [
   { singular: 'cat',      plural: 'cats',       category: '-s'   },
-  { singular: 'dog',      plural: 'dogs',       category: '-s'   },
-  { singular: 'book',     plural: 'books',      category: '-s'   },
-  { singular: 'ball',     plural: 'balls',      category: '-s'   },
-  { singular: 'box',      plural: 'boxes',      category: '-es'  },
-  { singular: 'brush',    plural: 'brushes',    category: '-es'  },
-  { singular: 'dish',     plural: 'dishes',     category: '-es'  },
-  { singular: 'watch',    plural: 'watches',    category: '-es'  },
-  { singular: 'baby',     plural: 'babies',     category: '-ies' },
-  { singular: 'party',    plural: 'parties',    category: '-ies' },
   { singular: 'city',     plural: 'cities',     category: '-ies' },
+  { singular: 'dog',      plural: 'dogs',       category: '-s'   },
+  { singular: 'brush',    plural: 'brushes',    category: '-es'  },
+  { singular: 'baby',     plural: 'babies',     category: '-ies' },
+  { singular: 'box',      plural: 'boxes',      category: '-es'  },
+  { singular: 'book',     plural: 'books',      category: '-s'   },
+  { singular: 'dish',     plural: 'dishes',     category: '-es'  },
   { singular: 'story',    plural: 'stories',    category: '-ies' },
+  { singular: 'party',    plural: 'parties',    category: '-ies' },
+  { singular: 'watch',    plural: 'watches',    category: '-es'  },
+  { singular: 'ball',     plural: 'balls',      category: '-s'   },
 ]
 
 export const NOUN_SORT_ITEMS_R2: NounSortItem[] = [
   { singular: 'bird',    plural: 'birds',    category: '-s'   },
-  { singular: 'cup',     plural: 'cups',     category: '-s'   },
-  { singular: 'tree',    plural: 'trees',    category: '-s'   },
-  { singular: 'flower',  plural: 'flowers',  category: '-s'   },
-  { singular: 'beach',   plural: 'beaches',  category: '-es'  },
-  { singular: 'church',  plural: 'churches', category: '-es'  },
-  { singular: 'fox',     plural: 'foxes',    category: '-es'  },
-  { singular: 'bus',     plural: 'buses',    category: '-es'  },
   { singular: 'berry',   plural: 'berries',  category: '-ies' },
+  { singular: 'cup',     plural: 'cups',     category: '-s'   },
+  { singular: 'beach',   plural: 'beaches',  category: '-es'  },
   { singular: 'cherry',  plural: 'cherries', category: '-ies' },
+  { singular: 'fox',     plural: 'foxes',    category: '-es'  },
+  { singular: 'tree',    plural: 'trees',    category: '-s'   },
+  { singular: 'church',  plural: 'churches', category: '-es'  },
   { singular: 'daisy',   plural: 'daisies',  category: '-ies' },
   { singular: 'bunny',   plural: 'bunnies',  category: '-ies' },
+  { singular: 'bus',     plural: 'buses',    category: '-es'  },
+  { singular: 'flower',  plural: 'flowers',  category: '-s'   },
 ]
 
 // ── Ex 2: 3-choice plural ─────────────────────────────────────────────────────
@@ -44,28 +46,30 @@ export interface NounEx2Q {
   correct: string    // correct plural
   wrong: string      // wrong plural attempt
   singular: string   // singular form
+  options?: string[] // explicit answer options (overrides singular/wrong/correct)
 }
 
+// Question order mixed so the same plural rule never repeats more than twice in a row.
 export const NOUN_EX2: NounEx2Q[] = [
   { sentence: 'The ___ are small.',             noun: 'baby',     correct: 'babies',     wrong: 'babys',      singular: 'baby'     },
   { sentence: 'I have five ___.',               noun: 'sandwich', correct: 'sandwiches', wrong: 'sandwichs',  singular: 'sandwich' },
   { sentence: 'Look at the red ___.',           noun: 'dress',    correct: 'dresses',    wrong: 'dresss',     singular: 'dress'    },
-  { sentence: 'I see three ___.',               noun: 'box',      correct: 'boxes',      wrong: 'boxs',       singular: 'box'      },
   { sentence: 'The ___ are in the class.',      noun: 'child',    correct: 'children',   wrong: 'childs',     singular: 'child'    },
+  { sentence: 'I see three ___.',               noun: 'box',      correct: 'boxes',      wrong: 'boxs',       singular: 'box'      },
   { sentence: 'There are two ___ in the room.', noun: 'mouse',    correct: 'mice',       wrong: 'mouses',     singular: 'mouse'    },
   { sentence: 'I have two ___.',                noun: 'book',     correct: 'books',      wrong: 'bookes',     singular: 'book'     },
   { sentence: 'There are five ___ in class.',   noun: 'pupil',    correct: 'pupils',     wrong: 'pupiles',    singular: 'pupil'    },
-  { sentence: 'The ___ are in the field.',      noun: 'sheep',    correct: 'sheep',      wrong: 'sheeps',     singular: 'sheep'    },
-  { sentence: 'I see two ___ at the party.',    noun: 'woman',    correct: 'women',      wrong: 'womans',     singular: 'woman'    },
+  { sentence: 'The ___ are in the field.',      noun: 'sheep',    correct: 'sheep',      wrong: 'sheeps',     singular: 'sheep',   options: ['sheep', 'sheeps', 'sheepes'] },
+  { sentence: 'I see two ___ at the party.',    noun: 'woman',    correct: 'women',      wrong: 'womans',     singular: 'woman',   options: ['women', 'woman', 'womans']   },
 ]
 
 export const NOUN_EX2_R2: NounEx2Q[] = [
   { sentence: 'There are two ___ in the garden.',  noun: 'bench',    correct: 'benches',     wrong: 'benchs',     singular: 'bench'    },
   { sentence: 'She has three ___.',                noun: 'potato',   correct: 'potatoes',    wrong: 'potatos',    singular: 'potato'   },
+  { sentence: 'There are two ___ in the park.',    noun: 'man',      correct: 'men',         wrong: 'mans',       singular: 'man'      },
   { sentence: 'I see two ___ in the yard.',        noun: 'fox',      correct: 'foxes',       wrong: 'foxs',       singular: 'fox'      },
   { sentence: 'There are many ___ on the tree.',   noun: 'cherry',   correct: 'cherries',    wrong: 'cherrys',    singular: 'cherry'   },
   { sentence: 'I have three ___.',                 noun: 'pen',      correct: 'pens',        wrong: 'penes',      singular: 'pen'      },
-  { sentence: 'There are two ___ in the park.',    noun: 'man',      correct: 'men',         wrong: 'mans',       singular: 'man'      },
   { sentence: 'She has two ___.',                  noun: 'foot',     correct: 'feet',        wrong: 'foots',      singular: 'foot'     },
   { sentence: 'Look at those ___.',                noun: 'bus',      correct: 'buses',       wrong: 'buss',       singular: 'bus'      },
   { sentence: 'We have five ___.',                 noun: 'bird',     correct: 'birds',       wrong: 'birdes',     singular: 'bird'     },
@@ -90,7 +94,7 @@ export const NOUN_EX3: NounEx3Q[] = [
   { before: 'I see two',            after: 'in the street.',      singular: 'man',    plural: 'men',      correct: 'plural'   },
   { before: 'There is a',           after: 'on the table.',       singular: 'book',   plural: 'books',    correct: 'singular' },
   { before: 'She has five',         after: 'in her pencil case.', singular: 'pencil', plural: 'pencils',  correct: 'plural'   },
-  { before: 'Look at the white',    after: 'in the field.',       singular: 'sheep',  plural: 'sheep',    correct: 'plural'   },
+  { before: 'Look, a brown',        after: 'in the field.',       singular: 'horse',  plural: 'horses',   correct: 'singular' },
   { before: 'There are three',      after: 'in the bag.',         singular: 'dress',  plural: 'dresses',  correct: 'plural'   },
   { before: 'I have one',           after: 'at home.',            singular: 'child',  plural: 'children', correct: 'singular' },
 ]

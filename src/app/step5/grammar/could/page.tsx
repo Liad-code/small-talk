@@ -174,7 +174,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // "Again" after the last round restarts the WHOLE exercise from round 1
+        () => { setCycleIdx(i => (i + 1) % cycles); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -370,6 +371,7 @@ function Ex2() {
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
+  const [error, setError] = useState('')
   const [resetKey, setResetKey] = useState(0)
 
   const allDone = sentences.length >= EX2_GOAL
@@ -379,11 +381,16 @@ function Ex2() {
     if (!ready) return
     // Every well-formed Could-question the student builds is accepted
     const sentence = `Could ${selSubject} ${selVerb} ${selTime}?`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את השאלה הזאת! נסו שאלה חדשה 🙂')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelCould(null)
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
+    setError('')
   }
 
   const again = () => {
@@ -392,6 +399,7 @@ function Ex2() {
     setSelSubject(null)
     setSelVerb(null)
     setSelTime(null)
+    setError('')
     setResetKey(k => k + 1)
   }
 
@@ -493,6 +501,8 @@ function Ex2() {
           <button onClick={handleAdd} className="btn-kid bg-lime-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
       )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>}
 
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">
@@ -719,7 +729,10 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
           {isLastRound && <div className="mb-4"><StarOnComplete step="step5" /></div>}
           {isLastRound ? (
-            <button onClick={onDone} className="btn-kid bg-teal-500">🔁 Again</button>
+            <div className="flex gap-3 justify-center">
+              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+            </div>
           ) : (
             <button onClick={onAgain} className="btn-kid bg-teal-500">סבב הבא →</button>
           )}

@@ -132,43 +132,47 @@ interface ChoiceQ {
   answer: 'base' | 'third'
 }
 
+// Order is shuffled so the correct form never follows a predictable pattern
+// (and the same answer never appears more than twice in a row).
 const EX1_QUESTIONS: ChoiceQ[] = [
-  { before: 'I',          after: 'with my dog every day.',     base: 'walk',  third: 'walks',  answer: 'base'  },
   { before: 'Gil',        after: 'football every week.',       base: 'play',  third: 'plays',  answer: 'third' },
+  { before: 'I',          after: 'with my dog every day.',     base: 'walk',  third: 'walks',  answer: 'base'  },
   { before: 'We',         after: 'milk every morning.',        base: 'drink', third: 'drinks', answer: 'base'  },
   { before: 'She',        after: 'a letter every week.',       base: 'write', third: 'writes', answer: 'third' },
-  { before: 'They',       after: 'English every day.',         base: 'learn', third: 'learns', answer: 'base'  },
   { before: 'My brother', after: 'his room every Sunday.',     base: 'clean', third: 'cleans', answer: 'third' },
+  { before: 'They',       after: 'English every day.',         base: 'learn', third: 'learns', answer: 'base'  },
   { before: 'You',        after: 'breakfast every morning.',   base: 'eat',   third: 'eats',   answer: 'base'  },
   { before: 'The boy',    after: 'his bike every day.',        base: 'ride',  third: 'rides',  answer: 'third' },
   { before: 'I',          after: 'eight hours every night.',   base: 'sleep', third: 'sleeps', answer: 'base'  },
   { before: 'Dana',       after: 'her friend every week.',     base: 'meet',  third: 'meets',  answer: 'third' },
-  { before: 'My parents', after: 'tea every morning.',         base: 'drink', third: 'drinks', answer: 'base'  },
   { before: 'He',         after: 'a book every night.',        base: 'read',  third: 'reads',  answer: 'third', }, // read needs only +s
+  { before: 'My parents', after: 'tea every morning.',         base: 'drink', third: 'drinks', answer: 'base'  },
   { before: 'We',         after: 'to school every day.',       base: 'walk',  third: 'walks',  answer: 'base'  },
   { before: 'The girl',   after: 'her teeth every morning.',   base: 'clean', third: 'cleans', answer: 'third' },
   { before: 'You',        after: 'football every Tuesday.',    base: 'play',  third: 'plays',  answer: 'base'  },
 ]
 
+// Order is shuffled so the correct form never follows a predictable pattern
+// (and the same answer never appears more than twice in a row).
 const EX5_QUESTIONS: ChoiceQ[] = [
-  { before: 'She',        after: 'her hair every morning.',     base: 'brush', third: 'brushes', answer: 'third' },
   { before: 'I',          after: 'a book every night.',         base: 'read',  third: 'reads',   answer: 'base'  },
+  { before: 'She',        after: 'her hair every morning.',     base: 'brush', third: 'brushes', answer: 'third' },
   { before: 'The baby',   after: 'every night.',                base: 'cry',   third: 'cries',   answer: 'third' },
   { before: 'We',         after: 'our grandma every week.',     base: 'visit', third: 'visits',  answer: 'base'  },
-  { before: 'He',         after: 'English every day.',          base: 'study', third: 'studies', answer: 'third' },
   { before: 'They',       after: 'TV every night.',             base: 'watch', third: 'watches', answer: 'base'  },
-  { before: 'My sister',  after: 'a letter every week.',        base: 'write', third: 'writes',  answer: 'third' },
+  { before: 'He',         after: 'English every day.',          base: 'study', third: 'studies', answer: 'third' },
   { before: 'You',        after: 'your friends every day.',     base: 'see',   third: 'sees',    answer: 'base'  },
+  { before: 'My sister',  after: 'a letter every week.',        base: 'write', third: 'writes',  answer: 'third' },
   { before: 'Gil',        after: 'a cake every Sunday.',        base: 'make',  third: 'makes',   answer: 'third' },
   { before: 'I',          after: 'to school every morning.',    base: 'go',    third: 'goes',    answer: 'base'  },
-  { before: 'The bird',   after: 'every summer.',               base: 'fly',   third: 'flies',   answer: 'third' },
   { before: 'We',         after: 'our room every Sunday.',      base: 'clean', third: 'cleans', answer: 'base'  },
+  { before: 'The bird',   after: 'every summer.',               base: 'fly',   third: 'flies',   answer: 'third' },
   { before: 'She',        after: 'a movie every week.',         base: 'watch', third: 'watches', answer: 'third' },
   { before: 'They',       after: 'their teeth every morning.',  base: 'brush', third: 'brushes', answer: 'base'  },
   { before: 'Dana',       after: 'her homework every day.',     base: 'make',  third: 'makes',   answer: 'third' },
   { before: 'You',        after: 'a story every night.',        base: 'read',  third: 'reads',   answer: 'base'  },
-  { before: 'He',         after: 'to the park every day.',      base: 'go',    third: 'goes',    answer: 'third' },
   { before: 'My friends', after: 'a picture every week.',       base: 'see',   third: 'sees',    answer: 'base'  },
+  { before: 'He',         after: 'to the park every day.',      base: 'go',    third: 'goes',    answer: 'third' },
   { before: 'The boy',    after: 'when he is sad.',             base: 'cry',   third: 'cries',   answer: 'third' },
   { before: 'I',          after: 'my grandma every Saturday.',  base: 'visit', third: 'visits',  answer: 'base'  },
 ]
@@ -363,6 +367,10 @@ function BuilderExercise({ config, onDone }: { config: BuilderConfig; onDone: ()
     const verbWord = selVerb.form === 'third' ? selVerb.verb.third : selVerb.verb.base
     const sentence = `${selSubject.text} ${verbWord} ${selTime}.`
     const capitalized = sentence.charAt(0).toUpperCase() + sentence.slice(1)
+    if (sentences.includes(capitalized)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, capitalized])
     setSelSubject(null)
     setSelVerb(null)
@@ -582,7 +590,8 @@ const EX3_CONFIG: PassageConfig = {
     { index: 4, answer: 'play' },    // my friends and I play
     { index: 5, answer: 'eat' },     // we all eat
   ],
-  bank: ['wake up', 'eat', 'eats', 'drinks', 'play', 'eat'],
+  // Shuffled — the bank must not mirror the order of the blanks.
+  bank: ['eats', 'play', 'wake up', 'eat', 'drinks', 'eat'],
 }
 
 // EX7: spelling rules (go/goes, give/gives, play/plays, study/studies)

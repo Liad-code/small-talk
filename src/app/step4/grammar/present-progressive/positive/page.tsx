@@ -226,7 +226,8 @@ const EX5_BLANKS: PassageBlank[] = [
   { index: 6, answer: 'are having' },
 ]
 
-const EX5_WORD_BANK = ['am playing', 'are running', 'is watching', 'are sitting', 'are reading', 'is eating', 'are having']
+// Shuffled — the bank must not mirror the order of the blanks.
+const EX5_WORD_BANK = ['are reading', 'is eating', 'am playing', 'are having', 'is watching', 'are sitting', 'are running']
 
 // ── Learn ─────────────────────────────────────────────────────────────────────
 
@@ -683,6 +684,10 @@ function Ex4() {
       return
     }
     const sentence = `${selSubject.text} ${selAux} ${selVerb} ${selTime}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null); setSelAux(null); setSelVerb(null); setSelTime(null)
     setError('')

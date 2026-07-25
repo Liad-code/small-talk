@@ -15,21 +15,23 @@ interface Ex1Q {
   answer: DoDoes
 }
 
+// Order is shuffled so the correct answer never follows a predictable pattern
+// (and the same answer never appears more than twice in a row).
 const EX1_QUESTIONS: Ex1Q[] = [
-  { after: 'teachers give tests?',          answer: 'Do'   },
   { after: 'she play the piano?',           answer: 'Does' },
+  { after: 'teachers give tests?',          answer: 'Do'   },
   { after: 'you like ice cream?',           answer: 'Do'   },
   { after: 'he walk to school?',            answer: 'Does' },
-  { after: 'they read books every day?',    answer: 'Do'   },
   { after: 'Dana eat breakfast?',           answer: 'Does' },
-  { after: 'we have homework today?',       answer: 'Do'   },
+  { after: 'they read books every day?',    answer: 'Do'   },
   { after: 'the dog run in the park?',      answer: 'Does' },
+  { after: 'we have homework today?',       answer: 'Do'   },
   { after: 'cats sleep all day?',           answer: 'Do'   },
   { after: 'your mom cook dinner?',         answer: 'Does' },
-  { after: 'the boys play football?',       answer: 'Do'   },
   { after: 'Tom ride a bike?',              answer: 'Does' },
-  { after: 'you and Dan swim?',             answer: 'Do'   },
+  { after: 'the boys play football?',       answer: 'Do'   },
   { after: 'it rain in winter?',            answer: 'Does' },
+  { after: 'you and Dan swim?',             answer: 'Do'   },
   { after: 'children like games?',          answer: 'Do'   },
 ]
 
@@ -286,6 +288,10 @@ function Ex2() {
       return
     }
     const sentence = `${selDoDoes} ${selSubject.text} ${selVerb} ${selTime}?`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelDoDoes(null)
     setSelSubject(null)

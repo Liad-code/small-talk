@@ -15,29 +15,29 @@ interface NegQ {
   answer: NegVerb
 }
 
-// Ex1 rounds
+// Ex1 rounds — order is intentionally irregular (no fixed alternation, max 2 same answers in a row)
 const NEG_EX1_R1: NegQ[] = [
   { after: 'a cat in the room.',             answer: "There isn't"  },
   { after: 'six dogs in the park.',          answer: "There aren't" },
-  { after: 'a book on the table.',           answer: "There isn't"  },
   { after: 'many flowers in the garden.',    answer: "There aren't" },
-  { after: 'a teacher in school today.',     answer: "There isn't"  },
+  { after: 'a book on the table.',           answer: "There isn't"  },
   { after: 'two chairs near the window.',    answer: "There aren't" },
+  { after: 'a teacher in school today.',     answer: "There isn't"  },
   { after: 'a bird on the tree.',            answer: "There isn't"  },
   { after: 'any pencils in my bag.',         answer: "There aren't" },
-  { after: 'a sandwich in the fridge.',      answer: "There isn't"  },
   { after: 'any dogs in the yard.',          answer: "There aren't" },
+  { after: 'a sandwich in the fridge.',      answer: "There isn't"  },
 ]
 
 const NEG_EX1_R2: NegQ[] = [
-  { after: 'a cloud in the sky.',            answer: "There isn't"  },
   { after: 'three cats on the roof.',        answer: "There aren't" },
+  { after: 'a cloud in the sky.',            answer: "There isn't"  },
   { after: 'a fish in the bowl.',            answer: "There isn't"  },
   { after: 'many people in the park.',       answer: "There aren't" },
   { after: 'a kite in the sky.',             answer: "There isn't"  },
   { after: 'any chairs in the room.',        answer: "There aren't" },
-  { after: 'a dog in the yard.',             answer: "There isn't"  },
   { after: 'two apples on the table.',       answer: "There aren't" },
+  { after: 'a dog in the yard.',             answer: "There isn't"  },
   { after: 'a pencil on the desk.',          answer: "There isn't"  },
   { after: 'any flowers in the garden.',     answer: "There aren't" },
 ]
@@ -47,31 +47,31 @@ const EX1_ROUNDS = [
   { questions: NEG_EX1_R2 },
 ]
 
-// Ex2 rounds (auto-advance)
+// Ex2 rounds (auto-advance) — order is intentionally irregular (no fixed alternation, max 2 same answers in a row)
 const NEG_EX2_R1: NegQ[] = [
   { after: 'a bird on the tree.',            answer: "There isn't"  },
-  { after: 'three books on the shelf.',      answer: "There aren't" },
   { after: 'a cat under the table.',         answer: "There isn't"  },
+  { after: 'three books on the shelf.',      answer: "There aren't" },
   { after: 'many children in the room.',     answer: "There aren't" },
   { after: 'a sandwich in my bag.',          answer: "There isn't"  },
   { after: 'six chairs near the door.',      answer: "There aren't" },
   { after: 'a park near our house.',         answer: "There isn't"  },
   { after: 'any dogs in the yard.',          answer: "There aren't" },
-  { after: 'a pencil on the desk.',          answer: "There isn't"  },
   { after: 'three dogs in the park.',        answer: "There aren't" },
+  { after: 'a pencil on the desk.',          answer: "There isn't"  },
 ]
 
 const NEG_EX2_R2: NegQ[] = [
-  { after: 'a flower in the garden.',        answer: "There isn't"  },
   { after: 'any people on the street.',      answer: "There aren't" },
-  { after: 'a car in the garage.',           answer: "There isn't"  },
+  { after: 'a flower in the garden.',        answer: "There isn't"  },
   { after: 'two stars in the sky.',          answer: "There aren't" },
-  { after: 'a fish in the bowl.',            answer: "There isn't"  },
   { after: 'any cups on the table.',         answer: "There aren't" },
-  { after: 'a dog in the house.',            answer: "There isn't"  },
+  { after: 'a car in the garage.',           answer: "There isn't"  },
+  { after: 'a fish in the bowl.',            answer: "There isn't"  },
   { after: 'many trees in the park.',        answer: "There aren't" },
-  { after: 'a chair near the window.',       answer: "There isn't"  },
   { after: 'any books on the shelf.',        answer: "There aren't" },
+  { after: 'a dog in the house.',            answer: "There isn't"  },
+  { after: 'a chair near the window.',       answer: "There isn't"  },
 ]
 
 const EX2_ROUNDS = [NEG_EX2_R1, NEG_EX2_R2]
@@ -108,7 +108,7 @@ const EX3_CYCLES: NegEx3Cycle[] = [
       { text: 'a car',       verb: "There isn't"  },
       { text: 'any fish',    verb: "There aren't" },
     ],
-    places: ['in the bag', 'under the tree', 'in the yard', 'near the school', 'on the roof', 'in the classroom'],
+    places: ['in the room', 'under the tree', 'in the garden', 'near the door', 'on the road', 'in the classroom', 'in the bag'],
   },
 ]
 
@@ -146,7 +146,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => i + 1); setKey(k => k + 1) },
+        // After the LAST round, "Again" restarts the whole exercise from round 1
+        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
         () => setFinished(true),
       )}
     </div>
@@ -238,10 +239,19 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
-          const display = ans ? `${ans} ${q.after}` : `___ ${q.after}`
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 flex-wrap ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
-              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{display}</span>
+              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">
+                {ans ? (
+                  <>
+                    {/* Inserted verb keeps its distinctive color inside the sentence */}
+                    <span className={`font-black ${ans === "There isn't" ? 'text-sky-600' : 'text-blue-600'}`}>{ans}</span>
+                    {' '}{q.after}
+                  </>
+                ) : (
+                  `___ ${q.after}`
+                )}
+              </span>
               {!ans && !isWrong ? (
                 <div className="flex gap-1.5">
                   {(["There isn't", "There aren't"] as NegVerb[]).map(v => (
@@ -426,6 +436,10 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selVerb} ${selSubject.text} ${selPlace}.`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this sentence! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)
