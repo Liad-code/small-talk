@@ -22,7 +22,6 @@ const EX1_QUESTIONS: CanQ[] = [
   { before: 'Lions',     after: 'fly.',          answer: "can't" },
   { before: 'Fish',      after: 'swim.',         answer: 'can'   },
   { before: 'Snakes',    after: 'walk.',         answer: "can't" },
-  { before: 'Cats',      after: 'climb the tree.', answer: 'can'  },
   { before: 'A baby',    after: 'ride a bike.',  answer: "can't" },
   { before: 'Dogs',      after: 'run fast.',     answer: 'can'   },
   { before: 'I',         after: 'read a book.',  answer: 'can'   },
@@ -103,6 +102,20 @@ const EX4_QUESTIONS: CanEx4Q[] = [
   { question: 'Can he ride a bike?',     subject: 'he'   },
   { question: 'Can you sing a song?',    subject: 'I'    },
 ]
+
+// Short-answer bank — one Yes/No pair per pronoun, exactly like the has/have yes-no ex3.
+// "you" questions are answered with the I-form (global rule), so those map to subject 'I'.
+const CAN_ANSWER_BANK: Record<CanSubjPron, { yes: string; no: string }> = {
+  I:    { yes: 'Yes, I can',    no: "No, I can't"    },
+  you:  { yes: 'Yes, you can',  no: "No, you can't"  },
+  he:   { yes: 'Yes, he can',   no: "No, he can't"   },
+  she:  { yes: 'Yes, she can',  no: "No, she can't"  },
+  it:   { yes: 'Yes, it can',   no: "No, it can't"   },
+  we:   { yes: 'Yes, we can',   no: "No, we can't"   },
+  they: { yes: 'Yes, they can', no: "No, they can't" },
+}
+
+const CAN_PRONOUN_GROUPS: CanSubjPron[] = ['I', 'you', 'he', 'she', 'it', 'we', 'they']
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
@@ -374,7 +387,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       </div>
 
       <div className="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-3 mb-3 text-sm font-bold text-indigo-700" dir="rtl">
-        <p>1. יש ליצור 5 משפטים על מנת לסיים את הסבב.</p>
+        <p>1. יש ליצור 9 משפטים על מנת לסיים את המשימה.</p>
         <p>2. לחץ על מילה אחת מכל עמודה על מנת ליצור משפט.</p>
         <p>3. המשפט יופיע למטה, לחץ Add על מנת להוסיף אותו.</p>
         <p>4. במידה והמשפט לא נכון, יופיע X אדום. יש לתקן ולחוץ שוב Add.</p>
@@ -634,14 +647,12 @@ function Ex4() {
   const q = EX4_QUESTIONS[current]
   const isLast = current === EX4_QUESTIONS.length - 1
 
-  // The short answer always repeats the question's subject: "Yes, he can." / "No, he can't."
-  const yesAnswer = `Yes, ${q.subject} can.`
-  const noAnswer = `No, ${q.subject} can't.`
-
-  const handleClick = (side: 'yes' | 'no') => {
+  // The answer bank offers a Yes/No pair for EVERY pronoun. The student must pick
+  // the answer whose pronoun matches the question's subject — only that one is accepted.
+  const handleClick = (group: CanSubjPron, side: 'yes' | 'no') => {
     if (flash) return
-    // Both Yes and No are valid short answers for the subject — accept either
-    const tileKey = side
+    if (group !== q.subject) return
+    const tileKey = `${group}-${side}`
     setFlash(tileKey)
     setTimeout(() => {
       setFlash(null)
@@ -675,7 +686,7 @@ function Ex4() {
       </div>
 
       <div className="bg-indigo-50 border-4 border-indigo-300 rounded-3xl p-6 text-center mb-5">
-        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הנכונה. לכל שאלה ניתן לבחור לענות בחיוב או בשלילה.</p>
+        <p className="font-bold text-gray-600 text-sm mb-1" dir="rtl">לחץ על התשובה הנכונה, לפי הגוף שבשאלה. לכל שאלה ניתן לבחור לענות בחיוב או בשלילה.</p>
         <p className="font-display font-black text-2xl text-indigo-700">{q.question}</p>
       </div>
 
@@ -685,16 +696,23 @@ function Ex4() {
             <span className="font-display font-black text-white text-sm">YES ✓</span>
           </div>
           <div className="bg-green-50 border-2 border-green-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            <button
-              onClick={() => handleClick('yes')}
-              className={`text-base font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                flash === 'yes'
-                  ? 'bg-green-500 text-white border-green-500 scale-105'
-                  : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
-              }`}
-            >
-              {yesAnswer}
-            </button>
+            {CAN_PRONOUN_GROUPS.map(g => {
+              const tileKey = `${g}-yes`
+              const isFlashing = flash === tileKey
+              return (
+                <button
+                  key={g}
+                  onClick={() => handleClick(g, 'yes')}
+                  className={`text-base font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                    isFlashing
+                      ? 'bg-green-500 text-white border-green-500 scale-105'
+                      : 'bg-white text-green-700 border-green-200 hover:bg-green-100 active:scale-95'
+                  }`}
+                >
+                  {CAN_ANSWER_BANK[g].yes}
+                </button>
+              )
+            })}
           </div>
         </div>
 
@@ -703,16 +721,23 @@ function Ex4() {
             <span className="font-display font-black text-white text-sm">NO ✗</span>
           </div>
           <div className="bg-rose-50 border-2 border-rose-200 rounded-b-xl p-1.5 flex flex-col gap-1">
-            <button
-              onClick={() => handleClick('no')}
-              className={`text-base font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
-                flash === 'no'
-                  ? 'bg-rose-500 text-white border-rose-500 scale-105'
-                  : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'
-              }`}
-            >
-              {noAnswer}
-            </button>
+            {CAN_PRONOUN_GROUPS.map(g => {
+              const tileKey = `${g}-no`
+              const isFlashing = flash === tileKey
+              return (
+                <button
+                  key={g}
+                  onClick={() => handleClick(g, 'no')}
+                  className={`text-base font-bold rounded-lg px-2 py-1.5 text-center transition-all border-2 ${
+                    isFlashing
+                      ? 'bg-rose-500 text-white border-rose-500 scale-105'
+                      : 'bg-white text-rose-700 border-rose-200 hover:bg-rose-100 active:scale-95'
+                  }`}
+                >
+                  {CAN_ANSWER_BANK[g].no}
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>

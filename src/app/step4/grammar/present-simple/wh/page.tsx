@@ -92,21 +92,42 @@ const EX2_CYCLES: Ex2Cycle[] = [
   },
 ]
 
+// Grammar/matching validation for the Ex2 builder.
+// For each verb (rest-phrase) we list ONLY the wh-words that produce a correct,
+// sensible question. Any wh-word not listed here is rejected — this blocks
+// mismatches like "Where do you eat for lunch?" (a "for lunch" phrase asks What,
+// not Where) or "Who does it get to school?" (Who never fits this builder's
+// structure). Subject/aux agreement is checked separately.
+const EX2_VALID_WH: Record<string, string[]> = {
+  'eat for lunch':     ['What'],
+  'play every Sunday': ['What'],
+  'watch on T.V':      ['What'],
+  'go after school':   ['Where'],
+  'drink every day':   ['What'],
+  'feel':              ['How'],
+  'get to school':     ['How', 'When'],
+}
+
+function isValidWhQuestion(wh: string, verb: string): boolean {
+  const allowed = EX2_VALID_WH[verb]
+  return !!allowed && allowed.includes(wh)
+}
+
 // ── Ex3 data (think of an answer, reveal a sample) ──────────────────────────────
 
 interface Ex3Q { question: string; answer: string }
 
 const EX3_QUESTIONS: Ex3Q[] = [
-  { question: 'Where do you live?',            answer: 'I live in Tel Aviv.'   },
-  { question: 'What do you eat for breakfast?',answer: 'I eat eggs.'           },
-  { question: 'When do you go to school?',     answer: "At 8 o'clock."         },
-  { question: 'Why do you like summer?',       answer: 'Because it is warm.'   },
-  { question: 'How do you go to school?',      answer: 'By bus.'               },
-  { question: 'Who do you play with?',         answer: 'With my friends.'      },
-  { question: 'Where does your dad work?',     answer: 'At a hospital.'        },
-  { question: 'What does your mom cook?',      answer: 'She cooks pasta.'      },
-  { question: 'When does the movie start?',    answer: 'At five o\'clock.'     },
-  { question: 'How does he feel today?',       answer: 'He feels happy.'       },
+  { question: 'Where do you live?',            answer: 'I live in Tel Aviv.'      },
+  { question: 'What do you eat for breakfast?',answer: 'I eat eggs.'              },
+  { question: 'When do you go to school?',     answer: "I go to school at 8 o'clock." },
+  { question: 'Why do you like summer?',       answer: 'Because it is warm.'      },
+  { question: 'How do you go to school?',      answer: 'I go to school by bus.'   },
+  { question: 'Who do you play with?',         answer: 'I play with my friends.'  },
+  { question: 'Where does your dad work?',     answer: 'He works at a hospital.'  },
+  { question: 'What does your mom cook?',      answer: 'She cooks pasta.'         },
+  { question: 'When does the movie start?',    answer: 'It starts at five o\'clock.' },
+  { question: 'How does he feel today?',       answer: 'He feels happy.'          },
 ]
 
 // ── ExWrapper ───────────────────────────────────────────────────────────────────
@@ -304,24 +325,32 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
+  // Non-consuming: every word stays on screen for the whole exercise.
   const availWh = cycle.whWords
-  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
+  const availSubjects = cycle.subjects
+  const availVerbs = cycle.verbs
 
   const handleAdd = () => {
     if (!selWh || !selAux || !selSubject || !selVerb) return
+    // 1. Subject / auxiliary agreement (do vs does).
     if (selSubject.aux !== selAux) {
       setError('❌ Try a different do/does!')
       return
     }
+    // 2. Grammar/matching validation — the wh-word must fit the rest of the
+    //    question. Rejected attempts do NOT count toward the goal.
+    if (!isValidWhQuestion(selWh, selVerb)) {
+      setError('❌ מילת השאלה לא מתאימה למשפט! נסו מילת שאלה אחרת.')
+      return
+    }
     const sentence = `${selWh} ${selAux} ${selSubject.text} ${selVerb}?`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this question! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelWh(null)
     setSelAux(null)
     setSelSubject(null)

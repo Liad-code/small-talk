@@ -113,7 +113,7 @@ function ChooseTenseEx({
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        בחרו את הצורה הנכונה לפי מילת הזמן
+        בחר את צורת הפועל הנכונה לפי מילת הזמן שבמשפט.
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4" dir="rtl">
         every day / on Sunday ← Present Simple · now / at the moment / Look! ← Present Progressive
@@ -240,7 +240,7 @@ function Ex4({ onDone }: { onDone: () => void }) {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        גררו כל מילת זמן אל הזמן המתאים
+        גרור כל ביטוי זמן למקום הנכון.
       </p>
 
       {/* Chip bank */}
@@ -356,11 +356,13 @@ const EX7_QUESTIONS: PickQ[] = [
 function PickBySignalEx({
   questions,
   hint,
+  instruction,
   theme,
   onDone,
 }: {
   questions: PickQ[]
   hint: string
+  instruction: string
   theme: 'rose' | 'teal' | 'emerald'
   onDone: () => void
 }) {
@@ -395,7 +397,7 @@ function PickBySignalEx({
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        בחרו את הצורה הנכונה לפי מילת הזמן
+        {instruction}
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">{hint}</p>
 
@@ -712,13 +714,13 @@ export default function MixedPracticePage() {
           <ExWrapper render={done => <Ex4 onDone={done} />} />
         )}
         {tab === 'ex5' && (
-          <ExWrapper render={done => <PickBySignalEx questions={EX5_QUESTIONS} theme="rose" hint="every day → don't / doesn't · now / Look! → am not / isn't / aren't" onDone={done} />} />
+          <ExWrapper render={done => <PickBySignalEx questions={EX5_QUESTIONS} theme="rose" instruction="בחר את צורת השלילה הנכונה לפי מילת הזמן שבמשפט." hint="every day → don't / doesn't · now / Look! → am not / isn't / aren't" onDone={done} />} />
         )}
         {tab === 'ex6' && (
-          <ExWrapper render={done => <PickBySignalEx questions={EX6_QUESTIONS} theme="teal" hint="every day → Do / Does · now / at the moment → Am / Is / Are" onDone={done} />} />
+          <ExWrapper render={done => <PickBySignalEx questions={EX6_QUESTIONS} theme="teal" instruction="בחר את פועל העזר הנכון לפי מילת הזמן במשפט." hint="every day → Do / Does · now / at the moment → Am / Is / Are" onDone={done} />} />
         )}
         {tab === 'ex7' && (
-          <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} theme="emerald" hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
+          <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} theme="emerald" instruction="השלימו את פועל העזר הנכון במשפט השאלה." hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
         )}
         {tab === 'write1' && (
           <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instruction={<>השלימו את הפועל בצורה <span className="text-xl font-black text-green-600">חיובית</span> לפי הזמן במשפט.</>} onDone={done} />} />

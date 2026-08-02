@@ -64,13 +64,14 @@ const EX2_CYCLES: Ex2Cycle[] = [
   },
   {
     subjects: [
-      { text: 'She',          neg: "doesn't" },
-      { text: 'We',           neg: "don't"   },
-      { text: 'The teacher',  neg: "doesn't" },
-      { text: 'The children', neg: "don't"   },
-      { text: 'My parents',   neg: "don't"   },
+      { text: 'I',          neg: "don't"   },
+      { text: 'We',         neg: "don't"   },
+      { text: 'The boys',   neg: "don't"   },
+      { text: 'Tom',        neg: "doesn't" },
+      { text: 'My sister',  neg: "doesn't" },
+      { text: 'The dog',    neg: "doesn't" },
     ],
-    verbs: ['read books', 'play the guitar', 'eat ice cream', 'give homework', 'run'],
+    verbs: ['watch TV', 'drink coffee', 'clean the house', 'ride a bike', 'swim'],
     times: ['every day', 'every week'],
   },
 ]

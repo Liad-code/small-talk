@@ -252,7 +252,7 @@ const EX2_CYCLES: Ex2Cycle[] = [
       { text: 'we',   aux: 'Are' },
     ],
     verbs: ['reading books', 'eating lunch', 'playing football', 'cleaning the room', 'watching TV', 'drinking water'],
-    times: ['now', 'today', 'at the moment', 'right now', 'now', 'today'],
+    times: ['now', 'today', 'at the moment', 'right now'],
   },
 ]
 
@@ -264,14 +264,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selTime, setSelTime] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
-  const [usedTimes, setUsedTimes] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
-  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
-  const availTimes = cycle.times.filter((t, i) => !usedTimes.has(`${t}-${i}`))
+  // All words stay on screen for the whole exercise — used words are never consumed
+  const availSubjects = cycle.subjects
+  const availVerbs = cycle.verbs
+  const availTimes = cycle.times
 
   const handleAdd = () => {
     if (!selAux || !selSubject || !selVerb || !selTime) return
@@ -280,10 +278,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selAux} ${selSubject.text} ${selVerb} ${selTime}?`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this question! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
-    setUsedTimes(prev => { const s = new Set(prev); s.add(selTime); return s })
     setSelAux(null)
     setSelSubject(null)
     setSelVerb(null)

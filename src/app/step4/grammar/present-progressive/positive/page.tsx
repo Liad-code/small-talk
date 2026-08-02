@@ -154,13 +154,13 @@ const EX3_QS: Ex3Q[] = [
   { subject: 'They',      base: 'play',  after: 'football today.',      answer: 'are playing'  },
   { subject: 'The baby',  base: 'cry',   after: 'right now.',           answer: 'is crying'    },
   { subject: 'I',         base: 'read',  after: 'a book now.',          answer: 'am reading'   },
-  { subject: 'Dana',      base: 'make',  after: 'lunch at the moment.', answer: 'is making'    },
-  { subject: 'We',        base: 'run',   after: 'to the bus now.',      answer: 'are running'  },
-  { subject: 'He',        base: 'write', after: 'his homework now.',    answer: 'is writing'   },
-  { subject: 'You',       base: 'swim',  after: 'very fast today.',     answer: 'are swimming' },
-  { subject: 'The girls', base: 'cry',   after: 'now.',                 answer: 'are crying'   },
-  { subject: 'I',         base: 'stop',  after: 'my bike now.',         answer: 'am stopping'  },
-  { subject: 'She',       base: 'play',  after: 'the piano now.',       answer: 'is playing'   },
+  { subject: 'Dana',      base: 'eat',   after: 'lunch at the moment.', answer: 'is eating'    },
+  { subject: 'We',        base: 'drink', after: 'water now.',           answer: 'are drinking' },
+  { subject: 'He',        base: 'sleep', after: 'now.',                 answer: 'is sleeping'  },
+  { subject: 'You',       base: 'study', after: 'for the test now.',    answer: 'are studying' },
+  { subject: 'The girls', base: 'dance', after: 'now.',                 answer: 'are dancing'  },
+  { subject: 'I',         base: 'clean', after: 'my room now.',         answer: 'am cleaning'  },
+  { subject: 'She',       base: 'write', after: 'a letter now.',        answer: 'is writing'   },
 ]
 
 // ── Ex4 data: 4-part builder ──────────────────────────────────────────────────
@@ -584,7 +584,7 @@ function Ex3() {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        הקלידו פועל עזר + פועל עם ing (למשל: is running)
+        השלם את צורת הפועל הנכונה.
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Type the auxiliary + the -ing verb

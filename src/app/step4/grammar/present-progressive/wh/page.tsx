@@ -17,10 +17,12 @@ const AUX_COLORS: Record<Aux, { bg: string; light: string; text: string; border:
 const AUXES: Aux[] = ['am', 'is', 'are']
 
 const WH_WORDS: { word: string; hebrew: string }[] = [
+  { word: 'Who',   hebrew: 'מי' },
   { word: 'What',  hebrew: 'מה' },
   { word: 'Where', hebrew: 'איפה' },
-  { word: 'Who',   hebrew: 'מי' },
+  { word: 'When',  hebrew: 'מתי' },
   { word: 'Why',   hebrew: 'למה' },
+  { word: 'How',   hebrew: 'איך' },
 ]
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
@@ -113,16 +115,16 @@ function LearnTab() {
 interface Ex1Q { question: string; answer: string }
 
 const EX1_QUESTIONS: Ex1Q[] = [
-  { question: 'What are you eating?',        answer: '(a sandwich)' },
-  { question: 'Where is your mom?',          answer: '(at the park)' },
-  { question: 'What is he reading?',         answer: '(a book)' },
-  { question: 'Where are they going?',       answer: '(to school)' },
-  { question: 'What am I doing?',            answer: '(cleaning)' },
-  { question: 'Who is singing now?',         answer: '(my sister)' },
-  { question: 'Why is the baby crying?',     answer: "(it's hungry)" },
-  { question: 'What is she drinking?',       answer: '(water)' },
-  { question: 'Where are we sitting?',       answer: '(in the garden)' },
-  { question: 'What are the kids playing?',  answer: '(football)' },
+  { question: 'What are you eating?',        answer: 'I am eating a sandwich.' },
+  { question: 'Where is your mom?',          answer: 'She is at the park.' },
+  { question: 'What is he reading?',         answer: 'He is reading a book.' },
+  { question: 'Where are they going?',       answer: 'They are going to school.' },
+  { question: 'What am I doing?',            answer: 'I am cleaning my room.' },
+  { question: 'Who is singing now?',         answer: 'My sister is singing now.' },
+  { question: 'Why is the baby crying?',     answer: 'Because he is hungry.' },
+  { question: 'What is she drinking?',       answer: 'She is drinking water.' },
+  { question: 'Where are we sitting?',       answer: 'We are sitting in the garden.' },
+  { question: 'What are the kids playing?',  answer: 'They are playing football.' },
 ]
 
 function Ex1Tab() {
@@ -206,13 +208,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
+  // All words stay on screen for the whole exercise — used words are never consumed
   const availWh = cycle.whWords
-  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
+  const availSubjects = cycle.subjects
+  const availVerbs = cycle.verbs
 
   const handleAdd = () => {
     if (!selWh || !selAux || !selSubject || !selVerb) return
@@ -221,9 +222,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selWh} ${selAux} ${selSubject.text} ${selVerb}?`
+    if (sentences.includes(sentence)) {
+      setError('❌ You already made this question! Try a new one.')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelWh(null)
     setSelAux(null)
     setSelSubject(null)

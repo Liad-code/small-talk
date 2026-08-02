@@ -79,13 +79,13 @@ const EX3_QS: Ex3Q[] = [
   { subject: 'They',      base: 'play',  after: 'football today.',       answer: "aren't playing"   },
   { subject: 'The baby',  base: 'cry',   after: 'now.',                  answer: "isn't crying"     },
   { subject: 'I',         base: 'read',  after: 'a book now.',           answer: 'am not reading'   },
-  { subject: 'Dana',      base: 'make',  after: 'lunch now.',            answer: "isn't making"     },
-  { subject: 'We',        base: 'run',   after: 'now.',                  answer: "aren't running"   },
-  { subject: 'He',        base: 'write', after: 'his homework now.',     answer: "isn't writing"    },
-  { subject: 'You',       base: 'swim',  after: 'today.',                answer: "aren't swimming"  },
-  { subject: 'The girls', base: 'cry',   after: 'now.',                  answer: "aren't crying"    },
-  { subject: 'I',         base: 'stop',  after: 'my bike now.',          answer: 'am not stopping'  },
-  { subject: 'She',       base: 'play',  after: 'the piano now.',        answer: "isn't playing"    },
+  { subject: 'Dana',      base: 'eat',   after: 'lunch now.',            answer: "isn't eating"     },
+  { subject: 'We',        base: 'drink', after: 'water now.',            answer: "aren't drinking"  },
+  { subject: 'He',        base: 'sleep', after: 'now.',                  answer: "isn't sleeping"   },
+  { subject: 'You',       base: 'study', after: 'today.',                answer: "aren't studying"  },
+  { subject: 'The girls', base: 'dance', after: 'now.',                  answer: "aren't dancing"   },
+  { subject: 'I',         base: 'clean', after: 'my room now.',          answer: "am not cleaning"  },
+  { subject: 'She',       base: 'write', after: 'a letter now.',         answer: "isn't writing"    },
 ]
 
 // ── Ex4 data: 4-part builder ──────────────────────────────────────────────────
@@ -441,7 +441,7 @@ function Ex3() {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        הקלידו את צורת השלילה + פועל עם ing (למשל: isn&apos;t running)
+        השלם את צורת השלילה של הפועל.
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Type the negative auxiliary + the -ing verb
