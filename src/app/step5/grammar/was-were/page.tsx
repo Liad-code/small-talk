@@ -670,7 +670,7 @@ function Ex4Builder({ onDone }: { onDone: () => void }) {
     }
     const sentence = `${selSubject.text} ${selForm} ${selRest} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -1022,110 +1022,84 @@ function Ex5Passage({ onDone }: { onDone: () => void }) {
   )
 }
 
-// ── EX 6: was/were Yes-No questions (choose Was / Were) ──────────────────────────
+// ── EX 6: Wh Questions — read, think, reveal a sample answer ─────────────────────
 
-interface Ex6Q {
-  after: string
-  answer: WasWereCap
-}
+interface Ex6Q { question: string; answer: string }
 
-// (ordered so the same answer never appears more than twice in a row)
 const EX6_QUESTIONS: Ex6Q[] = [
-  { after: 'the party fun?',          answer: 'Was'  },
-  { after: 'the test hard?',          answer: 'Was'  },
-  { after: 'you at the shop?',        answer: 'Were' },
-  { after: 'the meeting long?',       answer: 'Was'  },
-  { after: 'he crying?',              answer: 'Was'  },
-  { after: 'you there two hours ago?',answer: 'Were' },
-  { after: 'your book good?',         answer: 'Was'  },
-  { after: 'she happy?',              answer: 'Was'  },
-  { after: 'the games fun?',          answer: 'Were' },
+  { question: 'Where was he yesterday?',   answer: "He was at his grandma's house." },
+  { question: 'Why was she sad?',          answer: 'Because she lost her toy.'       },
+  { question: 'Where were they last night?', answer: 'They were at the cinema.'      },
+  { question: 'How was your test?',        answer: 'It was easy!'                    },
+  { question: 'When was the party?',       answer: 'It was on Friday.'               },
+  { question: 'Who was at home?',          answer: 'My little sister was at home.'   },
+  { question: 'What was in the box?',      answer: 'There was a new game in the box.' },
+  { question: 'Why were you late?',        answer: 'Because the bus was slow.'       },
+  { question: 'How were the movies?',      answer: 'They were really fun.'           },
+  { question: 'Where were we?',            answer: 'We were in the park.'            },
 ]
 
-const EX6_OPTS: WasWereCap[] = ['Was', 'Were']
+function Ex6WhReveal({ onDone }: { onDone: () => void }) {
+  const [revealed, setRevealed] = useState<Set<number>>(new Set())
+  const total = EX6_QUESTIONS.length
+  const allRevealed = revealed.size === total
 
-function Ex6YesNoQuestions({ questions, onDone }: { questions: Ex6Q[]; onDone: () => void }) {
-  const [answers, setAnswers] = useState<Record<number, boolean>>({})
-  const [wrong, setWrong] = useState<Record<number, WasWereCap>>({})
-
-  const total = questions.length
-  const done = Object.keys(answers).length
-  const allDone = done === total
-
-  const choose = (idx: number, val: WasWereCap) => {
-    if (answers[idx]) return
-    if (val === questions[idx].answer) {
-      setAnswers(prev => ({ ...prev, [idx]: true }))
-    } else {
-      setWrong(prev => ({ ...prev, [idx]: val }))
-      setTimeout(() => setWrong(prev => {
-        const next = { ...prev }
-        delete next[idx]
-        return next
-      }), 700)
-    }
+  const toggle = (idx: number) => {
+    setRevealed(prev => {
+      const s = new Set(prev)
+      if (s.has(idx)) s.delete(idx)
+      else s.add(idx)
+      return s
+    })
   }
 
   return (
     <div className="max-w-xl mx-auto px-4 py-6 pb-16">
       <div className="mb-4">
         <h2 className="font-display font-black text-xl text-teal-700 text-center mb-1">
-          Build the Yes / No question
+          Wh Questions — Was / Were
         </h2>
         <p className="font-bold text-sm text-teal-600 text-center" dir="rtl">
-          בחרו Was או Were כדי לפתוח את השאלה
+          קרא את השאלה וחשוב על תשובה נכונה אפשרית. לחץ על ? כדי לראות תשובה נכונה אפשרית.
         </p>
       </div>
 
       <div className="flex justify-end text-sm font-bold text-teal-500 mb-3">
-        <span>{done} / {total} ✓</span>
+        <span>{revealed.size} / {total} ✓</span>
       </div>
 
-      <div className="flex flex-col gap-2.5">
-        {questions.map((q, idx) => {
-          const isAnswered = answers[idx]
-          return (
-            <div
-              key={idx}
-              className="bg-white border-2 border-teal-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap"
-            >
+      <div className="flex flex-col gap-3">
+        {EX6_QUESTIONS.map((q, idx) => (
+          <div key={idx} className="bg-white border-2 border-teal-200 rounded-2xl px-4 py-3 shadow-sm">
+            <div className="flex items-center gap-3">
               <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
-              <span className="text-base font-bold text-gray-700">
-                {isAnswered ? (
-                  <span className="font-black text-teal-600 bg-teal-100 rounded px-1">{q.answer}</span>
-                ) : (
-                  <span className="text-teal-300 font-black">___</span>
-                )}
-                {' ' + q.after}
-              </span>
-              {!isAnswered && (
-                <div className="flex gap-1.5 ml-auto">
-                  {EX6_OPTS.map(opt => (
-                    <button
-                      key={opt}
-                      onClick={() => choose(idx, opt)}
-                      className={`px-3 py-1 rounded-lg font-display font-bold text-sm border-2 transition-colors active:scale-95 ${
-                        wrong[idx] === opt
-                          ? 'bg-red-500 text-white border-red-500'
-                          : 'bg-teal-50 text-teal-700 border-teal-300 hover:bg-teal-100'
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              )}
-              {isAnswered && <span className="ml-auto text-green-500 font-bold text-lg">✓</span>}
+              <span className="flex-1 text-base font-bold text-gray-700">{q.question}</span>
+              <button
+                onClick={() => toggle(idx)}
+                aria-label="Show answer"
+                className={`flex-shrink-0 w-8 h-8 rounded-full font-display font-black text-base border-2 transition-colors active:scale-95 ${
+                  revealed.has(idx)
+                    ? 'bg-teal-500 text-white border-teal-500'
+                    : 'bg-teal-50 text-teal-600 border-teal-300 hover:bg-teal-100'
+                }`}
+              >
+                ?
+              </button>
             </div>
-          )
-        })}
+            {revealed.has(idx) && (
+              <p className="mt-2 pt-2 border-t border-teal-100 font-bold text-teal-700 text-base">
+                {q.answer}
+              </p>
+            )}
+          </div>
+        ))}
       </div>
 
-      {allDone && (
+      {allRevealed && (
         <div className="text-center bounce-in mt-6">
           <div className="text-5xl mb-2">🎉</div>
-          <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
-          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל השאלות!</p>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">Great job!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">ראית את כל התשובות לדוגמה!</p>
           <button onClick={onDone} className="btn-kid bg-teal-500">✅ Done</button>
         </div>
       )}
@@ -1185,7 +1159,7 @@ export default function WasWerePage() {
         {tab === 'ex3' && <ExWrapper render={done => <ChoiceWasWereCap questions={EX3_QUESTIONS} onDone={done} />} />}
         {tab === 'ex4' && <ExWrapper render={done => <Ex4Builder onDone={done} />} />}
         {tab === 'ex5' && <ExWrapper render={done => <Ex5Passage onDone={done} />} />}
-        {tab === 'ex6' && <ExWrapper render={done => <Ex6YesNoQuestions questions={EX6_QUESTIONS} onDone={done} />} />}
+        {tab === 'ex6' && <ExWrapper render={done => <Ex6WhReveal onDone={done} />} />}
       </div>
     </div>
   )

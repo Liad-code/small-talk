@@ -479,8 +479,8 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { a: 'Maya',  b: 'Gil',   subject: 'math'    }, // 80 = 80  -> as
   { a: 'Yuval', b: 'Dana',  subject: 'math'    }, // 90 < 100 -> not
   { a: 'Gil',   b: 'Dana',  subject: 'english' }, // 90 = 90  -> as
-  { a: 'Dan',   b: 'Maya',  subject: 'math'    }, // 100 >= 80 -> as
-  { a: 'Gil',   b: 'Yuval', subject: 'math'    }, // 80 < 90  -> not
+  { a: 'Dan',   b: 'Maya',  subject: 'english' }, // 80 < 100 -> not
+  { a: 'Gil',   b: 'Yuval', subject: 'english' }, // 90 < 100 -> not
   { a: 'Yuval', b: 'Maya',  subject: 'english' }, // 100 = 100 -> as
 ]
 
@@ -544,13 +544,13 @@ function Ex3({ onDone }: { onDone: () => void }) {
             <div key={idx} className="bg-white border-2 border-pink-200 rounded-2xl px-4 py-3 shadow-sm flex items-center gap-2 flex-wrap">
               <span className="text-gray-400 font-black text-sm">{idx + 1}.</span>
               <span className="text-base font-bold text-gray-700">
-                {q.a + ' '}
+                {q.a + ' is '}
                 {isAnswered ? (
                   <span className="font-black text-pink-600 bg-pink-100 rounded px-1">{correctLabel}</span>
                 ) : (
                   <span className="text-pink-300 font-black">___</span>
                 )}
-                {' ' + q.b + ' in ' + (q.subject.charAt(0).toUpperCase() + q.subject.slice(1)) + '.'}
+                {' ' + q.b + ' in ' + q.subject + '.'}
               </span>
               {!isAnswered && (
                 <div className="flex gap-1.5 ml-auto flex-wrap justify-end">
@@ -998,6 +998,9 @@ function TypeInExercise({ questions, onDone, instruction }: { questions: TypeQ[]
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         {instruction}
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-1" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Type the correct form of the adjective

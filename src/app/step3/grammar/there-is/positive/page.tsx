@@ -442,7 +442,7 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     }
     const sentence = `${selVerb} ${selSubject.text} ${selPlace}.`
     if (sentences.includes(sentence)) {
-      setError('❌ You already made this sentence! Try a new one.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])

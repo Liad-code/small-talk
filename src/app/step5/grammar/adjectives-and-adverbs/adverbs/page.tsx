@@ -157,7 +157,7 @@ const EX1_SENTENCES: Ex1Sentence[] = [
   { parts: s('She sings beautifully.', 'beautifully'),  emoji: '🎤', hebrew: 'היא שרה יפה.' },
   { parts: s('He runs fast.', 'fast'),                  emoji: '🏃', hebrew: 'הוא רץ מהר.' },
   { parts: s('They work quietly.', 'quietly'),          emoji: '🤫', hebrew: 'הם עובדים בשקט.' },
-  { parts: s('The baby sleeps happily.', 'happily'),    emoji: '👶', hebrew: 'התינוק ישן בשמחה.' },
+  { parts: s('She goes to school happily.', 'happily'), emoji: '🏫', hebrew: 'היא הולכת לבית הספר בשמחה.' },
   { parts: s('I speak English slowly.', 'slowly'),      emoji: '🗣️', hebrew: 'אני מדבר אנגלית לאט.' },
   { parts: s('He did the test easily.', 'easily'),      emoji: '📝', hebrew: 'הוא עשה את המבחן בקלות.' },
   { parts: s('She smiled gently.', 'gently'),           emoji: '😊', hebrew: 'היא חייכה בעדינות.' },
@@ -719,6 +719,9 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         הקלידו את הצורה הנכונה של תואר הפועל לפי כללי האיות
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-1" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Type the correct adverb form

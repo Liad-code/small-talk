@@ -582,7 +582,10 @@ function WritingEx({
         <span className={C.count}>{current} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">{instruction}</p>
+      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">{instruction}</p>
+      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
+      </p>
 
       <div className={`border-2 rounded-2xl px-4 py-3 mb-3 ${C.chip}`}>
         <p className={`text-xs font-bold mb-1 ${C.chipLabel}`}>Base verb:</p>

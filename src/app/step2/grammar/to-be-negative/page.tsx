@@ -259,7 +259,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     }
     const sentence = `${selSubject.text} ${selVerb} ${selComp}.`
     if (sentences.includes(sentence)) {
-      setError('❌ You already made this sentence! Try a new one.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -356,7 +356,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       )}
 
       {error && (
-        <p className="text-center text-red-500 font-bold text-sm mb-3">{error}</p>
+        <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>
       )}
 
       {/* Built sentences */}

@@ -368,7 +368,7 @@ function BuilderExercise({ config, onDone }: { config: BuilderConfig; onDone: ()
     const sentence = `${selSubject.text} ${verbWord} ${selTime}.`
     const capitalized = sentence.charAt(0).toUpperCase() + sentence.slice(1)
     if (sentences.includes(capitalized)) {
-      setError('❌ You already made this sentence! Try a new one.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, capitalized])

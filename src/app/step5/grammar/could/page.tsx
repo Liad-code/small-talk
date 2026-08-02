@@ -58,6 +58,7 @@ const GROUPS: Group[] = ['I', 'you', 'we', 'they', 'he', 'she', 'it']
 interface Ex3Q {
   question: string
   group: Group
+  altGroups?: Group[]  // extra pronouns whose short answer is ALSO accepted
 }
 
 // `group` = the pronoun used in the SHORT ANSWER (not the subject of the question):
@@ -72,7 +73,8 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { question: 'Could I help you?',                  group: 'you'  },
   { question: 'Could Dana cook dinner?',            group: 'she'  },
   { question: 'Could the boys climb the tree?',     group: 'they' },
-  { question: 'Could the baby walk?',               group: 'it'   },
+  // The baby's gender is ambiguous — accept he OR she, yes OR no.
+  { question: 'Could the baby walk?',               group: 'he', altGroups: ['she'] },
 ]
 
 // ── WH words ────────────────────────────────────────────────────────────────────
@@ -382,7 +384,7 @@ function Ex2() {
     // Every well-formed Could-question the student builds is accepted
     const sentence = `Could ${selSubject} ${selVerb} ${selTime}?`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את השאלה הזאת! נסו שאלה חדשה 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -540,7 +542,8 @@ function Ex3() {
 
   const handleClick = (group: Group, side: 'yes' | 'no') => {
     if (flash) return
-    if (group !== q.group) return
+    const accepted = [q.group, ...(q.altGroups ?? [])]
+    if (!accepted.includes(group)) return
     const tileKey = `${group}-${side}`
     setFlash(tileKey)
     setTimeout(() => {

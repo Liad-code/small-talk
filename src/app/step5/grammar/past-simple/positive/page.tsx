@@ -482,8 +482,11 @@ function TypeInExercise({ questions, onDone }: { questions: TypeQ[]; onDone: () 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         הקלידו את הפועל בעבר לפי כללי האיות
       </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+      <p className="text-center font-bold text-gray-400 text-xs mb-1">
         Type the verb in the past simple
+      </p>
+      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-4 py-3 mb-3">
@@ -664,7 +667,7 @@ function Ex3Builder({ round, onDone }: { round: Ex3Round; onDone: () => void }) 
     if (!selSubject || !selVerb || !selObject || !selTime) return
     const sentence = `${selSubject} ${selVerb} ${selObject} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -880,7 +883,7 @@ const EX4_SEGMENTS: PassageSeg[] = [
   { type: 'blank', blankIndex: 4 },
   { type: 'text', text: ' lunch and ' },
   { type: 'blank', blankIndex: 5 },
-  { type: 'text', text: ' an ice cream. We ' },
+  { type: 'text', text: ' ice cream. We ' },
   { type: 'blank', blankIndex: 6 },
   { type: 'text', text: ' a great day!' },
 ]

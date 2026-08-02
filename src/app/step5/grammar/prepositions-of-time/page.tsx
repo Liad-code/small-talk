@@ -255,15 +255,16 @@ function BuilderExercise({ items, onDone }: { items: BuilderItem[]; onDone: () =
 
   const handleAdd = () => {
     if (!selSubject || !selPrep || !selTime) return
-    // Find the item that matches the chosen subject + time
-    const item = items.find(i => i.subject === selSubject && i.time === selTime)
-    if (!item || item.prep !== selPrep) {
+    // Correctness depends only on the preposition matching the chosen TIME word
+    // (any subject is accepted). e.g. on+Sunday/Monday, in+December/winter, at+night/7 o'clock.
+    const timeMatch = items.find(i => i.time === selTime)
+    if (!timeMatch || timeMatch.prep !== selPrep) {
       setError('❌ The preposition does not match the time! Try again.')
       return
     }
     const sentence = `${selSubject} ${selPrep} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])

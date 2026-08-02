@@ -527,8 +527,11 @@ function CrosswordInner({ onAgain }: { onAgain: () => void }) {
 
   return (
     <div className="max-w-sm mx-auto px-2 pb-16">
-      <p className="text-center font-bold text-gray-500 text-xs mb-3" dir="rtl">
+      <p className="text-center font-bold text-gray-500 text-xs mb-1" dir="rtl">
         לחץ על האמוג׳י ברשימת הרמזים, הקלד את המילה ולחץ ✓
+      </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-3" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
 
       {/* Grid */}

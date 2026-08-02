@@ -131,7 +131,7 @@ function Ex1() {
     if (!selSubject || !selVerb || !selTime) return
     const sentence = `Will ${selSubject} ${selVerb} ${selTime}?`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את השאלה הזאת! נסו שאלה חדשה 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])

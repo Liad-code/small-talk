@@ -83,8 +83,8 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { question: 'What will you eat for breakfast?',  answer: 'I will eat eggs.'          },
   { question: 'When will you go to school?',       answer: "At 8 o'clock."             },
   { question: 'How will you get to school?',       answer: 'By bus.'                   },
-  { question: 'Who will you play with?',           answer: 'With my friends.'          },
-  { question: 'Where will your dad work?',         answer: 'At a hospital.'            },
+  { question: 'Who will you play with?',           answer: 'I will play with my friends.' },
+  { question: 'Where will your dad work?',         answer: 'He will work at a hospital.'  },
   { question: 'What will your mom cook?',          answer: 'She will cook pasta.'      },
   { question: 'When will the movie start?',        answer: "At five o'clock."          },
   { question: 'How will he feel tomorrow?',        answer: 'He will feel happy.'       },
@@ -294,23 +294,26 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selSubject, setSelSubject] = useState<string | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
+  const [error, setError] = useState('')
 
   const allDone = sentences.length === cycle.subjects.length
+  // All words stay on screen for the whole exercise — used words are never consumed
   const availWh = cycle.whWords
-  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s))
-  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
+  const availSubjects = cycle.subjects
+  const availVerbs = cycle.verbs
 
   const handleAdd = () => {
     if (!selWh || !selSubject || !selVerb) return
     const sentence = `${selWh} will ${selSubject} ${selVerb}?`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject); return s })
-    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelWh(null)
     setSelSubject(null)
     setSelVerb(null)
+    setError('')
   }
 
   return (
@@ -406,6 +409,8 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
       )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>}
 
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">

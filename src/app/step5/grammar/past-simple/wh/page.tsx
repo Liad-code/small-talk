@@ -84,10 +84,10 @@ const EX3_QUESTIONS: Ex3Q[] = [
   { question: 'When did you go to school?',        answer: "At 8 o'clock."         },
   { question: 'Why did you like summer?',          answer: 'Because it was warm.'  },
   { question: 'How did you get to school?',        answer: 'By bus.'               },
-  { question: 'Who did you play with?',            answer: 'With my friends.'      },
-  { question: 'Where did your dad work?',          answer: 'At a hospital.'        },
+  { question: 'Who did you play with?',            answer: 'I played with my friends.' },
+  { question: 'Where did your dad work?',          answer: 'He worked at a hospital.'  },
   { question: 'What did your mom cook?',           answer: 'She cooked pasta.'     },
-  { question: 'When did the movie start?',         answer: "At five o'clock."      },
+  { question: 'When did the movie start?',         answer: "It started at five o'clock." },
   { question: 'How did he feel yesterday?',        answer: 'He felt happy.'        },
 ]
 
@@ -292,24 +292,27 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selSubject, setSelSubject] = useState<string | null>(null)
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
+  const [error, setError] = useState('')
 
   const goal = Math.min(cycle.subjects.length, cycle.verbs.length)
   const allDone = sentences.length === goal
+  // All words stay on screen for the whole exercise — used words are never consumed
   const availWh = cycle.whWords
-  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s))
-  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
+  const availSubjects = cycle.subjects
+  const availVerbs = cycle.verbs
 
   const handleAdd = () => {
     if (!selWh || !selSubject || !selVerb) return
     const sentence = `${selWh} did ${selSubject} ${selVerb}?`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject); return s })
-    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelWh(null)
     setSelSubject(null)
     setSelVerb(null)
+    setError('')
   }
 
   return (
@@ -405,6 +408,8 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <button onClick={handleAdd} className="btn-kid bg-blue-500 !py-1 !px-3 text-sm">➕ Add</button>
         </div>
       )}
+
+      {error && <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">{error}</p>}
 
       {sentences.length > 0 && (
         <div className="flex flex-col gap-1.5 mb-4">

@@ -279,7 +279,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     }
     const sentence = `${selAux} ${selSubject.text} ${selVerb} ${selTime}?`
     if (sentences.includes(sentence)) {
-      setError('❌ You already made this question! Try a new one.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])

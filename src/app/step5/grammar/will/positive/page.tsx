@@ -125,7 +125,7 @@ function Ex1() {
     if (!selSubject || !selVerb || !selTime) return
     const sentence = `${selSubject} will ${selVerb} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -473,8 +473,11 @@ function Ex3() {
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         הקלידו will + הפועל בצורת הבסיס.
       </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+      <p className="text-center font-bold text-gray-400 text-xs mb-2">
         Type will + base verb
+      </p>
+      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-4 py-3 mb-3">

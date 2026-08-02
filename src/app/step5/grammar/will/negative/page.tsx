@@ -120,7 +120,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     if (!selSubject || !selVerb || !selTime) return
     const sentence = `${selSubject} won't ${selVerb} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -375,8 +375,11 @@ function Ex2() {
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         כתבו את המשפט בצורת השלילה בעתיד
       </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+      <p className="text-center font-bold text-gray-400 text-xs mb-2">
         Write the negative form (will not / won&apos;t + base verb)
+      </p>
+      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-4 py-3 mb-3">

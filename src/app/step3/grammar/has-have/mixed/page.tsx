@@ -224,6 +224,7 @@ function Ex2() {
   const [selNoun, setSelNoun] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [verbError, setVerbError] = useState(false)
+  const [dupError, setDupError] = useState(false)
 
   // Tiles stay PERMANENTLY available — never consumed.
   const allDone = sentences.length >= TARGET_SENTENCES
@@ -233,16 +234,19 @@ function Ex2() {
   const handleSubjectClick = (s: Ex2Subject) => {
     setSelSubject(prev => prev?.text === s.text ? null : s)
     setVerbError(false)
+    setDupError(false)
   }
 
   const handleVerbClick = (v: MixedVerb) => {
     setSelVerb(prev => prev === v ? null : v)
     setVerbError(false)
+    setDupError(false)
   }
 
   const handleNounClick = (n: string) => {
     setSelNoun(prev => prev === n ? null : n)
     setVerbError(false)
+    setDupError(false)
   }
 
   // Build + check + retry: validate the built sentence only when Add is pressed.
@@ -250,14 +254,21 @@ function Ex2() {
     if (!selSubject || !selVerb || !selNoun) return
     if (!isVerbValidForSubject(selVerb, selSubject.verbGroup)) {
       setVerbError(true)
+      setDupError(false)
       return
     }
     const sentence = `${selSubject.text} ${selVerb} ${selNoun}.`
+    if (sentences.includes(sentence)) {
+      setDupError(true)
+      setVerbError(false)
+      return
+    }
     setSentences(prev => [...prev, sentence])
     setSelSubject(null)
     setSelVerb(null)
     setSelNoun(null)
     setVerbError(false)
+    setDupError(false)
   }
 
   const restart = () => {
@@ -266,6 +277,7 @@ function Ex2() {
     setSelNoun(null)
     setSentences([])
     setVerbError(false)
+    setDupError(false)
   }
 
   if (allDone) {
@@ -317,6 +329,12 @@ function Ex2() {
       {verbError && (
         <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">
           ❌ הפועל הזה לא מתאים לנושא שבחרת!
+        </p>
+      )}
+
+      {dupError && (
+        <p className="text-center text-red-500 font-bold text-sm mb-3" dir="rtl">
+          כבר יצרתם את המשפט הזה! נסו משפט חדש 😈
         </p>
       )}
 

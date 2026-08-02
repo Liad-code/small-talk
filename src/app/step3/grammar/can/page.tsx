@@ -369,7 +369,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     const sentence = `${selSubject.text} ${selVerb} ${selPhrase}`
     // Duplicate guard — the same sentence never counts twice toward the goal
     if (sentences.includes(sentence)) {
-      setError('❌ כבר בנית את המשפט הזה! נסה משפט חדש.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])

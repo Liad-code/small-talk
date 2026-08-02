@@ -278,6 +278,9 @@ function Ex2() {
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         כתבו את צורת השייכות הנכונה.
       </p>
+      <p className="text-center font-bold text-gray-400 text-xs mb-1" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
+      </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Write the correct possessive phrase
       </p>

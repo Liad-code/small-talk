@@ -237,6 +237,15 @@ function Ex2() {
   const normalize = (s: string) =>
     s.trim().toLowerCase().replace(/\s+/g, ' ').replace(/’/g, "'")
 
+  // Accept BOTH the contracted and the full negative forms as correct:
+  //   isn't  ↔ is not
+  //   aren't ↔ are not
+  //   am not (has no contraction)
+  // Both spellings are collapsed to a single canonical form before comparing,
+  // so the student may type either variant.
+  const canonical = (s: string) =>
+    normalize(s).replace(/isn't/g, 'is not').replace(/aren't/g, 'are not')
+
   const advance = () => {
     if (isLast) {
       setFinished(true)
@@ -252,7 +261,7 @@ function Ex2() {
   const submit = () => {
     if (status !== 'idle') return
     if (!input.trim()) return
-    if (normalize(input) === normalize(q.answer)) {
+    if (canonical(input) === canonical(q.answer)) {
       setStatus('correct')
       setTimeout(advance, 600)
     } else {
@@ -306,8 +315,11 @@ function Ex2() {
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         הקלידו את צורת השלילה + going to + פועל (למשל: isn&apos;t going to run)
       </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+      <p className="text-center font-bold text-gray-400 text-xs mb-2">
         Type the negative form with &quot;going to&quot;
+      </p>
+      <p className="text-center font-bold text-rose-500 text-xs mb-4" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
 
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl px-4 py-3 mb-3">

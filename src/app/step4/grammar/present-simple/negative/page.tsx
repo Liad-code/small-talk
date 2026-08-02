@@ -252,7 +252,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     }
     const sentence = `${selSubject.text} ${selNeg} ${selVerb} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('❌ You already made this sentence! Try a new one.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
@@ -526,8 +526,11 @@ function Ex3() {
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
         כתבו את המשפט בצורת השלילה
       </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-4">
+      <p className="text-center font-bold text-gray-400 text-xs mb-1">
         Write the negative form
+      </p>
+      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
+        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
       </p>
 
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl px-4 py-3 mb-3">

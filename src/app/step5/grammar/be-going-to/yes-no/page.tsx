@@ -171,12 +171,11 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
   const [selVerb, setSelVerb] = useState<string | null>(null)
   const [sentences, setSentences] = useState<string[]>([])
   const [error, setError] = useState('')
-  const [usedSubjects, setUsedSubjects] = useState<Set<string>>(new Set())
-  const [usedVerbs, setUsedVerbs] = useState<Set<string>>(new Set())
 
   const allDone = sentences.length === cycle.subjects.length
-  const availSubjects = cycle.subjects.filter(s => !usedSubjects.has(s.text))
-  const availVerbs = cycle.verbs.filter(v => !usedVerbs.has(v))
+  // NON-CONSUMING: all words stay on screen for the whole exercise
+  const availSubjects = cycle.subjects
+  const availVerbs = cycle.verbs
 
   const handleAdd = () => {
     if (!selAux || !selSubject || !selGoingTo || !selVerb) return
@@ -185,9 +184,11 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       return
     }
     const sentence = `${selAux} ${selSubject.text} going to ${selVerb}?`
+    if (sentences.includes(sentence)) {
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
+      return
+    }
     setSentences(prev => [...prev, sentence])
-    setUsedSubjects(prev => { const s = new Set(prev); s.add(selSubject.text); return s })
-    setUsedVerbs(prev => { const s = new Set(prev); s.add(selVerb); return s })
     setSelAux(null)
     setSelSubject(null)
     setSelGoingTo(null)

@@ -289,7 +289,7 @@ function Ex2() {
     }
     const sentence = `${selDoDoes} ${selSubject.text} ${selVerb} ${selTime}?`
     if (sentences.includes(sentence)) {
-      setError('❌ You already made this sentence! Try a new one.')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])

@@ -171,7 +171,7 @@ function Ex1() {
     }
     const sentence = `${selSubject.text} ${selAux} going to ${selVerb} ${selTime}.`
     if (sentences.includes(sentence)) {
-      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 🙂')
+      setError('כבר יצרתם את המשפט הזה! נסו משפט חדש 😈')
       return
     }
     setSentences(prev => [...prev, sentence])
