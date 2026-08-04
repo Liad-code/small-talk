@@ -493,12 +493,14 @@ const WRITE_NEGATIVE: WriteQ[] = [
 
 function WritingEx({
   questions,
-  instruction,
+  instructionLines,
+  negative = false,
   theme,
   onDone,
 }: {
   questions: WriteQ[]
-  instruction: React.ReactNode
+  instructionLines: string[]
+  negative?: boolean
   theme: 'cyan' | 'pink'
   onDone: () => void
 }) {
@@ -532,8 +534,11 @@ function WritingEx({
   const submit = () => {
     if (status !== 'idle') return
     if (!input.trim()) return
-    const trimmed = input.trim().toLowerCase().replace(/\s+/g, ' ')
-    if (q.answers.includes(trimmed)) {
+    const normalize = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ')
+    // Collapse full ↔ contracted auxiliary so "is not"≡"isn't", "are not"≡"aren't" ("am not" is unchanged).
+    const canon = (s: string) => normalize(s).replace(/\bis not\b/g, "isn't").replace(/\bare not\b/g, "aren't")
+    const trimmed = normalize(input)
+    if (q.answers.some(a => canon(a) === canon(trimmed))) {
       setStatus('correct')
       setTimeout(advance, 700)
       return
@@ -582,14 +587,15 @@ function WritingEx({
         <span className={C.count}>{current} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">{instruction}</p>
-      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
-        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
-      </p>
+      <div className={`border-2 rounded-2xl p-3 mb-4 text-sm font-bold ${C.chip} ${C.chipText}`} dir="rtl">
+        {instructionLines.map((line, i) => (
+          <p key={i}>{i + 1}. {line}</p>
+        ))}
+      </div>
 
       <div className={`border-2 rounded-2xl px-4 py-3 mb-3 ${C.chip}`}>
         <p className={`text-xs font-bold mb-1 ${C.chipLabel}`}>Base verb:</p>
-        <p className={`font-black text-lg ${C.chipText}`}>{q.base}</p>
+        <p className={`font-black text-lg ${C.chipText}`}>{q.base}{negative ? ' +not' : ''}</p>
       </div>
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${
@@ -726,10 +732,17 @@ export default function MixedPracticePage() {
           <ExWrapper render={done => <PickBySignalEx questions={EX7_QUESTIONS} theme="emerald" instruction="השלימו את פועל העזר הנכון במשפט השאלה." hint="every day → do / does · now / right now → am / is / are" onDone={done} />} />
         )}
         {tab === 'write1' && (
-          <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instruction={<>השלימו את הפועל בצורה <span className="text-xl font-black text-green-600">חיובית</span> לפי הזמן במשפט.</>} onDone={done} />} />
+          <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instructionLines={[
+            'השלם את צורת הפועל הנכונה.',
+            'לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
+          ]} onDone={done} />} />
         )}
         {tab === 'write2' && (
-          <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" instruction={<>השלימו את הפועל בצורה <span className="text-xl font-black text-red-600">שלילית</span> הנכונה לפי זמן המשפט.</>} onDone={done} />} />
+          <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" negative instructionLines={[
+            'השלם את הפועל בשלילה.',
+            'ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: דוג׳ is not או isn\'t',
+            'לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
+          ]} onDone={done} />} />
         )}
       </div>
     </div>

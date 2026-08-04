@@ -21,7 +21,7 @@ export const PA_EX1: PAEx1Q[][] = [
     { sentence: 'She has a book.',             blank: '___ book is blue.',      options: ['Her',  'His'],   answer: 'Her'   },
     { sentence: 'You have a bag.',             blank: '___ bag is green.',      options: ['Your', 'My'],    answer: 'Your'  },
     { sentence: 'He has a cat.',               blank: '___ cat is white.',      options: ['Her',  'His'],   answer: 'His'   },
-    { sentence: 'They have a new house.',      blank: '___ house is new.',      options: ['Their','Our'],   answer: 'Their' },
+    { sentence: 'They have a house.',          blank: '___ house is new.',      options: ['Their','Our'],   answer: 'Their' },
     { sentence: 'She has a dress.',            blank: '___ dress is pink.',     options: ['His',  'Her'],   answer: 'Her'   },
     { sentence: 'I have a dog.',               blank: '___ dog is brown.',      options: ['My',   'Your'],  answer: 'My'    },
   ],

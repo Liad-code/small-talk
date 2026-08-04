@@ -327,10 +327,21 @@ function Ex2({ questions, onDone }: { questions: Ex2Q[]; onDone: () => void }) {
 
 interface TypeQ { before: string; after: string; base?: string; answer: string; alts?: string[]; hint?: string }
 
+// Canonicalize auxiliaries so full & contracted negative forms are equivalent (Ex4)
+function canonAux(s: string): string {
+  return normalize(s)
+    .replace(/\bis not\b/g, "isn't")
+    .replace(/\bare not\b/g, "aren't")
+    .replace(/\bdo not\b/g, "don't")
+    .replace(/\bdoes not\b/g, "doesn't")
+    .replace(/\bdid not\b/g, "didn't")
+    .replace(/\bwill not\b/g, "won't")
+}
+
 function TypeInExercise({
-  questions, onDone, instruction, showBase = false,
+  questions, onDone, instructionLines, showBase = false, acceptAuxForms = false,
 }: {
-  questions: TypeQ[]; onDone: () => void; instruction: string; showBase?: boolean
+  questions: TypeQ[]; onDone: () => void; instructionLines: string[]; showBase?: boolean; acceptAuxForms?: boolean
 }) {
   const [current, setCurrent] = useState(0)
   const [input, setInput] = useState('')
@@ -360,8 +371,9 @@ function TypeInExercise({
 
   const submit = () => {
     if (!input.trim()) return
-    const trimmed = normalize(input)
-    const accepted = [q.answer, ...(q.alts ?? [])].map(normalize)
+    const compare = acceptAuxForms ? canonAux : normalize
+    const trimmed = compare(input)
+    const accepted = [q.answer, ...(q.alts ?? [])].map(compare)
     if (accepted.includes(trimmed)) {
       setStatus('correct')
       setTimeout(advance, 700)
@@ -396,12 +408,11 @@ function TypeInExercise({
         <span className="text-fuchsia-500">{current} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        {instruction}
-      </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-4" dir="rtl">
-        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
-      </p>
+      <div className="bg-fuchsia-50 border-2 border-fuchsia-200 rounded-2xl p-3 mb-3 text-sm font-bold text-fuchsia-700" dir="rtl">
+        {instructionLines.map((line, i) => (
+          <p key={i}>{line}</p>
+        ))}
+      </div>
 
       {showBase && q.base && (
         <div className="bg-fuchsia-50 border-2 border-fuchsia-200 rounded-2xl px-4 py-3 mb-3">
@@ -501,6 +512,9 @@ const EX3_R1: TypeQ[] = [
   { before: 'She',       after: 'TV every day.',        base: 'watch', answer: 'watches' },
   { before: 'They',      after: 'football last Friday.', base: 'play', answer: 'played' },
   { before: 'He',        after: 'a book now.',          base: 'read',  answer: 'is reading' },
+  { before: 'My brother', after: 'the guitar every weekend.', base: 'play', answer: 'plays' },
+  { before: 'The children', after: 'to school by bus every morning.', base: 'go', answer: 'go' },
+  { before: 'Our teacher', after: 'us new words every lesson.', base: 'teach', answer: 'teaches' },
 ]
 
 const EX3_R2: TypeQ[] = [
@@ -512,6 +526,9 @@ const EX3_R2: TypeQ[] = [
   { before: 'He',        after: 'to school every day.',  base: 'walk',  answer: 'walks' },
   { before: 'They',      after: 'a sandcastle last summer.', base: 'build', answer: 'built' },
   { before: 'The boys',  after: 'in the pool right now.', base: 'swim', answer: 'are swimming' },
+  { before: 'My mom',    after: 'dinner every night.',   base: 'cook',  answer: 'cooks' },
+  { before: 'We',        after: 'English on Mondays.',   base: 'study', answer: 'study' },
+  { before: 'The baby',  after: 'a lot every day.',      base: 'cry',   answer: 'cries' },
 ]
 
 const EX3_R3: TypeQ[] = [
@@ -523,6 +540,9 @@ const EX3_R3: TypeQ[] = [
   { before: 'She',       after: 'the piano every evening.', base: 'practise', answer: 'practises' },
   { before: 'They',      after: 'pizza two days ago.',   base: 'make',  answer: 'made' },
   { before: 'He',        after: 'a letter at the moment.', base: 'write', answer: 'is writing' },
+  { before: 'My grandpa', after: 'the newspaper every morning.', base: 'read', answer: 'reads' },
+  { before: 'The students', after: 'their homework every day.', base: 'do', answer: 'do' },
+  { before: 'She',       after: 'her teeth twice a day.', base: 'brush', answer: 'brushes' },
 ]
 
 const EX3_ROUNDS: TypeQ[][] = [EX3_R1, EX3_R2, EX3_R3]
@@ -707,9 +727,19 @@ export default function MixedPracticePage() {
       <div className="pt-4">
         {tab === 'ex1' && <Ex1 />}
         {tab === 'ex2' && <RoundFlow rounds={EX2_ROUNDS.length} render={(r, done) => <Ex2 questions={EX2_ROUNDS[r]} onDone={done} />} />}
-        {tab === 'ex3' && <RoundFlow rounds={EX3_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX3_ROUNDS[r]} onDone={done} showBase instruction="השלימו את המשפטים בצורת הפועל הנכונה לפי הזמן." />} />}
-        {tab === 'ex4' && <RoundFlow rounds={EX4_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX4_ROUNDS[r]} onDone={done} showBase instruction="השלימו את המשפטים בצורת השלילה הנכונה לפי הזמן." />} />}
-        {tab === 'ex5' && <RoundFlow rounds={EX5_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX5_ROUNDS[r]} onDone={done} instruction="השלימו את השאלה לפי הזמן של התשובה." />} />}
+        {tab === 'ex3' && <RoundFlow rounds={EX3_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX3_ROUNDS[r]} onDone={done} showBase instructionLines={[
+          '1. השלם את הפועל בצורה הנכונה לפי הזמן במשפט.',
+          '2. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
+        ]} />} />}
+        {tab === 'ex4' && <RoundFlow rounds={EX4_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX4_ROUNDS[r]} onDone={done} showBase acceptAuxForms instructionLines={[
+          '1. השלם את הפועל בצורה הנכונה לפי הזמן במשפט.',
+          '2. ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת לדוג׳ : isn\'t או is not',
+          '3. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
+        ]} />} />}
+        {tab === 'ex5' && <RoundFlow rounds={EX5_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX5_ROUNDS[r]} onDone={done} instructionLines={[
+          '1. השלם את הפועל בצורה הנכונה לפי הזמן במשפט.',
+          '2. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
+        ]} />} />}
       </div>
     </div>
   )

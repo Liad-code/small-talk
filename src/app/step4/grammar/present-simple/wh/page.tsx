@@ -100,12 +100,12 @@ const EX2_CYCLES: Ex2Cycle[] = [
 // structure). Subject/aux agreement is checked separately.
 const EX2_VALID_WH: Record<string, string[]> = {
   'eat for lunch':     ['What'],
-  'play every Sunday': ['What'],
   'watch on T.V':      ['What'],
-  'go after school':   ['Where'],
-  'drink every day':   ['What'],
-  'feel':              ['How'],
-  'get to school':     ['How', 'When'],
+  'play every Sunday': ['Where', 'Why', 'How'],
+  'go after school':   ['Where', 'How'],
+  'drink every day':   ['What', 'Where', 'Why', 'How'],
+  'feel':              ['What', 'How'],
+  'get to school':     ['When', 'Why', 'How'],
 }
 
 function isValidWhQuestion(wh: string, verb: string): boolean {
@@ -342,7 +342,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
     // 2. Grammar/matching validation — the wh-word must fit the rest of the
     //    question. Rejected attempts do NOT count toward the goal.
     if (!isValidWhQuestion(selWh, selVerb)) {
-      setError('❌ מילת השאלה לא מתאימה למשפט! נסו מילת שאלה אחרת.')
+      setError('מילת השאלה לא מתאימה, נסה שוב.')
       return
     }
     const sentence = `${selWh} ${selAux} ${selSubject.text} ${selVerb}?`

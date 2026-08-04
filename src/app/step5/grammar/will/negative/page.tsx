@@ -291,12 +291,10 @@ function Ex2() {
     if (status === 'idle') inputRef.current?.focus()
   }, [status, current])
 
-  // accept both "will not" and "won't"
+  // accept both "will not" and "won't" via canonicalization
+  const canon = (s: string) => normalize(s).replace(/\bwill not\b/g, "won't")
   function accepts(value: string): boolean {
-    const v = normalize(value)
-    const long = normalize(q.answer)                          // will not
-    const short = normalize(q.answer.replace(/will not/g, "won't"))
-    return v === long || v === short
+    return canon(value) === canon(q.answer)
   }
 
   const advance = () => {
@@ -372,15 +370,11 @@ function Ex2() {
         <span className="text-blue-500">{current} / {EX2_QUESTIONS.length} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        כתבו את המשפט בצורת השלילה בעתיד
-      </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-2">
-        Write the negative form (will not / won&apos;t + base verb)
-      </p>
-      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
-        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
-      </p>
+      <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-3 text-sm font-bold text-blue-700" dir="rtl">
+        <p>1. השלם את הפועל בשלילה.</p>
+        <p>2. ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: will not או won&apos;t</p>
+        <p>3. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.</p>
+      </div>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl px-4 py-3 mb-3">
         <p className="text-xs font-bold text-blue-500 mb-1">✅ Positive:</p>

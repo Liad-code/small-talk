@@ -371,7 +371,9 @@ function Ex3() {
   const submit = () => {
     if (status !== 'idle') return
     if (!input.trim()) return
-    if (normalize(input) === normalize(q.answer)) {
+    // accept full OR contracted auxiliary: "do not"≡"don't", "does not"≡"doesn't"
+    const canon = (s: string) => normalize(s).replace(/\bdo not\b/g, "don't").replace(/\bdoes not\b/g, "doesn't")
+    if (canon(input) === canon(q.answer)) {
       setStatus('correct')
       setTimeout(advance, 700)
     } else {
@@ -425,15 +427,11 @@ function Ex3() {
         <span className="text-rose-500">{current} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        שנה את המשפט לשלילה — הקלד בחלל הריק
-      </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-1">
-        Change to negative — type in the blank
-      </p>
-      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
-        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
-      </p>
+      <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 mb-3 text-sm font-bold text-rose-700" dir="rtl">
+        <p>1. השלם את הפועל בשלילה.</p>
+        <p>2. ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: דוג׳ don't או do not</p>
+        <p>3. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.</p>
+      </div>
 
       <div className="bg-teal-50 border-2 border-teal-200 rounded-2xl px-4 py-3 mb-3">
         <p className="text-xs font-bold text-teal-500 mb-1">✅ Positive:</p>

@@ -374,6 +374,11 @@ function Ex3() {
   const normalize = (s: string) =>
     s.trim().toLowerCase().replace(/\s+/g, ' ').replace(/’/g, "'")
 
+  // Accept full OR contracted auxiliary: "is not"≡"isn't", "are not"≡"aren't"
+  // ("am not" has no contraction and is left unchanged).
+  const canon = (s: string) =>
+    normalize(s).replace(/\bis not\b/g, "isn't").replace(/\bare not\b/g, "aren't")
+
   const advance = () => {
     if (isLast) {
       setFinished(true)
@@ -389,7 +394,7 @@ function Ex3() {
   const submit = () => {
     if (status !== 'idle') return
     if (!input.trim()) return
-    if (normalize(input) === normalize(q.answer)) {
+    if (canon(input) === canon(q.answer)) {
       setStatus('correct')
       setTimeout(advance, 600)
     } else {
@@ -440,19 +445,15 @@ function Ex3() {
         <span className="text-rose-500">{current} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        השלם את צורת השלילה של הפועל.
-      </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-1">
-        Type the negative auxiliary + the -ing verb
-      </p>
-      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
-        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
-      </p>
+      <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 mb-3 text-sm font-bold text-rose-700" dir="rtl">
+        <p>1. השלם את הפועל בשלילה.</p>
+        <p>2. ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: דוג׳ is not או isn&apos;t</p>
+        <p>3. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.</p>
+      </div>
 
       <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl px-4 py-3 mb-3">
         <p className="text-xs font-bold text-rose-500 mb-1">Base verb:</p>
-        <p className="font-black text-rose-800 text-lg">{q.base}</p>
+        <p className="font-black text-rose-800 text-lg">{q.base} <span className="text-red-600">+not</span></p>
       </div>
 
       <div className={`border-2 rounded-2xl px-4 py-4 mb-4 transition-colors ${

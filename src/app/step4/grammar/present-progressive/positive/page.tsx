@@ -583,15 +583,10 @@ function Ex3() {
         <span className="text-violet-500">{current} ✓</span>
       </div>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        השלם את צורת הפועל הנכונה.
-      </p>
-      <p className="text-center font-bold text-gray-400 text-xs mb-1">
-        Type the auxiliary + the -ing verb
-      </p>
-      <p className="text-center font-bold text-gray-500 text-xs mb-4" dir="rtl">
-        לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.
-      </p>
+      <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl p-3 mb-3 text-sm font-bold text-violet-700" dir="rtl">
+        <p>1. השלם את צורת הפועל הנכונה.</p>
+        <p>2. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.</p>
+      </div>
 
       <div className="bg-violet-50 border-2 border-violet-200 rounded-2xl px-4 py-3 mb-3">
         <p className="text-xs font-bold text-violet-500 mb-1">Base verb:</p>
