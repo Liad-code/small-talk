@@ -16,7 +16,7 @@ export const SHORT_PHONEMES: Record<string, string> = {
 
 // Letter names that some TTS voices mispronounce when given a single char
 const LETTER_NAMES: Record<string, string> = {
-  z: 'zee', g: 'gee', h: 'aitch', w: 'double-u',
+  z: 'zee', g: 'gee', h: 'aitch', w: 'double-u', v: 'vee',
 }
 
 function getPreferredVoice(): SpeechSynthesisVoice | undefined {

@@ -36,7 +36,7 @@ const SIGHT_WORDS: { word: string; hebrew: string }[] = [
   { word: 'pretty', hebrew: 'יפה' },
   { word: 'ride',   hebrew: 'לרכוב' },
   { word: 'say',    hebrew: 'לומר' },
-  { word: 'she',    hebrew: 'פועל עזר' },
+  { word: 'she',    hebrew: 'היא' },
   { word: 'so',     hebrew: 'אז' },
   { word: 'soon',   hebrew: 'בקרוב' },
   { word: 'that',   hebrew: 'זה' },
@@ -168,7 +168,7 @@ interface Ex2Q {
 const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'I',            after: 'a good boy.',     correct: 'am',     wrong: 'are'    },
   { before: '',             after: 'come now.',       correct: 'Please', wrong: 'Pretty' },
-  { before: 'The dog is',   after: '.',               correct: 'brown',  wrong: 'good'   },
+  { before: 'The dog is',   after: '.',               correct: 'brown',  wrong: 'four'   },
   { before: 'I',            after: 'to play.',        correct: 'want',   wrong: 'well'   },
   { before: 'He has',       after: 'apples.',         correct: 'four',   wrong: 'no'     },
   { before: 'The bike is',  after: '.',               correct: 'white',  wrong: 'like'   },
@@ -195,7 +195,7 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
 
 const EX3_QUESTIONS: Ex2Q[] = [
   { before: 'I',                 after: 'apples for lunch.',  correct: 'eat',    wrong: 'are'    },
-  { before: 'We',               after: 'a new car.',         correct: 'have',   wrong: 'want'   },
+  { before: 'We',               after: 'a new car.',         correct: 'have',   wrong: 'must'   },
   { before: 'Let us go',         after: 'now.',               correct: 'out',    wrong: 'into'   },
   { before: 'The book is',       after: 'the table.',         correct: 'on',     wrong: 'soon'   },
   { before: 'Can you',           after: 'with me?',           correct: 'ride',   wrong: 'say'    },

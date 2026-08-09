@@ -173,7 +173,7 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'We',           after: 'in a house.',  correct: 'live',   wrong: 'give'   },
   { before: 'Birds can',    after: 'high.',        correct: 'fly',    wrong: 'walk'   },
   { before: 'This is the',  after: 'cheese cake.', correct: 'best',   wrong: 'old'    },
-  { before: 'I play with my friends', after: 'school.', correct: 'after', wrong: 'before' },
+  { before: 'I play with my friends', after: 'school.', correct: 'after', wrong: 'every' },
 ]
 
 const EX2_QUESTIONS_R2: Ex2Q[] = [
@@ -183,8 +183,8 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
   { before: 'I',              after: 'the answer.',    correct: 'know',  wrong: 'ask'    },
   { before: 'We say',          after: 'you.',          correct: 'thank', wrong: 'before' },
   { before: 'I',              after: 'go to bed late.', correct: 'always', wrong: 'once'  },
-  { before: 'Wash your hands', after: 'lunch.',        correct: 'before', wrong: 'after'  },
-  { before: 'This is',         after: 'old house.',    correct: 'his',   wrong: 'her'    },
+  { before: 'Wash your hands', after: 'lunch.',        correct: 'before', wrong: 'best'   },
+  { before: 'This is',         after: 'old house.',    correct: 'her',   wrong: 'live'   },
   { before: 'Do you have',     after: 'milk?',         correct: 'any',   wrong: 'some'   },
   { before: 'Please',          after: 'and look.',     correct: 'stop',  wrong: 'fly'    },
 ]
@@ -192,10 +192,10 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
 // ── Ex3 data ──────────────────────────────────────────────────────────────────
 
 const EX3_QUESTIONS: Ex2Q[] = [
-  { before: 'We will go to the park',     after: 'school.',        correct: 'after',  wrong: 'before' },
-  { before: 'Can you sing the song',      after: ', please?',      correct: 'again',  wrong: 'once'   },
+  { before: 'We will go to the park',     after: 'school.',        correct: 'after',  wrong: 'just'   },
+  { before: 'Can you sing the song',      after: ', please?',      correct: 'again',  wrong: 'on'     },
   { before: 'Do you have',                after: 'questions?',     correct: 'any',    wrong: 'both'   },
-  { before: 'Brush your teeth',           after: 'you sleep.',     correct: 'before', wrong: 'after'  },
+  { before: 'Brush your teeth',           after: 'you sleep.',     correct: 'before', wrong: 'with'   },
   { before: 'This is the',                after: 'day ever!',      correct: 'best',   wrong: 'old'    },
   { before: 'I want to',                  after: 'a new game.',    correct: 'buy',    wrong: 'walk'   },
   { before: 'I got a letter',             after: 'my friend.',     correct: 'from',   wrong: 'some'   },

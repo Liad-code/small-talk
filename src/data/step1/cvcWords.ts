@@ -11,7 +11,7 @@ export const CVC_WORDS: CVCWord[] = [
   // ── short a ──────────────────────────────────────────────────
   { word: 'cat', vowel: 'a', emoji: '🐱', consonantStart: 'c', consonantEnd: 't' },
   { word: 'bat', vowel: 'a', emoji: '🦇', consonantStart: 'b', consonantEnd: 't' },
-  { word: 'hat', vowel: 'a', emoji: '🎩', consonantStart: 'h', consonantEnd: 't' },
+  { word: 'hat', vowel: 'a', emoji: '🎩', consonantStart: 'h', consonantEnd: 't', ttsText: 'hat' },
   { word: 'map', vowel: 'a', emoji: '🗺️', consonantStart: 'm', consonantEnd: 'p' },
   { word: 'van', vowel: 'a', emoji: '🚐', consonantStart: 'v', consonantEnd: 'n' },
   { word: 'bag', vowel: 'a', emoji: '👜', consonantStart: 'b', consonantEnd: 'g' },

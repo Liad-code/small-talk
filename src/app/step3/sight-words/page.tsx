@@ -111,7 +111,7 @@ const SENTENCES: Sentence[] = [
   },
   {
     parts: parseSentence('Look at the red ball.', ['Look', 'the', 'red']),
-    emoji: '⚽',
+    emoji: '🔴',
     hebrew: 'תסתכל על הכדור האדום.',
   },
   {
@@ -131,7 +131,7 @@ const SENTENCES: Sentence[] = [
   },
   {
     parts: parseSentence('Where is the blue ball?', ['Where', 'the', 'blue']),
-    emoji: '💙',
+    emoji: '🔵',
     hebrew: 'איפה הכדור הכחול?',
   },
   {

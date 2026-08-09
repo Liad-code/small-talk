@@ -31,7 +31,7 @@ export default function A1Page() {
           <Link href="/step1/track-a" className="w-11 h-11 flex items-center justify-center rounded-full bg-white/30 hover:bg-white/50 text-white font-black text-lg no-underline flex-shrink-0"><span aria-hidden="true">←</span></Link>
           <div>
             <h1 className="font-display text-xl font-bold text-white">Letter Learning Grid</h1>
-            <p className="text-white/80 font-bold text-sm" dir="rtl">לחץ על כל אות כדי לשמוע את שמה</p>
+            <p className="text-black font-bold text-lg" dir="rtl">לחץ על כל אות כדי לשמוע את שמה</p>
           </div>
           {done && <span className="text-2xl ml-auto">⭐</span>}
         </div>

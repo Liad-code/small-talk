@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
@@ -32,7 +32,7 @@ const SIGHT_WORDS: { word: string; hebrew: string; emoji: string }[] = [
   { word: 'wish',   hebrew: 'לאחל/משאלה',   emoji: '🌟' },
   { word: 'work',   hebrew: 'לעבוד',        emoji: '💼' },
   { word: 'write',  hebrew: 'לכתוב',        emoji: '✍️' },
-  { word: 'about',  hebrew: 'על אודות',     emoji: '🔤' },
+  { word: 'about',  hebrew: 'על / אודות',   emoji: '🔤' },
   { word: 'better', hebrew: 'יותר טוב',     emoji: '👍' },
   { word: 'bring',  hebrew: 'להביא',        emoji: '🎁' },
   { word: 'carry',  hebrew: 'לסחוב',        emoji: '🧳' },
@@ -54,6 +54,7 @@ interface Sentence {
   parts: SentencePart[]
   emoji: string
   hebrew: string
+  emojiStyle?: CSSProperties
 }
 
 function parseSentence(raw: string, highlightWords: string[]): SentencePart[] {
@@ -105,6 +106,11 @@ const SENTENCES: Sentence[] = [
     parts: parseSentence('I have five green pens.', ['five', 'green']),
     emoji: '🖊️',
     hebrew: 'יש לי חמישה עטים ירוקים.',
+    // Render the pen illustration in green (no green-pen emoji exists in Unicode)
+    emojiStyle: {
+      filter:
+        'brightness(0) saturate(100%) invert(52%) sepia(85%) saturate(450%) hue-rotate(85deg) brightness(95%) contrast(90%)',
+    },
   },
   {
     parts: parseSentence('Please sit and sing with us.', ['sit', 'sing', 'us']),
@@ -132,9 +138,9 @@ const SENTENCES: Sentence[] = [
     hebrew: 'תביא תה או קפה, בבקשה.',
   },
   {
-    parts: parseSentence('I wish to carry many books.', ['wish', 'carry', 'many']),
+    parts: parseSentence('I need to carry many books.', ['carry', 'many']),
     emoji: '📚',
-    hebrew: 'אני רוצה לסחוב הרבה ספרים.',
+    hebrew: 'אני צריך לסחוב הרבה ספרים.',
   },
   {
     parts: parseSentence('Use this to cut the paper.', ['use', 'cut']),
@@ -167,14 +173,14 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'I have',          after: 'friends.',          correct: 'many',  wrong: 'first' },
   { before: 'Do you want tea', after: 'coffee?',           correct: 'or',    wrong: 'us'    },
   { before: 'Turn',            after: 'the TV.',           correct: 'off',   wrong: 'or'    },
-  { before: 'Please',          after: 'the rope.',         correct: 'pull',  wrong: 'wash'  },
+  { before: 'Please',          after: 'the rope.',         correct: 'pull',  wrong: 'white' },
 ]
 
 const EX2_QUESTIONS_R2: Ex2Q[] = [
   { before: 'I like to',       after: 'a good book.',      correct: 'read',  wrong: 'sing'  },
   { before: 'We',             after: 'songs at school.',   correct: 'sing',  wrong: 'read'  },
   { before: 'Please',          after: 'on the chair.',     correct: 'sit',   wrong: 'cut'   },
-  { before: 'I go to',         after: 'at night.',         correct: 'sleep', wrong: 'work'  },
+  { before: 'I go to',         after: 'at night.',         correct: 'sleep', wrong: 'about' },
   { before: 'Can you',         after: 'me a story?',       correct: 'tell',  wrong: 'pull'  },
   { before: 'Come and play with', after: '.',              correct: 'us',    wrong: 'or'    },
   { before: 'I',              after: 'a pen to write.',    correct: 'use',   wrong: 'wash'  },
@@ -188,14 +194,14 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
 const EX3_QUESTIONS: Ex2Q[] = [
   { before: 'I make a',        after: 'on my birthday.',   correct: 'wish',  wrong: 'work'  },
   { before: 'My dad goes to',  after: 'every day.',        correct: 'work',  wrong: 'sing'  },
-  { before: 'I can',           after: 'my name.',          correct: 'write', wrong: 'read'  },
+  { before: 'I can',           after: 'my name.',          correct: 'write', wrong: 'bring' },
   { before: 'This book is',    after: 'a brave dog.',      correct: 'about', wrong: 'very'  },
   { before: 'This pen is',     after: 'than that one.',    correct: 'better', wrong: 'first' },
   { before: 'Please',          after: 'me my bag.',        correct: 'bring', wrong: 'sit'   },
   { before: 'I can',           after: 'the heavy box.',    correct: 'carry', wrong: 'sleep' },
   { before: 'Please',          after: 'your room.',        correct: 'clean', wrong: 'tell'  },
   { before: 'Use scissors to', after: 'the paper.',        correct: 'cut',   wrong: 'pull'  },
-  { before: 'I',              after: 'a book every day.',  correct: 'read',  wrong: 'use'   },
+  { before: 'I',              after: 'a book every day.',  correct: 'read',  wrong: 'very'  },
 ]
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -315,7 +321,7 @@ function Ex1Tab() {
                   </span>
                 ))}
               </div>
-              <span className="text-2xl flex-shrink-0">{sentence.emoji}</span>
+              <span className="text-2xl flex-shrink-0" style={sentence.emojiStyle}>{sentence.emoji}</span>
               <button
                 onClick={() => toggle(idx)}
                 aria-label="Show translation"

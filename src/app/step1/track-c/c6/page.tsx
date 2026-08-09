@@ -24,7 +24,8 @@ function C6Batch({ batch, onDone }: BatchProps) {
   const allDone = batch.every(w => matched[w.word])
 
   function handleTap(word: string, side: 'word' | 'image') {
-    speak(ttsFor(word))
+    // Only play the word audio when a WORD is clicked, not an image
+    if (side === 'word') speak(ttsFor(word))
     // First tap (or re-tap to toggle off) — select from either column
     if (!selected || selected.side === side) {
       setSelected(prev => (prev && prev.word === word && prev.side === side) ? null : { word, side })
@@ -43,7 +44,7 @@ function C6Batch({ batch, onDone }: BatchProps) {
   return (
     <div className="p-4 max-w-sm mx-auto">
       <p className="text-center text-gray-600 text-sm font-bold mb-4" dir="rtl">
-        לחץ על תמונה או על מילה ואז על ההתאמה שלה
+        התאם בין התמונה למילה המתארת אותה.
       </p>
 
       <div className="grid grid-cols-2 gap-4">
@@ -144,7 +145,7 @@ export default function C6Page() {
   return (
     <ExerciseShell
       title="Line Matching"
-      hebrewInstruction="לחץ על תמונה ואז על המילה המתאימה"
+      hebrewInstruction="התאם בין התמונה למילה המתארת אותה."
       backHref="/step1/track-c"
       track="C"
       groupId="c"

@@ -82,9 +82,9 @@ function parseSentence(raw: string, highlightWords: string[]): SentencePart[] {
 
 const SENTENCES: Sentence[] = [
   {
-    parts: parseSentence('I like to draw and drink milk.', ['draw', 'drink']),
-    emoji: '🎨',
-    hebrew: 'אני אוהב לצייר ולשתות חלב.',
+    parts: parseSentence('I like to drink milk.', ['drink']),
+    emoji: '🥤',
+    hebrew: 'אני אוהב לשתות חלב.',
   },
   {
     parts: parseSentence('I have eight red pens.', ['eight']),
@@ -132,11 +132,6 @@ const SENTENCES: Sentence[] = [
     hebrew: 'אנחנו נתחיל את המופע היום.',
   },
   {
-    parts: parseSentence('I have seven, six, and ten cards.', ['seven', 'six', 'ten']),
-    emoji: '🔟',
-    hebrew: 'יש לי שבעה, שישה ועשרה קלפים.',
-  },
-  {
     parts: parseSentence('Pick a long stick.', ['pick', 'long']),
     emoji: '🤏',
     hebrew: 'בחר מקל ארוך.',
@@ -175,11 +170,11 @@ const EX2_QUESTIONS_R2: Ex2Q[] = [
   { before: 'Please',          after: 'this for me.',        correct: 'keep',  wrong: 'fall'  },
   { before: 'She is very',     after: 'to me.',              correct: 'kind',  wrong: 'long'  },
   { before: 'Turn on the',     after: ', please.',           correct: 'light', wrong: 'show'  },
-  { before: 'The snake is',    after: '.',                   correct: 'long',  wrong: 'small' },
+  { before: 'The snake is',    after: '.',                   correct: 'long',  wrong: 'cold'  },
   { before: 'Thank you so',    after: '.',                   correct: 'much',  wrong: 'far'   },
   { before: 'I',              after: 'eat candy at night.',  correct: 'never', wrong: 'today' },
   { before: 'I have',          after: 'one pencil.',         correct: 'only',  wrong: 'much'  },
-  { before: 'Please',          after: 'a card.',             correct: 'pick',  wrong: 'hold'  },
+  { before: 'Please',          after: 'a card.',             correct: 'pick',  wrong: 'much'  },
   { before: 'There are',       after: 'days in a week.',     correct: 'seven', wrong: 'eight' },
 ]
 
