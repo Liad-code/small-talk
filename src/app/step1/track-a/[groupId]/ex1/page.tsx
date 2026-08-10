@@ -11,7 +11,7 @@ type Square = { letter: string; upper: boolean; lower: boolean }
 
 // Some TTS voices mispronounce single letters — override where needed
 function getLetterTts(l: string): string {
-  const overrides: Record<string, string> = { z: 'zee', g: 'gee', h: 'aitch', w: 'double-u' }
+  const overrides: Record<string, string> = { z: 'zee', g: 'gee', h: 'aitch', w: 'double-u', v: 'vee' }
   return overrides[l] ?? l.toUpperCase()
 }
 

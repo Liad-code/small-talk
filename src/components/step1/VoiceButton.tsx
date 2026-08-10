@@ -1,5 +1,6 @@
 'use client'
 import { useMute } from '@/hooks/useMute'
+import { toSpokenText } from '@/utils/speakLetterSound'
 
 interface Props {
   text: string
@@ -18,7 +19,8 @@ export function VoiceButton({ text, rate = 0.85, pitch = 1.05, className = '', s
     if (isMuted()) return
     if (typeof window === 'undefined') return
     window.speechSynthesis.cancel()
-    const u = new SpeechSynthesisUtterance(text)
+    // Correct standalone-letter names (e.g. "v" → "vee"); words pass through unchanged.
+    const u = new SpeechSynthesisUtterance(toSpokenText(text))
     u.rate = rate
     u.pitch = pitch
     u.lang = 'en-US'

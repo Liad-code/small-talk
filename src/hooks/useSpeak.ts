@@ -1,6 +1,7 @@
 'use client'
 import { useCallback } from 'react'
 import { useMute } from './useMute'
+import { toSpokenText } from '@/utils/speakLetterSound'
 
 // Cache voices — getVoices() is often empty on the first call until the
 // browser fires `voiceschanged`.
@@ -38,7 +39,9 @@ export function useSpeak() {
     try { synth.resume() } catch { /* ignore */ }
     synth.cancel()
 
-    const u = new SpeechSynthesisUtterance(text)
+    // Correct standalone-letter names (e.g. "v" → "vee") for every caller;
+    // words and all other text pass through unchanged.
+    const u = new SpeechSynthesisUtterance(toSpokenText(text))
     u.lang = 'en-US'
     u.rate = rate
     u.pitch = pitch
