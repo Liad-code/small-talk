@@ -1,6 +1,6 @@
 'use client'
 import { useMute } from '@/hooks/useMute'
-import { toSpokenText } from '@/utils/speakLetterSound'
+import { toSpokenText, getEnglishVoice } from '@/utils/speakLetterSound'
 
 interface Props {
   text: string
@@ -24,6 +24,9 @@ export function VoiceButton({ text, rate = 0.85, pitch = 1.05, className = '', s
     u.rate = rate
     u.pitch = pitch
     u.lang = 'en-US'
+    // Use the same shared voice as the rest of the app (not the device default).
+    const voice = getEnglishVoice()
+    if (voice) u.voice = voice
     window.speechSynthesis.speak(u)
   }
 

@@ -44,13 +44,40 @@ export function toSpokenText(text: string): string {
   return text
 }
 
-function getPreferredVoice(): SpeechSynthesisVoice | undefined {
-  const voices = window.speechSynthesis.getVoices()
+// ── Shared voice selection ────────────────────────────────────────────────────
+// One picker used by EVERY speech path in the app (speakLetter, useSpeak,
+// VoiceButton) so the whole webapp speaks with the same voice. getVoices() is
+// frequently empty on the first call until the browser fires `voiceschanged`,
+// so we cache the list and refresh on that event — otherwise a letter tapped
+// early falls back to the device default voice, which is often the one that
+// mispronounces "V".
+let cachedVoices: SpeechSynthesisVoice[] = []
+function refreshVoices() {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  const v = window.speechSynthesis.getVoices()
+  if (v.length) cachedVoices = v
+}
+if (typeof window !== 'undefined' && window.speechSynthesis) {
+  refreshVoices()
+  window.speechSynthesis.addEventListener?.('voiceschanged', refreshVoices)
+}
+
+/**
+ * The single preferred English voice for the whole app. Prefers a high-quality
+ * network voice (Google en-US on Android/Chrome/desktop) and otherwise the best
+ * available en-US / en-* voice on the device (e.g. a Siri voice on iOS). Falling
+ * back to the OS default only as a last resort keeps letter names like "V" clear
+ * and the voice identical across every screen in the app.
+ */
+export function getEnglishVoice(): SpeechSynthesisVoice | undefined {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return undefined
+  const voices = cachedVoices.length ? cachedVoices : window.speechSynthesis.getVoices()
   return (
     voices.find(v => v.lang === 'en-US' && v.name.toLowerCase().includes('google')) ||
     voices.find(v => v.lang === 'en-US' && !v.localService) ||
     voices.find(v => v.lang === 'en-US') ||
-    voices.find(v => v.lang.startsWith('en-'))
+    voices.find(v => v.lang.startsWith('en-')) ||
+    voices.find(v => v.default)
   )
 }
 
@@ -62,7 +89,7 @@ export function speakLetter(letter: string, isMuted: () => boolean, soundMode = 
   if (isMuted() || typeof window === 'undefined') return
   window.speechSynthesis.cancel()
 
-  const voice = getPreferredVoice()
+  const voice = getEnglishVoice()
   const lc = letter.toLowerCase()
 
   const letterName = LETTER_NAMES[lc] ?? letter.toUpperCase()
