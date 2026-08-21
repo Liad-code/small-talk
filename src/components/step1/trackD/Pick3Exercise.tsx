@@ -10,9 +10,16 @@ const TOTAL_ROUNDS = 10
 interface Props {
   items: TrackDItem[]
   onComplete: () => void
+  /** Two start-screen instruction lines (Hebrew, RTL). Defaults to the generic wording. */
+  instructionLines?: [string, string]
 }
 
-export function Pick3Exercise({ items, onComplete }: Props) {
+const DEFAULT_INSTRUCTION_LINES: [string, string] = [
+  'לחץ על הרמקול ושמע את שלושת הפריטים.',
+  'גרור אותם לריבועים (הסדר לא משנה).',
+]
+
+export function Pick3Exercise({ items, onComplete, instructionLines = DEFAULT_INSTRUCTION_LINES }: Props) {
   const speak = useSpeak()
   // roundNum: 0 = not started, 1-TOTAL_ROUNDS = active, TOTAL_ROUNDS+1 = all done
   const [roundNum, setRoundNum] = useState(0)
@@ -92,10 +99,10 @@ export function Pick3Exercise({ items, onComplete }: Props) {
     return (
       <div className="p-4 max-w-sm mx-auto text-center">
         <p className="text-white font-bold text-base mb-2" dir="rtl">
-          לחץ על הרמקול ושמע את שלושת הפריטים.
+          {instructionLines[0]}
         </p>
         <p className="text-white/80 font-bold text-sm mb-6" dir="rtl">
-          גרור אותם לריבועים (הסדר לא משנה).
+          {instructionLines[1]}
         </p>
         <button
           onClick={handleStart}
@@ -115,8 +122,9 @@ export function Pick3Exercise({ items, onComplete }: Props) {
       <div className="p-4 max-w-sm mx-auto text-center">
         <div className="text-5xl mb-3 bounce-in">🎉</div>
         <p className="font-bold text-white text-lg mb-6" dir="rtl">כל הכבוד! סיימת את כל הסיבובים!</p>
-        <button onClick={handleAgain} className="btn-kid bg-blue-500">
-          🔁 Again
+        <button onClick={handleAgain} className="btn-kid bg-blue-500 flex flex-col items-center leading-tight">
+          <span>🔁 Again</span>
+          <span className="text-xs">(פעם נוספת)</span>
         </button>
       </div>
     )

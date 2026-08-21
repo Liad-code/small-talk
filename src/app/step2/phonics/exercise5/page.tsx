@@ -8,10 +8,10 @@ import { useSpeak } from '@/hooks/useSpeak'
 import { shuffle } from '@/utils/shuffle'
 
 const CATEGORIES = [
-  { id: 'magic-e-a', label: 'MAGIC E', subtitle: 'A+E=Ā', bg: 'bg-rose-50',    border: 'border-rose-400',    header: 'bg-gradient-to-b from-rose-500 to-pink-600' },
-  { id: 'magic-e-i', label: 'MAGIC E', subtitle: 'I+E=Ī', bg: 'bg-fuchsia-50', border: 'border-fuchsia-400', header: 'bg-gradient-to-b from-fuchsia-500 to-pink-600' },
-  { id: 'magic-e-o', label: 'MAGIC E', subtitle: 'O+E=Ō', bg: 'bg-amber-50',   border: 'border-amber-400',   header: 'bg-gradient-to-b from-amber-500 to-orange-500' },
-  { id: 'magic-e-u', label: 'MAGIC E', subtitle: 'U+E=Ū', bg: 'bg-cyan-50',    border: 'border-cyan-400',    header: 'bg-gradient-to-b from-cyan-500 to-teal-500' },
+  { id: 'magic-e-a', label: 'MAGIC E - A', subtitle: 'A+E=Ā', bg: 'bg-rose-50',    border: 'border-rose-400',    header: 'bg-gradient-to-b from-rose-500 to-pink-600' },
+  { id: 'magic-e-i', label: 'MAGIC E - I', subtitle: 'I+E=Ī', bg: 'bg-fuchsia-50', border: 'border-fuchsia-400', header: 'bg-gradient-to-b from-fuchsia-500 to-pink-600' },
+  { id: 'magic-e-o', label: 'MAGIC E - O', subtitle: 'O+E=Ō', bg: 'bg-amber-50',   border: 'border-amber-400',   header: 'bg-gradient-to-b from-amber-500 to-orange-500' },
+  { id: 'magic-e-u', label: 'MAGIC E - U', subtitle: 'U+E=Ū', bg: 'bg-cyan-50',    border: 'border-cyan-400',    header: 'bg-gradient-to-b from-cyan-500 to-teal-500' },
 ]
 
 const ALL_TILES = [
@@ -46,6 +46,17 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
   const [tiles] = useState(() => shuffle([...ALL_TILES]))
   const [placed, setPlaced] = useState<Set<string>>(new Set())
+  const [flipped, setFlipped] = useState<Set<string>>(new Set())
+
+  const toggleFlip = useCallback((tileId: string) => {
+    setFlipped(prev => {
+      const n = new Set(prev)
+      if (n.has(tileId)) n.delete(tileId)
+      else n.add(tileId)
+      return n
+    })
+  }, [])
+
   const allDone = placed.size === ALL_TILES.length
 
   useEffect(() => {
@@ -69,6 +80,8 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
     <div className="px-3 pb-10 max-w-xl mx-auto">
       <p className="text-center text-gray-500 font-bold text-sm mb-4" dir="rtl">
         לחץ על התמונה לשמוע את המילה — גרור למקום הנכון בטבלה
+        <br />
+        לחיצה על ↻ תאפשר לראות את התיאור באנגלית
       </p>
       <p className="text-center text-rose-500 font-bold text-sm mb-3">{placed.size} / {ALL_TILES.length} ✓</p>
 
@@ -98,19 +111,36 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
       {unplaced.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-4">
           <div className="flex flex-wrap gap-3 justify-center">
-            {unplaced.map(tile => (
-              <DraggableTile
-                key={tile.id}
-                id={tile.id}
-                label={tile.emoji}
-                color="bg-white"
-                borderColor="border-gray-300"
-                textColor="text-gray-700"
-                size="lg"
-                onClick={() => speak(tile.word, 0.8)}
-                onDropped={handleDrop}
-              />
-            ))}
+            {unplaced.map(tile => {
+              const isFlipped = flipped.has(tile.id)
+              return (
+                <DraggableTile
+                  key={tile.id}
+                  id={tile.id}
+                  label={tile.emoji}
+                  color="bg-white"
+                  borderColor="border-gray-300"
+                  textColor="text-gray-700"
+                  size="lg"
+                  className="relative"
+                  onClick={() => speak(tile.word, 0.8)}
+                  onDropped={handleDrop}
+                >
+                  <span className={isFlipped ? 'font-display font-black text-base text-gray-700 px-1 text-center leading-tight' : 'text-4xl leading-none'}>
+                    {isFlipped ? tile.word : tile.emoji}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="flip"
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={(e) => { e.stopPropagation(); toggleFlip(tile.id) }}
+                    className="absolute bottom-0.5 left-0.5 w-5 h-5 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 text-xs flex items-center justify-center shadow-sm leading-none"
+                  >
+                    ↻
+                  </button>
+                </DraggableTile>
+              )
+            })}
           </div>
         </div>
       )}

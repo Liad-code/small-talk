@@ -25,7 +25,16 @@ interface Props {
   renderVisual?: (item: TrackDItem) => React.ReactNode
 }
 
-export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }: Props) {
+function WordMatchRound({ items, limit, renderVisual, roundIdx, totalRounds, onNext, onRestart, onDone }: {
+  items: TrackDItem[]
+  limit: number
+  renderVisual?: (item: TrackDItem) => React.ReactNode
+  roundIdx: number
+  totalRounds: number
+  onNext: () => void
+  onRestart: () => void
+  onDone: () => void
+}) {
   const [rows] = useState<Row[]>(() => buildRows(items, limit))
   const itemByWord = new Map(items.map(i => [i.word, i]))
   // answers: word -> chosen word (only set when correct → locks row)
@@ -40,9 +49,7 @@ export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }:
     if (answers[word]) return
     if (wrongFlash[word]) return
     if (choice === word) {
-      const next = { ...answers, [word]: choice }
-      setAnswers(next)
-      if (Object.keys(next).length === rows.length) setTimeout(onComplete, 400)
+      setAnswers(prev => ({ ...prev, [word]: choice }))
     } else {
       setWrongFlash(prev => ({ ...prev, [word]: choice }))
       setTimeout(() => {
@@ -52,21 +59,34 @@ export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }:
   }
 
   const tileSize = renderVisual ? 'w-20 h-20' : 'w-14 h-14'
+  const isFinal = roundIdx + 1 >= totalRounds
 
   return (
     <div className="max-w-sm mx-auto pb-16">
-      <p className="text-center text-white font-bold text-sm mb-4" dir="rtl">
-        מצא את התמונה הנכונה לכל מילה
-      </p>
+      <div className="flex justify-between items-center mb-1" dir="rtl">
+        <p className="text-white font-bold text-sm">מצא את התמונה הנכונה לכל מילה</p>
+        <span className="text-xs font-bold text-white/80">סבב {roundIdx + 1}/{totalRounds}</span>
+      </div>
 
       {allAnswered && (
-        <div className="text-center mb-4 bounce-in">
+        <div className="text-center my-4 bounce-in">
           <div className="text-3xl mb-1">🎉</div>
-          <p className="font-display font-bold text-xl text-white">{score}/{rows.length} correct!</p>
+          <p className="font-display font-bold text-xl text-white mb-3">{score}/{rows.length} correct!</p>
+          {!isFinal ? (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
+              <button onClick={onNext} className="btn-kid bg-amber-500">➡️ Next<br /><span className="text-xs">(סבב הבא)</span></button>
+            </div>
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onRestart} className="btn-kid bg-amber-500">🔁 Again<br /><span className="text-xs">(פעם נוספת)</span></button>
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
+            </div>
+          )}
         </div>
       )}
 
-      <div className="bg-white rounded-2xl overflow-hidden border-4 border-amber-400 shadow-lg">
+      <div className="bg-white rounded-2xl overflow-hidden border-4 border-amber-400 shadow-lg mt-3">
         {rows.map((row, i) => {
           const ans = answers[row.word]
           const isDone = !!ans
@@ -110,5 +130,25 @@ export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }:
         })}
       </div>
     </div>
+  )
+}
+
+export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }: Props) {
+  const totalRounds = 3
+  const [round, setRound] = useState(0)
+  const [k, setK] = useState(0)
+
+  return (
+    <WordMatchRound
+      key={`${round}-${k}`}
+      items={items}
+      limit={limit}
+      renderVisual={renderVisual}
+      roundIdx={round}
+      totalRounds={totalRounds}
+      onNext={() => setRound(r => r + 1)}
+      onRestart={() => { setRound(0); setK(n => n + 1) }}
+      onDone={onComplete}
+    />
   )
 }

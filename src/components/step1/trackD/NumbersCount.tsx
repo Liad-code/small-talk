@@ -2,18 +2,15 @@
 import { useState } from 'react'
 import { shuffle } from '@/utils/shuffle'
 
-const COUNT_ROWS = [
-  { count: 1,  emoji: '⭐' },
-  { count: 2,  emoji: '🍎' },
-  { count: 3,  emoji: '🚲' },
-  { count: 4,  emoji: '🌺' },
-  { count: 5,  emoji: '🐟' },
-  { count: 6,  emoji: '🌽' },
-  { count: 7,  emoji: '🦋' },
-  { count: 8,  emoji: '🎈' },
-  { count: 9,  emoji: '🐸' },
-  { count: 10, emoji: '❤️' },
-]
+// Same objects/emojis are used in BOTH rounds; only the counts change per round.
+const OBJECTS = ['⭐', '🍎', '🚲', '🌺', '🐟', '🌽', '🦋', '🎈', '🐸', '❤️']
+
+// Index-aligned counts for each round. Every object gets a DIFFERENT number in
+// round 2 than in round 1 (all counts stay within 1-10, unique within a round).
+const ROUND_COUNTS: Record<1 | 2, number[]> = {
+  1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  2: [8, 5, 10, 1, 9, 3, 6, 2, 7, 4],
+}
 
 function makeChoices(correct: number): number[] {
   const pool = [1,2,3,4,5,6,7,8,9,10].filter(n => n !== correct)
@@ -22,9 +19,12 @@ function makeChoices(correct: number): number[] {
 
 interface RowData { count: number; emoji: string; choices: number[] }
 
-function CountRound({ onRoundComplete }: { onRoundComplete: () => void }) {
+function CountRound({ round, onRoundComplete }: { round: 1 | 2; onRoundComplete: () => void }) {
   const [rows] = useState<RowData[]>(() =>
-    shuffle(COUNT_ROWS.map(r => ({ ...r, choices: makeChoices(r.count) })))
+    shuffle(OBJECTS.map((emoji, i) => {
+      const count = ROUND_COUNTS[round][i]
+      return { count, emoji, choices: makeChoices(count) }
+    }))
   )
   const [correct, setCorrect] = useState<Record<number, true>>({})
   const [wrongFlash, setWrongFlash] = useState<{ rowCount: number; wrongBtn: number } | null>(null)
@@ -90,12 +90,20 @@ function CountRound({ onRoundComplete }: { onRoundComplete: () => void }) {
 
 export function NumbersCount({ onComplete }: { onComplete: () => void }) {
   const [round, setRound] = useState<1 | 2>(1)
-  const [round1Done, setRound1Done] = useState(false)
+  const [roundDone, setRoundDone] = useState(false)
   const [roundKey, setRoundKey] = useState(0)
 
-  function startRound2() {
+  // Next: advance to round 2 (same objects, different numbers)
+  function handleNext() {
     setRound(2)
-    setRound1Done(false)
+    setRoundDone(false)
+    setRoundKey(k => k + 1)
+  }
+
+  // Again: restart the whole exercise from round 1
+  function handleAgain() {
+    setRound(1)
+    setRoundDone(false)
     setRoundKey(k => k + 1)
   }
 
@@ -108,21 +116,42 @@ export function NumbersCount({ onComplete }: { onComplete: () => void }) {
         Round {round} / 2
       </p>
 
-      {round1Done ? (
+      {roundDone ? (
         <div className="text-center bounce-in mb-4">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-white mb-4">Round 1 complete!</p>
-          <button
-            onClick={startRound2}
-            className="px-6 py-3 rounded-2xl font-bold text-base border-4 border-white text-white bg-white/20 shadow-md cursor-pointer hover:bg-white/30 active:scale-95 transition-all"
-          >
-            Start Round 2 →
-          </button>
+          <p className="font-display font-bold text-xl text-white mb-1">Round {round} complete!</p>
+          <p className="font-bold text-white mb-4" dir="rtl">כל הכבוד!</p>
+          <div className="flex gap-3 justify-center">
+            {round === 1 ? (
+              <>
+                <button onClick={onComplete} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
+                  <span>✅ Done</span>
+                  <span className="text-xs">(סיימתי)</span>
+                </button>
+                <button onClick={handleNext} className="btn-kid bg-yellow-500 flex flex-col items-center leading-tight">
+                  <span>➡️ Next</span>
+                  <span className="text-xs">(סבב הבא)</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button onClick={handleAgain} className="btn-kid bg-blue-500 flex flex-col items-center leading-tight">
+                  <span>🔁 Again</span>
+                  <span className="text-xs">(פעם נוספת)</span>
+                </button>
+                <button onClick={onComplete} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
+                  <span>✅ Done</span>
+                  <span className="text-xs">(סיימתי)</span>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       ) : (
         <CountRound
           key={roundKey}
-          onRoundComplete={round === 1 ? () => setRound1Done(true) : onComplete}
+          round={round}
+          onRoundComplete={() => setRoundDone(true)}
         />
       )}
     </div>

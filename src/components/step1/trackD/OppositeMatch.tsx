@@ -16,8 +16,8 @@ const PAIRS: { id: string; left: OppItem; right: OppItem }[] = [
 ]
 
 export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
-  const [leftCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.left }))))
-  const [rightCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.right }))))
+  const [leftCol, setLeftCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.left }))))
+  const [rightCol, setRightCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.right }))))
   const [selId, setSelId] = useState<string | null>(null)
   const [selSide, setSelSide] = useState<'left' | 'right' | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
@@ -48,6 +48,13 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
     if (selSide === 'left' && selId) { attemptMatch(selId, id); return }
     if (selId === id && selSide === 'right') { setSelId(null); setSelSide(null); return }
     setSelId(id); setSelSide('right'); setWrongFlash(null)
+  }
+
+  function handleAgain() {
+    setSelId(null); setSelSide(null)
+    setMatched(new Set()); setWrongFlash(null); setDone(false)
+    setLeftCol(shuffle(PAIRS.map(p => ({ id: p.id, ...p.left }))))
+    setRightCol(shuffle(PAIRS.map(p => ({ id: p.id, ...p.right }))))
   }
 
   const isWrongItem = (id: string) => wrongFlash?.includes(id) ?? false
@@ -110,7 +117,11 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
       {done && (
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
-          <p className="font-display font-bold text-xl text-white" dir="rtl">כל הכבוד!</p>
+          <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד!</p>
+          <button onClick={handleAgain} className="btn-kid bg-pink-500 flex flex-col items-center leading-tight mx-auto">
+            <span>🔁 Again</span>
+            <span className="text-xs">(פעם נוספת)</span>
+          </button>
         </div>
       )}
     </div>

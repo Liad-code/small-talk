@@ -108,7 +108,7 @@ const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 // Categories WITHOUT a generic I Spy: emotions/fruits have bespoke ones; the
 // rest were dropped per spec (general changes 2 + seasons/body/senses/
 // prepositions/actions/opposites/house dropped per later spec).
-const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face', 'seasons', 'body', 'senses', 'prepositions', 'actions', 'opposites', 'house'])
+const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face', 'seasons', 'body', 'senses', 'prepositions', 'actions', 'opposites', 'house', 'school', 'clothes', 'transport', 'food'])
 
 // Category-specific I Spy instruction (large bold Hebrew line inside GenericISpy)
 const ISPY_INSTRUCTIONS: Record<string, string> = {
@@ -277,6 +277,10 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         : item.word === 'floor' ? <FloorSvg size="2.2em" />
         : item.word === 'garden' ? <GardenSvg size="2.2em" />
         : <span className="text-3xl">{item.emoji}</span>
+    : categoryId === 'nature'
+    ? item =>
+        item.word === 'garden' ? <GardenSvg size="3em" />
+        : <span className="text-3xl">{item.emoji}</span>
     : undefined
 
   // Learn card styling (supports always-on color for body)
@@ -421,9 +425,10 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                       setQuizDone(false)
                       setCorrect(null); setWrong(null)
                     }}
-                    className="btn-kid bg-blue-500"
+                    className="btn-kid bg-blue-500 flex flex-col items-center leading-tight"
                   >
-                    🔁 Again
+                    <span>🔁 Again</span>
+                    <span className="text-xs">(פעם נוספת)</span>
                   </button>
                   <Link href="/step1/track-d" className="btn-kid bg-green-500 no-underline">
                     ← Back
@@ -482,6 +487,11 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                           </div>
                         ) : isPrepositions ? (
                           <CatBoxIllustration id={opt.word === 'next to' ? 'next-to' : opt.word} large />
+                        ) : isOpposites && opt.emoji === '🐘🐭' ? (
+                          <span className="flex items-end gap-1 leading-none">
+                            <span className="text-7xl">🐘</span>
+                            <span className="text-3xl">🐭</span>
+                          </span>
                         ) : opt.word === 'table' ? (
                           <TableSvg size="4.5em" />
                         ) : opt.word === 'floor' ? (
@@ -505,7 +515,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
           <VocabBubblePop key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
         )}
         {tab === 'pick3' && cat && (
-          <Pick3Exercise key={extraKey} items={cat.items} onComplete={handleExtraComplete} />
+          <Pick3Exercise key={extraKey} items={cat.items} instructionLines={categoryId === 'colors' ? ['לחץ על הרמקול ושמע את שלושת הצבעים.', 'גרור את הצבעים שנאמרו לריבועים (הסדר לא משנה).'] : undefined} onComplete={handleExtraComplete} />
         )}
         {tab === 'seasons-sort' && (
           <SeasonsSort key={extraKey} onComplete={handleExtraComplete} />

@@ -679,18 +679,18 @@ interface WsItem { id: string; name: string; emoji: string }
 
 const WS_ROUNDS: WsItem[][] = [
   [
-    { id: 'mom',     name: 'MOM',     emoji: '👩' },
-    { id: 'dad',     name: 'DAD',     emoji: '👨' },
-    { id: 'sister',  name: 'SISTER',  emoji: '👧' },
-    { id: 'brother', name: 'BROTHER', emoji: '👦' },
-    { id: 'baby',    name: 'BABY',    emoji: '👶' },
+    { id: 'mom',     name: 'mom',     emoji: '👩' },
+    { id: 'dad',     name: 'dad',     emoji: '👨' },
+    { id: 'sister',  name: 'sister',  emoji: '👧' },
+    { id: 'brother', name: 'brother', emoji: '👦' },
+    { id: 'baby',    name: 'baby',    emoji: '👶' },
   ],
   [
-    { id: 'grandma', name: 'GRANDMA', emoji: '👵' },
-    { id: 'grandpa', name: 'GRANDPA', emoji: '👴' },
-    { id: 'uncle',   name: 'UNCLE',   emoji: '👨‍🦰' },
-    { id: 'aunt',    name: 'AUNT',    emoji: '👩‍🦰' },
-    { id: 'cousin',  name: 'COUSIN',  emoji: '🧒' },
+    { id: 'grandma', name: 'grandma', emoji: '👵' },
+    { id: 'grandpa', name: 'grandpa', emoji: '👴' },
+    { id: 'uncle',   name: 'uncle',   emoji: '👨‍🦰' },
+    { id: 'aunt',    name: 'aunt',    emoji: '👩‍🦰' },
+    { id: 'cousin',  name: 'cousin',  emoji: '🧒' },
   ],
 ]
 
@@ -704,7 +704,7 @@ function generateWordSearch(items: WsItem[]): { grid: string[][]; placements: Ws
 
   for (const word of sorted) {
     let placed = false
-    for (let attempt = 0; attempt < 200 && !placed; attempt++) {
+    for (let attempt = 0; attempt < 500 && !placed; attempt++) {
       const dir: 'h' | 'v' = Math.random() < 0.5 ? 'h' : 'v'
       const maxRow = dir === 'h' ? WS_ROWS - 1 : WS_ROWS - word.length
       const maxCol = dir === 'h' ? WS_COLS - word.length : WS_COLS - 1
@@ -715,7 +715,8 @@ function generateWordSearch(items: WsItem[]): { grid: string[][]; placements: Ws
       for (let i = 0; i < word.length; i++) {
         const r = dir === 'h' ? row : row + i
         const c = dir === 'h' ? col + i : col
-        if (grid[r][c] !== '' && grid[r][c] !== word[i]) { valid = false; break }
+        // No shared letters: reject ANY already-filled cell so words never overlap
+        if (grid[r][c] !== '') { valid = false; break }
       }
       if (valid) {
         for (let i = 0; i < word.length; i++) {
@@ -748,10 +749,34 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set())
   const [selPath, setSelPath] = useState<[number, number][]>([])
   const [flashRed, setFlashRed] = useState(false)
+  const [revealed, setRevealed] = useState<string | null>(null)
+  const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => () => { if (revealTimer.current) clearTimeout(revealTimer.current) }, [])
 
   const allFound = found.size === placements.length
 
   function cellKey(r: number, c: number) { return `${r},${c}` }
+
+  function revealWord(word: string) {
+    const p = placements.find(pl => pl.word === word)
+    if (!p) return
+    if (revealTimer.current) clearTimeout(revealTimer.current)
+    setRevealed(word)
+    revealTimer.current = setTimeout(() => setRevealed(null), 2500)
+  }
+
+  const revealKeys = new Set<string>()
+  if (revealed) {
+    const p = placements.find(pl => pl.word === revealed)
+    if (p) {
+      for (let i = 0; i < p.word.length; i++) {
+        const rr = p.dir === 'h' ? p.row : p.row + i
+        const cc = p.dir === 'h' ? p.col + i : p.col
+        revealKeys.add(cellKey(rr, cc))
+      }
+    }
+  }
 
   function handleCellClick(r: number, c: number) {
     if (flashRed) return
@@ -801,10 +826,13 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
 
   return (
     <div className="max-w-sm mx-auto px-2 pb-16">
-      <div className="flex justify-between items-center mb-2">
-        <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על האותיות אחת אחת ומצא את המילים</p>
+      <div className="flex justify-end items-center mb-1">
         <span className="text-xs font-bold text-amber-500">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
+      <p className="text-base font-bold text-gray-700 leading-snug mb-2" dir="rtl">
+        מצא את המילה בתפזורת, לחץ על האותיות לפי הסדר.<br />
+        לא מצאת? לחיצה על ציור העין – תראה בתפזורת את המילה.
+      </p>
       <div className="flex justify-center mb-3 text-sm font-bold text-gray-500">
         {found.size} / {placements.length} מילים נמצאו
       </div>
@@ -816,6 +844,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
               const key = cellKey(r, c)
               const isFound = highlighted.has(key)
               const isSel = selKeys.has(key)
+              const isRevealed = revealKeys.has(key)
               return (
                 <div
                   key={c}
@@ -823,7 +852,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
                   className={`
                     flex items-center justify-center border border-gray-100 cursor-pointer select-none
                     font-display font-black transition-colors duration-100
-                    ${isFound ? 'bg-green-200 text-green-800' : flashRed && isSel ? 'bg-red-200 text-red-800' : isSel ? 'bg-yellow-200 text-yellow-800' : 'bg-white text-gray-700'}
+                    ${isFound ? 'bg-green-200 text-green-800' : isRevealed ? 'bg-blue-300 text-blue-900 ring-2 ring-inset ring-blue-500' : flashRed && isSel ? 'bg-red-200 text-red-800' : isSel ? 'bg-yellow-200 text-yellow-800' : 'bg-white text-gray-700'}
                   `}
                   style={{ width: cellPx, height: cellPx, fontSize: Math.max(9, cellPx - 10) }}
                 >
@@ -846,6 +875,14 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
             >
               <span className="text-lg">{f.emoji}</span>
               <span>{f.name}</span>
+              {!isFound && (
+                <button
+                  onClick={() => revealWord(f.name.toLowerCase())}
+                  aria-label={`הצג את המילה ${f.name}`}
+                  title="הצג את המילה בתפזורת"
+                  className="ml-auto text-lg leading-none hover:scale-125 active:scale-90 transition-transform cursor-pointer"
+                >👁</button>
+              )}
             </div>
           )
         })}

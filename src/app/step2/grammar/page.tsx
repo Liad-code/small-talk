@@ -112,6 +112,15 @@ export default function GrammarPage() {
           color="from-orange-400 to-amber-500"
           available
         />
+        <TopicCard
+          href="/step2/grammar/building-a-sentence"
+          emoji="🧩"
+          title="building a sentence"
+          hebrewTitle="סדרו את המילים למשפט נכון"
+          description="drag the words into the right order"
+          color="from-teal-400 to-cyan-500"
+          available
+        />
       </div>
     </div>
   )

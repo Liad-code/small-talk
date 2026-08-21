@@ -21,13 +21,13 @@ function buildRounds(items: TrackDItem[]): SpyItem[][] {
   return rounds
 }
 
-function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly, instruction }: {
+function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, instruction }: {
   items: SpyItem[]
   roundIdx: number
   totalRounds: number
   onNext: () => void
   onRestart: () => void
-  wordOnly: boolean
+  onDone: () => void
   instruction: string
 }) {
   const [layout] = useState(() => {
@@ -66,12 +66,18 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly, 
         {roundIdx + 1 < totalRounds ? (
           <>
             <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">סבב {roundIdx + 1} הושלם!</p>
-            <button onClick={onNext} className="btn-kid bg-yellow-500">סבב הבא →</button>
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
+              <button onClick={onNext} className="btn-kid bg-yellow-500">➡️ Next<br /><span className="text-xs">(סבב הבא)</span></button>
+            </div>
           </>
         ) : (
           <>
             <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד! מצאת הכל!</p>
-            <button onClick={onRestart} className="btn-kid bg-yellow-500">🔁 Again</button>
+            <div className="flex gap-3 justify-center">
+              <button onClick={onRestart} className="btn-kid bg-yellow-500">🔁 Again<br /><span className="text-xs">(פעם נוספת)</span></button>
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
+            </div>
           </>
         )}
       </div>
@@ -109,18 +115,17 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, wordOnly, 
               className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-4 transition-all
                 ${f === 'correct' ? 'bg-green-100 border-green-400' : f === 'wrong' ? 'bg-red-100 border-red-400 shake' : isCorrect ? 'bg-green-100 border-green-400' : 'bg-white border-gray-200'}`}
             >
-              {!wordOnly && <span className="text-3xl">{item.emoji}</span>}
               <span className="font-display font-black text-gray-700 text-base flex-1">{item.name}</span>
               {isCorrect ? (
                 <span className="font-display font-black text-green-600 text-lg">✅ {item.count}</span>
               ) : (
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   {[1, 2, 3, 4, 5, 6].map(n => (
                     <button
                       key={n}
                       onClick={() => !f && handlePick(item.id, n)}
                       disabled={!!f}
-                      className="w-7 h-7 rounded-lg border-2 border-yellow-300 bg-yellow-50 font-display font-black text-sm
+                      className="w-11 h-11 rounded-lg border-2 border-yellow-300 bg-yellow-50 font-display font-black text-lg
                                  hover:bg-yellow-200 active:scale-90 transition-all cursor-pointer disabled:opacity-50"
                     >{n}</button>
                   ))}
@@ -148,7 +153,6 @@ export function GenericISpy({ items, onComplete, wordOnly = false, instruction =
   function handleRestart() {
     setRound(0)
     setK(n => n + 1)
-    onComplete()
   }
 
   return (
@@ -159,7 +163,7 @@ export function GenericISpy({ items, onComplete, wordOnly = false, instruction =
       totalRounds={rounds.length}
       onNext={handleNext}
       onRestart={handleRestart}
-      wordOnly={wordOnly}
+      onDone={onComplete}
       instruction={instruction}
     />
   )

@@ -115,13 +115,13 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
               {isCorrect ? (
                 <span className="font-display font-black text-green-600 text-lg">✅ {item.count}</span>
               ) : (
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   {[1, 2, 3, 4, 5, 6].map(n => (
                     <button
                       key={n}
                       onClick={() => !f && handlePick(item.id, n)}
                       disabled={!!f}
-                      className="w-7 h-7 rounded-lg border-2 border-yellow-300 bg-yellow-50 font-display font-black text-sm
+                      className="w-11 h-11 rounded-lg border-2 border-yellow-300 bg-yellow-50 font-display font-black text-lg
                                  hover:bg-yellow-200 active:scale-90 transition-all cursor-pointer disabled:opacity-50"
                     >{n}</button>
                   ))}
