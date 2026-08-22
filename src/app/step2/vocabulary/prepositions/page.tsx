@@ -327,17 +327,55 @@ const BEHIND_TREE = (
   </span>
 )
 
+// "in the box" — reuse the Learn section's "in" picture (cat inside a box)
+const IN_BOX = <CatBoxIllustration id="in" />
+// "next to the sofa" — cat beside the sofa
+const NEXT_TO_SOFA = (
+  <span className="inline-flex items-end gap-1">
+    <span>🐱</span>
+    <span>🛋️</span>
+  </span>
+)
+// "under the bed" — cat placed below the bed
+const UNDER_BED = (
+  <span className="inline-flex flex-col items-center leading-none">
+    <span>🛏️</span>
+    <span className="text-[0.7em] -mt-1">🐱</span>
+  </span>
+)
+// "in front of the door" — cat in front of (painted over) the door
+const IN_FRONT_DOOR = (
+  <span className="relative inline-flex items-end justify-center" style={{ width: '1.7em' }}>
+    <span className="relative opacity-70">🚪</span>
+    <span className="absolute left-2 bottom-0 z-10">🐱</span>
+  </span>
+)
+// "next to the box" — apple beside the box
+const NEXT_TO_BOX_APPLE = (
+  <span className="inline-flex items-end gap-1">
+    <span>📦</span>
+    <span>🍎</span>
+  </span>
+)
+// "on the book" — cat placed above the book
+const ON_BOOK = (
+  <span className="inline-flex flex-col items-center leading-none">
+    <span className="text-[0.8em] -mb-1">🐱</span>
+    <span>📖</span>
+  </span>
+)
+
 const SENTENCES: SentenceItem[] = [
-  { scene: '📦🐱',   sentence: 'The cat is ___ the box.',      correct: 'in',          choices: ['in', 'on']              },
-  { scene: '🐱🛋️',   sentence: 'The cat is ___ the sofa.',     correct: 'on',          choices: ['on', 'under']           },
-  { scene: '🛏️🐱',   sentence: 'The cat is ___ the bed.',      correct: 'under',       choices: ['under', 'in']           },
-  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'next to',     choices: ['next to', 'behind'], render: NEXT_TO_TREE },
-  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'behind',      choices: ['behind', 'next to'], render: BEHIND_TREE  },
-  { scene: '🌳🐱🌳', sentence: 'The cat is ___ the trees.',    correct: 'between',     choices: ['between', 'next to']    },
-  { scene: '🚪🐱',   sentence: 'The cat is ___ the door.',     correct: 'in front of', choices: ['in front of', 'behind'] },
-  { scene: '📦🍎',   sentence: 'The apple is ___ the box.',    correct: 'in',          choices: ['in', 'on']              },
-  { scene: '📖🐱',   sentence: 'The cat is ___ the book.',     correct: 'on',          choices: ['on', 'under']           },
-  { scene: '🐶🐱🐶', sentence: 'The cat is ___ two dogs.',     correct: 'between',     choices: ['between', 'next to']    },
+  { scene: '📦🐱',   sentence: 'The cat is ___ the box.',      correct: 'in',          choices: ['in', 'on'],          render: IN_BOX            },
+  { scene: '🐱🛋️',   sentence: 'The cat is ___ the sofa.',     correct: 'next to',     choices: ['next to', 'in'],     render: NEXT_TO_SOFA      },
+  { scene: '🛏️🐱',   sentence: 'The cat is ___ the bed.',      correct: 'under',       choices: ['under', 'in'],       render: UNDER_BED         },
+  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'next to',     choices: ['next to', 'behind'], render: NEXT_TO_TREE      },
+  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'behind',      choices: ['behind', 'next to'], render: BEHIND_TREE       },
+  { scene: '🌳🐱🌳', sentence: 'The cat is ___ the trees.',    correct: 'between',     choices: ['between', 'next to']                           },
+  { scene: '🚪🐱',   sentence: 'The cat is ___ the door.',     correct: 'in front of', choices: ['in front of', 'behind'], render: IN_FRONT_DOOR },
+  { scene: '📦🍎',   sentence: 'The apple is ___ the box.',    correct: 'next to',     choices: ['on', 'next to'],     render: NEXT_TO_BOX_APPLE },
+  { scene: '📖🐱',   sentence: 'The cat is ___ the book.',     correct: 'on',          choices: ['on', 'under'],       render: ON_BOOK           },
+  { scene: '🐶🐱🐶', sentence: 'The cat is ___ two dogs.',     correct: 'between',     choices: ['between', 'next to']                           },
 ]
 
 function Ex2Inner({ onAgain }: { onAgain: () => void }) {
