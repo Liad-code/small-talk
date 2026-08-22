@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
@@ -308,14 +308,31 @@ interface SentenceItem {
   sentence: string
   correct: string
   choices: [string, string]
+  render?: ReactNode   // custom layered picture when a plain emoji can't show the relation
 }
+
+// "next to the tree" — cat clearly beside the tree (gap between them)
+const NEXT_TO_TREE = (
+  <span className="inline-flex items-end gap-2">
+    <span>🌳</span>
+    <span>🐱</span>
+  </span>
+)
+
+// "behind the tree" — cat partly hidden behind the tree (tree painted on top)
+const BEHIND_TREE = (
+  <span className="relative inline-flex items-end justify-center" style={{ width: '1.6em' }}>
+    <span className="absolute right-0 bottom-1 text-[0.7em]">🐱</span>
+    <span className="relative">🌳</span>
+  </span>
+)
 
 const SENTENCES: SentenceItem[] = [
   { scene: '📦🐱',   sentence: 'The cat is ___ the box.',      correct: 'in',          choices: ['in', 'on']              },
   { scene: '🐱🛋️',   sentence: 'The cat is ___ the sofa.',     correct: 'on',          choices: ['on', 'under']           },
   { scene: '🛏️🐱',   sentence: 'The cat is ___ the bed.',      correct: 'under',       choices: ['under', 'in']           },
-  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'next to',     choices: ['next to', 'behind']     },
-  { scene: '🌳🙀',   sentence: 'The cat is ___ the tree.',     correct: 'behind',      choices: ['behind', 'next to']     },
+  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'next to',     choices: ['next to', 'behind'], render: NEXT_TO_TREE },
+  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'behind',      choices: ['behind', 'next to'], render: BEHIND_TREE  },
   { scene: '🌳🐱🌳', sentence: 'The cat is ___ the trees.',    correct: 'between',     choices: ['between', 'next to']    },
   { scene: '🚪🐱',   sentence: 'The cat is ___ the door.',     correct: 'in front of', choices: ['in front of', 'behind'] },
   { scene: '📦🍎',   sentence: 'The apple is ___ the box.',    correct: 'in',          choices: ['in', 'on']              },
@@ -355,7 +372,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
             >
               <div className="flex flex-col items-center gap-1 mb-2">
                 <div className="flex items-center justify-center text-3xl leading-none" style={{ height: '52px' }}>
-                  <span role="img" aria-label={s.correct}>{s.scene}</span>
+                  {s.render ?? <span role="img" aria-label={s.correct}>{s.scene}</span>}
                 </div>
                 <p className="font-bold text-gray-700 text-xs text-center leading-tight">{s.sentence}</p>
               </div>
