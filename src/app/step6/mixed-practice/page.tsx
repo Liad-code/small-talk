@@ -737,7 +737,7 @@ export default function MixedPracticePage() {
           '3. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
         ]} />} />}
         {tab === 'ex5' && <RoundFlow rounds={EX5_ROUNDS.length} render={(r, done) => <TypeInExercise questions={EX5_ROUNDS[r]} onDone={done} instructionLines={[
-          '1. השלם את הפועל בצורה הנכונה לפי הזמן במשפט.',
+          '1. קראו את התשובה, לפי הזמן המוצג בתשובה השלם את השאלה.',
           '2. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
         ]} />} />}
       </div>

@@ -356,7 +356,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
   return (
     <div className="max-w-sm mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את הפעולה הנכונה</p>
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">השלם את הפעולה הנכונה למשפט – רמז! אפשר להיעזר בציור.</p>
         <span className="text-emerald-500">✅ {score}/{items.length}</span>
       </div>
       <div className="flex flex-col gap-3">

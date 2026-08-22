@@ -168,7 +168,7 @@ const EX2_QUESTIONS: Ex2Q[] = [
   { before: 'Please',       after: 'the door.',    correct: 'open',   wrong: 'put'    },
   { before: 'We',           after: 'bread for dinner.', correct: 'buy', wrong: 'ask'   },
   { before: 'She',          after: 'two cats.',    correct: 'has',    wrong: 'them'   },
-  { before: 'I',            after: 'this is fun.', correct: 'think',  wrong: 'know'   },
+  { before: 'I',            after: 'this is fun.', correct: 'think',  wrong: 'have'   },
   { before: 'Take',         after: 'water.',       correct: 'some',   wrong: 'any'    },
   { before: 'We',           after: 'in a house.',  correct: 'live',   wrong: 'give'   },
   { before: 'Birds can',    after: 'high.',        correct: 'fly',    wrong: 'walk'   },

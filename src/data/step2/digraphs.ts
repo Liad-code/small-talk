@@ -315,7 +315,7 @@ export const DIGRAPHS: Digraph[] = [
       { word: 'GAME',  emoji: '🧩', hebrew: 'משחק' },
       { word: 'SNAKE', emoji: '🐍', hebrew: 'נחש' },
       { word: 'PLATE', emoji: '🍽️', hebrew: 'צלחת' },
-      { word: 'CAKE',  emoji: '🎂', hebrew: 'עוגה' },
+      { word: 'CAKE',  emoji: '🎂', tts: 'cake', hebrew: 'עוגה' },
     ],
   },
   {

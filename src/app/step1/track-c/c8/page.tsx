@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWELS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWELS, VOWEL_COLORS } from '@/data/step1/cvcWords'
 import { WordEmoji } from '@/components/step1/WordEmoji'
 import { useSpeak } from '@/hooks/useSpeak'
 
@@ -55,7 +55,9 @@ function C8Exercise({ onComplete }: { onComplete: () => void }) {
             <button
               key={w.word}
               onClick={() => {
-                speak(ttsFor(w.word), 0.7, 1.1)
+                // Speak the SAME object that renders the emoji so the picture and
+                // the audio can never desync (🎩 always speaks its own word, "hat").
+                speak(w.ttsText ?? w.word, 0.7, 1.1)
                 setTapped(prev => {
                   const n = new Set(prev)
                   n.add(w.word)

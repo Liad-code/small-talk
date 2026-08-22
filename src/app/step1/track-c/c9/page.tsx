@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ExerciseShell } from '@/components/step1/ExerciseShell'
-import { CVC_WORDS, VOWEL_COLORS, ttsFor } from '@/data/step1/cvcWords'
+import { CVC_WORDS, VOWEL_COLORS } from '@/data/step1/cvcWords'
 import { WordEmoji } from '@/components/step1/WordEmoji'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'
 import { shuffle } from '@/utils/shuffle'
@@ -47,7 +47,9 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
     setWrong(false)
     setCorrect(false)
     // Item 17: cleanup prevents stale word speech when idx changes quickly
-    const t = setTimeout(() => speak(ttsFor(current.word), 0.7, 1.1), 400)
+    // Speak the SAME object that renders the emoji so the picture and the audio
+    // can never desync (🎩 always speaks its own word, "hat").
+    const t = setTimeout(() => speak(current.ttsText ?? current.word, 0.7, 1.1), 400)
     return () => clearTimeout(t)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
@@ -94,7 +96,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <button
-        onClick={() => speak(ttsFor(current.word), 0.7, 1.1)}
+        onClick={() => speak(current.ttsText ?? current.word, 0.7, 1.1)}
         className="text-7xl mb-4 hover:scale-110 active:scale-90 transition-transform cursor-pointer select-none block w-full"
       >
         <WordEmoji word={current} className="text-7xl" />
@@ -141,7 +143,7 @@ function C9Exercise({ onComplete }: { onComplete: () => void }) {
       </div>
 
       <button
-        onClick={() => speak(ttsFor(current.word), 0.7, 1.1)}
+        onClick={() => speak(current.ttsText ?? current.word, 0.7, 1.1)}
         className="mt-4 text-blue-400 font-bold text-sm hover:text-blue-600"
       >
         🔊 Hear again

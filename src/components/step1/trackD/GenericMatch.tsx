@@ -107,13 +107,18 @@ export function GenericMatch({ items, onComplete, limit = 6, renderVisual }: Pro
                 className={`
                   ${renderVisual ? 'h-20' : 'h-14'} w-full rounded-xl border-4 text-3xl
                   transition-all duration-150 cursor-pointer select-none flex items-center justify-center
+                  overflow-hidden p-1
                   ${isMatched ? 'bg-green-200 border-green-500' : ''}
                   ${isSelected ? 'bg-amber-300 border-amber-600 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-200 border-red-500 shake' : ''}
                   ${!isMatched && !isSelected && !isWrong ? 'bg-amber-100 border-amber-400 hover:bg-amber-200 hover:scale-105' : ''}
                 `}
               >
-                {renderVisual ? renderVisual(item) : item.emoji}
+                <span className="flex items-center justify-center max-w-full max-h-full overflow-hidden leading-none
+                                 [&>svg]:max-w-full [&>svg]:max-h-full [&_svg]:h-auto
+                                 [&_img]:max-w-full [&_img]:max-h-full [&_img]:object-contain">
+                  {renderVisual ? renderVisual(item) : item.emoji}
+                </span>
               </button>
             )
           })}

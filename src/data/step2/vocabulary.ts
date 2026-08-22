@@ -162,7 +162,7 @@ export const CLOTHES: ClothesItem[] = [
   { id: 'socks',   name: 'socks',   hebrew: 'גרביים',         emoji: '🧦', warmSeason: false },
   { id: 'jacket',  name: 'jacket',  hebrew: "ז'קט",           emoji: '🥼', warmSeason: false },
 { id: 'scarf',   name: 'scarf',   hebrew: 'צעיף',           emoji: '🧣', warmSeason: false },
-  { id: 'boots',   name: 'boots',   hebrew: 'מגפיים',         emoji: '👢', warmSeason: false },
+  { id: 'boots',   name: 'boots',   hebrew: 'מגפיים',         emoji: '👢👢', warmSeason: false },
   { id: 'gloves',  name: 'gloves',  hebrew: 'כפפות',          emoji: '🧤', warmSeason: false },
 ]
 

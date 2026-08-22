@@ -371,7 +371,7 @@ function Ex2() {
       </div>
 
       <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-3 mb-3 text-sm font-bold text-blue-700" dir="rtl">
-        <p>1. השלם את הפועל בשלילה.</p>
+        <p>1. כתוב את המשפט מחדש עם הפועל בצורת השלילה.</p>
         <p>2. ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: will not או won&apos;t</p>
         <p>3. לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.</p>
       </div>

@@ -249,7 +249,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
   return (
     <div className="max-w-lg mx-auto px-3 pb-16">
       <div className="flex justify-between text-sm font-bold text-gray-400 mb-4">
-        <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר את הסצנה הנכונה לכל מילה</p>
+        <p className="font-bold text-gray-500 text-xs" dir="rtl">בחר במילה המתארת את החתול ביחס לקופסא:</p>
         <span className="text-purple-500">✅ {score}/{PREPOSITIONS.length}</span>
       </div>
       <div className="flex flex-col gap-2">
@@ -303,12 +303,6 @@ function Ex1Tab() {
 
 // ── Ex2: Fill-in-the-blank sentences ─────────────────────────────────────────
 
-function prepId(correct: string): string {
-  if (correct === 'next to') return 'next-to'
-  if (correct === 'in front of') return 'in-front'
-  return correct
-}
-
 interface SentenceItem {
   scene: string
   sentence: string
@@ -317,16 +311,16 @@ interface SentenceItem {
 }
 
 const SENTENCES: SentenceItem[] = [
-  { scene: '🐱📦', sentence: 'The cat is ___ the box.',       correct: 'in',          choices: ['in', 'on']          },
-  { scene: '🐱🛋️', sentence: 'The cat is ___ the sofa.',      correct: 'on',          choices: ['on', 'under']       },
-  { scene: '🐱🛏️', sentence: 'The cat is ___ the bed.',       correct: 'under',       choices: ['under', 'in']       },
-  { scene: '🐱🌳', sentence: 'The cat stands ___ the tree.',   correct: 'next to',     choices: ['next to', 'behind'] },
-  { scene: '🌲🐱', sentence: 'The cat hides ___ the tree.',    correct: 'behind',      choices: ['behind', 'in front of'] },
-  { scene: '🌳🐱🌳', sentence: 'The cat sits ___ the trees.', correct: 'between',     choices: ['between', 'next to'] },
-  { scene: '🐱🏠', sentence: 'The cat waits ___ the house.',   correct: 'in front of', choices: ['in front of', 'behind'] },
-  { scene: '🍎📦', sentence: 'The apple is ___ the box.',      correct: 'in',          choices: ['in', 'on']          },
-  { scene: '📚🐱', sentence: 'The cat is ___ the books.',      correct: 'on',          choices: ['on', 'under']       },
-  { scene: '🐕🐱🐕', sentence: 'The cat sits ___ the dogs.',   correct: 'between',     choices: ['between', 'next to'] },
+  { scene: '📦🐱',   sentence: 'The cat is ___ the box.',      correct: 'in',          choices: ['in', 'on']              },
+  { scene: '🐱🛋️',   sentence: 'The cat is ___ the sofa.',     correct: 'on',          choices: ['on', 'under']           },
+  { scene: '🛏️🐱',   sentence: 'The cat is ___ the bed.',      correct: 'under',       choices: ['under', 'in']           },
+  { scene: '🌳🐱',   sentence: 'The cat is ___ the tree.',     correct: 'next to',     choices: ['next to', 'behind']     },
+  { scene: '🌳🙀',   sentence: 'The cat is ___ the tree.',     correct: 'behind',      choices: ['behind', 'next to']     },
+  { scene: '🌳🐱🌳', sentence: 'The cat is ___ the trees.',    correct: 'between',     choices: ['between', 'next to']    },
+  { scene: '🚪🐱',   sentence: 'The cat is ___ the door.',     correct: 'in front of', choices: ['in front of', 'behind'] },
+  { scene: '📦🍎',   sentence: 'The apple is ___ the box.',    correct: 'in',          choices: ['in', 'on']              },
+  { scene: '📖🐱',   sentence: 'The cat is ___ the book.',     correct: 'on',          choices: ['on', 'under']           },
+  { scene: '🐶🐱🐶', sentence: 'The cat is ___ two dogs.',     correct: 'between',     choices: ['between', 'next to']    },
 ]
 
 function Ex2Inner({ onAgain }: { onAgain: () => void }) {
@@ -360,8 +354,8 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
                 ${isCorrect ? 'bg-green-100 border-green-400' : isWrong ? 'bg-red-100 border-red-400' : 'bg-white border-purple-200'}`}
             >
               <div className="flex flex-col items-center gap-1 mb-2">
-                <div className="flex items-center justify-center" style={{ height: '52px' }}>
-                  <CatBoxIllustration id={prepId(s.correct)} />
+                <div className="flex items-center justify-center text-3xl leading-none" style={{ height: '52px' }}>
+                  <span role="img" aria-label={s.correct}>{s.scene}</span>
                 </div>
                 <p className="font-bold text-gray-700 text-xs text-center leading-tight">{s.sentence}</p>
               </div>

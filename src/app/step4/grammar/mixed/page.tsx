@@ -733,13 +733,13 @@ export default function MixedPracticePage() {
         )}
         {tab === 'write1' && (
           <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instructionLines={[
-            'השלם את צורת הפועל הנכונה.',
+            'שימו לב לזמן במשפט והשלימו את צורת הפועל הנכונה בחיוב.',
             'לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
           ]} onDone={done} />} />
         )}
         {tab === 'write2' && (
           <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" negative instructionLines={[
-            'השלם את הפועל בשלילה.',
+            'שימו לב לזמן במשפט והשלימו את צורת הפועל הנכונה בשלילה.',
             'ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: דוג׳ is not או isn\'t',
             'לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
           ]} onDone={done} />} />
