@@ -216,3 +216,57 @@ body {
   100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 .star-pop { animation: star-pop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; display: inline-block; }
+
+/* ── Star COLLECT reward (StarCollect) ─────────────────────────── */
+@keyframes sc-bob { 0%,100% { transform: translateY(0) rotate(-7deg); } 50% { transform: translateY(-4px) rotate(7deg); } }
+.star-bob { animation: sc-bob 1s ease-in-out infinite; transform-origin: center; }
+
+@keyframes sc-glow {
+  0%,100% { box-shadow: 0 8px 0 rgba(0,0,0,.12), 0 0 0 0 rgba(255,255,255,0); }
+  50%     { box-shadow: 0 8px 0 rgba(0,0,0,.12), 0 0 26px 7px rgba(255,255,255,.55); }
+}
+.star-glow { animation: sc-glow 1.5s ease-in-out infinite; }
+
+.star-shine {
+  background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.6) 50%, transparent 70%);
+  background-size: 220% 100%;
+  animation: sc-shine 2.2s ease-in-out infinite;
+}
+@keyframes sc-shine { 0% { background-position: 180% 0; } 60%,100% { background-position: -80% 0; } }
+
+@keyframes sc-hint { 0%,100% { opacity: .55; transform: translateY(0); } 50% { opacity: 1; transform: translateY(2px); } }
+.star-hint { animation: sc-hint 1.1s ease-in-out infinite; }
+
+@keyframes sc-prize {
+  0%   { transform: scale(0) rotate(-70deg); opacity: 0; }
+  55%  { transform: scale(1.55) rotate(14deg); opacity: 1; }
+  75%  { transform: scale(.9) rotate(-5deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+@keyframes sc-twinkle { 0%,100% { filter: drop-shadow(0 0 0 currentColor); } 50% { filter: drop-shadow(0 0 8px currentColor); } }
+.star-prize { animation: sc-prize .7s cubic-bezier(.2,.9,.2,1.25) both, sc-twinkle 1.8s ease-in-out .8s infinite; }
+
+@keyframes sc-shockwave { 0% { transform: scale(.3); opacity: .9; } 100% { transform: scale(2.7); opacity: 0; } }
+.shockwave { animation: sc-shockwave .7s ease-out forwards; }
+
+@keyframes sc-flash { 0% { transform: scale(.4); opacity: .85; } 100% { transform: scale(1.9); opacity: 0; } }
+.flash { animation: sc-flash .45s ease-out forwards; }
+
+@keyframes sc-spark { 0% { transform: translate(0,0) scale(.3); opacity: 0; } 15% { opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(1.15); opacity: 0; } }
+.spark-fly { animation-name: sc-spark; animation-timing-function: cubic-bezier(.15,.6,.3,1); animation-fill-mode: forwards; }
+
+@keyframes sc-plusone { 0% { transform: translateY(6px) scale(.5); opacity: 0; } 25% { opacity: 1; } 100% { transform: translateY(-46px) scale(1.15); opacity: 0; } }
+.plus-one { animation: sc-plusone 1s ease-out .1s forwards; }
+
+@keyframes sc-slam { 0% { transform: scale(0) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.28); opacity: 1; } 80% { transform: scale(.93); } 100% { transform: scale(1); } }
+.count-slam { animation: sc-slam .6s cubic-bezier(.2,.9,.2,1.25) .25s both; }
+
+@keyframes sc-praise { 0% { transform: translateY(9px) scale(.7); opacity: 0; } 60% { transform: scale(1.14); } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+.praise-in { animation: sc-praise .5s ease-out .42s both; }
+
+@keyframes sc-nudge { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: translateY(0); } }
+.trophy-nudge { animation: sc-nudge .4s ease-out .72s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .star-bob, .star-glow, .star-shine, .star-hint, .spark-fly, .shockwave, .flash, .plus-one { animation: none !important; }
+}

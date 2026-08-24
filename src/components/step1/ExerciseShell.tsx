@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
 import { ConfettiOverlay } from './ConfettiOverlay'
+import { StarCollect } from '@/components/shared/StarCollect'
 
 interface Props {
   title: string
@@ -50,7 +51,6 @@ export function ExerciseShell({
   const { markExerciseDone, isExerciseDone, step1Stars } = useStep1Progress()
   const [showConfetti, setShowConfetti] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [collected, setCollected] = useState(false)
   const [key, setKey] = useState(0)  // increment to remount exercise
 
   const alreadyDone = isExerciseDone(track, groupId, exerciseId)
@@ -63,16 +63,9 @@ export function ExerciseShell({
     playHappySound()
   }, [])
 
-  const collect = useCallback(() => {
-    if (collected) return
-    setCollected(true)
-    markExerciseDone(track, groupId, exerciseId)
-  }, [collected, markExerciseDone, track, groupId, exerciseId])
-
   function playAgain() {
     setShowModal(false)
     setShowConfetti(false)
-    setCollected(false)
     setKey(k => k + 1)
   }
 
@@ -112,41 +105,29 @@ export function ExerciseShell({
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40 p-4">
           <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl bounce-in">
-            {!collected ? (
-              <>
-                <div className="text-6xl mb-3">🎉</div>
-                <h2 className="font-display text-3xl font-bold text-gray-800 mb-1">Yay! You did it!</h2>
-                <p className="text-xl font-bold text-gray-500 mb-6" dir="rtl">כל הכבוד!</p>
+            <div className="text-6xl mb-2">🎉</div>
+            <h2 className="font-display text-3xl font-bold text-gray-800 mb-1">Yay! You did it!</h2>
+            <p className="text-lg font-bold text-gray-500" dir="rtl">כל הכבוד!</p>
+            <StarCollect
+              step="step1"
+              count={step1Stars}
+              award={() => markExerciseDone(track, groupId, exerciseId)}
+            >
+              <div className="flex gap-3">
                 <button
-                  onClick={collect}
-                  dir="rtl"
-                  className="btn-kid w-full text-white bg-gradient-to-r from-amber-400 to-orange-400 hover:brightness-110 inline-flex items-center justify-center gap-2"
+                  onClick={playAgain}
+                  className="flex-1 btn-kid bg-blue-500 hover:bg-blue-600"
                 >
-                  <span className="text-2xl star-wiggle inline-block">⭐</span>
-                  אספו את הכוכב!
+                  🔁 Again
                 </button>
-              </>
-            ) : (
-              <>
-                <span className="text-6xl leading-none star-pop text-amber-500 inline-block mb-2">★</span>
-                <p className="font-black text-gray-700 text-base mb-0.5" dir="rtl">יש לך {step1Stars} כוכבי שלב 1!</p>
-                <p className="text-xs font-bold text-gray-400 mb-6">You have {step1Stars} Step 1 star{step1Stars === 1 ? '' : 's'}</p>
-                <div className="flex gap-3">
-                  <button
-                    onClick={playAgain}
-                    className="flex-1 btn-kid bg-blue-500 hover:bg-blue-600"
-                  >
-                    🔁 Again
-                  </button>
-                  <Link
-                    href={backHref}
-                    className="flex-1 btn-kid bg-green-500 hover:bg-green-600 no-underline text-center"
-                  >
-                    ✅ Done
-                  </Link>
-                </div>
-              </>
-            )}
+                <Link
+                  href={backHref}
+                  className="flex-1 btn-kid bg-green-500 hover:bg-green-600 no-underline text-center"
+                >
+                  ✅ Done
+                </Link>
+              </div>
+            </StarCollect>
           </div>
         </div>
       )}
