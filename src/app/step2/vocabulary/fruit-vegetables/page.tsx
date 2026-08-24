@@ -33,31 +33,18 @@ function LearnTab() {
       </div>
 
       <div className="bg-red-50 border-4 border-red-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-6 divide-x divide-red-200 bg-red-100 border-b-4 border-red-200">
-          <div className="py-2 text-center font-bold text-red-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-red-700 text-xs" dir="rtl">עברית</div>
-          <div className="py-2 text-center font-bold text-red-700 text-xs">Pic</div>
-          <div className="py-2 text-center font-bold text-red-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-red-700 text-xs" dir="rtl">עברית</div>
+        <div className="grid grid-cols-[1.4fr_1fr_3rem] divide-x divide-red-200 bg-red-100 border-b-4 border-red-200">
+          <div className="py-2 px-2 text-center font-bold text-red-700 text-xs">English</div>
+          <div className="py-2 px-2 text-center font-bold text-red-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-red-700 text-xs">Pic</div>
         </div>
-        {Array.from({ length: Math.ceil(FRUIT_VEG.length / 2) }, (_, i) => {
-          const f1 = FRUIT_VEG[i * 2]; const f2 = FRUIT_VEG[i * 2 + 1]
-          return (
-            <div key={i} className={`grid grid-cols-6 divide-x divide-red-200 ${i % 2 === 0 ? 'bg-white' : 'bg-red-50/50'}`}>
-              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{f1.name}</div>
-              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{f1.hebrew}</div>
-              <div className="py-1.5 text-center text-lg">{f1.emoji}</div>
-              {f2 ? (
-                <>
-                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{f2.name}</div>
-                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{f2.hebrew}</div>
-                  <div className="py-1.5 text-center text-lg">{f2.emoji}</div>
-                </>
-              ) : <><div /><div /><div /></>}
-            </div>
-          )
-        })}
+        {FRUIT_VEG.map((f, i) => (
+          <div key={f.id} className={`grid grid-cols-[1.4fr_1fr_3rem] divide-x divide-red-200 ${i % 2 === 0 ? 'bg-white' : 'bg-red-50/50'}`}>
+            <div className="py-1.5 px-2 font-bold text-gray-800 text-xs break-words min-w-0">{f.name}</div>
+            <div className="py-1.5 px-2 font-bold text-gray-700 text-xs text-center break-words min-w-0" dir="rtl">{f.hebrew}</div>
+            <div className="py-1.5 text-center text-lg">{f.emoji}</div>
+          </div>
+        ))}
       </div>
     </div>
   )

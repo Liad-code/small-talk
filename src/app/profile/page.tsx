@@ -3,7 +3,11 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Header } from '@/components/layout/Header'
 import { useProgress } from '@/hooks/useProgress'
+import { useStep1Progress } from '@/hooks/useStep1Progress'
+import { useStepStars, type StarStep } from '@/hooks/useStepStars'
+import { useCombinedStars } from '@/hooks/useCombinedStars'
 import { SUBJECTS, CATEGORIES } from '@/data/subjects'
+import { STEP_STAR_META, STEP_ORDER, trophyTiers } from '@/data/stepStarConfig'
 
 const CONFETTI_KEY = 'smalltalk_confetti_shown'
 
@@ -22,7 +26,16 @@ const PIECES = Array.from({ length: 60 }, (_, i) => ({
 
 export default function ProfilePage() {
   const { totalStars, getLevelProgress, isLevelUnlocked } = useProgress()
+  const { step1Stars } = useStep1Progress()
+  const { starsFor: stepStarsFor } = useStepStars()
+  const combined = useCombinedStars()
   const [showConfetti, setShowConfetti] = useState(false)
+
+  const stepCount = (s: string) => (s === 'step1' ? step1Stars : stepStarsFor(s as StarStep))
+  const totalTrophies = STEP_ORDER.reduce(
+    (n, s) => n + trophyTiers(s).filter(t => stepCount(s) >= t).length,
+    0,
+  )
 
   useEffect(() => {
     if (totalStars > 0 && !localStorage.getItem(CONFETTI_KEY)) {
@@ -41,9 +54,6 @@ export default function ProfilePage() {
     const max = count * 3
     return max ? Math.round((starsFor(id, count) / max) * 100) : 0
   }
-
-  const maxTotal = SUBJECTS.reduce((n, s) => n + s.levels.length * 3, 0)
-  const globalPct = maxTotal ? Math.round((totalStars / maxTotal) * 100) : 0
 
   return (
     <div
@@ -107,20 +117,78 @@ export default function ProfilePage() {
                 className="font-black text-white drop-shadow-md leading-none"
                 style={{ fontSize: '3.5rem' }}
               >
-                {totalStars}
+                {combined}
               </div>
               <div className="text-amber-100 font-black text-xs mt-0.5">
-                out of {maxTotal} stars
+                stars · כוכבים
               </div>
             </div>
             <div className="h-12 w-px bg-white/30" />
             <div className="text-center">
-              <div className="text-white font-black text-2xl leading-none">{globalPct}%</div>
-              <div className="text-amber-100 font-bold text-xs mt-0.5">done! 🎉</div>
+              <div className="text-white font-black text-2xl leading-none">{totalTrophies} 🏆</div>
+              <div className="text-amber-100 font-bold text-xs mt-0.5">trophies</div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ── STEP STARS & TROPHIES ── */}
+      <div className="max-w-4xl mx-auto px-4 pb-4">
+        <h2 className="text-center text-2xl font-black text-gray-700 mb-1">Step Stars &amp; Trophies</h2>
+        <p className="text-center text-xs font-bold text-gray-400 mb-6" dir="rtl">
+          כוכבי השלבים — כמה כוכבים אספת בכל שלב, וגביע נוסף על כל 10 כוכבים 🏆
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {STEP_ORDER.map(step => {
+            const meta = STEP_STAR_META[step]
+            const count = stepCount(step)
+            const tiers = trophyTiers(step)
+            const pct = Math.min(100, Math.round((count / meta.target) * 100))
+            const nextTier = tiers.find(t => count < t)
+            return (
+              <div key={step} className={`rounded-3xl border-4 ${meta.ring} ${meta.soft} p-4`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-3xl">{meta.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-black text-gray-700 text-base leading-none">{meta.en}</div>
+                    <div className="text-xs font-bold text-gray-400" dir="rtl">{meta.he}</div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className={`text-2xl leading-none ${meta.star}`}>★</span>
+                    <span className="font-black text-gray-700 text-lg">{count}</span>
+                    <span className="text-xs font-bold text-gray-400">/ {meta.target}</span>
+                  </div>
+                </div>
+
+                <div className="w-full bg-white/70 rounded-full h-2.5 overflow-hidden border border-white mb-3">
+                  <div className={`h-full rounded-full bg-gradient-to-r ${meta.chipBg} progress-fill`} style={{ width: `${pct}%` }} />
+                </div>
+
+                <div className="flex items-end gap-1.5 flex-wrap">
+                  {tiers.map((t, i) => {
+                    const earned = count >= t
+                    const size = 18 + i * 3
+                    return (
+                      <div key={t} className="flex flex-col items-center" title={`${t} ⭐`}>
+                        <span style={{ fontSize: `${size}px`, filter: earned ? 'none' : 'grayscale(1)', opacity: earned ? 1 : 0.35 }}>🏆</span>
+                        <span className="text-[9px] font-bold text-gray-400 leading-none mt-0.5">{t}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {nextTier != null ? (
+                  <p className="text-[11px] font-bold text-gray-400 mt-2" dir="rtl">
+                    עוד {nextTier - count} כוכבים לגביע הבא 🏆
+                  </p>
+                ) : (
+                  <p className="text-[11px] font-black text-green-500 mt-2" dir="rtl">כל הגביעים נאספו! 🎉</p>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
 
       {/* ── SUBJECT GRID ── */}
       <div className="max-w-4xl mx-auto px-4 pb-16 space-y-10">

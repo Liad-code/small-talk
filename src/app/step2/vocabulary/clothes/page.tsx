@@ -34,31 +34,18 @@ function LearnTab() {
       </div>
 
       <div className="bg-sky-50 border-4 border-sky-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-6 divide-x divide-sky-200 bg-sky-100 border-b-4 border-sky-200">
-          <div className="py-2 text-center font-bold text-sky-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-sky-700 text-xs" dir="rtl">עברית</div>
-          <div className="py-2 text-center font-bold text-sky-700 text-xs">Pic</div>
-          <div className="py-2 text-center font-bold text-sky-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-sky-700 text-xs" dir="rtl">עברית</div>
+        <div className="grid grid-cols-[1.4fr_1fr_3rem] divide-x divide-sky-200 bg-sky-100 border-b-4 border-sky-200">
+          <div className="py-2 px-2 text-center font-bold text-sky-700 text-xs">English</div>
+          <div className="py-2 px-2 text-center font-bold text-sky-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-sky-700 text-xs">Pic</div>
         </div>
-        {Array.from({ length: Math.ceil(CLOTHES.length / 2) }, (_, i) => {
-          const c1 = CLOTHES[i * 2]; const c2 = CLOTHES[i * 2 + 1]
-          return (
-            <div key={i} className={`grid grid-cols-6 divide-x divide-sky-200 ${i % 2 === 0 ? 'bg-white' : 'bg-sky-50/50'}`}>
-              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{c1.name}</div>
-              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{c1.hebrew}</div>
-              <div className="py-1.5 text-center text-lg">{c1.emoji}</div>
-              {c2 ? (
-                <>
-                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{c2.name}</div>
-                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{c2.hebrew}</div>
-                  <div className="py-1.5 text-center text-lg">{c2.emoji}</div>
-                </>
-              ) : <><div /><div /><div /></>}
-            </div>
-          )
-        })}
+        {CLOTHES.map((c, i) => (
+          <div key={c.id} className={`grid grid-cols-[1.4fr_1fr_3rem] divide-x divide-sky-200 ${i % 2 === 0 ? 'bg-white' : 'bg-sky-50/50'}`}>
+            <div className="py-1.5 px-2 font-bold text-gray-800 text-xs break-words min-w-0">{c.name}</div>
+            <div className="py-1.5 px-2 font-bold text-gray-700 text-xs text-center break-words min-w-0" dir="rtl">{c.hebrew}</div>
+            <div className="py-1.5 text-center text-lg">{c.emoji}</div>
+          </div>
+        ))}
       </div>
     </div>
   )

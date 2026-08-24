@@ -37,15 +37,15 @@ function LearnTab() {
       </div>
 
       <div className="bg-purple-50 border-4 border-purple-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-3 divide-x divide-purple-200 bg-purple-100 border-b-4 border-purple-200">
-          <div className="py-2 text-center font-bold text-purple-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-purple-700 text-xs" dir="rtl">עברית</div>
+        <div className="grid grid-cols-[1.4fr_1fr_4rem] divide-x divide-purple-200 bg-purple-100 border-b-4 border-purple-200">
+          <div className="py-2 px-2 text-center font-bold text-purple-700 text-xs">English</div>
+          <div className="py-2 px-2 text-center font-bold text-purple-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-purple-700 text-xs">Scene</div>
         </div>
         {PREPOSITIONS.map((p, i) => (
-          <div key={p.id} className={`grid grid-cols-3 divide-x divide-purple-200 ${i % 2 === 0 ? 'bg-white' : 'bg-purple-50/50'}`}>
-            <div className="py-3 px-2 font-black text-gray-800 text-base">{p.name}</div>
-            <div className="py-3 px-2 font-bold text-gray-700 text-sm text-center" dir="rtl">{p.hebrew}</div>
+          <div key={p.id} className={`grid grid-cols-[1.4fr_1fr_4rem] divide-x divide-purple-200 ${i % 2 === 0 ? 'bg-white' : 'bg-purple-50/50'}`}>
+            <div className="py-3 px-2 font-black text-gray-800 text-base break-words min-w-0">{p.name}</div>
+            <div className="py-3 px-2 font-bold text-gray-700 text-sm text-center break-words min-w-0" dir="rtl">{p.hebrew}</div>
             <div className="py-2 flex items-center justify-center">
               <CatBoxIllustration id={p.id} />
             </div>

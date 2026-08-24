@@ -34,31 +34,18 @@ function LearnTab() {
       </div>
 
       <div className="bg-green-50 border-4 border-green-200 rounded-3xl overflow-hidden">
-        <div className="grid grid-cols-6 divide-x divide-green-200 bg-green-100 border-b-4 border-green-200">
-          <div className="py-2 text-center font-bold text-green-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-green-700 text-xs" dir="rtl">עברית</div>
-          <div className="py-2 text-center font-bold text-green-700 text-xs">Pic</div>
-          <div className="py-2 text-center font-bold text-green-700 text-xs">English</div>
-          <div className="py-2 text-center font-bold text-green-700 text-xs" dir="rtl">עברית</div>
+        <div className="grid grid-cols-[1.4fr_1fr_3rem] divide-x divide-green-200 bg-green-100 border-b-4 border-green-200">
+          <div className="py-2 px-2 text-center font-bold text-green-700 text-xs">English</div>
+          <div className="py-2 px-2 text-center font-bold text-green-700 text-xs" dir="rtl">עברית</div>
           <div className="py-2 text-center font-bold text-green-700 text-xs">Pic</div>
         </div>
-        {Array.from({ length: Math.ceil(ANIMALS.length / 2) }, (_, i) => {
-          const a1 = ANIMALS[i * 2]; const a2 = ANIMALS[i * 2 + 1]
-          return (
-            <div key={i} className={`grid grid-cols-6 divide-x divide-green-200 ${i % 2 === 0 ? 'bg-white' : 'bg-green-50/50'}`}>
-              <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{a1.name}</div>
-              <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{a1.hebrew}</div>
-              <div className="py-1.5 text-center text-lg">{a1.emoji}</div>
-              {a2 ? (
-                <>
-                  <div className="py-1.5 px-1 font-bold text-gray-800 text-xs">{a2.name}</div>
-                  <div className="py-1.5 px-1 font-bold text-gray-700 text-xs text-center" dir="rtl">{a2.hebrew}</div>
-                  <div className="py-1.5 text-center text-lg">{a2.emoji}</div>
-                </>
-              ) : <><div /><div /><div /></>}
-            </div>
-          )
-        })}
+        {ANIMALS.map((a, i) => (
+          <div key={a.id} className={`grid grid-cols-[1.4fr_1fr_3rem] divide-x divide-green-200 ${i % 2 === 0 ? 'bg-white' : 'bg-green-50/50'}`}>
+            <div className="py-1.5 px-2 font-bold text-gray-800 text-xs break-words min-w-0">{a.name}</div>
+            <div className="py-1.5 px-2 font-bold text-gray-700 text-xs text-center break-words min-w-0" dir="rtl">{a.hebrew}</div>
+            <div className="py-1.5 text-center text-lg">{a.emoji}</div>
+          </div>
+        ))}
       </div>
     </div>
   )

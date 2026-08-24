@@ -27,10 +27,10 @@ function NumberGrid({ items }: { items: NumberItem[] }) {
         <button
           key={n.digit}
           onClick={() => speak(n.word, 0.8)}
-          className="bg-white border-2 border-blue-200 rounded-xl px-2 py-2 flex items-center gap-1.5 hover:bg-blue-50 active:scale-95 transition-all cursor-pointer"
+          className="bg-white border-2 border-blue-200 rounded-xl px-2 py-2 flex flex-col items-center justify-center gap-0.5 min-w-0 hover:bg-blue-50 active:scale-95 transition-all cursor-pointer"
         >
-          <span className="font-display font-black text-2xl text-indigo-600">{n.digit}</span>
-          <span className="font-bold text-blue-900 text-base leading-tight">{n.word}</span>
+          <span className="font-display font-black text-2xl text-indigo-600 leading-none">{n.digit}</span>
+          <span className="font-bold text-blue-900 text-sm leading-tight text-center break-words min-w-0">{n.word}</span>
         </button>
       ))}
     </div>
