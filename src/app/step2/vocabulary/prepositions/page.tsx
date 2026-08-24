@@ -343,11 +343,11 @@ const UNDER_BED = (
     <span className="text-[0.7em] -mt-1">🐱</span>
   </span>
 )
-// "in front of the door" — cat in front of (painted over) the door
+// "in front of the door" — a big door BEHIND a smaller cat that stands in front
 const IN_FRONT_DOOR = (
-  <span className="relative inline-flex items-end justify-center" style={{ width: '1.7em' }}>
-    <span className="relative opacity-70">🚪</span>
-    <span className="absolute left-2 bottom-0 z-10">🐱</span>
+  <span className="relative inline-flex items-end justify-center" style={{ width: '2em' }}>
+    <span className="relative text-[1.4em]">🚪</span>
+    <span className="absolute left-1/2 -translate-x-1/2 bottom-0 z-10 text-[0.75em]">🐱</span>
   </span>
 )
 // "next to the box" — apple beside the box
@@ -357,11 +357,11 @@ const NEXT_TO_BOX_APPLE = (
     <span>🍎</span>
   </span>
 )
-// "on the book" — cat placed above the book
+// "on the book" — cat sitting on top of a big closed book
 const ON_BOOK = (
   <span className="inline-flex flex-col items-center leading-none">
-    <span className="text-[0.8em] -mb-1">🐱</span>
-    <span>📖</span>
+    <span className="text-[0.75em] -mb-1 z-10">🐱</span>
+    <span className="text-[1.4em]">📕</span>
   </span>
 )
 

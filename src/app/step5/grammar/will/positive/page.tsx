@@ -32,7 +32,7 @@ const EX2_SEGMENTS: PassageSeg[] = [
   { type: 'blank', blankIndex: 1 },
   { type: 'text', text: ' to the park together. My friends ' },
   { type: 'blank', blankIndex: 2 },
-  { type: 'text', text: ' football with me there. After that we ' },
+  { type: 'text', text: ' football with me and we ' },
   { type: 'blank', blankIndex: 3 },
   { type: 'text', text: ' a big lunch. In the evening my cousins ' },
   { type: 'blank', blankIndex: 4 },
