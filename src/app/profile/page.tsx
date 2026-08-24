@@ -2,11 +2,9 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Header } from '@/components/layout/Header'
-import { useProgress } from '@/hooks/useProgress'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
 import { useStepStars, type StarStep } from '@/hooks/useStepStars'
 import { useCombinedStars } from '@/hooks/useCombinedStars'
-import { SUBJECTS, CATEGORIES } from '@/data/subjects'
 import { STEP_STAR_META, STEP_ORDER, trophyTiers } from '@/data/stepStarConfig'
 
 const CONFETTI_KEY = 'smalltalk_confetti_shown'
@@ -25,7 +23,6 @@ const PIECES = Array.from({ length: 60 }, (_, i) => ({
 }))
 
 export default function ProfilePage() {
-  const { totalStars, getLevelProgress, isLevelUnlocked } = useProgress()
   const { step1Stars } = useStep1Progress()
   const { starsFor: stepStarsFor } = useStepStars()
   const combined = useCombinedStars()
@@ -38,22 +35,13 @@ export default function ProfilePage() {
   )
 
   useEffect(() => {
-    if (totalStars > 0 && !localStorage.getItem(CONFETTI_KEY)) {
+    if (combined > 0 && !localStorage.getItem(CONFETTI_KEY)) {
       localStorage.setItem(CONFETTI_KEY, '1')
       setShowConfetti(true)
       const t = setTimeout(() => setShowConfetti(false), 4800)
       return () => clearTimeout(t)
     }
-  }, [totalStars])
-
-  const starsFor = (id: string, count: number) =>
-    Array.from({ length: count }, (_, i) => getLevelProgress(id, i + 1).stars)
-      .reduce((a, b) => a + b, 0)
-
-  const pctFor = (id: string, count: number) => {
-    const max = count * 3
-    return max ? Math.round((starsFor(id, count) / max) * 100) : 0
-  }
+  }, [combined])
 
   return (
     <div
@@ -160,8 +148,12 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <div className="w-full bg-white/70 rounded-full h-2.5 overflow-hidden border border-white mb-3">
+                <div className="w-full bg-white/70 rounded-full h-2.5 overflow-hidden border border-white mb-1">
                   <div className={`h-full rounded-full bg-gradient-to-r ${meta.chipBg} progress-fill`} style={{ width: `${pct}%` }} />
+                </div>
+                <div className="flex justify-between mb-3">
+                  <span className="text-[11px] font-black text-gray-500">{pct}%</span>
+                  <span className="text-[11px] font-bold text-gray-400">{count} / {meta.target} ⭐</span>
                 </div>
 
                 <div className="flex items-end gap-1.5 flex-wrap">
@@ -190,106 +182,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ── SUBJECT GRID ── */}
-      <div className="max-w-4xl mx-auto px-4 pb-16 space-y-10">
-        {CATEGORIES.map(cat => (
-          <section key={cat.id}>
-            {/* Category banner */}
-            <div className={`bg-gradient-to-r ${cat.color} rounded-2xl p-4 mb-4 flex items-center gap-3 shadow-md`}>
-              <span className="text-4xl">{cat.emoji}</span>
-              <div className="text-white">
-                <h2 className="text-xl font-black">{cat.title}</h2>
-                <p className="text-sm font-bold opacity-80" dir="rtl">{cat.hebrewTitle}</p>
-              </div>
-            </div>
-
-            {/* Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {SUBJECTS.filter(s => s.category === cat.id).map(subj => {
-                const pct = pctFor(subj.id, subj.levels.length)
-                const earned = starsFor(subj.id, subj.levels.length)
-                const maxStarsForSubj = subj.levels.length * 3
-
-                return (
-                  <Link
-                    key={subj.id}
-                    href={`/subject/${subj.id}`}
-                    className={`
-                      ${subj.color} border-4 ${subj.borderColor} rounded-3xl p-5 no-underline block
-                      hover:scale-105 transition-transform duration-200 shadow-md hover:shadow-xl
-                      relative overflow-hidden
-                    `}
-                  >
-                    {/* "Done!" ribbon */}
-                    {pct === 100 && (
-                      <div className="absolute top-3 right-3 bg-green-400 text-white text-xs font-black rounded-full px-2 py-0.5 shadow-sm">
-                        ✓ Done!
-                      </div>
-                    )}
-
-                    {/* Subject header */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <span className="text-4xl">{subj.emoji}</span>
-                      <div>
-                        <div className={`font-black text-lg ${subj.textColor}`}>{subj.title}</div>
-                        <div className="text-xs text-gray-500 font-bold" dir="rtl">{subj.hebrewTitle}</div>
-                      </div>
-                    </div>
-
-                    {/* Level badges */}
-                    <div className="flex gap-2 mb-3">
-                      {subj.levels.map(lvl => {
-                        const lp = getLevelProgress(subj.id, lvl.level)
-                        const locked = !isLevelUnlocked(subj.id, lvl.level)
-                        return (
-                          <div
-                            key={lvl.level}
-                            className={`flex-1 rounded-xl py-2 px-1 text-center border-2 ${
-                              locked
-                                ? 'bg-gray-100 border-gray-200 opacity-50'
-                                : lp.stars === 3
-                                ? 'bg-yellow-50 border-yellow-300'
-                                : lp.stars > 0
-                                ? 'bg-white/80 border-white'
-                                : 'bg-white/50 border-white/60'
-                            }`}
-                          >
-                            <div className="text-xs font-bold text-gray-400 mb-0.5">Lv{lvl.level}</div>
-                            {locked
-                              ? <div className="text-sm">🔒</div>
-                              : <div className="flex justify-center gap-0.5 text-xs leading-none">
-                                  {[1, 2, 3].map(s => (
-                                    <span key={s} className={lp.stars >= s ? '' : 'opacity-25'}>
-                                      {lp.stars >= s ? '⭐' : '☆'}
-                                    </span>
-                                  ))}
-                                </div>
-                            }
-                          </div>
-                        )
-                      })}
-                    </div>
-
-                    {/* Progress bar */}
-                    <div className={subj.textColor}>
-                      <div className="w-full bg-white/50 rounded-full h-2.5 overflow-hidden border border-white/60">
-                        <div
-                          className="h-full rounded-full bg-current progress-fill"
-                          style={{ width: `${pct}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex justify-between mt-1.5">
-                      <span className={`text-xs font-black ${subj.textColor}`}>{pct}%</span>
-                      <span className="text-xs font-bold text-gray-400">{earned}/{maxStarsForSubj} ⭐</span>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          </section>
-        ))}
-      </div>
 
       {/* ── BACK BUTTON ── */}
       <div className="text-center pb-12">
