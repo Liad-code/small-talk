@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
 import { TRACK_D_CATEGORIES, TrackDItem } from '@/data/step1/trackDCategories'
 import { ConfettiOverlay } from '@/components/step1/ConfettiOverlay'
+import { StarCollect } from '@/components/shared/StarCollect'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 import { VocabBubblePop } from '@/components/step1/trackD/VocabBubblePop'
@@ -165,9 +166,11 @@ function getExtraTabs(categoryId: string): { id: Tab; label: string; emoji: stri
 export default function CategoryPage({ params }: { params: { categoryId: string } }) {
   const { categoryId } = params
   const cat = TRACK_D_CATEGORIES.find(c => c.id === categoryId)
-  const { markExerciseDone, isExerciseDone } = useStep1Progress()
+  const { markExerciseDone, isExerciseDone, step1Stars } = useStep1Progress()
   const speak = useSpeak()
   const [tab, setTab] = useState<Tab>('flashcards')
+  // Which task just finished and is awaiting the "collect your star" tap.
+  const [pendingCollect, setPendingCollect] = useState<string | null>(null)
 
   // ── Flashcard state ──────────────────────────────────────────
   const [tapped, setTapped] = useState<Set<string>>(new Set())
@@ -197,8 +200,9 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     speak(item?.ttsText ?? word, 0.8)
     setTapped(prev => {
       const n = new Set(prev); n.add(word)
-      if (n.size === allItems.length && !learnDone) {
-        markExerciseDone('D', categoryId, 'learn')
+      // fire only when the last remaining card is tapped for the first time this round
+      if (n.size === allItems.length && prev.size < allItems.length) {
+        setPendingCollect('learn')
       }
       return n
     })
@@ -229,9 +233,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         const nextIdx = quizIdx + 1
         if (nextIdx >= quizQueue.length) {
           setQuizDone(true)
-          if (!quizCompleted) markExerciseDone('D', categoryId, 'quiz')
+          setPendingCollect('quiz')
           setShowConfetti(true)
-          playHappySound()
         } else {
           setQuizIdx(nextIdx)
           const nextItem = quizQueue[nextIdx]
@@ -245,9 +248,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   }
 
   function handleExtraComplete() {
-    if (!extraDone) markExerciseDone('D', categoryId, 'extra')
+    setPendingCollect('extra')
     setShowConfetti(true)
-    playHappySound()
   }
 
   if (!cat) return <div className="p-8 text-center text-gray-500">Category not found</div>
@@ -293,6 +295,29 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   return (
     <div className="min-h-screen bg-purple-700">
       <Header />
+
+      {/* Collect-your-star modal (identical to every other step) */}
+      {pendingCollect && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl bounce-in">
+            <div className="text-6xl mb-2">🎉</div>
+            <h2 className="font-display text-3xl font-bold text-gray-800 mb-1">Yay! You did it!</h2>
+            <p className="text-lg font-bold text-gray-500" dir="rtl">כל הכבוד!</p>
+            <StarCollect
+              step="step1"
+              count={step1Stars}
+              award={() => markExerciseDone('D', categoryId, pendingCollect!)}
+            >
+              <button
+                onClick={() => setPendingCollect(null)}
+                className="btn-kid bg-green-500 hover:bg-green-600 w-full"
+              >
+                ✅ המשך
+              </button>
+            </StarCollect>
+          </div>
+        </div>
+      )}
 
       {/* Banner */}
       <div className={`bg-gradient-to-r ${cat.color} py-4 px-4`}>

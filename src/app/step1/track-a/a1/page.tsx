@@ -3,19 +3,21 @@ import { useState } from 'react'
 import { Header } from '@/components/layout/Header'
 import { ABCGrid } from '@/components/step1/ABCGrid'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
+import { StarCollect } from '@/components/shared/StarCollect'
 import Link from 'next/link'
 
 export default function A1Page() {
-  const { markExerciseDone, isExerciseDone } = useStep1Progress()
+  const { markExerciseDone, isExerciseDone, step1Stars } = useStep1Progress()
   const [tapped, setTapped] = useState<Set<string>>(new Set())
+  const [pendingCollect, setPendingCollect] = useState(false)
   const done = isExerciseDone('A', 'a1', 'learn')
 
   function onLetterClick(letter: string) {
     setTapped(prev => {
       const next = new Set(prev)
       next.add(letter)
-      if (next.size === 26 && !done) {
-        markExerciseDone('A', 'a1', 'learn')
+      if (next.size === 26 && prev.size < 26) {
+        setPendingCollect(true)
       }
       return next
     })
@@ -24,6 +26,19 @@ export default function A1Page() {
   return (
     <div className="min-h-screen">
       <Header />
+
+      {pendingCollect && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl bounce-in">
+            <div className="text-6xl mb-2">🎉</div>
+            <h2 className="font-display text-3xl font-bold text-gray-800 mb-1">Yay! You did it!</h2>
+            <p className="text-lg font-bold text-gray-500" dir="rtl">כל הכבוד!</p>
+            <StarCollect step="step1" count={step1Stars} award={() => markExerciseDone('A', 'a1', 'learn')}>
+              <button onClick={() => setPendingCollect(false)} className="btn-kid bg-green-500 hover:bg-green-600 w-full">✅ המשך</button>
+            </StarCollect>
+          </div>
+        </div>
+      )}
 
       {/* Banner */}
       <div className="bg-gradient-to-r from-amber-400 to-orange-400 py-4 px-4">
