@@ -85,7 +85,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, in
   }
 
   return (
-    <div className="max-w-sm mx-auto pb-16">
+    <div className="max-w-sm mx-auto px-3 pb-16">
       <div className="flex justify-between items-center mb-1">
         <p className="font-display font-bold text-white text-lg">🔍 I Spy</p>
         <span className="text-xs font-bold text-white/80">סבב {roundIdx + 1}/{totalRounds}</span>
@@ -115,17 +115,17 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, in
               className={`flex items-center gap-2 px-3 py-2 rounded-2xl border-4 transition-all
                 ${f === 'correct' ? 'bg-green-100 border-green-400' : f === 'wrong' ? 'bg-red-100 border-red-400 shake' : isCorrect ? 'bg-green-100 border-green-400' : 'bg-white border-gray-200'}`}
             >
-              <span className="font-display font-black text-gray-700 text-base flex-1">{item.name}</span>
+              <span className="font-display font-black text-gray-700 text-sm shrink-0">{item.name}</span>
               {isCorrect ? (
-                <span className="font-display font-black text-green-600 text-lg">✅ {item.count}</span>
+                <span className="font-display font-black text-green-600 text-lg ml-auto">✅ {item.count}</span>
               ) : (
-                <div className="flex gap-2">
+                <div className="grid grid-cols-6 gap-1 flex-1 min-w-0">
                   {[1, 2, 3, 4, 5, 6].map(n => (
                     <button
                       key={n}
                       onClick={() => !f && handlePick(item.id, n)}
                       disabled={!!f}
-                      className="w-11 h-11 rounded-lg border-2 border-yellow-300 bg-yellow-50 font-display font-black text-lg
+                      className="aspect-square w-full rounded-lg border-2 border-yellow-300 bg-yellow-50 font-display font-black text-sm sm:text-base
                                  hover:bg-yellow-200 active:scale-90 transition-all cursor-pointer disabled:opacity-50"
                     >{n}</button>
                   ))}

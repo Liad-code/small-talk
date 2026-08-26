@@ -185,7 +185,7 @@ function Ex1() {
               <span className="text-base font-bold text-gray-700">
                 {q.before}{' '}
                 {ans ? (
-                  <span className="font-black text-rose-600 bg-rose-100 rounded px-1">{q.answer}</span>
+                  <span className="font-black text-green-600 bg-green-100 rounded px-1">{q.answer}</span>
                 ) : (
                   <span className="text-rose-300 font-black">___</span>
                 )}

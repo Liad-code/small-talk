@@ -361,11 +361,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
   const handleAdd = () => {
     if (!selSubject || !selVerb || !selPhrase) return
-    // Build + check: the chosen can / can't must match the subject's reality.
-    if (selSubject.verb !== selVerb) {
-      setError('❌ Try a different verb!')
-      return
-    }
+    // Any one-per-column combination is accepted — no correctness check.
     const sentence = `${selSubject.text} ${selVerb} ${selPhrase}`
     // Duplicate guard — the same sentence never counts twice toward the goal
     if (sentences.includes(sentence)) {
