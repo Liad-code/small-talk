@@ -237,15 +237,7 @@ export default function BuildingASentencePage() {
             <div className="text-6xl mb-4">🌟</div>
             <p className="font-display font-bold text-3xl text-teal-600 mb-1">Amazing!</p>
             <p className="font-bold text-gray-500 mb-3" dir="rtl">סיימת את כל המשפטים!</p>
-            <StarOnComplete step="step2" />
-            <div className="mt-6">
-              <button
-                onClick={restart}
-                className="btn-kid bg-cyan-500"
-              >
-                🔁 Again<br /><span className="text-xs">(שוב)</span>
-              </button>
-            </div>
+            <StarOnComplete step="step2" onAgain={restart} />
           </div>
         ) : betweenRounds ? (
           <div className="text-center py-14 px-4 bounce-in">

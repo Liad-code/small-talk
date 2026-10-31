@@ -22,13 +22,7 @@ function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את התרגול!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-teal-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }

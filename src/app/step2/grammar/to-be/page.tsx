@@ -100,7 +100,7 @@ function LearnTab() {
 
 // ── Ex 1: Drag subjects to am/is/are buckets ──────────────────────────────────
 
-function Ex1({ onDone }: { onDone: () => void }) {
+function Ex1({ onAgain }: { onAgain: () => void }) {
   const allSubjects = TB_EX1.flatMap(b =>
     b.subjects.map(s => ({ id: `${b.verb}-${s.replace(/\s+/g, '-')}`, text: s, verb: b.verb }))
   )
@@ -181,8 +181,7 @@ function Ex1({ onDone }: { onDone: () => void }) {
         <div className="text-center pt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onDone} className="btn-kid bg-green-500">✅ Done</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>
@@ -190,17 +189,8 @@ function Ex1({ onDone }: { onDone: () => void }) {
 }
 
 function Ex1Wrapper() {
-  const [done, setDone] = useState(false)
   const [key, setKey] = useState(0)
-  if (done) return (
-    <div className="text-center py-14 px-4 bounce-in">
-      <div className="text-6xl mb-4">🌟</div>
-      <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
-      <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת!</p>
-      <button onClick={() => { setDone(false); setKey(k => k + 1) }} className="btn-kid bg-blue-500">🔁 Start Over</button>
-    </div>
-  )
-  return <Ex1 key={key} onDone={() => setDone(true)} />
+  return <Ex1 key={key} onAgain={() => setKey(k => k + 1)} />
 }
 
 // ── Ex 2: Click am/is/are for sentence ───────────────────────────────────────
@@ -272,20 +262,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-display font-bold text-xl text-green-600 mb-3">
             {total}/{total} correct!
           </p>
-          {cycleIdx + 1 >= TB_EX2.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TB_EX2.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= TB_EX2.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -388,20 +372,14 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">{correctCount}/{questions.length} correct!</p>
-          {cycleIdx + 1 >= TB_EX3.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TB_EX3.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= TB_EX3.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -547,20 +525,14 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
-          {cycleIdx + 1 >= TB_EX4.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < TB_EX4.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= TB_EX4.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -585,12 +557,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step2" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

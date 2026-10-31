@@ -110,13 +110,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Again
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }
@@ -179,7 +173,7 @@ function LearnTab() {
 
 // ── Ex1: complete the correct question word ─────────────────────────────────────
 
-function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+function Ex1({ cycleIdx, onAgain }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
   const questions = EX1_ROUNDS[cycleIdx]
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [wrongs, setWrongs] = useState<Record<number, string>>({})
@@ -271,10 +265,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
           {isLastRound ? (
-            <div className="flex gap-3 justify-center">
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-            </div>
+            <StarOnComplete step="step5" onAgain={onAgain} />
           ) : (
             <button onClick={onAgain} className="btn-kid bg-blue-500">סבב הבא →</button>
           )}
@@ -286,7 +277,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
 // ── Ex2: wh-question builder (Wh + did + subject + base verb) ─────────────────────
 
-function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
+function Ex2({ cycleIdx, onAgain }: { cycleIdx: number; onAgain: () => void; onDone: () => void }) {
   const cycle = EX2_CYCLES[cycleIdx]
   const [selWh, setSelWh] = useState<string | null>(null)
   const [selSubject, setSelSubject] = useState<string | null>(null)
@@ -426,10 +417,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
-          <div className="flex gap-3 justify-center">
-            <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-          </div>
+          <StarOnComplete step="step5" onAgain={onAgain} />
         </div>
       )}
     </div>
@@ -482,6 +470,15 @@ function Ex3() {
           </div>
         ))}
       </div>
+
+      {revealed.size === EX3_QUESTIONS.length && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">Great job!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את התרגיל!</p>
+          <StarOnComplete step="step5" onAgain={() => setRevealed(new Set())} />
+        </div>
+      )}
     </div>
   )
 }

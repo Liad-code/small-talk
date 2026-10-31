@@ -95,8 +95,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-purple-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-      <StarOnComplete step="step2" />
-      <button onClick={onAgain} className="btn-kid bg-purple-500">🔁 Again</button>
+      <StarOnComplete step="step2" onAgain={onAgain} />
     </div>
   )
 
@@ -182,8 +181,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-purple-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-      <StarOnComplete step="step2" />
-      <button onClick={onAgain} className="btn-kid bg-purple-500">🔁 Again</button>
+      <StarOnComplete step="step2" onAgain={onAgain} />
     </div>
   )
 
@@ -288,8 +286,7 @@ function Ex1Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-purple-600 mb-3">{score}/{PREPOSITIONS.length} correct!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onAgain} className="btn-kid bg-purple-500">🔁 Again</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>
@@ -439,8 +436,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-purple-600 mb-3">{score}/{sentences.length} correct!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onAgain} className="btn-kid bg-purple-500">🔁 Again</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>

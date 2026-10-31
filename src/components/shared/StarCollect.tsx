@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { STEP_STAR_META, trophyTiers } from '@/data/stepStarConfig'
 
 /**
@@ -54,16 +55,54 @@ function playCollectSound() {
   } catch { /* audio unavailable */ }
 }
 
+/**
+ * The one, site-wide "after the star" choice (spec 25.10): Again (נסה שוב)
+ * replays the exercise, Done (סיום) returns to the step's main page.
+ * Identical everywhere — practically and visually.
+ */
+export function StarActions({ step, onAgain, doneHref }: {
+  step: string
+  onAgain?: () => void
+  doneHref?: string
+}) {
+  const router = useRouter()
+  return (
+    <div className="flex gap-3 w-full max-w-xs mx-auto" dir="rtl">
+      <button
+        onClick={() => (onAgain ? onAgain() : window.location.reload())}
+        className="flex-1 btn-kid bg-blue-500 hover:bg-blue-600 flex flex-col items-center leading-tight"
+      >
+        <span>🔁 נסה שוב</span>
+        <span className="text-xs font-bold opacity-90">Again</span>
+      </button>
+      <button
+        onClick={() => router.push(doneHref ?? `/${step}`)}
+        className="flex-1 btn-kid bg-green-500 hover:bg-green-600 flex flex-col items-center leading-tight"
+      >
+        <span>✅ סיום</span>
+        <span className="text-xs font-bold opacity-90">Done</span>
+      </button>
+    </div>
+  )
+}
+
 export function StarCollect({
   step,
   count,
   award,
+  onAgain,
+  doneHref,
   children,
 }: {
   step: string
   count: number
   award: () => void
-  children?: React.ReactNode   // e.g. Again / Done buttons — shown only AFTER collecting
+  /** Replays the exercise. Omit → the page reloads (fresh exercise). */
+  onAgain?: () => void
+  /** Where Done goes. Default: the step's main page (/stepN). */
+  doneHref?: string
+  /** Rare override of the standard Again / Done row (shown only AFTER collecting). */
+  children?: React.ReactNode
 }) {
   const [collected, setCollected] = useState(false)
   const meta = STEP_STAR_META[step]
@@ -149,7 +188,9 @@ export function StarCollect({
         <p className="text-[13px] font-black text-green-500 mt-2 trophy-nudge">כל הגביעים נאספו! 🎉</p>
       )}
 
-      {children && <div className="mt-4 w-full">{children}</div>}
+      <div className="mt-4 w-full">
+        {children ?? <StarActions step={step} onAgain={onAgain} doneHref={doneHref} />}
+      </div>
     </div>
   )
 }

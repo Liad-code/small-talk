@@ -79,11 +79,6 @@ export function VocabBubblePop({ items, onComplete }: Props) {
     setTimeout(() => speak(freshQueue[0].ttsText ?? freshQueue[0].word, 0.8), 400)
   }
 
-  function handleAgain() {
-    initGame(items)
-    setGameStarted(false)
-  }
-
   const remaining = bubbles.filter(b => !b.popped)
   const allPopped = remaining.length === 0 && bubbles.length > 0
   const currentTarget = targetQueue[targetIdx]
@@ -111,8 +106,12 @@ export function VocabBubblePop({ items, onComplete }: Props) {
     }
   }, [currentTarget, allPopped, targetQueue, speak, gameStarted])
 
+  // Fires once — the parent's onComplete isn't memoised, so re-running on
+  // every parent render would re-open the star modal / confetti.
+  const handedOff = useRef(false)
   useEffect(() => {
-    if (!allPopped) return
+    if (!allPopped || handedOff.current) return
+    handedOff.current = true
     const t = setTimeout(onComplete, 400)
     return () => clearTimeout(t)
   }, [allPopped, onComplete])
@@ -195,12 +194,7 @@ export function VocabBubblePop({ items, onComplete }: Props) {
 
       {allPopped && (
         <div className="flex flex-col items-center gap-3 mt-2">
-          <button
-            onClick={handleAgain}
-            className="btn-kid bg-blue-500"
-          >
-            🔁 Again
-          </button>
+          <span className="text-5xl bounce-in">🎉</span>
         </div>
       )}
     </div>

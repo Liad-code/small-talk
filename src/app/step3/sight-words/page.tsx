@@ -262,6 +262,10 @@ function LearnTab() {
 
 function Ex1Tab() {
   const [revealed, setRevealed] = useState<Set<number>>(new Set())
+  // Every sentence whose translation was opened at least once — the exercise
+  // is complete (star) once all of them were checked.
+  const [seen, setSeen] = useState<Set<number>>(new Set())
+  const allSeen = seen.size === SENTENCES.length
 
   const toggle = (idx: number) => {
     setRevealed(prev => {
@@ -270,6 +274,12 @@ function Ex1Tab() {
       else s.add(idx)
       return s
     })
+    setSeen(prev => (prev.has(idx) ? prev : new Set(prev).add(idx)))
+  }
+
+  const again = () => {
+    setRevealed(new Set())
+    setSeen(new Set())
   }
 
   return (
@@ -326,6 +336,15 @@ function Ex1Tab() {
           </div>
         ))}
       </div>
+
+      {allSeen && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">Great reading!</p>
+          <p className="font-bold text-gray-500 mb-2" dir="rtl">כל הכבוד! קראת את כל המשפטים!</p>
+          <div className="mb-4"><StarOnComplete step="step3" onAgain={again} /></div>
+        </div>
+      )}
     </div>
   )
 }
@@ -425,8 +444,7 @@ function FillInTab({ questions }: { questions: Ex2Q[] }) {
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-2" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <div className="mb-4"><StarOnComplete step="step3" /></div>
-          <button onClick={again} className="btn-kid bg-emerald-500">🔁 Again</button>
+          <div className="mb-4"><StarOnComplete step="step3" onAgain={again} /></div>
         </div>
       )}
     </div>

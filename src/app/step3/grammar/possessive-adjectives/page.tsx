@@ -7,6 +7,7 @@ import {
   type PossAdj,
 } from '@/data/step3/possessive-adjectives'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
+import { AutoFinish } from '@/components/shared/AutoFinish'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -29,13 +30,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" /></div>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -149,12 +144,14 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
-          const blankDisplay = ans ? q.blank.replace('___', ans) : q.blank
+          const [before, after] = q.blank.split('___')
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-3 py-2 ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
               <div className="text-base text-black font-bold mb-0.5">{q.sentence}</div>
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{blankDisplay}</span>
+                <span className="text-base font-bold text-gray-700 flex-1 min-w-0">
+                  {ans ? <>{before}<span className="text-purple-600">{ans}</span>{after}</> : q.blank}
+                </span>
                 {!ans && !isWrong ? (
                   <div className="flex gap-1.5">
                     {q.options.map(v => (
@@ -189,10 +186,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
+              <AutoFinish onFinish={onDone} />
             )}
           </div>
         </div>
@@ -244,14 +238,13 @@ function Ex2Round({
           <div className="text-6xl mb-4">🌟</div>
           <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
           <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את סבב {roundIdx + 1}!</p>
-          {isLastRound && <div className="mb-2"><StarOnComplete step="step3" /></div>}
-          <div className="flex gap-3 justify-center mt-2">
-            {!isLastRound ? (
+          {isLastRound ? (
+            <div className="mb-2"><StarOnComplete step="step3" onAgain={onRestart} /></div>
+          ) : (
+            <div className="flex gap-3 justify-center mt-2">
               <button onClick={onNextRound} className="btn-kid bg-blue-500">סבב הבא →</button>
-            ) : (
-              <button onClick={onRestart} className="btn-kid bg-blue-500">🔁 Again</button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-1.5">
           {questions.map((q, i) => (
@@ -432,10 +425,7 @@ function Ex3Round({ onRestart }: { onRestart: () => void }) {
           <div className="text-4xl mb-2">🌟</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">Amazing!</p>
           <p className="font-bold text-gray-500 mb-3" dir="rtl">סיימת את התרגיל!</p>
-          <div className="mb-3"><StarOnComplete step="step3" /></div>
-          <div className="flex gap-3 justify-center">
-            <button onClick={onRestart} className="btn-kid bg-blue-500">🔁 Again</button>
-          </div>
+          <div className="mb-3"><StarOnComplete step="step3" onAgain={onRestart} /></div>
         </div>
       )}
     </div>

@@ -139,11 +139,6 @@ export function SeasonsSort({ onComplete }: Props) {
       {allDone && (
         <div className="text-center mt-4 flex flex-col items-center gap-3">
           <span className="text-5xl bounce-in">🎉</span>
-          <button onClick={() => {
-            setPlaced({})
-          }} className="btn-kid bg-blue-500">
-            🔁 Again
-          </button>
         </div>
       )}
     </div>

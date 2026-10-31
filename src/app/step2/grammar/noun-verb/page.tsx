@@ -100,6 +100,9 @@ function PracticeRound({ cycleIdx, onMore, onAgain, onDone }: { cycleIdx: number
         <span className="text-sm font-bold text-emerald-500">{placedCount} / {total} ✓</span>
       </div>
       <p className="text-center font-bold text-emerald-400 text-sm mb-3" dir="rtl">לתרגול זה 5 סבבים</p>
+      <p className="text-center font-bold text-gray-700 text-base mb-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl px-3 py-2" dir="rtl">
+        גרור כל מילה מהרשימה למקום הנכון בכרטיסיה (טבלת פירושי המילים מופיעה בתחתית העמוד)
+      </p>
 
       {/* Sort table */}
       <div className="grid grid-cols-2 gap-3 mb-5">
@@ -162,20 +165,14 @@ function PracticeRound({ cycleIdx, onMore, onAgain, onDone }: { cycleIdx: number
         <div className="text-center py-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
-          {cycleIdx + 1 >= NV_CYCLES.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < NV_CYCLES.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onMore} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= NV_CYCLES.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onMore} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
 
@@ -275,15 +272,10 @@ export default function NounVerbPage() {
             <div className="text-6xl mb-4">🌟</div>
             <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
             <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => { setCycleIdx(0); setPracticeKey(k => k + 1); setFinished(false) }}
-                className="btn-kid bg-blue-500"
-              >
-                🔁 Start Over
-              </button>
-              <Link href="/step2/grammar" className="btn-kid bg-purple-500 no-underline">← Grammar</Link>
-            </div>
+            <StarOnComplete
+              step="step2"
+              onAgain={() => { setCycleIdx(0); setPracticeKey(k => k + 1); setFinished(false) }}
+            />
           </div>
         )}
       </div>

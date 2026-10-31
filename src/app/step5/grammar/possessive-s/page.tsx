@@ -161,6 +161,15 @@ function Ex1Tab() {
           </div>
         ))}
       </div>
+
+      {revealed.size === PHRASES.length && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">Great job!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את התרגיל!</p>
+          <StarOnComplete step="step5" onAgain={() => setRevealed(new Set())} />
+        </div>
+      )}
     </div>
   )
 }
@@ -262,8 +271,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QUESTIONS.length} השאלות!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button onClick={again} className="btn-kid bg-violet-500">🔁 Again</button>
+        <StarOnComplete step="step5" onAgain={again} />
       </div>
     )
   }

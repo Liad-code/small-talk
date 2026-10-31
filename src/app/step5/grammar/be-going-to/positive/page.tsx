@@ -314,8 +314,7 @@ function Ex1() {
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
-          <div className="mb-4"><StarOnComplete step="step5" /></div>
-          <button onClick={restart} className="btn-kid bg-cyan-500">🔁 Again</button>
+          <StarOnComplete step="step5" onAgain={restart} />
         </div>
       )}
     </div>
@@ -402,8 +401,7 @@ function Ex2() {
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <div className="mb-4"><StarOnComplete step="step5" /></div>
-          <button onClick={restart} className="btn-kid bg-cyan-500">🔁 Again</button>
+          <StarOnComplete step="step5" onAgain={restart} />
         </div>
       )}
     </div>

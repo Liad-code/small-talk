@@ -16,8 +16,8 @@ const PAIRS: { id: string; left: OppItem; right: OppItem }[] = [
 ]
 
 export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
-  const [leftCol, setLeftCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.left }))))
-  const [rightCol, setRightCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.right }))))
+  const [leftCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.left }))))
+  const [rightCol] = useState(() => shuffle(PAIRS.map(p => ({ id: p.id, ...p.right }))))
   const [selId, setSelId] = useState<string | null>(null)
   const [selSide, setSelSide] = useState<'left' | 'right' | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
@@ -50,13 +50,6 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
     setSelId(id); setSelSide('right'); setWrongFlash(null)
   }
 
-  function handleAgain() {
-    setSelId(null); setSelSide(null)
-    setMatched(new Set()); setWrongFlash(null); setDone(false)
-    setLeftCol(shuffle(PAIRS.map(p => ({ id: p.id, ...p.left }))))
-    setRightCol(shuffle(PAIRS.map(p => ({ id: p.id, ...p.right }))))
-  }
-
   const isWrongItem = (id: string) => wrongFlash?.includes(id) ?? false
 
   return (
@@ -64,6 +57,7 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
       <p className="text-center text-white font-bold text-sm mb-4" dir="rtl">
         לחץ על מילה משני עמודות והתאם הפכים
       </p>
+      {/* Every tile has the same fixed height so both columns are equally long and line up row by row */}
       <div className="flex gap-3">
         {/* Left column */}
         <div className="flex-1 flex flex-col gap-2">
@@ -76,7 +70,7 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
                 key={item.id}
                 onClick={() => handleLeft(item.id)}
                 disabled={isMatched}
-                className={`flex items-center gap-2 px-3 py-3 rounded-xl border-4 font-display font-black text-base transition-all min-h-[56px]
+                className={`flex items-center gap-2 h-20 px-3 py-2 rounded-xl border-4 font-display font-black text-base transition-all
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-800' : ''}
                   ${isSel ? 'bg-pink-300 border-pink-600 text-pink-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-200 border-red-400 shake' : ''}
@@ -100,7 +94,7 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
                 key={item.id}
                 onClick={() => handleRight(item.id)}
                 disabled={isMatched}
-                className={`flex items-center gap-2 px-3 py-3 rounded-xl border-4 font-display font-black text-base transition-all min-h-[56px]
+                className={`flex items-center gap-2 h-20 px-3 py-2 rounded-xl border-4 font-display font-black text-base transition-all
                   ${isMatched ? 'bg-green-200 border-green-500 text-green-800' : ''}
                   ${isSel ? 'bg-pink-300 border-pink-600 text-pink-900 scale-105 shadow-lg' : ''}
                   ${isWrong ? 'bg-red-200 border-red-400 shake' : ''}
@@ -118,10 +112,6 @@ export function OppositeMatch({ onComplete }: { onComplete: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד!</p>
-          <button onClick={handleAgain} className="btn-kid bg-pink-500 flex flex-col items-center leading-tight mx-auto">
-            <span>🔁 Again</span>
-            <span className="text-xs">(פעם נוספת)</span>
-          </button>
         </div>
       )}
     </div>

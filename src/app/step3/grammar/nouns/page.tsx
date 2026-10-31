@@ -28,13 +28,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" /></div>
-        <button
-          onClick={() => { setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setFinished(false); setKey(k => k + 1) }} /></div>
       </div>
     )
   }

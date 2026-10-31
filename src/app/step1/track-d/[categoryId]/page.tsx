@@ -108,8 +108,8 @@ const HAS_BUBBLEPOP = new Set(['colors', 'farm-animals', 'jungle-animals'])
 const HAS_PICK3 = new Set(['colors', 'transport', 'actions'])
 // Categories WITHOUT a generic I Spy: emotions/fruits have bespoke ones; the
 // rest were dropped per spec (general changes 2 + seasons/body/senses/
-// prepositions/actions/opposites/house dropped per later spec).
-const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face', 'seasons', 'body', 'senses', 'prepositions', 'actions', 'opposites', 'house', 'school', 'clothes', 'transport', 'food'])
+// prepositions/actions/opposites/house dropped per later spec; nature per 25.10).
+const NO_ISPY = new Set(['emotions', 'fruits', 'numbers', 'weather', 'family', 'days', 'face', 'seasons', 'body', 'senses', 'prepositions', 'actions', 'opposites', 'house', 'school', 'clothes', 'transport', 'food', 'nature'])
 
 // Category-specific I Spy instruction (large bold Hebrew line inside GenericISpy)
 const ISPY_INSTRUCTIONS: Record<string, string> = {
@@ -247,6 +247,24 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     }
   }
 
+  // "Again" after collecting the star: close the modal and restart the task
+  // that was just finished (learn / quiz / the current extra tab).
+  function playAgain() {
+    if (pendingCollect === 'learn') setTapped(new Set())
+    else if (pendingCollect === 'quiz') resetQuiz()
+    else setExtraKey(k => k + 1)
+    setPendingCollect(null)
+    setShowConfetti(false)
+  }
+
+  function resetQuiz() {
+    setQuizQueue(shuffle([...allItems]))
+    setQuizIdx(0)
+    setQuizScore(0)
+    setQuizDone(false)
+    setCorrect(null); setWrong(null)
+  }
+
   function handleExtraComplete() {
     setPendingCollect('extra')
     setShowConfetti(true)
@@ -307,14 +325,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
               step="step1"
               count={step1Stars}
               award={() => markExerciseDone('D', categoryId, pendingCollect!)}
-            >
-              <button
-                onClick={() => setPendingCollect(null)}
-                className="btn-kid bg-green-500 hover:bg-green-600 w-full"
-              >
-                ✅ המשך
-              </button>
-            </StarCollect>
+              onAgain={playAgain}
+            />
           </div>
         </div>
       )}
@@ -441,24 +453,6 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
                   {quizScore}/{quizQueue.length} correct!
                 </p>
                 <p className="font-bold text-white mt-1" dir="rtl">כל הכבוד!</p>
-                <div className="flex gap-3 mt-6 justify-center">
-                  <button
-                    onClick={() => {
-                      setQuizQueue(shuffle([...allItems]))
-                      setQuizIdx(0)
-                      setQuizScore(0)
-                      setQuizDone(false)
-                      setCorrect(null); setWrong(null)
-                    }}
-                    className="btn-kid bg-blue-500 flex flex-col items-center leading-tight"
-                  >
-                    <span>🔁 Again</span>
-                    <span className="text-xs">(פעם נוספת)</span>
-                  </button>
-                  <Link href="/step1/track-d" className="btn-kid bg-green-500 no-underline">
-                    ← Back
-                  </Link>
-                </div>
               </div>
             ) : currentQuiz ? (
               <>

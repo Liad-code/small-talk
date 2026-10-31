@@ -15,8 +15,8 @@ interface Props {
 export function GenericMatch({ items, onComplete, limit = 6, renderVisual }: Props) {
   const speak = useSpeak()
   const [pool] = useState<TrackDItem[]>(() => shuffle([...items]).slice(0, limit))
-  const [shuffledWords, setShuffledWords] = useState(() => shuffle([...pool]))
-  const [shuffledEmojis, setShuffledEmojis] = useState(() => shuffle([...pool]))
+  const [shuffledWords] = useState(() => shuffle([...pool]))
+  const [shuffledEmojis] = useState(() => shuffle([...pool]))
   const [selWord, setSelWord] = useState<string | null>(null)
   const [selSide, setSelSide] = useState<'word' | 'emoji' | null>(null)
   const [matched, setMatched] = useState<Set<string>>(new Set())
@@ -48,13 +48,6 @@ export function GenericMatch({ items, onComplete, limit = 6, renderVisual }: Pro
     if (selSide === 'word' && selWord) { attemptMatch(selWord, word); return }
     if (selWord === word && selSide === 'emoji') { setSelWord(null); setSelSide(null); return }
     setSelWord(word); setSelSide('emoji')
-  }
-
-  function handleAgain() {
-    setSelWord(null); setSelSide(null)
-    setMatched(new Set()); setWrongFlash(null); setDone(false)
-    setShuffledWords(shuffle([...pool]))
-    setShuffledEmojis(shuffle([...pool]))
   }
 
   const isWordWrong = (word: string) => wrongFlash?.startsWith(word + '|') ?? false
@@ -129,14 +122,7 @@ export function GenericMatch({ items, onComplete, limit = 6, renderVisual }: Pro
         {matched.size}/{pool.length} ✓
       </div>
 
-      {done && (
-        <div className="text-center mt-4">
-          <button onClick={handleAgain} className="btn-kid bg-amber-500 flex flex-col items-center leading-tight">
-            <span>🔁 Again</span>
-            <span className="text-xs">(פעם נוספת)</span>
-          </button>
-        </div>
-      )}
+      {done && <div className="text-center mt-4 text-5xl bounce-in">🎉</div>}
     </div>
   )
 }

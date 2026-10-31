@@ -52,11 +52,6 @@ export function BodyMatch({ onComplete }: { onComplete: () => void }) {
     setSelWord(word); setSelSide('emoji')
   }
 
-  function handleAgain() {
-    setSelWord(null); setSelSide(null)
-    setMatched(new Set()); setWrongFlash(null); setDone(false)
-  }
-
   const isWordWrong = (word: string) => wrongFlash?.startsWith(word + '|') ?? false
   const isEmojiWrong = (word: string) => wrongFlash?.endsWith('|' + word) ?? false
 
@@ -124,13 +119,7 @@ export function BodyMatch({ onComplete }: { onComplete: () => void }) {
         {matched.size}/{BODY_ITEMS.length} ✓
       </div>
 
-      {done && (
-        <div className="text-center mt-4">
-          <button onClick={handleAgain} className="btn-kid bg-amber-500">
-            🔁 Again
-          </button>
-        </div>
-      )}
+      {done && <div className="text-center mt-4 text-5xl bounce-in">🎉</div>}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { shuffle } from '@/utils/shuffle'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
+import { AutoFinish } from '@/components/shared/AutoFinish'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -96,13 +97,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" /></div>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-rose-500"
-        >
-          🔁 Start Over
-        </button>
+        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -390,10 +385,7 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button onClick={onAgain} className="btn-kid bg-rose-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-rose-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
+              <AutoFinish onFinish={onDone} />
             )}
           </div>
         </div>

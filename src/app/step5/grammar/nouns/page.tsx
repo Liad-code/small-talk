@@ -23,13 +23,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -414,13 +408,7 @@ function Ex1() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-orange-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -629,13 +617,7 @@ function ChoiceRounds({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
-          className={`btn-kid ${themeBtn}`}
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }

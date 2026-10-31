@@ -48,15 +48,6 @@ export function Pick3Exercise({ items, onComplete, instructionLines = DEFAULT_IN
     setAllDone(false)
   }
 
-  function handleAgain() {
-    setAllDone(false)
-    setRoundNum(0)
-    setAnnounced([])
-    setPlaced([null, null, null])
-    // Restart after a tick to ensure roundNum goes 0→1
-    setTimeout(() => setRoundNum(1), 50)
-  }
-
   function replay() {
     if (announced.length === 0) return
     announced.forEach((item, i) => {
@@ -116,16 +107,12 @@ export function Pick3Exercise({ items, onComplete, instructionLines = DEFAULT_IN
     )
   }
 
-  // All done — show Again button
+  // All done — the page's star-collect modal takes over (standard Again / Done)
   if (allDone) {
     return (
       <div className="p-4 max-w-sm mx-auto text-center">
         <div className="text-5xl mb-3 bounce-in">🎉</div>
         <p className="font-bold text-white text-lg mb-6" dir="rtl">כל הכבוד! סיימת את כל הסיבובים!</p>
-        <button onClick={handleAgain} className="btn-kid bg-blue-500 flex flex-col items-center leading-tight">
-          <span>🔁 Again</span>
-          <span className="text-xs">(פעם נוספת)</span>
-        </button>
       </div>
     )
   }

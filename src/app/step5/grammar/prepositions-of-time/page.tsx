@@ -20,12 +20,7 @@ function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את התרגול!</p>
-        <button
-          onClick={() => { setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-cyan-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -215,7 +210,6 @@ function ChoiceExercise({ questions, onDone }: { questions: ChoiceQ[]; onDone: (
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={onDone} className="btn-kid bg-cyan-500">✅ Done</button>
         </div>
       )}
@@ -385,7 +379,6 @@ function BuilderExercise({ items, onDone }: { items: BuilderItem[]; onDone: () =
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great sentences!</p>
-          <div className="mb-4"><StarOnComplete step="step5" /></div>
           <button onClick={onDone} className="btn-kid bg-cyan-500">✅ Done</button>
         </div>
       )}

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
+import { AutoFinish } from '@/components/shared/AutoFinish'
 
 type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3'
 
@@ -149,13 +150,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step4" /></div>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-amber-500"
-        >
-          🔁 Again
-        </button>
+        <div className="mb-4"><StarOnComplete step="step4" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -302,10 +297,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד!</p>
           {isLastRound ? (
-            <div className="flex gap-3 justify-center">
-              <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-            </div>
+            <AutoFinish onFinish={onDone} />
           ) : (
             <button onClick={onAgain} className="btn-kid bg-amber-500">סבב הבא →</button>
           )}
@@ -477,10 +469,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great questions!</p>
-          <div className="flex gap-3 justify-center">
-            <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-            <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-          </div>
+          <AutoFinish onFinish={onDone} />
         </div>
       )}
     </div>
@@ -491,6 +480,8 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
 function Ex3() {
   const [revealed, setRevealed] = useState<Set<number>>(new Set())
+
+  const allDone = revealed.size === EX3_QUESTIONS.length
 
   const toggle = (idx: number) => {
     setRevealed(prev => {
@@ -533,6 +524,14 @@ function Ex3() {
           </div>
         ))}
       </div>
+
+      {allDone && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! עברת על כל השאלות!</p>
+          <div className="mb-2"><StarOnComplete step="step4" onAgain={() => setRevealed(new Set())} /></div>
+        </div>
+      )}
     </div>
   )
 }

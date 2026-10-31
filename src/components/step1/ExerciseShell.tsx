@@ -112,22 +112,8 @@ export function ExerciseShell({
               step="step1"
               count={step1Stars}
               award={() => markExerciseDone(track, groupId, exerciseId)}
-            >
-              <div className="flex gap-3">
-                <button
-                  onClick={playAgain}
-                  className="flex-1 btn-kid bg-blue-500 hover:bg-blue-600"
-                >
-                  🔁 Again
-                </button>
-                <Link
-                  href={backHref}
-                  className="flex-1 btn-kid bg-green-500 hover:bg-green-600 no-underline text-center"
-                >
-                  ✅ Done
-                </Link>
-              </div>
-            </StarCollect>
+              onAgain={playAgain}
+            />
           </div>
         </div>
       )}

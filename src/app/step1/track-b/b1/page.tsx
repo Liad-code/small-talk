@@ -33,9 +33,12 @@ export default function B1Page() {
             <div className="text-6xl mb-2">🎉</div>
             <h2 className="font-display text-3xl font-bold text-gray-800 mb-1">Yay! You did it!</h2>
             <p className="text-lg font-bold text-gray-500" dir="rtl">כל הכבוד!</p>
-            <StarCollect step="step1" count={step1Stars} award={() => markExerciseDone('B', 'b1', 'learn')}>
-              <button onClick={() => setPendingCollect(false)} className="btn-kid bg-green-500 hover:bg-green-600 w-full">✅ המשך</button>
-            </StarCollect>
+            <StarCollect
+              step="step1"
+              count={step1Stars}
+              award={() => markExerciseDone('B', 'b1', 'learn')}
+              onAgain={() => { setPendingCollect(false); setTapped(new Set()) }}
+            />
           </div>
         </div>
       )}

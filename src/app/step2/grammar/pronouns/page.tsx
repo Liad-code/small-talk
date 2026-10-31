@@ -115,7 +115,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="inline-block bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl px-8 py-3 mb-2">
           <span className="font-display font-black text-4xl text-white">{q.pronoun}</span>
         </div>
-        <p className="text-base font-bold text-gray-500">Choose the correct picture</p>
+        <p className="text-base font-bold text-gray-500" dir="rtl">בחר את התמונה הנכונה</p>
         <p className="text-sm font-bold text-purple-400 mt-1" dir="rtl">לתרגול זה 3 סבבים</p>
       </div>
 
@@ -147,20 +147,14 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center pt-2 bounce-in">
           <div className="text-4xl mb-2">{score === questions.length ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{score}/{questions.length}</p>
-          {cycleIdx + 1 >= PR_EX1.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center mt-3">
-            {cycleIdx + 1 < PR_EX1.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= PR_EX1.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center mt-3">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -187,7 +181,11 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <span>Cycle {cycleIdx + 1} / {PR_EX2.length}</span>
         <span className="text-purple-500">{answered} / {total} ✓</span>
       </div>
-      <p className="text-center font-bold text-purple-400 text-sm mb-4" dir="rtl">לתרגול זה 3 סבבים</p>
+      <p className="text-center font-bold text-purple-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
+
+      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+        בחר ב-pronoun הנכון לכל noun.
+      </p>
 
       <div className="flex flex-col gap-2 mb-6">
         {questions.map((q, idx) => {
@@ -218,20 +216,14 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <p className="font-display font-bold text-xl text-green-600 mb-3">
             {Object.entries(answers).filter(([i,v]) => questions[+i].answer === v).length}/{total} correct!
           </p>
-          {cycleIdx + 1 >= PR_EX2.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < PR_EX2.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= PR_EX2.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -323,20 +315,14 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          {cycleIdx + 1 >= PR_EX3.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < PR_EX3.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= PR_EX3.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -424,20 +410,14 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center pt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          {cycleIdx + 1 >= PR_EX4.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < PR_EX4.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= PR_EX4.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -468,8 +448,8 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       </div>
       <p className="text-center font-bold text-purple-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
-      <p className="text-center font-bold text-gray-500 text-sm mb-4">
-        Choose the correct pronoun for the <span className="underline">underlined</span> word
+      <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">
+        בחר את ה-pronoun הנכון במקום המילה <span className="underline">שמתחתיה קו</span>
       </p>
 
       <div className="flex flex-col gap-3 mb-6">
@@ -504,20 +484,14 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">{correctCount === total ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{correctCount}/{total} correct!</p>
-          {cycleIdx + 1 >= PR_EX5.length && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center mt-3">
-            {cycleIdx + 1 < PR_EX5.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 >= PR_EX5.length ? (
+            <StarOnComplete step="step2" onAgain={onAgain} />
+          ) : (
+            <div className="flex gap-3 justify-center mt-3">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -542,12 +516,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step2" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

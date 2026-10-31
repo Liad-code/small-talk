@@ -5,6 +5,9 @@ import { CVC_WORDS, VOWELS, VOWEL_COLORS } from '@/data/step1/cvcWords'
 import { WordEmoji } from '@/components/step1/WordEmoji'
 import { useSpeak } from '@/hooks/useSpeak'
 
+// Shown in the header AND repeated (in black) under the cards.
+const INSTRUCTION = 'לחץ על כל כרטיס כדי לשמוע ולקרוא'
+
 function C8Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
   const [activeVowel, setActiveVowel] = useState<string>('a')
@@ -91,6 +94,8 @@ function C8Exercise({ onComplete }: { onComplete: () => void }) {
           )
         })}
       </div>
+
+      <p className="text-center text-black text-lg font-bold mt-6" dir="rtl">{INSTRUCTION}</p>
     </div>
   )
 }
@@ -99,7 +104,7 @@ export default function C8Page() {
   return (
     <ExerciseShell
       title="Let's Read Cards"
-      hebrewInstruction="לחץ על כל כרטיס כדי לשמוע ולקרוא"
+      hebrewInstruction={INSTRUCTION}
       backHref="/step1/track-c"
       track="C"
       groupId="c"

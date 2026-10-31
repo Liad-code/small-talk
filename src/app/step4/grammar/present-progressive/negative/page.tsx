@@ -262,8 +262,7 @@ function Ex1() {
         <div className="text-center bounce-in">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
-          <div className="mb-3"><StarOnComplete step="step4" /></div>
-          <button onClick={restart} className="btn-kid bg-rose-500">🔁 Again</button>
+          <div className="mb-3"><StarOnComplete step="step4" onAgain={restart} /></div>
         </div>
       )}
     </div>
@@ -345,8 +344,7 @@ function Ex2() {
         <div className="text-center bounce-in">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
-          <div className="mb-3"><StarOnComplete step="step4" /></div>
-          <button onClick={restart} className="btn-kid bg-rose-500">🔁 Again</button>
+          <div className="mb-3"><StarOnComplete step="step4" onAgain={restart} /></div>
         </div>
       )}
     </div>
@@ -427,13 +425,7 @@ function Ex3() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-4" dir="rtl">ענית על כל {EX3_QS.length} השאלות!</p>
-        <div className="mb-4"><StarOnComplete step="step4" /></div>
-        <button
-          onClick={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setUnderstood(false); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <div className="mb-4"><StarOnComplete step="step4" onAgain={() => { setCurrent(0); setInput(''); setStatus('idle'); setWrongCount(0); setUnderstood(false); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -674,8 +666,7 @@ function Ex4() {
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">Amazing sentences!</p>
-          <div className="mb-3"><StarOnComplete step="step4" /></div>
-          <button onClick={restart} className="btn-kid bg-rose-500">🔁 Again</button>
+          <div className="mb-3"><StarOnComplete step="step4" onAgain={restart} /></div>
         </div>
       )}
     </div>

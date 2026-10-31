@@ -50,11 +50,6 @@ export function DaysEnHeMatch({ onComplete }: { onComplete: () => void }) {
     setSel(en); setSelSide('he')
   }
 
-  function handleAgain() {
-    setSel(null); setSelSide(null)
-    setMatched(new Set()); setWrongFlash(null); setDone(false)
-  }
-
   const isEnWrong = (en: string) => wrongFlash?.startsWith(en + '|') ?? false
   const isHeWrong = (en: string) => wrongFlash?.endsWith('|' + en) ?? false
 
@@ -123,13 +118,7 @@ export function DaysEnHeMatch({ onComplete }: { onComplete: () => void }) {
         {matched.size}/{DAY_PAIRS.length} ✓
       </div>
 
-      {done && (
-        <div className="text-center mt-4">
-          <button onClick={handleAgain} className="btn-kid bg-amber-500">
-            🔁 Again
-          </button>
-        </div>
-      )}
+      {done && <div className="text-center mt-4 text-5xl bounce-in">🎉</div>}
     </div>
   )
 }

@@ -43,7 +43,7 @@ function C6Batch({ batch, onDone }: BatchProps) {
 
   return (
     <div className="p-4 max-w-sm mx-auto">
-      <p className="text-center text-gray-600 text-sm font-bold mb-4" dir="rtl">
+      <p className="text-center text-black text-xl font-bold mb-4" dir="rtl">
         התאם בין התמונה למילה המתארת אותה.
       </p>
 

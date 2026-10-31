@@ -1,4 +1,4 @@
-export interface SoundWord { word: string; emoji: string; tts?: string }
+export interface SoundWord { word: string; emoji: string; tts?: string; hebrew?: string }
 export interface Sound {
   id: string
   label: string
@@ -20,9 +20,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-emerald-500 to-green-600', bgColor: 'bg-emerald-50', textColor: 'text-emerald-700', borderColor: 'border-emerald-300',
     emoji: '🌾',
     words: [
-      { word: 'FIELD', emoji: '🌾' }, { word: 'CHIEF', emoji: '👨‍✈️' }, { word: 'THIEF', emoji: '🦹' },
-      { word: 'PIECE', emoji: '🧩' }, { word: 'COOKIE', emoji: '🍪' }, { word: 'BELIEVE', emoji: '🙏' },
-      { word: 'MOVIE', emoji: '🎬' },
+      { word: 'FIELD', emoji: '🌾', hebrew: 'שדה' }, { word: 'CHIEF', emoji: '👨‍✈️', hebrew: 'ראש, מנהיג' }, { word: 'THIEF', emoji: '🦹', hebrew: 'גנב' },
+      { word: 'PIECE', emoji: '🧩', hebrew: 'חתיכה' }, { word: 'COOKIE', emoji: '🍪', hebrew: 'עוגייה' }, { word: 'BELIEVE', emoji: '🙏', hebrew: 'להאמין' },
+      { word: 'MOVIE', emoji: '🎬', hebrew: 'סרט' },
     ],
   },
   {
@@ -31,9 +31,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-violet-500 to-purple-600', bgColor: 'bg-violet-50', textColor: 'text-violet-700', borderColor: 'border-violet-300',
     emoji: '✋',
     words: [
-      { word: 'MY', emoji: '✋' }, { word: 'CRY', emoji: '😢' }, { word: 'FLY', emoji: '🪰' },
-      { word: 'SKY', emoji: '🌌' }, { word: 'TRY', emoji: '💪' }, { word: 'WHY', emoji: '❓' },
-      { word: 'DRY', emoji: '🌵' }, { word: 'SHY', emoji: '😳' },
+      { word: 'MY', emoji: '✋', hebrew: 'שלי' }, { word: 'CRY', emoji: '😢', hebrew: 'לבכות' }, { word: 'FLY', emoji: '🪰', hebrew: 'זבוב / לעוף' },
+      { word: 'SKY', emoji: '🌌', hebrew: 'שמיים' }, { word: 'TRY', emoji: '💪', hebrew: 'לנסות' }, { word: 'WHY', emoji: '❓', hebrew: 'למה' },
+      { word: 'DRY', emoji: '🌵', hebrew: 'יבש' }, { word: 'SHY', emoji: '😳', hebrew: 'ביישן' },
     ],
   },
   {
@@ -42,9 +42,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-amber-500 to-orange-600', bgColor: 'bg-amber-50', textColor: 'text-amber-700', borderColor: 'border-amber-300',
     emoji: '⚾',
     words: [
-      { word: 'CATCH', emoji: '⚾' }, { word: 'WATCH', emoji: '⌚' }, { word: 'MATCH', emoji: '🔥' },
-      { word: 'WITCH', emoji: '🧙' }, { word: 'KITCHEN', emoji: '🍳' }, { word: 'PATCH', emoji: '🩹' },
-      { word: 'ITCH', emoji: '😣' },
+      { word: 'CATCH', emoji: '⚾', hebrew: 'לתפוס' }, { word: 'WATCH', emoji: '⌚', hebrew: 'שעון / לצפות' }, { word: 'MATCH', emoji: '🔥', hebrew: 'גפרור' },
+      { word: 'WITCH', emoji: '🧙', hebrew: 'מכשפה' }, { word: 'KITCHEN', emoji: '🍳', hebrew: 'מטבח' }, { word: 'PATCH', emoji: '🩹', hebrew: 'טלאי' },
+      { word: 'ITCH', emoji: '😣', hebrew: 'גירוד' },
     ],
   },
   {
@@ -53,9 +53,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-sky-500 to-blue-600', bgColor: 'bg-sky-50', textColor: 'text-sky-700', borderColor: 'border-sky-300',
     emoji: '🌉',
     words: [
-      { word: 'BRIDGE', emoji: '🌉' }, { word: 'BADGE', emoji: '🎖️' }, { word: 'EDGE', emoji: '📐' },
-      { word: 'FUDGE', emoji: '🍫' }, { word: 'HEDGE', emoji: '🌳' }, { word: 'JUDGE', emoji: '👨‍⚖️' },
-      { word: 'LODGE', emoji: '🏚️' }, { word: 'SLEDGE', emoji: '🛷' },
+      { word: 'BRIDGE', emoji: '🌉', hebrew: 'גשר' }, { word: 'BADGE', emoji: '🎖️', hebrew: 'תג' }, { word: 'EDGE', emoji: '📐', hebrew: 'קצה' },
+      { word: 'FUDGE', emoji: '🍫', hebrew: 'פאדג׳ (ממתק שוקולד)' }, { word: 'HEDGE', emoji: '🌳', hebrew: 'גדר חיה' }, { word: 'JUDGE', emoji: '👨‍⚖️', hebrew: 'שופט' },
+      { word: 'LODGE', emoji: '🏚️', hebrew: 'בקתה' }, { word: 'SLEDGE', emoji: '🛷', hebrew: 'מזחלת' },
     ],
   },
   {
@@ -64,9 +64,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-rose-500 to-pink-600', bgColor: 'bg-rose-50', textColor: 'text-rose-700', borderColor: 'border-rose-300',
     emoji: '🏴',
     words: [
-      { word: 'NATION', emoji: '🏴' }, { word: 'STATION', emoji: '🚉' }, { word: 'ACTION', emoji: '🎬' },
-      { word: 'LOTION', emoji: '🧴' }, { word: 'MOTION', emoji: '🌀' }, { word: 'FICTION', emoji: '📖' },
-      { word: 'VACATION', emoji: '🏖️' }, { word: 'OPTION', emoji: '🔘' },
+      { word: 'NATION', emoji: '🏴', hebrew: 'אומה' }, { word: 'STATION', emoji: '🚉', hebrew: 'תחנה' }, { word: 'ACTION', emoji: '🎬', hebrew: 'פעולה' },
+      { word: 'LOTION', emoji: '🧴', hebrew: 'קרם גוף' }, { word: 'MOTION', emoji: '🌀', hebrew: 'תנועה' }, { word: 'FICTION', emoji: '📖', hebrew: 'סיפור דמיוני' },
+      { word: 'VACATION', emoji: '🏖️', hebrew: 'חופשה' }, { word: 'OPTION', emoji: '🔘', hebrew: 'אפשרות' },
     ],
   },
   {
@@ -75,8 +75,8 @@ export const SOUNDS: Sound[] = [
     color: 'from-indigo-500 to-blue-600', bgColor: 'bg-indigo-50', textColor: 'text-indigo-700', borderColor: 'border-indigo-300',
     emoji: '👁️',
     words: [
-      { word: 'VISION', emoji: '👁️' }, { word: 'TELEVISION', emoji: '📺' },
-      { word: 'DECISION', emoji: '🤔' }, { word: 'EXPLOSION', emoji: '💥' },
+      { word: 'VISION', emoji: '👁️', hebrew: 'ראייה' }, { word: 'TELEVISION', emoji: '📺', hebrew: 'טלוויזיה' },
+      { word: 'DECISION', emoji: '🤔', hebrew: 'החלטה' }, { word: 'EXPLOSION', emoji: '💥', hebrew: 'פיצוץ' },
     ],
   },
   {
@@ -85,9 +85,9 @@ export const SOUNDS: Sound[] = [
     color: 'from-teal-500 to-cyan-600', bgColor: 'bg-teal-50', textColor: 'text-teal-700', borderColor: 'border-teal-300',
     emoji: '🖼️',
     words: [
-      { word: 'PICTURE', emoji: '🖼️' }, { word: 'NATURE', emoji: '🌿' }, { word: 'FUTURE', emoji: '🔮' },
-      { word: 'MIXTURE', emoji: '🧪' }, { word: 'CREATURE', emoji: '👾' },
-      { word: 'ADVENTURE', emoji: '🗺️' }, { word: 'FURNITURE', emoji: '🛋️' },
+      { word: 'PICTURE', emoji: '🖼️', hebrew: 'תמונה' }, { word: 'NATURE', emoji: '🌿', hebrew: 'טבע' }, { word: 'FUTURE', emoji: '🔮', hebrew: 'עתיד' },
+      { word: 'MIXTURE', emoji: '🧪', hebrew: 'תערובת' }, { word: 'CREATURE', emoji: '👾', hebrew: 'יצור' },
+      { word: 'ADVENTURE', emoji: '🗺️', hebrew: 'הרפתקה' }, { word: 'FURNITURE', emoji: '🛋️', hebrew: 'רהיטים' },
     ],
   },
 ]

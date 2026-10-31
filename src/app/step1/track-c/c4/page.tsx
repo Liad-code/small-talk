@@ -8,6 +8,8 @@ import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
 const BATCH_SIZE = 5
+// Shown in the header AND repeated (in black) under the word bank.
+const INSTRUCTION = 'לחץ על התמונה כדי לשמוע את המילה – גרור את המילה המתאימה לתמונה'
 
 function C4Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()
@@ -115,6 +117,8 @@ function C4Exercise({ onComplete }: { onComplete: () => void }) {
           </button>
         </div>
       )}
+
+      <p className="text-center text-black text-lg font-bold mt-4" dir="rtl">{INSTRUCTION}</p>
     </div>
   )
 }
@@ -123,7 +127,7 @@ export default function C4Page() {
   return (
     <ExerciseShell
       title="CVC Template"
-      hebrewInstruction="לחץ על התמונה כדי לשמוע את המילה – גרור את המילה המתאימה לתמונה"
+      hebrewInstruction={INSTRUCTION}
       backHref="/step1/track-c"
       track="C"
       groupId="c"

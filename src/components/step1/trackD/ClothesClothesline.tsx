@@ -11,7 +11,7 @@ interface Props {
 
 export function ClothesClothesline({ items, onComplete }: Props) {
   const speak = useSpeak()
-  const [queue, setQueue] = useState<TrackDItem[]>(() => shuffle([...items]))
+  const [queue] = useState<TrackDItem[]>(() => shuffle([...items]))
   const [currentIdx, setCurrentIdx] = useState(0)
   const [hanged, setHanged] = useState<TrackDItem[]>([])
   const [wrongId, setWrongId] = useState<string | null>(null)
@@ -32,6 +32,7 @@ export function ClothesClothesline({ items, onComplete }: Props) {
       const nextIdx = currentIdx + 1
       if (nextIdx >= queue.length) {
         setDone(true)
+        setTimeout(onComplete, 600)
       } else {
         setCurrentIdx(nextIdx)
         setTimeout(() => speak(queue[nextIdx].ttsText ?? queue[nextIdx].word, 0.85), 400)
@@ -40,15 +41,6 @@ export function ClothesClothesline({ items, onComplete }: Props) {
       setWrongId(item.word)
       setTimeout(() => setWrongId(null), 400)
     }
-  }
-
-  function handleAgain() {
-    const newQueue = shuffle([...items])
-    setQueue(newQueue)
-    setCurrentIdx(0)
-    setHanged([])
-    setWrongId(null)
-    setDone(false)
   }
 
   const hangedWords = new Set(hanged.map(i => i.word))
@@ -150,9 +142,6 @@ export function ClothesClothesline({ items, onComplete }: Props) {
       {done && (
         <div className="mt-4 flex flex-col items-center gap-3">
           <span className="text-5xl bounce-in">🎉</span>
-          <button onClick={handleAgain} className="btn-kid bg-blue-500">
-            🔁 Again
-          </button>
         </div>
       )}
     </div>

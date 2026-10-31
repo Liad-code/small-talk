@@ -155,13 +155,7 @@ function Quiz1Tab() {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-blue-700">כל הכבוד!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6">All 3 cycles done!</p>
-        <StarOnComplete step="step2" />
-        <button
-          onClick={() => { setDone(false); setCycleIdx(0); setK(n => n + 1) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Again
-        </button>
+        <StarOnComplete step="step2" onAgain={() => { setDone(false); setCycleIdx(0); setK(n => n + 1) }} />
       </div>
     )
   }
@@ -218,8 +212,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-blue-700">{score}/{queue.length} correct!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-        <StarOnComplete step="step2" />
-        <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+        <StarOnComplete step="step2" onAgain={onAgain} />
       </div>
     )
   }
@@ -317,8 +310,7 @@ function MemoryInner({ onAgain }: { onAgain: () => void }) {
       <div className="text-center py-12 bounce-in">
         <div className="text-5xl mb-3">🎉</div>
         <p className="font-display font-bold text-2xl text-green-600 mb-4">Amazing!</p>
-        <StarOnComplete step="step2" />
-        <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+        <StarOnComplete step="step2" onAgain={onAgain} />
       </div>
     )
   }
@@ -476,8 +468,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-4 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>
@@ -516,7 +507,6 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
       <div className="p-3 max-w-sm mx-auto text-center bounce-in">
         <div className="text-5xl mb-3">🎉</div>
         <p className="font-bold text-gray-700 text-lg mb-5" dir="rtl">כל הכבוד! סידרת את העשרות!</p>
-        <StarOnComplete step="step2" />
         <div className="grid grid-cols-2 gap-1 mb-5">
           {NUMBERS_TENS.map(n => (
             <div key={n.digit} className="flex items-center gap-2 bg-blue-100 border-2 border-blue-400 rounded-xl px-2 py-1.5">
@@ -525,7 +515,7 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
             </div>
           ))}
         </div>
-        <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again</button>
+        <StarOnComplete step="step2" onAgain={onAgain} />
       </div>
     )
   }

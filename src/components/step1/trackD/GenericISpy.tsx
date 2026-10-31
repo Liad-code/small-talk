@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { shuffle } from '@/utils/shuffle'
 import { TrackDItem } from '@/data/step1/trackDCategories'
 
@@ -21,12 +21,11 @@ function buildRounds(items: TrackDItem[]): SpyItem[][] {
   return rounds
 }
 
-function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, instruction }: {
+function ISpyRound({ items, roundIdx, totalRounds, onNext, onDone, instruction }: {
   items: SpyItem[]
   roundIdx: number
   totalRounds: number
   onNext: () => void
-  onRestart: () => void
   onDone: () => void
   instruction: string
 }) {
@@ -40,6 +39,17 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, in
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [flash, setFlash] = useState<Record<string, 'correct' | 'wrong'>>({})
   const [done, setDone] = useState(false)
+  const isFinal = roundIdx + 1 >= totalRounds
+
+  // Final round finished → hand off to the page's star-collect modal
+  // (its standard Again / Done row replaces our own buttons).
+  // Fires once (the parent's onDone isn't memoised).
+  const handedOff = useRef(false)
+  useEffect(() => {
+    if (!done || !isFinal || handedOff.current) return
+    handedOff.current = true
+    setTimeout(onDone, 600)
+  }, [done, isFinal, onDone])
 
   function handlePick(id: string, count: number) {
     if (answers[id] !== undefined) return
@@ -63,7 +73,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, in
     return (
       <div className="text-center py-10 bounce-in">
         <div className="text-5xl mb-4">🎉</div>
-        {roundIdx + 1 < totalRounds ? (
+        {!isFinal ? (
           <>
             <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">סבב {roundIdx + 1} הושלם!</p>
             <div className="flex gap-3 justify-center">
@@ -72,13 +82,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart, onDone, in
             </div>
           </>
         ) : (
-          <>
-            <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד! מצאת הכל!</p>
-            <div className="flex gap-3 justify-center">
-              <button onClick={onRestart} className="btn-kid bg-yellow-500">🔁 Again<br /><span className="text-xs">(פעם נוספת)</span></button>
-              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
-            </div>
-          </>
+          <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד! מצאת הכל!</p>
         )}
       </div>
     )
@@ -144,25 +148,18 @@ const DEFAULT_INSTRUCTION = 'ספור כמה פעמים כל פריט מופיע
 export function GenericISpy({ items, onComplete, wordOnly = false, instruction = DEFAULT_INSTRUCTION }: { items: TrackDItem[]; onComplete: () => void; wordOnly?: boolean; instruction?: string }) {
   const [rounds] = useState<SpyItem[][]>(() => buildRounds(items))
   const [round, setRound] = useState(0)
-  const [k, setK] = useState(0)
 
   function handleNext() {
     setRound(r => r + 1)
   }
 
-  function handleRestart() {
-    setRound(0)
-    setK(n => n + 1)
-  }
-
   return (
     <ISpyRound
-      key={`${round}-${k}`}
+      key={round}
       items={rounds[round]}
       roundIdx={round}
       totalRounds={rounds.length}
       onNext={handleNext}
-      onRestart={handleRestart}
       onDone={onComplete}
       instruction={instruction}
     />

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { shuffle } from '@/utils/shuffle'
 
 // Same objects/emojis are used in BOTH rounds; only the counts change per round.
@@ -100,12 +100,14 @@ export function NumbersCount({ onComplete }: { onComplete: () => void }) {
     setRoundKey(k => k + 1)
   }
 
-  // Again: restart the whole exercise from round 1
-  function handleAgain() {
-    setRound(1)
-    setRoundDone(false)
-    setRoundKey(k => k + 1)
-  }
+  // Round 2 finished → hand off to the page's star-collect modal (its
+  // standard Again / Done row replaces our own buttons). Fires once.
+  const handedOff = useRef(false)
+  useEffect(() => {
+    if (!roundDone || round !== 2 || handedOff.current) return
+    handedOff.current = true
+    setTimeout(onComplete, 600)
+  }, [roundDone, round, onComplete])
 
   return (
     <div className="max-w-sm mx-auto pb-16">
@@ -121,31 +123,18 @@ export function NumbersCount({ onComplete }: { onComplete: () => void }) {
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-white mb-1">Round {round} complete!</p>
           <p className="font-bold text-white mb-4" dir="rtl">כל הכבוד!</p>
-          <div className="flex gap-3 justify-center">
-            {round === 1 ? (
-              <>
-                <button onClick={onComplete} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
-                  <span>✅ Done</span>
-                  <span className="text-xs">(סיימתי)</span>
-                </button>
-                <button onClick={handleNext} className="btn-kid bg-yellow-500 flex flex-col items-center leading-tight">
-                  <span>➡️ Next</span>
-                  <span className="text-xs">(סבב הבא)</span>
-                </button>
-              </>
-            ) : (
-              <>
-                <button onClick={handleAgain} className="btn-kid bg-blue-500 flex flex-col items-center leading-tight">
-                  <span>🔁 Again</span>
-                  <span className="text-xs">(פעם נוספת)</span>
-                </button>
-                <button onClick={onComplete} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
-                  <span>✅ Done</span>
-                  <span className="text-xs">(סיימתי)</span>
-                </button>
-              </>
-            )}
-          </div>
+          {round === 1 && (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onComplete} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
+                <span>✅ Done</span>
+                <span className="text-xs">(סיימתי)</span>
+              </button>
+              <button onClick={handleNext} className="btn-kid bg-yellow-500 flex flex-col items-center leading-tight">
+                <span>➡️ Next</span>
+                <span className="text-xs">(סבב הבא)</span>
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <CountRound

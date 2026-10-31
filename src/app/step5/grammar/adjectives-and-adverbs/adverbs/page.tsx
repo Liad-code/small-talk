@@ -219,6 +219,15 @@ function Ex1() {
           </div>
         ))}
       </div>
+
+      {revealed.size === EX1_SENTENCES.length && (
+        <div className="text-center bounce-in mt-6">
+          <div className="text-5xl mb-2">🎉</div>
+          <p className="font-display font-bold text-2xl text-green-600 mb-1">Great job!</p>
+          <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את התרגיל!</p>
+          <StarOnComplete step="step5" onAgain={() => setRevealed(new Set())} />
+        </div>
+      )}
     </div>
   )
 }
@@ -393,13 +402,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-rose-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -570,13 +573,7 @@ function Ex3() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-rose-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -817,13 +814,7 @@ function Ex4() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }}
-          className="btn-kid bg-rose-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }

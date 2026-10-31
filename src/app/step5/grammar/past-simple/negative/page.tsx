@@ -246,19 +246,14 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         <div className="text-center bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
-          <div className="flex gap-3 justify-center">
-            {cycleIdx + 1 < EX1_CYCLES.length ? (
-              <>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
-              </>
-            ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
-            )}
-          </div>
+          {cycleIdx + 1 < EX1_CYCLES.length ? (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
+              <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
+            </div>
+          ) : (
+            <StarOnComplete step="step5" onAgain={onAgain} />
+          )}
         </div>
       )}
     </div>
@@ -359,8 +354,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">ענית על כל {EX2_QUESTIONS.length} השאלות!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button onClick={again} className="btn-kid bg-blue-500">🔁 Again</button>
+        <StarOnComplete step="step5" onAgain={again} />
       </div>
     )
   }
@@ -462,13 +456,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step5" /></div>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <StarOnComplete step="step5" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

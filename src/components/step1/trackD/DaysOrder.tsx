@@ -10,7 +10,7 @@ interface Props { onComplete: () => void }
 
 export function DaysOrder({ onComplete }: Props) {
   const speak = useSpeak()
-  const [shuffledDays, setShuffledDays] = useState(() => shuffle([...DAYS]))
+  const [shuffledDays] = useState(() => shuffle([...DAYS]))
   const [slots, setSlots] = useState<(string | null)[]>(Array(7).fill(null))
   const [done, setDone] = useState(false)
 
@@ -28,15 +28,10 @@ export function DaysOrder({ onComplete }: Props) {
 
     if (newSlots.every(s => s !== null)) {
       setDone(true)
+      setTimeout(onComplete, 600)
     }
     return true
-  }, [slots, speak])
-
-  function handleAgain() {
-    setShuffledDays(shuffle([...DAYS]))
-    setSlots(Array(7).fill(null))
-    setDone(false)
-  }
+  }, [slots, speak, onComplete])
 
   const placedSet = new Set(slots.filter(Boolean) as string[])
   const freeDays = shuffledDays.filter(d => !placedSet.has(d))
@@ -55,9 +50,6 @@ export function DaysOrder({ onComplete }: Props) {
             </div>
           ))}
         </div>
-        <button onClick={handleAgain} className="btn-kid bg-blue-500">
-          🔁 Again
-        </button>
       </div>
     )
   }

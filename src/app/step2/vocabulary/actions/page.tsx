@@ -89,8 +89,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-emerald-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-      <StarOnComplete step="step2" />
-      <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
+      <StarOnComplete step="step2" onAgain={onAgain} />
     </div>
   )
 
@@ -174,8 +173,7 @@ function Quiz2Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-emerald-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-      <StarOnComplete step="step2" />
-      <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
+      <StarOnComplete step="step2" onAgain={onAgain} />
     </div>
   )
 
@@ -285,12 +283,13 @@ function MatchActionRound({ items, roundIdx, totalRounds, onNext, onDone }: {
           <p className="font-display font-bold text-xl text-emerald-600 mb-3">
             {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : `${score}/${items.length} correct!`}
           </p>
-          {roundIdx + 1 >= totalRounds && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {roundIdx + 1 < totalRounds
-              ? <button onClick={onNext} className="btn-kid bg-emerald-500">סבב הבא →</button>
-              : <button onClick={onDone} className="btn-kid bg-emerald-500">✅ Done</button>}
-          </div>
+          {roundIdx + 1 >= totalRounds ? (
+            <StarOnComplete step="step2" onAgain={onDone} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onNext} className="btn-kid bg-emerald-500">סבב הבא →</button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -317,7 +316,7 @@ function Ex1Tab() {
 const ACTION_SENTENCES = [
   { scene: '🥤', sentence: 'The cat likes to ___ milk.',        correct: 'drink', choices: ['drink', 'eat']   },
   { scene: '🏃', sentence: 'He loves to ___ in the park.',       correct: 'run',   choices: ['run',   'walk']  },
-  { scene: '💃', sentence: 'She likes to ___ to music.',         correct: 'dance', choices: ['dance', 'jump']  },
+  { scene: '💃', sentence: 'She likes to ___.',                  correct: 'dance', choices: ['dance', 'jump']  },
   { scene: '📖', sentence: 'He likes to ___ books.',             correct: 'read',  choices: ['read',  'write'] },
   { scene: '🎤', sentence: 'She loves to ___ songs.',            correct: 'sing',  choices: ['sing',  'talk']  },
   { scene: '🏊', sentence: 'They like to ___ in the sea.',       correct: 'swim',  choices: ['swim',  'run']   },
@@ -386,8 +385,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{items.length} correct!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>
@@ -401,20 +399,21 @@ function Ex2Tab() {
 
 // ── Ex3: Fill In 2 ────────────────────────────────────────────────────────────
 
-const FILL2_SENTENCES = [
+// alsoCorrect: extra options that are accepted as right answers too
+const FILL2_SENTENCES: { sentence: string; correct: string; alsoCorrect?: string[]; choices: [string, string] }[] = [
   { sentence: 'I _____ books.',            correct: 'read',  choices: ['read',  'drink'] as [string,string] },
   { sentence: 'I _____ water.',            correct: 'drink', choices: ['drink', 'read']  as [string,string] },
   { sentence: 'I _____ to school.',        correct: 'walk',  choices: ['walk',  'swim']  as [string,string] },
   { sentence: 'I _____ an ice cream.',     correct: 'eat',   choices: ['eat',   'drink'] as [string,string] },
   { sentence: 'I _____ in my bed.',        correct: 'sleep', choices: ['sleep', 'sit']   as [string,string] },
-  { sentence: 'I can _____ fast.',         correct: 'run',   choices: ['run',   'swim']  as [string,string] },
+  { sentence: 'I can _____ fast.',         correct: 'run',   alsoCorrect: ['swim'], choices: ['run',   'swim']  as [string,string] },
   { sentence: 'I can _____ high.',         correct: 'jump',  choices: ['jump',  'run']   as [string,string] },
   { sentence: 'I _____ on my chair.',      correct: 'sit',   choices: ['sit',   'sleep'] as [string,string] },
   { sentence: 'I _____ in the pool.',      correct: 'swim',  choices: ['swim',  'walk']  as [string,string] },
   { sentence: 'I _____ in my notebook.',   correct: 'write', choices: ['write', 'read']  as [string,string] },
   { sentence: 'I _____ my room.',          correct: 'clean', choices: ['clean', 'wash']  as [string,string] },
-  { sentence: 'I _____ my hands.',         correct: 'wash',  choices: ['wash',  'clean'] as [string,string] },
-  { sentence: 'I can _____ the ball.',     correct: 'catch', choices: ['catch', 'throw'] as [string,string] },
+  { sentence: 'I _____ my hands.',         correct: 'wash',  choices: ['drink', 'wash']  as [string,string] },
+  { sentence: 'I can _____ the ball.',     correct: 'catch', choices: ['catch', 'write'] as [string,string] },
 ]
 
 function Ex3Inner({ onAgain }: { onAgain: () => void }) {
@@ -422,7 +421,9 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
   // appears in a varying position (not always first/left)
   const [items] = useState(() => FILL2_SENTENCES.map(s => ({ ...s, choices: shuffle([...s.choices]) })))
   const [answers, setAnswers] = useState<Record<number, string>>({})
-  const score = Object.entries(answers).filter(([i, ans]) => ans === items[Number(i)].correct).length
+  const isRight = (s: (typeof items)[number], ch: string | undefined) =>
+    ch !== undefined && (ch === s.correct || (s.alsoCorrect ?? []).includes(ch))
+  const score = Object.entries(answers).filter(([i, ans]) => isRight(items[Number(i)], ans)).length
   const allDone = Object.keys(answers).length === items.length
 
   function handlePick(i: number, choice: string) {
@@ -439,7 +440,7 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
       <div className="flex flex-col gap-3">
         {items.map((s, i) => {
           const ans = answers[i]
-          const isCorrect = ans === s.correct
+          const isCorrect = isRight(s, ans)
           const isWrong = ans !== undefined && !isCorrect
           return (
             <div
@@ -455,8 +456,8 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
                     onClick={() => handlePick(i, ch)}
                     disabled={ans !== undefined}
                     className={`flex-1 py-2 rounded-xl border-2 font-display font-black text-sm transition-all
-                      ${ans === ch && ch === s.correct ? 'bg-green-200 border-green-400 text-green-800' : ''}
-                      ${ans === ch && ch !== s.correct ? 'bg-red-200 border-red-400 text-red-800' : ''}
+                      ${ans === ch && isRight(s, ch) ? 'bg-green-200 border-green-400 text-green-800' : ''}
+                      ${ans === ch && !isRight(s, ch) ? 'bg-red-200 border-red-400 text-red-800' : ''}
                       ${ans !== ch && ans !== undefined ? 'opacity-40 border-gray-200 bg-gray-50 text-gray-400' : ''}
                       ${ans === undefined ? 'bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100 active:scale-95 cursor-pointer' : ''}
                     `}
@@ -473,8 +474,7 @@ function Ex3Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-emerald-600 mb-3">{score}/{items.length} correct!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onAgain} className="btn-kid bg-emerald-500">🔁 Again</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>

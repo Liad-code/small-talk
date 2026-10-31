@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { shuffle } from '@/utils/shuffle'
 
 interface SpyItem { id: string; name: string; emoji: string; count: number }
@@ -25,12 +25,12 @@ const I_SPY_ROUNDS: SpyItem[][] = [
   ],
 ]
 
-function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
+function ISpyRound({ items, roundIdx, totalRounds, onNext, onDone }: {
   items: SpyItem[]
   roundIdx: number
   totalRounds: number
   onNext: () => void
-  onRestart: () => void
+  onDone: () => void
 }) {
   const [layout] = useState(() => {
     const all: { uid: string; emoji: string }[] = []
@@ -42,6 +42,16 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
   const [answers, setAnswers] = useState<Record<string, number>>({})
   const [flash, setFlash] = useState<Record<string, 'correct' | 'wrong'>>({})
   const [done, setDone] = useState(false)
+  const isFinal = roundIdx + 1 >= totalRounds
+
+  // Final round finished → hand off to the page's star-collect modal (its
+  // standard Again / Done row replaces our own buttons). Fires once.
+  const handedOff = useRef(false)
+  useEffect(() => {
+    if (!done || !isFinal || handedOff.current) return
+    handedOff.current = true
+    setTimeout(onDone, 600)
+  }, [done, isFinal, onDone])
 
   function handlePick(id: string, count: number) {
     if (answers[id] !== undefined) return
@@ -65,16 +75,13 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
     return (
       <div className="text-center py-10 bounce-in">
         <div className="text-5xl mb-4">🎉</div>
-        {roundIdx + 1 < totalRounds ? (
+        {!isFinal ? (
           <>
             <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">סבב {roundIdx + 1} הושלם!</p>
             <button onClick={onNext} className="btn-kid bg-yellow-500">סבב הבא →</button>
           </>
         ) : (
-          <>
-            <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד! מצאת הכל!</p>
-            <button onClick={onRestart} className="btn-kid bg-yellow-500">🔁 Again</button>
-          </>
+          <p className="font-display font-bold text-xl text-white mb-4" dir="rtl">כל הכבוד! מצאת הכל!</p>
         )}
       </div>
     )
@@ -137,26 +144,19 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
 
 export function EmotionsISpy({ onComplete }: { onComplete: () => void }) {
   const [round, setRound] = useState(0)
-  const [k, setK] = useState(0)
 
   function handleNext() {
     setRound(r => r + 1)
   }
 
-  function handleRestart() {
-    setRound(0)
-    setK(n => n + 1)
-    onComplete()
-  }
-
   return (
     <ISpyRound
-      key={`${round}-${k}`}
+      key={round}
       items={I_SPY_ROUNDS[round]}
       roundIdx={round}
       totalRounds={I_SPY_ROUNDS.length}
       onNext={handleNext}
-      onRestart={handleRestart}
+      onDone={onComplete}
     />
   )
 }

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { shuffle } from '@/utils/shuffle'
 import { TrackDItem } from '@/data/step1/trackDCategories'
 
@@ -25,14 +25,13 @@ interface Props {
   renderVisual?: (item: TrackDItem) => React.ReactNode
 }
 
-function WordMatchRound({ items, limit, renderVisual, roundIdx, totalRounds, onNext, onRestart, onDone }: {
+function WordMatchRound({ items, limit, renderVisual, roundIdx, totalRounds, onNext, onDone }: {
   items: TrackDItem[]
   limit: number
   renderVisual?: (item: TrackDItem) => React.ReactNode
   roundIdx: number
   totalRounds: number
   onNext: () => void
-  onRestart: () => void
   onDone: () => void
 }) {
   const [rows] = useState<Row[]>(() => buildRows(items, limit))
@@ -61,6 +60,16 @@ function WordMatchRound({ items, limit, renderVisual, roundIdx, totalRounds, onN
   const tileSize = renderVisual ? 'w-20 h-20' : 'w-14 h-14'
   const isFinal = roundIdx + 1 >= totalRounds
 
+  // Final round finished → hand off to the page's star-collect modal
+  // (its standard Again / Done row replaces our own buttons).
+  // Fires once (the parent's onDone isn't memoised).
+  const handedOff = useRef(false)
+  useEffect(() => {
+    if (!allAnswered || !isFinal || handedOff.current) return
+    handedOff.current = true
+    setTimeout(onDone, 600)
+  }, [allAnswered, isFinal, onDone])
+
   return (
     <div className="max-w-sm mx-auto pb-16">
       <div className="flex justify-between items-center mb-1" dir="rtl">
@@ -72,15 +81,10 @@ function WordMatchRound({ items, limit, renderVisual, roundIdx, totalRounds, onN
         <div className="text-center my-4 bounce-in">
           <div className="text-3xl mb-1">🎉</div>
           <p className="font-display font-bold text-xl text-white mb-3">{score}/{rows.length} correct!</p>
-          {!isFinal ? (
+          {!isFinal && (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
               <button onClick={onNext} className="btn-kid bg-amber-500">➡️ Next<br /><span className="text-xs">(סבב הבא)</span></button>
-            </div>
-          ) : (
-            <div className="flex gap-3 justify-center">
-              <button onClick={onRestart} className="btn-kid bg-amber-500">🔁 Again<br /><span className="text-xs">(פעם נוספת)</span></button>
-              <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיימתי)</span></button>
             </div>
           )}
         </div>
@@ -136,18 +140,16 @@ function WordMatchRound({ items, limit, renderVisual, roundIdx, totalRounds, onN
 export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }: Props) {
   const totalRounds = 3
   const [round, setRound] = useState(0)
-  const [k, setK] = useState(0)
 
   return (
     <WordMatchRound
-      key={`${round}-${k}`}
+      key={round}
       items={items}
       limit={limit}
       renderVisual={renderVisual}
       roundIdx={round}
       totalRounds={totalRounds}
       onNext={() => setRound(r => r + 1)}
-      onRestart={() => { setRound(0); setK(n => n + 1) }}
       onDone={onComplete}
     />
   )

@@ -244,20 +244,14 @@ export function SoundSortGame({
             <p className="font-bold text-gray-500 mb-2" dir="rtl">
               כל הכבוד! מיינת את כל התמונות!
             </p>
-            <div className="mb-6"><StarOnComplete step={starStep} /></div>
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={() => {
+            <div className="mb-6">
+              <StarOnComplete
+                step={starStep}
+                onAgain={() => {
                   setDone(false)
                   setKey(k => k + 1)
                 }}
-                className="btn-kid bg-blue-500"
-              >
-                🔁 Again
-              </button>
-              <Link href="/step3/phonics" className="btn-kid bg-green-500 no-underline">
-                ← Back
-              </Link>
+              />
             </div>
           </div>
         ) : (

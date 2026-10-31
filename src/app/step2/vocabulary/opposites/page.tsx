@@ -116,8 +116,7 @@ function Quiz1Inner({ onAgain }: { onAgain: () => void }) {
       <div className="text-5xl mb-4">⭐</div>
       <p className="font-display font-bold text-2xl text-orange-700">{score}/{queue.length} correct!</p>
       <p className="font-bold text-gray-500 mt-1 mb-6" dir="rtl">כל הכבוד!</p>
-      <StarOnComplete step="step2" />
-      <button onClick={onAgain} className="btn-kid bg-orange-500">🔁 Again</button>
+      <StarOnComplete step="step2" onAgain={onAgain} />
     </div>
   )
 
@@ -218,8 +217,13 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
         <p className="font-bold text-gray-500 text-xs" dir="rtl">לחץ על מילה מכל עמודה והתאם הפכים</p>
         <span className="text-xs font-bold text-orange-500">סבב {roundIdx + 1}/{totalRounds}</span>
       </div>
-      <div className="flex gap-3">
-        <div className="flex-1 flex flex-col gap-2">
+      {/* One grid (column-flow) so each left/right pair shares a row → both columns line up with equal heights */}
+      <div
+        className="grid grid-flow-col auto-cols-fr gap-x-3 gap-y-2"
+        style={{ gridTemplateRows: `repeat(${leftCol.length}, auto)` }}
+      >
+        {/* Left column */}
+        <>
           {leftCol.map(item => {
             const isMatched = matched.has(item.id)
             const isSel = selId === item.id && selSide === 'left'
@@ -241,8 +245,9 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
               </button>
             )
           })}
-        </div>
-        <div className="flex-1 flex flex-col gap-2">
+        </>
+        {/* Right column */}
+        <>
           {rightCol.map(item => {
             const isMatched = matched.has(item.id)
             const isSel = selId === item.id && selSide === 'right'
@@ -264,7 +269,7 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
               </button>
             )
           })}
-        </div>
+        </>
       </div>
       {allDone && (
         <div className="text-center mt-6 bounce-in">
@@ -272,12 +277,13 @@ function MatchOppRound({ pairs, roundIdx, totalRounds, onNext, onDone }: {
           <p className="font-display font-bold text-xl text-orange-600 mb-3">
             {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : 'כל הכבוד!'}
           </p>
-          {roundIdx + 1 >= totalRounds && <StarOnComplete step="step2" />}
-          <div className="flex gap-3 justify-center">
-            {roundIdx + 1 < totalRounds
-              ? <button onClick={onNext} className="btn-kid bg-orange-500">סבב הבא →</button>
-              : <button onClick={onDone} className="btn-kid bg-orange-500">✅ Done</button>}
-          </div>
+          {roundIdx + 1 >= totalRounds ? (
+            <StarOnComplete step="step2" onAgain={onDone} />
+          ) : (
+            <div className="flex gap-3 justify-center">
+              <button onClick={onNext} className="btn-kid bg-orange-500">סבב הבא →</button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -367,8 +373,7 @@ function Ex2Inner({ onAgain }: { onAgain: () => void }) {
         <div className="text-center mt-6 bounce-in">
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-orange-600 mb-3">{score}/{OPPOSITES.length} correct!</p>
-          <StarOnComplete step="step2" />
-          <button onClick={onAgain} className="btn-kid bg-orange-500">🔁 Again</button>
+          <StarOnComplete step="step2" onAgain={onAgain} />
         </div>
       )}
     </div>

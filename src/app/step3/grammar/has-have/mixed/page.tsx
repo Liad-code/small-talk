@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
+import { AutoFinish } from '@/components/shared/AutoFinish'
 
 type Tab = 'ex1' | 'ex2'
 
@@ -111,13 +112,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" /></div>
-        <button
-          onClick={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }}
-          className="btn-kid bg-blue-500"
-        >
-          🔁 Start Over
-        </button>
+        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -167,10 +162,12 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
-          const display = ans ? q.sentence.replace('___', ans) : q.sentence
+          const [before, after] = q.sentence.split('___')
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 flex-wrap ${isWrong ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
-              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{display}</span>
+              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">
+                {ans ? <>{before}<span className="text-purple-600">{ans}</span>{after}</> : q.sentence}
+              </span>
               {!ans && !isWrong ? (
                 <div className="flex gap-1 flex-wrap">
                   {q.options.map(v => (
@@ -204,10 +201,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                 <button onClick={onAgain} className="btn-kid bg-blue-500">➕ More<br /><span className="text-xs">(עוד)</span></button>
               </>
             ) : (
-              <>
-                <button onClick={onAgain} className="btn-kid bg-blue-500">🔁 Again<br /><span className="text-xs">(שוב)</span></button>
-                <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
-              </>
+              <AutoFinish onFinish={onDone} />
             )}
           </div>
         </div>
@@ -287,8 +281,7 @@ function Ex2() {
           <div className="text-6xl mb-4">🌟</div>
           <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing sentences!</p>
           <p className="font-bold text-gray-500 mb-2" dir="rtl">יצרת {TARGET_SENTENCES} משפטים!</p>
-          <div className="mb-4"><StarOnComplete step="step3" /></div>
-          <button onClick={restart} className="btn-kid bg-blue-500">🔁 Again</button>
+          <div className="mb-4"><StarOnComplete step="step3" onAgain={restart} /></div>
         </div>
         <div className="flex flex-col gap-1.5">
           {sentences.map((s, i) => (
