@@ -35,9 +35,9 @@ function HouseItem({
   void onDrop // used by parent DraggableTile system
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Roof SVG with uppercase letter inside */}
-      <svg width="80" height="44" viewBox="0 0 80 44" className="-mb-px">
+    <div className="flex flex-col items-center w-[52px] sm:w-20">
+      {/* Roof SVG with uppercase letter inside (scales with the house width) */}
+      <svg viewBox="0 0 80 44" className="w-full h-auto -mb-px">
         <polygon points="40,3 3,41 77,41" fill={colors.fill} stroke={colors.text} strokeWidth="1.5" strokeLinejoin="round" />
         <text
           x="40" y="37"
@@ -55,7 +55,7 @@ function HouseItem({
         data-expected-ids={JSON.stringify([`door_${letter}`])}
         data-target-id={letter}
         className={`
-          w-20 h-20 border-4 rounded-b-xl flex items-center justify-center
+          w-full h-11 sm:h-20 border-[3px] sm:border-4 rounded-b-xl flex items-center justify-center
           transition-all duration-200
           ${done
             ? `${group.bgColor} ${group.borderColor}`
@@ -63,9 +63,9 @@ function HouseItem({
         `}
       >
         {done ? (
-          <span className={`font-display font-black text-xl ${group.textColor}`}>{letter}</span>
+          <span className={`font-display font-black text-lg sm:text-xl ${group.textColor}`}>{letter}</span>
         ) : (
-          <span className="text-gray-300 text-lg font-bold">?</span>
+          <span className="text-gray-300 text-base sm:text-lg font-bold">?</span>
         )}
       </div>
     </div>
@@ -116,16 +116,26 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
     setSelected(null)
   }
 
+  // The tray shows a few letters at a time (6 on phones, 12 on wider screens)
+  // so it fits in one sticky strip; this brings the next letters forward.
+  function showOtherLetters() {
+    setSelected(null)
+    setDoors(prev => {
+      const n = Math.min(6, prev.length)
+      return [...prev.slice(n), ...prev.slice(0, n)]
+    })
+  }
+
   const freeDoors = doors
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <p className="text-center text-gray-400 font-bold text-sm mb-4" dir="rtl">
+    <div className="px-2 pt-3 sm:p-4 max-w-2xl mx-auto">
+      <p className="hidden sm:block text-center text-gray-400 font-bold text-sm mb-3" dir="rtl">
         לחץ על אות קטנה ואז על הבית עם האות הגדולה שלה
       </p>
 
       {/* Houses grid — all 26 */}
-      <div className="grid grid-cols-4 sm:grid-cols-6 gap-x-2 gap-y-4 mb-6 justify-items-center">
+      <div className="grid grid-cols-6 gap-x-1 gap-y-2 sm:gap-x-2 sm:gap-y-4 mb-4 justify-items-center">
         {ABC_ORDER.map(letter => {
           const group = getGroup(letter)
           const done = matched.has(letter)
@@ -142,46 +152,57 @@ function A3Ex4Exercise({ onComplete }: { onComplete: () => void }) {
         })}
       </div>
 
-      {/* Door (lowercase letter) bank */}
-      {freeDoors.length > 0 && (
-        <div className="border-t-2 border-dashed border-gray-200 pt-3">
-          <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">
-            בחר אות קטנה ולחץ על הבית המתאים:
-          </p>
-          <div className="pb-3">
-            <div className="flex gap-2 flex-wrap justify-center px-2 max-w-xs sm:max-w-sm mx-auto">
-              {freeDoors.map(id => {
-                const letter = id.replace('door_', '')
-                const group = getGroup(letter)
-                const isSel = selected === id
-                return (
-                  <div key={id} onClick={() => handleTileClick(id)}>
-                    <DraggableTile
-                      id={id}
-                      label={letter}
-                      color={isSel ? 'bg-yellow-200' : group.bgColor}
-                      borderColor={isSel ? 'border-yellow-500' : group.borderColor}
-                      textColor={group.textColor}
-                      size="md"
-                      onDropped={handleDrop}
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
       {matched.size > 0 && (
-        <p className="text-center text-indigo-500 font-bold text-sm mt-2">
+        <p className="text-center text-indigo-500 font-bold text-sm mb-2">
           {matched.size}/26 ✓
         </p>
+      )}
+
+      {/* Door (lowercase letter) tray — pinned to the bottom of the screen so the
+          letters stay in view while the child scrolls to any house (mobile). */}
+      {freeDoors.length > 0 && (
+        <div className="sticky bottom-0 z-30 -mx-2 sm:mx-0 bg-white/95 backdrop-blur border-t-2 border-indigo-200 shadow-[0_-6px_16px_rgba(0,0,0,0.08)] rounded-t-2xl px-2 pt-2 pb-3">
+          <p className="text-xs text-gray-500 font-bold text-center mb-2" dir="rtl">
+            גרור אות קטנה לבית שלה (או לחץ על האות ואז על הבית):
+          </p>
+          <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
+            {freeDoors.map((id, idx) => {
+              const letter = id.replace('door_', '')
+              const group = getGroup(letter)
+              const isSel = selected === id
+              // 6 visible on phones, 12 from sm up
+              const vis = idx < 6 ? '' : idx < 12 ? 'hidden sm:block' : 'hidden'
+              return (
+                <div key={id} onClick={() => handleTileClick(id)} className={vis}>
+                  <DraggableTile
+                    id={id}
+                    label={letter}
+                    color={isSel ? 'bg-yellow-200' : group.bgColor}
+                    borderColor={isSel ? 'border-yellow-500' : group.borderColor}
+                    textColor={group.textColor}
+                    size="sm"
+                    onDropped={handleDrop}
+                  />
+                </div>
+              )
+            })}
+          </div>
+          {freeDoors.length > 6 && (
+            <div className="text-center mt-2">
+              <button
+                onClick={showOtherLetters}
+                className="text-xs font-black text-indigo-600 bg-indigo-50 border-2 border-indigo-200 rounded-full px-3 py-1"
+                dir="rtl"
+              >
+                🔀 אותיות אחרות ({freeDoors.length} נשארו)
+              </button>
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
 }
-
 export default function A3Ex4Page() {
   return (
     <ExerciseShell
