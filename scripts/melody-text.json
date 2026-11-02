@@ -1,0 +1,146 @@
+{
+  "20": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY2\">twenty</phoneme>",
+    "previousText": null
+  },
+  "21": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY1\">twenty</phoneme> one",
+    "previousText": null
+  },
+  "22": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY2\">twenty</phoneme> two",
+    "previousText": null
+  },
+  "23": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY2\">twenty</phoneme> three",
+    "previousText": null
+  },
+  "24": {
+    "text": "twen<phoneme alphabet=\"cmu-arpabet\" ph=\"T IY1\">tee</phoneme> four",
+    "previousText": null
+  },
+  "25": {
+    "text": "twen-tee-five",
+    "previousText": null
+  },
+  "26": {
+    "text": "twen-tee six",
+    "previousText": null
+  },
+  "27": {
+    "text": "twen<phoneme alphabet=\"cmu-arpabet\" ph=\"T IY1\">tee</phoneme> seven",
+    "previousText": null
+  },
+  "28": {
+    "text": "twen-tee eight",
+    "previousText": null
+  },
+  "29": {
+    "text": "twen<phoneme alphabet=\"cmu-arpabet\" ph=\"T IY1\">tee</phoneme> nine",
+    "previousText": null
+  },
+  "arm": {
+    "text": "arm!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "patch": {
+    "text": "patch!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "key": {
+    "text": "key!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "try": {
+    "text": "try!",
+    "previousText": null
+  },
+  "tomato": {
+    "text": "tomato!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "keep": {
+    "text": "keep!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "where": {
+    "text": "Where?",
+    "previousText": "Here is a question for you."
+  },
+  "bright": {
+    "text": "bright!",
+    "previousText": null
+  },
+  "our": {
+    "text": "Our!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "my": {
+    "text": "My!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "old": {
+    "text": "old!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "dry": {
+    "text": "dry!",
+    "previousText": null
+  },
+  "take": {
+    "text": "take!",
+    "previousText": "Wonderful! You found it. Here comes the next word."
+  },
+  "its": {
+    "text": "Its!",
+    "previousText": null
+  },
+  "her": {
+    "text": "Her.",
+    "previousText": "Listen."
+  },
+  "quick": {
+    "text": "quick.",
+    "previousText": "Yay! Let us learn a brand new word together."
+  },
+  "twenty": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY2\">twenty</phoneme>",
+    "previousText": null
+  },
+  "twenty-one": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY1\">twenty</phoneme> one",
+    "previousText": null
+  },
+  "twenty-two": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY2\">twenty</phoneme> two",
+    "previousText": null
+  },
+  "twenty-three": {
+    "text": "<phoneme alphabet=\"cmu-arpabet\" ph=\"T W EH1 N T IY2\">twenty</phoneme> three",
+    "previousText": null
+  },
+  "twenty-four": {
+    "text": "twen<phoneme alphabet=\"cmu-arpabet\" ph=\"T IY1\">tee</phoneme> four",
+    "previousText": null
+  },
+  "twenty-five": {
+    "text": "twen-tee-five",
+    "previousText": null
+  },
+  "twenty-six": {
+    "text": "twen-tee six",
+    "previousText": null
+  },
+  "twenty-seven": {
+    "text": "twen<phoneme alphabet=\"cmu-arpabet\" ph=\"T IY1\">tee</phoneme> seven",
+    "previousText": null
+  },
+  "twenty-eight": {
+    "text": "twen-tee eight",
+    "previousText": null
+  },
+  "twenty-nine": {
+    "text": "twen<phoneme alphabet=\"cmu-arpabet\" ph=\"T IY1\">tee</phoneme> nine",
+    "previousText": null
+  }
+}

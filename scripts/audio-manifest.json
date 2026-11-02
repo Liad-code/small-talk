@@ -1,0 +1,7023 @@
+{
+  "model": "eleven_multilingual_v2",
+  "entries": [
+    {
+      "key": "0-350ca8af",
+      "request": "0",
+      "speak": "zero",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "1-340ca71c",
+      "request": "1",
+      "speak": "one",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "10-1beb2a44",
+      "request": "10",
+      "speak": "ten",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "100-6733d49c",
+      "request": "100",
+      "speak": "one hundred",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "11-1ceb2bd7",
+      "request": "11",
+      "speak": "eleven",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "12-1deb2d6a",
+      "request": "12",
+      "speak": "twelve",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "13-1eeb2efd",
+      "request": "13",
+      "speak": "thirteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "14-17eb23f8",
+      "request": "14",
+      "speak": "fourteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "15-18eb258b",
+      "request": "15",
+      "speak": "fifteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "16-19eb271e",
+      "request": "16",
+      "speak": "sixteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "17-1aeb28b1",
+      "request": "17",
+      "speak": "seventeen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "18-13eb1dac",
+      "request": "18",
+      "speak": "eighteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "19-14eb1f3f",
+      "request": "19",
+      "speak": "nineteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "2-370cabd5",
+      "request": "2",
+      "speak": "two",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "20-8df2997f",
+      "request": "20",
+      "speak": "twenty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "21-8cf297ec",
+      "request": "21",
+      "speak": "twenty-one",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "22-8ff29ca5",
+      "request": "22",
+      "speak": "twenty-two",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "23-8ef29b12",
+      "request": "23",
+      "speak": "twenty-three",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "24-89f29333",
+      "request": "24",
+      "speak": "twenty-four",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "25-88f291a0",
+      "request": "25",
+      "speak": "twenty-five.",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "26-8bf29659",
+      "request": "26",
+      "speak": "twenty-six.",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "27-8af294c6",
+      "request": "27",
+      "speak": "twenty-seven",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "28-95f2a617",
+      "request": "28",
+      "speak": "twenty-eight",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "29-94f2a484",
+      "request": "29",
+      "speak": "twenty-nine",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "3-360caa42",
+      "request": "3",
+      "speak": "three",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "30-87f05176",
+      "request": "30",
+      "speak": "thirty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "4-310ca263",
+      "request": "4",
+      "speak": "four",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "40-89e388a9",
+      "request": "40",
+      "speak": "forty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "5-300ca0d0",
+      "request": "5",
+      "speak": "five",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "50-83e140a0",
+      "request": "50",
+      "speak": "fifty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "6-330ca589",
+      "request": "6",
+      "speak": "six",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "60-15e8e23b",
+      "request": "60",
+      "speak": "sixty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "7-320ca3f6",
+      "request": "7",
+      "speak": "seven",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "70-8fe5d0b2",
+      "request": "70",
+      "speak": "seventy",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "8-3d0cb547",
+      "request": "8",
+      "speak": "eight",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "80-9201aa55",
+      "request": "80",
+      "speak": "eighty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "9-3c0cb3b4",
+      "request": "9",
+      "speak": "nine",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "90-0bfe98cc",
+      "request": "90",
+      "speak": "ninety",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (digit)"
+      ]
+    },
+    {
+      "key": "a-bird-a3eea197",
+      "request": "a bird",
+      "speak": "a bird",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-book-91f27549",
+      "request": "a book",
+      "speak": "a book",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-boy-707089fa",
+      "request": "a boy",
+      "speak": "a boy",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-boy-and-girl-4e942593",
+      "request": "a boy and girl",
+      "speak": "a boy and girl",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-camera-1a0e11e3",
+      "request": "a camera",
+      "speak": "a camera",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-car-e4147dba",
+      "request": "a car",
+      "speak": "a car",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-cat-de147448",
+      "request": "a cat",
+      "speak": "a cat",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-chair-e302b379",
+      "request": "a chair",
+      "speak": "a chair",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-cook-4afc2158",
+      "request": "a cook",
+      "speak": "a cook",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-doctor-f5dd1c77",
+      "request": "a doctor",
+      "speak": "a doctor",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-dog-f6ede5ae",
+      "request": "a dog",
+      "speak": "a dog",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-e40c292c",
+      "request": "a",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"EY1\">a</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/cvcWords.ts (VOWELS)",
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "a-fire-truck-a2b686ab",
+      "request": "a fire truck",
+      "speak": "a fire truck",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-firefighter-01583631",
+      "request": "a firefighter",
+      "speak": "a firefighter",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-flower-6793b6eb",
+      "request": "a flower",
+      "speak": "a flower",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-girl-385f6dfe",
+      "request": "a girl",
+      "speak": "a girl",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-grandma-0fcb079c",
+      "request": "a grandma",
+      "speak": "a grandma",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-grandpa-23aad36d",
+      "request": "a grandpa",
+      "speak": "a grandpa",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-hospital-a4ec5a02",
+      "request": "a hospital",
+      "speak": "a hospital",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-house-b27956b8",
+      "request": "a house",
+      "speak": "a house",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-lion-ecef1bbe",
+      "request": "a lion",
+      "speak": "a lion",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-man-c14317b0",
+      "request": "a man",
+      "speak": "a man",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-nurse-c04c0121",
+      "request": "a nurse",
+      "speak": "a nurse",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-pan-4ff56eeb",
+      "request": "a pan",
+      "speak": "a pan",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-phone-57989e20",
+      "request": "a phone",
+      "speak": "a phone",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-pig-56e1f238",
+      "request": "a pig",
+      "speak": "a pig",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (PR_EX2)"
+      ]
+    },
+    {
+      "key": "a-plant-3a3dbc59",
+      "request": "a plant",
+      "speak": "a plant",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-singer-8a683508",
+      "request": "a singer",
+      "speak": "a singer",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-student-81d84fff",
+      "request": "a student",
+      "speak": "a student",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-teacher-0b29c592",
+      "request": "a teacher",
+      "speak": "a teacher",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-tree-b1386254",
+      "request": "a tree",
+      "speak": "a tree",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "a-woman-3b42569e",
+      "request": "a woman",
+      "speak": "a woman",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "action-c4642eff",
+      "request": "ACTION",
+      "speak": "action",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "adventure-c50fe1cb",
+      "request": "ADVENTURE",
+      "speak": "adventure",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "album-64fb286c",
+      "request": "album",
+      "speak": "album",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "am-4024f153",
+      "request": "am",
+      "speak": "am",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX1)",
+        "src/data/step2/yes-no.ts (YN_EX2)"
+      ]
+    },
+    {
+      "key": "an-elephant-16f1e7b3",
+      "request": "an elephant",
+      "speak": "an elephant",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "angel-a83e75ea",
+      "request": "ANGEL",
+      "speak": "angel",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "angry-b50aaefe",
+      "request": "angry",
+      "speak": "angry",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "animal-c238e05d",
+      "request": "animal",
+      "speak": "animal",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "ant-1f29dbd6",
+      "request": "ant",
+      "speak": "ant",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "apple-10bc2abf",
+      "request": "apple",
+      "speak": "apple",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "are-406f344d",
+      "request": "are",
+      "speak": "are",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)",
+        "src/data/step2/yes-no.ts (YN_EX2)"
+      ]
+    },
+    {
+      "key": "arm-386f27b5",
+      "request": "arm",
+      "speak": "arm",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "aunt-8d4ea641",
+      "request": "aunt",
+      "speak": "aunt",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "avocado-b880535e",
+      "request": "avocado",
+      "speak": "avocado",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "b-e70c2de5",
+      "request": "b",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"B IY1\">b</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "baby-45b1c069",
+      "request": "baby",
+      "speak": "baby",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (word)",
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "back-5bb421a2",
+      "request": "BACK",
+      "speak": "back",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "badge-35648278",
+      "request": "BADGE",
+      "speak": "badge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "bag-63b75f31",
+      "request": "bag",
+      "speak": "bag",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "ball-348f1364",
+      "request": "ball",
+      "speak": "ball",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "banana-d9889f50",
+      "request": "banana",
+      "speak": "banana",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "bat-70b773a8",
+      "request": "bat",
+      "speak": "bat",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "bath-30cb3740",
+      "request": "BATH",
+      "speak": "bath",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "bay-6db76eef",
+      "request": "BAY",
+      "speak": "bay",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "beach-f4b2c848",
+      "request": "BEACH",
+      "speak": "beach",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "bear-8a524c53",
+      "request": "bear",
+      "speak": "bear",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "bed-50ae46ec",
+      "request": "bed",
+      "speak": "bed",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "bedroom-16fb7f77",
+      "request": "bedroom",
+      "speak": "bedroom",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "bee-51ae487f",
+      "request": "BEE",
+      "speak": "bee",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "behind-dced8a09",
+      "request": "behind",
+      "speak": "behind",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "believe-82d4d3ff",
+      "request": "BELIEVE",
+      "speak": "believe",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "between-a4ee076f",
+      "request": "between",
+      "speak": "between",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "big-53cacdb9",
+      "request": "big",
+      "speak": "big",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "big-and-small-58e8334b",
+      "request": "big and small",
+      "speak": "big and small",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "big-small-c7021f3b",
+      "request": "big / small",
+      "speak": "big / small",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "bike-c4602668",
+      "request": "bike",
+      "speak": "bike",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "bin-5acad8be",
+      "request": "bin",
+      "speak": "bin",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "bird-977128b2",
+      "request": "bird",
+      "speak": "bird",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "black-568f4ba4",
+      "request": "black",
+      "speak": "black",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "blanket-fefb9588",
+      "request": "BLANKET",
+      "speak": "blanket",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "blood-edeead07",
+      "request": "BLOOD",
+      "speak": "blood",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "blow-70bcc521",
+      "request": "BLOW",
+      "speak": "blow",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "blue-82fbf5cd",
+      "request": "blue",
+      "speak": "blue",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "boat-dcb746fb",
+      "request": "BOAT",
+      "speak": "boat",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "body-dbaa7975",
+      "request": "body",
+      "speak": "body",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "bone-db90e18f",
+      "request": "BONE",
+      "speak": "bone",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "book-c1948a38",
+      "request": "book",
+      "speak": "book",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "books-07d5b411",
+      "request": "BOOKS",
+      "speak": "books",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (label)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "boots-fffa7852",
+      "request": "boots",
+      "speak": "boots",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "box-70c67e32",
+      "request": "box",
+      "speak": "box",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "boy-71c67fc5",
+      "request": "boy",
+      "speak": "boy",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "bread-c8647fe5",
+      "request": "BREAD",
+      "speak": "bread",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "break-c9648178",
+      "request": "BREAK",
+      "speak": "break",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "bridge-eab80610",
+      "request": "BRIDGE",
+      "speak": "bridge",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "bright-25094f85",
+      "request": "BRIGHT",
+      "speak": "bright",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "bring-f0dfd78b",
+      "request": "BRING",
+      "speak": "bring",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "broccoli-fa27abc2",
+      "request": "broccoli",
+      "speak": "broccoli",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "brother-35bc1205",
+      "request": "brother",
+      "speak": "brother",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (PR_EX4)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (word)",
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "brown-30be372f",
+      "request": "brown",
+      "speak": "brown",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "brush-fac46df3",
+      "request": "BRUSH",
+      "speak": "brush",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "bug-73d58d75",
+      "request": "bug",
+      "speak": "bug",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "build-c39bf2a3",
+      "request": "BUILD",
+      "speak": "build",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "burn-51f91098",
+      "request": "BURN",
+      "speak": "burn",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "bus-5fd56df9",
+      "request": "bus",
+      "speak": "bus",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "butterfly-03d5b964",
+      "request": "butterfly",
+      "speak": "butterfly",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "c-e60c2c52",
+      "request": "c",
+      "speak": "see",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "cake-8aea8859",
+      "request": "CAKE",
+      "speak": "cake",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/digraphs.ts (tts)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "camp-a9ef3654",
+      "request": "CAMP",
+      "speak": "camp",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "cap-027455bb",
+      "request": "cap",
+      "speak": "cap",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "car-047458e1",
+      "request": "car",
+      "speak": "car",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "carrot-b720bb72",
+      "request": "carrot",
+      "speak": "carrot",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "carry-7013d630",
+      "request": "CARRY",
+      "speak": "carry",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "cat-06745c07",
+      "request": "cat",
+      "speak": "cat",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "catch-4288e94c",
+      "request": "CATCH",
+      "speak": "catch",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "chain-60b4a3d6",
+      "request": "CHAIN",
+      "speak": "chain",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "chair-5cb49d8a",
+      "request": "chair",
+      "speak": "chair",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "cheeks-881fe472",
+      "request": "CHEEKS",
+      "speak": "cheeks",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "cheese-a20c85a8",
+      "request": "cheese",
+      "speak": "cheese",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "cherry-497ae878",
+      "request": "cherry",
+      "speak": "cherry",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "chicken-f161ff1c",
+      "request": "chicken",
+      "speak": "chicken",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "chief-d18a3a92",
+      "request": "CHIEF",
+      "speak": "chief",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "children-67a9c9d2",
+      "request": "CHILDREN",
+      "speak": "children",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "chin-8c384f51",
+      "request": "CHIN",
+      "speak": "chin",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "chips-f6be5034",
+      "request": "CHIPS",
+      "speak": "chips",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "circle-28217089",
+      "request": "circle",
+      "speak": "circle",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "city-0dc48142",
+      "request": "CITY",
+      "speak": "city",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "clap-4324fd83",
+      "request": "CLAP",
+      "speak": "clap",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "clay-4a250888",
+      "request": "CLAY",
+      "speak": "clay",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "clean-506dff3e",
+      "request": "clean",
+      "speak": "clean",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step2/vocabulary.ts (word1)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "climb-436f768a",
+      "request": "CLIMB",
+      "speak": "climb",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "clock-15a40f5d",
+      "request": "CLOCK",
+      "speak": "clock",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "close-27cb3b23",
+      "request": "CLOSE",
+      "speak": "close",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "cloud-1ac6a97e",
+      "request": "cloud",
+      "speak": "cloud",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "clue-66071f88",
+      "request": "CLUE",
+      "speak": "clue",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "coat-dc398e12",
+      "request": "coat",
+      "speak": "coat",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "coin-d24d060c",
+      "request": "COIN",
+      "speak": "coin",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "cold-ea44dd0f",
+      "request": "cold",
+      "speak": "cold",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "computer-b1514998",
+      "request": "COMPUTER",
+      "speak": "computer",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "cook-ef3e2929",
+      "request": "COOK",
+      "speak": "cook",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "cookie-77a740bf",
+      "request": "COOKIE",
+      "speak": "cookie",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "cop-fe8de755",
+      "request": "cop",
+      "speak": "cop",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "corn-d45e5253",
+      "request": "CORN",
+      "speak": "corn",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "count-39b1ddf4",
+      "request": "COUNT",
+      "speak": "count",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "cousin-3799e184",
+      "request": "cousin",
+      "speak": "cousin",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "cow-f78ddc50",
+      "request": "COW",
+      "speak": "cow",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "crab-90407463",
+      "request": "CRAB",
+      "speak": "crab",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "crack-3d749c61",
+      "request": "CRACK",
+      "speak": "crack",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "creature-22ad1198",
+      "request": "CREATURE",
+      "speak": "creature",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "crown-34ea9c90",
+      "request": "CROWN",
+      "speak": "crown",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "cry-f944e95b",
+      "request": "CRY",
+      "speak": "cry",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "cube-6b91d120",
+      "request": "CUBE",
+      "speak": "cube",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "cucumber-52f6dcd9",
+      "request": "cucumber",
+      "speak": "cucumber",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "cup-fa56340f",
+      "request": "cup",
+      "speak": "cup",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "cute-6fa9dc52",
+      "request": "CUTE",
+      "speak": "cute",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "d-e10c2473",
+      "request": "d",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"D IY1\">d</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "dad-e74f26b6",
+      "request": "dad",
+      "speak": "dad",
+      "profile": "word",
+      "sources": [
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "dan-ed4f3028",
+      "request": "Dan",
+      "speak": "Dan",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (PR_EX4)"
+      ]
+    },
+    {
+      "key": "dana-dca902eb",
+      "request": "Dana",
+      "speak": "Dana",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (PR_EX3)",
+        "src/data/step2/yes-no.ts (YN_EX2)"
+      ]
+    },
+    {
+      "key": "dance-f815289c",
+      "request": "dance",
+      "speak": "dance",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "danger-219901ae",
+      "request": "DANGER",
+      "speak": "danger",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "day-e44f21fd",
+      "request": "day",
+      "speak": "day",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "decision-6f65abe3",
+      "request": "DECISION",
+      "speak": "decision",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "dirty-9f000e9b",
+      "request": "dirty",
+      "speak": "dirty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "dish-4860455d",
+      "request": "DISH",
+      "speak": "dish",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "do-621cd814",
+      "request": "Do",
+      "speak": "Do",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/has-have.ts (HH_YN_EX2)"
+      ]
+    },
+    {
+      "key": "doctor-a1f02512",
+      "request": "DOCTOR",
+      "speak": "doctor",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "does-20dc1db0",
+      "request": "Does",
+      "speak": "Does",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/has-have.ts (HH_YN_EX2)"
+      ]
+    },
+    {
+      "key": "dog-e668bd09",
+      "request": "dog",
+      "speak": "dog",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "dolphin-0f93019f",
+      "request": "DOLPHIN",
+      "speak": "dolphin",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "donkey-fc948035",
+      "request": "DONKEY",
+      "speak": "donkey",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "door-21f5b729",
+      "request": "door",
+      "speak": "door",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "down-3db9b915",
+      "request": "down",
+      "speak": "down",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "dragon-f810361e",
+      "request": "DRAGON",
+      "speak": "dragon",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "draw-a88bf413",
+      "request": "DRAW",
+      "speak": "draw",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "dress-68e41ef0",
+      "request": "dress",
+      "speak": "dress",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "drink-15743f91",
+      "request": "drink",
+      "speak": "drink",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "drum-c26f9aed",
+      "request": "DRUM",
+      "speak": "drum",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "dry-dc25c75e",
+      "request": "dry",
+      "speak": "dry",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "duck-bb323378",
+      "request": "DUCK",
+      "speak": "duck",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "dune-d54e32e3",
+      "request": "DUNE",
+      "speak": "dune",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "e-e00c22e0",
+      "request": "e",
+      "speak": "ee",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/cvcWords.ts (VOWELS)",
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "ear-666e1bb3",
+      "request": "ear",
+      "speak": "ear",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "ears-ff55af40",
+      "request": "ears",
+      "speak": "ears",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "earth-25f414d7",
+      "request": "EARTH",
+      "speak": "earth",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "eat-6c6e2525",
+      "request": "eat",
+      "speak": "eat",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "edge-56f6d83c",
+      "request": "EDGE",
+      "speak": "edge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "egg-597d11c6",
+      "request": "egg",
+      "speak": "egg",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "eight-d4fa8470",
+      "request": "eight",
+      "speak": "eight",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    },
+    {
+      "key": "eighteen-a57e9c10",
+      "request": "eighteen",
+      "speak": "eighteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "eighty-4f5dda2b",
+      "request": "eighty",
+      "speak": "eighty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "elephant-e5f12404",
+      "request": "elephant",
+      "speak": "elephant",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "eleven-8ff53680",
+      "request": "eleven",
+      "speak": "eleven",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "energy-29cc5095",
+      "request": "ENERGY",
+      "speak": "energy",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "engine-ee05d83b",
+      "request": "engine",
+      "speak": "engine",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "enjoy-10ab982c",
+      "request": "ENJOY",
+      "speak": "enjoy",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "envelope-fa10a755",
+      "request": "envelope",
+      "speak": "envelope",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "eraser-82afede5",
+      "request": "eraser",
+      "speak": "eraser",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "exit-cded1a85",
+      "request": "exit",
+      "speak": "exit",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "explosion-02bb1fe0",
+      "request": "EXPLOSION",
+      "speak": "explosion",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "eye-8ba8ed1a",
+      "request": "eye",
+      "speak": "eye",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "eyes-43edbc4b",
+      "request": "eyes",
+      "speak": "eyes",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "f-e30c2799",
+      "request": "f",
+      "speak": "<phoneme alphabet=\"ipa\" ph=\"ɛf\">f</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "face-116b77dc",
+      "request": "face",
+      "speak": "face",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "fall-97245342",
+      "request": "Fall 🍂",
+      "speak": "Fall 🍂",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "fall-f85a0760",
+      "request": "fall",
+      "speak": "fall",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "fan-a8f7fa72",
+      "request": "FAN",
+      "speak": "fan",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "fast-029402af",
+      "request": "fast",
+      "speak": "fast",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "father-b0fee263",
+      "request": "father",
+      "speak": "father",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (PR_EX4)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "feel-b33572bd",
+      "request": "FEEL",
+      "speak": "feel",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "few-b20295f9",
+      "request": "FEW",
+      "speak": "few",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "fiction-f41adfe3",
+      "request": "FICTION",
+      "speak": "fiction",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "field-67826267",
+      "request": "FIELD",
+      "speak": "field",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "fifteen-07cc2b2a",
+      "request": "fifteen",
+      "speak": "fifteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "fifty-bd93ede1",
+      "request": "fifty",
+      "speak": "fifty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "fight-275ccfc9",
+      "request": "FIGHT",
+      "speak": "fight",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "find-bdf0855a",
+      "request": "FIND",
+      "speak": "find",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "fire-8eab16d9",
+      "request": "FIRE",
+      "speak": "fire",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "fish-afad8963",
+      "request": "fish",
+      "speak": "fish",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "five-aeb44395",
+      "request": "five",
+      "speak": "five",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "flag-bdeaa8d7",
+      "request": "FLAG",
+      "speak": "flag",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "flame-86584d00",
+      "request": "FLAME",
+      "speak": "flame",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "flight-e94aebc3",
+      "request": "FLIGHT",
+      "speak": "flight",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "floor-b8e70c1d",
+      "request": "floor",
+      "speak": "floor",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "flower-d1df8006",
+      "request": "flower",
+      "speak": "flower",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "flowers-d7d7382f",
+      "request": "flowers",
+      "speak": "flowers",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "fly-bff162e2",
+      "request": "FLY",
+      "speak": "fly",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "forest-4f292a60",
+      "request": "FOREST",
+      "speak": "forest",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "fork-3e58c421",
+      "request": "FORK",
+      "speak": "fork",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "forty-8583378f",
+      "request": "forty",
+      "speak": "forty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "found-64ff7b9f",
+      "request": "FOUND",
+      "speak": "found",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "four-2f69f5a5",
+      "request": "four",
+      "speak": "four",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    },
+    {
+      "key": "fourteen-01a53a61",
+      "request": "fourteen",
+      "speak": "fourteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "fox-b6f3934e",
+      "request": "fox",
+      "speak": "fox",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "free-99b3eedb",
+      "request": "FREE",
+      "speak": "free",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "friday-49b74432",
+      "request": "Friday",
+      "speak": "Friday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "friend-cba09f8d",
+      "request": "FRIEND",
+      "speak": "friend",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "frog-9bcd89e7",
+      "request": "FROG",
+      "speak": "frog",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "fruit-d76a9191",
+      "request": "FRUIT",
+      "speak": "fruit",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "fudge-ee7a9560",
+      "request": "FUDGE",
+      "speak": "fudge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "furniture-d7500965",
+      "request": "FURNITURE",
+      "speak": "furniture",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "future-55563696",
+      "request": "FUTURE",
+      "speak": "future",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "g-e20c2606",
+      "request": "g",
+      "speak": "gee",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "game-4249d707",
+      "request": "GAME",
+      "speak": "game",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "garden-775718f4",
+      "request": "garden",
+      "speak": "garden",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "gem-5b0cb25c",
+      "request": "GEM",
+      "speak": "gem",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "gently-a086389c",
+      "request": "GENTLY",
+      "speak": "gently",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "giant-f907064e",
+      "request": "GIANT",
+      "speak": "giant",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "ginger-8534ce9d",
+      "request": "GINGER",
+      "speak": "ginger",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "giraffe-ec22362f",
+      "request": "GIRAFFE",
+      "speak": "giraffe",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "girl-a25535a3",
+      "request": "girl",
+      "speak": "girl",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "give-994c2d1c",
+      "request": "GIVE",
+      "speak": "give",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "glass-f203a92b",
+      "request": "GLASS",
+      "speak": "glass",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "glasses-d7cb823b",
+      "request": "glasses",
+      "speak": "glasses",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "globe-03374982",
+      "request": "GLOBE",
+      "speak": "globe",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "glove-f368cd1e",
+      "request": "GLOVE",
+      "speak": "glove",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "gloves-9afb6297",
+      "request": "gloves",
+      "speak": "gloves",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "glue-7829333c",
+      "request": "GLUE",
+      "speak": "glue",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "goat-0e6f5bde",
+      "request": "GOAT",
+      "speak": "goat",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "good-fa6031d8",
+      "request": "GOOD",
+      "speak": "good",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "gorilla-dbe24ce5",
+      "request": "gorilla",
+      "speak": "gorilla",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "grandfather-77688e8b",
+      "request": "grandfather",
+      "speak": "grandfather",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "grandma-f0eea943",
+      "request": "grandma",
+      "speak": "grandma",
+      "profile": "word",
+      "sources": [
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "grandmother-a6ad93e2",
+      "request": "grandmother",
+      "speak": "grandmother",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "grandpa-fce80062",
+      "request": "grandpa",
+      "speak": "grandpa",
+      "profile": "word",
+      "sources": [
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "grapes-23d16399",
+      "request": "grapes",
+      "speak": "grapes",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "graph-b9780647",
+      "request": "GRAPH",
+      "speak": "graph",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "grass-b26fac7d",
+      "request": "grass",
+      "speak": "grass",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "gray-ba9ab39a",
+      "request": "GRAY",
+      "speak": "gray",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "green-011decbc",
+      "request": "green",
+      "speak": "green",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "grew-bc902964",
+      "request": "GREW",
+      "speak": "grew",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "group-1-71e3d9af",
+      "request": "Group 1",
+      "speak": "Group one",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/letterGroups.ts (label)"
+      ]
+    },
+    {
+      "key": "group-2-72e3db42",
+      "request": "Group 2",
+      "speak": "Group two",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/letterGroups.ts (label)"
+      ]
+    },
+    {
+      "key": "group-3-73e3dcd5",
+      "request": "Group 3",
+      "speak": "Group three",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/letterGroups.ts (label)"
+      ]
+    },
+    {
+      "key": "group-4-6ce3d1d0",
+      "request": "Group 4",
+      "speak": "Group four",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/letterGroups.ts (label)"
+      ]
+    },
+    {
+      "key": "group-5-6de3d363",
+      "request": "Group 5",
+      "speak": "Group five",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/letterGroups.ts (label)"
+      ]
+    },
+    {
+      "key": "grow-bc82b1da",
+      "request": "GROW",
+      "speak": "grow",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "gym-3b51a480",
+      "request": "GYM",
+      "speak": "gym",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "h-ed0c3757",
+      "request": "h",
+      "speak": "aitch",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "hair-d4b676b9",
+      "request": "hair",
+      "speak": "hair",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "hands-04187fa9",
+      "request": "hands",
+      "speak": "hands",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "happy-99863551",
+      "request": "happy",
+      "speak": "happy",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "has-edbf0fe3",
+      "request": "has",
+      "speak": "has",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/has-have.ts (HH_POS_EX2)"
+      ]
+    },
+    {
+      "key": "hat-f2bf17c2",
+      "request": "hat",
+      "speak": "hat",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/cvcWords.ts (ttsText)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "have-f5ce03fb",
+      "request": "have",
+      "speak": "have",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/has-have.ts (HH_POS_EX2)"
+      ]
+    },
+    {
+      "key": "he-5c3ae3b6",
+      "request": "HE",
+      "speak": "he",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (PR_EX2)",
+        "src/data/step2/grammar.ts (PR_EX4)",
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_YN_EX2)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)"
+      ]
+    },
+    {
+      "key": "head-32694bc3",
+      "request": "head",
+      "speak": "head",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "hear-28693c05",
+      "request": "hear",
+      "speak": "hear",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "heart-0eaa25e3",
+      "request": "heart",
+      "speak": "heart",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "hedge-e3198572",
+      "request": "HEDGE",
+      "speak": "hedge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "help-3871a3fa",
+      "request": "HELP",
+      "speak": "help",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "hen-08b4ad08",
+      "request": "hen",
+      "speak": "hen",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "her-f4b48d8c",
+      "request": "HER",
+      "speak": "her",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_BLANKS)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)"
+      ]
+    },
+    {
+      "key": "high-3dddb9fd",
+      "request": "HIGH",
+      "speak": "high",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "his-fdd2b0cb",
+      "request": "His",
+      "speak": "His",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_BLANKS)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)"
+      ]
+    },
+    {
+      "key": "hit-02d2b8aa",
+      "request": "hit",
+      "speak": "hit",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "hold-adc649b8",
+      "request": "HOLD",
+      "speak": "hold",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "home-d2c8c28e",
+      "request": "HOME",
+      "speak": "home",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "honey-316a8164",
+      "request": "HONEY",
+      "speak": "honey",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "hop-fac3a188",
+      "request": "hop",
+      "speak": "hop",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "horse-9b8951a6",
+      "request": "horse",
+      "speak": "horse",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "hot-and-cold-f7efb6d1",
+      "request": "hot and cold",
+      "speak": "hot and cold",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "hot-cold-dfbae16d",
+      "request": "hot / cold",
+      "speak": "hot / cold",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "hot-fec3a7d4",
+      "request": "hot",
+      "speak": "hot",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "hot-soup-00cd488b",
+      "request": "hot soup",
+      "speak": "hot soup",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "hour-b6032c0f",
+      "request": "hour",
+      "speak": "hour",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "house-0cfb455b",
+      "request": "house",
+      "speak": "house",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "how-7908dc36",
+      "request": "How?",
+      "speak": "How?",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/wh-questions.ts (word)"
+      ]
+    },
+    {
+      "key": "hug-e18d6033",
+      "request": "hug",
+      "speak": "hug",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "hundred-7ee93563",
+      "request": "hundred",
+      "speak": "hundred",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "i-can-hear-a5e00cee",
+      "request": "I can hear",
+      "speak": "I can hear",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "i-can-see-e949110d",
+      "request": "I can see",
+      "speak": "I can see",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "i-can-smell-438b6525",
+      "request": "I can smell",
+      "speak": "I can smell",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "i-can-taste-81245459",
+      "request": "I can taste",
+      "speak": "I can taste",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "i-can-touch-c34204cd",
+      "request": "I can touch",
+      "speak": "I can touch",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "i-ec0c35c4",
+      "request": "i",
+      "speak": "eye",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/cvcWords.ts (VOWELS)",
+        "src/data/step1/letterGroups.ts (letters)",
+        "src/data/step2/to-be.ts (TB_EX1)",
+        "src/data/step2/yes-no.ts (YN_EX2)",
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_POS_EX2)",
+        "src/data/step3/has-have.ts (HH_YN_EX2)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "ice-72e0f880",
+      "request": "ice",
+      "speak": "ice",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "ice-cream-6f531b1e",
+      "request": "ice cream",
+      "speak": "ice cream",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "idea-faf0de9a",
+      "request": "idea",
+      "speak": "idea",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "in-41387a9e",
+      "request": "in",
+      "speak": "in",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step1/trackDCategories.ts (ttsText)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (prep)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (ALL_SCENES)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (label)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (prep)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (ROUNDS)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (PREP_OPTIONS)"
+      ]
+    },
+    {
+      "key": "in-front-of-d7ece5ca",
+      "request": "in front of",
+      "speak": "in front of",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "insect-ccce80a1",
+      "request": "insect",
+      "speak": "insect",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "is-4e388f15",
+      "request": "is",
+      "speak": "is",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)",
+        "src/data/step2/yes-no.ts (YN_EX2)"
+      ]
+    },
+    {
+      "key": "island-cf6262ec",
+      "request": "island",
+      "speak": "island",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "it-47388410",
+      "request": "IT",
+      "speak": "it",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (PR_EX2)",
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)"
+      ]
+    },
+    {
+      "key": "itch-9833abb3",
+      "request": "ITCH",
+      "speak": "itch",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "its-80f867d9",
+      "request": "Its",
+      "speak": "Its",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)"
+      ]
+    },
+    {
+      "key": "j-ef0c3a7d",
+      "request": "j",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"JH EY1\">j</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "jacket-100e165b",
+      "request": "jacket",
+      "speak": "jacket",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "jam-e0edcc7b",
+      "request": "JAM",
+      "speak": "jam",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "jeans-aa2a6164",
+      "request": "JEANS",
+      "speak": "jeans",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "jeep-64809865",
+      "request": "JEEP",
+      "speak": "jeep",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "jellyfish-5c1c35e9",
+      "request": "jellyfish",
+      "speak": "jellyfish",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "jet-d7e330f4",
+      "request": "jet",
+      "speak": "jet",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "join-c922bc79",
+      "request": "JOIN",
+      "speak": "join",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "judge-aae2e5a4",
+      "request": "JUDGE",
+      "speak": "judge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "jump-a73f5c0d",
+      "request": "jump",
+      "speak": "jump",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "k-ee0c38ea",
+      "request": "k",
+      "speak": "<phoneme alphabet=\"ipa\" ph=\"keɪ\">k</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "kangaroo-9f8658ab",
+      "request": "kangaroo",
+      "speak": "kangaroo",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "keep-ee7b9448",
+      "request": "KEEP",
+      "speak": "keep",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "key-6815c86c",
+      "request": "KEY",
+      "speak": "key",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "kick-c61c131f",
+      "request": "KICK",
+      "speak": "kick",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "kid-7cf7d467",
+      "request": "kid",
+      "speak": "kid",
+      "profile": "word",
+      "sources": [
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "king-da13e3d6",
+      "request": "king",
+      "speak": "king",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "kiss-ddf39677",
+      "request": "kiss",
+      "speak": "kiss",
+      "profile": "word",
+      "sources": [
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "kitchen-33e6572f",
+      "request": "KITCHEN",
+      "speak": "kitchen",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "kite-dbfbe216",
+      "request": "kite",
+      "speak": "kite",
+      "profile": "word",
+      "sources": [
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "knee-385aba2a",
+      "request": "KNEE",
+      "speak": "knee",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "knife-7183f6da",
+      "request": "KNIFE",
+      "speak": "knife",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "knight-dfbbf53c",
+      "request": "KNIGHT",
+      "speak": "knight",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "knit-49504791",
+      "request": "KNIT",
+      "speak": "knit",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "knock-7266707f",
+      "request": "KNOCK",
+      "speak": "knock",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "know-464bc5aa",
+      "request": "KNOW",
+      "speak": "know",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "l-e90c310b",
+      "request": "l",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"EH1 L\">l</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "lake-62f55e3e",
+      "request": "LAKE",
+      "speak": "lake",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "lamp-6bf0ef3b",
+      "request": "LAMP",
+      "speak": "lamp",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "leaf-2648cd55",
+      "request": "LEAF",
+      "speak": "leaf",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "learn-7f697715",
+      "request": "LEARN",
+      "speak": "learn",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "leaves-a53859c9",
+      "request": "leaves",
+      "speak": "leaves",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "leg-3f6ae937",
+      "request": "leg",
+      "speak": "leg",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "legs-194d360c",
+      "request": "legs",
+      "speak": "legs",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "lemon-c8c141d0",
+      "request": "lemon",
+      "speak": "lemon",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "light-e29d1e2f",
+      "request": "LIGHT",
+      "speak": "light",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "lion-f2dead7f",
+      "request": "lion",
+      "speak": "lion",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "listen-3b3b76a6",
+      "request": "LISTEN",
+      "speak": "listen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "lock-ef0d7842",
+      "request": "LOCK",
+      "speak": "lock",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "lodge-8b077b98",
+      "request": "LODGE",
+      "speak": "lodge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "log-3f515151",
+      "request": "log",
+      "speak": "log",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "long-c2ecdf53",
+      "request": "LONG",
+      "speak": "long",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "look-e6ef5696",
+      "request": "LOOK",
+      "speak": "look",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "lotion-0db7600e",
+      "request": "LOTION",
+      "speak": "lotion",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "lunch-cf1ef61f",
+      "request": "LUNCH",
+      "speak": "lunch",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "m-e80c2f78",
+      "request": "m",
+      "speak": "em",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "magic-e4eb258c",
+      "request": "MAGIC",
+      "speak": "magic",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "man-e9a2ff6f",
+      "request": "MAN",
+      "speak": "man",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "mango-0e74ffd5",
+      "request": "mango",
+      "speak": "mango",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "map-dfa2efb1",
+      "request": "map",
+      "speak": "map",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "match-7e202f96",
+      "request": "MATCH",
+      "speak": "match",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "math-ee88998f",
+      "request": "MATH",
+      "speak": "math",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "me-and-family-13758886",
+      "request": "me and family",
+      "speak": "me and family",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "me-and-friend-a9f0247e",
+      "request": "me and friend",
+      "speak": "me and friend",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "medicine-a1e5de1d",
+      "request": "medicine",
+      "speak": "medicine",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "melon-72e25d5c",
+      "request": "melon",
+      "speak": "melon",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "milk-888e7aa2",
+      "request": "milk",
+      "speak": "milk",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "mixture-8c08ee83",
+      "request": "MIXTURE",
+      "speak": "mixture",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "mom-e69e7d88",
+      "request": "mom",
+      "speak": "mom",
+      "profile": "word",
+      "sources": [
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "monday-4cfa1739",
+      "request": "Monday",
+      "speak": "Monday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "money-e150c94f",
+      "request": "MONEY",
+      "speak": "money",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "monkey-6a164f08",
+      "request": "monkey",
+      "speak": "monkey",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "moon-f184ae40",
+      "request": "MOON",
+      "speak": "moon",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "mop-d39e5f9f",
+      "request": "mop",
+      "speak": "mop",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "mother-23e3d71a",
+      "request": "mother",
+      "speak": "mother",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (PR_EX3)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step2/vocabulary/family/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "motion-bd73a627",
+      "request": "MOTION",
+      "speak": "motion",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "mouse-592318c4",
+      "request": "mouse",
+      "speak": "mouse",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "mouth-742581dc",
+      "request": "mouth",
+      "speak": "mouth",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "movie-aef39ccf",
+      "request": "MOVIE",
+      "speak": "movie",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "music-9f9c4fd4",
+      "request": "music",
+      "speak": "music",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "my-4c2dfe93",
+      "request": "My",
+      "speak": "My",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_BLANKS)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "my-brother-9f960149",
+      "request": "My brother",
+      "speak": "My brother",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)"
+      ]
+    },
+    {
+      "key": "my-friends-fb8d6f26",
+      "request": "My friends",
+      "speak": "My friends",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)"
+      ]
+    },
+    {
+      "key": "my-sister-91debc55",
+      "request": "My sister",
+      "speak": "My sister",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)",
+        "src/data/step2/yes-no.ts (YN_EX2)",
+        "src/data/step3/has-have.ts (HH_POS_EX2)"
+      ]
+    },
+    {
+      "key": "n-eb0c3431",
+      "request": "n",
+      "speak": "N.",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "nation-3957bd3a",
+      "request": "NATION",
+      "speak": "nation",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "nature-a6563e8a",
+      "request": "NATURE",
+      "speak": "nature",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "neck-4bf95912",
+      "request": "NECK",
+      "speak": "neck",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "new-28999611",
+      "request": "NEW",
+      "speak": "new",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "next-to-fee13031",
+      "request": "next to",
+      "speak": "next to",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step1/trackDCategories.ts (ttsText)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (prep)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (label)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (prep)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (ROUNDS)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (PREP_OPTIONS)"
+      ]
+    },
+    {
+      "key": "night-e6de9f61",
+      "request": "night",
+      "speak": "night",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "nine-16266f55",
+      "request": "nine",
+      "speak": "nine",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "nineteen-e21ee631",
+      "request": "nineteen",
+      "speak": "nineteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "ninety-c1faa93e",
+      "request": "ninety",
+      "speak": "ninety",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "noise-904416d1",
+      "request": "NOISE",
+      "speak": "noise",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "nose-918d404a",
+      "request": "nose",
+      "speak": "nose",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)",
+        "src/components/step1/trackD/BodyMatch.tsx (word)"
+      ]
+    },
+    {
+      "key": "nurse-f79f39aa",
+      "request": "NURSE",
+      "speak": "nurse",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "o-ea0c329e",
+      "request": "o",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"OW1\">o</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/cvcWords.ts (VOWELS)",
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "octopus-bebfab0e",
+      "request": "octopus",
+      "speak": "octopus",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "oil-c338713b",
+      "request": "OIL",
+      "speak": "oil",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "old-bd2b9bd6",
+      "request": "old",
+      "speak": "old",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "on-61342fd0",
+      "request": "on",
+      "speak": "on",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step1/trackDCategories.ts (ttsText)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (prep)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (ALL_SCENES)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (label)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (prep)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (ROUNDS)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (PREP_OPTIONS)"
+      ]
+    },
+    {
+      "key": "one-ba2719ef",
+      "request": "one",
+      "speak": "one",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    },
+    {
+      "key": "onion-721c6d16",
+      "request": "onion",
+      "speak": "onion",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "open-d35ec4c9",
+      "request": "OPEN",
+      "speak": "open",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "option-e7e19b94",
+      "request": "OPTION",
+      "speak": "option",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "orange-45b473eb",
+      "request": "orange",
+      "speak": "orange",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "our-a91a3339",
+      "request": "Our",
+      "speak": "Our",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_BLANKS)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)"
+      ]
+    },
+    {
+      "key": "out-ab1a365f",
+      "request": "OUT",
+      "speak": "out",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "oven-25f63f2b",
+      "request": "oven",
+      "speak": "oven",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "owl-a715b2e5",
+      "request": "owl",
+      "speak": "owl",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)"
+      ]
+    },
+    {
+      "key": "p-f50c43ef",
+      "request": "p",
+      "speak": "pea",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "page-815dfa76",
+      "request": "PAGE",
+      "speak": "page",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "paint-64b8f933",
+      "request": "PAINT",
+      "speak": "paint",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "pan-4f55eeec",
+      "request": "PAN",
+      "speak": "pan",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "pants-de2337e1",
+      "request": "pants",
+      "speak": "pants",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "park-63780eb9",
+      "request": "park",
+      "speak": "park",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "parrot-6260b525",
+      "request": "parrot",
+      "speak": "parrot",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "patch-f9100aa9",
+      "request": "PATCH",
+      "speak": "patch",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "peach-a0d51666",
+      "request": "PEACH",
+      "speak": "peach",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "pear-d01fc26d",
+      "request": "PEAR",
+      "speak": "pear",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "pen-6f4b93f0",
+      "request": "pen",
+      "speak": "pen",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "pencil-78627a04",
+      "request": "pencil",
+      "speak": "pencil",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "penguin-2efc387f",
+      "request": "penguin",
+      "speak": "penguin",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "pepper-ce1ad479",
+      "request": "pepper",
+      "speak": "pepper",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "perfume-2e78840b",
+      "request": "PERFUME",
+      "speak": "perfume",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "phone-773611af",
+      "request": "PHONE",
+      "speak": "phone",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "photo-812716e3",
+      "request": "PHOTO",
+      "speak": "photo",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "picture-312fd389",
+      "request": "PICTURE",
+      "speak": "picture",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "piece-f4c5f285",
+      "request": "PIECE",
+      "speak": "piece",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "pig-6840fb8f",
+      "request": "pig",
+      "speak": "pig",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "pink-225e036d",
+      "request": "pink",
+      "speak": "pink",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "pizza-97a76a65",
+      "request": "PIZZA",
+      "speak": "pizza",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "place-c8d632fc",
+      "request": "PLACE",
+      "speak": "place",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "plane-cccb0055",
+      "request": "PLANE",
+      "speak": "plane",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "plant-bbcae592",
+      "request": "PLANT",
+      "speak": "plant",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "plate-c9011403",
+      "request": "PLATE",
+      "speak": "plate",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "play-c2cbd863",
+      "request": "PLAY",
+      "speak": "play",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "point-18ae6c91",
+      "request": "POINT",
+      "speak": "point",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "police-e2c119fb",
+      "request": "POLICE",
+      "speak": "police",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "pool-91dd7983",
+      "request": "POOL",
+      "speak": "pool",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "potato-25d4a652",
+      "request": "potato",
+      "speak": "potato",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "pray-d6399011",
+      "request": "PRAY",
+      "speak": "pray",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "present-1e801cec",
+      "request": "PRESENT",
+      "speak": "present",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "prince-06588c28",
+      "request": "PRINCE",
+      "speak": "prince",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "prize-1755a12f",
+      "request": "PRIZE",
+      "speak": "prize",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "pull-812d107e",
+      "request": "PULL",
+      "speak": "pull",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "pupils-d086de04",
+      "request": "pupils",
+      "speak": "pupils",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "purple-9a6e02ff",
+      "request": "purple",
+      "speak": "purple",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "push-876fffdd",
+      "request": "PUSH",
+      "speak": "push",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "q-f40c425c",
+      "request": "q",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"K Y UW1\">q</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "quarter-59c2cae7",
+      "request": "QUARTER",
+      "speak": "quarter",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "queen-0fb740c9",
+      "request": "QUEEN",
+      "speak": "queen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "quick-f739c3bc",
+      "request": "QUICK",
+      "speak": "quick",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "quiet-ea353217",
+      "request": "QUIET",
+      "speak": "quiet",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "quiz-518796f4",
+      "request": "QUIZ",
+      "speak": "quiz",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "r-f70c4715",
+      "request": "r",
+      "speak": "R.",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "rabbit-cb619ce5",
+      "request": "RABBIT",
+      "speak": "rabbit",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "rain-89a3b5d3",
+      "request": "rain",
+      "speak": "rain",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "rainbow-2b6ce2a9",
+      "request": "rainbow",
+      "speak": "rainbow",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "read-cedfa3c5",
+      "request": "READ",
+      "speak": "read",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "red-40f480dc",
+      "request": "red",
+      "speak": "red",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "rice-0552c2b0",
+      "request": "rice",
+      "speak": "rice",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "ride-0541798f",
+      "request": "RIDE",
+      "speak": "ride",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "right-78e32de5",
+      "request": "RIGHT",
+      "speak": "right",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "ring-f75afb6b",
+      "request": "RING",
+      "speak": "ring",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "river-4660d711",
+      "request": "RIVER",
+      "speak": "river",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "road-3d1fcc9b",
+      "request": "ROAD",
+      "speak": "road",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "roof-2efd244f",
+      "request": "ROOF",
+      "speak": "roof",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "room-37fd327a",
+      "request": "ROOM",
+      "speak": "room",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "rose-10421806",
+      "request": "ROSE",
+      "speak": "rose",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "round-4f0be23b",
+      "request": "ROUND",
+      "speak": "round",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "rug-23cd43c5",
+      "request": "rug",
+      "speak": "rug",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "run-2acd4eca",
+      "request": "run",
+      "speak": "run",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "s-f60c4582",
+      "request": "s",
+      "speak": "ess",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "sad-e61cac07",
+      "request": "sad",
+      "speak": "sad",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "sand-be148163",
+      "request": "SAND",
+      "speak": "sand",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "saturday-121cf816",
+      "request": "Saturday",
+      "speak": "Saturday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "scan-ece838e8",
+      "request": "SCAN",
+      "speak": "scan",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "scarf-7f5f6abe",
+      "request": "scarf",
+      "speak": "scarf",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "school-9f519cc9",
+      "request": "school",
+      "speak": "school",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "score-d22f9095",
+      "request": "SCORE",
+      "speak": "score",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "see-b526ec40",
+      "request": "see",
+      "speak": "see",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "seven-3583acfe",
+      "request": "seven",
+      "speak": "seven",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    },
+    {
+      "key": "seventeen-a4c6ff66",
+      "request": "seventeen",
+      "speak": "seventeen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "seventy-914f96c5",
+      "request": "seventy",
+      "speak": "seventy",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "shark-a7c9f912",
+      "request": "SHARK",
+      "speak": "shark",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "she-e92df9e1",
+      "request": "she",
+      "speak": "she",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_YN_EX2)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)"
+      ]
+    },
+    {
+      "key": "sheep-07cc25f4",
+      "request": "sheep",
+      "speak": "sheep",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "shell-11e1fc01",
+      "request": "SHELL",
+      "speak": "shell",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "ship-ac56f17f",
+      "request": "ship",
+      "speak": "ship",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "shirt-43e36503",
+      "request": "shirt",
+      "speak": "shirt",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "shoe-9b47cc32",
+      "request": "SHOE",
+      "speak": "shoe",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "shoes-b3068a53",
+      "request": "shoes",
+      "speak": "shoes",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "shop-a847e0a9",
+      "request": "SHOP",
+      "speak": "shop",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "short-ba226bd5",
+      "request": "short",
+      "speak": "short",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "shorts-aa2f7652",
+      "request": "SHORTS",
+      "speak": "shorts",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "shout-b82da1a2",
+      "request": "SHOUT",
+      "speak": "shout",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "show-a947e23c",
+      "request": "SHOW",
+      "speak": "show",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "shy-d52dda65",
+      "request": "SHY",
+      "speak": "shy",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "sick-31b23887",
+      "request": "SICK",
+      "speak": "sick",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "sing-15d2601e",
+      "request": "SING",
+      "speak": "sing",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "sister-fe691321",
+      "request": "sister",
+      "speak": "sister",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/grammar.ts (PR_EX3)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (word)",
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "sit-c630015f",
+      "request": "sit",
+      "speak": "sit",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "six-ca3007ab",
+      "request": "six",
+      "speak": "six",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    },
+    {
+      "key": "sixteen-c5d13fab",
+      "request": "sixteen",
+      "speak": "sixteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "sixty-6232229c",
+      "request": "sixty",
+      "speak": "sixty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "sky-cd2b8f36",
+      "request": "SKY",
+      "speak": "sky",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "sledge-0645bda3",
+      "request": "SLEDGE",
+      "speak": "sledge",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "sleep-89eabb08",
+      "request": "sleep",
+      "speak": "sleep",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "sleepy-8d8512e3",
+      "request": "sleepy",
+      "speak": "sleepy",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "slide-5791e5e6",
+      "request": "SLIDE",
+      "speak": "slide",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "slime-837ad1db",
+      "request": "SLIME",
+      "speak": "slime",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "slow-6d9542b8",
+      "request": "slow",
+      "speak": "slow",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word1)",
+        "src/data/step4/blends.ts (word)"
+      ]
+    },
+    {
+      "key": "slow-and-fast-d9bedabd",
+      "request": "slow and fast",
+      "speak": "slow and fast",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "slow-fast-29114869",
+      "request": "slow / fast",
+      "speak": "slow / fast",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "small-a2c4f48c",
+      "request": "small",
+      "speak": "small",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "smell-f052b280",
+      "request": "smell",
+      "speak": "smell",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "smile-5505928f",
+      "request": "SMILE",
+      "speak": "smile",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "snail-8afbb84a",
+      "request": "SNAIL",
+      "speak": "snail",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "snake-aff5e25b",
+      "request": "snake",
+      "speak": "snake",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "snow-848317f2",
+      "request": "snow",
+      "speak": "snow",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "snowman-3674281e",
+      "request": "snowman",
+      "speak": "snowman",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "soap-ee568736",
+      "request": "SOAP",
+      "speak": "soap",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "sock-0d523ad5",
+      "request": "sock",
+      "speak": "sock",
+      "profile": "word",
+      "sources": [
+        "src/app/step2/phonics/exercise2/page.tsx (word)",
+        "src/app/step4/phonics/k-or-c/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "socks-9e725352",
+      "request": "socks",
+      "speak": "socks",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "song-115d7a14",
+      "request": "SONG",
+      "speak": "song",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "spring-2be16850",
+      "request": "Spring 🌸",
+      "speak": "Spring 🌸",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "spring-63f1336c",
+      "request": "spring",
+      "speak": "spring",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "square-b4b61246",
+      "request": "square",
+      "speak": "square",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "star-d13b2f71",
+      "request": "star",
+      "speak": "star",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "station-aed72c13",
+      "request": "STATION",
+      "speak": "station",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "stop-cb532ae5",
+      "request": "STOP",
+      "speak": "stop",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "storm-bfe7af96",
+      "request": "STORM",
+      "speak": "storm",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "strawberry-843a155c",
+      "request": "strawberry",
+      "speak": "strawberry",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "strong-c51f5d7a",
+      "request": "STRONG",
+      "speak": "strong",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "summer-2f49f1e1",
+      "request": "Summer ☀️",
+      "speak": "Summer ☀️",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "summer-fce32734",
+      "request": "summer",
+      "speak": "summer",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "sun-e04e3f61",
+      "request": "sun",
+      "speak": "sun",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "sunday-a429a0d9",
+      "request": "Sunday",
+      "speak": "Sunday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "sunglasses-6e85d6c7",
+      "request": "sunglasses",
+      "speak": "sunglasses",
+      "profile": "word",
+      "sources": [
+        "src/app/step2/vocabulary/clothes/page.tsx (name)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "swim-71da140d",
+      "request": "SWIM",
+      "speak": "swim",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "t-f10c3da3",
+      "request": "t",
+      "speak": "tea",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "table-4a9c9bdf",
+      "request": "table",
+      "speak": "table",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "take-0a339056",
+      "request": "TAKE",
+      "speak": "take",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "talk-142ce44f",
+      "request": "TALK",
+      "speak": "talk",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "tall-112cdf96",
+      "request": "tall",
+      "speak": "tall",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "taste-8767f88c",
+      "request": "taste",
+      "speak": "taste",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "tea-b401e629",
+      "request": "TEA",
+      "speak": "tea",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "teach-1d1a14a2",
+      "request": "TEACH",
+      "speak": "teach",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "teacher-03274595",
+      "request": "teacher",
+      "speak": "teacher",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "television-e6a5d551",
+      "request": "TELEVISION",
+      "speak": "television",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "ten-bd01f454",
+      "request": "ten",
+      "speak": "ten",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)",
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "the-book-4997b3d9",
+      "request": "The book",
+      "speak": "The book",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)"
+      ]
+    },
+    {
+      "key": "the-boy-55db784a",
+      "request": "The boy",
+      "speak": "The boy",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)",
+        "src/data/step3/has-have.ts (HH_POS_EX2)"
+      ]
+    },
+    {
+      "key": "the-cat-c1a45d58",
+      "request": "The cat",
+      "speak": "The cat",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/has-have.ts (HH_POS_EX2)",
+        "src/data/step3/has-have.ts (HH_YN_EX2)"
+      ]
+    },
+    {
+      "key": "the-dogs-c0bcdad7",
+      "request": "The dogs",
+      "speak": "The dogs",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/to-be.ts (TB_EX4)"
+      ]
+    },
+    {
+      "key": "the-pupils-f7f9af2d",
+      "request": "the pupils",
+      "speak": "the pupils",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/yes-no.ts (YN_EX2)"
+      ]
+    },
+    {
+      "key": "the-sun-fdf5509a",
+      "request": "the sun",
+      "speak": "the sun",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "the-tiger-2a417413",
+      "request": "the tiger",
+      "speak": "the tiger",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/yes-no.ts (YN_EX2)"
+      ]
+    },
+    {
+      "key": "their-cbfd3c67",
+      "request": "Their",
+      "speak": "Their",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)"
+      ]
+    },
+    {
+      "key": "they-d822d4ff",
+      "request": "THEY",
+      "speak": "they",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_POS_EX2)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)"
+      ]
+    },
+    {
+      "key": "thief-79d90ec3",
+      "request": "THIEF",
+      "speak": "thief",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "thin-c52bb172",
+      "request": "THIN",
+      "speak": "thin",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "think-7cc7ca5b",
+      "request": "THINK",
+      "speak": "think",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "thirteen-63374a36",
+      "request": "thirteen",
+      "speak": "thirteen",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "thirty-1a956a35",
+      "request": "thirty",
+      "speak": "thirty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "three-888603c3",
+      "request": "three",
+      "speak": "three",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "three-cats-64d36108",
+      "request": "three cats",
+      "speak": "three cats",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "threw-7a85edb9",
+      "request": "THREW",
+      "speak": "threw",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "throw-7a78762f",
+      "request": "THROW",
+      "speak": "throw",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "thumb-f3ac9ae3",
+      "request": "THUMB",
+      "speak": "thumb",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "thursday-121ee9b7",
+      "request": "Thursday",
+      "speak": "Thursday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "tiger-f270b0b8",
+      "request": "tiger",
+      "speak": "tiger",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "tight-f654e087",
+      "request": "TIGHT",
+      "speak": "tight",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "toast-5a91e6d0",
+      "request": "TOAST",
+      "speak": "toast",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "tomato-35a2e5c3",
+      "request": "tomato",
+      "speak": "tomato",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "tooth-0a0a25b5",
+      "request": "TOOTH",
+      "speak": "tooth",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise1/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "touch-698989d8",
+      "request": "touch",
+      "speak": "touch",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "town-33886745",
+      "request": "TOWN",
+      "speak": "town",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "toy-b010ea67",
+      "request": "TOY",
+      "speak": "toy",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "train-78556c69",
+      "request": "train",
+      "speak": "train",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "tray-6980a12d",
+      "request": "TRAY",
+      "speak": "tray",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise4/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "tree-6d8b34d5",
+      "request": "tree",
+      "speak": "tree",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise3/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "triangle-05025085",
+      "request": "triangle",
+      "speak": "triangle",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "trophy-3bbde2ff",
+      "request": "TROPHY",
+      "speak": "trophy",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "truck-f542bdc8",
+      "request": "TRUCK",
+      "speak": "truck",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step4/blends.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "true-4db211e5",
+      "request": "TRUE",
+      "speak": "true",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "try-ac1db00e",
+      "request": "TRY",
+      "speak": "try",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "tube-6824827f",
+      "request": "TUBE",
+      "speak": "tube",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "tuesday-26285d10",
+      "request": "Tuesday",
+      "speak": "Tuesday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "tune-68410493",
+      "request": "TUNE",
+      "speak": "tune",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "turkey-995fc0cf",
+      "request": "TURKEY",
+      "speak": "turkey",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "turn-914bd27a",
+      "request": "TURN",
+      "speak": "turn",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "twelve-f5352bb4",
+      "request": "twelve",
+      "speak": "twelve",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_11_19)"
+      ]
+    },
+    {
+      "key": "twenty-00500da8",
+      "request": "twenty",
+      "speak": "twenty",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_TENS)"
+      ]
+    },
+    {
+      "key": "twenty-eight-1852361a",
+      "request": "twenty-eight",
+      "speak": "twenty-eight",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-five-825d8b1f",
+      "request": "twenty-five",
+      "speak": "twenty-five",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-four-7a930b5b",
+      "request": "twenty-four",
+      "speak": "twenty-four",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-nine-9d9ecbcf",
+      "request": "twenty-nine",
+      "speak": "twenty-nine",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-one-493624ad",
+      "request": "twenty-one",
+      "speak": "twenty-one",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-seven-37348a60",
+      "request": "twenty-seven",
+      "speak": "twenty-seven",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-six-8151aa7d",
+      "request": "twenty-six",
+      "speak": "twenty-six",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-three-a202f41d",
+      "request": "twenty-three",
+      "speak": "twenty-three",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twenty-two-1dd883e7",
+      "request": "twenty-two",
+      "speak": "twenty-two",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_21_29)"
+      ]
+    },
+    {
+      "key": "twins-c28c1580",
+      "request": "twins",
+      "speak": "twins",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)"
+      ]
+    },
+    {
+      "key": "two-be248829",
+      "request": "two",
+      "speak": "two",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    },
+    {
+      "key": "two-boys-8490dc94",
+      "request": "two boys",
+      "speak": "two boys",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "two-friends-97719714",
+      "request": "two friends",
+      "speak": "two friends",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "two-girls-84db040e",
+      "request": "two girls",
+      "speak": "two girls",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)"
+      ]
+    },
+    {
+      "key": "u-f00c3c10",
+      "request": "u",
+      "speak": "you",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/cvcWords.ts (VOWELS)",
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "umbrella-f590e1e5",
+      "request": "umbrella",
+      "speak": "umbrella",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "uncle-60e2ae30",
+      "request": "uncle",
+      "speak": "uncle",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/family/page.tsx (name)"
+      ]
+    },
+    {
+      "key": "under-89193acd",
+      "request": "under",
+      "speak": "under",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step1/trackDCategories.ts (ttsText)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (prep)",
+        "src/components/step1/trackD/PrepCircleImage.tsx (ALL_SCENES)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (label)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (prep)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (ROUNDS)",
+        "src/components/step1/trackD/PrepositionsBallInBox.tsx (PREP_OPTIONS)"
+      ]
+    },
+    {
+      "key": "up-43430b20",
+      "request": "up",
+      "speak": "up",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "up-and-down-798eefd7",
+      "request": "up and down",
+      "speak": "up and down",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (ttsText)"
+      ]
+    },
+    {
+      "key": "up-down-e2aab3b3",
+      "request": "up / down",
+      "speak": "up, down",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "v-f30c40c9",
+      "request": "v",
+      "speak": "vee",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "vacation-f9efa80a",
+      "request": "VACATION",
+      "speak": "vacation",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "valley-309b1b82",
+      "request": "VALLEY",
+      "speak": "valley",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "van-9625faa2",
+      "request": "van",
+      "speak": "van",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/cvcWords.ts (word)"
+      ]
+    },
+    {
+      "key": "vision-17c64e29",
+      "request": "VISION",
+      "speak": "vision",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "w-f20c3f36",
+      "request": "w",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"D AH1 B AH0 L Y UW1\">w</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "wait-892e4ca0",
+      "request": "WAIT",
+      "speak": "wait",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)"
+      ]
+    },
+    {
+      "key": "walk-a0262210",
+      "request": "WALK",
+      "speak": "walk",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wall-a7262d15",
+      "request": "WALL",
+      "speak": "wall",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "want-8b2c112f",
+      "request": "WANT",
+      "speak": "want",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wash-a0f6c56e",
+      "request": "WASH",
+      "speak": "wash",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wasp-88f69fa6",
+      "request": "WASP",
+      "speak": "wasp",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "watch-5fb7b228",
+      "request": "WATCH",
+      "speak": "watch",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)",
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "water-49c69a10",
+      "request": "water",
+      "speak": "water",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "waterfall-516fb2f9",
+      "request": "waterfall",
+      "speak": "waterfall",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "watermelon-b3f501b7",
+      "request": "watermelon",
+      "speak": "watermelon",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/vocabulary/fruit-vegetables/page.tsx (name)",
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "we-5c47afa9",
+      "request": "we",
+      "speak": "we",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_POS_EX2)",
+        "src/data/step3/has-have.ts (HH_YN_EX2)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)"
+      ]
+    },
+    {
+      "key": "weather-36404793",
+      "request": "WEATHER",
+      "speak": "weather",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "wednesday-c39645d7",
+      "request": "Wednesday",
+      "speak": "Wednesday",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/components/step1/trackD/DaysEnHeMatch.tsx (en)",
+        "src/components/step1/trackD/DaysNumberMatch.tsx (DAYS_IN_ORDER)",
+        "src/components/step1/trackD/DaysOrder.tsx (DAYS)"
+      ]
+    },
+    {
+      "key": "wet-21d9d8e7",
+      "request": "wet",
+      "speak": "wet",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word1)"
+      ]
+    },
+    {
+      "key": "whale-670001f6",
+      "request": "WHALE",
+      "speak": "whale",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "what-1d131530",
+      "request": "What?",
+      "speak": "What?",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/wh-questions.ts (word)"
+      ]
+    },
+    {
+      "key": "wheat-043cb490",
+      "request": "WHEAT",
+      "speak": "wheat",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "wheel-1c324cfc",
+      "request": "WHEEL",
+      "speak": "wheel",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "wheelchair-614f9681",
+      "request": "WHEELCHAIR",
+      "speak": "wheelchair",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)"
+      ]
+    },
+    {
+      "key": "when-cf269ad2",
+      "request": "When?",
+      "speak": "When?",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/wh-questions.ts (word)"
+      ]
+    },
+    {
+      "key": "where-056c1458",
+      "request": "where",
+      "speak": "where",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (tts)"
+      ]
+    },
+    {
+      "key": "where-f0241e25",
+      "request": "WHERE?",
+      "speak": "where?",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/wh-questions.ts (word)"
+      ]
+    },
+    {
+      "key": "white-de020766",
+      "request": "WHITE",
+      "speak": "white",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/digraphs.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/app/step2/phonics/exercise2/page.tsx (word)",
+        "src/app/step2/phonics/exercise5/page.tsx (word)"
+      ]
+    },
+    {
+      "key": "who-4e5f3310",
+      "request": "Who?",
+      "speak": "Who?",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/wh-questions.ts (word)"
+      ]
+    },
+    {
+      "key": "why-18f40e39",
+      "request": "WHY",
+      "speak": "why",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "why-4e321372",
+      "request": "Why?",
+      "speak": "Why?",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/wh-questions.ts (word)"
+      ]
+    },
+    {
+      "key": "wind-1414f107",
+      "request": "wind",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"W IH1 N D\">wind</phoneme>",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (tts)",
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "window-a172b7dd",
+      "request": "window",
+      "speak": "window",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/a-or-an.ts (word)",
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wing-1514f29a",
+      "request": "WING",
+      "speak": "wing",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "winter-c4bb620c",
+      "request": "winter",
+      "speak": "winter",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "winter-cb58659d",
+      "request": "Winter ❄️",
+      "speak": "Winter ❄️",
+      "profile": "word",
+      "sources": [
+        "src/components/step1/trackD/SeasonsSort.tsx (label)"
+      ]
+    },
+    {
+      "key": "witch-591aa460",
+      "request": "WITCH",
+      "speak": "witch",
+      "profile": "word",
+      "sources": [
+        "src/data/step4/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wrap-7fdbf4a5",
+      "request": "WRAP",
+      "speak": "wrap",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wrist-ad28c330",
+      "request": "WRIST",
+      "speak": "wrist",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "write-be269f5c",
+      "request": "WRITE",
+      "speak": "write",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "wrong-e7252e76",
+      "request": "WRONG",
+      "speak": "wrong",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "x-fd0c5087",
+      "request": "x",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"EH1 K S\">x</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "y-fc0c4ef4",
+      "request": "y",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"W AY1\">y</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "yellow-05bf6449",
+      "request": "yellow",
+      "speak": "yellow",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)",
+        "src/data/step2/vocabulary.ts (name)",
+        "src/data/step3/phonics.ts (word)"
+      ]
+    },
+    {
+      "key": "you-50b8d09c",
+      "request": "you",
+      "speak": "you.",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/grammar.ts (label)",
+        "src/data/step2/yes-no.ts (YN_EX2)",
+        "src/data/step2/yes-no.ts (PRONOUN_GROUPS)",
+        "src/data/step3/has-have.ts (HH_YN_EX2)",
+        "src/data/step3/has-have.ts (HH_PRONOUN_GROUPS)"
+      ]
+    },
+    {
+      "key": "young-58446843",
+      "request": "young",
+      "speak": "young",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word2)"
+      ]
+    },
+    {
+      "key": "your-00f0e6aa",
+      "request": "Your",
+      "speak": "Your",
+      "profile": "word",
+      "sources": [
+        "src/data/step3/possessive-adjectives.ts (PA_WORD_BANK)",
+        "src/data/step3/possessive-adjectives.ts (PA_EX3_WORD_BANK)"
+      ]
+    },
+    {
+      "key": "z-ff0c53ad",
+      "request": "z",
+      "speak": "<phoneme alphabet=\"cmu-arpabet\" ph=\"Z IY1\">z</phoneme>",
+      "profile": "letter",
+      "sources": [
+        "src/data/step1/letterGroups.ts (letters)",
+        "alphabet (letter name)"
+      ]
+    },
+    {
+      "key": "zebra-7499948f",
+      "request": "zebra",
+      "speak": "zebra",
+      "profile": "word",
+      "sources": [
+        "src/data/step1/trackDCategories.ts (word)"
+      ]
+    },
+    {
+      "key": "zero-8b6fe763",
+      "request": "zero",
+      "speak": "zero",
+      "profile": "word",
+      "sources": [
+        "src/data/step2/vocabulary.ts (word)",
+        "src/data/step2/vocabulary.ts (NUMBERS_0_10)"
+      ]
+    }
+  ]
+}

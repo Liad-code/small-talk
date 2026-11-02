@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audio review</title>
+<style>
+  :root {
+    --bg:#fbfbfd; --card:#fff; --fg:#16161a; --muted:#6b6b76; --line:#e3e3ea;
+    --ok:#0f8a4a; --ok-bg:#e9f7ef; --bad:#c62828; --bad-bg:#fdeeee;
+    --warn:#9a6700; --warn-bg:#fff8e6; --accent:#2b5fd9;
+  }
+  * { box-sizing:border-box }
+  body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--fg) }
+
+  header { position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line); padding:12px 20px 0 }
+  .titlerow { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap }
+  h1 { margin:0; font-size:16px }
+  .saved { font-size:12px; color:var(--ok); opacity:0; transition:opacity .25s }
+  .saved.show { opacity:1 }
+
+  .progress { display:flex; height:7px; border-radius:4px; overflow:hidden; background:var(--line); margin:9px 0 7px }
+  .progress span { display:block; height:100% }
+  .seg-good { background:var(--ok) } .seg-bad { background:var(--bad) } .seg-stale { background:#e0a92a }
+
+  .counts { display:flex; gap:14px; flex-wrap:wrap; font-size:13px; color:var(--muted) }
+  .counts b { color:var(--fg); font-variant-numeric:tabular-nums }
+
+  .bar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding:9px 0 11px }
+  input[type=search], select, input[type=text], textarea { font:inherit; padding:6px 9px; border:1px solid var(--line); border-radius:7px; background:#fff; color:inherit }
+  button { font:inherit; padding:6px 11px; border:1px solid var(--line); border-radius:7px; background:#fff; cursor:pointer }
+  button:hover { border-color:#c9c9d4 }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent) }
+  button.ghost { background:transparent }
+
+  /* ── now-reviewing card ─────────────────────────────────────────────── */
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin:16px 20px 0;
+          box-shadow:0 1px 3px rgba(0,0,0,.04) }
+  .card .where { font-size:12px; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; align-items:center }
+  .pill { border:1px solid var(--line); border-radius:999px; padding:1px 8px; font-size:11px; background:var(--bg) }
+  .word { font-size:34px; font-weight:650; margin:6px 0 2px; word-break:break-word; line-height:1.15 }
+  .spoken { font-family:ui-monospace,"Cascadia Mono",monospace; font-size:12.5px; color:var(--muted); word-break:break-all }
+  .verdictrow { display:flex; gap:9px; align-items:center; flex-wrap:wrap; margin-top:14px }
+  .big { padding:10px 20px; font-size:15px; font-weight:600; border-radius:9px }
+  .big-good { background:var(--ok-bg); border-color:#a9dfc0; color:var(--ok) }
+  .big-good.on { background:var(--ok); color:#fff; border-color:var(--ok) }
+  .big-bad { background:var(--bad-bg); border-color:#f0bdbd; color:var(--bad) }
+  .big-bad.on { background:var(--bad); color:#fff; border-color:var(--bad) }
+  .note { flex:1; min-width:220px }
+  .hint { font-size:12px; color:var(--muted) }
+  kbd { background:#eff0f4; border:1px solid var(--line); border-radius:4px; padding:0 4px; font:inherit; font-size:11.5px }
+  .flag { border-radius:8px; padding:7px 10px; font-size:13px; margin-top:12px; display:none }
+  .flag.stale { display:block; background:var(--warn-bg); border:1px solid #f0d9a0; color:var(--warn) }
+  .takes { margin-top:10px; font-size:12.5px; color:var(--muted); display:none }
+  .takes.show { display:block }
+  .takes button { padding:2px 8px; font-size:12px; margin-right:6px }
+
+  /* ── list ───────────────────────────────────────────────────────────── */
+  main { padding:18px 20px 60px }
+  h2 { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:22px 0 7px }
+  table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:9px; overflow:hidden }
+  td { padding:5px 10px; border-top:1px solid var(--line); vertical-align:middle }
+  tr:first-child td { border-top:none }
+  tr { cursor:pointer }
+  tr:hover td { background:#f6f7fb }
+  tr.current td { background:#eef3ff; box-shadow:inset 3px 0 0 var(--accent) }
+  tr.good td:nth-child(2) { color:var(--ok) }
+  tr.bad  td:nth-child(2) { color:var(--bad) }
+  .chip { display:inline-block; min-width:62px; text-align:center; font-size:11px; font-weight:600; border-radius:999px; padding:2px 8px }
+  .chip.pending { background:var(--bg); color:var(--muted); border:1px solid var(--line) }
+  .chip.good { background:var(--ok-bg); color:var(--ok) }
+  .chip.bad { background:var(--bad-bg); color:var(--bad) }
+  .chip.stale { background:var(--warn-bg); color:var(--warn) }
+  .req { font-weight:600 }
+  .rownote { font-size:12px; color:var(--bad) }
+  .empty { color:var(--muted); padding:30px 0; text-align:center }
+
+  .panel { margin:12px 20px 0; padding:12px 14px; background:var(--card); border:1px solid var(--line); border-radius:10px; display:none }
+  .panel.show { display:block }
+  .panel textarea { width:100%; height:90px; font-family:ui-monospace,monospace; font-size:12px }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="titlerow">
+    <h1>Audio review — Matilda</h1>
+    <span class="saved" id="saved">saved</span>
+    <span style="flex:1"></span>
+    <button class="ghost" id="importBtn">recover old flags…</button>
+  </div>
+  <div class="progress" id="progress"></div>
+  <div class="counts" id="counts"></div>
+  <div class="bar">
+    <button class="primary" id="resume">Resume ↵</button>
+    <input type="search" id="q" placeholder="filter words…" size="16">
+    <select id="g"></select>
+    <select id="st">
+      <option value="">all statuses</option>
+      <option value="pending">not yet reviewed</option>
+      <option value="good">good</option>
+      <option value="bad">bad</option>
+      <option value="stale">needs re-review</option>
+    </select>
+    <label class="hint"><input type="checkbox" id="auto" checked> auto-advance &amp; play</label>
+    <span class="hint" id="pos"></span>
+  </div>
+</header>
+
+<div class="panel" id="importPanel">
+  <div class="hint" style="margin-bottom:7px">
+    Paste the JSON from the old page's <b>“copy flagged list”</b> button. Those flags recorded
+    <b>rejections only</b>, so each one is imported as <b>bad</b> and everything else stays
+    unreviewed — an unflagged word there could equally mean “approved” or “never reached”.
+    Words you have already judged here are left untouched.
+  </div>
+  <textarea id="importText" placeholder='["crab", "you", "e"]'></textarea>
+  <div style="margin-top:8px; display:flex; gap:8px; align-items:center">
+    <button class="primary" id="importGo">Import as bad</button>
+    <button class="ghost" id="importClose">cancel</button>
+    <span class="hint" id="importMsg"></span>
+  </div>
+</div>
+
+<section class="card" id="card">
+  <div class="where" id="where"></div>
+  <div class="word" id="word">—</div>
+  <div class="spoken" id="spoken"></div>
+  <div class="flag" id="flag"></div>
+  <div class="verdictrow">
+    <button class="big big-good" id="btnGood">Good <kbd>G</kbd></button>
+    <button class="big big-bad" id="btnBad">Not good <kbd>B</kbd></button>
+    <button id="btnReplay">Replay <kbd>Space</kbd></button>
+    <input type="text" class="note" id="noteInput" placeholder="what's wrong with it? (optional)  — N">
+  </div>
+  <div class="takes" id="takes"></div>
+  <div class="hint" style="margin-top:11px">
+    <kbd>J</kbd> next · <kbd>K</kbd> previous · <kbd>Space</kbd> replay · <kbd>G</kbd> good ·
+    <kbd>B</kbd> not good · <kbd>N</kbd> note · <kbd>U</kbd> undo last mark &amp; go back
+  </div>
+</section>
+
+<main id="main"></main>
+
+<script>
+/*
+ * Every verdict is POSTed the moment it is given — there is no save button and
+ * nothing is held in the browser. The previous version of this tool kept its
+ * answers in localStorage and they were lost with the session that collected
+ * them; losing hours of listening twice is not acceptable.
+ */
+
+const audio = new Audio()
+let all = []          // every manifest entry, with its verdict
+let view = []         // current filter result (kept STABLE while marking)
+let cursor = -1
+
+const el = id => document.getElementById(id)
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]))
+
+function flashSaved() {
+  el('saved').classList.add('show')
+  clearTimeout(flashSaved.t)
+  flashSaved.t = setTimeout(() => el('saved').classList.remove('show'), 900)
+}
+
+async function api(path, body) {
+  const res = await fetch(path, body ? {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+  } : undefined)
+  if (!res.ok) { console.error(path, res.status, await res.text()); return null }
+  return res.json()
+}
+
+// ── load ─────────────────────────────────────────────────────────────────────
+
+async function load(keepCursor = false) {
+  const data = await api('/api/state')
+  if (!data) return
+  const prevKey = keepCursor ? view[cursor]?.key : null
+  all = data.entries
+
+  const groups = [...new Set(all.map(e => e.group))].sort()
+  el('g').innerHTML = '<option value="">all groups</option>' + groups.map(g => `<option>${esc(g)}</option>`).join('')
+
+  applyFilter()
+  if (prevKey) {
+    const i = view.findIndex(e => e.key === prevKey)
+    if (i >= 0) cursor = i
+  }
+  renderAll()
+}
+
+function statusOf(e) {
+  if (e.stale) return 'stale'
+  if (!e.verdict) return 'pending'
+  return e.verdict
+}
+
+function applyFilter() {
+  const q = el('q').value.trim().toLowerCase()
+  const g = el('g').value
+  const st = el('st').value
+  const matched = all.filter(e =>
+    (!q || e.request.toLowerCase().includes(q)) &&
+    (!g || e.group === g) &&
+    (!st || statusOf(e) === st))
+
+  /*
+   * ORDER MATTERS: the list renders one table per group, but the manifest is
+   * sorted by audio key, which interleaves groups. Walking the manifest order
+   * therefore sent "next" into a different table halfway down the page —
+   * reviewing felt like being thrown at random words.
+   *
+   * Grouping the cursor's order to match the rendered order makes J / auto-
+   * advance move to the row directly below, which is what the eye expects.
+   * Groups are alphabetical so the page has a stable shape between sessions.
+   */
+  const byGroup = new Map()
+  for (const e of matched) {
+    if (!byGroup.has(e.group)) byGroup.set(e.group, [])
+    byGroup.get(e.group).push(e)
+  }
+  view = [...byGroup.keys()].sort().flatMap(k => byGroup.get(k))
+  cursor = view.length ? 0 : -1
+}
+
+// ── render ───────────────────────────────────────────────────────────────────
+
+function renderCounts() {
+  const n = all.length
+  const good = all.filter(e => statusOf(e) === 'good').length
+  const bad = all.filter(e => statusOf(e) === 'bad').length
+  const stale = all.filter(e => statusOf(e) === 'stale').length
+  const pending = n - good - bad - stale
+  const pct = v => (v / n * 100).toFixed(3) + '%'
+  el('progress').innerHTML =
+    `<span class="seg-good" style="width:${pct(good)}"></span>` +
+    `<span class="seg-bad" style="width:${pct(bad)}"></span>` +
+    `<span class="seg-stale" style="width:${pct(stale)}"></span>`
+  el('counts').innerHTML =
+    `<span><b>${good + bad}</b> of <b>${n}</b> reviewed</span>` +
+    `<span style="color:var(--ok)">good <b>${good}</b></span>` +
+    `<span style="color:var(--bad)">not good <b>${bad}</b></span>` +
+    `<span>left <b>${pending}</b></span>` +
+    (stale ? `<span style="color:var(--warn)">needs re-review <b>${stale}</b></span>` : '')
+}
+
+function renderList() {
+  if (!view.length) { el('main').innerHTML = '<div class="empty">Nothing matches this filter.</div>'; return }
+  const byGroup = {}
+  for (const e of view) (byGroup[e.group] ??= []).push(e)
+  el('main').innerHTML = Object.entries(byGroup).map(([group, items]) => `
+    <h2>${esc(group)} — ${items.length}</h2>
+    <table>${items.map(e => `
+      <tr id="r-${e.key}" data-key="${e.key}" class="${statusOf(e)}">
+        <td style="width:74px"><span class="chip ${statusOf(e)}">${statusOf(e) === 'stale' ? 're-listen' : statusOf(e) === 'pending' ? '—' : statusOf(e)}</span></td>
+        <td class="req">${esc(e.request)}${e.takes ? ` <span class="pill">take ${e.takes + 1}</span>` : ''}</td>
+        <td class="spoken">${esc(e.speak)}</td>
+        <td class="rownote">${esc(e.note || '')}</td>
+      </tr>`).join('')}</table>`).join('')
+}
+
+function renderCard() {
+  const e = view[cursor]
+  el('pos').textContent = view.length ? `${cursor + 1} / ${view.length} shown` : ''
+  if (!e) {
+    el('word').textContent = '—'
+    el('where').innerHTML = ''
+    el('spoken').textContent = ''
+    el('noteInput').value = ''
+    return
+  }
+  el('where').innerHTML =
+    `<span class="pill">${esc(e.group)}</span>` +
+    `<span class="pill">${esc(e.profile)} profile</span>` +
+    (e.takes ? `<span class="pill">take ${e.takes + 1}</span>` : '') +
+    `<span>${esc(e.source)}</span>` +
+    (e.exists ? '' : '<span style="color:var(--bad)">no file on disk</span>')
+  el('word').textContent = e.request
+  // Showing the exact text sent to ElevenLabs matters: when a word is wrong,
+  // whether it went out as a phoneme tag or as plain text decides the fix.
+  el('spoken').textContent = e.speak
+  el('noteInput').value = e.note || ''
+  el('btnGood').classList.toggle('on', e.verdict === 'good')
+  el('btnBad').classList.toggle('on', e.verdict === 'bad')
+
+  const flag = el('flag')
+  flag.className = 'flag'
+  if (e.stale) {
+    flag.classList.add('stale')
+    flag.innerHTML = `This was re-rendered since you marked it <b>${esc(e.previousVerdict)}</b>. ` +
+      `You are hearing a new take — judge it again.`
+  }
+
+  const takes = el('takes')
+  takes.className = 'takes'
+  if (e.takes) {
+    takes.classList.add('show')
+    fetch(`/api/takes/${encodeURIComponent(e.key)}`).then(r => r.json()).then(({ takes: list }) => {
+      if (view[cursor]?.key !== e.key) return
+      takes.innerHTML = 'earlier takes: ' + list.map((f, i) =>
+        `<button data-take="${esc(f)}">rejected #${list.length - i}</button>`).join('')
+    })
+  }
+
+  document.querySelectorAll('tr.current').forEach(r => r.classList.remove('current'))
+  const row = el('r-' + e.key)
+  if (row) { row.classList.add('current'); row.scrollIntoView({ block: 'nearest' }) }
+}
+
+function renderRow(e) {
+  const row = el('r-' + e.key)
+  if (!row) return
+  row.className = statusOf(e) + (view[cursor]?.key === e.key ? ' current' : '')
+  const st = statusOf(e)
+  row.children[0].innerHTML = `<span class="chip ${st}">${st === 'stale' ? 're-listen' : st === 'pending' ? '—' : st}</span>`
+  row.children[3].textContent = e.note || ''
+}
+
+function renderAll() { renderCounts(); renderList(); renderCard() }
+
+// ── playback & navigation ────────────────────────────────────────────────────
+
+function play() {
+  const e = view[cursor]
+  if (!e || !e.exists) return
+  audio.src = `/audio/${e.key}.mp3`
+  audio.currentTime = 0
+  audio.play().catch(() => {})
+}
+
+function go(i, autoplay = true) {
+  if (!view.length) return
+  cursor = Math.max(0, Math.min(view.length - 1, i))
+  renderCard()
+  if (autoplay) play()
+}
+
+/** Jumps to the first entry still needing a listen — how you resume a pass. */
+function resume() {
+  const i = view.findIndex(e => statusOf(e) === 'pending' || statusOf(e) === 'stale')
+  if (i < 0) { alert('Nothing left to review in this filter.'); return }
+  go(i)
+}
+
+/**
+ * The entry whose verdict was given most recently, so U can take it back.
+ *
+ * It cannot simply undo the FOCUSED entry: auto-advance has already moved on by
+ * then, so that would clear an untouched word and leave the mis-keyed one
+ * marked — silently, which is the worst version of this bug.
+ */
+let lastMark = null
+
+async function mark(verdict) {
+  const e = view[cursor]
+  if (!e) return
+  // Pressing the same verdict again clears it, so a mis-key is one keystroke
+  // to undo rather than a wrong answer baked into the ledger.
+  const next = e.verdict === verdict && !e.stale ? null : verdict
+  const note = el('noteInput').value.trim()
+  lastMark = next ? { key: e.key, index: cursor } : null
+
+  e.verdict = next
+  e.stale = false
+  e.previousVerdict = null
+  e.note = next ? note : ''
+  renderRow(e); renderCounts()
+  if (next) { el('btnGood').classList.toggle('on', next === 'good'); el('btnBad').classList.toggle('on', next === 'bad') }
+  else { el('btnGood').classList.remove('on'); el('btnBad').classList.remove('on') }
+
+  await api('/api/verdict', { key: e.key, verdict: next, note })
+  flashSaved()
+
+  if (next && el('auto').checked) {
+    if (cursor < view.length - 1) go(cursor + 1)
+    else el('word').textContent += '  ✓ end of list'
+  }
+}
+
+/** Takes back the most recent verdict and returns you to that word. */
+async function undoLast() {
+  if (!lastMark) return
+  const e = all.find(x => x.key === lastMark.key)
+  if (!e) { lastMark = null; return }
+  e.verdict = null
+  e.note = ''
+  renderRow(e); renderCounts()
+  const i = view.findIndex(x => x.key === e.key)
+  if (i >= 0) { cursor = i; renderCard() }
+  await api('/api/verdict', { key: e.key, verdict: null })
+  flashSaved()
+  lastMark = null
+}
+
+let noteTimer
+function saveNote() {
+  const e = view[cursor]
+  if (!e) return
+  e.note = el('noteInput').value.trim()
+  renderRow(e)
+  clearTimeout(noteTimer)
+  // A note without a verdict has nowhere to live yet; it is carried in memory
+  // and written as soon as the entry is judged.
+  if (!e.verdict) return
+  noteTimer = setTimeout(async () => {
+    await api('/api/note', { key: e.key, note: e.note })
+    flashSaved()
+  }, 400)
+}
+
+// ── events ───────────────────────────────────────────────────────────────────
+
+el('resume').onclick = resume
+el('btnGood').onclick = () => mark('good')
+el('btnBad').onclick = () => mark('bad')
+el('btnReplay').onclick = play
+el('noteInput').oninput = saveNote
+el('q').oninput = () => { applyFilter(); renderAll() }
+el('g').onchange = () => { applyFilter(); renderAll() }
+el('st').onchange = () => { applyFilter(); renderAll() }
+
+el('importBtn').onclick = () => el('importPanel').classList.toggle('show')
+el('importClose').onclick = () => el('importPanel').classList.remove('show')
+el('importGo').onclick = async () => {
+  let requests
+  try {
+    requests = JSON.parse(el('importText').value)
+    if (!Array.isArray(requests)) throw new Error('not an array')
+  } catch (err) {
+    el('importMsg').textContent = `That is not a JSON array: ${err.message}`
+    return
+  }
+  const r = await api('/api/import', { requests })
+  if (!r) return
+  el('importMsg').textContent =
+    `imported ${r.imported} as bad · ${r.skipped} already judged here · ${r.unknown} not in the manifest`
+  await load(true)
+}
+
+document.addEventListener('click', ev => {
+  const row = ev.target.closest('tr[data-key]')
+  if (row) return go(view.findIndex(e => e.key === row.dataset.key))
+  const take = ev.target.closest('button[data-take]')
+  if (take) { audio.src = `/takes/${take.dataset.take}`; audio.play().catch(() => {}) }
+})
+
+document.addEventListener('keydown', ev => {
+  if (ev.target.matches('input,select,textarea')) {
+    if (ev.key === 'Escape' || ev.key === 'Enter') ev.target.blur()
+    return
+  }
+  if (ev.metaKey || ev.ctrlKey || ev.altKey) return
+  const k = ev.key.toLowerCase()
+  if (k === 'j' || ev.key === 'ArrowDown') { ev.preventDefault(); go(cursor + 1) }
+  else if (k === 'k' || ev.key === 'ArrowUp') { ev.preventDefault(); go(cursor - 1) }
+  else if (k === ' ' || k === 'r') { ev.preventDefault(); play() }
+  else if (k === 'g') { ev.preventDefault(); mark('good') }
+  else if (k === 'b') { ev.preventDefault(); mark('bad') }
+  else if (k === 'u') { ev.preventDefault(); undoLast() }
+  else if (k === 'n') { ev.preventDefault(); el('noteInput').focus() }
+  else if (ev.key === 'Enter') { ev.preventDefault(); resume() }
+})
+
+load()
+</script>
+</body>
+</html>

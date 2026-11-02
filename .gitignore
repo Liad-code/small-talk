@@ -25,3 +25,10 @@ Thumbs.db
 
 .vercel
 .env*
+
+# ElevenLabs audio tooling (scratch / review artefacts — the real MP3s are committed)
+public/audio/_samples/
+public/audio/_calibrate/
+public/audio-review.html
+public/audio/_takes/
+public/_audio-check.html

@@ -1,0 +1,4290 @@
+{
+  "version": 1,
+  "updatedAt": "2026-10-31T17:53:05.968Z",
+  "entries": {
+    "0-350ca8af": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d3ff1cf8fbb538f5",
+      "reviewedAt": "2026-10-28T14:10:04.312Z"
+    },
+    "1-340ca71c": {
+      "verdict": "good",
+      "note": "melody re-roll, take 12 of 16, confirmed by ear (2nd)",
+      "sha": "478525e142fa36bb38dec64a0a7745d335e79d3d47885027115103b64b60c07c",
+      "at": "2026-10-28T17:31:43.160Z"
+    },
+    "10-1beb2a44": {
+      "verdict": "good",
+      "note": "",
+      "sha": "51fe5a17f019ce4e",
+      "reviewedAt": "2026-10-28T14:11:02.912Z"
+    },
+    "100-6733d49c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5e7b16302e31676c",
+      "reviewedAt": "2026-10-28T14:11:04.461Z"
+    },
+    "11-1ceb2bd7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5cb4461f4a496d96",
+      "reviewedAt": "2026-10-28T14:11:05.923Z"
+    },
+    "12-1deb2d6a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6250f7980d0bd9a5",
+      "reviewedAt": "2026-10-28T14:11:06.861Z"
+    },
+    "13-1eeb2efd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ba0ffbf14acd0d1a",
+      "reviewedAt": "2026-10-28T14:11:07.861Z"
+    },
+    "14-17eb23f8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6693173a4ae0eb6b",
+      "reviewedAt": "2026-10-28T14:11:08.786Z"
+    },
+    "15-18eb258b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6bfde4c9667ed738",
+      "reviewedAt": "2026-10-28T14:11:09.611Z"
+    },
+    "16-19eb271e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "374a469812044160",
+      "reviewedAt": "2026-10-28T14:11:10.448Z"
+    },
+    "17-1aeb28b1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e6d4b048eefad520",
+      "reviewedAt": "2026-10-28T14:11:11.397Z"
+    },
+    "18-13eb1dac": {
+      "verdict": "good",
+      "note": "",
+      "sha": "db18434d26123bac",
+      "reviewedAt": "2026-10-28T14:11:12.648Z"
+    },
+    "19-14eb1f3f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dbf46207daa67ac4",
+      "reviewedAt": "2026-10-28T14:11:13.511Z"
+    },
+    "2-370cabd5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e00abc39fa98f55e",
+      "reviewedAt": "2026-10-28T14:11:14.486Z"
+    },
+    "20-8df2997f": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 2 (lightly stressed ending), confirmed by ear",
+      "sha": "3575982ade394769e4103e89b9961108248e435c0e4cba1cfb5d53d4f82f1761",
+      "at": "2026-10-31T17:53:05.945Z"
+    },
+    "21-8cf297ec": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 1 (stressed ending), confirmed by ear",
+      "sha": "fb379cf43ecc1e109bd1553d46e12f4ab68cb511c7fa451b41e69b0358dc0ec3",
+      "at": "2026-10-31T17:53:05.948Z"
+    },
+    "22-8ff29ca5": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 2 (lightly stressed ending), confirmed by ear",
+      "sha": "08ffb2ea281432858e04932321ee249c0b99f7df65ad1e538a26e3661501762e",
+      "at": "2026-10-31T17:53:05.950Z"
+    },
+    "23-8ef29b12": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 2 (lightly stressed ending), confirmed by ear",
+      "sha": "a980fc12b4e1620a3dd18795748e2ab1b23d6c2f3462bce101c6833cd776da47",
+      "at": "2026-10-31T17:53:05.952Z"
+    },
+    "24-89f29333": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 7 (t opens a separate word), confirmed by ear",
+      "sha": "1656609fb751a7c97eacffd3c40fce9f259ea4b7be93abd8399cb0237ef42349",
+      "at": "2026-10-31T17:53:05.955Z"
+    },
+    "25-88f291a0": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 4 option 5 (hyphens throughout), confirmed by ear",
+      "sha": "c1dee5f47c88725d645656b2a0a5f5cd78999d3de1b9b6c4e5feb0416e14652d",
+      "at": "2026-10-31T17:53:05.957Z"
+    },
+    "26-8bf29659": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 3 option 6 (plain spelling, no phonetics at all), confirmed by ear",
+      "sha": "451248a3768643fc6a848a64214969aabdf5bf4f999fe4ab401100993af7a07f",
+      "at": "2026-10-31T17:53:05.959Z"
+    },
+    "27-8af294c6": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 7 (t opens a separate word), confirmed by ear",
+      "sha": "a9fe29cd40519ba22a20079b40174fd5f2e21d5d03f3195473a89cf004c65ab6",
+      "at": "2026-10-31T17:53:05.961Z"
+    },
+    "28-95f2a617": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 3 option 6 (plain spelling, no phonetics at all), confirmed by ear",
+      "sha": "a668a4b826e6e33d470e93ae1c280917cf097106188d7e6184c95f57e79910b0",
+      "at": "2026-10-31T17:53:05.964Z"
+    },
+    "29-94f2a484": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 7 (t opens a separate word), confirmed by ear",
+      "sha": "712a8d735a7eeb6f4aa408205a76a0668dc4f35276293a0ad932b344894ce87b",
+      "at": "2026-10-31T17:53:05.967Z"
+    },
+    "3-360caa42": {
+      "verdict": "good",
+      "note": "",
+      "sha": "970439ace89143c3",
+      "reviewedAt": "2026-10-28T14:11:30.306Z"
+    },
+    "30-87f05176": {
+      "verdict": "good",
+      "note": "",
+      "sha": "966401507d693aa0",
+      "reviewedAt": "2026-10-28T14:11:31.219Z"
+    },
+    "4-310ca263": {
+      "verdict": "good",
+      "note": "",
+      "sha": "36097923739bbaba",
+      "reviewedAt": "2026-10-28T14:11:31.956Z"
+    },
+    "40-89e388a9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f529fae43e5eefa9",
+      "reviewedAt": "2026-10-28T14:11:32.769Z"
+    },
+    "5-300ca0d0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a94ad8452a432537",
+      "reviewedAt": "2026-10-28T14:11:33.706Z"
+    },
+    "50-83e140a0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "417f950618f4f62a",
+      "reviewedAt": "2026-10-28T14:11:34.506Z"
+    },
+    "6-330ca589": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9404028c06009f43",
+      "reviewedAt": "2026-10-28T14:11:35.256Z"
+    },
+    "60-15e8e23b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "75a2d756e8f711d3",
+      "reviewedAt": "2026-10-28T14:11:36.106Z"
+    },
+    "7-320ca3f6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cfd4c333c2f1cd2e",
+      "reviewedAt": "2026-10-28T14:11:36.896Z"
+    },
+    "70-8fe5d0b2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "eac33712d7ff0cd0",
+      "reviewedAt": "2026-10-28T14:11:37.781Z"
+    },
+    "8-3d0cb547": {
+      "verdict": "good",
+      "note": "",
+      "sha": "595cb85ac2c858da",
+      "reviewedAt": "2026-10-28T14:11:38.469Z"
+    },
+    "80-9201aa55": {
+      "verdict": "good",
+      "note": "",
+      "sha": "47b7b5e87d4e1fa3",
+      "reviewedAt": "2026-10-28T14:11:39.146Z"
+    },
+    "9-3c0cb3b4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ac45c88da81e00bb",
+      "reviewedAt": "2026-10-28T14:11:39.869Z"
+    },
+    "90-0bfe98cc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4e3189c45fa1fff3",
+      "reviewedAt": "2026-10-28T14:11:40.645Z"
+    },
+    "a-bird-a3eea197": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1171447881a961e4",
+      "reviewedAt": "2026-10-28T14:11:41.731Z"
+    },
+    "a-book-91f27549": {
+      "verdict": "good",
+      "note": "",
+      "sha": "259b62607b219749",
+      "reviewedAt": "2026-10-28T14:11:42.608Z"
+    },
+    "a-boy-707089fa": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f368ad43698ace67",
+      "reviewedAt": "2026-10-28T14:11:43.533Z"
+    },
+    "a-boy-and-girl-4e942593": {
+      "verdict": "good",
+      "note": "",
+      "sha": "02eb7aaf145cb506",
+      "reviewedAt": "2026-10-28T14:11:44.794Z"
+    },
+    "a-camera-1a0e11e3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b93b96d33774a570",
+      "reviewedAt": "2026-10-28T14:11:45.706Z"
+    },
+    "a-car-e4147dba": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6ba3970b86b47225",
+      "reviewedAt": "2026-10-28T14:11:46.569Z"
+    },
+    "a-cat-de147448": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c385c561163d6cd0",
+      "reviewedAt": "2026-10-28T14:11:47.469Z"
+    },
+    "a-chair-e302b379": {
+      "verdict": "good",
+      "note": "",
+      "sha": "411487b9b0a7f282",
+      "reviewedAt": "2026-10-28T14:11:48.444Z"
+    },
+    "a-cook-4afc2158": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a0d13293b077ec9e",
+      "reviewedAt": "2026-10-28T14:11:49.369Z"
+    },
+    "a-doctor-f5dd1c77": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f9e1fc17b4c82bc0",
+      "reviewedAt": "2026-10-28T14:11:50.356Z"
+    },
+    "a-dog-f6ede5ae": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8aa6448a61f1664e",
+      "reviewedAt": "2026-10-28T14:11:51.356Z"
+    },
+    "a-e40c292c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a1a5f06754293947",
+      "reviewedAt": "2026-10-28T14:11:52.955Z"
+    },
+    "a-fire-truck-a2b686ab": {
+      "verdict": "good",
+      "note": "",
+      "sha": "583806596c3217ab",
+      "reviewedAt": "2026-10-28T14:11:54.724Z"
+    },
+    "a-firefighter-01583631": {
+      "verdict": "good",
+      "note": "",
+      "sha": "29787ade8a2b52b3",
+      "reviewedAt": "2026-10-28T14:11:56.044Z"
+    },
+    "a-flower-6793b6eb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e329603717945bec",
+      "reviewedAt": "2026-10-28T14:11:57.055Z"
+    },
+    "a-girl-385f6dfe": {
+      "verdict": "good",
+      "note": "",
+      "sha": "45068d1df4cdc69f",
+      "reviewedAt": "2026-10-28T14:11:57.948Z"
+    },
+    "a-grandma-0fcb079c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d8b40d43280217d9",
+      "reviewedAt": "2026-10-28T14:11:58.831Z"
+    },
+    "a-grandpa-23aad36d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3e35a6f811b8ec53",
+      "reviewedAt": "2026-10-28T14:11:59.894Z"
+    },
+    "a-hospital-a4ec5a02": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1eca72777df3b738",
+      "reviewedAt": "2026-10-28T14:12:00.969Z"
+    },
+    "a-house-b27956b8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8195967edeb14e9f",
+      "reviewedAt": "2026-10-28T14:12:01.857Z"
+    },
+    "a-lion-ecef1bbe": {
+      "verdict": "good",
+      "note": "",
+      "sha": "bafe3fd0b123b513",
+      "reviewedAt": "2026-10-28T14:12:02.955Z"
+    },
+    "a-man-c14317b0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7159cf142bb6cdcc",
+      "reviewedAt": "2026-10-28T14:12:03.955Z"
+    },
+    "a-nurse-c04c0121": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b84acebbd89c84a2",
+      "reviewedAt": "2026-10-28T14:12:05.245Z"
+    },
+    "a-pan-4ff56eeb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1eb7877822ed8523",
+      "reviewedAt": "2026-10-28T14:12:06.080Z"
+    },
+    "a-phone-57989e20": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6c624050efb5d824",
+      "reviewedAt": "2026-10-28T14:12:07.080Z"
+    },
+    "a-plant-3a3dbc59": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a96f53c90c209b9c",
+      "reviewedAt": "2026-10-28T14:12:17.646Z"
+    },
+    "a-singer-8a683508": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a0fa817491069234",
+      "reviewedAt": "2026-10-28T14:12:18.542Z"
+    },
+    "a-student-81d84fff": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a455ccc3e4e0068c",
+      "reviewedAt": "2026-10-28T14:12:19.529Z"
+    },
+    "a-teacher-0b29c592": {
+      "verdict": "good",
+      "note": "",
+      "sha": "48fec3b7c401ef20",
+      "reviewedAt": "2026-10-28T14:12:22.479Z"
+    },
+    "a-tree-b1386254": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f7be9aeee9ecc711",
+      "reviewedAt": "2026-10-28T14:12:23.344Z"
+    },
+    "a-woman-3b42569e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8f3f8f3acb816f48",
+      "reviewedAt": "2026-10-28T14:12:24.417Z"
+    },
+    "an-elephant-16f1e7b3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8e0067434d4d3812",
+      "reviewedAt": "2026-10-28T14:12:28.605Z"
+    },
+    "me-and-family-13758886": {
+      "verdict": "good",
+      "note": "",
+      "sha": "19030300d59f51a0",
+      "reviewedAt": "2026-10-28T14:12:36.896Z"
+    },
+    "me-and-friend-a9f0247e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "71c6ccb3d08ad439",
+      "reviewedAt": "2026-10-28T14:12:38.254Z"
+    },
+    "medicine-a1e5de1d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1eab53f7b3d0b46d",
+      "reviewedAt": "2026-10-28T14:12:39.329Z"
+    },
+    "music-9f9c4fd4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "37078d6622b96211",
+      "reviewedAt": "2026-10-28T14:12:50.306Z"
+    },
+    "the-sun-fdf5509a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4ca2137c8cc7068e",
+      "reviewedAt": "2026-10-28T14:13:10.729Z"
+    },
+    "three-cats-64d36108": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c4d0f9a8c358c93c",
+      "reviewedAt": "2026-10-28T14:13:25.907Z"
+    },
+    "throw-7a78762f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 13 of 16, confirmed by ear (2nd)",
+      "sha": "792a551aa42ca4c6aff3b6d1321d1bfc7bd854cad6482cb8d948c4c5e97fdcdb",
+      "at": "2026-10-28T17:31:43.211Z"
+    },
+    "two-boys-8490dc94": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8655a98d432fd320",
+      "reviewedAt": "2026-10-28T14:13:47.729Z"
+    },
+    "two-friends-97719714": {
+      "verdict": "good",
+      "note": "",
+      "sha": "484f72cf20d48a62",
+      "reviewedAt": "2026-10-28T14:13:48.853Z"
+    },
+    "two-girls-84db040e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fda31d809d3f5984",
+      "reviewedAt": "2026-10-28T14:13:49.829Z"
+    },
+    "you-50b8d09c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b2c4719930ff39e0",
+      "reviewedAt": "2026-10-28T14:14:12.478Z"
+    },
+    "b-e70c2de5": {
+      "verdict": "good",
+      "note": "melody re-roll, take 5 of 8, confirmed by ear (2nd)",
+      "sha": "040b7004f6a5d2c721a6a1aa314c102458cd088e6bde9325c2ad3cf461f6dda8",
+      "at": "2026-10-28T17:31:43.163Z"
+    },
+    "c-e60c2c52": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4a820c2682c74229",
+      "reviewedAt": "2026-10-28T14:15:31.640Z"
+    },
+    "d-e10c2473": {
+      "verdict": "good",
+      "note": "",
+      "sha": "45e75df382f02a6f",
+      "reviewedAt": "2026-10-28T14:19:10.202Z"
+    },
+    "e-e00c22e0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "76d35b2cf81c0474",
+      "reviewedAt": "2026-10-28T14:19:11.362Z"
+    },
+    "f-e30c2799": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1379821119297777",
+      "reviewedAt": "2026-10-28T14:19:12.105Z"
+    },
+    "g-e20c2606": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ebbccadc138c0aef",
+      "reviewedAt": "2026-10-28T14:19:12.888Z"
+    },
+    "h-ed0c3757": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e067a7670e8210c5",
+      "reviewedAt": "2026-10-28T14:19:13.727Z"
+    },
+    "i-ec0c35c4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3910c3b160219fa9",
+      "reviewedAt": "2026-10-28T14:19:14.490Z"
+    },
+    "j-ef0c3a7d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "994e645e8496bb6e",
+      "reviewedAt": "2026-10-28T14:19:15.327Z"
+    },
+    "k-ee0c38ea": {
+      "verdict": "good",
+      "note": "",
+      "sha": "74171c7164edcc9f",
+      "reviewedAt": "2026-10-28T14:19:16.088Z"
+    },
+    "l-e90c310b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cf5c9bd2b892e127",
+      "reviewedAt": "2026-10-28T14:19:16.587Z"
+    },
+    "m-e80c2f78": {
+      "verdict": "good",
+      "note": "",
+      "sha": "375d92e61dafb4c7",
+      "reviewedAt": "2026-10-28T14:19:17.476Z"
+    },
+    "n-eb0c3431": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ff3940354293ee7b",
+      "reviewedAt": "2026-10-28T14:19:18.379Z"
+    },
+    "o-ea0c329e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 6 of 8, confirmed by ear (2nd)",
+      "sha": "84b61a5426fdabd341f3bc2f809b9470ab5b86ca97b76e240abc05831ab6e196",
+      "at": "2026-10-28T17:31:43.196Z"
+    },
+    "p-f50c43ef": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ed4007cbaf348b4f",
+      "reviewedAt": "2026-10-28T14:20:02.317Z"
+    },
+    "q-f40c425c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b47f977213dd16b3",
+      "reviewedAt": "2026-10-28T14:20:03.326Z"
+    },
+    "r-f70c4715": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f406ad70af3208e0",
+      "reviewedAt": "2026-10-28T14:20:03.963Z"
+    },
+    "s-f60c4582": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4d4c4df3b05409d3",
+      "reviewedAt": "2026-10-28T14:20:04.702Z"
+    },
+    "t-f10c3da3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7056861b1e338291",
+      "reviewedAt": "2026-10-28T14:20:05.514Z"
+    },
+    "u-f00c3c10": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9e5746d4f8962b62",
+      "reviewedAt": "2026-10-28T14:20:06.776Z"
+    },
+    "v-f30c40c9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "60b46c73d39e7796",
+      "reviewedAt": "2026-10-28T14:20:07.714Z"
+    },
+    "w-f20c3f36": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1fda034a82917e7f",
+      "reviewedAt": "2026-10-28T14:20:08.552Z"
+    },
+    "x-fd0c5087": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2222b2637e8d0aa6",
+      "reviewedAt": "2026-10-28T14:20:09.291Z"
+    },
+    "y-fc0c4ef4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "03d64a9ea7ee7ccf",
+      "reviewedAt": "2026-10-28T14:20:10.176Z"
+    },
+    "z-ff0c53ad": {
+      "verdict": "good",
+      "note": "",
+      "sha": "06e0df84e567ec8e",
+      "reviewedAt": "2026-10-28T14:20:11.089Z"
+    },
+    "bag-63b75f31": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8299eb1e7fb6b321",
+      "reviewedAt": "2026-10-28T14:20:14.351Z"
+    },
+    "bat-70b773a8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "05ad682962b96273",
+      "reviewedAt": "2026-10-28T14:20:15.226Z"
+    },
+    "bed-50ae46ec": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6e9b9700cf0d29b5",
+      "reviewedAt": "2026-10-28T14:20:16.065Z"
+    },
+    "big-53cacdb9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "10883313d760c152",
+      "reviewedAt": "2026-10-28T14:20:16.889Z"
+    },
+    "bin-5acad8be": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6172712200faaeaa",
+      "reviewedAt": "2026-10-28T14:20:17.713Z"
+    },
+    "box-70c67e32": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f64b091dd2731c05",
+      "reviewedAt": "2026-10-28T14:20:18.576Z"
+    },
+    "bug-73d58d75": {
+      "verdict": "good",
+      "note": "",
+      "sha": "71de55c4bc723df9",
+      "reviewedAt": "2026-10-28T14:20:19.378Z"
+    },
+    "bus-5fd56df9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "742aabdbb43c680d",
+      "reviewedAt": "2026-10-28T14:20:20.067Z"
+    },
+    "cat-06745c07": {
+      "verdict": "good",
+      "note": "",
+      "sha": "70202edd52772958",
+      "reviewedAt": "2026-10-28T14:20:20.841Z"
+    },
+    "cop-fe8de755": {
+      "verdict": "good",
+      "note": "",
+      "sha": "75c8d4229f35596f",
+      "reviewedAt": "2026-10-28T14:20:22.789Z"
+    },
+    "cup-fa56340f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ad76a7009037a4cc",
+      "reviewedAt": "2026-10-28T14:20:23.452Z"
+    },
+    "dog-e668bd09": {
+      "verdict": "good",
+      "note": "",
+      "sha": "46f8b685ebdccd84",
+      "reviewedAt": "2026-10-28T14:20:24.164Z"
+    },
+    "hat-f2bf17c2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6e0dba37f5e0f26c",
+      "reviewedAt": "2026-10-28T14:20:25.177Z"
+    },
+    "hen-08b4ad08": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cd9bb27cdcea8e5d",
+      "reviewedAt": "2026-10-28T14:20:25.928Z"
+    },
+    "hit-02d2b8aa": {
+      "verdict": "good",
+      "note": "",
+      "sha": "99eb1c55ecdc47e7",
+      "reviewedAt": "2026-10-28T14:20:26.627Z"
+    },
+    "hop-fac3a188": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5e3b5ecaef4f3b56",
+      "reviewedAt": "2026-10-28T14:20:27.329Z"
+    },
+    "hug-e18d6033": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a1ecc1122dd72bdc",
+      "reviewedAt": "2026-10-28T14:20:28.002Z"
+    },
+    "leg-3f6ae937": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9951788714df3d29",
+      "reviewedAt": "2026-10-28T14:20:28.640Z"
+    },
+    "log-3f515151": {
+      "verdict": "good",
+      "note": "",
+      "sha": "599c16de771bb06c",
+      "reviewedAt": "2026-10-28T14:20:29.290Z"
+    },
+    "map-dfa2efb1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e67af4ab2e50f6be",
+      "reviewedAt": "2026-10-28T14:20:29.966Z"
+    },
+    "mop-d39e5f9f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "924d2f0acb76f787",
+      "reviewedAt": "2026-10-28T14:20:30.589Z"
+    },
+    "pen-6f4b93f0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a9490932b90d0ad7",
+      "reviewedAt": "2026-10-28T14:20:31.177Z"
+    },
+    "pig-6840fb8f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3c76ed884e740812",
+      "reviewedAt": "2026-10-28T14:20:31.741Z"
+    },
+    "red-40f480dc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "030c499c90e7f800",
+      "reviewedAt": "2026-10-28T14:20:32.257Z"
+    },
+    "rug-23cd43c5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "61337ef244aa1889",
+      "reviewedAt": "2026-10-28T16:01:05.197Z"
+    },
+    "sit-c630015f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9c874403117db07a",
+      "reviewedAt": "2026-10-28T16:01:05.974Z"
+    },
+    "six-ca3007ab": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c457a501ac95e22f",
+      "reviewedAt": "2026-10-28T16:01:06.685Z"
+    },
+    "sun-e04e3f61": {
+      "verdict": "good",
+      "note": "",
+      "sha": "85986faeb7477130",
+      "reviewedAt": "2026-10-28T16:01:07.443Z"
+    },
+    "ten-bd01f454": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ac5209f86d7bebbc",
+      "reviewedAt": "2026-10-28T16:01:08.213Z"
+    },
+    "van-9625faa2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3109ba5f9ec749b9",
+      "reviewedAt": "2026-10-28T16:01:09.096Z"
+    },
+    "group-1-71e3d9af": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f866e6a08e0fe447",
+      "reviewedAt": "2026-10-28T16:01:10.093Z"
+    },
+    "group-2-72e3db42": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fe0a29a0a5e0b4b0",
+      "reviewedAt": "2026-10-28T16:01:11.118Z"
+    },
+    "group-3-73e3dcd5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d7d60cb540c897a1",
+      "reviewedAt": "2026-10-28T16:01:12.068Z"
+    },
+    "group-4-6ce3d1d0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b2352976a8b81bd1",
+      "reviewedAt": "2026-10-28T16:01:13.006Z"
+    },
+    "group-5-6de3d363": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e95ecd3f54c90f0d",
+      "reviewedAt": "2026-10-28T16:01:13.931Z"
+    },
+    "butterfly-03d5b964": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ecf94ed608349044",
+      "reviewedAt": "2026-10-28T16:01:16.381Z"
+    },
+    "fall-97245342": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e977e5e14b8408e5",
+      "reviewedAt": "2026-10-28T16:01:17.456Z"
+    },
+    "flowers-d7d7382f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2e2ff503d43110cd",
+      "reviewedAt": "2026-10-28T16:01:18.418Z"
+    },
+    "hot-soup-00cd488b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "12d000a6cd9834e8",
+      "reviewedAt": "2026-10-28T16:01:19.457Z"
+    },
+    "ice-cream-6f531b1e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "39db9b85b7211ea8",
+      "reviewedAt": "2026-10-28T16:01:20.388Z"
+    },
+    "leaves-a53859c9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f857858bca892afd",
+      "reviewedAt": "2026-10-28T16:01:21.132Z"
+    },
+    "rainbow-2b6ce2a9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4d8877dd609de4c1",
+      "reviewedAt": "2026-10-28T16:01:22.056Z"
+    },
+    "snowman-3674281e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c020e955f976a956",
+      "reviewedAt": "2026-10-28T16:01:22.917Z"
+    },
+    "spring-2be16850": {
+      "verdict": "good",
+      "note": "",
+      "sha": "13705e44677133b9",
+      "reviewedAt": "2026-10-28T16:01:23.621Z"
+    },
+    "summer-2f49f1e1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "907204526e754ab0",
+      "reviewedAt": "2026-10-28T16:01:24.557Z"
+    },
+    "wind-1414f107": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3a5757a9b1545c79",
+      "reviewedAt": "2026-10-28T16:01:25.467Z"
+    },
+    "winter-cb58659d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "45ab5bfa8a135ac2",
+      "reviewedAt": "2026-10-28T16:01:26.310Z"
+    },
+    "big-and-small-58e8334b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "67c8af3df335ec72",
+      "reviewedAt": "2026-10-28T16:01:27.660Z"
+    },
+    "hot-and-cold-f7efb6d1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "95b0a1046233c2c5",
+      "reviewedAt": "2026-10-28T16:01:29.181Z"
+    },
+    "i-can-hear-a5e00cee": {
+      "verdict": "good",
+      "note": "",
+      "sha": "05f2f561c5fdd9d2",
+      "reviewedAt": "2026-10-28T16:01:30.367Z"
+    },
+    "i-can-see-e949110d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0eaaefe7b86a1c25",
+      "reviewedAt": "2026-10-28T16:01:31.432Z"
+    },
+    "i-can-smell-438b6525": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7e4f2805009d50a3",
+      "reviewedAt": "2026-10-28T16:01:32.568Z"
+    },
+    "i-can-taste-81245459": {
+      "verdict": "good",
+      "note": "",
+      "sha": "779a96c5f5bf8afd",
+      "reviewedAt": "2026-10-28T16:01:33.581Z"
+    },
+    "i-can-touch-c34204cd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f44d245b197e8f16",
+      "reviewedAt": "2026-10-28T16:01:34.556Z"
+    },
+    "slow-and-fast-d9bedabd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "97eff789c1bb34a2",
+      "reviewedAt": "2026-10-28T16:01:35.967Z"
+    },
+    "up-and-down-798eefd7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "22cbd250619f241f",
+      "reviewedAt": "2026-10-28T16:01:37.430Z"
+    },
+    "angry-b50aaefe": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4afdc1aa8a1e6a10",
+      "reviewedAt": "2026-10-28T16:01:38.348Z"
+    },
+    "apple-10bc2abf": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0ffb35bd82edcc3c",
+      "reviewedAt": "2026-10-28T16:01:39.080Z"
+    },
+    "avocado-b880535e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2a1edb9497521192",
+      "reviewedAt": "2026-10-28T16:01:40.018Z"
+    },
+    "baby-45b1c069": {
+      "verdict": "good",
+      "note": "",
+      "sha": "155e2b112711061d",
+      "reviewedAt": "2026-10-28T16:01:41.435Z"
+    },
+    "banana-d9889f50": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fddfdb6ee591b0bb",
+      "reviewedAt": "2026-10-28T16:01:42.347Z"
+    },
+    "bear-8a524c53": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f15efa34c79ac13b",
+      "reviewedAt": "2026-10-28T16:01:43.172Z"
+    },
+    "bedroom-16fb7f77": {
+      "verdict": "good",
+      "note": "",
+      "sha": "359e58b017a80f6a",
+      "reviewedAt": "2026-10-28T16:01:44.030Z"
+    },
+    "big-small-c7021f3b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0dcbcc100abd75e9",
+      "reviewedAt": "2026-10-28T16:01:45.522Z"
+    },
+    "bike-c4602668": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0bc029888ed587ff",
+      "reviewedAt": "2026-10-28T16:01:46.244Z"
+    },
+    "black-568f4ba4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3154e47f58ea0e12",
+      "reviewedAt": "2026-10-28T16:01:47.267Z"
+    },
+    "blue-82fbf5cd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e9fc7b77c8481e25",
+      "reviewedAt": "2026-10-28T16:01:48.187Z"
+    },
+    "body-dbaa7975": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3ca05e1b2b0458b7",
+      "reviewedAt": "2026-10-28T16:01:49.242Z"
+    },
+    "brother-35bc1205": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f4d3069455c6b313",
+      "reviewedAt": "2026-10-28T16:01:50.417Z"
+    },
+    "car-047458e1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "51e5a1b4d404942b",
+      "reviewedAt": "2026-10-28T16:01:51.554Z"
+    },
+    "chair-5cb49d8a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e66feb99ae83ad25",
+      "reviewedAt": "2026-10-28T16:01:52.868Z"
+    },
+    "cheese-a20c85a8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f7784db709ce795a",
+      "reviewedAt": "2026-10-28T16:02:09.629Z"
+    },
+    "chicken-f161ff1c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "85477d34b3dca917",
+      "reviewedAt": "2026-10-28T16:02:10.982Z"
+    },
+    "circle-28217089": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4bdb90d391c8473e",
+      "reviewedAt": "2026-10-28T16:02:12.218Z"
+    },
+    "cloud-1ac6a97e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 5 of ?, confirmed by ear (best)",
+      "sha": "2e2ec178c4dfd0aa667081dc483d3145af98ed4cc502702bfa8c934072a5ca4c",
+      "at": "2026-10-28T17:31:43.227Z"
+    },
+    "coat-dc398e12": {
+      "verdict": "good",
+      "note": "",
+      "sha": "59b8b16ebecc5145",
+      "reviewedAt": "2026-10-28T16:03:09.444Z"
+    },
+    "dance-f815289c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8a2a914fa3106eae",
+      "reviewedAt": "2026-10-28T16:03:10.405Z"
+    },
+    "day-e44f21fd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2c82555843d18238",
+      "reviewedAt": "2026-10-28T16:03:11.391Z"
+    },
+    "door-21f5b729": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5d2e802fe16f5b62",
+      "reviewedAt": "2026-10-28T16:03:12.307Z"
+    },
+    "dress-68e41ef0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4801fbc750844903",
+      "reviewedAt": "2026-10-28T16:03:13.292Z"
+    },
+    "drink-15743f91": {
+      "verdict": "good",
+      "note": "",
+      "sha": "822917d27846dcc6",
+      "reviewedAt": "2026-10-28T16:03:14.172Z"
+    },
+    "ears-ff55af40": {
+      "verdict": "good",
+      "note": "",
+      "sha": "04a4644cd4e9e2e0",
+      "reviewedAt": "2026-10-28T16:03:15.096Z"
+    },
+    "eat-6c6e2525": {
+      "verdict": "good",
+      "note": "",
+      "sha": "82191381af348d97",
+      "reviewedAt": "2026-10-28T16:03:16.660Z"
+    },
+    "egg-597d11c6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b13d89d9654d37ca",
+      "reviewedAt": "2026-10-28T16:03:17.266Z"
+    },
+    "eight-d4fa8470": {
+      "verdict": "good",
+      "note": "",
+      "sha": "856c8947dc47f52a",
+      "reviewedAt": "2026-10-28T16:03:17.941Z"
+    },
+    "elephant-e5f12404": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3e7098fb6992a0e6",
+      "reviewedAt": "2026-10-28T16:03:18.679Z"
+    },
+    "eyes-43edbc4b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8ae5c6d40048be06",
+      "reviewedAt": "2026-10-28T16:03:19.741Z"
+    },
+    "face-116b77dc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "88ee046d3a416218",
+      "reviewedAt": "2026-10-28T16:03:20.505Z"
+    },
+    "fall-f85a0760": {
+      "verdict": "good",
+      "note": "",
+      "sha": "03ff0be99f0aacbb",
+      "reviewedAt": "2026-10-28T16:03:21.209Z"
+    },
+    "father-b0fee263": {
+      "verdict": "good",
+      "note": "",
+      "sha": "00b6a80bedd560ee",
+      "reviewedAt": "2026-10-28T16:03:21.970Z"
+    },
+    "fish-afad8963": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4c2d1b0f9477d7fd",
+      "reviewedAt": "2026-10-28T16:03:22.759Z"
+    },
+    "five-aeb44395": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3400c2cf456c39cc",
+      "reviewedAt": "2026-10-28T16:03:23.467Z"
+    },
+    "floor-b8e70c1d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "297aa534e1f18911",
+      "reviewedAt": "2026-10-28T16:03:24.255Z"
+    },
+    "flower-d1df8006": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2c66ec5b9958cc77",
+      "reviewedAt": "2026-10-28T16:03:25.058Z"
+    },
+    "four-2f69f5a5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "354fc020a375295c",
+      "reviewedAt": "2026-10-28T16:03:25.769Z"
+    },
+    "friday-49b74432": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3b17eaf2bde75b32",
+      "reviewedAt": "2026-10-28T16:03:26.479Z"
+    },
+    "garden-775718f4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0e5a6c87bcb493f1",
+      "reviewedAt": "2026-10-28T16:03:27.221Z"
+    },
+    "grass-b26fac7d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7f48a40696119b08",
+      "reviewedAt": "2026-10-28T16:03:27.910Z"
+    },
+    "green-011decbc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "181428d1d614ab34",
+      "reviewedAt": "2026-10-28T16:03:28.532Z"
+    },
+    "hair-d4b676b9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2138119457d81683",
+      "reviewedAt": "2026-10-28T16:03:29.121Z"
+    },
+    "hands-04187fa9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "234bd4be8386b832",
+      "reviewedAt": "2026-10-28T16:03:29.779Z"
+    },
+    "happy-99863551": {
+      "verdict": "good",
+      "note": "",
+      "sha": "975dd25f24f11d63",
+      "reviewedAt": "2026-10-28T16:03:30.416Z"
+    },
+    "head-32694bc3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "336474abd360e4b7",
+      "reviewedAt": "2026-10-28T16:03:31.033Z"
+    },
+    "hear-28693c05": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4e74d0556f0bad8d",
+      "reviewedAt": "2026-10-28T16:03:31.616Z"
+    },
+    "heart-0eaa25e3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "87a4fb4600194b8a",
+      "reviewedAt": "2026-10-28T16:03:32.243Z"
+    },
+    "horse-9b8951a6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2efcb05b20ad9b18",
+      "reviewedAt": "2026-10-28T16:03:32.855Z"
+    },
+    "hot-cold-dfbae16d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f1f9fa8c244eb8bb",
+      "reviewedAt": "2026-10-28T16:03:41.755Z"
+    },
+    "house-0cfb455b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6fbd70459abe0f33",
+      "reviewedAt": "2026-10-28T16:03:42.534Z"
+    },
+    "in-41387a9e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b9da9bedc76294b6",
+      "reviewedAt": "2026-10-28T16:03:43.334Z"
+    },
+    "jet-d7e330f4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1445b8e76bac6231",
+      "reviewedAt": "2026-10-28T16:03:44.293Z"
+    },
+    "jump-a73f5c0d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c7770e5186c6b405",
+      "reviewedAt": "2026-10-28T16:03:45.207Z"
+    },
+    "legs-194d360c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e0d29925110c94b9",
+      "reviewedAt": "2026-10-28T16:03:46.318Z"
+    },
+    "lion-f2dead7f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "56bc039ad27065db",
+      "reviewedAt": "2026-10-28T16:03:47.543Z"
+    },
+    "mango-0e74ffd5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f63bf160c40564d1",
+      "reviewedAt": "2026-10-28T16:03:48.357Z"
+    },
+    "melon-72e25d5c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a1b84a8cf252df67",
+      "reviewedAt": "2026-10-28T16:03:49.956Z"
+    },
+    "milk-888e7aa2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ef8f3fcbdab0a3c7",
+      "reviewedAt": "2026-10-28T16:03:52.323Z"
+    },
+    "monday-4cfa1739": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dc4b9c7391bb0171",
+      "reviewedAt": "2026-10-28T16:03:53.195Z"
+    },
+    "mother-23e3d71a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b6b57868f79dec28",
+      "reviewedAt": "2026-10-28T16:03:54.156Z"
+    },
+    "mouth-742581dc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8d42f8cf18a753f6",
+      "reviewedAt": "2026-10-28T16:03:55.011Z"
+    },
+    "next-to-fee13031": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9d02f09c21a439d2",
+      "reviewedAt": "2026-10-28T16:03:55.906Z"
+    },
+    "night-e6de9f61": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8617ea82eaeffaf5",
+      "reviewedAt": "2026-10-28T16:03:56.644Z"
+    },
+    "nine-16266f55": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6375640dd977f78d",
+      "reviewedAt": "2026-10-28T16:03:57.470Z"
+    },
+    "nose-918d404a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ae734039c600e5e3",
+      "reviewedAt": "2026-10-28T16:03:58.273Z"
+    },
+    "on-61342fd0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2a2dc16e9fbbddb6",
+      "reviewedAt": "2026-10-28T16:03:58.947Z"
+    },
+    "one-ba2719ef": {
+      "verdict": "good",
+      "note": "",
+      "sha": "bcae92f02234e369",
+      "reviewedAt": "2026-10-28T16:04:06.796Z"
+    },
+    "orange-45b473eb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f3d668804fcd05b9",
+      "reviewedAt": "2026-10-28T16:04:08.335Z"
+    },
+    "pants-de2337e1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "06efc89d0cca5630",
+      "reviewedAt": "2026-10-28T16:04:09.433Z"
+    },
+    "pencil-78627a04": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e43f7236b046d6bd",
+      "reviewedAt": "2026-10-28T16:04:10.507Z"
+    },
+    "pupils-d086de04": {
+      "verdict": "good",
+      "note": "",
+      "sha": "20f194269df1cf1b",
+      "reviewedAt": "2026-10-28T16:04:11.692Z"
+    },
+    "rain-89a3b5d3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e80c8cad17078fb2",
+      "reviewedAt": "2026-10-28T16:04:12.706Z"
+    },
+    "rice-0552c2b0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d093e6c79caaf0b6",
+      "reviewedAt": "2026-10-28T16:04:13.559Z"
+    },
+    "run-2acd4eca": {
+      "verdict": "good",
+      "note": "",
+      "sha": "606b2f31e2891ba2",
+      "reviewedAt": "2026-10-28T16:04:14.341Z"
+    },
+    "sad-e61cac07": {
+      "verdict": "good",
+      "note": "",
+      "sha": "95198cda2a1d1b3c",
+      "reviewedAt": "2026-10-28T16:04:15.247Z"
+    },
+    "saturday-121cf816": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f5acff0503f0c00c",
+      "reviewedAt": "2026-10-28T16:04:16.255Z"
+    },
+    "school-9f519cc9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "478343927c7763a6",
+      "reviewedAt": "2026-10-28T16:04:17.118Z"
+    },
+    "see-b526ec40": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3fd9b4fe6ae27097",
+      "reviewedAt": "2026-10-28T16:04:17.884Z"
+    },
+    "seven-3583acfe": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6f6d3a0ff75faf76",
+      "reviewedAt": "2026-10-28T16:04:18.669Z"
+    },
+    "sheep-07cc25f4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a1e18d5a3a673991",
+      "reviewedAt": "2026-10-28T16:04:19.458Z"
+    },
+    "ship-ac56f17f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5ef7156452fa5721",
+      "reviewedAt": "2026-10-28T16:04:20.233Z"
+    },
+    "shirt-43e36503": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f345e029d3384728",
+      "reviewedAt": "2026-10-28T16:04:21.092Z"
+    },
+    "shoes-b3068a53": {
+      "verdict": "good",
+      "note": "",
+      "sha": "df50f7e8fac5d590",
+      "reviewedAt": "2026-10-28T16:04:21.891Z"
+    },
+    "sister-fe691321": {
+      "verdict": "good",
+      "note": "",
+      "sha": "079279f05ed3b85f",
+      "reviewedAt": "2026-10-28T16:04:22.792Z"
+    },
+    "sleep-89eabb08": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ccc1ef056a0c3ece",
+      "reviewedAt": "2026-10-28T16:04:24.109Z"
+    },
+    "sleepy-8d8512e3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8f82f35e13f47657",
+      "reviewedAt": "2026-10-28T16:04:25.518Z"
+    },
+    "slow-fast-29114869": {
+      "verdict": "good",
+      "note": "",
+      "sha": "bc9498ddafb8107b",
+      "reviewedAt": "2026-10-28T16:04:27.242Z"
+    },
+    "smell-f052b280": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dff8e0587cf09146",
+      "reviewedAt": "2026-10-28T16:04:27.963Z"
+    },
+    "snake-aff5e25b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9f8a7539d6827eea",
+      "reviewedAt": "2026-10-28T16:04:28.743Z"
+    },
+    "snow-848317f2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5841872be1f89d60",
+      "reviewedAt": "2026-10-28T16:04:29.643Z"
+    },
+    "spring-63f1336c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a4272944d830527f",
+      "reviewedAt": "2026-10-28T16:04:30.505Z"
+    },
+    "square-b4b61246": {
+      "verdict": "good",
+      "note": "",
+      "sha": "daf7f71bd1a9bea1",
+      "reviewedAt": "2026-10-28T16:04:31.268Z"
+    },
+    "star-d13b2f71": {
+      "verdict": "good",
+      "note": "",
+      "sha": "41e63e9a05f41493",
+      "reviewedAt": "2026-10-28T16:04:32.077Z"
+    },
+    "summer-fce32734": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9df0284da0b18af2",
+      "reviewedAt": "2026-10-28T16:04:32.828Z"
+    },
+    "sunday-a429a0d9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0c4e0dd3ee8b75f9",
+      "reviewedAt": "2026-10-28T16:04:33.579Z"
+    },
+    "table-4a9c9bdf": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8a6504c89181f043",
+      "reviewedAt": "2026-10-28T16:04:34.341Z"
+    },
+    "taste-8767f88c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "affc800eec103658",
+      "reviewedAt": "2026-10-28T16:04:35.155Z"
+    },
+    "teacher-03274595": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0f82e0683fa3267b",
+      "reviewedAt": "2026-10-28T16:04:35.979Z"
+    },
+    "three-888603c3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0e0cd8fc63225c41",
+      "reviewedAt": "2026-10-28T16:04:36.779Z"
+    },
+    "thursday-121ee9b7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3829b36e7b98453d",
+      "reviewedAt": "2026-10-28T16:04:37.694Z"
+    },
+    "tiger-f270b0b8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "00cb6adecdbe5411",
+      "reviewedAt": "2026-10-28T16:04:38.514Z"
+    },
+    "touch-698989d8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a4a29dff497d821b",
+      "reviewedAt": "2026-10-28T16:04:39.305Z"
+    },
+    "train-78556c69": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c2507195cc087578",
+      "reviewedAt": "2026-10-28T16:04:40.117Z"
+    },
+    "tree-6d8b34d5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9001bf4c6589f1d5",
+      "reviewedAt": "2026-10-28T16:04:40.965Z"
+    },
+    "triangle-05025085": {
+      "verdict": "good",
+      "note": "",
+      "sha": "34424cd0e8993796",
+      "reviewedAt": "2026-10-28T16:04:41.887Z"
+    },
+    "tuesday-26285d10": {
+      "verdict": "good",
+      "note": "",
+      "sha": "301d2e2e3ea7cead",
+      "reviewedAt": "2026-10-28T16:04:42.689Z"
+    },
+    "two-be248829": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c4eda8cdc144e2be",
+      "reviewedAt": "2026-10-28T16:04:43.527Z"
+    },
+    "under-89193acd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a4d11fabe5c61c9a",
+      "reviewedAt": "2026-10-28T16:04:44.938Z"
+    },
+    "up-down-e2aab3b3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "670d7d9e628fe2d0",
+      "reviewedAt": "2026-10-28T16:04:46.464Z"
+    },
+    "water-49c69a10": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a4eedc2952794f94",
+      "reviewedAt": "2026-10-28T16:04:47.400Z"
+    },
+    "waterfall-516fb2f9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9bee5c8ecf857a5d",
+      "reviewedAt": "2026-10-28T16:04:48.462Z"
+    },
+    "wednesday-c39645d7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "57c191dd07415cbe",
+      "reviewedAt": "2026-10-28T16:04:49.389Z"
+    },
+    "window-a172b7dd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dff42804c42245ce",
+      "reviewedAt": "2026-10-28T16:04:50.249Z"
+    },
+    "winter-c4bb620c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "02fee5100fccd6c7",
+      "reviewedAt": "2026-10-28T16:04:51.155Z"
+    },
+    "yellow-05bf6449": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5af61c1af4cbd6a2",
+      "reviewedAt": "2026-10-28T16:04:52.076Z"
+    },
+    "zebra-7499948f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c25c3a8d8caf3505",
+      "reviewedAt": "2026-10-28T16:04:52.987Z"
+    },
+    "album-64fb286c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4d704b5d6c029774",
+      "reviewedAt": "2026-10-28T16:04:53.891Z"
+    },
+    "animal-c238e05d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9d79e4dea49f85b2",
+      "reviewedAt": "2026-10-28T16:04:54.743Z"
+    },
+    "ant-1f29dbd6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3122fa63f46ae2c0",
+      "reviewedAt": "2026-10-28T16:04:55.503Z"
+    },
+    "arm-386f27b5": {
+      "verdict": "good",
+      "note": "melody re-roll, take 36 of ?, confirmed by ear (m36)",
+      "sha": "56f1541b8ed60da97d81f87ddbd3ab3dab1e86913066cf3ffc8ca33d9e3423ee",
+      "at": "2026-10-28T17:53:32.743Z"
+    },
+    "ball-348f1364": {
+      "verdict": "good",
+      "note": "melody re-roll, take 1 of ?, confirmed by ear (best)",
+      "sha": "6f1c348404623fdeb200e592ff58668549e7e39b410ac03c3a6a974c5271d68c",
+      "at": "2026-10-28T17:31:43.222Z"
+    },
+    "bird-977128b2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dd750a58c46e7a42",
+      "reviewedAt": "2026-10-28T16:06:29.127Z"
+    },
+    "book-c1948a38": {
+      "verdict": "good",
+      "note": "",
+      "sha": "74708ce42655f159",
+      "reviewedAt": "2026-10-28T16:06:30.098Z"
+    },
+    "boy-71c67fc5": {
+      "verdict": "good",
+      "note": "melody re-roll, take 6 of ?, confirmed by ear (best)",
+      "sha": "cf845639546f4ddb7ac9f4637d5c64b4d2e74c54c115728089af82623ce84960",
+      "at": "2026-10-28T17:31:43.223Z"
+    },
+    "ear-666e1bb3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "88911dc861c38549",
+      "reviewedAt": "2026-10-28T16:06:51.427Z"
+    },
+    "engine-ee05d83b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f177452b2e3fc091",
+      "reviewedAt": "2026-10-28T16:06:52.347Z"
+    },
+    "envelope-fa10a755": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2eccf4920b274cc0",
+      "reviewedAt": "2026-10-28T16:06:53.260Z"
+    },
+    "eraser-82afede5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b6b20d57959898a3",
+      "reviewedAt": "2026-10-28T16:06:54.298Z"
+    },
+    "exit-cded1a85": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6cfe63481b223267",
+      "reviewedAt": "2026-10-28T16:06:55.210Z"
+    },
+    "eye-8ba8ed1a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4996aaa11497f538",
+      "reviewedAt": "2026-10-28T16:06:55.972Z"
+    },
+    "girl-a25535a3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "24ff70c1ed70a496",
+      "reviewedAt": "2026-10-28T16:06:56.878Z"
+    },
+    "hour-b6032c0f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "33a3ac8e3864c87d",
+      "reviewedAt": "2026-10-28T16:07:01.110Z"
+    },
+    "ice-72e0f880": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7ccfb80da5369665",
+      "reviewedAt": "2026-10-28T16:07:02.024Z"
+    },
+    "idea-faf0de9a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0f6fb0d6014455a9",
+      "reviewedAt": "2026-10-28T16:07:02.961Z"
+    },
+    "insect-ccce80a1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "609284155cf2ad1f",
+      "reviewedAt": "2026-10-28T16:07:04.212Z"
+    },
+    "island-cf6262ec": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5462abaddebcaf6d",
+      "reviewedAt": "2026-10-28T16:07:05.110Z"
+    },
+    "king-da13e3d6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "570d8531d377d684",
+      "reviewedAt": "2026-10-28T16:07:05.935Z"
+    },
+    "onion-721c6d16": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7389f2aebde7f162",
+      "reviewedAt": "2026-10-28T16:07:06.860Z"
+    },
+    "oven-25f63f2b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9e99d84bdf2759b8",
+      "reviewedAt": "2026-10-28T16:07:09.985Z"
+    },
+    "owl-a715b2e5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9931aff0279bac20",
+      "reviewedAt": "2026-10-28T16:07:11.110Z"
+    },
+    "park-63780eb9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "02c408987478b681",
+      "reviewedAt": "2026-10-28T16:07:12.537Z"
+    },
+    "umbrella-f590e1e5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e9ba8b27ba60ba6b",
+      "reviewedAt": "2026-10-28T16:07:13.974Z"
+    },
+    "uncle-60e2ae30": {
+      "verdict": "good",
+      "note": "",
+      "sha": "53ed11c0877fb91c",
+      "reviewedAt": "2026-10-28T16:07:14.775Z"
+    },
+    "where-056c1458": {
+      "verdict": "good",
+      "note": "melody re-roll, take 41 of ?, confirmed by ear (m41)",
+      "sha": "c1f81e5050450d9f20435c3275458d0500498cab99c0d3af87ef3cc86a14d642",
+      "at": "2026-10-28T17:53:32.752Z"
+    },
+    "back-5bb421a2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b9c23785bdda8154",
+      "reviewedAt": "2026-10-28T16:07:55.463Z"
+    },
+    "bath-30cb3740": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3e3b0ead65c65438",
+      "reviewedAt": "2026-10-28T16:07:56.291Z"
+    },
+    "bay-6db76eef": {
+      "verdict": "good",
+      "note": "",
+      "sha": "92c1b824c570693d",
+      "reviewedAt": "2026-10-28T16:07:57.025Z"
+    },
+    "beach-f4b2c848": {
+      "verdict": "good",
+      "note": "",
+      "sha": "29da3c253d8159ae",
+      "reviewedAt": "2026-10-28T16:07:57.775Z"
+    },
+    "bee-51ae487f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 7 of 8, confirmed by ear (best)",
+      "sha": "93d6b49f87a7740e3a49c17c5a8f9da90dfa6a7e603e44e217abd1c29cb60bee",
+      "at": "2026-10-28T17:31:43.165Z"
+    },
+    "bone-db90e18f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2d2ebd8a0f0c0b99",
+      "reviewedAt": "2026-10-28T16:07:59.253Z"
+    },
+    "books-07d5b411": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2bc64195b10d8849",
+      "reviewedAt": "2026-10-28T16:08:00.025Z"
+    },
+    "bread-c8647fe5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a5fb29cd1757beab",
+      "reviewedAt": "2026-10-28T16:08:00.705Z"
+    },
+    "brush-fac46df3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e9ccae42e6456b23",
+      "reviewedAt": "2026-10-28T16:08:01.339Z"
+    },
+    "cake-8aea8859": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8868e9460d00bc1a",
+      "reviewedAt": "2026-10-28T16:08:02.027Z"
+    },
+    "camp-a9ef3654": {
+      "verdict": "good",
+      "note": "",
+      "sha": "830b03283e32029f",
+      "reviewedAt": "2026-10-28T16:08:14.155Z"
+    },
+    "chain-60b4a3d6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5adf205a03062a6a",
+      "reviewedAt": "2026-10-28T16:08:15.053Z"
+    },
+    "cheeks-881fe472": {
+      "verdict": "good",
+      "note": "",
+      "sha": "202f48460ebe80ee",
+      "reviewedAt": "2026-10-28T16:08:15.900Z"
+    },
+    "children-67a9c9d2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "aa27ec8c409063d9",
+      "reviewedAt": "2026-10-28T16:08:16.675Z"
+    },
+    "chin-8c384f51": {
+      "verdict": "good",
+      "note": "",
+      "sha": "106b4aaa77ac5018",
+      "reviewedAt": "2026-10-28T16:08:17.341Z"
+    },
+    "chips-f6be5034": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a8d94ecad5baffdc",
+      "reviewedAt": "2026-10-28T16:08:17.953Z"
+    },
+    "clay-4a250888": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 8, confirmed by ear (best)",
+      "sha": "03dcd09327883dff91a92747e78195813e634334a82fe12b18de97ec936c68e4",
+      "at": "2026-10-28T17:31:43.172Z"
+    },
+    "cube-6b91d120": {
+      "verdict": "good",
+      "note": "",
+      "sha": "605eb7fc9f230def",
+      "reviewedAt": "2026-10-28T16:08:23.825Z"
+    },
+    "cute-6fa9dc52": {
+      "verdict": "good",
+      "note": "",
+      "sha": "892be60f28b2e98a",
+      "reviewedAt": "2026-10-28T16:08:24.726Z"
+    },
+    "dish-4860455d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2fe9aa5aebb4709a",
+      "reviewedAt": "2026-10-28T16:08:25.413Z"
+    },
+    "dolphin-0f93019f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a18f696386068d84",
+      "reviewedAt": "2026-10-28T16:08:26.239Z"
+    },
+    "duck-bb323378": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4211776a7c78488f",
+      "reviewedAt": "2026-10-28T16:08:26.955Z"
+    },
+    "dune-d54e32e3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f28276b8802479ae",
+      "reviewedAt": "2026-10-28T16:08:27.939Z"
+    },
+    "earth-25f414d7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "68a7de420d956e97",
+      "reviewedAt": "2026-10-28T16:08:28.629Z"
+    },
+    "fan-a8f7fa72": {
+      "verdict": "good",
+      "note": "",
+      "sha": "af0f1d607aa16abf",
+      "reviewedAt": "2026-10-28T16:08:29.364Z"
+    },
+    "game-4249d707": {
+      "verdict": "good",
+      "note": "",
+      "sha": "51c54045b96129bc",
+      "reviewedAt": "2026-10-28T16:08:30.168Z"
+    },
+    "good-fa6031d8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a38da230b691bf24",
+      "reviewedAt": "2026-10-28T16:08:30.902Z"
+    },
+    "graph-b9780647": {
+      "verdict": "good",
+      "note": "",
+      "sha": "28cf4408fc36edb4",
+      "reviewedAt": "2026-10-28T16:08:33.628Z"
+    },
+    "gray-ba9ab39a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "838174998075afc2",
+      "reviewedAt": "2026-10-28T16:08:34.539Z"
+    },
+    "home-d2c8c28e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "157c758325679538",
+      "reviewedAt": "2026-10-28T16:08:35.254Z"
+    },
+    "jam-e0edcc7b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "85402cdce6ddb7aa",
+      "reviewedAt": "2026-10-28T16:08:35.980Z"
+    },
+    "jeans-aa2a6164": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8374e34a4c40209f",
+      "reviewedAt": "2026-10-28T16:08:36.776Z"
+    },
+    "jeep-64809865": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6a1ab9a5d28aa372",
+      "reviewedAt": "2026-10-28T16:08:37.714Z"
+    },
+    "lake-62f55e3e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "59587ac29aa0ea59",
+      "reviewedAt": "2026-10-28T16:08:38.480Z"
+    },
+    "leaf-2648cd55": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fc230e2cdbdb6387",
+      "reviewedAt": "2026-10-28T16:08:39.266Z"
+    },
+    "lock-ef0d7842": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f27a4a08c567b9df",
+      "reviewedAt": "2026-10-28T16:08:40.026Z"
+    },
+    "look-e6ef5696": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b32bac93dbe599d5",
+      "reviewedAt": "2026-10-28T16:08:40.851Z"
+    },
+    "lunch-cf1ef61f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5aa53a3be740d853",
+      "reviewedAt": "2026-10-28T16:08:41.668Z"
+    },
+    "man-e9a2ff6f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "af84167f355fbbe4",
+      "reviewedAt": "2026-10-28T16:08:42.455Z"
+    },
+    "math-ee88998f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "281c8e7de6e0a566",
+      "reviewedAt": "2026-10-28T16:08:43.254Z"
+    },
+    "moon-f184ae40": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fde65684c7417559",
+      "reviewedAt": "2026-10-28T16:08:44.052Z"
+    },
+    "neck-4bf95912": {
+      "verdict": "good",
+      "note": "",
+      "sha": "02d77e4649cc3a10",
+      "reviewedAt": "2026-10-28T16:08:44.877Z"
+    },
+    "paint-64b8f933": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b143555d14c9edfe",
+      "reviewedAt": "2026-10-28T16:08:45.640Z"
+    },
+    "pan-4f55eeec": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ee75e70416b9f06c",
+      "reviewedAt": "2026-10-28T16:08:46.329Z"
+    },
+    "peach-a0d51666": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7cd88466c11d2b50",
+      "reviewedAt": "2026-10-28T16:08:47.075Z"
+    },
+    "pear-d01fc26d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e0426948423a14a6",
+      "reviewedAt": "2026-10-28T16:08:47.967Z"
+    },
+    "perfume-2e78840b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "715af36eaf5b0b88",
+      "reviewedAt": "2026-10-28T16:08:48.829Z"
+    },
+    "phone-773611af": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b09a7e6f147607a0",
+      "reviewedAt": "2026-10-28T16:08:49.517Z"
+    },
+    "photo-812716e3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8b17607823b4a275",
+      "reviewedAt": "2026-10-28T16:08:50.251Z"
+    },
+    "plate-c9011403": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7c0e7a6106111ef2",
+      "reviewedAt": "2026-10-28T16:08:50.890Z"
+    },
+    "play-c2cbd863": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e91a76400ec9bd26",
+      "reviewedAt": "2026-10-28T16:08:51.579Z"
+    },
+    "pool-91dd7983": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8ac64a23acaaff9c",
+      "reviewedAt": "2026-10-28T16:08:52.275Z"
+    },
+    "pray-d6399011": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c45818edb66b46b6",
+      "reviewedAt": "2026-10-28T16:08:52.975Z"
+    },
+    "read-cedfa3c5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "559a9f6e436823d1",
+      "reviewedAt": "2026-10-28T16:08:53.642Z"
+    },
+    "roof-2efd244f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ac54ff7c26b944c5",
+      "reviewedAt": "2026-10-28T16:08:54.350Z"
+    },
+    "room-37fd327a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b4156cca17392cad",
+      "reviewedAt": "2026-10-28T16:08:55.015Z"
+    },
+    "rose-10421806": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0015cff56bbac1d9",
+      "reviewedAt": "2026-10-28T16:08:56.303Z"
+    },
+    "sand-be148163": {
+      "verdict": "good",
+      "note": "",
+      "sha": "860152fcfa353061",
+      "reviewedAt": "2026-10-28T16:08:57.067Z"
+    },
+    "shark-a7c9f912": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e7900ac61b6c1146",
+      "reviewedAt": "2026-10-28T16:08:57.780Z"
+    },
+    "shell-11e1fc01": {
+      "verdict": "good",
+      "note": "",
+      "sha": "59183ebe12c5a428",
+      "reviewedAt": "2026-10-28T16:08:58.550Z"
+    },
+    "shop-a847e0a9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a7a2de92f3afa50e",
+      "reviewedAt": "2026-10-28T16:08:59.254Z"
+    },
+    "shorts-aa2f7652": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c8369aabd31a2f8b",
+      "reviewedAt": "2026-10-28T16:08:59.992Z"
+    },
+    "sick-31b23887": {
+      "verdict": "good",
+      "note": "",
+      "sha": "58d784a33cb15019",
+      "reviewedAt": "2026-10-28T16:09:00.675Z"
+    },
+    "smile-5505928f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 2 of 8, confirmed by ear (2nd)",
+      "sha": "52b1e1e9a3f2c9ee9fd3b89f387acd314f6c0a140455d4f250f3639fad072b1d",
+      "at": "2026-10-28T17:31:43.205Z"
+    },
+    "snail-8afbb84a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1c6b6e88392c5b5c",
+      "reviewedAt": "2026-10-28T16:09:04.302Z"
+    },
+    "tea-b401e629": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7fe6251f97d48cf7",
+      "reviewedAt": "2026-10-28T16:09:05.601Z"
+    },
+    "they-d822d4ff": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of ?, confirmed by ear (best)",
+      "sha": "0774b2b4de50722378ea678eb853d66fc869c6bf3e6cc8070c9af474d2cc5c72",
+      "at": "2026-10-28T17:31:43.229Z"
+    },
+    "thin-c52bb172": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7ec640edc2583a98",
+      "reviewedAt": "2026-10-28T16:09:07.089Z"
+    },
+    "thumb-f3ac9ae3": {
+      "verdict": "good",
+      "note": "melody re-roll, take 3 of ?, confirmed by ear (m3)",
+      "sha": "d71c1ee5884800ae3860f9135ce92bd83404ec4e4c86e91d33935a49b59c48d3",
+      "at": "2026-10-28T17:44:19.349Z"
+    },
+    "tooth-0a0a25b5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9a212998ae96c8ce",
+      "reviewedAt": "2026-10-28T16:09:19.001Z"
+    },
+    "tray-6980a12d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1525a73d3922d54e",
+      "reviewedAt": "2026-10-28T16:09:20.100Z"
+    },
+    "trophy-3bbde2ff": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e0aa2651c3836cf2",
+      "reviewedAt": "2026-10-28T16:09:20.940Z"
+    },
+    "truck-f542bdc8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "94bbf869570b8f8f",
+      "reviewedAt": "2026-10-28T16:09:21.725Z"
+    },
+    "tube-6824827f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "894269db61eb24f3",
+      "reviewedAt": "2026-10-28T16:09:22.639Z"
+    },
+    "tune-68410493": {
+      "verdict": "good",
+      "note": "",
+      "sha": "81a439b069fa7309",
+      "reviewedAt": "2026-10-28T16:09:23.450Z"
+    },
+    "wash-a0f6c56e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "056fc9610f7ee13b",
+      "reviewedAt": "2026-10-28T16:09:24.202Z"
+    },
+    "weather-36404793": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ad51e50b994a6134",
+      "reviewedAt": "2026-10-28T16:09:24.992Z"
+    },
+    "whale-670001f6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1f6320caded7e685",
+      "reviewedAt": "2026-10-28T16:09:25.789Z"
+    },
+    "wheat-043cb490": {
+      "verdict": "good",
+      "note": "",
+      "sha": "07b02a8f30c573e6",
+      "reviewedAt": "2026-10-28T16:09:26.575Z"
+    },
+    "wheel-1c324cfc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a1cbe6e76810aa09",
+      "reviewedAt": "2026-10-28T16:09:27.353Z"
+    },
+    "wheelchair-614f9681": {
+      "verdict": "good",
+      "note": "",
+      "sha": "605c9f4e5c5b337d",
+      "reviewedAt": "2026-10-28T16:09:28.325Z"
+    },
+    "where-f0241e25": {
+      "verdict": "good",
+      "note": "",
+      "sha": "bb7d44e95b94fb62",
+      "reviewedAt": "2026-10-28T16:09:29.838Z"
+    },
+    "white-de020766": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9c73db5cf5223e39",
+      "reviewedAt": "2026-10-28T16:09:31.942Z"
+    },
+    "a-pig-56e1f238": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ce3bd7087501240e",
+      "reviewedAt": "2026-10-28T16:09:32.852Z"
+    },
+    "he-5c3ae3b6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3c7f851fb0f03cc9",
+      "reviewedAt": "2026-10-28T16:09:33.975Z"
+    },
+    "it-47388410": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b5cec0c7f8b68cff",
+      "reviewedAt": "2026-10-28T16:09:35.577Z"
+    },
+    "dana-dca902eb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f33d7f099e362095",
+      "reviewedAt": "2026-10-28T16:09:36.763Z"
+    },
+    "dan-ed4f3028": {
+      "verdict": "good",
+      "note": "",
+      "sha": "92fc3710301ce04a",
+      "reviewedAt": "2026-10-28T16:09:37.588Z"
+    },
+    "break-c9648178": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5f403a1339d86fb8",
+      "reviewedAt": "2026-10-28T16:09:41.767Z"
+    },
+    "bridge-eab80610": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9af0768119a06097",
+      "reviewedAt": "2026-10-28T16:09:42.592Z"
+    },
+    "build-c39bf2a3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "585149de229eb252",
+      "reviewedAt": "2026-10-28T16:09:43.391Z"
+    },
+    "carry-7013d630": {
+      "verdict": "good",
+      "note": "melody re-roll, take 5 of 16, confirmed by ear (2nd)",
+      "sha": "153c95d26cf91bf909abbfb9faf6b6e3caa23d12eafa76226b65e3e785265d0e",
+      "at": "2026-10-28T17:31:43.169Z"
+    },
+    "catch-4288e94c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cf560578e5126b01",
+      "reviewedAt": "2026-10-28T16:09:47.275Z"
+    },
+    "city-0dc48142": {
+      "verdict": "good",
+      "note": "",
+      "sha": "433fc54644c8bf75",
+      "reviewedAt": "2026-10-28T16:09:49.568Z"
+    },
+    "climb-436f768a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "567b9c063ec5756b",
+      "reviewedAt": "2026-10-28T16:09:50.612Z"
+    },
+    "clock-15a40f5d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8783a5f39328ab9a",
+      "reviewedAt": "2026-10-28T16:09:51.428Z"
+    },
+    "close-27cb3b23": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c7bbaf43c1e036fc",
+      "reviewedAt": "2026-10-28T16:09:58.992Z"
+    },
+    "cook-ef3e2929": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0a931a0c0bfab1ab",
+      "reviewedAt": "2026-10-28T16:09:59.912Z"
+    },
+    "cry-f944e95b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b1495b96b45a539f",
+      "reviewedAt": "2026-10-28T16:10:00.874Z"
+    },
+    "doctor-a1f02512": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d4119611af297705",
+      "reviewedAt": "2026-10-28T16:10:01.790Z"
+    },
+    "draw-a88bf413": {
+      "verdict": "good",
+      "note": "",
+      "sha": "48039977609eca29",
+      "reviewedAt": "2026-10-28T16:10:02.603Z"
+    },
+    "feel-b33572bd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1be3e16577b08e59",
+      "reviewedAt": "2026-10-28T16:10:03.412Z"
+    },
+    "find-bdf0855a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "983e0400fd21025a",
+      "reviewedAt": "2026-10-28T16:10:04.181Z"
+    },
+    "fire-8eab16d9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "43bb15ae503ea363",
+      "reviewedAt": "2026-10-28T16:10:04.992Z"
+    },
+    "fly-bff162e2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0c8185c1f1ca60d9",
+      "reviewedAt": "2026-10-28T16:10:05.791Z"
+    },
+    "forest-4f292a60": {
+      "verdict": "good",
+      "note": "",
+      "sha": "211dc7082a0d2937",
+      "reviewedAt": "2026-10-28T16:10:06.549Z"
+    },
+    "friend-cba09f8d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3ae40a83c3ce6f10",
+      "reviewedAt": "2026-10-28T16:10:07.317Z"
+    },
+    "give-994c2d1c": {
+      "verdict": "good",
+      "note": "melody re-roll, take 2 of 8, confirmed by ear (2nd)",
+      "sha": "e45921419e53a20e1833e463f0add0afc0bfb9e6a4ea32d6f33971d7a1187a8c",
+      "at": "2026-10-28T17:31:43.181Z"
+    },
+    "grow-bc82b1da": {
+      "verdict": "good",
+      "note": "melody re-roll, take 17 of 24, confirmed by ear (best)",
+      "sha": "414975d5a563bdc7ce537591223e43086f3081f35d7bf7ee4669317cbc80a3d7",
+      "at": "2026-10-28T17:31:43.187Z"
+    },
+    "help-3871a3fa": {
+      "verdict": "good",
+      "note": "",
+      "sha": "abbb53c4ecdb8a23",
+      "reviewedAt": "2026-10-28T16:10:21.213Z"
+    },
+    "hold-adc649b8": {
+      "verdict": "good",
+      "note": "melody re-roll, take 1 of 8, confirmed by ear (best)",
+      "sha": "0d519cd1d8e8e669da8bcda9081a5372bbdb17d19f6a519c6e700ac602676d8b",
+      "at": "2026-10-28T17:31:43.189Z"
+    },
+    "keep-ee7b9448": {
+      "verdict": "good",
+      "note": "melody re-roll, take 38 of ?, confirmed by ear (m38)",
+      "sha": "b24f117b696da2974007e9d4f5f800c50a063612044e100e6d849c2228e31948",
+      "at": "2026-10-28T17:53:32.750Z"
+    },
+    "kick-c61c131f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "35b31c73f1399cb0",
+      "reviewedAt": "2026-10-28T16:10:28.763Z"
+    },
+    "lamp-6bf0ef3b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ec05684a4192542e",
+      "reviewedAt": "2026-10-28T16:10:29.652Z"
+    },
+    "learn-7f697715": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4d2672d8e0e3baef",
+      "reviewedAt": "2026-10-28T16:10:30.411Z"
+    },
+    "listen-3b3b76a6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8b4b5a6c638e13f2",
+      "reviewedAt": "2026-10-28T16:10:31.291Z"
+    },
+    "nurse-f79f39aa": {
+      "verdict": "good",
+      "note": "",
+      "sha": "622453e4540e6d6e",
+      "reviewedAt": "2026-10-28T16:10:32.525Z"
+    },
+    "open-d35ec4c9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3711ea41d682a6d0",
+      "reviewedAt": "2026-10-28T16:10:33.262Z"
+    },
+    "pizza-97a76a65": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7474f9ced2f586fb",
+      "reviewedAt": "2026-10-28T16:10:34.141Z"
+    },
+    "plane-cccb0055": {
+      "verdict": "good",
+      "note": "",
+      "sha": "87df333852035a01",
+      "reviewedAt": "2026-10-28T16:10:34.850Z"
+    },
+    "pull-812d107e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 15 of 16, confirmed by ear (best)",
+      "sha": "1526c157e8d94c8ea67cea50d05a8d412634c55292a686b5a091bde63da5378f",
+      "at": "2026-10-28T17:31:43.199Z"
+    },
+    "push-876fffdd": {
+      "verdict": "good",
+      "note": "",
+      "sha": "554e649e96303649",
+      "reviewedAt": "2026-10-28T16:10:38.525Z"
+    },
+    "queen-0fb740c9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1448639232ab99d9",
+      "reviewedAt": "2026-10-28T16:10:39.354Z"
+    },
+    "rabbit-cb619ce5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fffdfcfbebe29adb",
+      "reviewedAt": "2026-10-28T16:10:40.178Z"
+    },
+    "ride-0541798f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "067ff0d653bcbaa6",
+      "reviewedAt": "2026-10-28T16:10:41.099Z"
+    },
+    "ring-f75afb6b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "37b14c259f719cb3",
+      "reviewedAt": "2026-10-28T16:10:41.848Z"
+    },
+    "river-4660d711": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7db193d2322d4fbb",
+      "reviewedAt": "2026-10-28T16:10:42.578Z"
+    },
+    "shoe-9b47cc32": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ac79f5ffbf0dd01c",
+      "reviewedAt": "2026-10-28T16:10:43.330Z"
+    },
+    "shout-b82da1a2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7553f62308305444",
+      "reviewedAt": "2026-10-28T16:10:44.050Z"
+    },
+    "show-a947e23c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b7d030c602cba34d",
+      "reviewedAt": "2026-10-28T16:10:44.825Z"
+    },
+    "sing-15d2601e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "608e48ea15a049f0",
+      "reviewedAt": "2026-10-28T16:10:45.571Z"
+    },
+    "stop-cb532ae5": {
+      "verdict": "good",
+      "note": "melody re-roll, take 5 of 8, confirmed by ear (2nd)",
+      "sha": "dd64b774b639a4a0fd1210b583e6e270a80dae6949db020f7957d009d2fa0704",
+      "at": "2026-10-28T17:31:43.206Z"
+    },
+    "swim-71da140d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6ca98a930aa3f54c",
+      "reviewedAt": "2026-10-28T16:10:47.905Z"
+    },
+    "take-0a339056": {
+      "verdict": "good",
+      "note": "melody re-roll, take 13 of ?, confirmed by ear (m13)",
+      "sha": "645c6a05e4ff7128ce5d6944758e87d745928d0709b5ed6ccf8608032e04722d",
+      "at": "2026-10-28T17:53:32.759Z"
+    },
+    "talk-142ce44f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 12 of 16, confirmed by ear (best)",
+      "sha": "200d37c532013355e4629805e9e4e796197a34a7e19c0ba1a15ec85dd15ac111",
+      "at": "2026-10-28T17:31:43.207Z"
+    },
+    "teach-1d1a14a2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "669366bdadcc7442",
+      "reviewedAt": "2026-10-28T16:10:53.142Z"
+    },
+    "think-7cc7ca5b": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of 8, confirmed by ear (2nd)",
+      "sha": "e3fbd8504b9c243e11d90bda8ae1327ab78a52481e28fd92f11f41a938d5a79b",
+      "at": "2026-10-28T17:31:43.208Z"
+    },
+    "town-33886745": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f2e83d6c42132168",
+      "reviewedAt": "2026-10-28T16:10:59.707Z"
+    },
+    "wait-892e4ca0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "491771071c6a81d7",
+      "reviewedAt": "2026-10-28T16:11:00.571Z"
+    },
+    "walk-a0262210": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9645ca84c071ed3a",
+      "reviewedAt": "2026-10-28T16:11:01.453Z"
+    },
+    "write-be269f5c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c32544b01f13e0ed",
+      "reviewedAt": "2026-10-28T16:11:02.616Z"
+    },
+    "sock-0d523ad5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "374edb94f4c93514",
+      "reviewedAt": "2026-10-28T16:11:03.531Z"
+    },
+    "am-4024f153": {
+      "verdict": "good",
+      "note": "melody re-roll, take 24 of 32, confirmed by ear (2nd)",
+      "sha": "a2ddcbdd953d4ccb1446c14b7f756c8a1541428239bd4f70a2173c2445171a62",
+      "at": "2026-10-28T17:31:43.162Z"
+    },
+    "are-406f344d": {
+      "verdict": "good",
+      "note": "melody re-roll, take 3 of ?, confirmed by ear (m3)",
+      "sha": "13905e13bb1d65485dfaa7119e7e51f89a9030aaee71e0d6d7e82547fddd7279",
+      "at": "2026-10-28T17:44:19.351Z"
+    },
+    "is-4e388f15": {
+      "verdict": "good",
+      "note": "melody re-roll, take 24 of ?, confirmed by ear (m24)",
+      "sha": "acc92ff7ba203f8d029604ec8d2f0731c0228a7abff477f3e72394af36fbc717",
+      "at": "2026-10-28T17:44:19.352Z"
+    },
+    "my-brother-9f960149": {
+      "verdict": "good",
+      "note": "",
+      "sha": "566db1db4f8fc5a6",
+      "reviewedAt": "2026-10-28T16:11:14.171Z"
+    },
+    "my-friends-fb8d6f26": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3ed6b9574dc82000",
+      "reviewedAt": "2026-10-28T16:11:15.091Z"
+    },
+    "my-sister-91debc55": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c8a062fb808c97ef",
+      "reviewedAt": "2026-10-28T16:11:16.021Z"
+    },
+    "the-book-4997b3d9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4378b608df01d5d6",
+      "reviewedAt": "2026-10-28T16:11:16.831Z"
+    },
+    "the-boy-55db784a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3e2e4975b323ad0b",
+      "reviewedAt": "2026-10-28T16:11:17.703Z"
+    },
+    "the-dogs-c0bcdad7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7bd585139f023343",
+      "reviewedAt": "2026-10-28T16:11:18.509Z"
+    },
+    "dad-e74f26b6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c49b18afbc92bcc0",
+      "reviewedAt": "2026-10-28T16:11:19.357Z"
+    },
+    "grandma-f0eea943": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of 8, confirmed by ear (best)",
+      "sha": "60e5d70bdc60991b13d752ec8d41952984f1127e0605fbef2f81c301a9dad563",
+      "at": "2026-10-28T17:31:43.184Z"
+    },
+    "grandpa-fce80062": {
+      "verdict": "good",
+      "note": "melody re-roll, take 10 of 16, confirmed by ear (best)",
+      "sha": "674916a51b838047d7a5262a92730bbb6a3e9a96bfcf3dd6399b33b75ec9bd22",
+      "at": "2026-10-28T17:31:43.185Z"
+    },
+    "mom-e69e7d88": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2bbd8947c5739b5b",
+      "reviewedAt": "2026-10-28T16:11:26.257Z"
+    },
+    "sunglasses-6e85d6c7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7e2cda3c57ae5c9b",
+      "reviewedAt": "2026-10-28T16:11:27.158Z"
+    },
+    "aunt-8d4ea641": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5a796e2541e52940",
+      "reviewedAt": "2026-10-28T16:11:30.932Z"
+    },
+    "behind-dced8a09": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ca16a31267731352",
+      "reviewedAt": "2026-10-28T16:11:31.854Z"
+    },
+    "between-a4ee076f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a6813c612d82c7e7",
+      "reviewedAt": "2026-10-28T16:11:32.719Z"
+    },
+    "boots-fffa7852": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e32aa3d9c4f4843b",
+      "reviewedAt": "2026-10-28T16:11:33.569Z"
+    },
+    "broccoli-fa27abc2": {
+      "verdict": "good",
+      "note": "melody re-roll, take 1 of ?, confirmed by ear (2nd)",
+      "sha": "c00b465b7f966515d95cc8d4e614e9227a4e8c024a22fa79de82461c362ddef5",
+      "at": "2026-10-28T17:31:43.224Z"
+    },
+    "brown-30be372f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 5 of ?, confirmed by ear (best)",
+      "sha": "1e7c405ebe5498d5a3439b8851930efba7820b7c98d73b8620164ad1a9137573",
+      "at": "2026-10-28T17:31:43.226Z"
+    },
+    "cap-027455bb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "86ef84cbd6c9d487",
+      "reviewedAt": "2026-10-28T16:11:38.305Z"
+    },
+    "carrot-b720bb72": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9387f05458dcc85b",
+      "reviewedAt": "2026-10-28T16:11:39.032Z"
+    },
+    "cherry-497ae878": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c005def8e7f1c928",
+      "reviewedAt": "2026-10-28T16:11:39.882Z"
+    },
+    "clean-506dff3e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of 8, confirmed by ear (best)",
+      "sha": "48c44021e16f7f4c92071dd4d2eacdfdcf6d657d6be344b2e51d9385b1566b0c",
+      "at": "2026-10-28T17:31:43.173Z"
+    },
+    "cousin-3799e184": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6849710906f9e431",
+      "reviewedAt": "2026-10-28T16:11:42.017Z"
+    },
+    "cucumber-52f6dcd9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "38f4bf8acc0b3980",
+      "reviewedAt": "2026-10-28T16:11:43.294Z"
+    },
+    "fox-b6f3934e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a1ae85289e8d2383",
+      "reviewedAt": "2026-10-28T16:11:44.169Z"
+    },
+    "glasses-d7cb823b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a5579a6637796212",
+      "reviewedAt": "2026-10-28T16:11:44.991Z"
+    },
+    "gloves-9afb6297": {
+      "verdict": "good",
+      "note": "",
+      "sha": "10d3980ee0663f01",
+      "reviewedAt": "2026-10-28T16:11:45.892Z"
+    },
+    "gorilla-dbe24ce5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c2a474b9f4eac11a",
+      "reviewedAt": "2026-10-28T16:11:46.718Z"
+    },
+    "grandfather-77688e8b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9def512fe2c496e4",
+      "reviewedAt": "2026-10-28T16:11:47.779Z"
+    },
+    "grandmother-a6ad93e2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a135f9ce6457c593",
+      "reviewedAt": "2026-10-28T16:11:48.669Z"
+    },
+    "grapes-23d16399": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cf05705741a41376",
+      "reviewedAt": "2026-10-28T16:11:49.544Z"
+    },
+    "in-front-of-d7ece5ca": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5fecb9fa96e2b713",
+      "reviewedAt": "2026-10-28T16:11:50.603Z"
+    },
+    "jacket-100e165b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1642bf7357b19d9c",
+      "reviewedAt": "2026-10-28T16:11:51.453Z"
+    },
+    "jellyfish-5c1c35e9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ced7bae07b7baa25",
+      "reviewedAt": "2026-10-28T16:11:52.357Z"
+    },
+    "kangaroo-9f8658ab": {
+      "verdict": "good",
+      "note": "",
+      "sha": "91a981fe66827b07",
+      "reviewedAt": "2026-10-28T16:11:53.379Z"
+    },
+    "lemon-c8c141d0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "75b49b75e08ee65a",
+      "reviewedAt": "2026-10-28T16:11:54.252Z"
+    },
+    "monkey-6a164f08": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a425c2d19b3ff9b4",
+      "reviewedAt": "2026-10-28T16:11:55.132Z"
+    },
+    "mouse-592318c4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "439bed6c19532c89",
+      "reviewedAt": "2026-10-28T16:11:56.021Z"
+    },
+    "octopus-bebfab0e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "178f4bccb9701b97",
+      "reviewedAt": "2026-10-28T16:11:56.978Z"
+    },
+    "parrot-6260b525": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9cd7747992f1c5bf",
+      "reviewedAt": "2026-10-28T16:11:57.842Z"
+    },
+    "penguin-2efc387f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ba6ae55c809cf052",
+      "reviewedAt": "2026-10-28T16:11:58.694Z"
+    },
+    "pepper-ce1ad479": {
+      "verdict": "good",
+      "note": "",
+      "sha": "00931e0208b97ecb",
+      "reviewedAt": "2026-10-28T16:11:59.556Z"
+    },
+    "pink-225e036d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "194e8715f5eb54a3",
+      "reviewedAt": "2026-10-28T16:12:00.466Z"
+    },
+    "potato-25d4a652": {
+      "verdict": "good",
+      "note": "",
+      "sha": "df22ca3eae0ded38",
+      "reviewedAt": "2026-10-28T16:12:01.340Z"
+    },
+    "purple-9a6e02ff": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8fefcd05e7890fdf",
+      "reviewedAt": "2026-10-28T16:12:02.156Z"
+    },
+    "scarf-7f5f6abe": {
+      "verdict": "good",
+      "note": "",
+      "sha": "df9e6cb12f9655e0",
+      "reviewedAt": "2026-10-28T16:12:03.029Z"
+    },
+    "socks-9e725352": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ceef56a5e25a5900",
+      "reviewedAt": "2026-10-28T16:12:04.052Z"
+    },
+    "strawberry-843a155c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "28ac8037a27438ef",
+      "reviewedAt": "2026-10-28T16:12:05.102Z"
+    },
+    "tomato-35a2e5c3": {
+      "verdict": "good",
+      "note": "melody re-roll, take 12 of ?, confirmed by ear (m12)",
+      "sha": "3b240babfe49c98610ab8c1495b8834e29a5183a84b5a3ee173cc08bf94d5047",
+      "at": "2026-10-28T17:53:32.748Z"
+    },
+    "twins-c28c1580": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cb89b729d5d56d95",
+      "reviewedAt": "2026-10-28T16:12:08.294Z"
+    },
+    "watermelon-b3f501b7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "43e6046026d7a866",
+      "reviewedAt": "2026-10-28T16:12:09.769Z"
+    },
+    "eighteen-a57e9c10": {
+      "verdict": "good",
+      "note": "",
+      "sha": "499e1cf6cb376812",
+      "reviewedAt": "2026-10-28T16:12:10.443Z"
+    },
+    "eighty-4f5dda2b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "19a2cbc0745c1364",
+      "reviewedAt": "2026-10-28T16:12:13.517Z"
+    },
+    "eleven-8ff53680": {
+      "verdict": "good",
+      "note": "",
+      "sha": "deca284de9075252",
+      "reviewedAt": "2026-10-28T16:12:14.440Z"
+    },
+    "fifteen-07cc2b2a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7dde1715bc66b539",
+      "reviewedAt": "2026-10-28T16:12:15.440Z"
+    },
+    "fifty-bd93ede1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a71611a13577b695",
+      "reviewedAt": "2026-10-28T16:12:16.292Z"
+    },
+    "forty-8583378f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a85f8185b1d1dbb6",
+      "reviewedAt": "2026-10-28T16:12:17.190Z"
+    },
+    "fourteen-01a53a61": {
+      "verdict": "good",
+      "note": "",
+      "sha": "cf4a5bf1e2aa6b28",
+      "reviewedAt": "2026-10-28T16:12:18.187Z"
+    },
+    "hundred-7ee93563": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9d8e339b1cfc1747",
+      "reviewedAt": "2026-10-28T16:12:19.018Z"
+    },
+    "nineteen-e21ee631": {
+      "verdict": "good",
+      "note": "",
+      "sha": "33dadc5fc97b2c20",
+      "reviewedAt": "2026-10-28T16:12:19.915Z"
+    },
+    "ninety-c1faa93e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "efdbb4f0020c1e5c",
+      "reviewedAt": "2026-10-28T16:12:20.756Z"
+    },
+    "seventeen-a4c6ff66": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9448607a20f226c2",
+      "reviewedAt": "2026-10-28T16:12:21.692Z"
+    },
+    "seventy-914f96c5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b415202f9fa4e89a",
+      "reviewedAt": "2026-10-28T16:12:22.653Z"
+    },
+    "sixteen-c5d13fab": {
+      "verdict": "good",
+      "note": "",
+      "sha": "46c004c7a99a18d1",
+      "reviewedAt": "2026-10-28T16:12:23.616Z"
+    },
+    "sixty-6232229c": {
+      "verdict": "good",
+      "note": "melody re-roll, take 16 of 16, confirmed by ear (best)",
+      "sha": "15a6550d4f960e84a4b724bd883f8ce130e0cdfcf8ad79d44e4d9134e893cf21",
+      "at": "2026-10-28T17:31:43.204Z"
+    },
+    "thirteen-63374a36": {
+      "verdict": "good",
+      "note": "",
+      "sha": "793c15be4c148118",
+      "reviewedAt": "2026-10-28T16:12:28.540Z"
+    },
+    "thirty-1a956a35": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1b727eedd1aea0c6",
+      "reviewedAt": "2026-10-28T16:12:29.552Z"
+    },
+    "twelve-f5352bb4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a5e89b7ed8045ffc",
+      "reviewedAt": "2026-10-28T16:12:30.577Z"
+    },
+    "twenty-00500da8": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 2 (lightly stressed ending), confirmed by ear",
+      "sha": "3575982ade394769e4103e89b9961108248e435c0e4cba1cfb5d53d4f82f1761",
+      "at": "2026-10-31T17:53:05.946Z"
+    },
+    "twenty-eight-1852361a": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 3 option 6 (plain spelling, no phonetics at all), confirmed by ear",
+      "sha": "a668a4b826e6e33d470e93ae1c280917cf097106188d7e6184c95f57e79910b0",
+      "at": "2026-10-31T17:53:05.965Z"
+    },
+    "twenty-five-825d8b1f": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 4 option 5 (hyphens throughout), confirmed by ear",
+      "sha": "c1dee5f47c88725d645656b2a0a5f5cd78999d3de1b9b6c4e5feb0416e14652d",
+      "at": "2026-10-31T17:53:05.958Z"
+    },
+    "twenty-four-7a930b5b": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 7 (t opens a separate word), confirmed by ear",
+      "sha": "1656609fb751a7c97eacffd3c40fce9f259ea4b7be93abd8399cb0237ef42349",
+      "at": "2026-10-31T17:53:05.956Z"
+    },
+    "twenty-nine-9d9ecbcf": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 7 (t opens a separate word), confirmed by ear",
+      "sha": "712a8d735a7eeb6f4aa408205a76a0668dc4f35276293a0ad932b344894ce87b",
+      "at": "2026-10-31T17:53:05.968Z"
+    },
+    "twenty-one-493624ad": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 1 (stressed ending), confirmed by ear",
+      "sha": "fb379cf43ecc1e109bd1553d46e12f4ab68cb511c7fa451b41e69b0358dc0ec3",
+      "at": "2026-10-31T17:53:05.949Z"
+    },
+    "twenty-seven-37348a60": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 7 (t opens a separate word), confirmed by ear",
+      "sha": "a9fe29cd40519ba22a20079b40174fd5f2e21d5d03f3195473a89cf004c65ab6",
+      "at": "2026-10-31T17:53:05.963Z"
+    },
+    "twenty-six-8151aa7d": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 3 option 6 (plain spelling, no phonetics at all), confirmed by ear",
+      "sha": "451248a3768643fc6a848a64214969aabdf5bf4f999fe4ab401100993af7a07f",
+      "at": "2026-10-31T17:53:05.960Z"
+    },
+    "twenty-three-a202f41d": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 2 (lightly stressed ending), confirmed by ear",
+      "sha": "a980fc12b4e1620a3dd18795748e2ab1b23d6c2f3462bce101c6833cd776da47",
+      "at": "2026-10-31T17:53:05.953Z"
+    },
+    "twenty-two-1dd883e7": {
+      "verdict": "good",
+      "note": "the /t/ of \"twenty\", chosen by ear from seven spellings, round 1 option 2 (lightly stressed ending), confirmed by ear",
+      "sha": "08ffb2ea281432858e04932321ee249c0b99f7df65ad1e538a26e3661501762e",
+      "at": "2026-10-31T17:53:05.951Z"
+    },
+    "zero-8b6fe763": {
+      "verdict": "good",
+      "note": "",
+      "sha": "560b066f3b9bba5f",
+      "reviewedAt": "2026-10-28T16:12:42.317Z"
+    },
+    "hot-fec3a7d4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5f18c73df1a39306",
+      "reviewedAt": "2026-10-28T16:12:42.993Z"
+    },
+    "old-bd2b9bd6": {
+      "verdict": "good",
+      "note": "melody re-roll, take 38 of ?, confirmed by ear (m38)",
+      "sha": "0bdcd226b95dcd6dd540a725405583ec7413583623d9ef9ac78921899e38ecc5",
+      "at": "2026-10-28T17:53:32.757Z"
+    },
+    "slow-6d9542b8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "54e2d3a88993dd38",
+      "reviewedAt": "2026-10-28T16:12:46.840Z"
+    },
+    "tall-112cdf96": {
+      "verdict": "good",
+      "note": "",
+      "sha": "62d51f667df8d9d0",
+      "reviewedAt": "2026-10-28T16:12:47.827Z"
+    },
+    "up-43430b20": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7010cc7006939b2c",
+      "reviewedAt": "2026-10-28T16:12:49.044Z"
+    },
+    "wet-21d9d8e7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a6bc19f27dda38e0",
+      "reviewedAt": "2026-10-28T16:12:49.819Z"
+    },
+    "cold-ea44dd0f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of 8, confirmed by ear (2nd)",
+      "sha": "24734d9845a109675842a624b608c0e798cb36d5b7a8200df82a70fc739d2d85",
+      "at": "2026-10-28T17:31:43.174Z"
+    },
+    "dirty-9f000e9b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2a1000419ccdcb97",
+      "reviewedAt": "2026-10-28T16:12:53.401Z"
+    },
+    "down-3db9b915": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b086caa368b3f9a0",
+      "reviewedAt": "2026-10-28T16:12:54.179Z"
+    },
+    "dry-dc25c75e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 35 of ?, confirmed by ear (m35)",
+      "sha": "c89202bed3575860a193c2112b4083850c02928898058f03d95294563e63490e",
+      "at": "2026-10-28T17:53:32.758Z"
+    },
+    "fast-029402af": {
+      "verdict": "good",
+      "note": "",
+      "sha": "fa4a1cc2882e4776",
+      "reviewedAt": "2026-10-28T16:12:56.255Z"
+    },
+    "short-ba226bd5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "99576da3c46de6dd",
+      "reviewedAt": "2026-10-28T16:12:57.051Z"
+    },
+    "small-a2c4f48c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a8d3e675d97dcee3",
+      "reviewedAt": "2026-10-28T16:12:57.951Z"
+    },
+    "young-58446843": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ceb44472e6249678",
+      "reviewedAt": "2026-10-28T16:12:58.952Z"
+    },
+    "how-7908dc36": {
+      "verdict": "good",
+      "note": "",
+      "sha": "88fbaec7adba5a1b",
+      "reviewedAt": "2026-10-28T16:12:59.951Z"
+    },
+    "what-1d131530": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8475de7ebda3be71",
+      "reviewedAt": "2026-10-28T16:13:00.819Z"
+    },
+    "when-cf269ad2": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f7249775e912123c",
+      "reviewedAt": "2026-10-28T16:13:01.852Z"
+    },
+    "who-4e5f3310": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5e7a26335ae5f3b1",
+      "reviewedAt": "2026-10-28T16:13:02.744Z"
+    },
+    "why-4e321372": {
+      "verdict": "good",
+      "note": "",
+      "sha": "92909f218acde972",
+      "reviewedAt": "2026-10-28T16:13:03.530Z"
+    },
+    "she-e92df9e1": {
+      "verdict": "good",
+      "note": "melody re-roll, take 9 of 16, confirmed by ear (2nd)",
+      "sha": "1f0faf90f93de6695fa42a72c0a53adc82aa605a3bdf35d3d1b3d4052f5f5223",
+      "at": "2026-10-28T17:31:43.201Z"
+    },
+    "we-5c47afa9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "48febf51316f4181",
+      "reviewedAt": "2026-10-28T16:13:05.568Z"
+    },
+    "the-pupils-f7f9af2d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "95be578e5ce9b905",
+      "reviewedAt": "2026-10-28T16:13:06.551Z"
+    },
+    "the-tiger-2a417413": {
+      "verdict": "good",
+      "note": "",
+      "sha": "323085e511d46657",
+      "reviewedAt": "2026-10-28T16:13:07.914Z"
+    },
+    "has-edbf0fe3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a7ff130b1e95ec0d",
+      "reviewedAt": "2026-10-28T16:13:09.040Z"
+    },
+    "have-f5ce03fb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "03f5ade39c264866",
+      "reviewedAt": "2026-10-28T16:13:10.015Z"
+    },
+    "the-cat-c1a45d58": {
+      "verdict": "good",
+      "note": "",
+      "sha": "532336f0e74ae0b4",
+      "reviewedAt": "2026-10-28T16:13:10.865Z"
+    },
+    "do-621cd814": {
+      "verdict": "good",
+      "note": "melody re-roll, take 2 of 8, confirmed by ear (2nd)",
+      "sha": "68126bae5d35002495d11be8fd638bb50f4a1631efaac78f4dc73a76aa654acb",
+      "at": "2026-10-28T17:31:43.178Z"
+    },
+    "does-20dc1db0": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of 32, confirmed by ear (2nd)",
+      "sha": "d717f6ebd5d13b6a5377c91c980a79421db74210ce46bc5a4511f63d3f32dc29",
+      "at": "2026-10-28T17:31:43.179Z"
+    },
+    "angel-a83e75ea": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5249e2ddd35142cf",
+      "reviewedAt": "2026-10-28T16:13:21.269Z"
+    },
+    "blow-70bcc521": {
+      "verdict": "good",
+      "note": "melody re-roll, take 23 of 24, confirmed by ear (2nd)",
+      "sha": "a0714928e75d67ab5e60316f0986ac05975d6837565fa905cb9bf6fdf6924ea0",
+      "at": "2026-10-28T17:31:43.166Z"
+    },
+    "boat-dcb746fb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0f40fbc03466d238",
+      "reviewedAt": "2026-10-28T16:13:23.605Z"
+    },
+    "bright-25094f85": {
+      "verdict": "good",
+      "note": "melody re-roll, take 9 of ?, confirmed by ear (m9)",
+      "sha": "2056dcfc550b7804ae4d221f0e129eb9356cfb4d4c4a4f49a2fc917a7cd9994b",
+      "at": "2026-10-28T17:53:32.753Z"
+    },
+    "bring-f0dfd78b": {
+      "verdict": "good",
+      "note": "melody re-roll, take 25 of 32, confirmed by ear (best)",
+      "sha": "1d0ad2d52ff4f1151eb97c54e05e058793a69541f386bc0875f4704e22954a82",
+      "at": "2026-10-28T17:31:43.168Z"
+    },
+    "burn-51f91098": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f07f784ac51d46ca",
+      "reviewedAt": "2026-10-28T16:13:28.076Z"
+    },
+    "clue-66071f88": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e06744468c781fec",
+      "reviewedAt": "2026-10-28T16:13:28.955Z"
+    },
+    "coin-d24d060c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "af7f841a98e2baed",
+      "reviewedAt": "2026-10-28T16:13:29.902Z"
+    },
+    "computer-b1514998": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 8, confirmed by ear (2nd)",
+      "sha": "e50e4c958de32fd848ec039cf0890f5c13481aa4bb767bfd32314f0cb001ba24",
+      "at": "2026-10-28T17:31:43.176Z"
+    },
+    "corn-d45e5253": {
+      "verdict": "good",
+      "note": "",
+      "sha": "918d6a87f01dc686",
+      "reviewedAt": "2026-10-28T16:13:32.514Z"
+    },
+    "count-39b1ddf4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dbcd1e2cb0cae1d9",
+      "reviewedAt": "2026-10-28T16:13:33.664Z"
+    },
+    "cow-f78ddc50": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 8, confirmed by ear (2nd)",
+      "sha": "eab13f7122ac2b9d755dfa384404f4d8102cfc5e0b9ce6eff0d0ff36cdc05c1a",
+      "at": "2026-10-28T17:31:43.177Z"
+    },
+    "crown-34ea9c90": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c87c31dc711142c6",
+      "reviewedAt": "2026-10-28T16:13:35.539Z"
+    },
+    "danger-219901ae": {
+      "verdict": "good",
+      "note": "",
+      "sha": "67f2e1285d129307",
+      "reviewedAt": "2026-10-28T16:13:36.465Z"
+    },
+    "donkey-fc948035": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b5df4121344e13dd",
+      "reviewedAt": "2026-10-28T16:13:37.391Z"
+    },
+    "energy-29cc5095": {
+      "verdict": "good",
+      "note": "",
+      "sha": "825c7b86325c196d",
+      "reviewedAt": "2026-10-28T16:13:38.276Z"
+    },
+    "enjoy-10ab982c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "97ea83fd7f195ac2",
+      "reviewedAt": "2026-10-28T16:13:39.179Z"
+    },
+    "few-b20295f9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5b1df3748ca8e63a",
+      "reviewedAt": "2026-10-28T16:13:39.890Z"
+    },
+    "fight-275ccfc9": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3b62adaff1ba5deb",
+      "reviewedAt": "2026-10-28T16:13:40.667Z"
+    },
+    "flight-e94aebc3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6c4b9367deac15e2",
+      "reviewedAt": "2026-10-28T16:13:41.490Z"
+    },
+    "fork-3e58c421": {
+      "verdict": "good",
+      "note": "",
+      "sha": "650470ba6a9eb287",
+      "reviewedAt": "2026-10-28T16:13:42.267Z"
+    },
+    "found-64ff7b9f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "862c32af4549861b",
+      "reviewedAt": "2026-10-28T16:13:43.093Z"
+    },
+    "gem-5b0cb25c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9e4d212a79b83a8a",
+      "reviewedAt": "2026-10-28T16:13:43.901Z"
+    },
+    "gently-a086389c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8630f58d3414619a",
+      "reviewedAt": "2026-10-28T16:13:44.755Z"
+    },
+    "giant-f907064e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a65d84c46a904ad4",
+      "reviewedAt": "2026-10-28T16:13:46.264Z"
+    },
+    "ginger-8534ce9d": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7600b91ca250f899",
+      "reviewedAt": "2026-10-28T16:13:47.191Z"
+    },
+    "giraffe-ec22362f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3a8058d73ccb9b4f",
+      "reviewedAt": "2026-10-28T16:13:48.164Z"
+    },
+    "glue-7829333c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e2785b4e569d740d",
+      "reviewedAt": "2026-10-28T16:13:48.989Z"
+    },
+    "goat-0e6f5bde": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2e50e9e4abe38282",
+      "reviewedAt": "2026-10-28T16:13:49.774Z"
+    },
+    "grew-bc902964": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7069fd0cd596ae34",
+      "reviewedAt": "2026-10-28T16:13:50.679Z"
+    },
+    "gym-3b51a480": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2ad737d40c0f6096",
+      "reviewedAt": "2026-10-28T16:13:51.500Z"
+    },
+    "her-f4b48d8c": {
+      "verdict": "good",
+      "note": "melody re-roll, take 59 of ?, confirmed by ear (m59)",
+      "sha": "784d2a9a5936fd61fdd8efd8e65439ea96b0b1c9f8599926d5a1e9866cc83a52",
+      "at": "2026-10-28T18:07:35.444Z"
+    },
+    "high-3dddb9fd": {
+      "verdict": "good",
+      "note": "melody re-roll, take 12 of 16, confirmed by ear (best)",
+      "sha": "d7c7f6c30323feb1f45f944dcae0b4056de32da418df1a6e368d47ba77491be0",
+      "at": "2026-10-28T17:31:43.188Z"
+    },
+    "honey-316a8164": {
+      "verdict": "good",
+      "note": "melody re-roll, take 5 of ?, confirmed by ear (m5)",
+      "sha": "f7783263309870d1477fc690a6e2eae0036bd457a9c529e977a3d3be6f3a5427",
+      "at": "2026-10-28T17:44:19.348Z"
+    },
+    "join-c922bc79": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 8, confirmed by ear (best)",
+      "sha": "6a9e4ea1caa5a9cc3a36de1b9bd20d5f1df5ced10dcce89b88bd0852e0348e1e",
+      "at": "2026-10-28T17:31:43.190Z"
+    },
+    "key-6815c86c": {
+      "verdict": "good",
+      "note": "melody re-roll, take 37 of ?, confirmed by ear (m37)",
+      "sha": "fe8ba526a4d1bca857e4dede142a128e011669e17f73fcda2f1d1266745bd5cb",
+      "at": "2026-10-28T17:53:32.746Z"
+    },
+    "knee-385aba2a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5f123cfb2e92115e",
+      "reviewedAt": "2026-10-28T16:14:01.815Z"
+    },
+    "knife-7183f6da": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ba84fcc3ccbb5452",
+      "reviewedAt": "2026-10-28T16:14:02.574Z"
+    },
+    "knight-dfbbf53c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7009dc8f843a5a60",
+      "reviewedAt": "2026-10-28T16:14:03.352Z"
+    },
+    "knit-49504791": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a4a7b7d9704a7c8d",
+      "reviewedAt": "2026-10-28T16:14:04.177Z"
+    },
+    "knock-7266707f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "60959d8fef854872",
+      "reviewedAt": "2026-10-28T16:14:04.966Z"
+    },
+    "know-464bc5aa": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f9962c9fc6936fcd",
+      "reviewedAt": "2026-10-28T16:14:05.766Z"
+    },
+    "light-e29d1e2f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e0831cfa14acabd3",
+      "reviewedAt": "2026-10-28T16:14:06.504Z"
+    },
+    "long-c2ecdf53": {
+      "verdict": "good",
+      "note": "melody re-roll, take 20 of 24, confirmed by ear (2nd)",
+      "sha": "9d5db5c2d4daae1d3c280d530cb8a05ac34bc46db9efcc9726de18aa8096398c",
+      "at": "2026-10-28T17:31:43.195Z"
+    },
+    "magic-e4eb258c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "755fb58ff1c5b85e",
+      "reviewedAt": "2026-10-28T16:14:09.138Z"
+    },
+    "money-e150c94f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3bcda6bf5bce96f2",
+      "reviewedAt": "2026-10-28T16:14:10.000Z"
+    },
+    "new-28999611": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8a5b1166ab1ef59d",
+      "reviewedAt": "2026-10-28T16:14:10.963Z"
+    },
+    "noise-904416d1": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d2798a058fa18011",
+      "reviewedAt": "2026-10-28T16:14:12.013Z"
+    },
+    "oil-c338713b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b3592befab5fcc8b",
+      "reviewedAt": "2026-10-28T16:14:12.865Z"
+    },
+    "out-ab1a365f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d1266931cb5fc8cd",
+      "reviewedAt": "2026-10-28T16:14:13.750Z"
+    },
+    "page-815dfa76": {
+      "verdict": "good",
+      "note": "",
+      "sha": "008230537cbd2304",
+      "reviewedAt": "2026-10-28T16:14:15.204Z"
+    },
+    "place-c8d632fc": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5788355128f8f6ba",
+      "reviewedAt": "2026-10-28T16:14:16.151Z"
+    },
+    "point-18ae6c91": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7bdd82926b6b8c3b",
+      "reviewedAt": "2026-10-28T16:14:17.300Z"
+    },
+    "police-e2c119fb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0a2f9cb9c335408b",
+      "reviewedAt": "2026-10-28T16:14:18.217Z"
+    },
+    "quarter-59c2cae7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e2af6e824741dd54",
+      "reviewedAt": "2026-10-28T16:14:19.213Z"
+    },
+    "quick-f739c3bc": {
+      "verdict": "good",
+      "note": "melody re-roll, take 59 of ?, confirmed by ear (m59)",
+      "sha": "1b9a02e9500f3842717ce5c15c7fe55828e5a0e780d4346b2a071544f6f207ca",
+      "at": "2026-10-28T18:07:35.445Z"
+    },
+    "quiet-ea353217": {
+      "verdict": "good",
+      "note": "",
+      "sha": "09baef6dcdfe7394",
+      "reviewedAt": "2026-10-28T16:14:22.680Z"
+    },
+    "quiz-518796f4": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of 8, confirmed by ear (2nd)",
+      "sha": "525c391e2075018c3fc21df79edd841906440f3c09c285abaa9783ff482fae20",
+      "at": "2026-10-28T17:31:43.200Z"
+    },
+    "right-78e32de5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1f7f02ead7d4012e",
+      "reviewedAt": "2026-10-28T16:14:24.380Z"
+    },
+    "road-3d1fcc9b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3f5249e90811afd2",
+      "reviewedAt": "2026-10-28T16:14:25.253Z"
+    },
+    "round-4f0be23b": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c4824ecad66f59f2",
+      "reviewedAt": "2026-10-28T16:14:26.225Z"
+    },
+    "soap-ee568736": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3ffc000e70e52692",
+      "reviewedAt": "2026-10-28T16:14:27.142Z"
+    },
+    "song-115d7a14": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1f44db213f826be8",
+      "reviewedAt": "2026-10-28T16:14:28.125Z"
+    },
+    "storm-bfe7af96": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6b078b17dba6851b",
+      "reviewedAt": "2026-10-28T16:14:29.251Z"
+    },
+    "strong-c51f5d7a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4b24ace98936e688",
+      "reviewedAt": "2026-10-28T16:14:30.265Z"
+    },
+    "threw-7a85edb9": {
+      "verdict": "good",
+      "note": "melody re-roll, take 1 of 8, confirmed by ear (best)",
+      "sha": "0811e1501e83dd65034806536ffce1646ea0965dd7f949c8dbbbb0c7e3a29842",
+      "at": "2026-10-28T17:31:43.210Z"
+    },
+    "tight-f654e087": {
+      "verdict": "good",
+      "note": "",
+      "sha": "2404bbe31109ccf8",
+      "reviewedAt": "2026-10-28T16:14:34.003Z"
+    },
+    "toast-5a91e6d0": {
+      "verdict": "good",
+      "note": "melody re-roll, take 26 of 32, confirmed by ear (2nd)",
+      "sha": "6f095a0bbc701e1a6af83590c0a769a78a8b6300b8f1c532c3d9feb673ec17c9",
+      "at": "2026-10-28T17:31:43.212Z"
+    },
+    "toy-b010ea67": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ffcfdf8dbc1ce62f",
+      "reviewedAt": "2026-10-28T16:14:36.899Z"
+    },
+    "true-4db211e5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8f246f00cae32617",
+      "reviewedAt": "2026-10-28T16:14:38.017Z"
+    },
+    "turkey-995fc0cf": {
+      "verdict": "good",
+      "note": "",
+      "sha": "bd3bfb5a996b391f",
+      "reviewedAt": "2026-10-28T16:14:39.154Z"
+    },
+    "turn-914bd27a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "820e7e36c119653f",
+      "reviewedAt": "2026-10-28T16:14:40.387Z"
+    },
+    "valley-309b1b82": {
+      "verdict": "good",
+      "note": "",
+      "sha": "97218459d0c55385",
+      "reviewedAt": "2026-10-28T16:14:41.580Z"
+    },
+    "wall-a7262d15": {
+      "verdict": "good",
+      "note": "melody re-roll, take 25 of 32, confirmed by ear (best)",
+      "sha": "1d69fda3cc034dbdd98be155b3d5627140519cdb5b7c02f5d33698d31e2bd65e",
+      "at": "2026-10-28T17:31:43.214Z"
+    },
+    "want-8b2c112f": {
+      "verdict": "good",
+      "note": "melody re-roll, take 1 of ?, confirmed by ear (2nd)",
+      "sha": "137d1921290be123b2728862fc672692c0e3a430d52563ab48d04ec75e77f6d0",
+      "at": "2026-10-28T17:31:43.230Z"
+    },
+    "wasp-88f69fa6": {
+      "verdict": "good",
+      "note": "melody re-roll, take 30 of 32, confirmed by ear (best)",
+      "sha": "ffca93bb4df3d1df6be47dc212bcfda01ca1b250d84b417679a4e7de38a33b84",
+      "at": "2026-10-28T17:31:43.215Z"
+    },
+    "watch-5fb7b228": {
+      "verdict": "good",
+      "note": "melody re-roll, take 22 of 24, confirmed by ear (2nd)",
+      "sha": "bc88eba3e33e334507b6c9a75ae6c2fb6548027b4ca3087c6ad66387603353ec",
+      "at": "2026-10-28T17:31:43.216Z"
+    },
+    "wing-1514f29a": {
+      "verdict": "good",
+      "note": "melody re-roll, take 16 of 16, confirmed by ear (best)",
+      "sha": "6e4288e28fe14bed647eaecfe63ebb794a95b12140457f54bd7af70b29389553",
+      "at": "2026-10-28T17:31:43.218Z"
+    },
+    "wrap-7fdbf4a5": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3b76c18f5c5e70a2",
+      "reviewedAt": "2026-10-28T16:14:57.557Z"
+    },
+    "wrist-ad28c330": {
+      "verdict": "good",
+      "note": "",
+      "sha": "15a73adec00e9788",
+      "reviewedAt": "2026-10-28T16:14:58.419Z"
+    },
+    "wrong-e7252e76": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7133a78f69555c2e",
+      "reviewedAt": "2026-10-28T16:14:59.418Z"
+    },
+    "his-fdd2b0cb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "7fd4b978e1b35bb7",
+      "reviewedAt": "2026-10-28T16:15:01.271Z"
+    },
+    "its-80f867d9": {
+      "verdict": "good",
+      "note": "melody re-roll, take 34 of ?, confirmed by ear (m34)",
+      "sha": "3c13939e08116e1b5c7108bba5bb4f88d4a5773083a93ff6c4b50c2e920dec4c",
+      "at": "2026-10-28T17:53:32.760Z"
+    },
+    "my-4c2dfe93": {
+      "verdict": "good",
+      "note": "melody re-roll, take 36 of ?, confirmed by ear (m36)",
+      "sha": "b748e84a66258415b050c8b24c2599cadb59c11ed70a168d859e102541f3d1f9",
+      "at": "2026-10-28T17:53:32.755Z"
+    },
+    "our-a91a3339": {
+      "verdict": "good",
+      "note": "melody re-roll, take 38 of ?, confirmed by ear (m38)",
+      "sha": "0e2c8f6d5e36489cea314fbfeb14f6146a241e12e0fdd734a0195519143c6721",
+      "at": "2026-10-28T17:53:32.754Z"
+    },
+    "their-cbfd3c67": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d12b874eadd93a04",
+      "reviewedAt": "2026-10-28T16:15:08.597Z"
+    },
+    "your-00f0e6aa": {
+      "verdict": "good",
+      "note": "melody re-roll, take 10 of 32, confirmed by ear (best)",
+      "sha": "ab92b291e45ef7a2db335ca7905148052a5b8fc5bfb8b9e721514ce3d1befe83",
+      "at": "2026-10-28T17:31:43.221Z"
+    },
+    "blanket-fefb9588": {
+      "verdict": "good",
+      "note": "",
+      "sha": "dd95dc0ee9a28de0",
+      "reviewedAt": "2026-10-28T16:15:11.066Z"
+    },
+    "blood-edeead07": {
+      "verdict": "good",
+      "note": "",
+      "sha": "92546ebdb4c1c403",
+      "reviewedAt": "2026-10-28T16:15:12.193Z"
+    },
+    "clap-4324fd83": {
+      "verdict": "good",
+      "note": "melody re-roll, take 7 of 32, confirmed by ear (best)",
+      "sha": "111e1ceef10db3c43532fe55b1607f7260d2b6ef50d5d1296713b3730637e106",
+      "at": "2026-10-28T17:31:43.170Z"
+    },
+    "crab-90407463": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4235def6b900b573",
+      "reviewedAt": "2026-10-28T16:15:15.504Z"
+    },
+    "crack-3d749c61": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ed12cbfc9d4cd652",
+      "reviewedAt": "2026-10-28T16:15:16.333Z"
+    },
+    "dragon-f810361e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 1 of 8, confirmed by ear (best)",
+      "sha": "1fcbf3a5bcdab9be3d05844e2bfd700e095ae638aa511ff71be2ac280a0504f7",
+      "at": "2026-10-28T17:31:43.180Z"
+    },
+    "drum-c26f9aed": {
+      "verdict": "good",
+      "note": "",
+      "sha": "43c04f3c129497f1",
+      "reviewedAt": "2026-10-28T16:15:19.409Z"
+    },
+    "flag-bdeaa8d7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "984cb7ef49b6c04b",
+      "reviewedAt": "2026-10-28T16:15:20.191Z"
+    },
+    "flame-86584d00": {
+      "verdict": "good",
+      "note": "",
+      "sha": "1a816b3df814aaaa",
+      "reviewedAt": "2026-10-28T16:15:21.020Z"
+    },
+    "free-99b3eedb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "229bb7ab38a632de",
+      "reviewedAt": "2026-10-28T16:15:21.818Z"
+    },
+    "frog-9bcd89e7": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a84061479ef953df",
+      "reviewedAt": "2026-10-28T16:15:22.631Z"
+    },
+    "fruit-d76a9191": {
+      "verdict": "good",
+      "note": "",
+      "sha": "860d589e37864297",
+      "reviewedAt": "2026-10-28T16:15:23.470Z"
+    },
+    "glass-f203a92b": {
+      "verdict": "good",
+      "note": "melody re-roll, take 16 of 16, confirmed by ear (2nd)",
+      "sha": "693a9effbda7407a9f6290ee5ffaed272bb960e959357fb9abdb93b83963b8b6",
+      "at": "2026-10-28T17:31:43.183Z"
+    },
+    "globe-03374982": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f6fceb4e5a19eda5",
+      "reviewedAt": "2026-10-28T16:15:25.271Z"
+    },
+    "glove-f368cd1e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a659f000cc4e590e",
+      "reviewedAt": "2026-10-28T16:15:26.128Z"
+    },
+    "plant-bbcae592": {
+      "verdict": "good",
+      "note": "",
+      "sha": "5d0a0936315b05d6",
+      "reviewedAt": "2026-10-28T16:15:27.731Z"
+    },
+    "present-1e801cec": {
+      "verdict": "good",
+      "note": "",
+      "sha": "65e88384ab82b68b",
+      "reviewedAt": "2026-10-28T16:15:28.595Z"
+    },
+    "prince-06588c28": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c8967a340d9ae051",
+      "reviewedAt": "2026-10-28T16:15:29.316Z"
+    },
+    "prize-1755a12f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "224fec7227666b5d",
+      "reviewedAt": "2026-10-28T16:15:30.266Z"
+    },
+    "scan-ece838e8": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4ca9da37ae030ec9",
+      "reviewedAt": "2026-10-28T16:15:31.491Z"
+    },
+    "score-d22f9095": {
+      "verdict": "good",
+      "note": "",
+      "sha": "9175c9031719c55a",
+      "reviewedAt": "2026-10-28T16:15:32.345Z"
+    },
+    "slide-5791e5e6": {
+      "verdict": "good",
+      "note": "",
+      "sha": "10f8a869cadda570",
+      "reviewedAt": "2026-10-28T16:15:33.143Z"
+    },
+    "slime-837ad1db": {
+      "verdict": "good",
+      "note": "",
+      "sha": "4217c9146e936ef0",
+      "reviewedAt": "2026-10-28T16:15:33.996Z"
+    },
+    "kid-7cf7d467": {
+      "verdict": "good",
+      "note": "melody re-roll, take 10 of 16, confirmed by ear (best)",
+      "sha": "6da15da55944926b181f53b52cc24d5dcb999f8b0338b4b6d04369c1bd97bfb7",
+      "at": "2026-10-28T17:31:43.192Z"
+    },
+    "kiss-ddf39677": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 8, confirmed by ear (best)",
+      "sha": "e41f3501dc5a00df425338ab71ea55ebfb2d84abdb938bd8d837d1d13b1c48e2",
+      "at": "2026-10-28T17:31:43.193Z"
+    },
+    "kite-dbfbe216": {
+      "verdict": "good",
+      "note": "melody re-roll, take 11 of 16, confirmed by ear (best)",
+      "sha": "a2e011e9c82049b7efccf1084fcbb913af94c85030f178222a1211594c0a6bfb",
+      "at": "2026-10-28T17:31:43.194Z"
+    },
+    "action-c4642eff": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6340e7027a5358dc",
+      "reviewedAt": "2026-10-28T16:15:39.583Z"
+    },
+    "adventure-c50fe1cb": {
+      "verdict": "good",
+      "note": "",
+      "sha": "8909009eb9d209c3",
+      "reviewedAt": "2026-10-28T16:15:40.542Z"
+    },
+    "badge-35648278": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f1d16675e59ebc80",
+      "reviewedAt": "2026-10-28T16:15:41.860Z"
+    },
+    "believe-82d4d3ff": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d41e1dfec34d9e6b",
+      "reviewedAt": "2026-10-28T16:15:42.893Z"
+    },
+    "chief-d18a3a92": {
+      "verdict": "good",
+      "note": "",
+      "sha": "486136750b716407",
+      "reviewedAt": "2026-10-28T16:15:43.830Z"
+    },
+    "cookie-77a740bf": {
+      "verdict": "good",
+      "note": "",
+      "sha": "afc1041b3b1b78b8",
+      "reviewedAt": "2026-10-28T16:15:44.929Z"
+    },
+    "creature-22ad1198": {
+      "verdict": "good",
+      "note": "",
+      "sha": "6b0536b75e283005",
+      "reviewedAt": "2026-10-28T16:15:45.930Z"
+    },
+    "decision-6f65abe3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "c1da462c140c09d8",
+      "reviewedAt": "2026-10-28T16:15:46.944Z"
+    },
+    "edge-56f6d83c": {
+      "verdict": "good",
+      "note": "",
+      "sha": "57e3300968959aab",
+      "reviewedAt": "2026-10-28T16:15:47.979Z"
+    },
+    "explosion-02bb1fe0": {
+      "verdict": "good",
+      "note": "",
+      "sha": "edc3ccfd374adff2",
+      "reviewedAt": "2026-10-28T16:15:49.130Z"
+    },
+    "fiction-f41adfe3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e04aff809db6b54e",
+      "reviewedAt": "2026-10-28T16:15:49.955Z"
+    },
+    "field-67826267": {
+      "verdict": "good",
+      "note": "",
+      "sha": "aaacd8fb509f1f08",
+      "reviewedAt": "2026-10-28T16:15:50.710Z"
+    },
+    "fudge-ee7a9560": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b18a1bdc8d9eab0b",
+      "reviewedAt": "2026-10-28T16:15:51.680Z"
+    },
+    "furniture-d7500965": {
+      "verdict": "good",
+      "note": "",
+      "sha": "892cd0553f992a18",
+      "reviewedAt": "2026-10-28T16:15:52.644Z"
+    },
+    "future-55563696": {
+      "verdict": "good",
+      "note": "",
+      "sha": "66c19be407db2a80",
+      "reviewedAt": "2026-10-28T16:15:53.541Z"
+    },
+    "hedge-e3198572": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a7ef9eb319c100d4",
+      "reviewedAt": "2026-10-28T16:15:54.420Z"
+    },
+    "itch-9833abb3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "50298795c2fde841",
+      "reviewedAt": "2026-10-28T16:15:55.204Z"
+    },
+    "judge-aae2e5a4": {
+      "verdict": "good",
+      "note": "",
+      "sha": "babfd32d48a88dbb",
+      "reviewedAt": "2026-10-28T16:15:56.047Z"
+    },
+    "kitchen-33e6572f": {
+      "verdict": "good",
+      "note": "",
+      "sha": "613664d1a28e393a",
+      "reviewedAt": "2026-10-28T16:15:56.883Z"
+    },
+    "lodge-8b077b98": {
+      "verdict": "good",
+      "note": "",
+      "sha": "de98e98d1560b005",
+      "reviewedAt": "2026-10-28T16:15:57.680Z"
+    },
+    "lotion-0db7600e": {
+      "verdict": "good",
+      "note": "",
+      "sha": "0512bd802429d065",
+      "reviewedAt": "2026-10-28T16:15:58.583Z"
+    },
+    "match-7e202f96": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b7fd6453f67801f8",
+      "reviewedAt": "2026-10-28T16:15:59.397Z"
+    },
+    "mixture-8c08ee83": {
+      "verdict": "good",
+      "note": "",
+      "sha": "71eae02651185d11",
+      "reviewedAt": "2026-10-28T16:16:00.306Z"
+    },
+    "motion-bd73a627": {
+      "verdict": "good",
+      "note": "",
+      "sha": "3c8ed433a1427353",
+      "reviewedAt": "2026-10-28T16:16:01.160Z"
+    },
+    "movie-aef39ccf": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f72a2b2de4e9edd0",
+      "reviewedAt": "2026-10-28T16:16:02.080Z"
+    },
+    "nation-3957bd3a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "e28eaa518a6d845c",
+      "reviewedAt": "2026-10-28T16:16:03.029Z"
+    },
+    "nature-a6563e8a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "eee1cc6f9aac42e6",
+      "reviewedAt": "2026-10-28T16:16:04.004Z"
+    },
+    "option-e7e19b94": {
+      "verdict": "good",
+      "note": "",
+      "sha": "763241006280c629",
+      "reviewedAt": "2026-10-28T16:16:05.418Z"
+    },
+    "patch-f9100aa9": {
+      "verdict": "good",
+      "note": "melody re-roll, take 14 of ?, confirmed by ear (m14)",
+      "sha": "8ef77f2a0d7db1eae8adfa58ae6bd3bc6742039b8defcf2d974fbf440be01727",
+      "at": "2026-10-28T17:53:32.744Z"
+    },
+    "picture-312fd389": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a6cf0f48f3cb02ff",
+      "reviewedAt": "2026-10-28T16:16:08.370Z"
+    },
+    "piece-f4c5f285": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 32, confirmed by ear (2nd)",
+      "sha": "0504faf8a5e0197701ecbd49d4c0e2748cfce4b6b81230596dd6a5ae1e63006c",
+      "at": "2026-10-28T17:31:43.198Z"
+    },
+    "shy-d52dda65": {
+      "verdict": "good",
+      "note": "melody re-roll, take 2 of 8, confirmed by ear (best)",
+      "sha": "23eb3f570fde391f6b7ef21c63b7776fdc95743281bb720dce3d7df78b4843e0",
+      "at": "2026-10-28T17:31:43.202Z"
+    },
+    "sky-cd2b8f36": {
+      "verdict": "good",
+      "note": "melody re-roll, take 8 of ?, confirmed by ear (best)",
+      "sha": "043580c45679eef6fd1b49f6f52e92dff81e72fd40c067fbe6bd1a0959f5c33a",
+      "at": "2026-10-28T17:31:43.228Z"
+    },
+    "sledge-0645bda3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "b800de5665597cc7",
+      "reviewedAt": "2026-10-28T16:16:13.517Z"
+    },
+    "station-aed72c13": {
+      "verdict": "good",
+      "note": "",
+      "sha": "ea0b58b1a9b17b34",
+      "reviewedAt": "2026-10-28T16:16:14.428Z"
+    },
+    "television-e6a5d551": {
+      "verdict": "good",
+      "note": "",
+      "sha": "a444a0faefa39fa8",
+      "reviewedAt": "2026-10-28T16:16:15.392Z"
+    },
+    "thief-79d90ec3": {
+      "verdict": "good",
+      "note": "",
+      "sha": "29a407db7b7fbe3e",
+      "reviewedAt": "2026-10-28T16:16:16.169Z"
+    },
+    "try-ac1db00e": {
+      "verdict": "good",
+      "note": "melody re-roll, take 35 of ?, confirmed by ear (m35)",
+      "sha": "e8b37e3213de0feb5cc6b6b2fdf8fb5f412fe7e294fcd59ee1f7afdded5a4b57",
+      "at": "2026-10-28T17:56:58.720Z"
+    },
+    "vacation-f9efa80a": {
+      "verdict": "good",
+      "note": "",
+      "sha": "d77ad0744ab47b87",
+      "reviewedAt": "2026-10-28T16:16:21.616Z"
+    },
+    "vision-17c64e29": {
+      "verdict": "good",
+      "note": "",
+      "sha": "f3506df7c894c8aa",
+      "reviewedAt": "2026-10-28T16:16:22.429Z"
+    },
+    "why-18f40e39": {
+      "verdict": "good",
+      "note": "melody re-roll, take 24 of 24, confirmed by ear (best)",
+      "sha": "6bd35f5b9789b35ad8df910941b7ff2e6eece154198efcc943864b36b6aa97c4",
+      "at": "2026-10-28T17:31:43.217Z"
+    },
+    "witch-591aa460": {
+      "verdict": "good",
+      "note": "melody re-roll, take 4 of 8, confirmed by ear (2nd)",
+      "sha": "ad0d36390807b5b315df40bcfb5022b4eb50330e3df59772cc8f0acfff47fbb0",
+      "at": "2026-10-28T17:31:43.220Z"
+    }
+  }
+}

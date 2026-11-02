@@ -1,6 +1,6 @@
 'use client'
-import { useMute } from '@/hooks/useMute'
-import { toSpokenText, getEnglishVoice } from '@/utils/speakLetterSound'
+import { useEffect, useRef } from 'react'
+import { useSpeak } from '@/hooks/useSpeak'
 
 interface Props {
   text: string
@@ -9,32 +9,31 @@ interface Props {
   className?: string
   size?: 'sm' | 'md' | 'lg'
   label?: string        // visible label below icon (optional)
-  autoPlay?: boolean    // call speak() on mount
+  autoPlay?: boolean    // speak once on mount
 }
 
-export function VoiceButton({ text, rate = 0.85, pitch = 1.05, className = '', size = 'md', label, autoPlay = false }: Props) {
-  const { isMuted } = useMute()
+/**
+ * Tap-to-hear button.
+ *
+ * NOTE: this component is currently not imported anywhere in the app. It is
+ * kept (rather than deleted) because deleting it is a product call, and it now
+ * routes through useSpeak so it cannot drift from the rest of the app's audio.
+ *
+ * `rate` and `pitch` are accepted for API compatibility and ignored — pace is
+ * baked into the pre-generated MP3s.
+ */
+export function VoiceButton({ text, className = '', size = 'md', label, autoPlay = false }: Props) {
+  const speak = useSpeak()
 
-  function speak() {
-    if (isMuted()) return
-    if (typeof window === 'undefined') return
-    window.speechSynthesis.cancel()
-    // Correct standalone-letter names (e.g. "v" → "vee"); words pass through unchanged.
-    const u = new SpeechSynthesisUtterance(toSpokenText(text))
-    u.rate = rate
-    u.pitch = pitch
-    u.lang = 'en-US'
-    // Use the same shared voice as the rest of the app (not the device default).
-    const voice = getEnglishVoice()
-    if (voice) u.voice = voice
-    window.speechSynthesis.speak(u)
-  }
-
-  // autoPlay on mount
-  if (autoPlay) {
-    // use a ref pattern via side-effect — callers that need autoPlay should
-    // wrap in a useEffect. This prop just signals intent.
-  }
+  // autoPlay previously did nothing; the old implementation left a comment
+  // saying callers should wrap it themselves. Honoured properly here.
+  const spokenOnce = useRef(false)
+  useEffect(() => {
+    if (autoPlay && !spokenOnce.current) {
+      spokenOnce.current = true
+      speak(text)
+    }
+  }, [autoPlay, text, speak])
 
   const sizeClasses = {
     sm: 'text-xl w-11 h-11',
@@ -45,13 +44,12 @@ export function VoiceButton({ text, rate = 0.85, pitch = 1.05, className = '', s
   return (
     <div className={`flex flex-col items-center gap-1 ${className}`}>
       <button
-        onClick={speak}
+        onClick={() => speak(text)}
         className={`
           ${sizeClasses[size]}
           flex items-center justify-center rounded-full
           bg-blue-100 border-3 border-blue-400
           hover:bg-blue-200 hover:scale-110 active:scale-90
-          active:scale-90
           transition-all duration-150 cursor-pointer select-none
           shadow-md
         `}

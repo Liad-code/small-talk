@@ -39,6 +39,13 @@ const nextConfig = {
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
       ],
     },
+    // Audio filenames derive from the request text, not the file contents, so
+    // re-recording a word keeps its URL. Revalidate every time so no device
+    // keeps playing an old take (the per-device drift pre-generation removes).
+    {
+      source: '/audio/:path*',
+      headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
+    },
   ],
 }
 

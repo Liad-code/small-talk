@@ -7,7 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "audio:manifest": "node scripts/build-manifest.mjs",
+    "audio:generate": "node scripts/build-manifest.mjs && node scripts/generate-audio.mjs",
+    "audio:validate": "node scripts/build-manifest.mjs && node scripts/validate-audio.mjs",
+    "audio:review": "node scripts/build-manifest.mjs && node scripts/build-review-page.mjs",
+    "audio:review-server": "node scripts/build-manifest.mjs && node scripts/review-server.mjs",
+    "audio:review-report": "node scripts/review-report.mjs",
+    "audio:calibrate": "node scripts/calibrate-pronunciation.mjs",
+    "verify": "tsc --noEmit && npm run audio:validate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
