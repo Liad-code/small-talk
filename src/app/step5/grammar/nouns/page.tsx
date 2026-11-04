@@ -750,7 +750,7 @@ function Ex4({ onDone }: { onDone: () => void }) {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        הקלידו את צורת הרבים של המילה שבסוגריים
+        הקלידו את צורת הרבים של המילה המוצגת.
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-1" dir="rtl">
         לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע שיופיע על מנת לעבור לשאלה הבאה.

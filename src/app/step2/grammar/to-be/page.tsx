@@ -227,10 +227,12 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
-          const display = ans ? q.sentence.replace('___', ans) : q.sentence
+          const [beforeBlank, afterBlank] = q.sentence.split('___')
           return (
             <div key={idx} className={`bg-white border-2 rounded-xl px-2 py-1.5 flex items-center gap-2 ${isWrong ? 'border-red-300' : 'border-gray-200'}`}>
-              <span className="text-base font-bold text-gray-700 flex-1">{display}</span>
+              <span className="text-base font-bold text-gray-700 flex-1">
+                {ans ? <>{beforeBlank}<span className="text-pink-500">{ans}</span>{afterBlank}</> : q.sentence}
+              </span>
               {!ans && !isWrong ? (
                 <div className="flex gap-1.5">
                   {(['am', 'is', 'are'] as const).map(v => {
