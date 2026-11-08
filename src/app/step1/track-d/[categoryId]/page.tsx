@@ -171,6 +171,9 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   const [tab, setTab] = useState<Tab>('flashcards')
   // Which task just finished and is awaiting the "collect your star" tap.
   const [pendingCollect, setPendingCollect] = useState<string | null>(null)
+  // Stars to award for the pending task = rounds completed in this run
+  // (multi-round exercises); single-round tasks stay at 1.
+  const [pendingAmount, setPendingAmount] = useState(1)
 
   // ── Flashcard state ──────────────────────────────────────────
   const [tapped, setTapped] = useState<Set<string>>(new Set())
@@ -194,18 +197,16 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   const extraDone = isExerciseDone('D', categoryId, 'extra')
   const extraTabs = cat ? getExtraTabs(categoryId) : []
 
-  // Flashcard: tap to hear
+  // Flashcard: tap to hear. Learn earns no star — when the last card is
+  // tapped the section is just recorded as visited (0 stars, no modal).
   function handleFlashTap(word: string) {
     const item = allItems.find(i => i.word === word)
     speak(item?.ttsText ?? word, 0.8)
-    setTapped(prev => {
-      const n = new Set(prev); n.add(word)
-      // fire only when the last remaining card is tapped for the first time this round
-      if (n.size === allItems.length && prev.size < allItems.length) {
-        setPendingCollect('learn')
-      }
-      return n
-    })
+    const n = new Set(tapped); n.add(word)
+    if (n.size === allItems.length && tapped.size < allItems.length) {
+      markExerciseDone('D', categoryId, 'learn', 0)
+    }
+    setTapped(n)
   }
 
   // Quiz: build options when question changes — NO auto-speak
@@ -233,6 +234,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
         const nextIdx = quizIdx + 1
         if (nextIdx >= quizQueue.length) {
           setQuizDone(true)
+          setPendingAmount(1)
           setPendingCollect('quiz')
           setShowConfetti(true)
         } else {
@@ -248,10 +250,9 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
   }
 
   // "Again" after collecting the star: close the modal and restart the task
-  // that was just finished (learn / quiz / the current extra tab).
+  // that was just finished (quiz / the current extra tab).
   function playAgain() {
-    if (pendingCollect === 'learn') setTapped(new Set())
-    else if (pendingCollect === 'quiz') resetQuiz()
+    if (pendingCollect === 'quiz') resetQuiz()
     else setExtraKey(k => k + 1)
     setPendingCollect(null)
     setShowConfetti(false)
@@ -265,7 +266,9 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
     setCorrect(null); setWrong(null)
   }
 
-  function handleExtraComplete() {
+  // Multi-round exercises pass the number of rounds completed in this run.
+  function handleExtraComplete(rounds?: number) {
+    setPendingAmount(typeof rounds === 'number' && rounds > 1 ? Math.floor(rounds) : 1)
     setPendingCollect('extra')
     setShowConfetti(true)
   }
@@ -324,7 +327,8 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             <StarCollect
               step="step1"
               count={step1Stars}
-              award={() => markExerciseDone('D', categoryId, pendingCollect!)}
+              amount={pendingAmount}
+              award={() => markExerciseDone('D', categoryId, pendingCollect!, pendingAmount)}
               onAgain={playAgain}
             />
           </div>
@@ -353,7 +357,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             className={`flex-shrink-0 py-2 px-3 rounded-2xl font-bold text-sm border-2 transition-all cursor-pointer select-none
               ${tab === 'flashcards' ? 'bg-white text-purple-700 border-white' : 'bg-white/20 border-white/40 text-white'}`}
           >
-            📚 Learn {learnDone ? '⭐' : ''}
+            📚 Learn {learnDone ? '✅' : ''}
           </button>
           <button
             onClick={() => setTab('quiz')}
@@ -430,7 +434,7 @@ export default function CategoryPage({ params }: { params: { categoryId: string 
             </div>
             {learnDone && (
               <div className="text-center mt-6 pb-6">
-                <div className="text-4xl mb-2">⭐</div>
+                <div className="text-4xl mb-2">🎉</div>
                 <p className="font-display text-lg font-bold text-white" dir="rtl">כל הכבוד!</p>
                 <button
                   onClick={() => setTab('quiz')}

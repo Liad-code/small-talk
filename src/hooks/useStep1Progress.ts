@@ -35,12 +35,13 @@ export function useStep1Progress() {
   }, [])
 
   /** Call this when an exercise is completed — awards 1 star (repeatable) */
-  const markExerciseDone = useCallback((track: string, groupId: string, exercise: string) => {
+  // amount = rounds completed in this run (spec 8.11: one star per round)
+  const markExerciseDone = useCallback((track: string, groupId: string, exercise: string, amount = 1) => {
     const key = `${track}_${groupId}_${exercise}`
     setProgress(prev => {
       const next: Step1Progress = {
         done: { ...prev.done, [key]: true },
-        stars: prev.stars + 1,
+        stars: prev.stars + Math.max(0, Math.floor(amount)), // 0 = mark visited without a star (Learn pages)
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
       pushProgress({ step1: next }) // background server sync when signed in

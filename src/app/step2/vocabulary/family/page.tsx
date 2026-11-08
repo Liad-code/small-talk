@@ -287,7 +287,7 @@ function FamilyTreeInner({ onAgain }: { onAgain: () => void }) {
   return (
     <div className="max-w-sm mx-auto px-3 pb-16">
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        גרור את שם בן המשפחה למקום הנכון בעץ
+        לחץ על התשובה הנכונה וגרור למקום הנכון בעץ
       </p>
 
       <div className="bg-amber-50 border-4 border-amber-200 rounded-2xl p-4 mb-4">
@@ -882,7 +882,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
           ) : (
             <>
               <p className="font-display font-bold text-xl text-green-600 mb-3">כל המילים נמצאו! 🌟</p>
-              <StarOnComplete step="step2" onAgain={onRestart} />
+              <StarOnComplete step="step2" rounds={roundIdx + 1} onAgain={onRestart} />
             </>
           )}
         </div>

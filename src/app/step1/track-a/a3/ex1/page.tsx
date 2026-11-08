@@ -126,7 +126,7 @@ export default function A3Ex1Page() {
   return (
     <ExerciseShell
       title="ABC Fill — Uppercase"
-      hebrewInstruction="גרור את האות החסרה למקום הנכון ב-ABC"
+      hebrewInstruction="לחץ על התשובה הנכונה וגרור למקום הנכון ב-ABC"
       backHref="/step1/track-a"
       track="A"
       groupId="a3"

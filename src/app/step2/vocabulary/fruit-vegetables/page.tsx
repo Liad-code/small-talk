@@ -442,7 +442,7 @@ function WordSearchRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
           ) : (
             <>
               <p className="font-display font-bold text-xl text-green-600 mb-3">כל המילים נמצאו! 🌟</p>
-              <StarOnComplete step="step2" onAgain={onRestart} />
+              <StarOnComplete step="step2" rounds={roundIdx + 1} onAgain={onRestart} />
             </>
           )}
         </div>
@@ -549,7 +549,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onRestart }: {
         ) : (
           <>
             <p className="font-display font-bold text-2xl text-red-700" dir="rtl">כל הכבוד! מצאת הכל!</p>
-            <StarOnComplete step="step2" onAgain={onRestart} />
+            <StarOnComplete step="step2" rounds={roundIdx + 1} onAgain={onRestart} />
           </>
         )}
       </div>

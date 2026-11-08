@@ -142,7 +142,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onDone }: {
   )
 }
 
-export function EmotionsISpy({ onComplete }: { onComplete: () => void }) {
+export function EmotionsISpy({ onComplete }: { onComplete: (rounds?: number) => void }) {
   const [round, setRound] = useState(0)
 
   function handleNext() {
@@ -156,7 +156,7 @@ export function EmotionsISpy({ onComplete }: { onComplete: () => void }) {
       roundIdx={round}
       totalRounds={I_SPY_ROUNDS.length}
       onNext={handleNext}
-      onDone={onComplete}
+      onDone={() => onComplete(round + 1)}
     />
   )
 }

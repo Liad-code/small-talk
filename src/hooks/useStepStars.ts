@@ -19,11 +19,14 @@ function load(): StepStars {
   }
 }
 
-/** Award 1 star to a step (standalone, safe outside React render). */
-export function awardStepStar(step: StarStep) {
+/**
+ * Award stars to a step (standalone, safe outside React render). `amount` is
+ * the number of rounds the child completed (spec 8.11: one star per round).
+ */
+export function awardStepStar(step: StarStep, amount = 1) {
   if (typeof window === 'undefined') return
   const current = load()
-  const next = { ...current, [step]: (current[step] ?? 0) + 1 }
+  const next = { ...current, [step]: (current[step] ?? 0) + Math.max(1, Math.floor(amount)) }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
   pushProgress({ stepStars: next }) // background server sync when signed in
   window.dispatchEvent(new Event(CHANGE_EVENT))

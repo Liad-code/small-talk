@@ -30,6 +30,8 @@ function ExWrapper({
   const [cycleIdx, setCycleIdx] = useState(0)
   const [key, setKey] = useState(0)
   const [finished, setFinished] = useState(false)
+  // Rounds actually completed in this run — one star each (spec 8.11).
+  const [completed, setCompleted] = useState(0)
 
   if (finished) {
     return (
@@ -37,7 +39,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-4"><StarOnComplete step="step4" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
+        <div className="mb-4"><StarOnComplete step="step4" rounds={completed} onAgain={() => { setCycleIdx(0); setCompleted(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -46,8 +48,8 @@ function ExWrapper({
     <div key={key}>
       {render(
         Math.min(cycleIdx, cycles - 1),
-        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
-        () => setFinished(true),
+        () => { setCompleted(n => n + 1); setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
+        () => { setCompleted(n => n + 1); setFinished(true) },
       )}
     </div>
   )
@@ -180,16 +182,20 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         {questions.map((q, idx) => {
           const ans = answers[idx]
           return (
-            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2 flex-wrap">
-              <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
-              {ans ? (
-                <span className={`font-display font-black text-base ${AUX_COLORS[ans].text}`}>{ans}</span>
-              ) : (
-                <span className="text-gray-300 font-black text-base">___</span>
-              )}
-              <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{q.after}</span>
-              {!ans ? (
-                <div className="flex gap-1.5">
+            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-3 py-1.5 flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2 sm:py-2">
+              {/* Mobile: question on its own full-width line, buttons beneath; sm+: side by side */}
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                <span className="font-bold text-gray-400 text-sm">{idx + 1}.</span>
+                {ans ? (
+                  <span className={`font-display font-black text-base ${AUX_COLORS[ans].text}`}>{ans}</span>
+                ) : (
+                  <span className="text-gray-300 font-black text-base">___</span>
+                )}
+                <span className="text-base font-bold text-gray-700 flex-1 min-w-0">{q.after}</span>
+                {ans && <span className="font-bold text-sm text-green-600">✓</span>}
+              </div>
+              {!ans && (
+                <div className="flex gap-1.5 pl-6 sm:pl-0">
                   {AUXES.map(v => (
                     <button
                       key={v}
@@ -204,8 +210,6 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                     </button>
                   ))}
                 </div>
-              ) : (
-                <span className="font-bold text-sm text-green-600">✓</span>
               )}
             </div>
           )

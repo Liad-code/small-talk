@@ -1027,6 +1027,8 @@ function SortTab() {
   const [betweenRounds, setBetweenRounds] = useState(false)
   const [finished, setFinished] = useState(false)
   const [key, setKey] = useState(0)
+  // Rounds completed in this run — one star each (spec 8.11).
+  const [completed, setCompleted] = useState(0)
 
   if (finished) {
     return (
@@ -1034,7 +1036,7 @@ function SortTab() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את כל הסבבים!</p>
-        <div className="mb-4"><StarOnComplete step="step4" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} /></div>
+        <div className="mb-4"><StarOnComplete step="step4" rounds={completed} onAgain={() => { setRound(0); setCompleted(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} /></div>
       </div>
     )
   }
@@ -1045,12 +1047,14 @@ function SortTab() {
         <div className="text-5xl mb-3">👏</div>
         <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
-        <button
-          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
-          className="btn-kid bg-violet-500"
-        >
-          סבב הבא →
-        </button>
+        <div className="flex gap-3 justify-center">
+          <button
+            onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+            className="btn-kid bg-violet-500"
+          >
+            סבב הבא →
+          </button>
+        </div>
       </div>
     )
   }
@@ -1067,7 +1071,7 @@ function SortTab() {
       <SortExercise
         key={round}
         items={rounds[round]}
-        onDone={() => { if (isLast) setFinished(true); else setBetweenRounds(true) }}
+        onDone={() => { setCompleted(n => n + 1); if (isLast) setFinished(true); else setBetweenRounds(true) }}
       />
     </div>
   )

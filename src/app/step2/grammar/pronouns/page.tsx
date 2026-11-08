@@ -148,7 +148,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">{score === questions.length ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{score}/{questions.length}</p>
           {cycleIdx + 1 >= PR_EX1.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center mt-3">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -217,7 +217,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
             {Object.entries(answers).filter(([i,v]) => questions[+i].answer === v).length}/{total} correct!
           </p>
           {cycleIdx + 1 >= PR_EX2.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -316,7 +316,7 @@ function Ex3({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
           {cycleIdx + 1 >= PR_EX3.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -411,7 +411,7 @@ function Ex4({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
           {cycleIdx + 1 >= PR_EX4.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -485,7 +485,7 @@ function Ex5({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">{correctCount === total ? '🎉' : '👍'}</div>
           <p className="font-display font-bold text-xl text-green-600 mb-1">{correctCount}/{total} correct!</p>
           {cycleIdx + 1 >= PR_EX5.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center mt-3">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -516,7 +516,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <StarOnComplete step="step2" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
+        <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

@@ -177,7 +177,7 @@ function Ex1Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
           {cycleIdx + 1 >= AOA_EX1.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -279,7 +279,7 @@ function Ex2Round({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Perfect!</p>
           {cycleIdx + 1 >= AOA_EX2.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -310,7 +310,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <StarOnComplete step="step2" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
+        <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

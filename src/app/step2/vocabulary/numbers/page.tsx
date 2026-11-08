@@ -155,7 +155,7 @@ function Quiz1Tab() {
         <div className="text-5xl mb-4">⭐</div>
         <p className="font-display font-bold text-2xl text-blue-700">כל הכבוד!</p>
         <p className="font-bold text-gray-500 mt-1 mb-6">All 3 cycles done!</p>
-        <StarOnComplete step="step2" onAgain={() => { setDone(false); setCycleIdx(0); setK(n => n + 1) }} />
+        <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={() => { setDone(false); setCycleIdx(0); setK(n => n + 1) }} />
       </div>
     )
   }

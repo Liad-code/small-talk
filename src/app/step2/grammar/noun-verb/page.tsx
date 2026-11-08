@@ -71,7 +71,7 @@ function LearnTab() {
 
 // ── Practice tab ─────────────────────────────────────────────────────────────
 
-function PracticeRound({ cycleIdx, onMore, onAgain, onDone }: { cycleIdx: number; onMore: () => void; onAgain: () => void; onDone: () => void }) {
+function PracticeRound({ cycleIdx, rounds, onMore, onAgain, onDone }: { cycleIdx: number; rounds: number; onMore: () => void; onAgain: () => void; onDone: () => void }) {
   const words = NV_CYCLES[cycleIdx]
   const [tiles] = useState(() => shuffle([...words]))
   const [placed, setPlaced] = useState<Record<string, 'noun' | 'verb'>>({})
@@ -101,7 +101,7 @@ function PracticeRound({ cycleIdx, onMore, onAgain, onDone }: { cycleIdx: number
       </div>
       <p className="text-center font-bold text-emerald-400 text-sm mb-3" dir="rtl">לתרגול זה 5 סבבים</p>
       <p className="text-center font-bold text-gray-700 text-base mb-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl px-3 py-2" dir="rtl">
-        גרור כל מילה מהרשימה למקום הנכון בכרטיסיה (טבלת פירושי המילים מופיעה בתחתית העמוד)
+        לחץ על התשובה הנכונה וגרור למקום הנכון בכרטיסיה (טבלת פירושי המילים מופיעה בתחתית העמוד)
       </p>
 
       {/* Sort table */}
@@ -166,7 +166,7 @@ function PracticeRound({ cycleIdx, onMore, onAgain, onDone }: { cycleIdx: number
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-4">Well done!</p>
           {cycleIdx + 1 >= NV_CYCLES.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={rounds} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -209,14 +209,18 @@ export default function NounVerbPage() {
   const [cycleIdx, setCycleIdx] = useState(0)
   const [practiceKey, setPracticeKey] = useState(0)
   const [finished, setFinished] = useState(false)
+  // Rounds completed in this run (spec 8.11: one star per round)
+  const [roundsDone, setRoundsDone] = useState(0)
 
   const handleMore = () => {
+    setRoundsDone(n => n + 1)
     setCycleIdx(i => i + 1)
     setPracticeKey(k => k + 1)
   }
 
   // On the last round "Again" restarts from round 1
   const handleAgain = () => {
+    setRoundsDone(0)
     setCycleIdx(0)
     setPracticeKey(k => k + 1)
   }
@@ -247,7 +251,7 @@ export default function NounVerbPage() {
           📚 Learn
         </button>
         <button
-          onClick={() => { setTab('practice'); setFinished(false) }}
+          onClick={() => { setTab('practice'); if (finished) setRoundsDone(0); setFinished(false) }}
           className={`${TAB_BTN} ${tab === 'practice' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
         >
           🎯 Practice
@@ -261,6 +265,7 @@ export default function NounVerbPage() {
           <PracticeRound
             key={practiceKey}
             cycleIdx={Math.min(cycleIdx, NV_CYCLES.length - 1)}
+            rounds={roundsDone + 1}
             onMore={handleMore}
             onAgain={handleAgain}
             onDone={handleDone}
@@ -274,7 +279,8 @@ export default function NounVerbPage() {
             <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
             <StarOnComplete
               step="step2"
-              onAgain={() => { setCycleIdx(0); setPracticeKey(k => k + 1); setFinished(false) }}
+              rounds={roundsDone + 1}
+              onAgain={() => { setRoundsDone(0); setCycleIdx(0); setPracticeKey(k => k + 1); setFinished(false) }}
             />
           </div>
         )}

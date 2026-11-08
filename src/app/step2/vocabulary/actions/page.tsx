@@ -284,7 +284,7 @@ function MatchActionRound({ items, roundIdx, totalRounds, onNext, onDone }: {
             {roundIdx + 1 < totalRounds ? `סבב ${roundIdx + 1} הושלם!` : `${score}/${items.length} correct!`}
           </p>
           {roundIdx + 1 >= totalRounds ? (
-            <StarOnComplete step="step2" onAgain={onDone} />
+            <StarOnComplete step="step2" rounds={roundIdx + 1} onAgain={onDone} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onNext} className="btn-kid bg-emerald-500">סבב הבא →</button>

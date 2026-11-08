@@ -141,7 +141,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Well done!</p>
           {cycleIdx + 1 >= WH_EX1.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -189,7 +189,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
       </p>
 
       {/* Question bank */}
-      <div className="sticky top-2 z-10 bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-4">
+      <div className="sticky top-16 z-30 shadow-md bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 mb-4">
         <p className="font-bold text-amber-600 text-xs mb-2 text-center">Question bank — גרור שאלה:</p>
         <div className="flex flex-wrap gap-1.5 justify-center">
           {bankOrder.map(qi => {
@@ -251,7 +251,7 @@ function Ex2Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Great work!</p>
           {cycleIdx + 1 >= EX2_CYCLES.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -297,7 +297,7 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
       </p>
 
       {/* Answer bank */}
-      <div className="sticky top-2 z-10 bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-3 mb-4">
+      <div className="sticky top-16 z-30 shadow-md bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-3 mb-4">
         <div className="flex flex-wrap gap-1.5 justify-center">
           {bankOrder.map(id => {
             if (placedIds.has(id)) return null
@@ -355,7 +355,7 @@ function Ex3Cycle({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: ()
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Excellent!</p>
           {cycleIdx + 1 >= EX3_CYCLES.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -384,7 +384,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <StarOnComplete step="step2" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
+        <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

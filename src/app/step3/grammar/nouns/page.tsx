@@ -17,10 +17,13 @@ type Tab = 'learn' | 'irregular' | 'ex1' | 'ex2' | 'ex3'
 function ExWrapper({
   render,
 }: {
-  render: (onDone: () => void) => React.ReactNode
+  /** onDone receives the number of rounds completed in this run */
+  render: (onDone: (rounds: number) => void) => React.ReactNode
 }) {
   const [finished, setFinished] = useState(false)
   const [key, setKey] = useState(0)
+  // Rounds completed in THIS run — one star each (spec 8.11)
+  const [rounds, setRounds] = useState(1)
 
   if (finished) {
     return (
@@ -28,12 +31,12 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setFinished(false); setKey(k => k + 1) }} /></div>
+        <div className="mb-6"><StarOnComplete step="step3" rounds={rounds} onAgain={() => { setFinished(false); setRounds(1); setKey(k => k + 1) }} /></div>
       </div>
     )
   }
 
-  return <div key={key}>{render(() => setFinished(true))}</div>
+  return <div key={key}>{render(n => { setRounds(n); setFinished(true) })}</div>
 }
 
 // ── Learn Tab ─────────────────────────────────────────────────────────────────
@@ -290,7 +293,7 @@ function Ex1Round({
   )
 }
 
-function Ex1({ onDone }: { onDone: () => void }) {
+function Ex1({ onDone }: { onDone: (rounds: number) => void }) {
   const [roundIdx, setRoundIdx] = useState(0)
   const [key, setKey] = useState(0)
 
@@ -301,7 +304,7 @@ function Ex1({ onDone }: { onDone: () => void }) {
         roundIdx={roundIdx}
         totalRounds={EX1_ROUNDS.length}
         onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
-        onDone={onDone}
+        onDone={() => onDone(roundIdx + 1)}
       />
     </div>
   )
@@ -425,7 +428,7 @@ function Ex2Round({
   )
 }
 
-function Ex2({ onDone }: { onDone: () => void }) {
+function Ex2({ onDone }: { onDone: (rounds: number) => void }) {
   const [roundIdx, setRoundIdx] = useState(0)
   const [key, setKey] = useState(0)
 
@@ -434,7 +437,7 @@ function Ex2({ onDone }: { onDone: () => void }) {
       <Ex2Round
         roundIdx={roundIdx}
         onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
-        onDone={onDone}
+        onDone={() => onDone(roundIdx + 1)}
       />
     </div>
   )
@@ -553,7 +556,7 @@ function Ex3Round({
   )
 }
 
-function Ex3({ onDone }: { onDone: () => void }) {
+function Ex3({ onDone }: { onDone: (rounds: number) => void }) {
   const [roundIdx, setRoundIdx] = useState(0)
   const [key, setKey] = useState(0)
 
@@ -562,7 +565,7 @@ function Ex3({ onDone }: { onDone: () => void }) {
       <Ex3Round
         roundIdx={roundIdx}
         onNextRound={() => { setRoundIdx(1); setKey(k => k + 1) }}
-        onDone={onDone}
+        onDone={() => onDone(roundIdx + 1)}
       />
     </div>
   )

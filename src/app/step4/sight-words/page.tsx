@@ -366,6 +366,8 @@ function Ex2Tab() {
   const [wrong, setWrong] = useState<Record<number, string>>({})
   const [order, setOrder] = useState<boolean[]>(() => EX2_QUESTIONS.map(() => Math.random() < 0.5))
   const [resetKey, setResetKey] = useState(0)
+  // Student pressed Done after round 1 instead of continuing (spec 8.11).
+  const [stopped, setStopped] = useState(false)
 
   const questions = round === 0 ? EX2_QUESTIONS : EX2_QUESTIONS_R2
   const total = questions.length
@@ -397,6 +399,7 @@ function Ex2Tab() {
 
   const again = () => {
     setRound(0)
+    setStopped(false)
     setAnswered({})
     setWrong({})
     setOrder(EX2_QUESTIONS.map(() => Math.random() < 0.5))
@@ -463,21 +466,23 @@ function Ex2Tab() {
         })}
       </div>
 
-      {allDone && !isLastRound && (
+      {allDone && !isLastRound && !stopped && (
         <div className="text-center bounce-in mt-6">
           <div className="text-5xl mb-2">👏</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את סבב 1!</p>
-          <button onClick={nextRound} className="btn-kid bg-emerald-500">סבב הבא →</button>
+          <div className="flex gap-3 justify-center">
+            <button onClick={nextRound} className="btn-kid bg-emerald-500">סבב הבא →</button>
+          </div>
         </div>
       )}
 
-      {allDone && isLastRound && (
+      {allDone && (isLastRound || stopped) && (
         <div className="text-center bounce-in mt-6">
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-4" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <div className="mb-2"><StarOnComplete step="step4" onAgain={again} /></div>
+          <div className="mb-2"><StarOnComplete step="step4" rounds={round + 1} onAgain={again} /></div>
         </div>
       )}
     </div>

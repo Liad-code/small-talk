@@ -139,7 +139,10 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
 
       <p className="text-center font-bold text-gray-500 text-sm mb-4" dir="rtl">גרור do / does לכל שאלה.</p>
 
-      <div className="sticky top-2 z-10 flex gap-3 justify-center mb-5 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+      {/* Bank pinned under the sticky site header so it stays in view while the
+          child scrolls down to the lower questions (no overflow here — it would
+          clip the dragged tile). */}
+      <div className="sticky top-16 z-30 flex gap-3 justify-center mb-5 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 shadow-md">
         {bankTiles.map(t => {
           const vc = VERB_COLORS[t.verb]
           return (
@@ -158,7 +161,8 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
         })}
       </div>
 
-      <div className="grid grid-cols-2 gap-2 mb-5">
+      {/* One question per row (single column) on all screen sizes */}
+      <div className="flex flex-col gap-2 mb-5">
         {questions.map((q, idx) => {
           const placedTileId = placed[idx]
           const placedTile = placedTileId ? allTiles.find(t => t.id === placedTileId) : undefined
@@ -463,6 +467,8 @@ function ExWrapper({
   const [cycleIdx, setCycleIdx] = useState(0)
   const [key, setKey] = useState(0)
   const [finished, setFinished] = useState(false)
+  // Rounds completed in THIS run — one star each (spec 8.11)
+  const [rounds, setRounds] = useState(0)
 
   if (finished) {
     return (
@@ -470,7 +476,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
+        <div className="mb-6"><StarOnComplete step="step3" rounds={rounds} onAgain={() => { setCycleIdx(0); setRounds(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -480,8 +486,8 @@ function ExWrapper({
       {render(
         Math.min(cycleIdx, cycles - 1),
         // At the last cycle the "Again" button restarts the whole exercise from cycle 1
-        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
-        () => setFinished(true),
+        () => { setRounds(r => r + 1); setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
+        () => { setRounds(r => r + 1); setFinished(true) },
       )}
     </div>
   )

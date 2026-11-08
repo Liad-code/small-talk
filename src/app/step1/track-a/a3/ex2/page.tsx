@@ -130,7 +130,7 @@ export default function A3Ex2Page() {
   return (
     <ExerciseShell
       title="ABC Fill — Lowercase"
-      hebrewInstruction="גרור את האות הקטנה החסרה למקום הנכון ב-abc"
+      hebrewInstruction="לחץ על התשובה הנכונה וגרור למקום הנכון ב-abc"
       backHref="/step1/track-a"
       track="A"
       groupId="a3"

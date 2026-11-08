@@ -338,6 +338,8 @@ function ExWrapper({
   const [cycleIdx, setCycleIdx] = useState(0)
   const [key, setKey] = useState(0)
   const [finished, setFinished] = useState(false)
+  // Rounds completed in THIS run — one star each (spec 8.11)
+  const [rounds, setRounds] = useState(0)
 
   if (finished) {
     return (
@@ -345,7 +347,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
+        <div className="mb-6"><StarOnComplete step="step3" rounds={rounds} onAgain={() => { setCycleIdx(0); setRounds(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -355,8 +357,8 @@ function ExWrapper({
       {render(
         Math.min(cycleIdx, cycles - 1),
         // At the last cycle the "Again" button restarts the whole exercise from cycle 1
-        () => { setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
-        () => setFinished(true),
+        () => { setRounds(r => r + 1); setCycleIdx(i => (i + 1 >= cycles ? 0 : i + 1)); setKey(k => k + 1) },
+        () => { setRounds(r => r + 1); setFinished(true) },
       )}
     </div>
   )

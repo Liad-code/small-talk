@@ -159,14 +159,14 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       <p className="text-center font-bold text-rose-400 text-sm mb-3" dir="rtl">לתרגול זה 3 סבבים</p>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-1" dir="rtl">
-        גרור am not / isn't / aren't למקום הנכון במשפט
+        לחץ על התשובה הנכונה וגרור למקום הנכון במשפט
       </p>
       <p className="text-center font-bold text-gray-400 text-xs mb-4">
         Complete the sentences with <span className="font-black text-gray-500">am not / isn't / aren't</span>
       </p>
 
-      {/* Tile bank */}
-      <div className="flex gap-3 justify-center mb-5 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+      {/* Tile bank — sticky under the site header so it stays reachable while scrolling the rows */}
+      <div className="sticky top-16 z-30 flex flex-wrap gap-2 sm:gap-3 justify-center mb-4 sm:mb-5 p-2 sm:p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 shadow-md">
         {bankTiles.map(t => {
           const vc = NEG_COLORS[t.verb]
           return (
@@ -186,14 +186,14 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
       </div>
 
       {/* Sentence rows */}
-      <div className="flex flex-col gap-2 mb-5">
+      <div className="flex flex-col gap-1.5 sm:gap-2 mb-5">
         {questions.map((q, idx) => {
           const placedTileId = placed[idx]
           const placedTile = placedTileId ? allTiles.find(t => t.id === placedTileId) : undefined
           const vc = placedTile ? NEG_COLORS[placedTile.verb] : null
           return (
-            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2 flex-wrap">
-              <span className="text-base font-bold text-gray-700">{q.before}</span>
+            <div key={idx} className="bg-white border-2 border-gray-200 rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <span className="text-sm sm:text-base font-bold text-gray-700">{q.before}</span>
               <div
                 data-drop-target="true"
                 data-target-id={String(idx)}
@@ -205,7 +205,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
                   <span className="text-gray-300 text-xs font-bold">___</span>
                 )}
               </div>
-              <span className="text-base font-bold text-gray-700">{q.after}</span>
+              <span className="text-sm sm:text-base font-bold text-gray-700">{q.after}</span>
             </div>
           )
         })}
@@ -216,7 +216,7 @@ function Ex1({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">{correctCount}/{questions.length} correct!</p>
           {cycleIdx + 1 >= TBN_EX1.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -370,7 +370,7 @@ function Ex2({ cycleIdx, onAgain, onDone }: { cycleIdx: number; onAgain: () => v
           <div className="text-4xl mb-2">🎉</div>
           <p className="font-display font-bold text-xl text-green-600 mb-3">Amazing sentences!</p>
           {cycleIdx + 1 >= TBN_EX2.length ? (
-            <StarOnComplete step="step2" onAgain={onAgain} />
+            <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={onAgain} />
           ) : (
             <div className="flex gap-3 justify-center">
               <button onClick={onDone} className="btn-kid bg-green-500">✅ Done<br /><span className="text-xs">(סיום)</span></button>
@@ -401,7 +401,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <StarOnComplete step="step2" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
+        <StarOnComplete step="step2" rounds={cycleIdx + 1} onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

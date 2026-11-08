@@ -7,7 +7,7 @@ import { CVC_WORDS, VOWELS, VOWEL_COLORS } from '@/data/step1/cvcWords'
 import { shuffle } from '@/utils/shuffle'
 import { useSpeak } from '@/hooks/useSpeak'
 
-const INSTRUCTION = 'לחץ על התמונה כדי לשמוע את המילה – גרור את המילה למקום הנכון בטבלה לפי התנועה במילה (vowel)'
+const INSTRUCTION = 'לחץ על התמונה כדי לשמוע את המילה – לחץ על התשובה הנכונה וגרור למקום הנכון בטבלה לפי התנועה במילה (vowel)'
 
 function C1Exercise({ onComplete }: { onComplete: () => void }) {
   const speak = useSpeak()

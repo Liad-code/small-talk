@@ -33,7 +33,7 @@ export default function TrackBPage() {
                 <div className="font-display font-bold text-lg text-cyan-800">Sound Learning Grid</div>
                 <div className="text-sm text-cyan-600 font-bold" dir="rtl">לחץ כדי לשמוע שם האות + הצליל הקצר שלה</div>
               </div>
-              {isExerciseDone('B', 'b1', 'learn') && <span className="text-2xl ml-auto">⭐</span>}
+              {isExerciseDone('B', 'b1', 'learn') && <span className="text-2xl ml-auto">✅</span>}
             </div>
           </Link>
         </section>

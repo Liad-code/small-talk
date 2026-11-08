@@ -145,7 +145,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onDone, instruction }
 
 const DEFAULT_INSTRUCTION = 'ספור כמה פעמים כל פריט מופיע ולחץ על המספר הנכון'
 
-export function GenericISpy({ items, onComplete, wordOnly = false, instruction = DEFAULT_INSTRUCTION }: { items: TrackDItem[]; onComplete: () => void; wordOnly?: boolean; instruction?: string }) {
+export function GenericISpy({ items, onComplete, wordOnly = false, instruction = DEFAULT_INSTRUCTION }: { items: TrackDItem[]; onComplete: (rounds?: number) => void; wordOnly?: boolean; instruction?: string }) {
   const [rounds] = useState<SpyItem[][]>(() => buildRounds(items))
   const [round, setRound] = useState(0)
 
@@ -160,7 +160,7 @@ export function GenericISpy({ items, onComplete, wordOnly = false, instruction =
       roundIdx={round}
       totalRounds={rounds.length}
       onNext={handleNext}
-      onDone={onComplete}
+      onDone={() => onComplete(round + 1)}
       instruction={instruction}
     />
   )

@@ -237,7 +237,7 @@ export default function BuildingASentencePage() {
             <div className="text-6xl mb-4">🌟</div>
             <p className="font-display font-bold text-3xl text-teal-600 mb-1">Amazing!</p>
             <p className="font-bold text-gray-500 mb-3" dir="rtl">סיימת את כל המשפטים!</p>
-            <StarOnComplete step="step2" onAgain={restart} />
+            <StarOnComplete step="step2" rounds={round + 1} onAgain={restart} />
           </div>
         ) : betweenRounds ? (
           <div className="text-center py-14 px-4 bounce-in">

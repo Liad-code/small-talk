@@ -4,44 +4,26 @@ import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { ABCGrid } from '@/components/step1/ABCGrid'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
-import { StarCollect } from '@/components/shared/StarCollect'
 
 export default function B1Page() {
-  const { markExerciseDone, isExerciseDone, step1Stars } = useStep1Progress()
+  const { markExerciseDone, isExerciseDone } = useStep1Progress()
   const [tapped, setTapped] = useState<Set<string>>(new Set())
-  const [pendingCollect, setPendingCollect] = useState(false)
   const done = isExerciseDone('B', 'b1', 'learn')
 
+  // Learn earns no star — hearing all 26 letters just records the page as
+  // visited (0 stars, no collect modal).
   function onLetterClick(letter: string) {
-    setTapped(prev => {
-      const next = new Set(prev)
-      next.add(letter)
-      if (next.size === 26 && prev.size < 26) {
-        setPendingCollect(true)
-      }
-      return next
-    })
+    const next = new Set(tapped)
+    next.add(letter)
+    if (next.size === 26 && tapped.size < 26) {
+      markExerciseDone('B', 'b1', 'learn', 0)
+    }
+    setTapped(next)
   }
 
   return (
     <div className="min-h-screen">
       <Header />
-
-      {pendingCollect && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl bounce-in">
-            <div className="text-6xl mb-2">🎉</div>
-            <h2 className="font-display text-3xl font-bold text-gray-800 mb-1">Yay! You did it!</h2>
-            <p className="text-lg font-bold text-gray-500" dir="rtl">כל הכבוד!</p>
-            <StarCollect
-              step="step1"
-              count={step1Stars}
-              award={() => markExerciseDone('B', 'b1', 'learn')}
-              onAgain={() => { setPendingCollect(false); setTapped(new Set()) }}
-            />
-          </div>
-        </div>
-      )}
 
       <div className="bg-gradient-to-r from-blue-400 to-cyan-400 py-4 px-4">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
@@ -50,7 +32,7 @@ export default function B1Page() {
             <h1 className="font-display text-xl font-bold text-white">Sound Learning Grid</h1>
             <p className="text-white/80 font-bold text-sm" dir="rtl">לחץ לשמוע שם האות + הצליל הקצר שלה</p>
           </div>
-          {done && <span className="text-2xl ml-auto">⭐</span>}
+          {done && <span className="text-2xl ml-auto">✅</span>}
         </div>
       </div>
 
@@ -75,7 +57,7 @@ export default function B1Page() {
 
         {done && (
           <div className="mt-8 text-center bounce-in">
-            <div className="text-5xl mb-2">⭐</div>
+            <div className="text-5xl mb-2">🎉</div>
             <p className="font-display text-xl font-bold text-blue-700" dir="rtl">כל הכבוד!</p>
             <Link href="/step1/track-b" className="btn-kid bg-green-500 mt-4 inline-block no-underline">
               Next →

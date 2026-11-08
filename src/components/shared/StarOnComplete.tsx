@@ -9,8 +9,10 @@ import { StarCollect } from '@/components/shared/StarCollect'
  * collecting it shows the standard Again / Done row (StarActions), so the
  * completion screen must NOT render its own Again/Done/Start-over buttons.
  */
-export function StarOnComplete({ step, onAgain, doneHref }: {
+export function StarOnComplete({ step, rounds = 1, onAgain, doneHref }: {
   step: StarStep
+  /** Rounds completed in this run — one star each (spec 8.11). */
+  rounds?: number
   /** Replays the exercise after the star is collected (default: reload). */
   onAgain?: () => void
   /** Done destination (default: the step's main page). */
@@ -21,7 +23,8 @@ export function StarOnComplete({ step, onAgain, doneHref }: {
     <StarCollect
       step={step}
       count={starsFor(step)}
-      award={() => awardStepStar(step)}
+      amount={rounds}
+      award={() => awardStepStar(step, rounds)}
       onAgain={onAgain}
       doneHref={doneHref}
     />

@@ -319,7 +319,7 @@ function Ex1() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
+        <StarOnComplete step="step5" rounds={round + 1} onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -569,7 +569,7 @@ function Ex2() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
+        <StarOnComplete step="step5" rounds={round + 1} onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -793,7 +793,7 @@ function Ex3() {
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל הסבבים!</p>
-        <StarOnComplete step="step5" onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
+        <StarOnComplete step="step5" rounds={round + 1} onAgain={() => { setRound(0); setBetweenRounds(false); setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }

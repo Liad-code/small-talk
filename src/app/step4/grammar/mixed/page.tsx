@@ -234,7 +234,7 @@ function Ex4({ onDone }: { onDone: () => void }) {
       </div>
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">
-        גרור כל ביטוי זמן למקום הנכון.
+        לחץ על התשובה הנכונה וגרור למקום הנכון.
       </p>
 
       {/* Chip bank */}

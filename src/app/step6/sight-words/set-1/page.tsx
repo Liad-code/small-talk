@@ -474,7 +474,7 @@ function Ex2Tab() {
           <div className="text-5xl mb-2">🎉</div>
           <p className="font-display font-bold text-2xl text-green-600 mb-1">{total}/{total} correct!</p>
           <p className="font-bold text-gray-500 mb-2" dir="rtl">כל הכבוד! סיימת את כל המשפטים!</p>
-          <StarOnComplete step="step6" onAgain={again} />
+          <StarOnComplete step="step6" rounds={round + 1} onAgain={again} />
         </div>
       )}
     </div>

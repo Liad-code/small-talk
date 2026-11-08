@@ -19,7 +19,7 @@ function buildRows(items: TrackDItem[], limit: number): Row[] {
 
 interface Props {
   items: TrackDItem[]
-  onComplete: () => void
+  onComplete: (rounds?: number) => void
   limit?: number
   /** Custom visual for choice tiles (e.g. prepositions cat-box art) — defaults to the item emoji */
   renderVisual?: (item: TrackDItem) => React.ReactNode
@@ -150,7 +150,7 @@ export function GenericWordMatch({ items, onComplete, limit = 6, renderVisual }:
       roundIdx={round}
       totalRounds={totalRounds}
       onNext={() => setRound(r => r + 1)}
-      onDone={onComplete}
+      onDone={() => onComplete(round + 1)}
     />
   )
 }

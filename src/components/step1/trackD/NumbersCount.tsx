@@ -88,7 +88,7 @@ function CountRound({ round, onRoundComplete }: { round: 1 | 2; onRoundComplete:
   )
 }
 
-export function NumbersCount({ onComplete }: { onComplete: () => void }) {
+export function NumbersCount({ onComplete }: { onComplete: (rounds?: number) => void }) {
   const [round, setRound] = useState<1 | 2>(1)
   const [roundDone, setRoundDone] = useState(false)
   const [roundKey, setRoundKey] = useState(0)
@@ -106,7 +106,7 @@ export function NumbersCount({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     if (!roundDone || round !== 2 || handedOff.current) return
     handedOff.current = true
-    setTimeout(onComplete, 600)
+    setTimeout(() => onComplete(2), 600)
   }, [roundDone, round, onComplete])
 
   return (
@@ -125,7 +125,7 @@ export function NumbersCount({ onComplete }: { onComplete: () => void }) {
           <p className="font-bold text-white mb-4" dir="rtl">כל הכבוד!</p>
           {round === 1 && (
             <div className="flex gap-3 justify-center">
-              <button onClick={onComplete} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
+              <button onClick={() => onComplete(1)} className="btn-kid bg-green-500 flex flex-col items-center leading-tight">
                 <span>✅ Done</span>
                 <span className="text-xs">(סיימתי)</span>
               </button>

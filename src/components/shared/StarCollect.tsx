@@ -90,6 +90,7 @@ export function StarCollect({
   step,
   count,
   award,
+  amount = 1,
   onAgain,
   doneHref,
   children,
@@ -97,6 +98,8 @@ export function StarCollect({
   step: string
   count: number
   award: () => void
+  /** Stars this collect is worth — one per completed round (spec 8.11). */
+  amount?: number
   /** Replays the exercise. Omit → the page reloads (fresh exercise). */
   onAgain?: () => void
   /** Where Done goes. Default: the step's main page (/stepN). */
@@ -130,7 +133,7 @@ export function StarCollect({
           <span className="pointer-events-none absolute inset-0 star-shine" />
           <span className="relative inline-flex items-center gap-2">
             <span className="text-2xl star-bob inline-block">⭐</span>
-            אספו את הכוכב!
+            {amount > 1 ? `אספו ${amount} כוכבים!` : 'אספו את הכוכב!'}
           </span>
         </button>
         <span className="text-xs font-bold text-gray-400 star-hint" dir="rtl">👆 לחצו כדי לאסוף</span>
@@ -162,7 +165,7 @@ export function StarCollect({
           )
         })}
         <span className={`relative leading-none star-prize ${meta.star}`} style={{ fontSize: 58 }}>★</span>
-        <span className={`absolute font-black text-2xl plus-one ${meta.star}`}>+1</span>
+        <span className={`absolute font-black text-2xl plus-one ${meta.star}`}>+{amount}</span>
       </div>
 
       {/* Total count slams in */}

@@ -8,9 +8,12 @@ type Tab = 'learn' | 'ex1' | 'ex2' | 'ex3' | 'ex4' | 'ex5' | 'ex6' | 'ex7'
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
-function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode }) {
+function ExWrapper({ render }: { render: (onDone: (rounds?: number) => void) => React.ReactNode }) {
   const [finished, setFinished] = useState(false)
   const [key, setKey] = useState(0)
+  // Rounds completed in this run — one star each (spec 8.11). Single-round
+  // exercises call onDone() with no count (or a click event) → 1.
+  const [rounds, setRounds] = useState(1)
 
   if (finished) {
     return (
@@ -18,12 +21,12 @@ function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-4" dir="rtl">סיימת את התרגול!</p>
-        <div className="mb-4"><StarOnComplete step="step4" onAgain={() => { setFinished(false); setKey(k => k + 1) }} /></div>
+        <div className="mb-4"><StarOnComplete step="step4" rounds={rounds} onAgain={() => { setFinished(false); setKey(k => k + 1) }} /></div>
       </div>
     )
   }
 
-  return <div key={key}>{render(() => setFinished(true))}</div>
+  return <div key={key}>{render(n => { setRounds(typeof n === 'number' ? n : 1); setFinished(true) })}</div>
 }
 
 // ── LEARN ──────────────────────────────────────────────────────────────────────
@@ -502,7 +505,7 @@ function BuilderExercise({ config, onDone }: { config: BuilderConfig; onDone: ()
 
 // ── 2-round builder flow (Ex 2) ─────────────────────────────────────────────────
 
-function TwoRoundBuilder({ configs, onDone }: { configs: BuilderConfig[]; onDone: () => void }) {
+function TwoRoundBuilder({ configs, onDone }: { configs: BuilderConfig[]; onDone: (rounds: number) => void }) {
   const [round, setRound] = useState(0)
   const [betweenRounds, setBetweenRounds] = useState(false)
 
@@ -512,12 +515,14 @@ function TwoRoundBuilder({ configs, onDone }: { configs: BuilderConfig[]; onDone
         <div className="text-5xl mb-3">👏</div>
         <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
-        <button
-          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
-          className="btn-kid bg-teal-500"
-        >
-          סבב הבא →
-        </button>
+        <div className="flex gap-3 justify-center">
+          <button
+            onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+            className="btn-kid bg-teal-500"
+          >
+            סבב הבא →
+          </button>
+        </div>
       </div>
     )
   }
@@ -534,7 +539,7 @@ function TwoRoundBuilder({ configs, onDone }: { configs: BuilderConfig[]; onDone
       <BuilderExercise
         key={round}
         config={configs[round]}
-        onDone={() => { if (isLast) onDone(); else setBetweenRounds(true) }}
+        onDone={() => { if (isLast) onDone(round + 1); else setBetweenRounds(true) }}
       />
     </div>
   )
@@ -859,7 +864,7 @@ function SortExercise({ items, onDone }: { items: SortVerb[]; onDone: () => void
 
 // ── 2-round sort flow (Ex 4) ────────────────────────────────────────────────────
 
-function TwoRoundSort({ rounds, onDone }: { rounds: SortVerb[][]; onDone: () => void }) {
+function TwoRoundSort({ rounds, onDone }: { rounds: SortVerb[][]; onDone: (rounds: number) => void }) {
   const [round, setRound] = useState(0)
   const [betweenRounds, setBetweenRounds] = useState(false)
 
@@ -869,12 +874,14 @@ function TwoRoundSort({ rounds, onDone }: { rounds: SortVerb[][]; onDone: () => 
         <div className="text-5xl mb-3">👏</div>
         <p className="font-display font-bold text-2xl text-green-600 mb-1">Round {round + 1} done!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סבב {round + 1} הושלם — ממשיכים לסבב הבא</p>
-        <button
-          onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
-          className="btn-kid bg-teal-500"
-        >
-          סבב הבא →
-        </button>
+        <div className="flex gap-3 justify-center">
+          <button
+            onClick={() => { setRound(r => r + 1); setBetweenRounds(false) }}
+            className="btn-kid bg-teal-500"
+          >
+            סבב הבא →
+          </button>
+        </div>
       </div>
     )
   }
@@ -891,7 +898,7 @@ function TwoRoundSort({ rounds, onDone }: { rounds: SortVerb[][]; onDone: () => 
       <SortExercise
         key={round}
         items={rounds[round]}
-        onDone={() => { if (isLast) onDone(); else setBetweenRounds(true) }}
+        onDone={() => { if (isLast) onDone(round + 1); else setBetweenRounds(true) }}
       />
     </div>
   )

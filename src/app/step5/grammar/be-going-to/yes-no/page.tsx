@@ -36,7 +36,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את כל התרגולים!</p>
-        <StarOnComplete step="step5" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
+        <StarOnComplete step="step5" rounds={cycleIdx + 1} onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} />
       </div>
     )
   }

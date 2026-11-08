@@ -115,7 +115,7 @@ function SortExercise({ onComplete }: { onComplete: () => void }) {
   return (
     <div className="px-3 pb-10 max-w-xl mx-auto">
       <p className="text-center text-gray-700 font-bold text-base sm:text-lg mb-4" dir="rtl">
-        לחץ על התמונה לשמוע את המילה — גרור למקום הנכון בטבלה
+        לחץ על התמונה לשמוע את המילה — לחץ על התשובה הנכונה וגרור למקום הנכון בטבלה
         <br />
         לחיצה על ↻ תאפשר לראות את התיאור באנגלית
       </p>

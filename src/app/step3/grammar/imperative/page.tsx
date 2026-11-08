@@ -90,6 +90,8 @@ function ExWrapper({
   const [cycleIdx, setCycleIdx] = useState(0)
   const [key, setKey] = useState(0)
   const [finished, setFinished] = useState(false)
+  // Rounds completed in THIS run — one star each (spec 8.11)
+  const [rounds, setRounds] = useState(0)
 
   if (finished) {
     return (
@@ -97,7 +99,7 @@ function ExWrapper({
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-2" dir="rtl">סיימת את כל התרגולים!</p>
-        <div className="mb-6"><StarOnComplete step="step3" onAgain={() => { setCycleIdx(0); setKey(k => k + 1); setFinished(false) }} /></div>
+        <div className="mb-6"><StarOnComplete step="step3" rounds={rounds} onAgain={() => { setCycleIdx(0); setRounds(0); setKey(k => k + 1); setFinished(false) }} /></div>
       </div>
     )
   }
@@ -107,8 +109,8 @@ function ExWrapper({
       {render(
         Math.min(cycleIdx, cycles - 1),
         // "More" mid-way advances; "Again" on the LAST round wraps back to round 1
-        () => { setCycleIdx(i => (i + 1) % cycles); setKey(k => k + 1) },
-        () => setFinished(true),
+        () => { setRounds(r => r + 1); setCycleIdx(i => (i + 1) % cycles); setKey(k => k + 1) },
+        () => { setRounds(r => r + 1); setFinished(true) },
       )}
     </div>
   )
@@ -199,9 +201,10 @@ function VerbFillEx({
 
       <p className="text-center font-bold text-gray-500 text-sm mb-3" dir="rtl">{instruction}</p>
 
-      {/* Verb bank */}
-      <div className="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3 mb-5">
-        <div className="flex flex-wrap gap-2 justify-center">
+      {/* Verb bank — pinned under the sticky site header so it stays in view
+          while the child scrolls down to the lower sentences */}
+      <div className="sticky top-16 z-30 bg-rose-50 border-2 border-rose-200 rounded-2xl p-2 sm:p-3 mb-4 sm:mb-5 shadow-md">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
           {bankVerbs.map(v => {
             const used = Object.values(answers).includes(v)
             return (
@@ -209,7 +212,7 @@ function VerbFillEx({
                 key={v}
                 disabled={used || activeIdx === -1}
                 onClick={() => activeIdx !== -1 && choose(activeIdx, v)}
-                className={`px-3 py-1.5 rounded-xl font-display font-bold text-sm border-2 transition-all active:scale-95 ${
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl font-display font-bold text-sm border-2 transition-all active:scale-95 ${
                   used
                     ? 'bg-gray-100 text-gray-300 border-gray-200'
                     : `bg-white ${accent} hover:bg-rose-100`
@@ -222,7 +225,7 @@ function VerbFillEx({
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 mb-6">
+      <div className="flex flex-col gap-1.5 sm:gap-2 mb-6">
         {questions.map((q, idx) => {
           const ans = answers[idx]
           const isWrong = wrongs.has(idx)
@@ -230,12 +233,12 @@ function VerbFillEx({
           return (
             <div
               key={idx}
-              className={`bg-white border-2 rounded-xl px-3 py-2 flex items-center gap-2 ${
+              className={`bg-white border-2 rounded-xl px-2.5 sm:px-3 py-1.5 sm:py-2 flex items-center gap-2 ${
                 isWrong ? 'border-red-300 bg-red-50' : isActive ? 'border-rose-400' : 'border-gray-200'
               }`}
             >
               <span className="font-bold text-rose-400 text-sm">{idx + 1}.</span>
-              <span className="text-base font-bold text-gray-700 flex-1">
+              <span className="text-[15px] sm:text-base leading-snug font-bold text-gray-700 flex-1">
                 {q.before && <span>{q.before} </span>}
                 {ans ? (
                   <span className="text-green-600">{ans}</span>

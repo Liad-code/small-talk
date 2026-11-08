@@ -12,7 +12,7 @@ type WasWereCap = 'Was' | 'Were'
 
 // ── ExWrapper ─────────────────────────────────────────────────────────────────
 
-function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode }) {
+function ExWrapper({ render, rounds = 1 }: { render: (onDone: () => void) => React.ReactNode; rounds?: number }) {
   const [finished, setFinished] = useState(false)
   const [key, setKey] = useState(0)
 
@@ -22,7 +22,7 @@ function ExWrapper({ render }: { render: (onDone: () => void) => React.ReactNode
         <div className="text-6xl mb-4">🌟</div>
         <p className="font-display font-bold text-3xl text-green-600 mb-1">Amazing!</p>
         <p className="font-bold text-gray-500 mb-6" dir="rtl">סיימת את התרגול!</p>
-        <StarOnComplete step="step5" onAgain={() => { setFinished(false); setKey(k => k + 1) }} />
+        <StarOnComplete step="step5" rounds={rounds} onAgain={() => { setFinished(false); setKey(k => k + 1) }} />
       </div>
     )
   }
@@ -1148,11 +1148,11 @@ export default function WasWerePage() {
 
       <div className="pt-4">
         {tab === 'learn' && <LearnTab />}
-        {tab === 'ex1' && <ExWrapper render={done => <Ex1TwoRounds onDone={done} />} />}
+        {tab === 'ex1' && <ExWrapper rounds={EX1_ROUNDS.length} render={done => <Ex1TwoRounds onDone={done} />} />}
         {tab === 'ex2' && <ExWrapper render={done => <ChoiceWasntWerent questions={EX2_QUESTIONS} onDone={done} />} />}
         {tab === 'ex3' && <ExWrapper render={done => <ChoiceWasWereCap questions={EX3_QUESTIONS} onDone={done} />} />}
         {tab === 'ex4' && <ExWrapper render={done => <Ex4Builder onDone={done} />} />}
-        {tab === 'ex5' && <ExWrapper render={done => <Ex5Passage onDone={done} />} />}
+        {tab === 'ex5' && <ExWrapper rounds={EX5_ROUNDS.length} render={done => <Ex5Passage onDone={done} />} />}
         {tab === 'ex6' && <ExWrapper render={done => <Ex6WhReveal onDone={done} />} />}
       </div>
     </div>

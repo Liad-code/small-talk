@@ -136,7 +136,7 @@ function ISpyRound({ items, roundIdx, totalRounds, onNext, onDone }: {
   )
 }
 
-export function FruitsISpy({ onComplete }: { onComplete: () => void }) {
+export function FruitsISpy({ onComplete }: { onComplete: (rounds?: number) => void }) {
   const [round, setRound] = useState(0)
   return (
     <ISpyRound
@@ -145,7 +145,7 @@ export function FruitsISpy({ onComplete }: { onComplete: () => void }) {
       roundIdx={round}
       totalRounds={I_SPY_ROUNDS.length}
       onNext={() => setRound(r => r + 1)}
-      onDone={onComplete}
+      onDone={() => onComplete(round + 1)}
     />
   )
 }
