@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import { hasAccess, type SubStatus } from '@/lib/billing/policy'
 
 export interface Entitlement {
   hasAccess: boolean
@@ -28,11 +29,9 @@ export async function getEntitlement(userId: string | null | undefined): Promise
   if (!userId) return NO_ACCESS
   const sub = await db.subscription.findUnique({ where: { userId } })
   if (!sub) return NO_ACCESS
-  const active = sub.status === 'active' || sub.status === 'trialing'
-  // Grace: access persists until the paid-for period actually ends
-  const withinPeriod = sub.currentPeriodEnd > new Date()
   return {
-    hasAccess: active || (sub.cancelAtPeriodEnd && withinPeriod),
+    // Rules in billing/policy.ts: trialing / active / past_due (retry grace) → access.
+    hasAccess: hasAccess({ status: sub.status as SubStatus }),
     status: sub.status,
     seats: sub.seats,
     cancelAtPeriodEnd: sub.cancelAtPeriodEnd,

@@ -11,6 +11,10 @@ interface BillingInfo {
   cancelAtPeriodEnd: boolean
   currentPeriodEnd: string | null
   trialEnd: string | null
+  cardSuffix: string | null
+  nextChargeAt: string | null
+  nextChargeSeats: number
+  nextChargeAmount: number // agorot
 }
 
 function PricingContent() {
@@ -18,9 +22,12 @@ function PricingContent() {
   const params = useSearchParams()
   const reason = params.get('reason')
   const success = params.get('success')
+  const canceled = params.get('canceled')
 
   const [billing, setBilling] = useState<BillingInfo | null>(null)
   const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [reload, setReload] = useState(0)
 
   useEffect(() => {
     if (status !== 'authenticated') return
@@ -28,27 +35,30 @@ function PricingContent() {
       .then(r => (r.ok ? r.json() : null))
       .then(setBilling)
       .catch(() => setBilling(null))
-  }, [status, success])
+  }, [status, success, reload])
 
   async function startCheckout() {
     if (busy) return
     setBusy(true)
-    const res = await fetch('/api/stripe/checkout', { method: 'POST' })
+    setError(null)
+    const res = await fetch('/api/billing/checkout', { method: 'POST' })
     if (res.ok) {
       const { url } = await res.json()
       if (url) { window.location.href = url; return }
     }
+    setError(res.status === 503 ? 'ההרשמה למנוי עוד לא פתוחה — נסו שוב בקרוב' : 'משהו השתבש, נסו שוב')
     setBusy(false)
   }
 
-  async function openPortal() {
+  // Cancel / undo-cancel happen right here, online (same channel as signup).
+  async function changeCancel(action: 'cancel' | 'resume') {
     if (busy) return
+    if (action === 'cancel' && !window.confirm('לבטל את המנוי? הגישה תישאר עד סוף התקופה ששולמה, ולא יהיו חיובים נוספים.')) return
     setBusy(true)
-    const res = await fetch('/api/stripe/portal', { method: 'POST' })
-    if (res.ok) {
-      const { url } = await res.json()
-      if (url) { window.location.href = url; return }
-    }
+    setError(null)
+    const res = await fetch(`/api/billing/${action}`, { method: 'POST' })
+    if (!res.ok) setError('משהו השתבש, נסו שוב')
+    setReload(n => n + 1)
     setBusy(false)
   }
 
@@ -68,6 +78,11 @@ function PricingContent() {
         {reason === 'signin' && (
           <div className="bg-blue-50 border-2 border-blue-300 rounded-2xl px-4 py-3 mb-6 text-center font-bold text-blue-800">
             👤 כדי להמשיך יש להתחבר עם חשבון Google
+          </div>
+        )}
+        {canceled && (
+          <div className="bg-gray-50 border-2 border-gray-200 rounded-2xl px-4 py-3 mb-6 text-center font-bold text-gray-600">
+            ההרשמה לא הושלמה — לא בוצע חיוב. אפשר לנסות שוב בכל עת.
           </div>
         )}
         {success && (
@@ -119,12 +134,29 @@ function PricingContent() {
                   <span className="text-amber-600"> · יסתיים ב-{new Date(billing.currentPeriodEnd).toLocaleDateString('he-IL')}</span>
                 )}
               </div>
-              <button onClick={openPortal} disabled={busy} className="btn-kid bg-primary w-full disabled:opacity-50">
-                ⚙️ ניהול המנוי (שינוי/ביטול/קבלות)
-              </button>
+              {billing.nextChargeAt && (
+                <p className="text-sm font-bold text-gray-500 mb-4">
+                  החיוב הבא: ₪{(billing.nextChargeAmount / 100).toLocaleString('he-IL')} ב-{new Date(billing.nextChargeAt).toLocaleDateString('he-IL')}
+                  {' '}({billing.nextChargeSeats} {billing.nextChargeSeats === 1 ? 'ילד' : 'ילדים'})
+                  {billing.cardSuffix && <span> · כרטיס שמסתיים ב-{billing.cardSuffix}</span>}
+                </p>
+              )}
+              {billing.cancelAtPeriodEnd ? (
+                <button onClick={() => changeCancel('resume')} disabled={busy} className="btn-kid bg-green-500 w-full disabled:opacity-50">
+                  ↩️ ביטול הביטול — להמשיך את המנוי
+                </button>
+              ) : (
+                <button onClick={() => changeCancel('cancel')} disabled={busy} className="btn-kid bg-gray-400 w-full disabled:opacity-50">
+                  ביטול המנוי
+                </button>
+              )}
             </div>
           )}
         </div>
+
+        {error && (
+          <p className="text-center font-bold text-red-500 text-sm mb-4">{error}</p>
+        )}
 
         <p className="text-center text-xs font-bold text-gray-400">
           שלב 1 נשאר חינמי לכולם · המחירים כוללים מע״מ · ניתן לבטל אונליין בכל עת

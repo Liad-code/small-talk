@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
 import { getSessionUserId, MAX_CHILDREN } from '@/lib/children'
-import { getEntitlement, paywallEnabled } from '@/lib/entitlements'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,14 +36,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'limit' }, { status: 403 })
   }
 
-  // Per-seat enforcement: with the paywall on and an active subscription,
-  // #children may not exceed paid seats (upgrade via the Stripe portal).
-  if (paywallEnabled()) {
-    const ent = await getEntitlement(userId)
-    if (ent.hasAccess && count >= ent.seats) {
-      return NextResponse.json({ error: 'seats' }, { status: 403 })
-    }
-  }
+  // No seat cap: a child added mid-month is billed from the next monthly
+  // charge (billing/policy.ts — seats are counted at charge time).
 
   const child = await db.childProfile.create({
     data: { userId, displayName: body.data.displayName, avatar: body.data.avatar ?? '🦉', ageBand: body.data.ageBand },
