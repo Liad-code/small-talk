@@ -48,17 +48,25 @@ export function pushProgress(partial: { subjects?: unknown; step1?: unknown; ste
   if (!syncEnabled) return
   pending = { ...pending, ...partial }
   if (pushTimer) clearTimeout(pushTimer)
-  pushTimer = setTimeout(() => {
-    const body = JSON.stringify(pending)
-    pending = {}
-    pushTimer = null
-    fetch('/api/progress', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
-      keepalive: true,
-    }).catch(() => {/* offline — local cache still has it; next push retries implicitly */})
-  }, 800)
+  pushTimer = setTimeout(sendPending, 800)
+}
+
+function sendPending() {
+  if (pushTimer) { clearTimeout(pushTimer); pushTimer = null }
+  if (Object.keys(pending).length === 0) return
+  const body = JSON.stringify(pending)
+  pending = {}
+  fetch('/api/progress', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    keepalive: true,
+  }).catch(() => {/* offline — local cache still has it; next push retries implicitly */})
+}
+
+/** Send any debounced progress now — call before leaving/reloading the page. */
+export function flushProgress() {
+  sendPending()
 }
 
 /** Push everything local right now (used for the one-time import). */

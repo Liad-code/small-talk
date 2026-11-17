@@ -247,6 +247,7 @@ export function SoundSortGame({
             <div className="mb-6">
               <StarOnComplete
                 step={starStep}
+                doneHref={backHref}
                 onAgain={() => {
                   setDone(false)
                   setKey(k => k + 1)

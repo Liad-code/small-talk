@@ -15,7 +15,7 @@ export function StarOnComplete({ step, rounds = 1, onAgain, doneHref }: {
   rounds?: number
   /** Replays the exercise after the star is collected (default: reload). */
   onAgain?: () => void
-  /** Done destination (default: the step's main page). */
+  /** Done destination (default: this topic page, fresh). Single-exercise pages pass their back-link page. */
   doneHref?: string
 }) {
   const { starsFor } = useStepStars()

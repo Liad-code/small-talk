@@ -169,7 +169,7 @@ export default function Exercise5Page() {
             <div className="text-6xl mb-4">🎉</div>
             <p className="font-display font-bold text-3xl text-green-600 mb-1">Well done!</p>
             <p className="font-bold text-gray-500 mb-6" dir="rtl">כל הכבוד! מיינת את כל התמונות!</p>
-            <StarOnComplete step="step2" onAgain={() => { setDone(false); setKey(k => k + 1) }} />
+            <StarOnComplete step="step2" doneHref="/step2/phonics" onAgain={() => { setDone(false); setKey(k => k + 1) }} />
           </div>
         ) : (
           <SortExercise key={key} onComplete={() => setDone(true)} />

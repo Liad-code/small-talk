@@ -113,6 +113,7 @@ export function ExerciseShell({
               count={step1Stars}
               award={() => markExerciseDone(track, groupId, exerciseId)}
               onAgain={playAgain}
+              doneHref={backHref}
             />
           </div>
         </div>

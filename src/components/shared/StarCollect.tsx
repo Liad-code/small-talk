@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import { flushProgress } from '@/lib/progressSync'
 import { STEP_STAR_META, trophyTiers } from '@/data/stepStarConfig'
 
 /**
@@ -56,8 +57,10 @@ function playCollectSound() {
 }
 
 /**
- * The one, site-wide "after the star" choice (spec 25.10): Again (נסה שוב)
- * replays the exercise, Done (סיום) returns to the step's main page.
+ * The one, site-wide "after the star" choice: Again (נסה שוב) replays the
+ * exercise; Done (סיום) returns to the task's own topic page (owner request
+ * 2026-11-17, replacing spec 25.10's "step main page") — e.g. Fruit &
+ * Vegetables Quiz 1 → the Fruit & Vegetables page, ready for Quiz 2.
  * Identical everywhere — practically and visually.
  */
 export function StarActions({ step, onAgain, doneHref }: {
@@ -66,6 +69,16 @@ export function StarActions({ step, onAgain, doneHref }: {
   doneHref?: string
 }) {
   const router = useRouter()
+  const pathname = usePathname()
+
+  function done() {
+    flushProgress() // the star just collected reaches the account before we leave
+    if (doneHref) router.push(doneHref)
+    // Topic pages keep their tabs in component state, so a fresh load of the
+    // same page is what brings the child back to its start (the Learn tab).
+    else window.location.assign(pathname)
+  }
+
   return (
     <div className="flex gap-3 w-full max-w-xs mx-auto" dir="rtl">
       <button
@@ -76,7 +89,7 @@ export function StarActions({ step, onAgain, doneHref }: {
         <span className="text-xs font-bold opacity-90">Again</span>
       </button>
       <button
-        onClick={() => router.push(doneHref ?? `/${step}`)}
+        onClick={done}
         className="flex-1 btn-kid bg-green-500 hover:bg-green-600 flex flex-col items-center leading-tight"
       >
         <span>✅ סיום</span>
@@ -102,7 +115,7 @@ export function StarCollect({
   amount?: number
   /** Replays the exercise. Omit → the page reloads (fresh exercise). */
   onAgain?: () => void
-  /** Where Done goes. Default: the step's main page (/stepN). */
+  /** Where Done goes. Default: this page, reloaded fresh (the topic's start). Pages that hold a single exercise pass the page they were opened from. */
   doneHref?: string
   /** Rare override of the standard Again / Done row (shown only AFTER collecting). */
   children?: React.ReactNode
