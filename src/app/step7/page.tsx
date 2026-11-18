@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
 import { useStepStars } from '@/hooks/useStepStars'
+import { SCENE_BUNDLES } from '@/data/step7'
 
 interface TopicCardProps {
   href?: string
@@ -50,16 +51,17 @@ function TopicCard({ href, emoji, title, hebrewTitle, description, hebrewDesc, c
   )
 }
 
-const SOON: { emoji: string; title: string; hebrewTitle: string }[] = [
-  { emoji: "🤝", title: "A New Friend", hebrewTitle: "חבר חדש" },
-  { emoji: "🍦", title: "Ice-Cream Shop", hebrewTitle: "בגלידרייה" },
-  { emoji: "🛒", title: "Supermarket", hebrewTitle: "בסופרמרקט" },
-  { emoji: "🐶", title: "Pet Shop", hebrewTitle: "בחנות החיות" },
-  { emoji: "👕", title: "Clothes Shop", hebrewTitle: "בחנות הבגדים" },
-  { emoji: "🗺️", title: "Asking for Directions", hebrewTitle: "שואלים את הדרך" },
-  { emoji: "🩺", title: "At the Doctor", hebrewTitle: "אצל הרופא" },
-  { emoji: "🎂", title: "Birthday Party", hebrewTitle: "מסיבת יום הולדת" },
-  { emoji: "✈️", title: "At the Airport", hebrewTitle: "בשדה התעופה" },
+/** Planned scenes; each shows as "Soon" until a scene with that id exists. */
+const SOON: { id: string; emoji: string; title: string; hebrewTitle: string }[] = [
+  { id: 'new-friend', emoji: "🤝", title: "A New Friend", hebrewTitle: "חבר חדש" },
+  { id: 'ice-cream', emoji: "🍦", title: "Ice-Cream Shop", hebrewTitle: "בגלידרייה" },
+  { id: 'supermarket', emoji: "🛒", title: "Supermarket", hebrewTitle: "בסופרמרקט" },
+  { id: 'pet-shop', emoji: "🐶", title: "Pet Shop", hebrewTitle: "בחנות החיות" },
+  { id: 'clothes-shop', emoji: "👕", title: "Clothes Shop", hebrewTitle: "בחנות הבגדים" },
+  { id: 'directions', emoji: "🗺️", title: "Asking for Directions", hebrewTitle: "שואלים את הדרך" },
+  { id: 'doctor', emoji: "🩺", title: "At the Doctor", hebrewTitle: "אצל הרופא" },
+  { id: 'birthday', emoji: "🎂", title: "Birthday Party", hebrewTitle: "מסיבת יום הולדת" },
+  { id: 'airport', emoji: "✈️", title: "At the Airport", hebrewTitle: "בשדה התעופה" },
 ]
 
 export default function Step7Page() {
@@ -87,18 +89,21 @@ export default function Step7Page() {
       </section>
 
       <div className="max-w-2xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <TopicCard
-          href="/step7/pizzeria"
-          emoji="🍕"
-          title="Tony's Pizza"
-          hebrewTitle="בפיצרייה"
-          description="Order a pizza — then be the pizza chef!"
-          hebrewDesc="מזמינים פיצה — ואז הופכים לטוני הפיצאי!"
-          color="from-orange-400 to-red-500"
-          textColor="text-white"
-          available
-        />
-        {SOON.map(s => (
+        {SCENE_BUNDLES.map(({ scene }) => (
+          <TopicCard
+            key={scene.id}
+            href={`/step7/${scene.id}`}
+            emoji={scene.emoji}
+            title={scene.title}
+            hebrewTitle={scene.titleHe}
+            description={scene.ui.cardEn}
+            hebrewDesc={scene.ui.cardHe}
+            color={scene.ui.gradient}
+            textColor="text-white"
+            available
+          />
+        ))}
+        {SOON.filter(s => !SCENE_BUNDLES.some(b => b.scene.id === s.id)).map(s => (
           <TopicCard
             key={s.title}
             emoji={s.emoji}

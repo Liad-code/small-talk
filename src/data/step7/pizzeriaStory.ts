@@ -35,6 +35,12 @@ export const PIZZERIA_STORY: Story = {
   title: "Tony's Big Day",
   titleHe: 'היום הגדול של טוני',
   start: 'door',
+  coverPlace: 'street',
+  introHe: [
+    '🗨️ טוני מדבר — ואתם בוחרים מה לענות.',
+    '🔀 כל בחירה משנה את הסיפור.',
+    '🎤 כשאתם שומעים את המשפט שלכם — אמרו אותו בקול!',
+  ],
   chapters: [
     { icon: '🚪', he: 'בדלת' },
     { icon: '👋', he: 'שלום' },
@@ -48,7 +54,7 @@ export const PIZZERIA_STORY: Story = {
   ],
   nodes: [
     {
-      id: 'door', place: 'street', chapter: 0,
+      id: 'door', place: 'street', chapter: 0, noCharacter: true,
       narrationHe: 'אתם רעבים מאוד! הולכים ברחוב ומגיעים לפיצרייה של טוני. הדלת סגורה… מה עושים?',
       lines: [],
       choices: [
@@ -178,25 +184,10 @@ export const PIZZERIA_STORY: Story = {
     { id: 'birthday', emoji: '🎂', title: 'Birthday Surprise', titleHe: 'הפתעת יום הולדת', descHe: 'טוני הפתיע אתכם — פיצה בחינם עם נר!', place: 'table' },
     { id: 'dishes', emoji: '🫧', title: 'Bubble Trouble', titleHe: 'שוטפים כלים', descHe: 'שכחתם את הכסף… ושטפתם כלים עם המון בועות!', place: 'kitchen' },
   ],
-  extra: {
-    soldOut: { text: "Oh no! It's all gone today. Choose another one, please.", he: 'אוי לא! זה נגמר היום. בחרו משהו אחר, בבקשה.' },
-    ovenEarly: { text: "Not yet! It's not ready.", he: 'עוד לא! זה עוד לא מוכן.' },
-    ovenBurnt: { text: "Oops! It's burnt! Let's make a new one.", he: 'אופס! זה נשרף! בואו נכין חדשה.' },
-    ovenPerfect: { text: 'Perfect! Great job, chef!', he: 'מושלם! עבודה מצוינת, שף!' },
+  soldOut: { text: "Oh no! It's all gone today. Choose another one, please.", he: 'אוי לא! זה נגמר היום. בחרו משהו אחר, בבקשה.' },
+  oven: {
+    early: { text: "Not yet! It's not ready.", he: 'עוד לא! זה עוד לא מוכן.' },
+    burnt: { text: "Oops! It's burnt! Let's make a new one.", he: 'אופס! זה נשרף! בואו נכין חדשה.' },
+    perfect: { text: 'Perfect! Great job, chef!', he: 'מושלם! עבודה מצוינת, שף!' },
   },
-}
-
-/** Every recorded line of the story: the character's lines + the child's choices. */
-export function storyLines(story: Story): { speaker: 'tony' | 'kid'; text: string }[] {
-  const out: { speaker: 'tony' | 'kid'; text: string }[] = []
-  for (const n of story.nodes) {
-    for (const l of n.lines) out.push({ speaker: 'tony', text: l.text })
-    for (const c of n.choices ?? []) {
-      out.push({ speaker: 'kid', text: c.say })
-      if (c.reply) out.push({ speaker: 'tony', text: c.reply.text })
-      if (c.silly) out.push({ speaker: 'tony', text: c.silly.text })
-    }
-  }
-  for (const l of Object.values(story.extra)) out.push({ speaker: 'tony', text: l.text })
-  return out
 }

@@ -1,4 +1,4 @@
-import type { Scene, Speaker } from './types'
+import type { Scene } from './types'
 
 /**
  * Scene 1 — the pizzeria. Every English line here is pre-recorded in its
@@ -10,7 +10,32 @@ export const PIZZERIA: Scene = {
   title: "Tony's Pizza",
   titleHe: 'בפיצרייה',
   emoji: '🍕',
-  character: { speaker: 'tony', name: 'Tony', emoji: '👨‍🍳' },
+  character: { speaker: 'tony', name: 'Tony', nameHe: 'טוני', emoji: '👨‍🍳' },
+  result: 'pizza',
+  ui: {
+    gradient: 'from-orange-400 to-red-500',
+    cardEn: 'Order a pizza — then be the pizza chef!',
+    cardHe: 'מזמינים פיצה — ואז הופכים לטוני הפיצאי!',
+    subtitleHe: 'בפיצרייה — מזמינים פיצה באנגלית',
+    sign: "🍕 Tony's Pizza",
+    stagePlace: 'counter',
+    introHe: {
+      order: 'טוני שואל — אתם בוחרים מה לענות. אחרי שבוחרים, אמרו את המשפט בקול!',
+      build: 'הפעם בונים את התשובה לבד: בחרו מה אתם רוצים והקישו על המילים לפי הסדר.',
+      swap: 'מתחלפים! אתם טוני הפיצאי — שאלו את הלקוח, זכרו מה הזמין והכינו לו את הפיצה.',
+    },
+    startEn: "Let's go!", startHe: 'נכנסים לפיצרייה',
+    swapTab: '👨‍🍳 Be Tony',
+    swapStartEn: 'Open the shop!', swapStartHe: 'פותחים את הפיצרייה',
+    swapAskHe: 'מה טוני אומר עכשיו?',
+    swapSayHe: 'אמרו את המשפט של טוני בקול!',
+    makeTitleHe: 'הכינו ללקוח בדיוק את מה שהזמין:',
+    serveEn: 'Here you go!', serveHe: 'הגישו ללקוח',
+    doneEn: 'Your order is ready!', doneHe: 'הזמנתם פיצה באנגלית — כל הכבוד!',
+    swapDoneEn: 'Great job, Chef!', swapDoneHe: 'הייתם טוני ושירתתם את הלקוח באנגלית!',
+    customerName: 'Customer',
+    learnHe: 'אלה המשפטים של השיחה בפיצרייה. לחצו על 🔊 כדי לשמוע — ואמרו אותם בקול. אחר כך נסו להזמין לבד!',
+  },
   steps: [
     {
       id: 'greet',
@@ -152,26 +177,4 @@ export const PIZZERIA: Scene = {
     { speaker: 'tony', en: 'Thank you! Enjoy your pizza!', he: 'תודה! בתיאבון!' },
     { speaker: 'kid', en: 'Thank you! Goodbye!', he: 'תודה! להתראות!' },
   ],
-}
-
-/** Every line in the scene, with its speaker — what the audio generator records. */
-export function sceneLines(scene: Scene): { speaker: Speaker; text: string }[] {
-  const char = scene.character.speaker
-  const out: { speaker: Speaker; text: string }[] = []
-  for (const s of scene.steps) {
-    out.push({ speaker: char, text: s.ask })
-    for (const o of s.options) {
-      out.push({ speaker: 'kid', text: o.say })
-      if (o.reaction) out.push({ speaker: char, text: o.reaction })
-    }
-    out.push({ speaker: char, text: s.swapSilly.say })
-    out.push({ speaker: 'kid', text: s.swapSilly.reaction })
-  }
-  out.push({ speaker: char, text: scene.lines.farewell })
-  out.push({ speaker: 'kid', text: scene.lines.makeRight })
-  out.push({ speaker: 'kid', text: scene.lines.makeWrong })
-  for (const p of scene.phrases) out.push({ speaker: p.speaker, text: p.en })
-  // de-duplicate (same speaker + same text = one recording)
-  const seen = new Set<string>()
-  return out.filter(l => { const k = `${l.speaker}|${l.text.trim().toLowerCase()}`; if (seen.has(k)) return false; seen.add(k); return true })
 }

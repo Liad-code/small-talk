@@ -10,19 +10,34 @@
  *
  *   node scripts/generate-scene-audio.mjs --dry   # list lines + character cost, no API calls
  *   node scripts/generate-scene-audio.mjs         # record the missing lines
+ *   node scripts/generate-scene-audio.mjs --only=ice-cream,doctor   # just these scenes
+ *
+ * Scenes: the pizzeria + every file in src/data/step7/scenes (each exports BUNDLE).
  */
 
-import { readFile, writeFile, mkdir, access } from 'node:fs/promises'
+import { readFile, writeFile, mkdir, access, readdir } from 'node:fs/promises'
+import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 import { audioKey } from '../src/utils/audioKey.ts'
-import { PIZZERIA, sceneLines } from '../src/data/step7/pizzeria.ts'
-import { PIZZERIA_STORY, storyLines } from '../src/data/step7/pizzeriaStory.ts'
+import { PIZZERIA } from '../src/data/step7/pizzeria.ts'
+import { PIZZERIA_STORY } from '../src/data/step7/pizzeriaStory.ts'
+import { bundleLines } from '../src/data/step7/lines.ts'
 import { SCENE_VOICES, SCENE_TTS } from '../src/data/step7/voices.ts'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const OUT_DIR = path.join(ROOT, 'public', 'audio', 'scenes')
-const SCENES = [PIZZERIA]
-const STORIES = [PIZZERIA_STORY]
+const SCENES_DIR = path.join(ROOT, 'src', 'data', 'step7', 'scenes')
+const ONLY = process.argv.find(a => a.startsWith('--only='))?.slice(7).split(',')
+
+/** The pizzeria + every scene file in src/data/step7/scenes (each exports BUNDLE). */
+async function bundles() {
+  const out = [{ scene: PIZZERIA, story: PIZZERIA_STORY }]
+  for (const f of (await readdir(SCENES_DIR)).filter(f => f.endsWith('.ts')).sort()) {
+    const mod = await import(pathToFileURL(path.join(SCENES_DIR, f)).href)
+    out.push(mod.BUNDLE)
+  }
+  return ONLY ? out.filter(b => ONLY.includes(b.scene.id)) : out
+}
 const DRY = process.argv.includes('--dry')
 
 const exists = p => access(p).then(() => true, () => false)
@@ -51,10 +66,7 @@ async function synthesize(key, voiceId, text) {
 }
 
 async function main() {
-  const all = [
-    ...SCENES.flatMap(scene => sceneLines(scene)),
-    ...STORIES.flatMap(story => storyLines(story)),
-  ]
+  const all = (await bundles()).flatMap(b => bundleLines(b).map(l => ({ ...l, scene: b.scene.id })))
   // de-duplicate across scene + story (same speaker + text = one recording)
   const seen = new Set()
   const lines = all.filter(l => { const k = l.speaker + '|' + l.text.trim().toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true })
@@ -66,9 +78,10 @@ async function main() {
   }
   const chars = todo.reduce((n, l) => n + l.text.length, 0)
   console.log(`lines ${lines.length} · already recorded ${lines.length - todo.length} · to record ${todo.length} (${chars} characters)`)
-  for (const s of Object.keys(SCENE_VOICES)) {
+  for (const s of [...new Set(lines.map(l => l.speaker))]) {
+    if (!SCENE_VOICES[s]) throw new Error('no voice for speaker ' + s + ' (src/data/step7/voices.ts)')
     const mine = todo.filter(l => l.speaker === s)
-    console.log(`  ${s} (${SCENE_VOICES[s].name}): ${mine.length} lines, ${mine.reduce((n, l) => n + l.text.length, 0)} chars`)
+    if (mine.length) console.log(`  ${s} (${SCENE_VOICES[s].name}): ${mine.length} lines, ${mine.reduce((n, l) => n + l.text.length, 0)} chars`)
   }
   if (DRY || todo.length === 0) return
 

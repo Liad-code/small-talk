@@ -1,10 +1,11 @@
 'use client'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { Story, StoryChoice, StoryLine } from '@/data/step7/types'
+import type { FindEvent, Scene, Story, StoryChoice, StoryLine, StoryEnding } from '@/data/step7/types'
 import { sayLine } from '@/utils/sceneAudio'
 import { stopAudio } from '@/utils/audioPlayer'
 import { shuffle } from '@/utils/shuffle'
-import { StoryBackdrop, CounterFront } from '@/components/step7/StoryBackdrop'
+import { StoryBackdrop, PlaceCounter, placeHasCounter } from '@/components/step7/StoryBackdrop'
+import { ResultView } from '@/components/step7/ResultView'
 import { PizzaView } from '@/components/step7/PizzaView'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
@@ -27,7 +28,8 @@ function saveFound(storyId: string, ids: string[]) {
   try { localStorage.setItem(`${ENDINGS_KEY}_${storyId}`, JSON.stringify(ids)) } catch { /* private mode: fine */ }
 }
 
-export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => void }) {
+export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Story; onAgain: () => void }) {
+  const char = scene.character
   const byId = useMemo(() => new Map(story.nodes.map(n => [n.id, n])), [story])
   const [phase, setPhase] = useState<'cover' | 'play' | 'end'>('cover')
   const [nodeId, setNodeId] = useState(story.start)
@@ -40,6 +42,8 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
   const [soldOut, setSoldOut] = useState<string | null>(null)
   const [charVisible, setCharVisible] = useState(false)
   const [said, setSaid] = useState(0)
+  /** Icons of what the child chose (shown on the counter in non-pizza scenes). */
+  const [picked, setPicked] = useState<Record<string, string>>({})
   const [found, setFound] = useState<string[]>([])
   const [endingId, setEndingId] = useState<string | null>(null)
   const soldOutUsed = useRef(false)
@@ -55,7 +59,7 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
     if (!alive.current) return
     setBubble({ side, text: line.text, he: line.he, n: ++bubbleN.current })
     setTalking(side)
-    await sayLine(side === 'left' ? 'tony' : 'kid', line.text)
+    await sayLine(side === 'left' ? char.speaker : 'kid', line.text)
     if (alive.current) setTalking(null)
   }
 
@@ -65,7 +69,7 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
     setWrong(new Set())
     setSoldOut(null)
     setStep('talk')
-    if (n.place !== 'street') setCharVisible(true)
+    if (!n.noCharacter) setCharVisible(true)
     if (n.lines.length === 0) setBubble(null)
     for (const line of n.lines) {
       await speak('left', line)
@@ -78,6 +82,7 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
   function start() {
     setPhase('play')
     setMemory({})
+    setPicked({})
     setCharVisible(false)
     void enterNode(story.start)
   }
@@ -100,12 +105,17 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
     if (c.canSellOut && !soldOutUsed.current && Math.random() < 0.5) {
       soldOutUsed.current = true
       setSoldOut(c.say)
-      await speak('left', story.extra.soldOut)
+      await speak('left', story.soldOut ?? { text: 'Sorry! Choose another one, please.', he: 'סליחה! בחרו משהו אחר, בבקשה.' })
       if (alive.current) setStep('choose')
       return
     }
     const mem = { ...memory, ...(c.set ?? {}) }
     setMemory(mem)
+    if (c.set) {
+      const icons: Record<string, string> = {}
+      for (const [k, v] of Object.entries(c.set)) if (v !== 'yes' && v !== 'no' && v !== 'none') icons[k] = c.icon
+      setPicked(p => ({ ...p, ...icons }))
+    }
     if (c.reply) {
       setCharVisible(true)
       await speak('left', c.reply)
@@ -124,7 +134,7 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
     setPhase('end')
   }
 
-  function ovenDone() {
+  function eventDone() {
     setMemory(m => ({ ...m, chef: 'yes' }))
     void enterNode(node.next!)
   }
@@ -138,31 +148,43 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
     return shuffle([...shown, ...silly])
   }, [node])
 
-  if (phase === 'cover') return <Cover story={story} found={found} onStart={start} />
+  if (phase === 'cover') return <Cover scene={scene} story={story} found={found} onStart={start} />
   if (phase === 'end' && endingId) {
-    return <EndScreen story={story} endingId={endingId} found={found} said={said} memory={memory} onAgain={onAgain} />
+    return <EndScreen scene={scene} story={story} endingId={endingId} found={found} said={said} memory={memory} picked={picked} onAgain={onAgain} />
   }
 
   const showTony = charVisible
-  const hasCounter = node.place === 'counter' || node.place === 'kitchen'
+  const hasCounter = placeHasCounter(node.place, scene.places)
+  const isPizza = scene.result === 'pizza'
+  const pickIcons = Object.values(picked)
 
   return (
     <div className="flex flex-col gap-3">
       <ChapterMap story={story} current={node.chapter} />
 
-      <StoryBackdrop place={node.place}>
-        {/* Tony */}
+      <StoryBackdrop place={node.place} places={scene.places}>
+        {/* the character */}
         {showTony && (
           <div
             key={node.place === 'street' ? 'door' : 'in'}
             className={`absolute z-10 story-pop-up ${node.place === 'street' ? 'left-[44%] bottom-[18%]' : hasCounter ? 'left-[6%] bottom-[14%]' : node.place === 'oven' ? 'left-[3%] bottom-[8%]' : 'left-[8%] bottom-[22%]'}`}
           >
-            <Character emoji="👨‍🍳" name="Tony" talking={talking === 'left'} />
+            <Character emoji={char.emoji} name={char.name} talking={talking === 'left'} />
           </div>
         )}
-        {hasCounter && <div className="absolute inset-0 z-20 pointer-events-none"><CounterFront kitchen={node.place === 'kitchen'} item={nodeId === 'end-dishes' ? '🍽️' : undefined} /></div>}
+        {hasCounter && <div className="absolute inset-0 z-20 pointer-events-none"><PlaceCounter place={node.place} places={scene.places} item={nodeId === 'end-dishes' ? '🍽️' : undefined} /></div>}
+        {/* props for this moment */}
+        {node.props?.map((p, i) => (
+          <span key={`${nodeId}-${i}`} className="absolute z-20 leading-none story-pop-up pointer-events-none" style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.s ?? 34, animationDelay: `${i * 0.08}s` }}>{p.e}</span>
+        ))}
+        {/* what the child chose so far (non-pizza scenes) */}
+        {!isPizza && pickIcons.length > 0 && hasCounter && (
+          <div className="absolute z-30 left-1/2 -translate-x-1/2 bottom-[5%] flex gap-1 pointer-events-none">
+            {pickIcons.map((e, i) => <span key={i} className="story-pop-up text-3xl drop-shadow">{e}</span>)}
+          </div>
+        )}
         {/* the pizza being made */}
-        {memory.size && (hasCounter || node.place === 'table') && (
+        {isPizza && memory.size && (hasCounter || node.place === 'table') && (
           <div className="absolute z-30 left-1/2 -translate-x-1/2 bottom-[6%] pointer-events-none story-pop-up">
             <PizzaView order={memory} size={node.place === 'table' ? 96 : 76} bake={node.chapter < 4 ? 'raw' : undefined} />
           </div>
@@ -170,7 +192,7 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
         {node.place === 'table' && memory.birthday === 'yes' && nodeId === 'end-birthday' && (
           <span className="absolute z-40 left-1/2 -translate-x-1/2 bottom-[30%] text-4xl story-pop-up">🕯️</span>
         )}
-        {node.place === 'oven' && step === 'event' && <OvenPizza memory={memory} />}
+        {isPizza && node.place === 'oven' && step === 'event' && node.event === 'oven' && <OvenPizza memory={memory} />}
         {/* the child */}
         <div className={`absolute z-30 right-[6%] ${node.place === 'street' ? 'bottom-[6%]' : 'bottom-[3%]'} story-walk-in`}>
           <Character emoji="🧒" name="You" talking={talking === 'right'} />
@@ -244,7 +266,8 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
         </div>
       )}
 
-      {step === 'event' && node.event === 'oven' && <OvenGame story={story} speak={l => speak('left', l)} onDone={ovenDone} memory={memory} />}
+      {step === 'event' && node.event === 'oven' && story.oven && <OvenGame lines={story.oven} speak={l => speak('left', l)} onDone={eventDone} memory={memory} />}
+      {step === 'event' && node.event && node.event !== 'oven' && <FindGame key={nodeId} event={node.event} speak={l => { setCharVisible(true); return speak('left', l) }} onDone={eventDone} />}
 
       {(step === 'talk' || step === 'speak') && (
         <div className="flex justify-center gap-1.5 py-3" aria-label="listening">
@@ -313,8 +336,8 @@ function OvenPizza({ memory }: { memory: Record<string, string> }) {
   )
 }
 
-function OvenGame({ story, speak, onDone, memory }: {
-  story: Story
+function OvenGame({ lines, speak, onDone, memory }: {
+  lines: NonNullable<Story['oven']>
   speak: (l: StoryLine) => Promise<void>
   onDone: () => void
   memory: Record<string, string>
@@ -337,13 +360,13 @@ function OvenGame({ story, speak, onDone, memory }: {
     setPaused(true)
     const h = heatRef.current
     if (h < GOLD_FROM) {
-      await speak(story.extra.ovenEarly)
+      await speak(lines.early)
       setPaused(false)
     } else if (h <= GOLD_TO) {
-      await speak(story.extra.ovenPerfect)
+      await speak(lines.perfect)
       onDone()
     } else {
-      await speak(story.extra.ovenBurnt)
+      await speak(lines.burnt)
       setHeat(0)
       setPaused(false)
     }
@@ -389,10 +412,10 @@ function EndingSlots({ story, found, highlight }: { story: Story; found: string[
   )
 }
 
-function Cover({ story, found, onStart }: { story: Story; found: string[]; onStart: () => void }) {
+function Cover({ scene, story, found, onStart }: { scene: Scene; story: Story; found: string[]; onStart: () => void }) {
   return (
     <div className="flex flex-col gap-3">
-      <StoryBackdrop place="street">
+      <StoryBackdrop place={story.coverPlace} places={scene.places}>
         <div className="absolute z-30 right-[6%] bottom-[6%] story-walk-in"><Character emoji="🧒" name="You" talking={false} /></div>
         <div className="absolute z-40 inset-x-0 top-[38%] flex justify-center pointer-events-none">
           <div className="bounce-in bg-white/95 rounded-2xl px-5 py-2 shadow-xl border-4 border-orange-300 text-center rotate-[-2deg]">
@@ -404,9 +427,7 @@ function Cover({ story, found, onStart }: { story: Story; found: string[]; onSta
       <div className="rounded-2xl bg-amber-50 border-2 border-amber-200 px-4 py-3" dir="rtl">
         <p className="font-black text-amber-900 mb-1">📖 סיפור שאתם בוחרים!</p>
         <ul className="text-sm font-bold text-amber-800 space-y-0.5 list-none">
-          <li>🗨️ טוני מדבר — ואתם בוחרים מה לענות.</li>
-          <li>🔀 כל בחירה משנה את הסיפור.</li>
-          <li>🎤 כשאתם שומעים את המשפט שלכם — אמרו אותו בקול!</li>
+          {story.introHe.map(l => <li key={l}>{l}</li>)}
           <li>🏆 יש {story.endings.length} סופים שונים. תגלו את כולם?</li>
         </ul>
       </div>
@@ -423,33 +444,55 @@ function Cover({ story, found, onStart }: { story: Story; found: string[]; onSta
 
 const CONFETTI_COLORS = ['#f97316', '#facc15', '#22c55e', '#3b82f6', '#ec4899', '#a855f7']
 
-function EndScreen({ story, endingId, found, said, memory, onAgain }: {
+/** The pizzeria's hand-made ending pictures. */
+function PizzaEndingArt({ ending, memory }: { ending: StoryEnding; memory: Record<string, string> }) {
+  return (
+    <>
+      {ending.id === 'dishes' && [10, 30, 55, 75].map((x, i) => (
+        <span key={x} className="story-bubble-rise text-3xl z-20" style={{ left: `${x}%`, bottom: '10%', animationDelay: `${i * 0.7}s` }}>🫧</span>
+      ))}
+      {ending.id === 'birthday' && <span className="absolute z-30 left-[42%] bottom-[18%] text-5xl story-pop-up">🎂</span>}
+      {ending.id === 'birthday' && <span className="absolute z-30 left-[30%] top-[18%] text-4xl story-cloud">🎈</span>}
+      {(ending.id === 'party' || ending.id === 'picnic') && (
+        <div className="absolute z-30 left-1/2 -translate-x-1/2 bottom-[6%] story-pop-up"><PizzaView order={memory} size={92} /></div>
+      )}
+    </>
+  )
+}
+
+function EndScreen({ scene, story, endingId, found, said, memory, picked, onAgain }: {
+  scene: Scene
   story: Story
   endingId: string
   found: string[]
   said: number
   memory: Record<string, string>
+  picked: Record<string, string>
   onAgain: () => void
 }) {
   const ending = story.endings.find(e => e.id === endingId)!
   const all = found.length >= story.endings.length
+  const isPizza = scene.result === 'pizza'
+  const withChar = ending.withCharacter ?? ending.place !== 'park'
+  const counter = placeHasCounter(ending.place, scene.places)
   return (
     <div className="flex flex-col gap-3">
-      <StoryBackdrop place={ending.place}>
+      <StoryBackdrop place={ending.place} places={scene.places}>
         {CONFETTI_COLORS.flatMap((c, k) => [0, 1].map(j => (
           <span key={`${k}-${j}`} className="story-confetti z-50" style={{ left: `${8 + (k * 2 + j) * 7.5}%`, background: c, animationDelay: `${(k * 0.37 + j * 1.1) % 2.6}s` }} />
         )))}
-        {ending.id === 'dishes' && [10, 30, 55, 75].map((x, i) => (
-          <span key={x} className="story-bubble-rise text-3xl z-20" style={{ left: `${x}%`, bottom: '10%', animationDelay: `${i * 0.7}s` }}>🫧</span>
-        ))}
-        {ending.place !== 'park' && (
-          <div className={`absolute z-10 left-[6%] ${ending.place === 'kitchen' ? 'bottom-[14%]' : 'bottom-[22%]'} story-pop-up`}><Character emoji="👨‍🍳" name="Tony" talking={false} /></div>
+        {withChar && (
+          <div className={`absolute z-10 left-[6%] ${counter ? 'bottom-[14%]' : 'bottom-[22%]'} story-pop-up`}><Character emoji={scene.character.emoji} name={scene.character.name} talking={false} /></div>
         )}
-        {ending.place === 'kitchen' && <div className="absolute inset-0 z-20 pointer-events-none"><CounterFront kitchen item="🍽️" /></div>}
-        {ending.id === 'birthday' && <span className="absolute z-30 left-[42%] bottom-[18%] text-5xl story-pop-up">🎂</span>}
-        {ending.id === 'birthday' && <span className="absolute z-30 left-[30%] top-[18%] text-4xl story-cloud">🎈</span>}
-        {(ending.id === 'party' || ending.id === 'picnic') && (
-          <div className="absolute z-30 left-1/2 -translate-x-1/2 bottom-[6%] story-pop-up"><PizzaView order={memory} size={92} /></div>
+        {counter && <div className="absolute inset-0 z-20 pointer-events-none"><PlaceCounter place={ending.place} places={scene.places} item={isPizza && ending.id === 'dishes' ? '🍽️' : undefined} /></div>}
+        {isPizza && <PizzaEndingArt ending={ending} memory={memory} />}
+        {ending.props?.map((p, i) => (
+          <span key={i} className="absolute z-30 leading-none story-pop-up" style={{ left: `${p.x}%`, top: `${p.y}%`, fontSize: p.s ?? 40, animationDelay: `${0.2 + i * 0.1}s` }}>{p.e}</span>
+        ))}
+        {!isPizza && Object.keys(picked).length > 0 && (
+          <div className="absolute z-30 left-1/2 -translate-x-1/2 bottom-[5%] flex gap-1">
+            {Object.values(picked).map((e, i) => <span key={i} className="story-pop-up text-3xl drop-shadow" style={{ animationDelay: `${0.3 + i * 0.1}s` }}>{e}</span>)}
+          </div>
         )}
         <div className="absolute z-30 right-[6%] bottom-[4%] story-walk-in"><Character emoji="🧒" name="You" talking={false} /></div>
       </StoryBackdrop>
@@ -462,7 +505,11 @@ function EndScreen({ story, endingId, found, said, memory, onAgain }: {
         <p className="font-bold text-sm text-gray-500 mt-1" dir="rtl">{ending.descHe}</p>
         <div className="flex flex-wrap justify-center gap-2 mt-3" dir="rtl">
           <span className="rounded-full bg-sky-100 text-sky-700 font-black text-xs px-3 py-1">🗣️ אמרתם {said} משפטים באנגלית!</span>
-          {memory.chef === 'yes' && <span className="rounded-full bg-orange-100 text-orange-700 font-black text-xs px-3 py-1">👨‍🍳 שף מצטיין — אפיתם פיצה מושלמת</span>}
+          {memory.chef === 'yes' && (
+            <span className="rounded-full bg-orange-100 text-orange-700 font-black text-xs px-3 py-1">
+              {isPizza ? '👨‍🍳 שף מצטיין — אפיתם פיצה מושלמת' : '🏅 השלמתם את המשימה המיוחדת!'}
+            </span>
+          )}
         </div>
       </div>
 
@@ -478,3 +525,52 @@ function EndScreen({ story, endingId, found, said, memory, onAgain }: {
   )
 }
 
+// ── "Find it!" mini-game ────────────────────────────────────────────────────
+/**
+ * Tap the target emoji (event.count times) among gently floating decoys.
+ * A wrong tap just wobbles. When all are found the character says the done line.
+ */
+function FindGame({ event, speak, onDone }: { event: FindEvent; speak: (l: StoryLine) => Promise<void>; onDone: () => void }) {
+  const [items] = useState(() => {
+    const pool = [
+      ...Array.from({ length: event.count }, (_, i) => ({ id: `t${i}`, e: event.target, target: true })),
+      ...event.decoys.slice(0, 9).map((e, i) => ({ id: `d${i}`, e, target: false })),
+    ]
+    return shuffle(pool).map((it, i) => ({ ...it, x: 6 + (i % 4) * 23 + Math.random() * 6, y: 8 + Math.floor(i / 4) * 30 + Math.random() * 6, d: Math.random() * 3 }))
+  })
+  const [got, setGot] = useState<Set<string>>(new Set())
+  const [shake, setShake] = useState<string | null>(null)
+  const [done, setDone] = useState(false)
+
+  async function tap(it: { id: string; target: boolean }) {
+    if (done || got.has(it.id)) return
+    if (!it.target) { setShake(it.id); setTimeout(() => setShake(null), 450); return }
+    const next = new Set(got).add(it.id)
+    setGot(next)
+    if (next.size >= event.count) {
+      setDone(true)
+      await speak(event.doneLine)
+      onDone()
+    }
+  }
+
+  return (
+    <div className="story-pop-up rounded-3xl bg-white border-4 border-orange-200 px-3 py-3 shadow">
+      <div className="flex items-center justify-between mb-2" dir="rtl">
+        <p className="font-black text-orange-700 text-sm">{event.promptHe}</p>
+        <span className="font-black text-orange-600 text-sm whitespace-nowrap" dir="ltr">{event.target} {got.size} / {event.count}</span>
+      </div>
+      <div className="relative h-52 rounded-2xl bg-gradient-to-b from-sky-50 to-amber-50 border-2 border-sky-100 overflow-hidden">
+        {items.map(it => (
+          <button
+            key={it.id}
+            onClick={() => tap(it)}
+            aria-label={it.target ? 'found it' : 'not this one'}
+            className={`absolute text-4xl leading-none transition-all duration-300 animate-float ${got.has(it.id) ? 'scale-0 opacity-0' : 'active:scale-90'} ${shake === it.id ? 'shake' : ''}`}
+            style={{ left: `${it.x}%`, top: `${it.y}%`, animationDelay: `${-it.d}s` }}
+          >{it.e}</button>
+        ))}
+      </div>
+    </div>
+  )
+}

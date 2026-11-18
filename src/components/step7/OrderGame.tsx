@@ -5,7 +5,7 @@ import { sayLine } from '@/utils/sceneAudio'
 import { stopAudio } from '@/utils/audioPlayer'
 import { shuffle } from '@/utils/shuffle'
 import { SceneStage, type Bubble } from '@/components/step7/SceneStage'
-import { PizzaView, Receipt } from '@/components/step7/PizzaView'
+import { ResultView } from '@/components/step7/ResultView'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 /**
@@ -86,10 +86,9 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
     return (
       <div className="text-center bounce-in">
         <div className="text-5xl mb-1">🎉</div>
-        <p className="font-display font-bold text-2xl text-orange-600 mb-1">Your order is ready!</p>
-        <p className="font-bold text-gray-500 mb-4" dir="rtl">הזמנתם פיצה באנגלית — כל הכבוד!</p>
-        <PizzaView order={order} />
-        <div className="my-4"><Receipt order={order} /></div>
+        <p className="font-display font-bold text-2xl text-orange-600 mb-1">{scene.ui.doneEn}</p>
+        <p className="font-bold text-gray-500 mb-4" dir="rtl">{scene.ui.doneHe}</p>
+        <ResultView scene={scene} order={order} />
         <StarOnComplete step="step7" onAgain={onAgain} />
       </div>
     )
@@ -98,18 +97,18 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
   return (
     <div className="flex flex-col gap-3">
       <SceneStage
+        scene={scene}
         left={{ emoji: char.emoji, name: char.name }}
         right={{ emoji: '🧒', name: 'You' }}
         bubble={bubble}
         talking={talking}
-        sign={`🍕 ${scene.title}`}
       />
 
-      {started && Object.keys(order).length > 0 && <PizzaView order={order} compact />}
+      {started && Object.keys(order).length > 0 && <ResultView scene={scene} order={order} compact />}
 
       {!started ? (
         <button onClick={begin} className="btn-kid bg-orange-500 w-full text-xl">
-          🍕 Let&apos;s go! <span className="text-sm block font-bold" dir="rtl">(נכנסים לפיצרייה)</span>
+          {scene.emoji} {scene.ui.startEn} <span className="text-sm block font-bold" dir="rtl">({scene.ui.startHe})</span>
         </button>
       ) : (
         <>

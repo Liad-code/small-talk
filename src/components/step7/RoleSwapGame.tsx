@@ -5,7 +5,7 @@ import { sayLine } from '@/utils/sceneAudio'
 import { stopAudio } from '@/utils/audioPlayer'
 import { shuffle } from '@/utils/shuffle'
 import { SceneStage, type Bubble } from '@/components/step7/SceneStage'
-import { PizzaView, Receipt } from '@/components/step7/PizzaView'
+import { ResultView } from '@/components/step7/ResultView'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 /**
@@ -94,11 +94,10 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
   if (phase === 'finished') {
     return (
       <div className="text-center bounce-in">
-        <div className="text-5xl mb-1">👨‍🍳🎉</div>
-        <p className="font-display font-bold text-2xl text-orange-600 mb-1">Great job, Chef!</p>
-        <p className="font-bold text-gray-500 mb-4" dir="rtl">הייתם טוני ושירתתם את הלקוח באנגלית!</p>
-        <PizzaView order={wanted} />
-        <div className="my-4"><Receipt order={wanted} /></div>
+        <div className="text-5xl mb-1">{char.emoji}🎉</div>
+        <p className="font-display font-bold text-2xl text-orange-600 mb-1">{scene.ui.swapDoneEn}</p>
+        <p className="font-bold text-gray-500 mb-4" dir="rtl">{scene.ui.swapDoneHe}</p>
+        <ResultView scene={scene} order={wanted} />
         <StarOnComplete step="step7" onAgain={onAgain} />
       </div>
     )
@@ -107,20 +106,20 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
   return (
     <div className="flex flex-col gap-3">
       <SceneStage
+        scene={scene}
         left={{ emoji: char.emoji, name: `${char.name} (You)` }}
-        right={{ emoji: '🧒', name: 'Customer' }}
+        right={{ emoji: '🧒', name: scene.ui.customerName }}
         bubble={bubble}
         talking={talking}
-        sign={`🍕 ${scene.title}`}
       />
 
       {!started ? (
         <div className="text-center">
           <p className="font-bold text-gray-600 mb-3" dir="rtl">
-            עכשיו אתם טוני! שאלו את הלקוח מה הוא רוצה, זכרו את ההזמנה והכינו לו בדיוק אותה.
+            {scene.ui.introHe.swap}
           </p>
           <button onClick={() => setStarted(true)} className="btn-kid bg-orange-500 w-full text-xl">
-            👨‍🍳 Open the shop! <span className="text-sm block font-bold" dir="rtl">(פותחים את הפיצרייה)</span>
+            {char.emoji} {scene.ui.swapStartEn} <span className="text-sm block font-bold" dir="rtl">({scene.ui.swapStartHe})</span>
           </button>
         </div>
       ) : (
@@ -134,7 +133,7 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
 
           {phase === 'make' ? (
             <div className="flex flex-col gap-3">
-              <p className="text-center font-black text-orange-600" dir="rtl">הכינו ללקוח בדיוק את מה שהזמין:</p>
+              <p className="text-center font-black text-orange-600" dir="rtl">{scene.ui.makeTitleHe}</p>
               {scene.makeSlots.map(slot => (
                 <div key={slot.slot}>
                   <p className="text-sm font-black text-gray-500 mb-1" dir="rtl">{slot.titleHe}</p>
@@ -153,19 +152,19 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
                   </div>
                 </div>
               ))}
-              <PizzaView order={made} compact />
+              <ResultView scene={scene} order={made} compact />
               <button
                 onClick={serve}
                 disabled={busy || scene.makeSlots.some(s => !made[s.slot])}
                 className="btn-kid bg-green-500 w-full disabled:opacity-40"
               >
-                🍕 Here you go! <span className="text-xs block" dir="rtl">(הגישו ללקוח)</span>
+                {scene.emoji} {scene.ui.serveEn} <span className="text-xs block" dir="rtl">({scene.ui.serveHe})</span>
               </button>
             </div>
           ) : (
             <>
               <div className="flex items-center justify-between" dir="rtl">
-                <span className="text-xs font-black text-gray-400">מה טוני אומר עכשיו?</span>
+                <span className="text-xs font-black text-gray-400">{scene.ui.swapAskHe}</span>
                 <button
                   onClick={() => setShowHint(h => !h)}
                   className="text-sm font-black rounded-full px-3 py-1 bg-amber-100 text-amber-700 border-2 border-amber-200"
@@ -187,12 +186,12 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
                       className={`w-full text-left rounded-2xl border-4 px-4 py-3 font-bold text-[17px] transition-all
                         ${isWrong ? 'border-gray-200 bg-gray-50 text-gray-300 line-through' : 'border-orange-200 bg-white text-gray-800 active:scale-[0.98] hover:border-orange-400'}`}
                     >
-                      👨‍🍳 {text}
+                      {char.emoji} {text}
                     </button>
                   )
                 })}
               </div>
-              <p className="text-center text-xs font-bold text-gray-400" dir="rtl">🗣️ אמרו את המשפט של טוני בקול!</p>
+              <p className="text-center text-xs font-bold text-gray-400" dir="rtl">🗣️ {scene.ui.swapSayHe}</p>
             </>
           )}
         </>

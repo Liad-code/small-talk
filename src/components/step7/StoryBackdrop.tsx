@@ -1,5 +1,5 @@
 'use client'
-import type { Place } from '@/data/step7/types'
+import type { Place, PlaceArt } from '@/data/step7/types'
 
 /**
  * Illustrated places for Story mode, drawn with CSS + emoji (no image files,
@@ -122,15 +122,72 @@ function Park() {
   )
 }
 
-const PLACES: Record<Place, () => JSX.Element> = {
+const PLACES: Record<string, () => JSX.Element> = {
   street: Street, counter: Counter, kitchen: Kitchen, oven: Oven, table: Table, park: Park,
 }
 
-export function StoryBackdrop({ place, children, className = '' }: { place: Place; children?: React.ReactNode; className?: string }) {
-  const Art = PLACES[place]
+const ANIM: Record<string, string> = { cloud: 'story-cloud', float: 'animate-float', flicker: 'story-flicker', glow: 'story-glow' }
+
+/** A place described in scene data: wall, floor band, emoji decorations, a sign. */
+function DataPlace({ art }: { art: PlaceArt }) {
+  return (
+    <>
+      <div className="absolute inset-0" style={{ background: art.bg }} />
+      {art.floor && (
+        <div
+          className="absolute inset-x-0 bottom-0"
+          style={{ height: `${art.floor.h}%`, background: art.floor.bg, borderTop: art.floor.border ? `4px solid ${art.floor.border}` : undefined }}
+        />
+      )}
+      {art.decor?.map((d, i) => (
+        <span
+          key={i}
+          className={`absolute leading-none select-none ${d.anim ? ANIM[d.anim] : ''}`}
+          style={{ left: `${d.x}%`, top: `${d.y}%`, fontSize: d.s ?? 30, animationDelay: `${-i * 0.7}s` }}
+          aria-hidden="true"
+        >{d.e}</span>
+      ))}
+      {art.sign && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-[4%] bg-red-600 text-white font-display font-black text-sm sm:text-base px-4 py-1 rounded-full shadow-lg border-2 border-yellow-300 whitespace-nowrap">
+          {art.sign}
+        </div>
+      )}
+    </>
+  )
+}
+
+/** Does this place have a counter in front of the character? */
+export function placeHasCounter(place: Place, places?: Record<string, PlaceArt>): boolean {
+  if (place === 'counter' || place === 'kitchen') return true
+  return !!places?.[place]?.counter
+}
+
+/** The counter strip in front of the character, for built-in or data places. */
+export function PlaceCounter({ place, places, item }: { place: Place; places?: Record<string, PlaceArt>; item?: string }) {
+  const c = places?.[place]?.counter
+  if (c) {
+    return (
+      <div className="absolute inset-x-0 bottom-0 h-[24%]" style={{ background: c.bg, borderTop: `6px solid ${c.border}` }}>
+        {(item ?? c.item) && <span className="absolute left-[28%] -top-7 text-3xl">{item ?? c.item}</span>}
+      </div>
+    )
+  }
+  return <CounterFront kitchen={place === 'kitchen'} item={item} />
+}
+
+export function StoryBackdrop({ place, places, children, className = '' }: {
+  place: Place
+  places?: Record<string, PlaceArt>
+  children?: React.ReactNode
+  className?: string
+}) {
+  const Built = PLACES[place]
+  const art = places?.[place]
   return (
     <div className={`relative w-full aspect-[16/11] max-h-[340px] rounded-3xl overflow-hidden border-4 border-orange-200 shadow-lg ${className}`}>
-      <div key={place} className="story-place-in absolute inset-0"><Art /></div>
+      <div key={place} className="story-place-in absolute inset-0">
+        {art ? <DataPlace art={art} /> : Built ? <Built /> : <div className="absolute inset-0 bg-gradient-to-b from-sky-200 to-sky-50" />}
+      </div>
       {children}
     </div>
   )
