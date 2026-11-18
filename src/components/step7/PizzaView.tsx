@@ -4,10 +4,12 @@ const TOPPING_ICON: Record<string, string> = {
   cheese: '🧀', mushrooms: '🍄', olives: '🫒', peppers: '🫑', corn: '🌽',
 }
 const DRINK_ICON: Record<string, string> = { 'orange juice': '🧃', water: '💧' }
-const SIZE_R: Record<string, number> = { small: 52, medium: 66, large: 80 }
+const SIZE_R: Record<string, number> = { small: 52, medium: 66, large: 80, giant: 94 }
+/** How baked the pizza looks (Story mode oven). */
+const BAKE_FILTER: Record<string, string> = { raw: 'saturate(.55) brightness(1.18)', golden: 'none', burnt: 'brightness(.42) sepia(.9)' }
 
 /** The child's pizza, drawn from their order — it grows and gets toppings as they choose. */
-export function PizzaView({ order, compact = false }: { order: Record<string, string>; compact?: boolean }) {
+export function PizzaView({ order, compact = false, bake, size }: { order: Record<string, string>; compact?: boolean; bake?: 'raw' | 'golden' | 'burnt'; size?: number }) {
   const r = SIZE_R[order.size] ?? 66
   const topping = order.topping ? TOPPING_ICON[order.topping] : null
   const spots = Array.from({ length: 8 }, (_, i) => {
@@ -15,10 +17,10 @@ export function PizzaView({ order, compact = false }: { order: Record<string, st
     const d = r * 0.55
     return { x: 100 + Math.cos(a) * d, y: 100 + Math.sin(a) * d }
   })
-  const box = compact ? 120 : 180
+  const box = size ?? (compact ? 120 : 180)
   return (
     <div className="flex items-end justify-center gap-2" aria-label="your pizza">
-      <svg viewBox="0 0 200 200" width={box} height={box} className="drop-shadow-md">
+      <svg viewBox="0 0 200 200" width={box} height={box} className="drop-shadow-md transition-[filter] duration-300" style={bake ? { filter: BAKE_FILTER[bake] } : undefined}>
         <circle cx="100" cy="100" r={r} fill="#e9a94f" />
         <circle cx="100" cy="100" r={r - 8} fill="#d9472b" />
         <circle cx="100" cy="100" r={r - 13} fill="#f8d66a" />

@@ -6,9 +6,12 @@ import { PIZZERIA } from '@/data/step7/pizzeria'
 import { sayLine } from '@/utils/sceneAudio'
 import { OrderGame } from '@/components/step7/OrderGame'
 import { RoleSwapGame } from '@/components/step7/RoleSwapGame'
+import { StoryGame } from '@/components/step7/StoryGame'
+import { PIZZERIA_STORY } from '@/data/step7/pizzeriaStory'
 
-type Tab = 'learn' | 'order' | 'build' | 'swap'
+type Tab = 'story' | 'learn' | 'order' | 'build' | 'swap'
 const TABS: { id: Tab; label: string }[] = [
+  { id: 'story', label: '📖 Story' },
   { id: 'learn', label: '📚 Learn' },
   { id: 'order', label: '🗣️ Order' },
   { id: 'build', label: '🧩 Build' },
@@ -16,7 +19,7 @@ const TABS: { id: Tab; label: string }[] = [
 ]
 const TAB_BASE = 'px-3 py-1.5 rounded-full font-bold text-xs transition-colors whitespace-nowrap'
 
-const MODE_INTRO: Record<Exclude<Tab, 'learn'>, string> = {
+const MODE_INTRO: Record<Exclude<Tab, 'learn' | 'story'>, string> = {
   order: 'טוני שואל — אתם בוחרים מה לענות. אחרי שבוחרים, אמרו את המשפט בקול!',
   build: 'הפעם בונים את התשובה לבד: בחרו מה אתם רוצים והקישו על המילים לפי הסדר.',
   swap:  'מתחלפים! אתם טוני הפיצאי — שאלו את הלקוח, זכרו מה הזמין והכינו לו את הפיצה.',
@@ -49,7 +52,16 @@ function LearnTab() {
   )
 }
 
-function ModeTab({ mode }: { mode: Exclude<Tab, 'learn'> }) {
+function StoryTab() {
+  const [run, setRun] = useState(0)
+  return (
+    <div className="max-w-xl mx-auto px-4 pb-16">
+      <StoryGame key={run} story={PIZZERIA_STORY} onAgain={() => setRun(r => r + 1)} />
+    </div>
+  )
+}
+
+function ModeTab({ mode }: { mode: Exclude<Tab, 'learn' | 'story'> }) {
   const [run, setRun] = useState(0) // bumping it restarts the scene from the start
   return (
     <div className="max-w-xl mx-auto px-4 pb-16">
@@ -62,7 +74,7 @@ function ModeTab({ mode }: { mode: Exclude<Tab, 'learn'> }) {
 }
 
 export default function PizzeriaPage() {
-  const [tab, setTab] = useState<Tab>('learn')
+  const [tab, setTab] = useState<Tab>('story')
   return (
     <div className="min-h-screen">
       <Header />
@@ -85,7 +97,7 @@ export default function PizzeriaPage() {
         </div>
       </div>
       <div className="pt-4">
-        {tab === 'learn' ? <LearnTab /> : <ModeTab key={tab} mode={tab} />}
+        {tab === 'story' ? <StoryTab /> : tab === 'learn' ? <LearnTab /> : <ModeTab key={tab} mode={tab} />}
       </div>
     </div>
   )

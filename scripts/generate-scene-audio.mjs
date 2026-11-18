@@ -16,11 +16,13 @@ import { readFile, writeFile, mkdir, access } from 'node:fs/promises'
 import path from 'node:path'
 import { audioKey } from '../src/utils/audioKey.ts'
 import { PIZZERIA, sceneLines } from '../src/data/step7/pizzeria.ts'
+import { PIZZERIA_STORY, storyLines } from '../src/data/step7/pizzeriaStory.ts'
 import { SCENE_VOICES, SCENE_TTS } from '../src/data/step7/voices.ts'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const OUT_DIR = path.join(ROOT, 'public', 'audio', 'scenes')
 const SCENES = [PIZZERIA]
+const STORIES = [PIZZERIA_STORY]
 const DRY = process.argv.includes('--dry')
 
 const exists = p => access(p).then(() => true, () => false)
@@ -49,7 +51,13 @@ async function synthesize(key, voiceId, text) {
 }
 
 async function main() {
-  const lines = SCENES.flatMap(scene => sceneLines(scene).map(l => ({ ...l, scene: scene.id })))
+  const all = [
+    ...SCENES.flatMap(scene => sceneLines(scene)),
+    ...STORIES.flatMap(story => storyLines(story)),
+  ]
+  // de-duplicate across scene + story (same speaker + text = one recording)
+  const seen = new Set()
+  const lines = all.filter(l => { const k = l.speaker + '|' + l.text.trim().toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true })
   const todo = []
   for (const l of lines) {
     const key = audioKey(l.text, `scene-${l.speaker}`)

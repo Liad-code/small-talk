@@ -63,3 +63,67 @@ export interface Scene {
   /** Learn tab: key phrases (speaker, English, Hebrew). */
   phrases: { speaker: Speaker; en: string; he: string }[]
 }
+
+// ── Story mode ────────────────────────────────────────────────────────────
+// A branching story: each node is a moment in one place; the child's choices
+// decide where the story goes (and which ending they reach).
+
+/** Where a story moment happens — each place has its own illustrated backdrop. */
+export type Place = 'street' | 'counter' | 'oven' | 'table' | 'park' | 'kitchen'
+
+/** A line the character says, with its Hebrew translation (shown on request). */
+export interface StoryLine { text: string; he: string }
+
+export interface StoryChoice {
+  say: string             // the child's line (recorded in the kid voice)
+  he: string              // Hebrew meaning, small under the English
+  icon: string
+  /** Node to go to. Omit to stay (a silly answer gets its reaction and a retry). */
+  next?: string
+  /** The character's reply before moving on (its own recording). */
+  reply?: StoryLine
+  /** Silly answer: the character's funny reaction; the child tries again. */
+  silly?: StoryLine
+  /** Story memory this choice sets (e.g. birthday: 'yes', size: 'large'). */
+  set?: Record<string, string>
+  /** Topping-style choices: may be "sold out" once per story (a small twist). */
+  canSellOut?: boolean
+  /** Conditional next: the first rule whose memory matches wins (else next). */
+  nextIf?: { key: string; value: string; next: string }[]
+}
+
+export interface StoryNode {
+  id: string
+  place: Place
+  chapter: number          // which icon on the story map lights up
+  narrationHe: string      // the story text (Hebrew), shown as the page caption
+  lines: StoryLine[]       // what the character says when the moment opens
+  choices?: StoryChoice[]
+  /** How many choices (besides silly ones) to show — shuffled each play. */
+  showChoices?: number
+  /** A special interaction instead of choices. */
+  event?: 'oven'
+  /** Where an event or a choice-less node continues. */
+  next?: string
+  /** Ending nodes: which ending this is. */
+  ending?: string
+}
+
+export interface StoryEnding { id: string; emoji: string; title: string; titleHe: string; descHe: string; place: Place }
+
+export interface Story {
+  id: string
+  title: string
+  titleHe: string
+  start: string
+  nodes: StoryNode[]
+  endings: StoryEnding[]
+  chapters: { icon: string; he: string }[]
+  /** Fixed lines used by events / twists. */
+  extra: {
+    soldOut: StoryLine
+    ovenEarly: StoryLine
+    ovenBurnt: StoryLine
+    ovenPerfect: StoryLine
+  }
+}
