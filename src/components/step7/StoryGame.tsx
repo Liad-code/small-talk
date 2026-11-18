@@ -11,13 +11,13 @@ import { StarOnComplete } from '@/components/shared/StarOnComplete'
 /**
  * Story mode — a branching adventure. The character talks, the child picks
  * what to say (each choice changes the story), hears the line in the kid
- * voice with the words lighting up, then says it aloud ("Your turn!") before
+ * voice with the words lighting up (and says it aloud with it) before
  * the story moves on. Endings found are remembered on this device.
  */
 
 type Side = 'left' | 'right'
 interface Bubble { side: Side; text: string; he: string; n: number }
-type Step = 'talk' | 'choose' | 'speak' | 'turn' | 'event'
+type Step = 'talk' | 'choose' | 'speak' | 'event'
 
 const ENDINGS_KEY = 'smalltalk_step7_endings'
 function loadFound(storyId: string): string[] {
@@ -43,12 +43,11 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
   const [found, setFound] = useState<string[]>([])
   const [endingId, setEndingId] = useState<string | null>(null)
   const soldOutUsed = useRef(false)
-  const turnDone = useRef<(() => void) | null>(null)
   const bubbleN = useRef(0)
   const alive = useRef(true)
 
   useEffect(() => { setFound(loadFound(story.id)) }, [story.id])
-  useEffect(() => () => { alive.current = false; stopAudio(); turnDone.current?.() }, [])
+  useEffect(() => () => { alive.current = false; stopAudio() }, [])
 
   const node = byId.get(nodeId)!
 
@@ -87,11 +86,6 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
     if (step !== 'choose') return
     setStep('speak')
     await speak('right', { text: c.say, he: c.he })
-    if (!alive.current) return
-    // the child's turn to say it aloud
-    setStep('turn')
-    await new Promise<void>(resolve => { turnDone.current = resolve })
-    turnDone.current = null
     if (!alive.current) return
     setSaid(s => s + 1)
     setStep('talk')
@@ -250,8 +244,6 @@ export function StoryGame({ story, onAgain }: { story: Story; onAgain: () => voi
         </div>
       )}
 
-      {step === 'turn' && bubble && <YourTurn text={bubble.text} onReplay={() => sayLine('kid', bubble.text)} onDone={() => turnDone.current?.()} />}
-
       {step === 'event' && node.event === 'oven' && <OvenGame story={story} speak={l => speak('left', l)} onDone={ovenDone} memory={memory} />}
 
       {(step === 'talk' || step === 'speak') && (
@@ -288,28 +280,6 @@ function ChapterMap({ story, current }: { story: Story; current: number }) {
             ${i === current ? 'w-9 h-9 text-lg bg-orange-500 border-orange-600 shadow-[0_0_0_4px_rgba(251,146,60,.3)]' : i < current ? 'w-6 h-6 text-xs bg-orange-200 border-orange-300' : 'w-6 h-6 text-xs bg-white border-orange-100 grayscale opacity-60'}`}
         >{c.icon}</span>
       ))}
-    </div>
-  )
-}
-
-/** "Your turn!" — the child says the line aloud (nothing is recorded). */
-function YourTurn({ text, onReplay, onDone }: { text: string; onReplay: () => void; onDone: () => void }) {
-  const [ready, setReady] = useState(false)
-  useEffect(() => { const t = setTimeout(() => setReady(true), 1100); return () => clearTimeout(t) }, [])
-  return (
-    <div className="story-pop-up rounded-3xl bg-gradient-to-b from-sky-50 to-white border-4 border-sky-300 px-4 py-4 text-center shadow">
-      <div className="flex items-center justify-center gap-2 mb-2" dir="rtl">
-        <span className="story-mic w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center text-xl">🎤</span>
-        <p className="font-black text-sky-700 text-lg">עכשיו תורכם! אמרו בקול:</p>
-      </div>
-      <p className="font-black text-2xl text-gray-800 leading-snug mb-3" dir="ltr">{text}</p>
-      <div className="story-wave flex justify-center items-center gap-1 h-8 text-sky-400 mb-3" aria-hidden="true">
-        {[0, 1, 2, 3, 4, 5, 6].map(i => <span key={i} style={{ height: `${14 + (i % 3) * 8}px`, animationDelay: `${i * 0.11}s` }} />)}
-      </div>
-      <div className="flex gap-2 justify-center" dir="rtl">
-        <button onClick={onReplay} className="rounded-full px-4 py-2 font-black text-sm bg-sky-100 text-sky-700 border-2 border-sky-200 active:scale-95">🔊 שמעו שוב</button>
-        <button onClick={onDone} disabled={!ready} className="btn-kid bg-green-500 !py-2 !px-5 text-base disabled:opacity-40">✅ אמרתי!</button>
-      </div>
     </div>
   )
 }
@@ -436,7 +406,7 @@ function Cover({ story, found, onStart }: { story: Story; found: string[]; onSta
         <ul className="text-sm font-bold text-amber-800 space-y-0.5 list-none">
           <li>🗨️ טוני מדבר — ואתם בוחרים מה לענות.</li>
           <li>🔀 כל בחירה משנה את הסיפור.</li>
-          <li>🎤 אחרי כל משפט — אמרו אותו בקול!</li>
+          <li>🎤 כשאתם שומעים את המשפט שלכם — אמרו אותו בקול!</li>
           <li>🏆 יש {story.endings.length} סופים שונים. תגלו את כולם?</li>
         </ul>
       </div>
