@@ -54,6 +54,7 @@ export function playAudio(text: string, variant?: string): void {
   lastRequest = variant ? `${text} (${variant})` : text
 
   audio.pause()
+  settlePending() // a chained scene line being interrupted must not hang its chain
   // Re-assigning the same src does not reliably restart playback, so a repeat
   // tap on the same letter rewinds instead. Children tap the same card often.
   if (audio.src && new URL(audio.src, window.location.href).pathname === url) {
@@ -70,4 +71,41 @@ export function playAudio(text: string, variant?: string): void {
 /** Stops playback — the equivalent of the old `speechSynthesis.cancel()`. */
 export function stopAudio(): void {
   if (el) el.pause()
+  settlePending()
+}
+
+// ── Sequenced playback (Step 7 scenes) ─────────────────────────────────────
+// Scenes chain lines (character → child → character), so they need to know
+// when a line ENDS. Same shared element as everything else, so the iOS unlock
+// and "a new sound interrupts the old one" still hold.
+let pendingResolve: (() => void) | null = null
+
+function settlePending() {
+  const r = pendingResolve
+  pendingResolve = null
+  if (r) r()
+}
+
+/**
+ * Plays an audio file by URL and resolves when it ends — or when it fails or
+ * is interrupted by the next sound, so a chain never hangs.
+ */
+export function playAudioSrc(url: string, label = url): Promise<void> {
+  if (typeof window === 'undefined') return Promise.resolve()
+  settlePending() // the previous chained line (if any) is being interrupted
+  const audio = element()
+  lastRequest = label
+  audio.pause()
+  audio.src = url
+  return new Promise<void>(resolve => {
+    pendingResolve = resolve
+    const finish = () => {
+      audio.removeEventListener('ended', finish)
+      audio.removeEventListener('error', finish)
+      if (pendingResolve === resolve) settlePending()
+    }
+    audio.addEventListener('ended', finish)
+    audio.addEventListener('error', finish)
+    audio.play().catch(finish)
+  })
 }

@@ -9,6 +9,7 @@
 //   step4 present tenses                                         → 40
 //   step5 largest grammar step (past/will/going-to/adjectives…)  → 70
 //   step6 short review/mixed step                                → 20
+//   step7 speaking scenes (4 modes per scene, repeatable)         → 30
 // All targets are multiples of TROPHY_INTERVAL so a trophy lands on every step.
 export const TROPHY_INTERVAL = 10
 
@@ -30,9 +31,10 @@ export const STEP_STAR_META: Record<string, StepStarMeta> = {
   step4: { he: 'שלב 4', en: 'Step 4', emoji: '🦅', star: 'text-rose-500',    chipBg: 'from-rose-400 to-red-500',       ring: 'border-rose-300',    soft: 'bg-rose-50',    target: 40 },
   step5: { he: 'שלב 5', en: 'Step 5', emoji: '🚀', star: 'text-indigo-500',  chipBg: 'from-indigo-400 to-blue-500',    ring: 'border-indigo-300',  soft: 'bg-indigo-50',  target: 70 },
   step6: { he: 'שלב 6', en: 'Step 6', emoji: '🏆', star: 'text-fuchsia-500', chipBg: 'from-fuchsia-400 to-purple-500', ring: 'border-fuchsia-300', soft: 'bg-fuchsia-50', target: 20 },
+  step7: { he: 'שלב 7', en: 'Step 7', emoji: '🗣️', star: 'text-sky-500',     chipBg: 'from-sky-400 to-cyan-500',      ring: 'border-sky-300',     soft: 'bg-sky-50',     target: 30 },
 }
 
-export const STEP_ORDER = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'] as const
+export const STEP_ORDER = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'] as const
 
 /** Trophy milestones for a step: one bigger trophy every TROPHY_INTERVAL stars, up to the target. */
 export function trophyTiers(step: string): number[] {

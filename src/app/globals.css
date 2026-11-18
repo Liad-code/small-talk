@@ -270,3 +270,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .star-bob, .star-glow, .star-shine, .star-hint, .spark-fly, .shockwave, .flash, .plus-one { animation: none !important; }
 }
+
+/* Step 7 scenes — the speaking character bobs while their line plays */
+@keyframes scene-talk {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.04); }
+}
+.scene-talking { animation: scene-talk 0.36s ease-in-out infinite; display: inline-block; }

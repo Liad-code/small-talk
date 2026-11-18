@@ -23,7 +23,7 @@ const payloadSchema = z.object({
       stars: z.number().int().min(0).max(1_000_000),
     })
     .optional(),
-  stepStars: z.record(z.enum(['step2', 'step3', 'step4', 'step5', 'step6']), z.number().int().min(0).max(1_000_000)).optional(),
+  stepStars: z.record(z.enum(['step2', 'step3', 'step4', 'step5', 'step6', 'step7']), z.number().int().min(0).max(1_000_000)).optional(),
 })
 
 /** GET: full progress snapshot for the active child (server is source of truth). */

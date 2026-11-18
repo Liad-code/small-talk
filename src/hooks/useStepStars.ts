@@ -5,7 +5,7 @@ import { pushProgress } from '@/lib/progressSync'
 const STORAGE_KEY = 'smalltalk_stepstars'
 const CHANGE_EVENT = 'smalltalk-stepstars-change'
 
-export type StarStep = 'step2' | 'step3' | 'step4' | 'step5' | 'step6'
+export type StarStep = 'step2' | 'step3' | 'step4' | 'step5' | 'step6' | 'step7'
 
 type StepStars = Record<string, number> // step id → total stars (additive, repeatable)
 

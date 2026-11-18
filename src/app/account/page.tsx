@@ -33,6 +33,7 @@ const STEP_LABELS: [string, string][] = [
   ['step4', 'שלב 4'],
   ['step5', 'שלב 5'],
   ['step6', 'שלב 6'],
+  ['step7', 'שלב 7'],
 ]
 
 function timeAgo(iso: string | null): string {
