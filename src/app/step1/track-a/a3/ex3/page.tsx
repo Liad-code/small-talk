@@ -7,6 +7,16 @@ import { shuffle } from '@/utils/shuffle'
 
 const ABC_ORDER = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
+/**
+ * Mobile: 26 pieces + 26 tiles don't fit on a phone screen (the child had to
+ * drag from the bottom of a long page to a small target scrolled out of view),
+ * so the alphabet is played in 4 short rounds — a–g, h–n, o–t, u–z — with
+ * bigger pieces and the round's tiles right underneath.
+ */
+const ROUNDS = [ABC_ORDER.slice(0, 7), ABC_ORDER.slice(7, 14), ABC_ORDER.slice(14, 20), ABC_ORDER.slice(20)]
+const PIECE_W = 128
+const PIECE_H = 74
+
 function getGroup(letter: string) {
   return LETTER_GROUPS.find(g => g.letters.includes(letter))!
 }
@@ -32,15 +42,24 @@ const LEFT_PATH  = 'M 0 0 H 40 V 16 C 54 16 54 30 40 30 V 46 H 0 Z'
 const RIGHT_PATH = 'M 40 0 H 80 V 46 H 40 V 30 C 54 30 54 16 40 16 Z'
 
 function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
+  const [round, setRound] = useState(0)
   const [tiles, setTiles] = useState<string[]>([])
   const [matched, setMatched] = useState<Set<string>>(new Set())
+  const letters = ROUNDS[round]
 
   useEffect(() => {
-    setTiles(shuffle([...ABC_ORDER]))
-    setMatched(new Set())
-  }, [])
+    setTiles(shuffle([...ROUNDS[round]]))
+  }, [round])
 
+  const roundDone = letters.every(l => matched.has(l))
   const allDone = matched.size === 26
+
+  // a finished round moves on by itself after a short celebration
+  useEffect(() => {
+    if (!roundDone || allDone) return
+    const t = setTimeout(() => setRound(r => r + 1), 900)
+    return () => clearTimeout(t)
+  }, [roundDone, allDone])
 
   useEffect(() => {
     if (!allDone) return
@@ -59,14 +78,17 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
   }, [matched])
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <p className="text-center text-gray-400 font-bold text-sm mb-4" dir="rtl">
-        חבר כל אות קטנה לאות הגדולה שלה — גרור לחצי הפאזל הנכון!
-      </p>
+    <div className="px-3 py-3 max-w-2xl mx-auto">
+      <div className="flex items-center justify-between mb-3" dir="rtl">
+        <p className="text-gray-400 font-bold text-sm">גררו כל אות קטנה לפאזל של האות הגדולה שלה!</p>
+        <span className="flex-shrink-0 text-xs font-black text-indigo-500 bg-indigo-50 rounded-full px-2.5 py-1">
+          סבב {round + 1} מתוך {ROUNDS.length}
+        </span>
+      </div>
 
-      {/* Puzzle pairs */}
-      <div className="flex flex-wrap justify-center gap-3 mb-6">
-        {ABC_ORDER.map((letter, i) => {
+      {/* Puzzle pairs — this round only */}
+      <div key={round} className="grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-x-2 gap-y-3 mb-4 bounce-in">
+        {letters.map((letter, i) => {
           const group = getGroup(letter)
           const colors = PUZZLE_COLORS[group.id] ?? { fill: '#f1f5f9', stroke: '#cbd5e1', text: '#475569' }
           const done = matched.has(letter)
@@ -78,9 +100,9 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
               className={`transition-transform duration-200 ${done ? 'rotate-0 drop-success' : rot}`}
             >
               {/* Single SVG renders both interlocking halves */}
-              <div className="relative" style={{ width: 80, height: 46 }}>
+              <div className="relative" style={{ width: PIECE_W, height: PIECE_H }}>
                 <svg
-                  width="80" height="46" viewBox="0 0 80 46"
+                  width={PIECE_W} height={PIECE_H} viewBox="0 0 80 46"
                   fill="none" style={{ display: 'block', pointerEvents: 'none' }}
                 >
                   {/* Left half — uppercase letter with tab on right */}
@@ -129,12 +151,12 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
                   )}
                 </svg>
 
-                {/* Invisible drop target overlay covering the right half */}
+                {/* Invisible drop target over the whole piece (big target for small fingers) */}
                 <div
                   data-drop-target="true"
                   data-expected-ids={JSON.stringify([letter])}
                   data-target-id={letter}
-                  style={{ position: 'absolute', left: 40, top: 0, width: 40, height: 46 }}
+                  style={{ position: 'absolute', inset: 0 }}
                 />
               </div>
             </div>
@@ -145,11 +167,8 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
       {/* Tile bank */}
       {tiles.length > 0 && (
         <div className="border-t-2 border-dashed border-gray-200 pt-3">
-          <p className="text-xs text-gray-400 font-bold text-center mb-3" dir="rtl">
-            גרור את האות הקטנה לחצי הפאזל הנכון:
-          </p>
           <div className="pb-3">
-            <div className="flex gap-2 px-2 mx-auto justify-center flex-wrap max-w-xs sm:max-w-sm">
+            <div className="flex gap-2.5 px-1 mx-auto justify-center flex-wrap max-w-sm">
               {tiles.map(letter => {
                 const group = getGroup(letter)
                 return (
@@ -160,7 +179,7 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
                     color={group.bgColor}
                     borderColor={group.borderColor}
                     textColor={group.textColor}
-                    size="md"
+                    size="lg"
                     onDropped={handleDrop}
                   />
                 )
@@ -170,6 +189,9 @@ function A3Ex3Exercise({ onComplete }: { onComplete: () => void }) {
         </div>
       )}
 
+      {roundDone && !allDone && (
+        <p className="text-center font-black text-green-500 text-lg bounce-in" dir="rtl">כל הכבוד! ממשיכים…</p>
+      )}
       {matched.size > 0 && (
         <p className="text-center text-indigo-500 font-bold text-sm mt-2">
           {matched.size}/26 ✓
