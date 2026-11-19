@@ -25,6 +25,8 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
   const [wrong, setWrong] = useState<Set<string>>(new Set())
   const [showHint, setShowHint] = useState(false)
   const [finished, setFinished] = useState(false)
+  // Order mode: the answer cards start face-down so the child thinks of their own answer first
+  const [revealed, setRevealed] = useState(false)
   const alive = useRef(true)
   useEffect(() => () => { alive.current = false; stopAudio() }, [])
 
@@ -74,6 +76,7 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
     if (next < scene.steps.length) {
       setStepIdx(next)
       setWrong(new Set())
+      setRevealed(false)
       await speak('left', scene.steps[next].ask)
       if (alive.current) setBusy(false)
     } else {
@@ -138,23 +141,52 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
           )}
 
           {mode === 'choose' ? (
-            <div className="flex flex-col gap-2" dir="ltr">
-              {options.map(o => {
-                const isWrong = wrong.has(o.say)
-                return (
-                  <button
-                    key={o.say}
-                    onClick={() => answer(o)}
-                    disabled={busy || isWrong}
-                    className={`w-full text-left rounded-2xl border-4 px-4 py-3 font-bold text-[17px] transition-all
-                      ${isWrong ? 'border-gray-200 bg-gray-50 text-gray-300 line-through' : 'border-sky-200 bg-white text-gray-800 active:scale-[0.98] hover:border-sky-400'}
-                      disabled:cursor-default`}
-                  >
-                    🧒 {o.say}
-                  </button>
-                )
-              })}
-            </div>
+            <>
+              {!revealed && (
+                <p className="bounce-in text-center font-black text-violet-700 bg-violet-50 border-2 border-violet-200 rounded-2xl px-3 py-2 text-[15px]" dir="rtl">
+                  🤔 מה הייתם עונים? חשבו על תשובה משלכם ואמרו אותה בקול — ואז הפכו את הכרטיסים!
+                </p>
+              )}
+              <div className="flex flex-col gap-2" dir="ltr">
+                {options.map((o, i) => {
+                  const isWrong = wrong.has(o.say)
+                  return (
+                    <div key={step.id + o.say} className="flip-card">
+                      <div className={`flip-inner ${revealed ? 'flipped' : ''}`} style={{ transitionDelay: revealed ? `${i * 140}ms` : '0ms' }}>
+                        {/* face-down side */}
+                        <button
+                          onClick={() => setRevealed(true)}
+                          disabled={revealed}
+                          aria-hidden={revealed}
+                          tabIndex={revealed ? -1 : 0}
+                          className="flip-face w-full rounded-2xl border-4 border-violet-300 px-4 py-3 font-black text-[17px] text-white shadow-md
+                            bg-[repeating-linear-gradient(45deg,#8b5cf6_0_14px,#7c3aed_14px_28px)] active:scale-[0.98]"
+                        >
+                          <span className="inline-block drop-shadow">❓ ❓ ❓</span>
+                        </button>
+                        {/* answer side */}
+                        <button
+                          onClick={() => answer(o)}
+                          disabled={!revealed || busy || isWrong}
+                          aria-hidden={!revealed}
+                          tabIndex={revealed ? 0 : -1}
+                          className={`flip-face flip-answer w-full text-left rounded-2xl border-4 px-4 py-3 font-bold text-[17px] transition-colors
+                            ${isWrong ? 'border-gray-200 bg-gray-50 text-gray-300 line-through' : 'border-sky-200 bg-white text-gray-800 hover:border-sky-400'}
+                            disabled:cursor-default`}
+                        >
+                          🧒 {o.say}
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              {!revealed && (
+                <button onClick={() => setRevealed(true)} className="btn-kid bg-violet-500 w-full text-lg" dir="rtl">
+                  🔄 הפכו את הכרטיסים
+                </button>
+              )}
+            </>
           ) : (
             <BuildAnswer key={step.id} options={step.options} distractor={step.distractorWord} busy={busy} onDone={answer} />
           )}

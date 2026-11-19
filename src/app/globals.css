@@ -306,3 +306,21 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .story-flicker, .story-glow, .story-cloud, .story-steam, .story-wave span, .story-mic, .story-confetti, .story-bubble-rise { animation: none !important; }
 }
+
+/* Step 7 Order mode: face-down answer cards that flip over */
+.flip-card { perspective: 900px; }
+.flip-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+.flip-inner.flipped { transform: rotateY(180deg); }
+.flip-face {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-answer { transform: rotateY(180deg); }
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner { transition-duration: 0.01ms; }
+}
