@@ -12,7 +12,12 @@ interface Stats {
   subscriptions: Record<string, number>
   paywallEnabled: boolean
   pricePerChild: number
+  teacherMonthly: number
+  openBillingTasks: number
 }
+
+interface BillingTask { id: string; kind: string; title: string; details: string; status: string; createdAt: string; doneAt: string | null }
+interface BillingEvent { id: string; kind: string; amount: number | null; userId: string | null; createdAt: string }
 
 interface AdminChild { id: string; displayName: string; avatar: string; createdAt: string; stars: number }
 interface AdminUser {
@@ -62,7 +67,9 @@ export default function AdminPage() {
     return () => clearTimeout(t)
   }, [q, loadUsers])
 
-  const activeSubs = stats ? (stats.subscriptions['active'] ?? 0) + (stats.subscriptions['trialing'] ?? 0) : 0
+  const subCount = (plan: string) => stats
+    ? ['active', 'past_due'].reduce((n, st) => n + (stats.subscriptions[`${plan}:${st}`] ?? 0), 0)
+    : 0
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -84,7 +91,7 @@ export default function AdminPage() {
                 <StatCard label="פרופילי ילדים" value={stats.totalChildren} />
                 <StatCard label="ילדים פעילים (7 ימים)" value={stats.activeChildren7} />
                 <StatCard label="כוכבים שנצברו" value={stats.totalStars.toLocaleString()} />
-                <StatCard label="מנויים פעילים" value={activeSubs} sub="billing parked" />
+                <StatCard label="מנויים פעילים" value={subCount('parent') + subCount('teacher')} sub={`${subCount('parent')} הורים · ${subCount('teacher')} מורים`} />
               </div>
             )}
 
@@ -99,10 +106,13 @@ export default function AdminPage() {
                     <span className="text-green-600">OFF (site is free)</span>
                   )}
                 </span>
-                <span>Price: ₪{stats.pricePerChild}/child/month</span>
-                <span>Provider: PayPlus (pending merchant account)</span>
+                <span>Parent: ₪{stats.pricePerChild}/child/month · Teacher: ₪{stats.teacherMonthly}/month</span>
+                <span>Provider: Grow (via Make)</span>
+                {stats.openBillingTasks > 0 && <span className="text-red-500">{stats.openBillingTasks} open Grow tasks ↓</span>}
               </div>
             )}
+
+            <BillingSection />
 
             {/* ── Users ───────────────────────────────────── */}
             <div className="flex items-center justify-between mb-3">
@@ -170,5 +180,80 @@ export default function AdminPage() {
         )}
       </div>
     </div>
+  )
+}
+
+const EVENT_LABELS: Record<string, string> = {
+  first_payment: 'תשלום ראשון',
+  first_failed: 'תשלום ראשון נכשל',
+  recurring: 'חיוב חודשי',
+  recurring_failed: 'חיוב חודשי נכשל',
+  unmatched: 'לא זוהה',
+}
+
+/** Manual steps on the Grow website (cancel / change amount / refunds) + recent payment notices. */
+function BillingSection() {
+  const [data, setData] = useState<{ open: BillingTask[]; done: BillingTask[]; events: BillingEvent[] } | null>(null)
+  const [showDone, setShowDone] = useState(false)
+
+  const load = useCallback(async () => {
+    const res = await fetch('/api/admin/billing', { cache: 'no-store' })
+    if (res.ok) setData(await res.json())
+  }, [])
+  useEffect(() => { load() }, [load])
+
+  async function mark(id: string, done: boolean) {
+    await fetch('/api/admin/billing', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id, done }) })
+    load()
+  }
+
+  if (!data) return null
+  return (
+    <section id="billing" className="mb-8" dir="rtl">
+      <h2 className="font-display font-bold text-xl text-gray-700 mb-3">💳 משימות Grow ({data.open.length})</h2>
+      {data.open.length === 0 ? (
+        <div className="bg-white border-2 border-gray-200 rounded-2xl p-4 text-center text-gray-400 font-bold text-sm mb-3">אין משימות פתוחות 🎉</div>
+      ) : (
+        <div className="flex flex-col gap-2 mb-3">
+          {data.open.map(t => (
+            <div key={t.id} className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="font-bold text-amber-900">{t.title}</div>
+                  <div className="text-sm font-bold text-amber-800 mt-1">{t.details}</div>
+                  <div className="text-xs font-bold text-amber-500 mt-1">{new Date(t.createdAt).toLocaleString('he-IL')}</div>
+                </div>
+                <button onClick={() => mark(t.id, true)} className="shrink-0 bg-green-500 hover:bg-green-600 text-white font-bold text-sm rounded-xl px-3 py-1.5 cursor-pointer">✓ בוצע</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      <button onClick={() => setShowDone(v => !v)} className="text-xs font-bold text-gray-400 hover:text-primary cursor-pointer mb-2">
+        {showDone ? '▲' : '▼'} משימות שבוצעו ותשלומים אחרונים
+      </button>
+      {showDone && (
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div className="bg-white border-2 border-gray-200 rounded-2xl p-3 text-xs font-bold text-gray-500 flex flex-col gap-1.5">
+            {data.done.length === 0 && <span className="text-gray-300">—</span>}
+            {data.done.map(t => (
+              <div key={t.id} className="flex justify-between gap-2">
+                <span className="truncate">✓ {t.title}</span>
+                <button onClick={() => mark(t.id, false)} className="text-gray-300 hover:text-primary cursor-pointer shrink-0">פתיחה מחדש</button>
+              </div>
+            ))}
+          </div>
+          <div className="bg-white border-2 border-gray-200 rounded-2xl p-3 text-xs font-bold text-gray-500 flex flex-col gap-1.5">
+            {data.events.length === 0 && <span className="text-gray-300">עוד אין תשלומים</span>}
+            {data.events.map(e => (
+              <div key={e.id} className="flex justify-between gap-2">
+                <span className={e.kind.includes('failed') || e.kind === 'unmatched' ? 'text-red-500' : ''}>{EVENT_LABELS[e.kind] ?? e.kind}</span>
+                <span>{e.amount !== null ? `₪${e.amount / 100}` : ''} · {new Date(e.createdAt).toLocaleDateString('he-IL')}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
   )
 }

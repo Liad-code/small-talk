@@ -4,6 +4,7 @@ import { auth } from '@/auth'
 import { db } from '@/lib/db'
 import { ACTIVE_CHILD_COOKIE } from '@/lib/children'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
+import { beforeAccountDelete } from '@/lib/billing/service'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,6 +19,8 @@ export async function DELETE(req: Request) {
   const userId = session?.user?.id
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
+  // A running Grow standing order must be cancelled by hand — task for the owner first.
+  await beforeAccountDelete(userId)
   await db.user.delete({ where: { id: userId } })
   cookies().delete(ACTIVE_CHILD_COOKIE)
   return NextResponse.json({ ok: true })

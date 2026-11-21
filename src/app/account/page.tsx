@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
@@ -19,6 +19,17 @@ interface ChildOverview {
   }
   levelsDone: number
   lastActive: string | null
+  classroom: { name: string; code: string } | null
+}
+
+interface Billing {
+  subscribed: boolean
+  plan: 'parent' | 'teacher' | null
+  status: string | null
+  monthlyAmount: number | null
+  currentPeriodEnd: string | null
+  paywallEnabled: boolean
+  prices: { classDiscountPercent: number }
 }
 
 interface Overview {
@@ -53,17 +64,25 @@ export default function AccountPage() {
   const [loading, setLoading] = useState(true)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [billing, setBilling] = useState<Billing | null>(null)
+  const [hasClass, setHasClass] = useState(false)
+
+  const loadOverview = useCallback(() => {
+    fetch('/api/account/overview', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { setData(d); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
   useEffect(() => {
     if (status !== 'authenticated') {
       if (status === 'unauthenticated') setLoading(false)
       return
     }
-    fetch('/api/account/overview', { cache: 'no-store' })
-      .then(r => (r.ok ? r.json() : null))
-      .then(d => { setData(d); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [status])
+    loadOverview()
+    fetch('/api/billing', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(setBilling).catch(() => {})
+    fetch('/api/teacher/class', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(d => setHasClass(!!d?.classroom)).catch(() => {})
+  }, [status, loadOverview])
 
   async function deleteAccount() {
     if (busy) return
@@ -157,18 +176,41 @@ export default function AccountPage() {
                     {c.stars.subjects > 0 && (
                       <div className="text-xs font-bold text-gray-400 mt-2">+ {c.stars.subjects} כוכבים מנושאי הלימוד הכלליים</div>
                     )}
+                    <ClassCode child={c} discount={billing?.prices.classDiscountPercent ?? null} onChange={loadOverview} />
                   </div>
                 ))}
               </div>
             </section>
 
-            {/* ── Subscription (placeholder until provider) ────── */}
+            {/* ── Subscription ───────────────────────────────── */}
             <section className="mb-8">
               <h2 className="font-display font-bold text-xl text-gray-700 mb-3">💳 מנוי</h2>
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-5 font-bold text-blue-800 text-sm">
-                🎉 בתקופת ההרצה האתר פתוח בחינם לכולם.
-                <br />
-                <span className="text-blue-500">כשמערך המנויים יעלה לאוויר — ניהול המנוי, הקבלות והחיובים יופיעו כאן.</span>
+              {billing?.subscribed ? (
+                <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-5 font-bold text-green-800 text-sm flex items-center justify-between gap-3 flex-wrap">
+                  <span>
+                    ✅ {billing.plan === 'teacher' ? 'מנוי מורה' : 'מנוי הורים'}
+                    {billing.monthlyAmount !== null && ` · ₪${Math.round(billing.monthlyAmount / 100)} לחודש`}
+                    {billing.currentPeriodEnd && (billing.status === 'canceled'
+                      ? ` · מסתיים ב-${new Date(billing.currentPeriodEnd).toLocaleDateString('he-IL')}`
+                      : ` · חיוב הבא ${new Date(billing.currentPeriodEnd).toLocaleDateString('he-IL')}`)}
+                  </span>
+                  <Link href="/pricing" className="text-primary no-underline hover:underline">ניהול המנוי ←</Link>
+                </div>
+              ) : billing && !billing.paywallEnabled ? (
+                <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-5 font-bold text-blue-800 text-sm">
+                  🎉 בתקופת ההרצה האתר פתוח בחינם לכולם.
+                  <br />
+                  <Link href="/pricing" className="text-blue-500">למחירים ולמנויים ←</Link>
+                </div>
+              ) : (
+                <div className="bg-purple-50 border-2 border-purple-200 rounded-2xl p-5 font-bold text-gray-600 text-sm">
+                  אין מנוי פעיל. <Link href="/pricing" className="text-primary">להצטרפות ←</Link>
+                </div>
+              )}
+              <div className="mt-3 text-sm font-bold">
+                <Link href="/teacher" className="text-primary no-underline hover:underline">
+                  👩‍🏫 {hasClass ? 'לכיתה שלי' : 'אתם מורים? לאזור המורה'} ←
+                </Link>
               </div>
             </section>
 
@@ -208,6 +250,72 @@ export default function AccountPage() {
           </>
         )}
       </div>
+    </div>
+  )
+}
+
+/** A child's class: join with the teacher's code (discount + the teacher sees progress), or leave. */
+function ClassCode({ child, discount, onChange }: { child: ChildOverview; discount: number | null; onChange: () => void }) {
+  const [open, setOpen] = useState(false)
+  const [code, setCode] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function join() {
+    if (busy) return
+    setBusy(true)
+    setError(null)
+    const res = await fetch('/api/classes/join', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ childId: child.id, code }),
+    })
+    setBusy(false)
+    if (res.ok) { setOpen(false); setCode(''); onChange(); return }
+    setError(res.status === 404 ? 'הקוד לא נמצא — בדקו אותו מול המורה.' : res.status === 429 ? 'יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.' : 'משהו השתבש, נסו שוב.')
+  }
+
+  async function leave() {
+    if (busy) return
+    setBusy(true)
+    await fetch('/api/classes/leave', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ childId: child.id }) })
+    setBusy(false)
+    onChange()
+  }
+
+  if (child.classroom) {
+    return (
+      <div className="mt-3 flex items-center justify-between gap-2 bg-indigo-50 border border-indigo-100 rounded-xl px-3 py-2 text-xs font-bold">
+        <span className="text-indigo-700">🏫 {child.classroom.name}</span>
+        <button onClick={leave} disabled={busy} className="text-gray-400 hover:text-red-500 cursor-pointer">יציאה מהכיתה</button>
+      </div>
+    )
+  }
+  if (!open) {
+    return (
+      <button onClick={() => setOpen(true)} className="mt-3 text-xs font-bold text-indigo-500 hover:text-indigo-700 cursor-pointer">
+        🏫 יש לכם קוד כיתה מהמורה?
+      </button>
+    )
+  }
+  return (
+    <div className="mt-3 bg-indigo-50 border border-indigo-100 rounded-xl p-3">
+      <div className="flex gap-2">
+        <input
+          value={code}
+          onChange={e => setCode(e.target.value.toUpperCase())}
+          placeholder="קוד כיתה"
+          maxLength={12}
+          dir="ltr"
+          className="flex-1 min-w-0 border-2 border-indigo-200 rounded-lg px-2 py-1.5 font-black tracking-widest text-center text-gray-700 focus:outline-none focus:border-indigo-400"
+        />
+        <button onClick={join} disabled={busy || code.trim().length < 4} className="px-3 rounded-lg bg-indigo-500 text-white font-bold text-sm disabled:opacity-50 cursor-pointer">הצטרפות</button>
+      </div>
+      <p className="text-[11px] font-bold text-gray-500 mt-2">
+        המורה יראה/תראה את שם הפרופיל ({child.displayName}) ואת ההתקדמות בלבד — לא את פרטי החשבון שלכם.
+        {discount ? ` אם למורה יש מנוי פעיל, תקבלו ${discount}% הנחה על הילד הזה.` : ''}
+      </p>
+      {error && <p className="text-xs font-bold text-red-600 mt-1">{error}</p>}
     </div>
   )
 }

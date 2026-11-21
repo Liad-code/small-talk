@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
 import { getSessionUserId, ACTIVE_CHILD_COOKIE } from '@/lib/children'
+import { syncAmount } from '@/lib/billing/service'
 
 export const dynamic = 'force-dynamic'
 
@@ -42,5 +43,6 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
   if (cookies().get(ACTIVE_CHILD_COOKIE)?.value === params.id) {
     cookies().delete(ACTIVE_CHILD_COOKIE)
   }
+  await syncAmount(userId)
   return NextResponse.json({ ok: true })
 }

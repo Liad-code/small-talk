@@ -23,7 +23,6 @@ model User {
   emailVerified    DateTime?
   image            String?
   role             Role      @default(PARENT)
-  stripeCustomerId String?   @unique
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
@@ -31,26 +30,116 @@ model User {
   sessions     Session[]
   children     ChildProfile[]
   subscription Subscription?
+  classroom    Classroom?
 }
 
-// ── Phase 2: Stripe subscription (per-seat: quantity = child profiles) ───────
+// ── Phase 2: billing — Grow (via Make) ───────────────────────────────────────
+// Grow runs the monthly standing order (הוראת קבע). Our site only records what
+// Grow reports: access lasts until currentPeriodEnd (+ a short grace), and every
+// successful monthly charge pushes it forward. Cancelling / changing the amount
+// is done by the owner on the Grow website — the site creates a BillingTask.
 
 model Subscription {
-  id                   String   @id @default(cuid())
-  userId               String   @unique
-  stripeSubscriptionId String   @unique
-  status               String   // trialing | active | past_due | canceled | incomplete | ...
-  priceId              String
-  seats                Int      @default(1)
-  currentPeriodEnd     DateTime
-  trialEnd             DateTime?
-  cancelAtPeriodEnd    Boolean  @default(false)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  plan              String    // parent | teacher
+  status            String    // active | past_due | canceled
+  seats             Int       @default(1)   // parent: children billed · teacher: 1
+  discountedSeats   Int       @default(0)   // children billed at the class (teacher code) discount
+  monthlyAmount     Int                     // agorot — what Grow charges every month now
+  currentPeriodEnd  DateTime                // access is paid until this moment
+  cancelAtPeriodEnd Boolean   @default(false)
+  canceledAt        DateTime?
+  failedAttempts    Int       @default(0)
+  payerName         String?
+  payerPhone        String?   // needed to find the standing order in Grow
+  payerEmail        String?
+  cardSuffix        String?   // last 4 digits, for display
+  growDirectDebitId String?   @unique // Grow standing-order id (learned from the first recurring webhook)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([status])
+}
+
+/// A payment link we asked Make/Grow to create. The id travels through Grow
+/// (custom field + catalog number) so the payment notice finds its way back.
+model BillingCheckout {
+  id              String    @id @default(cuid())
+  userId          String
+  plan            String    // parent | teacher
+  seats           Int
+  discountedSeats Int       @default(0)
+  firstAmount     Int       // agorot — first month (discounted)
+  monthlyAmount   Int       // agorot — from the second month
+  phone           String
+  status          String    @default("pending") // pending | paid
+  paidAt          DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@index([userId])
+}
+
+/// Every payment notice we received (raw payload kept for support). Idempotent on providerTxnId.
+model BillingEvent {
+  id             String   @id @default(cuid())
+  userId         String?
+  subscriptionId String?
+  kind           String   // first_payment | recurring | recurring_failed | unmatched
+  amount         Int?     // agorot
+  providerTxnId  String?  @unique
+  raw            Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+/// Something the owner must do by hand on the Grow website (cancel a standing
+/// order, change its amount, check a refund). No FK to User on purpose: a task
+/// must survive the parent deleting their account.
+model BillingTask {
+  id             String    @id @default(cuid())
+  userId         String?
+  subscriptionId String?
+  kind           String    // cancel | change_amount | refund_check | unmatched_payment
+  title          String
+  details        String
+  status         String    @default("open") // open | done
+  createdAt      DateTime  @default(now())
+  doneAt         DateTime?
+
+  @@index([status])
+  @@index([subscriptionId])
+}
+
+// ── Teachers: one class per teacher, joined by children with the class code ──
+// The code is also a discount code: a child in the class of a subscribed teacher
+// is billed at the class discount on the parent plan.
+
+model Classroom {
+  id        String   @id @default(cuid())
+  teacherId String   @unique
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+
+  teacher User          @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  members ClassMember[]
+}
+
+model ClassMember {
+  id             String   @id @default(cuid())
+  classroomId    String
+  childProfileId String   @unique // a child is in at most one class
+  joinedAt       DateTime @default(now())
+
+  classroom Classroom    @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  child     ChildProfile @relation(fields: [childProfileId], references: [id], onDelete: Cascade)
+
+  @@index([classroomId])
 }
 
 // ── Phase 1: child profiles + per-child progress ─────────────────────────────
@@ -69,6 +158,7 @@ model ChildProfile {
   progress      Progress[]
   step1Progress Step1Progress[]
   stepStars     StepStars[]
+  classMember   ClassMember?
 
   @@index([userId])
 }

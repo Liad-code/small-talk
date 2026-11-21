@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/admin'
 import { paywallEnabled } from '@/lib/entitlements'
+import { PARENT_PER_CHILD, TEACHER_MONTHLY } from '@/lib/billing/plans'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,7 +32,7 @@ export async function GET() {
     db.user.count({ where: { createdAt: { gte: d7 } } }),
     db.user.count({ where: { createdAt: { gte: d30 } } }),
     db.childProfile.count(),
-    db.subscription.groupBy({ by: ['status'], _count: { _all: true } }),
+    db.subscription.groupBy({ by: ['plan', 'status'], _count: { _all: true } }),
     db.progress.aggregate({ _sum: { stars: true } }),
     db.step1Progress.aggregate({ where: { exerciseKey: STARS_ROW }, _sum: { stars: true } }),
     db.stepStars.aggregate({ _sum: { stars: true } }),
@@ -46,7 +47,7 @@ export async function GET() {
   }
 
   const subscriptions: Record<string, number> = {}
-  for (const s of subsByStatus) subscriptions[s.status] = s._count._all
+  for (const s of subsByStatus) subscriptions[`${s.plan}:${s.status}`] = s._count._all
 
   return NextResponse.json({
     totalParents,
@@ -58,6 +59,8 @@ export async function GET() {
       (subjectStars._sum.stars ?? 0) + (step1StarRows._sum.stars ?? 0) + (stepStarsAgg._sum.stars ?? 0),
     subscriptions,
     paywallEnabled: paywallEnabled(),
-    pricePerChild: 50,
+    pricePerChild: PARENT_PER_CHILD / 100,
+    teacherMonthly: TEACHER_MONTHLY / 100,
+    openBillingTasks: await db.billingTask.count({ where: { status: 'open' } }),
   })
 }
