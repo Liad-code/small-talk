@@ -103,7 +103,10 @@ export function parseGrowDate(v: unknown, now = new Date()): Date {
 }
 
 export interface PaymentNotice {
-  txnId: string | null
+  txnId: string | null          // unique id of this charge (idempotency)
+  transactionId: string | null  // Grow ids of the charge — needed to change the standing order later
+  transactionToken: string | null
+  asmachta: string | null
   amount: number | null
   paidAt: Date
   phone: string | null
@@ -122,6 +125,9 @@ export function readNotice(p: unknown, now = new Date()): PaymentNotice {
   const errorMsg = str(field(p, ['error_message', 'errorMessage']))
   return {
     txnId: str(field(p, ['transactionId', 'transactionCode', 'transaction_code', 'asmachta'])),
+    transactionId: str(field(p, ['transactionId'])),
+    transactionToken: str(field(p, ['transactionToken'])),
+    asmachta: str(field(p, ['asmachta'])),
     amount: toAgorot(field(p, ['sum', 'paymentSum', 'amount'])),
     paidAt: parseGrowDate(field(p, ['paymentDate', 'payment_date']), now),
     phone: normalizePhone(field(p, ['payerPhone', 'phone', 'payer_phone'])),

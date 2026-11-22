@@ -3,19 +3,36 @@ import { timingSafeEqual } from 'node:crypto'
 /**
  * Make (make.com) is the bridge to Grow — see docs/billing-make-setup.md.
  *
- *   our site ──► Make scenario 1 (webhook) ──► Grow "Create Payment Link" ──► { url } back to us
- *   Grow payment ──► Make scenario 2 (Grow "Notify URL Webhook" + Approve) ──► POST /api/billing/make/notify
- *   our site ──► Make scenario 3 (webhook) ──► email to the owner (a manual task in Grow)
+ * Scenario A "Small Talk → Grow" (one webhook, a router on `action`):
+ *   checkout             → Grow "Create Payment Link" (recurring)  → responds { url }
+ *   update_direct_debit  → Grow "Make an API Call" POST /updateDirectDebit (new amount / cancel / resume)
+ *                          → responds Grow's answer ({ status: 1, … } = success)
+ *   task                 → email to the owner (a manual step in Grow)
+ * Scenario B "Grow → Small Talk": Grow "Notify URL Webhook" → Approve Transaction → POST /api/billing/make/notify
  *
  * Env (server only — never NEXT_PUBLIC):
- *   MAKE_CHECKOUT_WEBHOOK_URL   scenario 1 webhook address
- *   MAKE_TASKS_WEBHOOK_URL      scenario 3 webhook address
- *   MAKE_SHARED_SECRET          long random string; we send it to Make as `x-make-apikey`,
- *                               Make sends it back to us as `Authorization: Bearer …`
+ *   MAKE_WEBHOOK_URL     scenario A webhook address
+ *   MAKE_SHARED_SECRET   long random string; we send it in the body (`secret`, checked by the route
+ *                        filters) and as `x-make-apikey`; Make sends it back as `Authorization: Bearer …`
  */
 
 export function makeConfigured(): boolean {
-  return !!(process.env.MAKE_CHECKOUT_WEBHOOK_URL && process.env.MAKE_SHARED_SECRET)
+  return !!(process.env.MAKE_WEBHOOK_URL && process.env.MAKE_SHARED_SECRET)
+}
+
+async function callMake(action: string, payload: Record<string, unknown>, timeoutMs: number): Promise<{ status: number; text: string }> {
+  const url = process.env.MAKE_WEBHOOK_URL
+  const secret = process.env.MAKE_SHARED_SECRET
+  if (!url || !secret) throw new Error('make_not_configured')
+  const res = await fetch(url, {
+    method: 'POST',
+    // `secret` in the body: every route of scenario A has a filter requiring it (Make's own
+    // webhook API-key setting can be added in the Make editor as an extra layer — same value).
+    headers: { 'content-type': 'application/json', 'x-make-apikey': secret },
+    body: JSON.stringify({ action, secret, ...payload }),
+    signal: AbortSignal.timeout(timeoutMs),
+  })
+  return { status: res.status, text: await res.text() }
 }
 
 export interface PaymentLinkRequest {
@@ -23,8 +40,8 @@ export interface PaymentLinkRequest {
   plan: 'parent' | 'teacher'
   title: string          // shown on the Grow page
   productName: string
-  monthlyAmount: number  // ₪ (not agorot) — the standing-order amount from month 2
-  firstAmount: number    // ₪ — the first (discounted) month
+  price: number          // ₪ (not agorot) — the FIRST charge; the site raises it to monthlyAmount right after
+  monthlyAmount: number  // ₪ — for reference / the owner
   fullName: string
   phone: string          // 05XXXXXXXX (Grow requires an Israeli mobile)
   email: string
@@ -33,39 +50,42 @@ export interface PaymentLinkRequest {
 
 /** Asks Make to create a Grow recurring payment link. Returns the payment page URL. */
 export async function createPaymentLink(req: PaymentLinkRequest): Promise<string> {
-  const url = process.env.MAKE_CHECKOUT_WEBHOOK_URL
-  const secret = process.env.MAKE_SHARED_SECRET
-  if (!url || !secret) throw new Error('make_not_configured')
-
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-make-apikey': secret },
-    body: JSON.stringify(req),
-    signal: AbortSignal.timeout(25_000),
-  })
-  const text = await res.text()
-  if (!res.ok) throw new Error(`make_checkout_${res.status}`)
+  const { status, text } = await callMake('checkout', { ...req }, 25_000)
+  if (status < 200 || status >= 300) throw new Error(`make_checkout_${status}`)
   let link: unknown
   try { link = (JSON.parse(text) as { url?: unknown }).url } catch { link = text.trim() }
   if (typeof link !== 'string' || !/^https:\/\/[^\s"'<>]+$/.test(link)) throw new Error('make_checkout_no_url')
   return link
 }
 
+export interface DirectDebitRef { transactionId: string; transactionToken: string; asmachta: string }
+export type DirectDebitChange = { sum: number } | { changeStatus: 1 | 2 } // sum in ₪ · 1 = active, 2 = canceled
+
+/**
+ * Changes a Grow standing order (via Make → Grow updateDirectDebit). Returns true only when
+ * Grow confirms (status 1). Never throws — the caller falls back to a manual task.
+ */
+export async function updateDirectDebit(ref: DirectDebitRef, change: DirectDebitChange): Promise<boolean> {
+  try {
+    // `grow` = exactly the body for Grow's updateDirectDebit (Make passes it through untouched).
+    const { status, text } = await callMake('update_direct_debit', { ...ref, ...change, grow: { ...ref, ...change } }, 20_000)
+    if (status < 200 || status >= 300) return false
+    const body = JSON.parse(text) as { status?: unknown; err?: unknown }
+    return String(body.status) === '1' && !body.err
+  } catch (e) {
+    console.error('updateDirectDebit failed', e)
+    return false
+  }
+}
+
 export interface OwnerTask { kind: string; title: string; details: string }
 
 /** Emails the owner (through Make) about a manual step in Grow. Never throws. */
 export async function notifyOwner(task: OwnerTask): Promise<void> {
-  const url = process.env.MAKE_TASKS_WEBHOOK_URL
-  const secret = process.env.MAKE_SHARED_SECRET
-  if (!url || !secret) return
+  if (!makeConfigured()) return
   const site = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? 'https://small-talk.online'
   try {
-    await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-make-apikey': secret },
-      body: JSON.stringify({ ...task, adminUrl: `${site.replace(/\/$/, '')}/admin#billing` }),
-      signal: AbortSignal.timeout(10_000),
-    })
+    await callMake('task', { ...task, adminUrl: `${site.replace(/\/$/, '')}/admin#billing` }, 10_000)
   } catch (e) {
     console.error('notifyOwner failed', e)
   }

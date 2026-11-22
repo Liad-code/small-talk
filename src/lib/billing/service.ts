@@ -5,7 +5,7 @@ import { quoteParent, quoteTeacher, toShekels, type Plan, type Quote } from './p
 import {
   hasAccess, extendPeriod, refFor, findRef, readNotice, amountMatches, newClassCode, field, str,
 } from './policy'
-import { createPaymentLink, notifyOwner } from './make'
+import { createPaymentLink, notifyOwner, updateDirectDebit, type DirectDebitRef } from './make'
 
 const ils = (agorot: number) => `₪${toShekels(agorot)}`
 
@@ -62,8 +62,10 @@ export async function startCheckout(opts: { userId: string; plan: Plan; phone: s
     plan: q.plan,
     title: 'Small Talk — מנוי חודשי',
     productName,
+    // The link charges the (half-price) first month; right after it, the site raises the
+    // standing order to the monthly price through Grow's updateDirectDebit.
+    price: toShekels(q.firstAmount),
     monthlyAmount: toShekels(q.monthlyAmount),
-    firstAmount: toShekels(q.firstAmount),
     fullName: (user.name ?? '').trim() || 'הורה Small Talk',
     phone: opts.phone,
     email: user.email,
@@ -82,6 +84,35 @@ async function addTask(t: { userId?: string | null; subscriptionId?: string | nu
 function whoLine(s: { payerName: string | null; payerPhone: string | null; payerEmail: string | null; cardSuffix: string | null }) {
   return [s.payerName, s.payerPhone && `טלפון ${s.payerPhone}`, s.payerEmail, s.cardSuffix && `כרטיס ****${s.cardSuffix}`]
     .filter(Boolean).join(' · ')
+}
+
+/** A finished step, kept for the record (no email). */
+async function logDone(t: { userId?: string | null; subscriptionId?: string | null; kind: string; title: string; details: string }) {
+  await db.billingTask.create({
+    data: { ...t, userId: t.userId ?? null, subscriptionId: t.subscriptionId ?? null, status: 'done', doneAt: new Date() },
+  })
+}
+
+// ── Changing the standing order in Grow (via Make → updateDirectDebit) ───────
+
+type GrowIds = { growTransactionId: string | null; growTransactionToken: string | null; growAsmachta: string | null }
+
+function ddRef(s: GrowIds): DirectDebitRef | null {
+  return s.growTransactionId && s.growTransactionToken && s.growAsmachta
+    ? { transactionId: s.growTransactionId, transactionToken: s.growTransactionToken, asmachta: s.growAsmachta }
+    : null
+}
+
+/** New monthly amount in Grow. False = do it by hand (task). */
+async function growSetAmount(s: GrowIds, agorot: number): Promise<boolean> {
+  const ref = ddRef(s)
+  return ref ? updateDirectDebit(ref, { sum: toShekels(agorot) }) : false
+}
+
+/** Cancel (2) or re-activate (1) the standing order in Grow. False = do it by hand (task). */
+async function growSetStatus(s: GrowIds, status: 1 | 2): Promise<boolean> {
+  const ref = ddRef(s)
+  return ref ? updateDirectDebit(ref, { changeStatus: status }) : false
 }
 
 // ── Payment notices ──────────────────────────────────────────────────────────
@@ -134,6 +165,9 @@ export async function handleFirstPayment(payload: unknown): Promise<string> {
     payerEmail: n.email,
     cardSuffix: n.cardSuffix,
     growDirectDebitId: n.directDebitId,
+    growTransactionId: n.transactionId,
+    growTransactionToken: n.transactionToken,
+    growAsmachta: n.asmachta,
   }
   const sub = await db.subscription.upsert({
     where: { userId: checkout.userId },
@@ -146,6 +180,15 @@ export async function handleFirstPayment(payload: unknown): Promise<string> {
   })
 
   if (checkout.plan === 'teacher') await ensureClassroom(checkout.userId)
+
+  // The link charged the discounted first month — from now on Grow must charge the full price.
+  if (checkout.firstAmount !== checkout.monthlyAmount && !(await growSetAmount(sub, checkout.monthlyAmount))) {
+    await addTask({
+      userId: checkout.userId, subscriptionId: sub.id, kind: 'change_amount',
+      title: 'להעלות את הוראת הקבע למחיר המלא',
+      details: `${whoLine(sub)}: החודש הראשון חויב ב-${ils(checkout.firstAmount)}. שנו את הוראת הקבע ב-Grow ל-${ils(checkout.monthlyAmount)} לחודש.`,
+    })
+  }
 
   if (!amountMatches(n.amount, checkout.firstAmount) && !amountMatches(n.amount, checkout.monthlyAmount)) {
     await addTask({
@@ -252,6 +295,18 @@ export async function syncAmount(userId: string): Promise<void> {
     if (open) await db.billingTask.update({ where: { id: open.id }, data: { status: 'done', doneAt: new Date() } })
     return
   }
+  if (await growSetAmount(sub, q.monthlyAmount)) {
+    await db.subscription.update({
+      where: { id: sub.id },
+      data: { monthlyAmount: q.monthlyAmount, seats: q.seats, discountedSeats: q.discountedSeats },
+    })
+    if (open) await db.billingTask.update({ where: { id: open.id }, data: { status: 'done', doneAt: new Date() } })
+    await logDone({
+      userId, subscriptionId: sub.id, kind: 'change_amount', title: 'סכום הוראת הקבע עודכן אוטומטית',
+      details: `${whoLine(sub)}: ${ils(sub.monthlyAmount)} → ${ils(q.monthlyAmount)} לחודש.`,
+    })
+    return
+  }
   const details = `${whoLine(sub)}: שנו את סכום הוראת הקבע ב-Grow מ-${ils(sub.monthlyAmount)} ל-${ils(q.monthlyAmount)} לחודש ` +
     `(${q.seats} ${q.seats === 1 ? 'ילד' : 'ילדים'}${q.discountedSeats ? `, ${q.discountedSeats} בהנחת כיתה` : ''}).`
   if (open) {
@@ -266,6 +321,13 @@ export async function cancelSubscription(userId: string): Promise<void> {
   if (!sub || sub.status === 'canceled') return
   await db.subscription.update({ where: { id: sub.id }, data: { status: 'canceled', cancelAtPeriodEnd: true, canceledAt: new Date() } })
   await db.billingTask.updateMany({ where: { subscriptionId: sub.id, kind: 'change_amount', status: 'open' }, data: { status: 'done', doneAt: new Date() } })
+  if (await growSetStatus(sub, 2)) {
+    await logDone({
+      userId, subscriptionId: sub.id, kind: 'cancel', title: 'הוראת קבע בוטלה אוטומטית ב-Grow',
+      details: `${whoLine(sub)} ביטל/ה. הגישה נשארת עד ${sub.currentPeriodEnd.toLocaleDateString('he-IL')}.`,
+    })
+    return
+  }
   await addTask({
     userId, subscriptionId: sub.id, kind: 'cancel',
     title: 'לבטל הוראת קבע ב-Grow',
@@ -279,8 +341,12 @@ export async function undoCancel(userId: string): Promise<boolean> {
   const sub = await db.subscription.findUnique({ where: { userId } })
   if (!sub || sub.status !== 'canceled' || !hasAccess(sub)) return false
   const open = await db.billingTask.findFirst({ where: { subscriptionId: sub.id, kind: 'cancel', status: 'open' } })
-  if (!open) return false
-  await db.billingTask.update({ where: { id: open.id }, data: { status: 'done', doneAt: new Date(), details: open.details + ' — בוטל על ידי המשתמש, אין צורך לבטל ב-Grow.' } })
+  if (open) {
+    // Not cancelled in Grow yet — nothing to undo there.
+    await db.billingTask.update({ where: { id: open.id }, data: { status: 'done', doneAt: new Date(), details: open.details + ' — בוטל על ידי המשתמש, אין צורך לבטל ב-Grow.' } })
+  } else if (!(await growSetStatus(sub, 1))) {
+    return false // cancelled in Grow and it can't be re-activated → subscribe again
+  }
   await db.subscription.update({ where: { id: sub.id }, data: { status: 'active', cancelAtPeriodEnd: false, canceledAt: null } })
   return true
 }
@@ -289,6 +355,10 @@ export async function undoCancel(userId: string): Promise<boolean> {
 export async function beforeAccountDelete(userId: string): Promise<void> {
   const sub = await db.subscription.findUnique({ where: { userId } })
   if (!sub || sub.status === 'canceled' || !hasAccess(sub)) return
+  if (await growSetStatus(sub, 2)) {
+    await logDone({ kind: 'cancel', title: 'חשבון נמחק — הוראת הקבע בוטלה אוטומטית', details: `${whoLine(sub)} (${ils(sub.monthlyAmount)} לחודש).` })
+    return
+  }
   await addTask({
     userId: null, subscriptionId: null, kind: 'cancel',
     title: 'חשבון נמחק — לבטל הוראת קבע ב-Grow',

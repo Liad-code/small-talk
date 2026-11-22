@@ -56,6 +56,10 @@ model Subscription {
   payerEmail        String?
   cardSuffix        String?   // last 4 digits, for display
   growDirectDebitId String?   @unique // Grow standing-order id (learned from the first recurring webhook)
+  // The first payment's ids — Grow's updateDirectDebit (change amount / cancel) identifies the standing order by these.
+  growTransactionId    String?
+  growTransactionToken String?
+  growAsmachta         String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
