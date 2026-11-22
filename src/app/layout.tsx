@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Nunito, Baloo_2 } from 'next/font/google'
 import { AuthProvider } from '@/components/providers/AuthProvider'
 import { ProfileProvider } from '@/components/providers/ProfileProvider'
+import { AccessibilityMenu } from '@/components/a11y/AccessibilityMenu'
 import './globals.css'
 
 const nunito = Nunito({
@@ -25,11 +26,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${nunito.variable} ${baloo.variable}`}>
+    <html lang="he" className={`${nunito.variable} ${baloo.variable}`}>
       <body className="font-kid antialiased">
+        <a href="#content" className="skip-link">דילוג לתוכן</a>
         <AuthProvider>
-          <ProfileProvider>{children}</ProfileProvider>
+          <ProfileProvider>
+            <div id="content">{children}</div>
+          </ProfileProvider>
         </AuthProvider>
+        <AccessibilityMenu />
       </body>
     </html>
   )

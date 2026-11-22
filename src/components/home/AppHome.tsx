@@ -231,6 +231,8 @@ export function AppHome() {
           <Link href="/legal/privacy" className="text-gray-400 hover:text-primary no-underline">מדיניות פרטיות</Link>
           {' · '}
           <Link href="/legal/refunds" className="text-gray-400 hover:text-primary no-underline">ביטולים והחזרים</Link>
+          {' · '}
+          <Link href="/legal/accessibility" className="text-gray-400 hover:text-primary no-underline">הצהרת נגישות</Link>
         </p>
       </footer>
     </div>

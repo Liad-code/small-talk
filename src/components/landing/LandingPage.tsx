@@ -6,7 +6,7 @@ import { Mascot } from '@/components/ui/Mascot'
 import { CATEGORIES } from '@/data/subjects'
 import { PARENT_TIERS } from '@/lib/billing/plans'
 import { PERKS, newPerksAtTier, perksForTier, type PerkId, type TierIndex } from '@/lib/billing/perks'
-import { PAINS, PATH, SCENES } from './content'
+import { LANDING_FAQ as FAQ, PATH, SCENES } from './content'
 import { Kicker, LANDING_CSS, Phone, PrimaryCta, Reveal, SecondaryAuthLink, ils, withEnglish } from './ui'
 
 /* ── Derived pricing facts (never hardcoded) ─────────────────────────── */
@@ -26,46 +26,6 @@ function perkWhere(id: PerkId) {
 
 const CAT = Object.fromEntries(CATEGORIES.map(c => [c.id, c]))
 
-/* ── FAQ ─────────────────────────────────────────────────────────────── */
-
-const FAQ: { q: string; a: string }[] = [
-  {
-    q: 'הילד צריך לדעת לקרוא?',
-    a: 'לא. שלב 1 בנוי כולו על שמיעה: כל אות וכל מילה מוקראות בקול, והילד עונה בגרירה ובלחיצה. הקריאה נבנית בהדרגה, צליל אחרי צליל.',
-  },
-  {
-    q: 'אני לא מדבר/ת אנגלית. זו בעיה?',
-    a: 'ממש לא. כל מילה נשמעת בקול, ההנחיות כתובות בעברית, והבדיקה אוטומטית. אתם לא צריכים ללמד, רק לעודד.',
-  },
-  {
-    q: 'לאיזה גיל זה מתאים?',
-    a: 'לילדים בגן ובבית הספר היסודי שמתחילים את הדרך באנגלית. שלב 1 מתאים גם למי שעוד לא מכיר אף אות, והשלבים המתקדמים מאתגרים גם ילדים שכבר קוראים.',
-  },
-  {
-    q: 'כמה זמן ביום צריך?',
-    a: 'אנחנו ממליצים על `10–15` דקות ביום, בקצב של הילד. עדיף מעט וכל יום מאשר הרבה פעם בשבוע.',
-  },
-  {
-    q: 'יש לי כמה ילדים. איך זה עובד?',
-    a: `לכל ילד יש פרופיל משלו, עם כוכבים והתקדמות נפרדים. ${ils(FAMILY.price)} לחודש לכל הילדים בבית (עד ${FAMILY.upTo}), ${ils(UNLIMITED.price)} ללא הגבלה, ו-${ils(SINGLE.price)} אם יש ילד אחד.`,
-  },
-  {
-    q: 'מה מקבלים בחינם?',
-    a: 'אחרי התחברות עם חשבון Google מקבלים טעימה מכל מסלול בשלב 1: אותיות, צלילים ומילים ראשונות. בלי כרטיס אשראי ובלי התחייבות.',
-  },
-  {
-    q: 'איך מבטלים?',
-    a: 'בכל רגע, אונליין, מעמוד החבילות באתר. אין חיובים נוספים אחרי הביטול, והגישה נשארת עד סוף החודש ששולם.',
-  },
-  {
-    q: 'באיזה מכשיר זה עובד?',
-    a: 'בטלפון, בטאבלט ובמחשב, ישירות מהדפדפן. אין מה להתקין. כדאי להפעיל סאונד, כי הרבה מהתרגולים מבוססים על שמיעה.',
-  },
-  {
-    q: 'זה בטוח לילדים?',
-    a: 'אין באתר פרסומות. ההרשמה נעשית עם חשבון Google של ההורה, ולכל ילד אנחנו שומרים רק שם פרופיל ושכבת גיל (אם בחרתם להוסיף).',
-  },
-]
 
 /* ── Page ────────────────────────────────────────────────────────────── */
 
@@ -192,37 +152,6 @@ export function LandingPage() {
                 <Mascot size={78} className="float drop-shadow-lg" />
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* ═══ 2. PAIN → PROMISE ════════════════════════════════════════ */}
-        <section className="px-4 sm:px-6 py-14 md:py-20 bg-white border-y border-[color:var(--line)]">
-          <div className="max-w-5xl mx-auto">
-            <Reveal className="text-center mb-8">
-              <h2 className="lp-h font-extrabold text-2xl sm:text-3xl">אנגלית חשובה. אבל איפה היא קורית?</h2>
-            </Reveal>
-            <ul className="grid sm:grid-cols-3 gap-3 sm:gap-5">
-              {PAINS.map((p, i) => {
-                const kid = i === PAINS.length - 1
-                return (
-                  <Reveal as="li" key={p.title} delay={i * 90}
-                    className={`flex sm:flex-col items-center sm:items-start gap-4 rounded-3xl p-5 sm:p-6 ${kid ? 'bg-[#FFF0F3] ring-1 ring-[#FFD3DD]' : 'bg-[#F7F5FC] ring-1 ring-[color:var(--line)]'}`}>
-                    <span aria-hidden="true" className="text-[2.1rem] leading-none flex-shrink-0">{p.icon}</span>
-                    <div className="min-w-0">
-                      <h3 className={`lp-h font-extrabold text-lg leading-tight ${kid ? 'text-[#D93A5E]' : ''}`}>{p.title}</h3>
-                      <p className="font-semibold text-[color:var(--ink-2)] leading-snug mt-1">{withEnglish(p.body)}</p>
-                    </div>
-                  </Reveal>
-                )
-              })}
-            </ul>
-            <Reveal delay={200} className="mt-10 md:mt-14 text-center">
-              <div aria-hidden="true" className="text-2xl text-[color:var(--violet)] mb-3">↓</div>
-              <p className="lp-h font-extrabold text-[1.65rem] sm:text-4xl leading-snug max-w-3xl mx-auto text-balance">
-                Small Talk נותן לכל ילד דרך אישית, צעד אחר צעד —{' '}
-                <span className="text-[color:var(--violet)]">עד שהוא מדבר.</span>
-              </p>
-            </Reveal>
           </div>
         </section>
 
@@ -620,6 +549,8 @@ export function LandingPage() {
           <Link href="/legal/privacy" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">מדיניות פרטיות</Link>
           <span aria-hidden="true" className="py-2">·</span>
           <Link href="/legal/refunds" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">ביטולים והחזרים</Link>
+          <span aria-hidden="true" className="py-2">·</span>
+          <Link href="/legal/accessibility" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">הצהרת נגישות</Link>
         </nav>
         <p className="mt-1">
           יצירת קשר:{' '}

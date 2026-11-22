@@ -345,6 +345,8 @@ function PricingContent() {
           <a href="/legal/privacy" className="hover:text-primary no-underline">מדיניות פרטיות</a>
           {' · '}
           <a href="/legal/refunds" className="hover:text-primary no-underline">ביטולים והחזרים</a>
+          {' · '}
+          <a href="/legal/accessibility" className="hover:text-primary no-underline">הצהרת נגישות</a>
         </p>
       </div>
     </div>
