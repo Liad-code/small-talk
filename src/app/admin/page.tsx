@@ -11,7 +11,7 @@ interface Stats {
   totalStars: number
   subscriptions: Record<string, number>
   paywallEnabled: boolean
-  pricePerChild: number
+  parentTiers: string
   teacherMonthly: number
   openBillingTasks: number
 }
@@ -106,7 +106,7 @@ export default function AdminPage() {
                     <span className="text-green-600">OFF (site is free)</span>
                   )}
                 </span>
-                <span>Parent: ₪{stats.pricePerChild}/child/month · Teacher: ₪{stats.teacherMonthly}/month</span>
+                <span>Parents: {stats.parentTiers} · Teacher: ₪{stats.teacherMonthly}/month</span>
                 <span>Provider: Grow (via Make)</span>
                 {stats.openBillingTasks > 0 && <span className="text-red-500">{stats.openBillingTasks} open Grow tasks ↓</span>}
               </div>

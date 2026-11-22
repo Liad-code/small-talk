@@ -313,7 +313,7 @@ function ClassCode({ child, discount, onChange }: { child: ChildOverview; discou
       </div>
       <p className="text-[11px] font-bold text-gray-500 mt-2">
         המורה יראה/תראה את שם הפרופיל ({child.displayName}) ואת ההתקדמות בלבד — לא את פרטי החשבון שלכם.
-        {discount ? ` אם למורה יש מנוי פעיל, תקבלו ${discount}% הנחה על הילד הזה.` : ''}
+        {discount ? ` אם למורה יש מנוי פעיל, תקבלו ${discount}% הנחה על המנוי המשפחתי.` : ''}
       </p>
       {error && <p className="text-xs font-bold text-red-600 mt-1">{error}</p>}
     </div>

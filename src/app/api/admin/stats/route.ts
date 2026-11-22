@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/admin'
 import { paywallEnabled } from '@/lib/entitlements'
-import { PARENT_PER_CHILD, TEACHER_MONTHLY } from '@/lib/billing/plans'
+import { PARENT_TIERS, TEACHER_MONTHLY } from '@/lib/billing/plans'
 
 export const dynamic = 'force-dynamic'
 
@@ -59,7 +59,7 @@ export async function GET() {
       (subjectStars._sum.stars ?? 0) + (step1StarRows._sum.stars ?? 0) + (stepStarsAgg._sum.stars ?? 0),
     subscriptions,
     paywallEnabled: paywallEnabled(),
-    pricePerChild: PARENT_PER_CHILD / 100,
+    parentTiers: PARENT_TIERS.map(t => `${t.labelHe} ₪${t.price / 100}`).join(' · '),
     teacherMonthly: TEACHER_MONTHLY / 100,
     openBillingTasks: await db.billingTask.count({ where: { status: 'open' } }),
   })

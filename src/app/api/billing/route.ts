@@ -4,7 +4,7 @@ import { getEntitlement, paywallEnabled } from '@/lib/entitlements'
 import { db } from '@/lib/db'
 import { quoteFor } from '@/lib/billing/service'
 import { makeConfigured } from '@/lib/billing/make'
-import { CLASS_DISCOUNT_PERCENT, FIRST_MONTH_PERCENT_OFF, PARENT_PER_CHILD } from '@/lib/billing/plans'
+import { CLASS_DISCOUNT_PERCENT } from '@/lib/billing/plans'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,7 +31,7 @@ export async function GET() {
     cardSuffix: ent.cardSuffix,
     canUndoCancel: ent.status === 'canceled' && ent.hasAccess && !!openCancel,
     quotes: { parent, teacher },
-    prices: { perChild: PARENT_PER_CHILD, classDiscountPercent: CLASS_DISCOUNT_PERCENT, firstMonthPercentOff: FIRST_MONTH_PERCENT_OFF },
+    prices: { classDiscountPercent: CLASS_DISCOUNT_PERCENT },
     checkoutAvailable: makeConfigured(),
     paywallEnabled: paywallEnabled(),
   })

@@ -4,7 +4,7 @@ import {
   hasAccess, addMonth, extendPeriod, findRef, refFor, readNotice, normalizePhone,
   toAgorot, parseGrowDate, amountMatches, newClassCode, normalizeCode, GRACE_DAYS,
 } from './policy.ts'
-import { quoteParent, quoteTeacher, PARENT_PER_CHILD, TEACHER_MONTHLY, CLASS_DISCOUNT_PERCENT } from './plans.ts'
+import { quoteParent, quoteTeacher, PARENT_TIERS, TEACHER_MONTHLY, CLASS_DISCOUNT_PERCENT, FIRST_MONTH_PERCENT_OFF } from './plans.ts'
 
 const day = 86_400_000
 const now = new Date('2026-12-10T10:00:00Z')
@@ -28,16 +28,18 @@ test('months add calendar-correctly', () => {
   assert.equal(extendPeriod(end, new Date('2027-01-20T10:00:00Z')).toISOString().slice(0, 10), '2027-02-20')
 })
 
-test('prices: per child, class discount, half-price first month, teacher fixed', () => {
-  const two = quoteParent(2, 0)
-  assert.equal(two.monthlyAmount, 2 * PARENT_PER_CHILD)
-  assert.equal(two.firstAmount, PARENT_PER_CHILD)
+test('prices: family tiers, class discount on the family price, teacher fixed', () => {
+  assert.equal(quoteParent(1, 0).monthlyAmount, PARENT_TIERS[0].price)
+  assert.equal(quoteParent(2, 0).monthlyAmount, PARENT_TIERS[1].price)
+  assert.equal(quoteParent(3, 0).monthlyAmount, PARENT_TIERS[2].price)
+  assert.equal(quoteParent(7, 0).monthlyAmount, PARENT_TIERS[2].price)
+  assert.equal(quoteParent(0, 0).seats, 1)
   const disc = quoteParent(2, 1)
-  assert.equal(disc.monthlyAmount, Math.round((PARENT_PER_CHILD + PARENT_PER_CHILD * (100 - CLASS_DISCOUNT_PERCENT) / 100) / 100) * 100)
-  assert.equal(quoteParent(0, 5).seats, 1)
+  assert.equal(disc.monthlyAmount, Math.round(PARENT_TIERS[1].price * (100 - CLASS_DISCOUNT_PERCENT) / 100 / 100) * 100)
+  assert.equal(quoteParent(2, 2).monthlyAmount, disc.monthlyAmount) // discount is per family, not per child
   assert.equal(quoteParent(0, 5).discountedSeats, 1)
   assert.equal(quoteTeacher().monthlyAmount, TEACHER_MONTHLY)
-  assert.equal(quoteParent(3, 0).monthlyAmount % 100, 0)
+  if (FIRST_MONTH_PERCENT_OFF === 0) assert.equal(quoteParent(2, 0).firstAmount, quoteParent(2, 0).monthlyAmount)
 })
 
 test('our checkout reference is found anywhere in a Grow payload', () => {

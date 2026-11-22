@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useSession, signIn } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
-import { CLASS_DISCOUNT_PERCENT, PARENT_PER_CHILD, TEACHER_MONTHLY } from '@/lib/billing/plans'
+import { CLASS_DISCOUNT_PERCENT, PARENT_TIERS, TEACHER_MONTHLY } from '@/lib/billing/plans'
 
 type Plan = 'parent' | 'teacher'
-interface Quote { plan: Plan; seats: number; discountedSeats: number; monthlyAmount: number; firstAmount: number }
+interface Quote { plan: Plan; seats: number; discountedSeats: number; tier: string | null; monthlyAmount: number; firstAmount: number }
 interface BillingInfo {
   subscribed: boolean
   plan: Plan | null
@@ -20,7 +20,7 @@ interface BillingInfo {
   cardSuffix: string | null
   canUndoCancel: boolean
   quotes: { parent: Quote; teacher: Quote }
-  prices: { perChild: number; classDiscountPercent: number; firstMonthPercentOff: number }
+  prices: { classDiscountPercent: number }
   checkoutAvailable: boolean
 }
 
@@ -85,7 +85,7 @@ function PricingContent() {
   const active = billing?.subscribed && billing.status !== 'canceled'
   const ending = billing?.subscribed && billing.status === 'canceled'
   const q = billing?.quotes[plan]
-  const perChild = billing?.prices.perChild ?? PARENT_PER_CHILD
+  const discount = billing?.prices.classDiscountPercent ?? CLASS_DISCOUNT_PERCENT
 
   return (
     <div className="min-h-screen">
@@ -180,15 +180,21 @@ function PricingContent() {
             <div className="bg-white border-4 border-primary rounded-3xl p-6 shadow-lg text-center mb-6">
               {plan === 'parent' ? (
                 <>
-                  <div className="font-display font-black text-5xl text-primary mb-1">
-                    {ils(perChild)}<span className="text-xl text-gray-400 font-bold"> / חודש לילד</span>
+                  {/* family tiers */}
+                  <div className="grid grid-cols-3 gap-2 mb-2">
+                    {PARENT_TIERS.map(t => (
+                      <div key={t.labelHe} className={`rounded-2xl border-2 py-3 ${q?.tier === t.labelHe ? 'border-primary bg-purple-50' : 'border-gray-100'}`}>
+                        <div className="font-display font-black text-3xl text-primary">{ils(t.price)}</div>
+                        <div className="text-xs font-bold text-gray-500 mt-0.5">{t.labelHe}</div>
+                      </div>
+                    ))}
                   </div>
-                  <p className="font-bold text-green-600 text-sm mb-5">🎁 החודש הראשון בחצי מחיר · ביטול בכל עת</p>
+                  <p className="font-bold text-gray-500 text-sm mb-5">לחודש, לכל המשפחה · ביטול בכל עת</p>
                   <ul className="text-right font-bold text-gray-600 text-sm flex flex-col gap-2 mb-5 max-w-xs mx-auto">
                     <li>✅ גישה מלאה לכל השלבים</li>
                     <li>✅ פרופיל נפרד לכל ילד — ההתקדמות נשמרת בענן</li>
                     <li>✅ מאות תרגולים, משחקים ומדריכי הורים</li>
-                    <li>🏫 יש לכם קוד מהמורה? הזינו אותו בפרופיל הילד וקבלו {billing?.prices.classDiscountPercent ?? CLASS_DISCOUNT_PERCENT}% הנחה</li>
+                    <li>🏫 יש לכם קוד מהמורה? הזינו אותו בפרופיל הילד וקבלו {discount}% הנחה על המנוי</li>
                   </ul>
                 </>
               ) : (
@@ -196,11 +202,11 @@ function PricingContent() {
                   <div className="font-display font-black text-5xl text-primary mb-1">
                     {ils(q?.monthlyAmount ?? TEACHER_MONTHLY)}<span className="text-xl text-gray-400 font-bold"> / חודש</span>
                   </div>
-                  <p className="font-bold text-green-600 text-sm mb-5">🎁 החודש הראשון בחצי מחיר · ביטול בכל עת</p>
+                  <p className="font-bold text-gray-500 text-sm mb-5">ביטול בכל עת</p>
                   <ul className="text-right font-bold text-gray-600 text-sm flex flex-col gap-2 mb-5 max-w-xs mx-auto">
                     <li>✅ גישה מלאה לכל השלבים — לתרגול בכיתה</li>
                     <li>📊 תצוגת התקדמות לכל הכיתה במקום אחד</li>
-                    <li>🔑 קוד כיתה אישי: תלמידים שמצטרפים איתו מקבלים הנחה במנוי ונכנסים לכיתה שלכם אוטומטית</li>
+                    <li>🔑 קוד כיתה אישי: משפחות שמצטרפות איתו מקבלות {discount}% הנחה במנוי, והתלמידים נכנסים לכיתה שלכם אוטומטית</li>
                     <li>♾️ ללא הגבלת מספר תלמידים</li>
                   </ul>
                 </>
@@ -218,20 +224,28 @@ function PricingContent() {
                   <div className="bg-purple-50 border-2 border-purple-100 rounded-2xl p-4 mb-4 text-sm font-bold text-gray-600 flex flex-col gap-1">
                     {plan === 'parent' && (
                       <div className="flex justify-between">
-                        <span>{q.seats} {q.seats === 1 ? 'ילד' : 'ילדים'}{q.discountedSeats > 0 && ` (${q.discountedSeats} בהנחת כיתה)`}</span>
-                        <span>{ils(q.monthlyAmount)} לחודש</span>
+                        <span>{q.tier}</span>
+                        <span>{ils(PARENT_TIERS.find(t => t.labelHe === q.tier)?.price ?? q.monthlyAmount)}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-green-700">
-                      <span>🎁 החודש הראשון</span><span>{ils(q.firstAmount)}</span>
+                    {plan === 'parent' && q.discountedSeats > 0 && (
+                      <div className="flex justify-between text-green-700">
+                        <span>🏫 הנחת כיתה ({discount}%)</span>
+                        <span>−{ils((PARENT_TIERS.find(t => t.labelHe === q.tier)?.price ?? q.monthlyAmount) - q.monthlyAmount)}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between text-gray-800">
+                      <span>חיוב חודשי</span><span>{ils(q.monthlyAmount)}</span>
                     </div>
-                    <div className="flex justify-between text-gray-400 text-xs">
-                      <span>מהחודש השני, חיוב חודשי אוטומטי</span><span>{ils(q.monthlyAmount)}</span>
-                    </div>
+                    {q.firstAmount !== q.monthlyAmount && (
+                      <div className="flex justify-between text-green-700 text-xs">
+                        <span>🎁 החודש הראשון</span><span>{ils(q.firstAmount)}</span>
+                      </div>
+                    )}
                   </div>
                   {plan === 'parent' && (
                     <p className="text-xs font-bold text-gray-400 mb-3">
-                      המחיר לפי מספר פרופילי הילדים בחשבון.{' '}
+                      המחיר לפי מספר פרופילי הילדים בחשבון ({q.seats}).{' '}
                       <Link href="/profiles" className="text-primary">ניהול פרופילים ←</Link>
                     </p>
                   )}

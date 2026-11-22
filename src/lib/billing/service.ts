@@ -55,7 +55,7 @@ export async function startCheckout(opts: { userId: string; plan: Plan; phone: s
 
   const productName = q.plan === 'teacher'
     ? 'Small Talk — מנוי מורה'
-    : `Small Talk — מנוי הורים (${q.seats} ${q.seats === 1 ? 'ילד' : 'ילדים'})`
+    : `Small Talk — מנוי משפחתי (${q.tier}${q.discountedSeats ? ', הנחת כיתה' : ''})`
 
   return createPaymentLink({
     ref: refFor(checkout.id),
@@ -308,7 +308,7 @@ export async function syncAmount(userId: string): Promise<void> {
     return
   }
   const details = `${whoLine(sub)}: שנו את סכום הוראת הקבע ב-Grow מ-${ils(sub.monthlyAmount)} ל-${ils(q.monthlyAmount)} לחודש ` +
-    `(${q.seats} ${q.seats === 1 ? 'ילד' : 'ילדים'}${q.discountedSeats ? `, ${q.discountedSeats} בהנחת כיתה` : ''}).`
+    `(${q.tier}${q.discountedSeats ? ', עם הנחת כיתה' : ''}).`
   if (open) {
     await db.billingTask.update({ where: { id: open.id }, data: { details } })
   } else {
