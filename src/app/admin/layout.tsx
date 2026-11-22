@@ -1,11 +1,12 @@
 import { auth } from '@/auth'
 import { Header } from '@/components/layout/Header'
+import { isAdminUser } from '@/lib/access'
 
 /** Server-side gate: /admin is ADMIN-only. Non-admins get an explicit screen. */
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
 
-  if (session?.user?.role === 'ADMIN') return <>{children}</>
+  if (isAdminUser(session?.user)) return <>{children}</>
 
   return (
     <div className="min-h-screen">

@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import { isAdminUser } from '@/lib/access'
 
 /**
  * Admin guard for API routes: returns the admin's userId, or null if the
@@ -7,6 +8,6 @@ import { auth } from '@/auth'
 export async function requireAdmin(): Promise<string | null> {
   const session = await auth()
   if (!session?.user?.id) return null
-  if (session.user.role !== 'ADMIN') return null
+  if (!isAdminUser(session.user)) return null
   return session.user.id
 }

@@ -324,3 +324,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .flip-inner { transition-duration: 0.01ms; }
 }
+
+/* Printable perk pages (monthly report, certificates) */
+@media print {
+  .no-print, header, nav { display: none !important; }
+  body { background: #fff !important; }
+  .print-page { box-shadow: none !important; margin: 0 auto !important; }
+}

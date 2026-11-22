@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { db } from '@/lib/db'
 import { getSessionUserId, getActiveChild } from '@/lib/children'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
+import { childTotalStars, recordStars } from '@/lib/stars'
 
 export const dynamic = 'force-dynamic'
 
@@ -143,6 +144,11 @@ export async function POST(req: Request) {
     }
   }
 
-  if (ops.length > 0) await db.$transaction(ops)
+  if (ops.length > 0) {
+    // Stars gained by this write → today's row (sibling challenge, family goal, monthly report).
+    const before = await childTotalStars(child.id)
+    await db.$transaction(ops)
+    await recordStars(child.id, (await childTotalStars(child.id)) - before).catch(e => console.error('recordStars', e))
+  }
   return NextResponse.json({ ok: true })
 }

@@ -31,6 +31,8 @@ model User {
   children     ChildProfile[]
   subscription Subscription?
   classroom    Classroom?
+
+  familyWeeklyGoal Int? // shared weekly star goal for the family (₪49+ perk); null = default
 }
 
 // ── Phase 2: billing — Grow (via Make) ───────────────────────────────────────
@@ -43,6 +45,7 @@ model Subscription {
   id                String    @id @default(cuid())
   userId            String    @unique
   plan              String    // parent | teacher
+  tierChosen        Int       @default(0) // family tier the parent picked (0/1/2); billed tier = max(chosen, needed for #children)
   status            String    // active | past_due | canceled
   seats             Int       @default(1)   // parent: children billed · teacher: 1
   discountedSeats   Int       @default(0)   // children billed at the class (teacher code) discount
@@ -74,6 +77,7 @@ model BillingCheckout {
   id              String    @id @default(cuid())
   userId          String
   plan            String    // parent | teacher
+  tierChosen      Int       @default(0)
   seats           Int
   discountedSeats Int       @default(0)
   firstAmount     Int       // agorot — first month (discounted)
@@ -163,6 +167,7 @@ model ChildProfile {
   step1Progress Step1Progress[]
   stepStars     StepStars[]
   classMember   ClassMember?
+  starDays      StarDay[]
 
   @@index([userId])
 }
@@ -251,4 +256,18 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+/// Stars earned per child per day (Israel date) — for the weekly sibling challenge,
+/// the family goal and the monthly parent report. Filled by the progress sync (deltas only).
+model StarDay {
+  id             String   @id @default(cuid())
+  childProfileId String
+  day            DateTime @db.Date
+  stars          Int      @default(0)
+
+  child ChildProfile @relation(fields: [childProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([childProfileId, day])
+  @@index([childProfileId, day])
 }

@@ -63,3 +63,15 @@ step can't give free access forever.
 `src/lib/billing/plans.ts`: family tiers 1 child ₪39 · up to 3 children ₪49 · unlimited ₪69 (safety cap 20 profiles) · teacher plan + class codes OFF (`NEXT_PUBLIC_TEACHERS_ENABLED`) ·
 class-code discount **20% off the family price (placeholder)** · full price from the first month (no API → no automatic amount changes).
 Note: a Grow recurring link allows at most 36 charges (3 years); after that the parent subscribes again.
+
+## App lock, admins, landing page, family extras (2026-11-22)
+
+- **Lock:** `PAYWALL_ENABLED=true` locks the whole app (src/middleware.ts). Open without access: `/` (landing page
+  for visitors, app home for members), `/welcome` (landing always), `/pricing`, `/legal`, `/account`, `/profiles`.
+  An access token (30 min, bound to the session) avoids a database check on every page.
+- **Admins:** `ADMIN_EMAILS` (Vercel env, comma-separated, never in git — the repo is public). Listed accounts get
+  the whole app + every extra for free and become ADMIN on their next sign-in.
+- **Family extras** (src/lib/billing/perks.ts): ₪49+ sibling challenge + family goal (/account/family, card on the
+  app home) · ₪69 monthly report (/account/report/[child]), certificates (/account/certificates), early access
+  (src/lib/earlyAccess.ts), personal support. Families may pick a higher tier than their children need.
+- Stars per day: table `StarDay`, filled by the progress sync.

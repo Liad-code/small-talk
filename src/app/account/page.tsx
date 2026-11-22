@@ -5,6 +5,7 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
 import { useActiveProfile } from '@/components/providers/ProfileProvider'
 import { TEACHERS_ENABLED } from '@/lib/billing/plans'
+import { FamilyPerks } from '@/components/perks/FamilyPerks'
 
 interface ChildOverview {
   id: string
@@ -31,6 +32,8 @@ interface Billing {
   currentPeriodEnd: string | null
   paywallEnabled: boolean
   prices: { classDiscountPercent: number }
+  perkTier: number | null
+  admin: boolean
 }
 
 interface Overview {
@@ -186,7 +189,11 @@ export default function AccountPage() {
             {/* ── Subscription ───────────────────────────────── */}
             <section className="mb-8">
               <h2 className="font-display font-bold text-xl text-gray-700 mb-3">💳 מנוי</h2>
-              {billing?.subscribed ? (
+              {billing?.admin ? (
+                <div className="bg-indigo-50 border-2 border-indigo-200 rounded-2xl p-5 font-bold text-indigo-800 text-sm">
+                  🛡️ חשבון מנהל — כל האפליקציה וכל ההטבות פתוחות לכם בחינם.
+                </div>
+              ) : billing?.subscribed ? (
                 <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-5 font-bold text-green-800 text-sm flex items-center justify-between gap-3 flex-wrap">
                   <span>
                     ✅ {billing.plan === 'teacher' ? 'מנוי מורה' : 'מנוי הורים'}
@@ -214,6 +221,8 @@ export default function AccountPage() {
                 </Link>
               </div>}
             </section>
+
+            {billing && <FamilyPerks tier={billing.perkTier} children={data?.children ?? []} />}
 
             {/* ── Account ──────────────────────────────────────── */}
             <section>

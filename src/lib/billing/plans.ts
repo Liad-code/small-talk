@@ -26,6 +26,8 @@ export interface Quote {
   seats: number
   discountedSeats: number // children in a paying teacher's class (any > 0 → class discount)
   tier: string | null     // Hebrew tier label (parent plan)
+  tierIndex: number       // 0/1/2 = position in PARENT_TIERS (teacher plan: -1)
+  minTierIndex: number    // the lowest tier the family may pick (needed for its number of children)
   monthlyAmount: number   // agorot
   firstAmount: number     // agorot
 }
@@ -33,18 +35,29 @@ export interface Quote {
 /** Round to whole shekels so the Grow page shows clean prices. */
 const shekels = (agorot: number) => Math.round(agorot / 100) * 100
 
-export const tierFor = (children: number): Tier => PARENT_TIERS.find(t => children <= t.upTo) ?? PARENT_TIERS[PARENT_TIERS.length - 1]
+/** Index of the lowest tier that fits this many children. */
+export const tierIndexFor = (children: number): number => {
+  const i = PARENT_TIERS.findIndex(t => children <= t.upTo)
+  return i === -1 ? PARENT_TIERS.length - 1 : i
+}
+export const tierFor = (children: number): Tier => PARENT_TIERS[tierIndexFor(children)]
 
-export function quoteParent(seats: number, discountedSeats: number): Quote {
+/** The tier a family is billed at: what they picked, but at least what their number of children needs. */
+export const effectiveTierIndex = (children: number, chosen = 0): number =>
+  Math.min(PARENT_TIERS.length - 1, Math.max(tierIndexFor(Math.max(1, children)), Math.max(0, chosen)))
+
+export function quoteParent(seats: number, discountedSeats: number, chosenTier = 0): Quote {
   const s = Math.max(1, seats)
   const d = Math.min(Math.max(0, discountedSeats), s)
-  const tier = tierFor(s)
+  const minTierIndex = tierIndexFor(s)
+  const tierIndex = effectiveTierIndex(s, chosenTier)
+  const tier = PARENT_TIERS[tierIndex]
   const monthlyAmount = shekels(d > 0 ? tier.price * (100 - CLASS_DISCOUNT_PERCENT) / 100 : tier.price)
-  return { plan: 'parent', seats: s, discountedSeats: d, tier: tier.labelHe, monthlyAmount, firstAmount: firstMonth(monthlyAmount) }
+  return { plan: 'parent', seats: s, discountedSeats: d, tier: tier.labelHe, tierIndex, minTierIndex, monthlyAmount, firstAmount: firstMonth(monthlyAmount) }
 }
 
 export function quoteTeacher(): Quote {
-  return { plan: 'teacher', seats: 1, discountedSeats: 0, tier: null, monthlyAmount: TEACHER_MONTHLY, firstAmount: firstMonth(TEACHER_MONTHLY) }
+  return { plan: 'teacher', seats: 1, discountedSeats: 0, tier: null, tierIndex: -1, minTierIndex: -1, monthlyAmount: TEACHER_MONTHLY, firstAmount: firstMonth(TEACHER_MONTHLY) }
 }
 
 export function firstMonth(monthlyAmount: number): number {

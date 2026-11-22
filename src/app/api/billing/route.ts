@@ -5,6 +5,7 @@ import { db } from '@/lib/db'
 import { quoteFor } from '@/lib/billing/service'
 import { makeConfigured } from '@/lib/billing/make'
 import { CLASS_DISCOUNT_PERCENT, TEACHERS_ENABLED } from '@/lib/billing/plans'
+import { getAccess } from '@/lib/access'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,11 +14,12 @@ export async function GET() {
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
-  const [ent, parent, teacher, openCancel] = await Promise.all([
+  const [ent, parent, teacher, openCancel, access] = await Promise.all([
     getEntitlement(userId),
     quoteFor(userId, 'parent'),
     quoteFor(userId, 'teacher'),
     db.billingTask.findFirst({ where: { userId, kind: 'cancel', status: 'open' }, select: { id: true } }),
+    getAccess(),
   ])
   return NextResponse.json({
     subscribed: ent.hasAccess,
@@ -33,6 +35,9 @@ export async function GET() {
     quotes: { parent, teacher },
     prices: { classDiscountPercent: CLASS_DISCOUNT_PERCENT },
     teachersEnabled: TEACHERS_ENABLED,
+    admin: access.admin,
+    perkTier: access.tier, // family tier for the extras (null = none)
+    tierChosen: parent.tierIndex,
     checkoutAvailable: makeConfigured(),
     paywallEnabled: paywallEnabled(),
   })

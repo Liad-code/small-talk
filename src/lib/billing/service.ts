@@ -29,17 +29,19 @@ async function discountedChildren(userId: string): Promise<number> {
   return n
 }
 
-export async function quoteFor(userId: string, plan: Plan): Promise<Quote> {
+/** Price for this account. `chosenTier` undefined = the tier on the subscription (or the lowest that fits). */
+export async function quoteFor(userId: string, plan: Plan, chosenTier?: number): Promise<Quote> {
   if (plan === 'teacher') return quoteTeacher()
   const seats = await db.childProfile.count({ where: { userId } })
-  return quoteParent(seats, await discountedChildren(userId))
+  const chosen = chosenTier ?? (await db.subscription.findUnique({ where: { userId }, select: { tierChosen: true } }))?.tierChosen ?? 0
+  return quoteParent(seats, await discountedChildren(userId), chosen)
 }
 
 // ── Checkout ─────────────────────────────────────────────────────────────────
 
 export class BillingError extends Error {}
 
-export async function startCheckout(opts: { userId: string; plan: Plan; phone: string; origin: string }) {
+export async function startCheckout(opts: { userId: string; plan: Plan; phone: string; origin: string; tier?: number }) {
   if (opts.plan === 'teacher' && !TEACHERS_ENABLED) throw new BillingError('teachers_off')
   const user = await db.user.findUnique({ where: { id: opts.userId }, include: { subscription: true } })
   if (!user) throw new BillingError('no_user')
@@ -47,10 +49,10 @@ export async function startCheckout(opts: { userId: string; plan: Plan; phone: s
     throw new BillingError('already_subscribed')
   }
 
-  const q = await quoteFor(user.id, opts.plan)
+  const q = await quoteFor(user.id, opts.plan, opts.tier ?? 0)
   const checkout = await db.billingCheckout.create({
     data: {
-      userId: user.id, plan: q.plan, seats: q.seats, discountedSeats: q.discountedSeats,
+      userId: user.id, plan: q.plan, tierChosen: Math.max(0, q.tierIndex), seats: q.seats, discountedSeats: q.discountedSeats,
       firstAmount: q.firstAmount, monthlyAmount: q.monthlyAmount, phone: opts.phone,
     },
   })
@@ -154,6 +156,7 @@ export async function handleFirstPayment(payload: unknown): Promise<string> {
   const currentPeriodEnd = extendPeriod(existing && hasAccess(existing) ? existing.currentPeriodEnd : null, n.paidAt)
   const data = {
     plan: checkout.plan,
+    tierChosen: checkout.tierChosen,
     status: 'active',
     seats: checkout.seats,
     discountedSeats: checkout.discountedSeats,
@@ -393,3 +396,18 @@ export async function canUseClass(userId: string): Promise<boolean> {
 
 /** For the recurring webhook route: Grow's webhook key, wherever it sits in the payload. */
 export const payloadWebhookKey = (p: unknown) => str(field(p, ['webhookKey', 'webhook_key']))
+
+/** The parent picks another family tier while subscribed (≥ what their children need). */
+export async function changeTier(userId: string, tier: number): Promise<boolean> {
+  const sub = await db.subscription.findUnique({ where: { userId } })
+  if (!sub || sub.plan !== 'parent' || sub.status === 'canceled' || !hasAccess(sub)) return false
+  const seats = await db.childProfile.count({ where: { userId } })
+  const t = Math.max(0, Math.min(2, Math.round(tier)))
+  await db.subscription.update({ where: { id: sub.id }, data: { tierChosen: t } })
+  await syncAmount(userId) // new amount → Grow (task for the owner without the API)
+  return effectiveTierIndexOf(seats, t) === t
+}
+
+function effectiveTierIndexOf(seats: number, chosen: number) {
+  return quoteParent(seats, 0, chosen).tierIndex
+}

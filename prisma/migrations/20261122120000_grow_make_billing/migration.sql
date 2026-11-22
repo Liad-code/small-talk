@@ -12,7 +12,8 @@ DROP INDEX "User_stripeCustomerId_key";
 DROP INDEX "Subscription_stripeSubscriptionId_key";
 
 -- AlterTable
-ALTER TABLE "User" DROP COLUMN "stripeCustomerId";
+ALTER TABLE "User" DROP COLUMN "stripeCustomerId",
+ADD COLUMN     "familyWeeklyGoal" INTEGER;
 
 -- AlterTable
 ALTER TABLE "Subscription" DROP COLUMN "priceId",
@@ -30,13 +31,15 @@ ADD COLUMN     "monthlyAmount" INTEGER NOT NULL,
 ADD COLUMN     "payerEmail" TEXT,
 ADD COLUMN     "payerName" TEXT,
 ADD COLUMN     "payerPhone" TEXT,
-ADD COLUMN     "plan" TEXT NOT NULL;
+ADD COLUMN     "plan" TEXT NOT NULL,
+ADD COLUMN     "tierChosen" INTEGER NOT NULL DEFAULT 0;
 
 -- CreateTable
 CREATE TABLE "BillingCheckout" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "plan" TEXT NOT NULL,
+    "tierChosen" INTEGER NOT NULL DEFAULT 0,
     "seats" INTEGER NOT NULL,
     "discountedSeats" INTEGER NOT NULL DEFAULT 0,
     "firstAmount" INTEGER NOT NULL,
@@ -99,6 +102,16 @@ CREATE TABLE "ClassMember" (
     CONSTRAINT "ClassMember_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "StarDay" (
+    "id" TEXT NOT NULL,
+    "childProfileId" TEXT NOT NULL,
+    "day" DATE NOT NULL,
+    "stars" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "StarDay_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE INDEX "BillingCheckout_userId_idx" ON "BillingCheckout"("userId");
 
@@ -130,6 +143,12 @@ CREATE UNIQUE INDEX "ClassMember_childProfileId_key" ON "ClassMember"("childProf
 CREATE INDEX "ClassMember_classroomId_idx" ON "ClassMember"("classroomId");
 
 -- CreateIndex
+CREATE INDEX "StarDay_childProfileId_day_idx" ON "StarDay"("childProfileId", "day");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "StarDay_childProfileId_day_key" ON "StarDay"("childProfileId", "day");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Subscription_growDirectDebitId_key" ON "Subscription"("growDirectDebitId");
 
 -- AddForeignKey
@@ -140,4 +159,7 @@ ALTER TABLE "ClassMember" ADD CONSTRAINT "ClassMember_classroomId_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "ClassMember" ADD CONSTRAINT "ClassMember_childProfileId_fkey" FOREIGN KEY ("childProfileId") REFERENCES "ChildProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "StarDay" ADD CONSTRAINT "StarDay_childProfileId_fkey" FOREIGN KEY ("childProfileId") REFERENCES "ChildProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 

@@ -5,9 +5,10 @@ import { useSearchParams } from 'next/navigation'
 import { useSession, signIn } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
 import { CLASS_DISCOUNT_PERCENT, PARENT_TIERS, TEACHER_MONTHLY, TEACHERS_ENABLED } from '@/lib/billing/plans'
+import { perksForTier, type TierIndex } from '@/lib/billing/perks'
 
 type Plan = 'parent' | 'teacher'
-interface Quote { plan: Plan; seats: number; discountedSeats: number; tier: string | null; monthlyAmount: number; firstAmount: number }
+interface Quote { plan: Plan; seats: number; discountedSeats: number; tier: string | null; tierIndex: number; minTierIndex: number; monthlyAmount: number; firstAmount: number }
 interface BillingInfo {
   subscribed: boolean
   plan: Plan | null
@@ -21,6 +22,8 @@ interface BillingInfo {
   canUndoCancel: boolean
   quotes: { parent: Quote; teacher: Quote }
   prices: { classDiscountPercent: number }
+  admin: boolean
+  tierChosen: number
   checkoutAvailable: boolean
 }
 
@@ -46,6 +49,7 @@ function PricingContent() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmCancel, setConfirmCancel] = useState(false)
+  const [tierPick, setTierPick] = useState<number | null>(null)
 
   const load = useCallback(() => {
     fetch('/api/billing', { cache: 'no-store' })
@@ -65,7 +69,7 @@ function PricingContent() {
     const res = await fetch('/api/billing/checkout', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ plan, phone }),
+      body: JSON.stringify({ plan, phone, tier: chosenTier }),
     })
     const data = await res.json().catch(() => ({}))
     if (res.ok && data.url) { window.location.href = data.url; return }
@@ -86,6 +90,20 @@ function PricingContent() {
   const ending = billing?.subscribed && billing.status === 'canceled'
   const q = billing?.quotes[plan]
   const discount = billing?.prices.classDiscountPercent ?? CLASS_DISCOUNT_PERCENT
+  // Family tier: what the parent picks, never below what their number of children needs.
+  const minTier = billing?.quotes.parent.minTierIndex ?? 0
+  const chosenTier = Math.max(minTier, tierPick ?? minTier)
+  const tierPrice = PARENT_TIERS[chosenTier].price
+  const discounted = (billing?.quotes.parent.discountedSeats ?? 0) > 0
+  const chosenMonthly = Math.round((discounted ? tierPrice * (100 - discount) / 100 : tierPrice) / 100) * 100
+
+  async function changeTier(tier: number) {
+    if (busy) return
+    setBusy(true)
+    await fetch('/api/billing/tier', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ tier }) })
+    setBusy(false)
+    load()
+  }
 
   return (
     <div className="min-h-screen">
@@ -105,6 +123,12 @@ function PricingContent() {
         {success && !active && (
           <div className="bg-green-50 border-2 border-green-300 rounded-2xl px-4 py-3 mb-6 text-center font-bold text-green-800 bounce-in">
             🎉 התשלום התקבל! המנוי יופעל תוך רגע — רעננו את הדף אם הוא עוד לא מופיע.
+          </div>
+        )}
+
+        {billing?.admin && (
+          <div className="bg-indigo-50 border-2 border-indigo-200 rounded-2xl px-4 py-3 mb-6 text-center font-bold text-indigo-800">
+            🛡️ חשבון מנהל — כל האפליקציה וכל ההטבות פתוחות לכם בחינם.
           </div>
         )}
 
@@ -131,6 +155,26 @@ function PricingContent() {
               )}
               {ending && <li className="text-amber-600">⏳ המנוי בוטל ויסתיים ב-{date(billing.currentPeriodEnd)}</li>}
             </ul>
+
+            {active && billing.plan === 'parent' && (
+              <div className="mb-4">
+                <div className="text-xs font-black text-gray-400 mb-1.5">החבילה שלכם</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {PARENT_TIERS.map((t, i) => {
+                    const current = billing.tierChosen === i
+                    const allowed = i >= billing.quotes.parent.minTierIndex
+                    return (
+                      <button key={t.labelHe} onClick={() => !current && allowed && changeTier(i)} disabled={busy || !allowed || current}
+                        className={`rounded-2xl border-2 py-2 text-center cursor-pointer disabled:cursor-default ${current ? 'border-primary bg-purple-50' : allowed ? 'border-gray-200 hover:border-primary' : 'border-gray-100 opacity-40'}`}>
+                        <div className="font-display font-black text-xl text-primary">{ils(t.price)}</div>
+                        <div className="text-[11px] font-bold text-gray-500">{t.labelHe}</div>
+                      </button>
+                    )
+                  })}
+                </div>
+                <p className="text-[11px] font-bold text-gray-400 mt-1.5">שינוי חבילה נכנס לתוקף מהחיוב הבא. ההטבות נפתחות מיד.</p>
+              </div>
+            )}
 
             {billing.plan === 'teacher' && (
               <Link href="/teacher" className="btn-kid bg-primary w-full block text-center no-underline mb-3">👩‍🏫 לכיתה שלי</Link>
@@ -180,20 +224,30 @@ function PricingContent() {
             <div className="bg-white border-4 border-primary rounded-3xl p-6 shadow-lg text-center mb-6">
               {plan === 'parent' ? (
                 <>
-                  {/* family tiers */}
+                  {/* family tiers — tap to choose */}
                   <div className="grid grid-cols-3 gap-2 mb-2">
-                    {PARENT_TIERS.map(t => (
-                      <div key={t.labelHe} className={`rounded-2xl border-2 py-3 ${q?.tier === t.labelHe ? 'border-primary bg-purple-50' : 'border-gray-100'}`}>
-                        <div className="font-display font-black text-3xl text-primary">{ils(t.price)}</div>
-                        <div className="text-xs font-bold text-gray-500 mt-0.5">{t.labelHe}</div>
-                      </div>
-                    ))}
+                    {PARENT_TIERS.map((t, i) => {
+                      const allowed = !billing || i >= minTier
+                      return (
+                        <button key={t.labelHe} onClick={() => allowed && setTierPick(i)} disabled={!allowed}
+                          className={`relative rounded-2xl border-2 py-3 transition-all cursor-pointer disabled:cursor-not-allowed ${chosenTier === i ? 'border-primary bg-purple-50 shadow' : allowed ? 'border-gray-100 hover:border-purple-200' : 'border-gray-100 opacity-40'}`}>
+                          {i === 1 && <span className="absolute -top-2.5 inset-x-0 mx-auto w-fit rounded-full bg-secondary text-white text-[10px] font-black px-2">הכי משתלם</span>}
+                          <div className="font-display font-black text-3xl text-primary">{ils(t.price)}</div>
+                          <div className="text-xs font-bold text-gray-500 mt-0.5">{t.labelHe}</div>
+                        </button>
+                      )
+                    })}
                   </div>
-                  <p className="font-bold text-gray-500 text-sm mb-5">לחודש, לכל המשפחה · ביטול בכל עת</p>
-                  <ul className="text-right font-bold text-gray-600 text-sm flex flex-col gap-2 mb-5 max-w-xs mx-auto">
-                    <li>✅ גישה מלאה לכל השלבים</li>
-                    <li>✅ פרופיל נפרד לכל ילד — ההתקדמות נשמרת בענן</li>
-                    <li>✅ מאות תרגולים, משחקים ומדריכי הורים</li>
+                  <p className="font-bold text-gray-500 text-sm mb-4">לחודש, לכל המשפחה · ביטול בכל עת</p>
+                  {billing && minTier > 0 && (
+                    <p className="text-xs font-bold text-gray-400 -mt-2 mb-4">יש לכם {q?.seats} ילדים בחשבון — החבילה המינימלית: ״{PARENT_TIERS[minTier].labelHe}״</p>
+                  )}
+                  <ul className="text-right font-bold text-gray-600 text-sm flex flex-col gap-2 mb-5 max-w-sm mx-auto">
+                    {perksForTier(chosenTier as TierIndex).map(p => (
+                      <li key={p.id} className={p.minTier > 0 ? 'text-primary' : ''}>
+                        {p.icon} <span className="font-black">{p.titleHe}</span> — <span className="font-bold text-gray-500">{p.descHe}</span>
+                      </li>
+                    ))}
                     {TEACHERS_ENABLED && <li>🏫 יש לכם קוד מהמורה? הזינו אותו בפרופיל הילד וקבלו {discount}% הנחה על המנוי</li>}
                   </ul>
                 </>
@@ -224,24 +278,19 @@ function PricingContent() {
                   <div className="bg-purple-50 border-2 border-purple-100 rounded-2xl p-4 mb-4 text-sm font-bold text-gray-600 flex flex-col gap-1">
                     {plan === 'parent' && (
                       <div className="flex justify-between">
-                        <span>{q.tier}</span>
-                        <span>{ils(PARENT_TIERS.find(t => t.labelHe === q.tier)?.price ?? q.monthlyAmount)}</span>
+                        <span>חבילה: {PARENT_TIERS[chosenTier].labelHe}</span>
+                        <span>{ils(tierPrice)}</span>
                       </div>
                     )}
-                    {plan === 'parent' && q.discountedSeats > 0 && (
+                    {plan === 'parent' && discounted && (
                       <div className="flex justify-between text-green-700">
                         <span>🏫 הנחת כיתה ({discount}%)</span>
-                        <span>−{ils((PARENT_TIERS.find(t => t.labelHe === q.tier)?.price ?? q.monthlyAmount) - q.monthlyAmount)}</span>
+                        <span>−{ils(tierPrice - chosenMonthly)}</span>
                       </div>
                     )}
                     <div className="flex justify-between text-gray-800">
-                      <span>חיוב חודשי</span><span>{ils(q.monthlyAmount)}</span>
+                      <span>חיוב חודשי</span><span>{ils(plan === 'parent' ? chosenMonthly : q.monthlyAmount)}</span>
                     </div>
-                    {q.firstAmount !== q.monthlyAmount && (
-                      <div className="flex justify-between text-green-700 text-xs">
-                        <span>🎁 החודש הראשון</span><span>{ils(q.firstAmount)}</span>
-                      </div>
-                    )}
                   </div>
                   {plan === 'parent' && (
                     <p className="text-xs font-bold text-gray-400 mb-3">
@@ -274,7 +323,7 @@ function PricingContent() {
 
                   {billing.checkoutAvailable ? (
                     <button onClick={startCheckout} disabled={busy || !agree || !phone.trim()} className="btn-kid bg-green-500 w-full disabled:opacity-50">
-                      {busy ? 'פותחים את עמוד התשלום…' : `🔒 לתשלום מאובטח ב-Grow — ${ils(q.firstAmount)}`}
+                      {busy ? 'פותחים את עמוד התשלום…' : `🔒 לתשלום מאובטח ב-Grow — ${ils(plan === 'parent' ? chosenMonthly : q.firstAmount)}`}
                     </button>
                   ) : (
                     <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 text-center font-bold text-blue-800 text-sm">

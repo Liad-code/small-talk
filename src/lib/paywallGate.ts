@@ -1,18 +1,14 @@
 import { redirect } from 'next/navigation'
-import { auth } from '@/auth'
-import { getEntitlement, paywallEnabled } from '@/lib/entitlements'
+import { getAccess } from '@/lib/access'
+import { paywallEnabled } from '@/lib/entitlements'
 
 /**
- * Server-side gate for paid content (Steps 2-6).
- * No-op while PAYWALL_ENABLED !== 'true', so the site stays free until the
- * flag is flipped. Runs in step layouts (Node runtime — full Prisma access).
+ * Server-side gate for app pages (defence in depth — the middleware is the main lock).
+ * No-op while PAYWALL_ENABLED !== 'true'. Admins and subscribers pass.
  */
 export async function requirePaidAccess() {
   if (!paywallEnabled()) return
-
-  const session = await auth()
-  if (!session?.user?.id) redirect('/pricing?reason=signin')
-
-  const ent = await getEntitlement(session.user.id)
-  if (!ent.hasAccess) redirect('/pricing?reason=locked')
+  const access = await getAccess()
+  if (!access.signedIn) redirect('/?reason=signin')
+  if (!access.app) redirect('/pricing?reason=locked')
 }
