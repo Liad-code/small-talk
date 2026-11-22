@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { Header } from '@/components/layout/Header'
+import { FreeTasteBanner } from '@/components/step1/FreeTasteBanner'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
 
 interface TrackCardProps {
@@ -103,6 +104,7 @@ export default function Step1HubPage() {
   return (
     <div className="min-h-screen">
       <Header />
+      <FreeTasteBanner />
 
       {/* Hero */}
       <section className="text-center py-8 px-4 relative overflow-hidden">

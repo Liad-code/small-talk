@@ -1,5 +1,5 @@
 'use client'
-import Link from 'next/link'
+import { GatedLink as Link } from '@/components/step1/GatedLink'
 import { Header } from '@/components/layout/Header'
 import { useStep1Progress } from '@/hooks/useStep1Progress'
 import { LETTER_GROUPS } from '@/data/step1/letterGroups'

@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { ACCESS_COOKIE, SESSION_COOKIES, verifyAccessToken } from '@/lib/accessToken'
+import { isFreePath } from '@/lib/freeTier'
 
 /**
  * The app lock. While PAYWALL_ENABLED=true, every app page needs a valid access token
@@ -18,6 +19,8 @@ export async function middleware(req: NextRequest) {
   if (OPEN.some(r => r.test(pathname))) return NextResponse.next()
 
   const session = SESSION_COOKIES.map(n => req.cookies.get(n)?.value).find(Boolean)
+  // The free taste of Step 1 is open to anyone signed in (the session itself is checked by the pages' API calls).
+  if (session && isFreePath(pathname)) return NextResponse.next()
   const token = req.cookies.get(ACCESS_COOKIE)?.value
   if (session && token && (await verifyAccessToken(token, session, process.env.AUTH_SECRET))) return NextResponse.next()
 
