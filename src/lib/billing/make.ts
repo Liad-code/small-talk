@@ -67,8 +67,9 @@ export type DirectDebitChange = { sum: number } | { changeStatus: 1 | 2 } // sum
  */
 export async function updateDirectDebit(ref: DirectDebitRef, change: DirectDebitChange): Promise<boolean> {
   try {
-    // `grow` = exactly the body for Grow's updateDirectDebit (Make passes it through untouched).
-    const { status, text } = await callMake('update_direct_debit', { ...ref, ...change, grow: { ...ref, ...change } }, 20_000)
+    // `growBody` = exactly the JSON body for Grow's updateDirectDebit, as text — Grow's Make
+    // "Make an API Call" module needs a string body; the scenario passes it through untouched.
+    const { status, text } = await callMake('update_direct_debit', { ...ref, ...change, growBody: JSON.stringify({ ...ref, ...change }) }, 20_000)
     if (status < 200 || status >= 300) return false
     const body = JSON.parse(text) as { status?: unknown; err?: unknown }
     return String(body.status) === '1' && !body.err
