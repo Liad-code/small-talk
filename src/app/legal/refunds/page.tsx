@@ -1,4 +1,4 @@
-export const metadata = { title: 'ביטולים והחזרים – Small Talk' }
+export const metadata = { title: 'ביטולים והחזרים', alternates: { canonical: '/legal/refunds' } }
 
 export default function RefundsPage() {
   return (

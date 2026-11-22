@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'הצהרת נגישות – Small Talk',
+  title: 'הצהרת נגישות',
   description: 'הצהרת הנגישות של Small Talk: התאמות הנגישות באתר, תפריט הנגישות, מגבלות ידועות ודרכי פנייה לרכז/ת הנגישות.',
   alternates: { canonical: '/legal/accessibility' },
 }

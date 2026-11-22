@@ -543,7 +543,14 @@ export function LandingPage() {
       {/* ── Footer ─────────────────────────────────────────────────────── */}
       <footer className="px-4 pt-2 pb-28 md:pb-12 text-center text-sm font-bold text-[color:var(--ink-3)]" dir="rtl">
         <p className="lp-h text-base text-[color:var(--ink)]">💬 Small Talk</p>
-        <nav className="flex flex-wrap justify-center gap-x-1 mt-2" aria-label="מידע משפטי">
+        <nav className="flex flex-wrap justify-center gap-x-1 mt-2" aria-label="תוכן חינמי להורים">
+          <Link href="/english-words" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">מילים באנגלית לפי נושאים</Link>
+          <span aria-hidden="true" className="py-2">·</span>
+          <Link href="/english-letters" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">האותיות באנגלית</Link>
+          <span aria-hidden="true" className="py-2">·</span>
+          <Link href="/guides" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">מדריכים להורים</Link>
+        </nav>
+        <nav className="flex flex-wrap justify-center gap-x-1" aria-label="מידע משפטי">
           <Link href="/legal/terms" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">תנאי שימוש</Link>
           <span aria-hidden="true" className="py-2">·</span>
           <Link href="/legal/privacy" className="hover:text-[color:var(--violet)] no-underline px-2.5 py-2">מדיניות פרטיות</Link>

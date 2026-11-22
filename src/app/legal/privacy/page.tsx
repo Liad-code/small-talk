@@ -1,4 +1,4 @@
-export const metadata = { title: 'מדיניות פרטיות – Small Talk' }
+export const metadata = { title: 'מדיניות פרטיות', alternates: { canonical: '/legal/privacy' } }
 
 export default function PrivacyPage() {
   return (

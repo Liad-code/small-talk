@@ -1,6 +1,9 @@
+import type { Metadata } from 'next'
 import { auth } from '@/auth'
 import { Header } from '@/components/layout/Header'
 import { isAdminUser } from '@/lib/access'
+
+export const metadata: Metadata = { robots: { index: false, follow: false } }
 
 /** Server-side gate: /admin is ADMIN-only. Non-admins get an explicit screen. */
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

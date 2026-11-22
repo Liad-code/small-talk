@@ -11,6 +11,8 @@ import { isFreePath } from '@/lib/freeTier'
 const OPEN: RegExp[] = [
   /^\/$/, /^\/welcome/, /^\/pricing/, /^\/legal/, /^\/account/, /^\/profiles/, /^\/admin/, /^\/teacher/,
   /^\/landing-preview/,
+  // public SEO content
+  /^\/english-words/, /^\/english-letters/, /^\/guides/,
 ]
 
 export async function middleware(req: NextRequest) {

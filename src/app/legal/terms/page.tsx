@@ -1,4 +1,4 @@
-export const metadata = { title: 'תנאי שימוש – Small Talk' }
+export const metadata = { title: 'תנאי שימוש', alternates: { canonical: '/legal/terms' } }
 
 export default function TermsPage() {
   return (
