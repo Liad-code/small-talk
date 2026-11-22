@@ -66,6 +66,9 @@ export type DirectDebitChange = { sum: number } | { changeStatus: 1 | 2 } // sum
  * Grow confirms (status 1). Never throws — the caller falls back to a manual task.
  */
 export async function updateDirectDebit(ref: DirectDebitRef, change: DirectDebitChange): Promise<boolean> {
+  // Grow's updateDirectDebit needs their paid API plan (Grow's Make "Make an API Call" module fails
+  // without it). Off by default → the caller creates a manual task for the owner right away.
+  if (process.env.GROW_DIRECT_DEBIT_API !== 'true') return false
   try {
     // `growBody` = exactly the JSON body for Grow's updateDirectDebit, as text — Grow's Make
     // "Make an API Call" module needs a string body; the scenario passes it through untouched.
