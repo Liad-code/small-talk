@@ -60,6 +60,6 @@ step can't give free access forever.
 
 ## Prices
 
-`src/lib/billing/plans.ts`: family tiers 1 child ₪50 · 2 children **₪90** · 3+ **₪120** (placeholders) · teacher **₪99/month (placeholder)** ·
+`src/lib/billing/plans.ts`: family tiers 1 child ₪39 · up to 3 children ₪49 · unlimited ₪69 (safety cap 20 profiles) · teacher plan + class codes OFF (`NEXT_PUBLIC_TEACHERS_ENABLED`) ·
 class-code discount **20% off the family price (placeholder)** · full price from the first month (no API → no automatic amount changes).
 Note: a Grow recurring link allows at most 36 charges (3 years); after that the parent subscribes again.

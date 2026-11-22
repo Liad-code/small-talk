@@ -29,10 +29,11 @@ test('months add calendar-correctly', () => {
 })
 
 test('prices: family tiers, class discount on the family price, teacher fixed', () => {
-  assert.equal(quoteParent(1, 0).monthlyAmount, PARENT_TIERS[0].price)
-  assert.equal(quoteParent(2, 0).monthlyAmount, PARENT_TIERS[1].price)
-  assert.equal(quoteParent(3, 0).monthlyAmount, PARENT_TIERS[2].price)
-  assert.equal(quoteParent(7, 0).monthlyAmount, PARENT_TIERS[2].price)
+  assert.equal(quoteParent(1, 0).monthlyAmount, 3900)
+  assert.equal(quoteParent(2, 0).monthlyAmount, 4900)
+  assert.equal(quoteParent(3, 0).monthlyAmount, 4900)
+  assert.equal(quoteParent(4, 0).monthlyAmount, 6900)
+  assert.equal(quoteParent(15, 0).monthlyAmount, PARENT_TIERS[2].price)
   assert.equal(quoteParent(0, 0).seats, 1)
   const disc = quoteParent(2, 1)
   assert.equal(disc.monthlyAmount, Math.round(PARENT_TIERS[1].price * (100 - CLASS_DISCOUNT_PERCENT) / 100 / 100) * 100)

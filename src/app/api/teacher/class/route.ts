@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { TEACHERS_ENABLED } from '@/lib/billing/plans'
 import { z } from 'zod'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
@@ -14,6 +15,7 @@ export const dynamic = 'force-dynamic'
  * shared — never the parent's name or email.
  */
 export async function GET() {
+  if (!TEACHERS_ENABLED) return NextResponse.json({ error: 'teachers_off' }, { status: 404 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
@@ -43,6 +45,7 @@ export async function GET() {
 /** Create my class (free while the site is free; otherwise needs the teacher plan). */
 export async function POST(req: Request) {
   if (!rateLimit(req, 'class-create', 5, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
+  if (!TEACHERS_ENABLED) return NextResponse.json({ error: 'teachers_off' }, { status: 404 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   if (!(await canUseClass(userId))) return NextResponse.json({ error: 'teacher_plan' }, { status: 403 })
@@ -53,6 +56,7 @@ export async function POST(req: Request) {
 /** Rename the class. */
 export async function PATCH(req: Request) {
   if (!rateLimit(req, 'class-mutate', 20, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
+  if (!TEACHERS_ENABLED) return NextResponse.json({ error: 'teachers_off' }, { status: 404 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   const body = z.object({ name: z.string().trim().min(1).max(40) }).safeParse(await req.json().catch(() => null))

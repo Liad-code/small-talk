@@ -1,7 +1,7 @@
 import type { Prisma } from '@prisma/client'
 import { db } from '@/lib/db'
 import { paywallEnabled } from '@/lib/entitlements'
-import { quoteParent, quoteTeacher, toShekels, type Plan, type Quote } from './plans'
+import { quoteParent, quoteTeacher, toShekels, TEACHERS_ENABLED, type Plan, type Quote } from './plans'
 import {
   hasAccess, extendPeriod, refFor, findRef, readNotice, amountMatches, newClassCode, field, str,
 } from './policy'
@@ -19,6 +19,7 @@ async function teacherIsPaying(teacherId: string): Promise<boolean> {
 
 /** Children of this parent that sit in the class of a paying teacher. */
 async function discountedChildren(userId: string): Promise<number> {
+  if (!TEACHERS_ENABLED) return 0
   const members = await db.classMember.findMany({
     where: { child: { userId } },
     select: { classroom: { select: { teacherId: true } } },
@@ -39,6 +40,7 @@ export async function quoteFor(userId: string, plan: Plan): Promise<Quote> {
 export class BillingError extends Error {}
 
 export async function startCheckout(opts: { userId: string; plan: Plan; phone: string; origin: string }) {
+  if (opts.plan === 'teacher' && !TEACHERS_ENABLED) throw new BillingError('teachers_off')
   const user = await db.user.findUnique({ where: { id: opts.userId }, include: { subscription: true } })
   if (!user) throw new BillingError('no_user')
   if (user.subscription && user.subscription.status !== 'canceled' && hasAccess(user.subscription)) {
@@ -384,6 +386,7 @@ export async function ensureClassroom(teacherId: string) {
 
 /** Teachers see the class view when they pay for the teacher plan (or while the site is free). */
 export async function canUseClass(userId: string): Promise<boolean> {
+  if (!TEACHERS_ENABLED) return false
   if (!paywallEnabled()) return true
   return teacherIsPaying(userId)
 }

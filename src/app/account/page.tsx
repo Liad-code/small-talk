@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
 import { useActiveProfile } from '@/components/providers/ProfileProvider'
+import { TEACHERS_ENABLED } from '@/lib/billing/plans'
 
 interface ChildOverview {
   id: string
@@ -81,7 +82,7 @@ export default function AccountPage() {
     }
     loadOverview()
     fetch('/api/billing', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(setBilling).catch(() => {})
-    fetch('/api/teacher/class', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(d => setHasClass(!!d?.classroom)).catch(() => {})
+    if (TEACHERS_ENABLED) fetch('/api/teacher/class', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(d => setHasClass(!!d?.classroom)).catch(() => {})
   }, [status, loadOverview])
 
   async function deleteAccount() {
@@ -176,7 +177,7 @@ export default function AccountPage() {
                     {c.stars.subjects > 0 && (
                       <div className="text-xs font-bold text-gray-400 mt-2">+ {c.stars.subjects} כוכבים מנושאי הלימוד הכלליים</div>
                     )}
-                    <ClassCode child={c} discount={billing?.prices.classDiscountPercent ?? null} onChange={loadOverview} />
+                    {TEACHERS_ENABLED && <ClassCode child={c} discount={billing?.prices.classDiscountPercent ?? null} onChange={loadOverview} />}
                   </div>
                 ))}
               </div>
@@ -207,11 +208,11 @@ export default function AccountPage() {
                   אין מנוי פעיל. <Link href="/pricing" className="text-primary">להצטרפות ←</Link>
                 </div>
               )}
-              <div className="mt-3 text-sm font-bold">
+              {TEACHERS_ENABLED && <div className="mt-3 text-sm font-bold">
                 <Link href="/teacher" className="text-primary no-underline hover:underline">
                   👩‍🏫 {hasClass ? 'לכיתה שלי' : 'אתם מורים? לאזור המורה'} ←
                 </Link>
-              </div>
+              </div>}
             </section>
 
             {/* ── Account ──────────────────────────────────────── */}

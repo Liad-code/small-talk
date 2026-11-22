@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { TEACHERS_ENABLED } from '@/lib/billing/plans'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
 import { getSessionUserId } from '@/lib/children'
@@ -9,6 +10,7 @@ export const dynamic = 'force-dynamic'
 /** The teacher removes a student from their class. */
 export async function DELETE(req: Request, { params }: { params: { childId: string } }) {
   if (!rateLimit(req, 'class-mutate', 20, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
+  if (!TEACHERS_ENABLED) return NextResponse.json({ error: 'teachers_off' }, { status: 404 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 

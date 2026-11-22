@@ -4,16 +4,18 @@
  * Without Grow's paid API the site can't change a standing order by itself, so prices are
  * designed to change rarely: family TIERS (not per child), full price from the first month.
  *
- * ⚠️ PLACEHOLDERS until the owner confirms: the 2- and 3+-children tiers, TEACHER_MONTHLY,
- * CLASS_DISCOUNT_PERCENT.
+ * Tiers confirmed by the owner 2026-11-22: 1 child ₪39 · up to 3 children ₪49 · unlimited ₪69.
  */
 export interface Tier { upTo: number; price: number; labelHe: string }
 export const PARENT_TIERS: Tier[] = [
-  { upTo: 1, price: 5000, labelHe: 'ילד אחד' },          // ₪50
-  { upTo: 2, price: 9000, labelHe: '2 ילדים' },          // ₪90  — PLACEHOLDER
-  { upTo: Infinity, price: 12000, labelHe: '3 ילדים ומעלה' }, // ₪120 — PLACEHOLDER
+  { upTo: 1, price: 3900, labelHe: 'ילד אחד' },        // ₪39
+  { upTo: 3, price: 4900, labelHe: 'עד 3 ילדים' },     // ₪49
+  { upTo: Infinity, price: 6900, labelHe: 'ללא הגבלה' }, // ₪69 (safety cap: MAX_CHILDREN in lib/children.ts)
 ]
-export const TEACHER_MONTHLY = 9900       // ₪99 per teacher per month — PLACEHOLDER
+
+/** Teacher plan + class codes. Off for now (owner, 2026-11-22); the code stays ready behind this switch. */
+export const TEACHERS_ENABLED = process.env.NEXT_PUBLIC_TEACHERS_ENABLED === 'true'
+export const TEACHER_MONTHLY = 9900       // ₪99 per teacher per month — PLACEHOLDER (teachers are off)
 export const CLASS_DISCOUNT_PERCENT = 20  // family price −20% when a child is in a subscribed teacher's class — PLACEHOLDER
 export const FIRST_MONTH_PERCENT_OFF = 0  // 0 = first month at full price (a discount would need a manual change in Grow per subscriber)
 

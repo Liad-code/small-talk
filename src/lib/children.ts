@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 import { db } from '@/lib/db'
 
 export const ACTIVE_CHILD_COOKIE = 'smalltalk_active_child'
-export const MAX_CHILDREN = 8 // per parent account; billing is per child (see lib/billing/plans.ts)
+export const MAX_CHILDREN = 20 // safety cap for the "unlimited" family tier (lib/billing/plans.ts)
 
 /** Session user id, or null. */
 export async function getSessionUserId(): Promise<string | null> {

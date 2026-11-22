@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useSession, signIn } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
-import { CLASS_DISCOUNT_PERCENT, PARENT_TIERS, TEACHER_MONTHLY } from '@/lib/billing/plans'
+import { CLASS_DISCOUNT_PERCENT, PARENT_TIERS, TEACHER_MONTHLY, TEACHERS_ENABLED } from '@/lib/billing/plans'
 
 type Plan = 'parent' | 'teacher'
 interface Quote { plan: Plan; seats: number; discountedSeats: number; tier: string | null; monthlyAmount: number; firstAmount: number }
@@ -40,7 +40,7 @@ function PricingContent() {
   const success = params.get('success')
 
   const [billing, setBilling] = useState<BillingInfo | null>(null)
-  const [plan, setPlan] = useState<Plan>(params.get('plan') === 'teacher' ? 'teacher' : 'parent')
+  const [plan, setPlan] = useState<Plan>(TEACHERS_ENABLED && params.get('plan') === 'teacher' ? 'teacher' : 'parent')
   const [phone, setPhone] = useState('')
   const [agree, setAgree] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -165,7 +165,7 @@ function PricingContent() {
         {/* ── Plans ─────────────────────────────────────────── */}
         {!active && (
           <>
-            <div className="grid grid-cols-2 gap-2 bg-gray-100 rounded-2xl p-1.5 mb-4">
+            {TEACHERS_ENABLED && <div className="grid grid-cols-2 gap-2 bg-gray-100 rounded-2xl p-1.5 mb-4">
               {(['parent', 'teacher'] as const).map(p => (
                 <button
                   key={p}
@@ -175,7 +175,7 @@ function PricingContent() {
                   {p === 'parent' ? '👨‍👩‍👧 הורים' : '👩‍🏫 מורים'}
                 </button>
               ))}
-            </div>
+            </div>}
 
             <div className="bg-white border-4 border-primary rounded-3xl p-6 shadow-lg text-center mb-6">
               {plan === 'parent' ? (
@@ -194,7 +194,7 @@ function PricingContent() {
                     <li>✅ גישה מלאה לכל השלבים</li>
                     <li>✅ פרופיל נפרד לכל ילד — ההתקדמות נשמרת בענן</li>
                     <li>✅ מאות תרגולים, משחקים ומדריכי הורים</li>
-                    <li>🏫 יש לכם קוד מהמורה? הזינו אותו בפרופיל הילד וקבלו {discount}% הנחה על המנוי</li>
+                    {TEACHERS_ENABLED && <li>🏫 יש לכם קוד מהמורה? הזינו אותו בפרופיל הילד וקבלו {discount}% הנחה על המנוי</li>}
                   </ul>
                 </>
               ) : (

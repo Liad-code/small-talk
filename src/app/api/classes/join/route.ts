@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { TEACHERS_ENABLED } from '@/lib/billing/plans'
 import { z } from 'zod'
 import { rateLimit, TOO_MANY } from '@/lib/rateLimit'
 import { db } from '@/lib/db'
@@ -17,6 +18,7 @@ const schema = z.object({ childId: z.string().min(1).max(40), code: z.string().m
 export async function POST(req: Request) {
   // Strict limit: codes are short, so guessing must be slow.
   if (!rateLimit(req, 'class-join', 8, 10 * 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
+  if (!TEACHERS_ENABLED) return NextResponse.json({ error: 'teachers_off' }, { status: 404 })
   const userId = await getSessionUserId()
   if (!userId) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 

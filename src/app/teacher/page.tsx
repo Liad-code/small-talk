@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useSession, signIn } from 'next-auth/react'
 import { Header } from '@/components/layout/Header'
+import { TEACHERS_ENABLED } from '@/lib/billing/plans'
 
 interface Student {
   id: string
@@ -69,6 +70,20 @@ export default function TeacherPage() {
 
   function copyCode(code: string) {
     navigator.clipboard?.writeText(code).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1500) }).catch(() => {})
+  }
+
+  if (!TEACHERS_ENABLED) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <div className="max-w-md mx-auto px-4 py-20 text-center" dir="rtl">
+          <div className="text-6xl mb-4">👩‍🏫</div>
+          <h1 className="font-display text-3xl font-bold text-gray-800 mb-2">אזור המורים</h1>
+          <p className="font-bold text-gray-500 mb-6">אזור המורים ייפתח בקרוב.</p>
+          <Link href="/pricing" className="btn-kid bg-primary no-underline">למנויים למשפחות ←</Link>
+        </div>
+      </div>
+    )
   }
 
   if (status === 'unauthenticated') {
