@@ -367,7 +367,7 @@ const STORY: Story = {
       lines: [ASK_PAY],
       choices: [
         {
-          say: 'Here you are.', he: 'בבקשה (הנה הכסף).', icon: '💰', next: 'end-party',
+          say: 'Here is the money.', he: 'הנה הכסף.', icon: '💰', next: 'end-party',
           nextIf: [{ key: 'why', value: 'hero', next: 'end-hero' }, { key: 'why', value: 'grandma', next: 'end-grandma' }],
         },
         { say: 'Can I pay with buttons?', he: 'אפשר לשלם בכפתורים?', icon: '🔘', silly: { text: 'Buttons? Ha ha! Money, please. Try again.', he: 'כפתורים? חה חה! כסף, בבקשה. נסו שוב.' } },

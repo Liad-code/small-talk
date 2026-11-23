@@ -2,8 +2,8 @@ import type { Story, StoryChoice, StoryLine } from './types'
 
 /**
  * Story mode — "Tony's Big Day". A branching adventure in the pizzeria: the
- * child's choices change what happens (a birthday surprise, helping at the
- * oven, forgetting the money…) and lead to one of four endings.
+ * child's choices change what happens (a birthday surprise, up to 3 toppings,
+ * forgetting the money…) and lead to one of four endings.
  *
  * Every English line is pre-recorded (scripts/generate-scene-audio.mjs):
  * Tony's lines in his voice, the child's choices in the kid voice. Many lines
@@ -13,6 +13,7 @@ import type { Story, StoryChoice, StoryLine } from './types'
 const ASK_GREET: StoryLine = { text: "Hi! Welcome to Tony's Pizza! What would you like?", he: 'שלום! ברוכים הבאים לפיצה של טוני! מה תרצו?' }
 const ASK_SIZE: StoryLine = { text: 'Great! What size would you like? Small, medium or large?', he: 'מעולה! איזה גודל תרצו? קטנה, בינונית או גדולה?' }
 const ASK_TOPPING: StoryLine = { text: 'Yum! What topping would you like?', he: 'יאמי! איזו תוספת תרצו?' }
+const UP_TO_3: StoryLine = { text: 'You can choose up to 3 toppings.', he: 'אפשר לבחור עד 3 תוספות.' }
 const ASK_DRINK: StoryLine = { text: 'Would you like a drink?', he: 'תרצו משהו לשתות?' }
 const ASK_WHERE: StoryLine = { text: 'Do you want to eat here or take away?', he: 'לאכול כאן או לקחת הביתה?' }
 const ASK_PAY: StoryLine = { text: "Here is your pizza! That's twenty shekels, please.", he: 'הנה הפיצה שלכם! זה עשרים שקלים, בבקשה.' }
@@ -24,7 +25,7 @@ const GOOD_NIGHT: StoryChoice = { say: 'Good night!', he: 'לילה טוב!', ic
 /** Pay choices — where they lead depends on the story so far. */
 function payChoices(normalEnding: string): StoryChoice[] {
   return [
-    { say: 'Here you are.', he: 'בבקשה (הנה הכסף).', icon: '💰', next: normalEnding, nextIf: [{ key: 'birthday', value: 'yes', next: 'end-birthday' }] },
+    { say: 'Here is the money.', he: 'הנה הכסף.', icon: '💰', next: normalEnding, nextIf: [{ key: 'birthday', value: 'yes', next: 'end-birthday' }] },
     { say: 'Oh no! I forgot my money!', he: 'אוי לא! שכחתי את הכסף!', icon: '😱', next: 'end-dishes' },
     { say: 'No, you pay!', he: 'לא, אתה תשלם!', icon: '🙃', silly: { text: 'Ha ha, nice try! Try again.', he: 'חה חה, ניסיון יפה! נסו שוב.' } },
   ]
@@ -46,7 +47,6 @@ export const PIZZERIA_STORY: Story = {
     { icon: '👋', he: 'שלום' },
     { icon: '📏', he: 'גודל' },
     { icon: '🧀', he: 'תוספת' },
-    { icon: '🔥', he: 'תנור' },
     { icon: '🥤', he: 'שתייה' },
     { icon: '🏠', he: 'כאן או הביתה' },
     { icon: '💰', he: 'תשלום' },
@@ -94,45 +94,39 @@ export const PIZZERIA_STORY: Story = {
     },
     {
       id: 'topping', place: 'kitchen', chapter: 3,
-      narrationHe: 'טוני מורח רוטב עגבניות ומפזר גבינה. עכשיו הכי כיף — בוחרים תוספת!',
-      lines: [ASK_TOPPING],
-      showChoices: 3,
-      choices: [
-        { say: 'Cheese, please.', he: 'גבינה, בבקשה.', icon: '🧀', set: { topping: 'cheese' }, next: 'oven', canSellOut: true },
-        { say: 'Mushrooms, please.', he: 'פטריות, בבקשה.', icon: '🍄', set: { topping: 'mushrooms' }, next: 'oven', canSellOut: true },
-        { say: 'Olives, please.', he: 'זיתים, בבקשה.', icon: '🫒', set: { topping: 'olives' }, next: 'oven', canSellOut: true },
-        { say: 'Peppers, please.', he: 'פלפלים, בבקשה.', icon: '🫑', set: { topping: 'peppers' }, next: 'oven', canSellOut: true },
-        { say: 'Corn, please.', he: 'תירס, בבקשה.', icon: '🌽', set: { topping: 'corn' }, next: 'oven', canSellOut: true },
-        { say: 'Chocolate, please.', he: 'שוקולד, בבקשה.', icon: '🍫', silly: { text: 'Chocolate on pizza? Yuck! Try again.', he: 'שוקולד על פיצה? איכס! נסו שוב.' } },
-      ],
+      narrationHe: 'טוני מורח רוטב עגבניות ומפזר גבינה. עכשיו הכי כיף — בוחרים עד 3 תוספות!',
+      lines: [ASK_TOPPING, UP_TO_3],
+      pick: {
+        key: 'topping', max: 3, promptHe: 'בחרו עד 3 תוספות', closer: 'please.',
+        options: [
+          { say: 'Cheese', he: 'גבינה', icon: '🧀', value: 'cheese' },
+          { say: 'Mushrooms', he: 'פטריות', icon: '🍄', value: 'mushrooms' },
+          { say: 'Olives', he: 'זיתים', icon: '🫒', value: 'olives' },
+          { say: 'Peppers', he: 'פלפלים', icon: '🫑', value: 'peppers' },
+          { say: 'Corn', he: 'תירס', icon: '🌽', value: 'corn' },
+          { say: 'Onion', he: 'בצל', icon: '🧅', value: 'onion' },
+          { say: 'Tuna', he: 'טונה', icon: '🐟', value: 'tuna' },
+          { say: 'Chili', he: "צ'ילי", icon: '🌶️', value: 'chili' },
+        ],
+        reply: { text: 'Great choice! Your pizza is in the oven now.', he: 'בחירה מצוינת! הפיצה שלכם בתנור עכשיו.' },
+        next: 'drink',
+      },
     },
     {
-      id: 'oven', place: 'oven', chapter: 4,
-      narrationHe: 'הפיצה מוכנה להיכנס לתנור הלוהט. טוני מסתכל עליכם…',
-      lines: [{ text: 'Now the pizza goes into the hot oven. Can you help me?', he: 'עכשיו הפיצה נכנסת לתנור הלוהט. תוכלו לעזור לי?' }],
-      choices: [
-        { say: 'Yes! I can help you.', he: 'כן! אני יכול/ה לעזור לך.', icon: '💪', next: 'bake' },
-        { say: 'No, thank you. I will wait.', he: 'לא, תודה. אני אחכה.', icon: '🪑', reply: { text: 'Okay! Please wait here.', he: 'בסדר! חכו כאן, בבקשה.' }, next: 'drink' },
-      ],
-    },
-    {
-      id: 'bake', place: 'oven', chapter: 4, event: 'oven', next: 'drink',
-      narrationHe: 'אתם השפים! הוציאו את הפיצה כשהיא זהובה — לא מוקדם מדי, ולא מאוחר מדי!',
-      lines: [],
-    },
-    {
-      id: 'drink', place: 'counter', chapter: 5,
-      narrationHe: 'הפיצה כמעט מוכנה. הריח מדהים… וקצת צמא לכם.',
+      id: 'drink', place: 'counter', chapter: 4,
+      narrationHe: 'הפיצה נאפית בתנור של טוני. הריח מדהים… וקצת צמא לכם.',
       lines: [ASK_DRINK],
       choices: [
         { say: 'Yes, orange juice, please.', he: 'כן, מיץ תפוזים, בבקשה.', icon: '🧃', set: { drink: 'orange juice' }, next: 'where' },
         { say: 'Yes, water, please.', he: 'כן, מים, בבקשה.', icon: '💧', set: { drink: 'water' }, next: 'where' },
+        { say: 'Yes, apple juice, please.', he: 'כן, מיץ תפוחים, בבקשה.', icon: '🍏', set: { drink: 'apple juice' }, next: 'where' },
+        { say: 'Yes, cola, please.', he: 'כן, קולה, בבקשה.', icon: '🥤', set: { drink: 'cola' }, next: 'where' },
         { say: 'No, thank you.', he: 'לא, תודה.', icon: '🚫', set: { drink: 'none' }, next: 'where' },
         { say: 'Yes, a cat, please.', he: 'כן, חתול, בבקשה.', icon: '🐱', silly: { text: "A cat? We don't sell cats! Try again.", he: 'חתול? אנחנו לא מוכרים חתולים! נסו שוב.' } },
       ],
     },
     {
-      id: 'where', place: 'counter', chapter: 6,
+      id: 'where', place: 'counter', chapter: 5,
       narrationHe: 'דינג! הפיצה יצאה מהתנור. איפה תאכלו אותה?',
       lines: [ASK_WHERE],
       choices: [
@@ -142,37 +136,37 @@ export const PIZZERIA_STORY: Story = {
       ],
     },
     {
-      id: 'pay-table', place: 'table', chapter: 7,
+      id: 'pay-table', place: 'table', chapter: 6,
       narrationHe: 'התיישבתם ליד שולחן עם מפה משובצת. טוני מגיש לכם את הפיצה…',
       lines: [ASK_PAY],
       choices: payChoices('end-party'),
     },
     {
-      id: 'pay-box', place: 'counter', chapter: 7,
+      id: 'pay-box', place: 'counter', chapter: 6,
       narrationHe: 'טוני מכניס את הפיצה לקופסה חמה וקושר אותה בסרט.',
       lines: [ASK_PAY],
       choices: payChoices('end-picnic'),
     },
     {
-      id: 'end-party', place: 'table', chapter: 8, ending: 'party',
+      id: 'end-party', place: 'table', chapter: 7, ending: 'party',
       narrationHe: 'הפיצה חמה, הגבינה נמתחת… איזו ארוחה!',
       lines: [{ text: 'Thank you! Enjoy your pizza!', he: 'תודה! בתיאבון!' }],
       choices: [GOODBYE, GOOD_NIGHT],
     },
     {
-      id: 'end-picnic', place: 'counter', chapter: 8, ending: 'picnic',
+      id: 'end-picnic', place: 'counter', chapter: 7, ending: 'picnic',
       narrationHe: 'יש לכם רעיון: פיקניק בפארק!',
       lines: [{ text: 'Here is your box. Have a great picnic!', he: 'הנה הקופסה שלכם. פיקניק מהנה!' }],
       choices: [GOODBYE, GOOD_NIGHT],
     },
     {
-      id: 'end-birthday', place: 'table', chapter: 8, ending: 'birthday',
+      id: 'end-birthday', place: 'table', chapter: 7, ending: 'birthday',
       narrationHe: 'פתאום האורות כבים… טוני יוצא מהמטבח עם נר דולק!',
       lines: [{ text: "Surprise! It's your birthday, so the pizza is free!", he: 'הפתעה! יש לכם יום הולדת, אז הפיצה בחינם!' }],
       choices: [{ say: 'Wow! Thank you, Tony!', he: 'וואו! תודה, טוני!', icon: '🥳' }],
     },
     {
-      id: 'end-dishes', place: 'kitchen', chapter: 8, ending: 'dishes',
+      id: 'end-dishes', place: 'kitchen', chapter: 7, ending: 'dishes',
       narrationHe: 'אופס… אין כסף בכיס! טוני מגרד את הראש ואז מחייך.',
       lines: [{ text: 'No money? No problem! You can wash the dishes!', he: 'אין כסף? אין בעיה! אתם יכולים לשטוף כלים!' }],
       choices: [{ say: 'Okay! I love bubbles!', he: 'בסדר! אני אוהב/ת בועות!', icon: '🫧' }],

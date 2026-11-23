@@ -493,7 +493,7 @@ function WritingEx({
   onDone,
 }: {
   questions: WriteQ[]
-  instructionLines: string[]
+  instructionLines: React.ReactNode[]
   negative?: boolean
   theme: 'cyan' | 'pink'
   onDone: () => void
@@ -727,13 +727,13 @@ export default function MixedPracticePage() {
         )}
         {tab === 'write1' && (
           <ExWrapper render={done => <WritingEx questions={WRITE_POSITIVE} theme="cyan" instructionLines={[
-            'שימו לב לזמן במשפט והשלימו את צורת הפועל הנכונה בחיוב.',
+            <>שימו לב לזמן במשפט והשלימו את צורת הפועל הנכונה <strong className="text-lg font-black underline decoration-2 underline-offset-4">בחיוב</strong>.</>,
             'לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
           ]} onDone={done} />} />
         )}
         {tab === 'write2' && (
           <ExWrapper render={done => <WritingEx questions={WRITE_NEGATIVE} theme="pink" negative instructionLines={[
-            'שימו לב לזמן במשפט והשלימו את צורת הפועל הנכונה בשלילה.',
+            <>שימו לב לזמן במשפט והשלימו את צורת הפועל הנכונה <strong className="text-lg font-black underline decoration-2 underline-offset-4">בשלילה</strong>.</>,
             'ניתן לכתוב את פועל העזר בצורה המלאה או בצורה המקוצרת: דוג׳ is not או isn\'t',
             'לאחר 2 טעויות המערכת מציגה את התשובה הנכונה – יש ללחוץ על הריבוע על מנת לעבור לשאלה הבאה.',
           ]} onDone={done} />} />
