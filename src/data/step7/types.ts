@@ -162,6 +162,29 @@ export interface FindEvent {
   doneLine: StoryLine     // the character, when all are found
 }
 
+/** One item in a "pick several" moment (toppings, flavours, vegetables…). */
+export interface StoryPickOption {
+  say: string     // the item in the child's voice, recorded alone (e.g. 'Cheese')
+  he: string
+  icon: string
+  value: string   // stored in memory (comma-joined with the other picks)
+}
+
+/**
+ * "Pick several" moment: the child taps up to `max` items (any number when omitted), then
+ * confirms; each picked item is said in the child's voice, then the closer (e.g. 'please.').
+ */
+export interface StoryPick {
+  key: string               // memory key, e.g. 'topping' → 'cheese,olives'
+  options: StoryPickOption[]
+  max?: number
+  min?: number              // default 1
+  promptHe: string          // e.g. 'בחרו עד 3 תוספות'
+  closer: string            // kid line after the items, e.g. 'please.' (recorded once)
+  reply?: StoryLine         // the character after the order
+  next: string
+}
+
 export interface StoryNode {
   id: string
   place: Place
@@ -173,6 +196,8 @@ export interface StoryNode {
   showChoices?: number
   /** A special interaction instead of choices. */
   event?: 'oven' | FindEvent
+  /** "Pick several" instead of choices. */
+  pick?: StoryPick
   /** Where an event or a choice-less node continues. */
   next?: string
   /** Ending nodes: which ending this is. */

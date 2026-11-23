@@ -31,6 +31,11 @@ export function bundleLines({ scene, story }: SceneBundle): { speaker: Speaker; 
       if (c.silly) out.push({ speaker: char, text: c.silly.text })
     }
     if (n.event && n.event !== 'oven') out.push({ speaker: char, text: n.event.doneLine.text })
+    if (n.pick) {
+      for (const o of n.pick.options) out.push({ speaker: 'kid', text: o.say })
+      out.push({ speaker: 'kid', text: n.pick.closer })
+      if (n.pick.reply) out.push({ speaker: char, text: n.pick.reply.text })
+    }
   }
   if (story.soldOut) out.push({ speaker: char, text: story.soldOut.text })
   for (const l of Object.values(story.oven ?? {})) out.push({ speaker: char, text: l.text })

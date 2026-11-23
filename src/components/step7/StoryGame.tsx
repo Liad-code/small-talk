@@ -18,7 +18,7 @@ import { StarOnComplete } from '@/components/shared/StarOnComplete'
 
 type Side = 'left' | 'right'
 interface Bubble { side: Side; text: string; he: string; n: number }
-type Step = 'talk' | 'choose' | 'speak' | 'event'
+type Step = 'talk' | 'choose' | 'speak' | 'event' | 'pick'
 
 const ENDINGS_KEY = 'smalltalk_step7_endings'
 function loadFound(storyId: string): string[] {
@@ -45,6 +45,8 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
   /** Icons of what the child chose (shown on the counter in non-pizza scenes). */
   const [picked, setPicked] = useState<Record<string, string>>({})
   const [found, setFound] = useState<string[]>([])
+  /** "Pick several" moment: what the child has tapped so far. */
+  const [sel, setSel] = useState<string[]>([])
   const [endingId, setEndingId] = useState<string | null>(null)
   const soldOutUsed = useRef(false)
   const bubbleN = useRef(0)
@@ -76,7 +78,32 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
       if (!alive.current) return
     }
     if (!alive.current) return
-    setStep(n.event ? 'event' : 'choose')
+    setSel([])
+    setStep(n.event ? 'event' : n.pick ? 'pick' : 'choose')
+  }
+
+  /** "Pick several": say each chosen item, then the closer; remember them; move on. */
+  async function confirmPick() {
+    const p = node.pick
+    if (!p || step !== 'pick' || sel.length < (p.min ?? 1)) return
+    const opts = p.options.filter(o => sel.includes(o.value))
+    const words = opts.map((o, i) => (i === 0 ? o.say : o.say.toLowerCase()))
+    const list = words.length > 1 ? `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}` : words[0]
+    const text = `${list}, ${p.closer}`
+    setStep('speak')
+    setBubble({ side: 'right', text, he: `${opts.map(o => o.he).join(', ')}, בבקשה.`, n: ++bubbleN.current })
+    setTalking('right')
+    for (const o of opts) { await sayLine('kid', o.say); if (!alive.current) return }
+    await sayLine('kid', p.closer)
+    if (!alive.current) return
+    setTalking(null)
+    setSaid(s => s + 1)
+    setStep('talk')
+    const mem = { ...memory, [p.key]: opts.map(o => o.value).join(',') }
+    setMemory(mem)
+    setPicked(prev => ({ ...prev, ...Object.fromEntries(opts.map(o => [`${p.key}:${o.value}`, o.icon])) }))
+    if (p.reply) { setCharVisible(true); await speak('left', p.reply); if (!alive.current) return }
+    void enterNode(p.next)
   }
 
   function start() {
@@ -142,10 +169,10 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
   // Choices for this moment: a stable shuffle per node (some correct + the silly ones)
   const choices = useMemo(() => {
     const all = node.choices ?? []
+    // Story mode shows only relevant answers (owner, 2026-11-23); silly ones stay in Order / role swap.
     const good = all.filter(c => !c.silly)
-    const silly = all.filter(c => c.silly)
     const shown = node.showChoices ? shuffle([...good]).slice(0, node.showChoices) : good
-    return shuffle([...shown, ...silly])
+    return shuffle([...shown])
   }, [node])
 
   if (phase === 'cover') return <Cover scene={scene} story={story} found={found} onStart={start} />
@@ -263,6 +290,45 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
               </button>
             )
           })}
+        </div>
+      )}
+
+      {step === 'pick' && node.pick && (
+        <div dir="rtl">
+          <p className="text-center font-black text-indigo-700 text-sm mb-2">
+            {node.pick.promptHe}{node.pick.max ? ` · נבחרו ${sel.length} מתוך ${node.pick.max}` : sel.length ? ` · נבחרו ${sel.length}` : ''}
+          </p>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2" dir="ltr">
+            {node.pick.options.map((o, i) => {
+              const on = sel.includes(o.value)
+              const full = !on && !!node.pick!.max && sel.length >= node.pick!.max
+              return (
+                <button
+                  key={o.value}
+                  type="button"
+                  aria-pressed={on}
+                  disabled={full}
+                  onClick={() => setSel(s => (s.includes(o.value) ? s.filter(v => v !== o.value) : [...s, o.value]))}
+                  className={`story-pop-up relative flex flex-col items-center rounded-2xl border-4 px-1 py-2 transition-all
+                    ${on ? 'border-green-400 bg-green-50 scale-[1.03] shadow' : full ? 'border-gray-100 bg-gray-50 opacity-40' : 'border-orange-200 bg-white hover:border-orange-400 active:scale-95'}`}
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
+                  {on && <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-500 text-white text-sm font-black flex items-center justify-center shadow">✓</span>}
+                  <span className="text-3xl leading-none">{o.icon}</span>
+                  <span className="font-black text-[13px] text-gray-800 mt-1 leading-tight text-center">{o.say}</span>
+                  <span className="text-[11px] font-bold text-gray-400" dir="rtl">{o.he}</span>
+                </button>
+              )
+            })}
+          </div>
+          <button
+            type="button"
+            onClick={confirmPick}
+            disabled={sel.length < (node.pick.min ?? 1)}
+            className="btn-kid bg-green-500 w-full mt-3 disabled:opacity-40"
+          >
+            ✓ זהו, אפשר להזמין!
+          </button>
         </div>
       )}
 

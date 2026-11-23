@@ -2,8 +2,9 @@
 
 const TOPPING_ICON: Record<string, string> = {
   cheese: '🧀', mushrooms: '🍄', olives: '🫒', peppers: '🫑', corn: '🌽',
+  onion: '🧅', tuna: '🐟', chili: '🌶️',
 }
-const DRINK_ICON: Record<string, string> = { 'orange juice': '🧃', water: '💧' }
+const DRINK_ICON: Record<string, string> = { 'orange juice': '🧃', water: '💧', 'apple juice': '🍏', cola: '🥤' }
 const SIZE_R: Record<string, number> = { small: 52, medium: 66, large: 80, giant: 94 }
 /** How baked the pizza looks (Story mode oven). */
 const BAKE_FILTER: Record<string, string> = { raw: 'saturate(.55) brightness(1.18)', golden: 'none', burnt: 'brightness(.42) sepia(.9)' }
@@ -11,7 +12,9 @@ const BAKE_FILTER: Record<string, string> = { raw: 'saturate(.55) brightness(1.1
 /** The child's pizza, drawn from their order — it grows and gets toppings as they choose. */
 export function PizzaView({ order, compact = false, bake, size }: { order: Record<string, string>; compact?: boolean; bake?: 'raw' | 'golden' | 'burnt'; size?: number }) {
   const r = SIZE_R[order.size] ?? 66
-  const topping = order.topping ? TOPPING_ICON[order.topping] : null
+  // one topping, or several (comma-joined) spread around the pizza
+  const toppings = (order.topping ?? '').split(',').map(t => TOPPING_ICON[t.trim()]).filter(Boolean)
+  const topping = toppings[0] ?? null
   const spots = Array.from({ length: 8 }, (_, i) => {
     const a = (i / 8) * Math.PI * 2
     const d = r * 0.55
@@ -25,7 +28,7 @@ export function PizzaView({ order, compact = false, bake, size }: { order: Recor
         <circle cx="100" cy="100" r={r - 8} fill="#d9472b" />
         <circle cx="100" cy="100" r={r - 13} fill="#f8d66a" />
         {topping && spots.map((p, i) => (
-          <text key={i} x={p.x} y={p.y} fontSize={r * 0.32} textAnchor="middle" dominantBaseline="central">{topping}</text>
+          <text key={i} x={p.x} y={p.y} fontSize={r * 0.32} textAnchor="middle" dominantBaseline="central">{toppings[i % toppings.length]}</text>
         ))}
         {topping && <text x="100" y="100" fontSize={r * 0.34} textAnchor="middle" dominantBaseline="central">{topping}</text>}
       </svg>
@@ -40,7 +43,7 @@ export function PizzaView({ order, compact = false, bake, size }: { order: Recor
 /** A little receipt of what was ordered (English, as on a real receipt). */
 export function Receipt({ order }: { order: Record<string, string> }) {
   const rows = [
-    `1 × ${order.size ?? ''} pizza${order.topping ? ` (${order.topping})` : ''}`,
+    `1 × ${order.size ?? ''} pizza${order.topping ? ` (${order.topping.split(',').join(', ')})` : ''}`,
     order.drink && order.drink !== 'none' ? `1 × ${order.drink}` : null,
     order.where ? (order.where === 'take away' ? 'take away' : 'eat here') : null,
   ].filter(Boolean) as string[]

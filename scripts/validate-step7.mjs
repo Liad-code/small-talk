@@ -87,7 +87,13 @@ for (const b of bundles) {
       if (!n.next || !byId.has(n.next)) err(`node ${n.id}: event needs a valid next`)
       if (n.event === 'oven' && !story.oven) err(`node ${n.id}: oven event but story.oven missing`)
       if (n.event !== 'oven' && (n.event.count < 1 || n.event.decoys.length < 4)) err(`node ${n.id}: find event needs count ≥1 and ≥4 decoys`)
-    } else if (!n.choices?.length) err(`node ${n.id}: no choices and no event`)
+    } else if (n.pick) {
+      if (!byId.has(n.pick.next)) err(`node ${n.id}: pick needs a valid next`)
+      if (n.pick.options.length < 2) err(`node ${n.id}: pick needs at least 2 options`)
+      const vals = new Set(n.pick.options.map(o => o.value))
+      if (vals.size !== n.pick.options.length) err(`node ${n.id}: pick option values must be unique`)
+      if (n.pick.max !== undefined && n.pick.max < 1) err(`node ${n.id}: pick max must be ≥ 1`)
+    } else if (!n.choices?.length) err(`node ${n.id}: no choices, no event, no pick`)
     for (const c of n.choices ?? []) {
       if (c.silly) continue
       const targets = [c.next, ...(c.nextIf ?? []).map(r => r.next)].filter(Boolean)
@@ -105,6 +111,7 @@ for (const b of bundles) {
     seen.add(id)
     const n = byId.get(id)
     if (n.next) queue.push(n.next)
+    if (n.pick) queue.push(n.pick.next)
     for (const c of n.choices ?? []) {
       if (c.next) queue.push(c.next)
       for (const r of c.nextIf ?? []) queue.push(r.next)

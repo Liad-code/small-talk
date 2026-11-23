@@ -14,15 +14,28 @@ import { StarOnComplete } from '@/components/shared/StarOnComplete'
  * customer answers with a random order, and the child must then MAKE exactly
  * what the customer ordered — a real listening check.
  */
+/** The previous round's customer conversation per scene (so the next round differs). */
+const lastCustomer = new Map<string, string>()
+
 export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => void }) {
   const char = scene.character
-  // The customer's answers, decided up front (one random correct option per step)
+  // The customer's answers, decided up front (one random correct option per step). "Try again"
+  // gives a different conversation each round (owner, 2026-11-23): re-roll until it differs
+  // from the previous round's.
   const customer = useMemo(() => {
-    const m: Record<string, KidOption> = {}
-    for (const s of scene.steps) {
-      const correct = s.options.filter(o => o.correct)
-      m[s.id] = correct[Math.floor(Math.random() * correct.length)]
+    const roll = () => {
+      const m: Record<string, KidOption> = {}
+      for (const s of scene.steps) {
+        const correct = s.options.filter(o => o.correct)
+        m[s.id] = correct[Math.floor(Math.random() * correct.length)]
+      }
+      return m
     }
+    const sig = (m: Record<string, KidOption>) => Object.values(m).map(o => o.say).join('|')
+    const prev = lastCustomer.get(scene.id)
+    let m = roll()
+    for (let i = 0; i < 30 && prev && sig(m) === prev; i++) m = roll()
+    lastCustomer.set(scene.id, sig(m))
     return m
   }, [scene])
   const wanted = useMemo(() => {
