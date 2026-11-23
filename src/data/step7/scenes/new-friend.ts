@@ -254,11 +254,9 @@ const SCENE: Scene = {
 // ── Story ────────────────────────────────────────────────────────────────
 
 const L = (text: string, heText: string): StoryLine => ({ text, he: heText })
-const silly = (s: { say: string; reaction: string }, heSay: string, heReaction: string, icon: string): StoryChoice =>
-  ({ say: s.say, he: heSay, icon, silly: L(s.reaction, heReaction) })
 
 const BYE: StoryChoice = { say: SAY_BYE, he: 'נתראה מחר! ביי, סאם!', icon: '👋' }
-const BYE_SILLY = silly(SILLY_BYE, 'נתראה בשנה הבאה!', 'בשנה הבאה? זה המון זמן! נסו שוב.', '📅')
+const NICE: StoryChoice = { say: 'It was so nice to meet you!', he: 'איזה כיף שהכרנו!', icon: '💛' }
 
 const STORY: Story = {
   id: 'new-friend-story',
@@ -278,8 +276,8 @@ const STORY: Story = {
     { icon: '🐶', he: 'חיות' },
     { icon: '🎲', he: 'משחקים' },
     { icon: '🤝', he: 'משחקים יחד' },
-    { icon: '🔍', he: 'מחפשים' },
-    { icon: '🌇', he: 'אחר הצהריים' },
+    { icon: '🎉', he: 'היה כיף' },
+    { icon: '🤔', he: 'מה עכשיו?' },
     { icon: '⭐', he: 'הסוף' },
   ],
   nodes: [
@@ -298,8 +296,8 @@ const STORY: Story = {
       narrationHe: 'ילד עם כובע מצחייה רץ אליכם ומחייך חיוך ענק.',
       lines: [L(ASK_GREET, he.greet)],
       choices: [
-        { say: SAY_HI, he: 'היי, סאם! אני חדש/ה פה.', icon: '😊', next: 'age' },
-        silly(SILLY_BANANA, 'היי! אני בננה.', 'בננה? לא, אתם ילדים! נסו שוב.', '🍌'),
+        { say: SAY_HI, he: 'היי, סאם! אני חדש/ה פה.', icon: '😊', reply: L('Welcome! You will love it here!', 'ברוכים הבאים! אתם תאהבו את המקום!'), next: 'age' },
+        { say: 'No, I live here.', he: 'לא, אני גר/ה פה.', icon: '🏠', reply: L('Really? Cool! We are neighbours!', 'באמת? מגניב! אנחנו שכנים!'), next: 'age' },
       ],
     },
     {
@@ -310,7 +308,6 @@ const STORY: Story = {
         { say: SAY_8, he: 'אני בן/בת שמונה.', icon: '8️⃣', next: 'pet' },
         { say: SAY_9, he: 'אני בן/בת תשע.', icon: '9️⃣', next: 'pet' },
         { say: SAY_10, he: 'אני בן/בת עשר.', icon: '🔟', next: 'pet' },
-        silly(SILLY_AGE, 'אני בן/בת מאה!', 'מאה? אתם נראים כל כך צעירים! נסו שוב.', '👴'),
       ],
     },
     {
@@ -321,16 +318,19 @@ const STORY: Story = {
       choices: [
         { say: SAY_DOG, he: 'כן, יש לי כלב.', icon: '🐶', set: { pet: 'dog' }, next: 'game' },
         { say: SAY_CAT, he: 'כן, יש לי חתול.', icon: '🐱', set: { pet: 'cat' }, next: 'game' },
+        { say: 'Yes, I have a hamster.', he: 'כן, יש לי אוגר.', icon: '🐹', set: { pet: 'hamster' }, next: 'game' },
+        { say: 'Yes, I have a turtle.', he: 'כן, יש לי צב.', icon: '🐢', set: { pet: 'turtle' }, next: 'game' },
+        { say: 'Yes, I have a rabbit.', he: 'כן, יש לי ארנב.', icon: '🐰', set: { pet: 'rabbit' }, next: 'game' },
         { say: SAY_NOPET, he: 'לא, אין לי חיית מחמד.', icon: '🚫', set: { pet: 'none' }, next: 'game' },
-        silly(SILLY_PET, 'כן, יש לי דרקון.', 'דרקון? וואו! לא נראה לי. נסו שוב.', '🐉'),
       ],
     },
     {
       id: 'game', place: 'playground', chapter: 4,
-      narrationHe: 'יש פה מגלשה, נדנדות ומלא מקום לרוץ. במה תבחרו?',
+      narrationHe: 'יש פה מגלשה, נדנדות, סל כדורסל ומלא מקום לרוץ. במה תבחרו?',
       lines: [L(ASK_GAME, he.game)],
       choices: [
         { say: SAY_FOOTBALL, he: 'אני אוהב/ת לשחק כדורגל.', icon: '⚽', set: { game: 'football' }, next: 'play' },
+        { say: 'I like to play basketball.', he: 'אני אוהב/ת לשחק כדורסל.', icon: '🏀', set: { game: 'basketball' }, next: 'play' },
         { say: SAY_TAG, he: 'אני אוהב/ת לשחק תופסת.', icon: '🏃', set: { game: 'tag' }, next: 'play' },
         { say: SAY_HIDE, he: 'אני אוהב/ת לשחק מחבואים.', icon: '🙈', set: { game: 'hide' }, next: 'play' },
       ],
@@ -340,92 +340,54 @@ const STORY: Story = {
       narrationHe: 'סאם קופץ משמחה. "גם אני אוהב את זה!" הוא צועק.',
       lines: [L(ASK_PLAY, he.play)],
       choices: [
-        {
-          say: SAY_YES, he: 'כן, בבקשה! בוא נשחק!', icon: '🤝', next: 'friends',
-          nextIf: [{ key: 'game', value: 'football', next: 'tree' }],
-        },
-        silly(SILLY_SLEEP, 'לא, אני רוצה לישון.', 'לישון? עכשיו זמן משחק! נסו שוב.', '😴'),
+        { say: SAY_YES, he: 'כן, בבקשה! בוא נשחק!', icon: '🤝', next: 'fun' },
       ],
     },
     {
-      id: 'tree', place: 'tree', chapter: 6,
-      narrationHe: 'בעטתם חזק מדי — הכדור עף ונתקע בעץ! אתם מנערים את העץ, ונופלים ממנו עלים, אגוזים… וכדורים! מצאו את 3 הכדורים!',
-      lines: [L('Oh no! The ball is in the tree! Shake it!', 'אוי לא! הכדור בעץ! נערו אותו!')],
-      event: {
-        kind: 'find', target: '⚽', count: 3,
-        decoys: ['🍃', '🍂', '🌰', '🐦', '🐿️', '🍎', '🪶'],
-        promptHe: 'מצאו את 3 הכדורים שנפלו מהעץ!',
-        doneLine: L('Three balls! Now everybody can play!', 'שלושה כדורים! עכשיו כולם יכולים לשחק!'),
-      },
-      next: 'captain',
-    },
-    {
-      id: 'friends', place: 'playground', chapter: 6,
-      narrationHe: 'החברים של סאם מצטרפים למשחק — ומיד נעלמים! הם מתחבאים מאחורי העצים והשיחים. מצאו את 3 הילדים!',
-      lines: [L('My friends are hiding. Can you find them?', 'החברים שלי מתחבאים. תוכלו למצוא אותם?')],
-      event: {
-        kind: 'find', target: '🧒', count: 3,
-        decoys: ['🌳', '🌷', '🪨', '🦋', '🐿️', '🌼', '🍄'],
-        promptHe: 'מצאו את 3 החברים שמתחבאים!',
-        doneLine: L('You found everybody! You are so good at this!', 'מצאתם את כולם! אתם ממש טובים בזה!'),
-      },
-      next: 'later',
-    },
-    {
-      id: 'captain', place: 'playground', chapter: 7,
-      narrationHe: 'כל הילדים בגן השעשועים רצים לשחק. צריך לבחור קפטן לקבוצה…',
-      lines: [L("Let's play a big game! Who is the captain?", 'בואו נשחק משחק גדול! מי הקפטן?')],
-      props: [{ e: '🧒', x: 40, y: 62, s: 30 }, { e: '👧', x: 52, y: 62, s: 30 }, { e: '⚽', x: 46, y: 76, s: 24 }],
+      id: 'fun', place: 'playground', chapter: 6,
+      narrationHe: 'שיחקתם יחד המון זמן — רצתם, צחקתם ונהניתם. עכשיו אתם יושבים על הדשא, מתנשפים ומחייכים.',
+      lines: [L('That was a fun game!', 'זה היה משחק כיפי!')],
+      props: [{ e: '💦', x: 40, y: 52, s: 22 }, { e: '🌼', x: 56, y: 74, s: 20 }],
       choices: [
-        { say: 'I want to be the captain!', he: 'אני רוצה להיות הקפטן!', icon: '🧢', next: 'end-captain' },
-        { say: 'You are the captain, Sam!', he: 'אתה הקפטן, סאם!', icon: '👦', reply: L('Thanks! You are on my team!', 'תודה! אתם בקבוצה שלי!'), next: 'later' },
+        { say: 'It was fun!', he: 'היה כיף!', icon: '😄', next: 'now' },
+        { say: 'It was a great game!', he: 'זה היה משחק מעולה!', icon: '🏆', next: 'now' },
+        { say: 'Maybe we can play again tomorrow!', he: 'אולי נוכל לשחק שוב מחר!', icon: '📅', reply: L('Yes! Every day!', 'כן! כל יום!'), next: 'now' },
       ],
     },
     {
-      id: 'later', place: 'playground', chapter: 7,
-      narrationHe: 'שיחקתם המון. השמש מתחילה לרדת, ואתם קצת עייפים… וקצת רעבים.',
-      lines: [L('That was fun! What do you want to do now?', 'היה כיף! מה אתם רוצים לעשות עכשיו?')],
+      id: 'now', place: 'playground', chapter: 7,
+      narrationHe: 'השמש מתחילה לרדת. אתם קצת עייפים… וקצת רעבים. סאם מסתכל עליכם בסקרנות.',
+      lines: [L('What do you want to do now?', 'מה אתם רוצים לעשות עכשיו?')],
       choices: [
-        { say: "Let's get ice cream!", he: 'בוא נקנה גלידה!', icon: '🍦', next: 'end-icecream' },
-        {
-          say: "Let's go on the swings!", he: 'בוא נעלה על הנדנדות!', icon: '🎠', next: 'end-friends',
-          nextIf: [{ key: 'pet', value: 'dog', next: 'end-pet' }, { key: 'pet', value: 'cat', next: 'end-pet' }],
-        },
-        { say: "Let's play in the mud!", he: 'בוא נשחק בבוץ!', icon: '🟤', silly: L('In the mud? My mum will be angry! Try again.', 'בבוץ? אמא שלי תכעס! נסו שוב.') },
+        { say: "Let's eat ice cream!", he: 'בוא נאכל גלידה!', icon: '🍦', reply: L('Yes! I love ice cream!', 'כן! אני אוהב גלידה!'), next: 'end-icecream' },
+        { say: "I want to go home. It's late.", he: 'אני רוצה ללכת הביתה. מאוחר.', icon: '🏠', next: 'end-home' },
+        { say: "Let's play again!", he: 'בוא נשחק שוב!', icon: '🔁', reply: L('Yes! One more game!', 'כן! עוד משחק אחד!'), next: 'end-again' },
       ],
-    },
-    {
-      id: 'end-friends', place: 'park', chapter: 8, ending: 'friends',
-      narrationHe: 'אתם מתנדנדים גבוה־גבוה עם סאם, עד שהשמיים נצבעים בכתום.',
-      lines: [L(ASK_BYE, he.bye)],
-      choices: [BYE, BYE_SILLY],
-    },
-    {
-      id: 'end-pet', place: 'park', chapter: 8, ending: 'pet',
-      narrationHe: 'פתאום מישהו רץ אליכם בשמחה… זאת חיית המחמד שלכם! היא באה לחפש אתכם.',
-      lines: [L('Is that your pet? So cute! Bring it tomorrow!', 'זאת חיית המחמד שלכם? כל כך חמודה! תביאו אותה מחר!')],
-      props: [{ e: '🐾', x: 44, y: 72, s: 30 }],
-      choices: [BYE, BYE_SILLY],
     },
     {
       id: 'end-icecream', place: 'icecream', chapter: 8, ending: 'icecream',
       narrationHe: 'אתם יושבים עם סאם מתחת לשמשייה, וכל אחד מלקק גלידה ענקית.',
-      lines: [L('Yum! You are my best friend!', 'יאמי! אתם החברים הכי טובים שלי!')],
-      choices: [{ say: 'You are my best friend too!', he: 'גם אתה החבר הכי טוב שלי!', icon: '💛' }],
+      lines: [L('Yum! Ice cream with a new friend!', 'יאמי! גלידה עם חבר חדש!')],
+      choices: [NICE, BYE],
     },
     {
-      id: 'end-captain', place: 'playground', chapter: 8, ending: 'captain',
-      narrationHe: 'אתם הקפטן! אתם מוסרים לסאם, הוא מחזיר לכם — ו… גוֹל!',
-      lines: [L('Goal! You are a super captain!', 'גול! אתם קפטן־על!')],
-      props: [{ e: '🥅', x: 46, y: 50, s: 46 }, { e: '⚽', x: 50, y: 60, s: 22 }],
-      choices: [{ say: 'Yay! We are a great team!', he: 'יש! אנחנו קבוצה מעולה!', icon: '🏆' }],
+      id: 'end-home', place: 'park', chapter: 8, ending: 'home',
+      narrationHe: 'השמיים נצבעים בכתום. אתם וסאם הולכים יחד עד הפינה, ושם נפרדים.',
+      lines: [L(ASK_BYE, he.bye)],
+      choices: [NICE, BYE],
+    },
+    {
+      id: 'end-again', place: 'playground', chapter: 8, ending: 'again',
+      narrationHe: 'עוד משחק, ועוד אחד… עד שאמא של סאם קוראת לו מהחלון.',
+      lines: [L('My mum is calling. I have to go!', 'אמא שלי קוראת לי. אני צריך ללכת!')],
+      props: [{ e: '🏀', x: 46, y: 70, s: 26 }],
+      choices: [NICE, BYE],
     },
   ],
   endings: [
-    { id: 'friends', emoji: '🌇', title: 'See You Tomorrow', titleHe: 'נתראה מחר', descHe: 'התנדנדתם עם סאם עד השקיעה — ומחר נפגשים שוב.', place: 'park' },
-    { id: 'pet', emoji: '🐾', title: 'Pet Surprise', titleHe: 'הפתעה פרוותית', descHe: 'חיית המחמד שלכם הגיעה לגן — וסאם התאהב בה.', place: 'park', props: [{ e: '🐾', x: 44, y: 72, s: 30 }] },
-    { id: 'icecream', emoji: '🍦', title: 'Ice-Cream Friends', titleHe: 'חברים של גלידה', descHe: 'אכלתם גלידה עם החבר הכי טוב החדש שלכם.', place: 'icecream' },
-    { id: 'captain', emoji: '🧢', title: 'Team Captain', titleHe: 'קפטן הקבוצה', descHe: 'הייתם הקפטן — והבקעתם גול עם סאם!', place: 'playground', props: [{ e: '🥅', x: 46, y: 50, s: 46 }] },
+    { id: 'icecream', emoji: '🍦', title: 'Ice-Cream Friends', titleHe: 'חברים של גלידה', descHe: 'אכלתם גלידה עם סאם, החבר החדש שלכם.', place: 'icecream' },
+    { id: 'home', emoji: '🌇', title: 'See You Tomorrow', titleHe: 'נתראה מחר', descHe: 'הלכתם הביתה בזמן — ומחר נפגשים שוב עם סאם.', place: 'park' },
+    { id: 'again', emoji: '🔁', title: 'One More Game', titleHe: 'עוד משחק אחד', descHe: 'שיחקתם עם סאם עוד ועוד, עד שאמא שלו קראה לו הביתה.', place: 'playground', props: [{ e: '🏀', x: 46, y: 70, s: 26 }] },
   ],
 }
 

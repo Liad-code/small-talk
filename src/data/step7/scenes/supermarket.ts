@@ -263,12 +263,12 @@ const SCENE: Scene = {
 // ── Story ────────────────────────────────────────────────────────────────
 
 const L = (text: string, heText: string): StoryLine => ({ text, he: heText })
-const silly = (s: { say: string; reaction: string }, heSay: string, heReaction: string, icon: string): StoryChoice =>
-  ({ say: s.say, he: heSay, icon, silly: L(s.reaction, heReaction) })
+type Item = [say: string, he: string, icon: string]
+const items = (list: Item[]) => list.map(([say, heText, icon]) => ({ say, he: heText, icon, value: say.toLowerCase() }))
 
 const BYE: StoryChoice = { say: SAY_BYE, he: 'תודה! גם לך! להתראות!', icon: '👋' }
-const BYE_SILLY = silly(SILLY_BYE, 'יום הולדת שמח!', 'יום הולדת שמח? אין לי יום הולדת! נסו שוב.', '🎂')
 const LIST = { e: '📝', x: 30, y: 62, s: 30 }
+const PICK_HE = 'בחרו כמה שתרצו — ואז אשרו'
 
 const STORY: Story = {
   id: 'supermarket-story',
@@ -284,18 +284,17 @@ const STORY: Story = {
   chapters: [
     { icon: '📝', he: 'הרשימה' },
     { icon: '👋', he: 'שלום' },
-    { icon: '🍎', he: 'תפוחים' },
-    { icon: '🔍', he: 'מחפשים' },
-    { icon: '🥚', he: 'ביצים' },
-    { icon: '🛒', he: 'העגלה' },
-    { icon: '🧃', he: 'עוד משהו' },
+    { icon: '🥕', he: 'ירקות' },
+    { icon: '🍎', he: 'פירות' },
+    { icon: '🥛', he: 'מוצרי חלב' },
+    { icon: '🍬', he: 'ממתקים' },
     { icon: '💰', he: 'בקופה' },
     { icon: '⭐', he: 'הסוף' },
   ],
   nodes: [
     {
       id: 'enter', place: 'aisle', chapter: 0, noCharacter: true,
-      narrationHe: 'אמא נתנה לכם עשרים שקלים ורשימת קניות: תפוחים וביצים. אתם נכנסים עם עגלה לסופרמרקט הענק.',
+      narrationHe: 'אמא נתנה לכם כסף ורשימת קניות ארוכה: ירקות, פירות, מוצרי חלב… ובסוף, באותיות קטנות — משהו מתוק! אתם נכנסים עם עגלה לסופרמרקט הענק.',
       lines: [],
       props: [LIST, { e: '🛒', x: 60, y: 66, s: 40 }],
       choices: [
@@ -309,7 +308,6 @@ const STORY: Story = {
       lines: [L(ASK_GREET, he.greet)],
       choices: [
         { say: SAY_GREET, he: 'כן, בבקשה. אני קונה בשביל אמא שלי.', icon: '📝', next: 'need' },
-        silly(SILLY_GREET, 'כן, אני צריך/ה דינוזאור.', 'דינוזאור? אנחנו לא מוכרים דינוזאורים! נסו שוב.', '🦖'),
       ],
     },
     {
@@ -318,118 +316,156 @@ const STORY: Story = {
       lines: [L(ASK_ITEM, he.item)],
       props: [LIST],
       choices: [
-        { say: 'I need apples, please.', he: 'אני צריך/ה תפוחים, בבקשה.', icon: '🍎', next: 'apples' },
-        { say: 'I need bananas, please.', he: 'אני צריך/ה בננות, בבקשה.', icon: '🍌', silly: L("Bananas? Your list says apples! Try again.", 'בננות? ברשימה כתוב תפוחים! נסו שוב.') },
-        silly(SILLY_ITEM, 'אני צריך/ה טיל, בבקשה.', 'טיל? זה סופרמרקט! נסו שוב.', '🚀'),
+        { say: 'Vegetables, please.', he: 'ירקות, בבקשה.', icon: '🥕', next: 'veg' },
       ],
     },
     {
-      id: 'apples', place: 'fruit', chapter: 3,
-      narrationHe: 'הגעתם לדוכן הפירות. יש פה הכול — אבל איפה התפוחים? מצאו 3 תפוחים אדומים!',
-      lines: [L('The apples are here. Can you find three?', 'התפוחים כאן. תוכלו למצוא שלושה?')],
-      event: {
-        kind: 'find', target: '🍎', count: 3,
-        decoys: ['🍌', '🍐', '🍊', '🍋', '🍇', '🍓', '🥝', '🍑'],
-        promptHe: 'מצאו את 3 התפוחים האדומים!',
-        doneLine: L('Three apples! Great job!', 'שלושה תפוחים! עבודה מצוינת!'),
+      id: 'veg', place: 'fruit', chapter: 2,
+      narrationHe: 'מר בראון מוביל אתכם לדוכן הירקות. הכול ירוק, אדום וכתום — וטרי טרי!',
+      lines: [L('Which vegetables?', 'אילו ירקות?')],
+      props: [{ e: '🥕', x: 36, y: 56, s: 26 }, { e: '🥦', x: 48, y: 56, s: 26 }, { e: '🍅', x: 60, y: 56, s: 26 }],
+      pick: {
+        key: 'veg', promptHe: PICK_HE, closer: 'please.',
+        options: items([
+          ['Carrots', 'גזר', '🥕'],
+          ['Tomatoes', 'עגבניות', '🍅'],
+          ['Cucumbers', 'מלפפונים', '🥒'],
+          ['Potatoes', 'תפוחי אדמה', '🥔'],
+          ['Onions', 'בצל', '🧅'],
+          ['Peppers', 'פלפלים', '🫑'],
+          ['Broccoli', 'ברוקולי', '🥦'],
+          ['Corn', 'תירס', '🌽'],
+        ]),
+        reply: L('Great! Vegetables are good for you!', 'מעולה! ירקות זה בריא!'),
+        next: 'what-else',
       },
-      next: 'eggs',
     },
     {
-      id: 'eggs', place: 'aisle', chapter: 4,
-      narrationHe: 'הבא ברשימה: ביצים! מר בראון מוריד מהמדף קרטון ביצים.',
-      lines: [L(ASK_AMOUNT, he.amount)],
-      props: [{ e: '🥚', x: 44, y: 54, s: 30 }],
+      id: 'what-else', place: 'fruit', chapter: 3,
+      narrationHe: 'העגלה כבר מתמלאת. אתם מסמנים ✓ ברשימה ומסתכלים מה הלאה.',
+      lines: [L('What else?', 'מה עוד?')],
+      props: [LIST],
       choices: [
-        { say: SAY_SIX, he: 'שש, בבקשה.', icon: '6️⃣', next: 'cart' },
-        { say: SAY_TWO, he: 'שתיים, בבקשה.', icon: '2️⃣', next: 'cart' },
-        silly(SILLY_AMOUNT, 'מיליון, בבקשה!', 'מיליון? זה יותר מדי! נסו שוב.', '🤯'),
+        { say: 'Fruits, please.', he: 'פירות, בבקשה.', icon: '🍎', next: 'fruits' },
       ],
     },
     {
-      id: 'cart', place: 'aisle', chapter: 5,
-      narrationHe: 'אוי! העגלה שלכם מתחילה להתגלגל לבד במעבר — מהר יותר ויותר!',
-      lines: [L('Oh no! Your cart is rolling away!', 'אוי לא! העגלה שלכם מתגלגלת!')],
-      props: [{ e: '🛒', x: 70, y: 66, s: 42 }, { e: '💨', x: 84, y: 66, s: 26 }],
-      choices: [
-        { say: 'Stop, cart! Stop!', he: 'עצרי, עגלה! עצרי!', icon: '✋', reply: L('Got it! Here is your cart.', 'תפסתי! הנה העגלה שלכם.'), next: 'extra' },
-        {
-          say: "Let's have a cart race!", he: 'בוא נעשה מרוץ עגלות!', icon: '🏁',
-          reply: L('A cart race? Okay, just one! Ready, go!', 'מרוץ עגלות? טוב, רק אחד! היכון, צא!'),
-          set: { race: 'yes' }, next: 'extra',
-        },
-      ],
+      id: 'fruits', place: 'fruit', chapter: 3,
+      narrationHe: 'ממש ליד הירקות יש הר של פירות צבעוניים. איזה ריח מתוק!',
+      lines: [L('Which fruits?', 'אילו פירות?')],
+      pick: {
+        key: 'fruit', promptHe: PICK_HE, closer: 'please.',
+        options: items([
+          ['Apples', 'תפוחים', '🍎'],
+          ['Bananas', 'בננות', '🍌'],
+          ['Oranges', 'תפוזים', '🍊'],
+          ['Grapes', 'ענבים', '🍇'],
+          ['Strawberries', 'תותים', '🍓'],
+          ['Watermelon', 'אבטיח', '🍉'],
+        ]),
+        reply: L('Mmm! Your mum will be happy!', 'ממממ! אמא שלכם תשמח!'),
+        next: 'anything',
+      },
     },
     {
-      id: 'extra', place: 'checkout', chapter: 6,
-      narrationHe: 'הגעתם לקופה. מר בראון סופר את התפוחים והביצים.',
+      id: 'anything', place: 'aisle', chapter: 4,
+      narrationHe: 'אתם מגיעים למקרר הגדול. בררר, קר פה!',
       lines: [L(ASK_EXTRA, he.extra)],
+      props: [LIST],
       choices: [
-        { say: SAY_JUICE, he: 'כן, מיץ, בבקשה.', icon: '🧃', next: 'bag' },
-        { say: SAY_NO, he: 'לא, תודה.', icon: '🚫', next: 'bag' },
-        {
-          say: 'Yes, a cake for my mum, please!', he: 'כן, עוגה בשביל אמא שלי, בבקשה!', icon: '🎂',
-          reply: L('A cake for Mum? What a sweet idea!', 'עוגה לאמא? איזה רעיון מתוק!'),
-          set: { cake: 'yes' }, next: 'bag',
-        },
-        silly(SILLY_EXTRA, 'כן, ענן, בבקשה.', 'ענן? אני לא יכול למכור עננים! נסו שוב.', '☁️'),
+        { say: 'Milk products, please.', he: 'מוצרי חלב, בבקשה.', icon: '🥛', next: 'dairy' },
       ],
     },
     {
-      id: 'bag', place: 'checkout', chapter: 7,
-      narrationHe: 'הקופה מצפצפת: ביפ! ביפ! כל הקניות על הדלפק.',
+      id: 'dairy', place: 'aisle', chapter: 4,
+      narrationHe: 'מר בראון פותח את דלת המקרר. יש פה חלב, גבינות, יוגורטים ועוד.',
+      lines: [L('Which milk products?', 'אילו מוצרי חלב?')],
+      pick: {
+        key: 'dairy', promptHe: PICK_HE, closer: 'please.',
+        options: items([
+          ['Milk', 'חלב', '🥛'],
+          ['Cheese', 'גבינה', '🧀'],
+          ['Yogurt', 'יוגורט', '🥣'],
+          ['Butter', 'חמאה', '🧈'],
+          ['Eggs', 'ביצים', '🥚'],
+        ]),
+        reply: L('Good! Everything is cold and fresh!', 'מצוין! הכול קר וטרי!'),
+        next: 'list',
+      },
+    },
+    {
+      id: 'list', place: 'aisle', chapter: 5,
+      narrationHe: 'אתם בודקים את הרשימה שוב… ובסוף, באותיות קטנות, אמא כתבה: "משהו מתוק!"',
+      lines: [L('Anything else on the list?', 'עוד משהו ברשימה?')],
+      props: [LIST],
+      choices: [
+        { say: 'Sweets, please.', he: 'ממתקים, בבקשה.', icon: '🍬', reply: L('Sweets? My favourite shelf!', 'ממתקים? המדף האהוב עליי!'), next: 'sweets' },
+      ],
+    },
+    {
+      id: 'sweets', place: 'aisle', chapter: 5,
+      narrationHe: 'מדף הממתקים נוצץ בכל הצבעים. קשה לבחור!',
+      lines: [L('Which sweets?', 'אילו ממתקים?')],
+      props: [{ e: '🍭', x: 40, y: 54, s: 28 }, { e: '🍫', x: 54, y: 54, s: 28 }],
+      pick: {
+        key: 'sweets', promptHe: PICK_HE, closer: 'please.',
+        options: items([
+          ['Chocolate', 'שוקולד', '🍫'],
+          ['Candies', 'סוכריות', '🍬'],
+          ['Lollipops', 'סוכריות על מקל', '🍭'],
+          ['Gummy bears', 'דובוני גומי', '🧸'],
+          ['Cookies', 'עוגיות', '🍪'],
+        ]),
+        reply: L('Mmm! Just a little, okay? Ha ha!', 'ממממ! רק קצת, בסדר? חה חה!'),
+        next: 'bag',
+      },
+    },
+    {
+      id: 'bag', place: 'checkout', chapter: 6,
+      narrationHe: 'הגעתם לקופה. ביפ! ביפ! ביפ! כל הקניות על הדלפק — איזו ערימה!',
       lines: [L(ASK_BAG, he.bag)],
       choices: [
-        { say: SAY_YES, he: 'כן, בבקשה.', icon: '🛍️', next: 'pay' },
-        { say: SAY_NO, he: 'לא, תודה.', icon: '🚫', next: 'pay' },
-        silly(SILLY_BAG, 'כן, שק שינה, בבקשה.', 'שק שינה? חה חה! נסו שוב.', '🛌'),
+        { say: SAY_YES, he: 'כן, בבקשה.', icon: '🛍️', set: { bag: 'yes' }, next: 'pay' },
+        { say: SAY_NO, he: 'לא, תודה.', icon: '🚫', set: { bag: 'no' }, reply: L('No bag? Okay, good luck! Ha ha!', 'בלי שקית? טוב, בהצלחה! חה חה!'), next: 'pay' },
       ],
     },
     {
-      id: 'pay', place: 'checkout', chapter: 7,
+      id: 'pay', place: 'checkout', chapter: 6,
       narrationHe: 'הגיע הזמן לשלם. אתם מכניסים יד לכיס…',
       lines: [L(ASK_PAY, he.pay)],
       choices: [
         {
-          say: SAY_PAY, he: 'בבקשה (הנה הכסף).', icon: '💰', next: 'end-home',
-          nextIf: [{ key: 'cake', value: 'yes', next: 'end-cake' }, { key: 'race', value: 'yes', next: 'end-race' }],
+          say: 'Here is the money.', he: 'הנה הכסף.', icon: '💰', next: 'end-home',
+          nextIf: [{ key: 'bag', value: 'no', next: 'end-juggle' }],
         },
         { say: 'Oh no! I forgot my money!', he: 'אוי לא! שכחתי את הכסף!', icon: '😱', next: 'end-helper' },
-        silly(SILLY_PAY, 'אפשר לשלם בסוכריות?', 'סוכריות? לא, אני צריך כסף! נסו שוב.', '🍬'),
       ],
     },
     {
-      id: 'end-home', place: 'checkout', chapter: 8, ending: 'home',
-      narrationHe: 'קניתם הכול מהרשימה, בדיוק כמו שאמא ביקשה. היא תהיה כל כך גאה!',
+      id: 'end-home', place: 'checkout', chapter: 7, ending: 'home',
+      narrationHe: 'מר בראון אורז הכול בשקית גדולה. קניתם הכול מהרשימה, בדיוק כמו שאמא ביקשה — היא תהיה כל כך גאה!',
       lines: [L(ASK_BYE, he.bye)],
-      choices: [BYE, BYE_SILLY],
+      props: [{ e: '🛍️', x: 46, y: 54, s: 40 }],
+      choices: [BYE],
     },
     {
-      id: 'end-cake', place: 'checkout', chapter: 8, ending: 'cake',
-      narrationHe: 'מר בראון עוטף את העוגה בסרט ורוד. אמא הולכת לקבל הפתעה!',
-      lines: [L('Here is the cake. Your mum is lucky!', 'הנה העוגה. לאמא שלכם יש מזל!')],
-      props: [{ e: '🎂', x: 46, y: 50, s: 40 }],
-      choices: [{ say: 'Thank you, Mr. Brown!', he: 'תודה, מר בראון!', icon: '💝' }],
+      id: 'end-juggle', place: 'checkout', chapter: 7, ending: 'juggle',
+      narrationHe: 'בלי שקית?! אתם מחזיקים הכול בידיים — גזר בכיס, בננות על הכתף, וביצים מתנדנדות על הראש!',
+      lines: [L('Careful with the eggs! Ha ha! Take this box!', 'זהירות עם הביצים! חה חה! קחו את הקופסה הזאת!')],
+      props: [{ e: '🥚', x: 44, y: 40, s: 26 }, { e: '🍌', x: 54, y: 52, s: 26 }, { e: '📦', x: 48, y: 66, s: 34 }],
+      choices: [{ say: 'Thank you, Mr. Brown!', he: 'תודה, מר בראון!', icon: '📦' }],
     },
     {
-      id: 'end-race', place: 'checkout', chapter: 8, ending: 'race',
-      narrationHe: 'מר בראון מוציא מהמגירה מדבקה נוצצת: "אלוף מרוץ העגלות"!',
-      lines: [L('You won the cart race! Here is a sticker!', 'ניצחתם במרוץ העגלות! הנה מדבקה!')],
-      props: [{ e: '🏅', x: 46, y: 50, s: 40 }],
-      choices: [{ say: 'Yay! Thank you, Mr. Brown!', he: 'יש! תודה, מר בראון!', icon: '🏁' }],
-    },
-    {
-      id: 'end-helper', place: 'fruit', chapter: 8, ending: 'helper',
-      narrationHe: 'הכיס ריק! מר בראון מחייך ונותן לכם סינר קטן.',
+      id: 'end-helper', place: 'fruit', chapter: 7, ending: 'helper',
+      narrationHe: 'הכיס ריק! מר בראון מחייך ונותן לכם סינר קטן. אמא כבר בדרך לשלם.',
       lines: [L('No problem! You can help me with the apples!', 'אין בעיה! אתם יכולים לעזור לי עם התפוחים!')],
       props: [{ e: '🍎', x: 40, y: 56, s: 26 }, { e: '🍎', x: 48, y: 56, s: 26 }, { e: '🍎', x: 44, y: 48, s: 26 }],
       choices: [{ say: 'Okay! I love apples!', he: 'בסדר! אני אוהב/ת תפוחים!', icon: '🍎' }],
     },
   ],
   endings: [
-    { id: 'home', emoji: '📝', title: 'Super Shopper', titleHe: 'קונים מעולים', descHe: 'קניתם בדיוק את מה שהיה ברשימה של אמא.', place: 'home', withCharacter: false, props: [{ e: '🛍️', x: 44, y: 60, s: 40 }] },
-    { id: 'cake', emoji: '🎂', title: 'Cake Surprise', titleHe: 'עוגה לאמא', descHe: 'הפתעתם את אמא בעוגה מהסופרמרקט.', place: 'home', withCharacter: false, props: [{ e: '🎂', x: 44, y: 56, s: 44 }] },
-    { id: 'race', emoji: '🏁', title: 'Cart Race Champion', titleHe: 'אלופי מרוץ העגלות', descHe: 'ניצחתם את מר בראון במרוץ עגלות וקיבלתם מדבקה!', place: 'aisle', props: [{ e: '🏅', x: 46, y: 50, s: 40 }] },
+    { id: 'home', emoji: '📝', title: 'Super Shopper', titleHe: 'קונים מעולים', descHe: 'קניתם בדיוק את מה שהיה ברשימה של אמא — והבאתם הכול הביתה בשקית.', place: 'home', withCharacter: false, props: [{ e: '🛍️', x: 44, y: 60, s: 40 }] },
+    { id: 'juggle', emoji: '🤹', title: 'No-Bag Juggler', titleHe: 'להטוטני הקניות', descHe: 'ויתרתם על שקית — וכמעט הפלתם את הביצים! מר בראון הציל אתכם עם קופסה.', place: 'checkout', props: [{ e: '📦', x: 48, y: 66, s: 34 }, { e: '🥚', x: 44, y: 44, s: 26 }] },
     { id: 'helper', emoji: '🍎', title: 'Little Helper', titleHe: 'עוזרים קטנים', descHe: 'שכחתם את הכסף… ועזרתם למר בראון לסדר תפוחים.', place: 'fruit' },
   ],
 }

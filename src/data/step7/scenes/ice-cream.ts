@@ -253,12 +253,17 @@ const SCENE: Scene = {
 // ── Story ────────────────────────────────────────────────────────────────
 
 const L = (text: string, heText: string): StoryLine => ({ text, he: heText })
-const silly = (s: { say: string; reaction: string }, heSay: string, heReaction: string, icon: string): StoryChoice =>
-  ({ say: s.say, he: heSay, icon, silly: L(s.reaction, heReaction) })
 
 const BYE: StoryChoice = { say: SAY_BYE, he: 'תודה! להתראות!', icon: '👋' }
-const BYE_SILLY = silly(SILLY_BYE, 'לילה טוב!', 'לילה טוב? השמש זורחת! נסו שוב.', '🌙')
 const COME_IN = L("Hello! Come in, it's nice and cool inside!", 'שלום! היכנסו, בפנים נעים וקריר!')
+/** Story flavours: the Order-mode ones plus a few more (the child picks up to 3). */
+const STORY_FLAVOURS = [
+  ...FLAVOURS,
+  { v: 'pistachio', icon: '🥜', he: 'פיסטוק' },
+  { v: 'coffee', icon: '☕', he: 'קפה' },
+  { v: 'salted caramel', icon: '🍮', he: 'קרמל מלוח' },
+  { v: 'passion fruit', icon: '🌺', he: 'פסיפלורה' },
+]
 
 const STORY: Story = {
   id: 'ice-cream-story',
@@ -274,10 +279,10 @@ const STORY: Story = {
   chapters: [
     { icon: '☀️', he: 'יום חם' },
     { icon: '👋', he: 'שלום' },
-    { icon: '🍓', he: 'טעם' },
+    { icon: '🍓', he: 'טעמים' },
     { icon: '🍦', he: 'גביע או כוס' },
     { icon: '🔢', he: 'כדורים' },
-    { icon: '🍒', he: 'למעלה' },
+    { icon: '🌈', he: 'סוכריות' },
     { icon: '💰', he: 'תשלום' },
     { icon: '💦', he: 'נמס!' },
     { icon: '⭐', he: 'הסוף' },
@@ -298,21 +303,21 @@ const STORY: Story = {
       lines: [L(ASK_GREET, he.greet)],
       choices: [
         { say: SAY_ICE, he: 'הייתי רוצה גלידה, בבקשה.', icon: '🍦', next: 'flavour' },
-        silly(SILLY_GREET, 'הייתי רוצה איש שלג, בבקשה.', 'איש שלג? ברררר! זאת גלידרייה! נסו שוב.', '⛄'),
       ],
     },
     {
       id: 'flavour', place: 'shop', chapter: 2,
-      narrationHe: 'לולו פותחת את המקרר. יש פה כל כך הרבה טעמים! איזה תבחרו?',
-      lines: [L(ASK_FLAVOUR, he.flavour)],
-      showChoices: 3,
-      choices: [
-        ...FLAVOURS.map((f): StoryChoice => ({
-          say: `${cap(f.v)}, please.`, he: `${f.he}, בבקשה.`, icon: f.icon,
-          set: { flavour: f.v }, next: 'holder', canSellOut: true,
-        })),
-        silly(SILLY_FLAVOUR, 'בצל, בבקשה.', 'גלידת בצל? איכס! נסו שוב.', '🧅'),
+      narrationHe: 'לולו פותחת את המקרר. יש פה כל כך הרבה טעמים — פיסטוק, קפה, קרמל מלוח ועוד! אילו תבחרו?',
+      lines: [
+        L('Yummy! Which flavours would you like?', 'יאמי! אילו טעמים תרצו?'),
+        L('You can choose up to 3 flavours.', 'אפשר לבחור עד 3 טעמים.'),
       ],
+      pick: {
+        key: 'flavour', max: 3, promptHe: 'בחרו עד 3 טעמים', closer: 'please.',
+        options: STORY_FLAVOURS.map(f => ({ say: cap(f.v), he: f.he, icon: f.icon, value: f.v })),
+        reply: L('Yum! Great choice!', 'יאמי! בחירה מצוינת!'),
+        next: 'holder',
+      },
     },
     {
       id: 'holder', place: 'shop', chapter: 3,
@@ -321,22 +326,20 @@ const STORY: Story = {
       choices: [
         { say: SAY_CONE, he: 'גביע, בבקשה.', icon: '🍦', set: { holder: 'cone' }, next: 'scoops' },
         { say: SAY_CUP, he: 'כוס, בבקשה.', icon: '🍨', set: { holder: 'cup' }, next: 'scoops' },
-        silly(SILLY_HOLDER, 'בנעל, בבקשה.', 'גלידה בנעל? חה חה! נסו שוב.', '👟'),
       ],
     },
     {
       id: 'scoops', place: 'shop', chapter: 4,
-      narrationHe: 'הכדור הראשון כבר בפנים. אולי עוד אחד? ואולי… הרבה יותר?',
-      lines: [L(ASK_SCOOPS, he.scoops)],
+      narrationHe: 'לולו מוכנה עם הכף. כמה כדורים מכל טעם? ואולי… הרבה יותר?',
+      lines: [L('How many scoops of each flavour?', 'כמה כדורים מכל טעם?')],
       choices: [
-        { say: SAY_ONE, he: 'כדור אחד, בבקשה.', icon: '1️⃣', next: 'sprinkles' },
-        { say: SAY_TWO, he: 'שני כדורים, בבקשה.', icon: '2️⃣', next: 'sprinkles' },
+        { say: 'One scoop of each, please.', he: 'כדור אחד מכל טעם, בבקשה.', icon: '1️⃣', next: 'sprinkles' },
+        { say: 'Two scoops of each, please.', he: 'שני כדורים מכל טעם, בבקשה.', icon: '2️⃣', next: 'sprinkles' },
         {
           say: 'Ten scoops, please!', he: 'עשרה כדורים, בבקשה!', icon: '🗼',
           reply: L('Ten scoops? Wow! An ice-cream tower!', 'עשרה כדורים? וואו! מגדל גלידה!'),
           set: { tower: 'yes' }, next: 'sprinkles',
         },
-        silly(SILLY_SCOOPS, 'מאה כדורים, בבקשה!', 'מאה? זה הר שלם! נסו שוב.', '🏔️'),
       ],
     },
     {
@@ -344,31 +347,17 @@ const STORY: Story = {
       narrationHe: 'לולו מחזיקה צנצנת מלאה בסוכריות בכל צבעי הקשת.',
       lines: [L(ASK_SPRINKLES, he.sprinkles)],
       choices: [
-        { say: SAY_YES, he: 'כן, בבקשה!', icon: '🌈', next: 'cherries' },
-        { say: SAY_NO, he: 'לא, תודה.', icon: '🚫', next: 'cherries' },
-        silly(SILLY_SPRINKLES, 'כן, קטשופ, בבקשה!', 'קטשופ על גלידה? איכס! נסו שוב.', '🍅'),
+        { say: SAY_YES, he: 'כן, בבקשה!', icon: '🌈', reply: L('Shake, shake, shake! So colourful!', 'שייק, שייק, שייק! כל כך צבעוני!'), next: 'pay' },
+        { say: SAY_NO, he: 'לא, תודה.', icon: '🚫', next: 'pay' },
       ],
     },
     {
-      id: 'cherries', place: 'shop', chapter: 5,
-      narrationHe: 'לולו רוצה לשים דובדבן למעלה — אבל הקערה נופלת, והדובדבנים מתגלגלים לכל עבר! מצאו 3 דובדבנים!',
-      lines: [L('And a cherry on top… Oops! My cherries!', 'ודובדבן למעלה… אופס! הדובדבנים שלי!')],
-      event: {
-        kind: 'find', target: '🍒', count: 3,
-        decoys: ['🍓', '🍎', '🍇', '🍋', '🫐', '🍑', '🥝'],
-        promptHe: 'מצאו את 3 הדובדבנים שהתגלגלו!',
-        doneLine: L('Thank you! A cherry on top!', 'תודה! דובדבן למעלה!'),
-      },
-      next: 'pay',
-    },
-    {
       id: 'pay', place: 'shop', chapter: 6,
-      narrationHe: 'הגלידה שלכם מוכנה, עם דובדבן אדום למעלה. נראית מדהים!',
+      narrationHe: 'הגלידה שלכם מוכנה — צבעונית, קרה ומתוקה. נראית מדהים!',
       lines: [L(ASK_PAY, he.pay)],
       props: [{ e: '🍦', x: 46, y: 46, s: 40 }],
       choices: [
-        { say: SAY_PAY, he: 'בבקשה (הנה הכסף).', icon: '💰', next: 'outside', nextIf: [{ key: 'tower', value: 'yes', next: 'end-tower' }] },
-        silly(SILLY_PAY, 'אפשר לשלם עם חיוך?', 'חיוך זה נחמד, אבל אני צריכה כסף! נסו שוב.', '😁'),
+        { say: 'Here is the money.', he: 'הנה הכסף.', icon: '💰', next: 'outside', nextIf: [{ key: 'tower', value: 'yes', next: 'end-tower' }] },
       ],
     },
     {
@@ -380,7 +369,6 @@ const STORY: Story = {
         { say: 'Here, doggy! You can have a lick!', he: 'הנה, כלבלב! אתה יכול ללקק!', icon: '🐶', next: 'end-dog' },
         { say: "Let's eat it fast!", he: 'בואו נאכל אותה מהר!', icon: '😋', next: 'end-freeze' },
         { say: "Let's go to the beach!", he: 'בואו נלך לים!', icon: '🏖️', next: 'end-beach' },
-        { say: 'I can put it in my pocket!', he: 'אני יכול/ה לשים אותה בכיס!', icon: '👖', silly: L('In your pocket? What a mess! Try again.', 'בכיס? איזה בלגן! נסו שוב.') },
       ],
     },
     {
@@ -388,7 +376,7 @@ const STORY: Story = {
       narrationHe: 'הכלבלב מלקק — ומכשכש בזנב בטירוף! לולו יוצאת מהחנות וצוחקת.',
       lines: [L('Ha ha! The dog loves ice cream too!', 'חה חה! גם הכלב אוהב גלידה!')],
       props: [{ e: '🐕', x: 48, y: 66, s: 36 }],
-      choices: [BYE, BYE_SILLY],
+      choices: [BYE],
     },
     {
       id: 'end-freeze', place: 'outside', chapter: 8, ending: 'freeze',
@@ -400,7 +388,7 @@ const STORY: Story = {
       id: 'end-beach', place: 'outside', chapter: 8, ending: 'beach',
       narrationHe: 'אתם רצים לים, מתיישבים בצל השמשייה ומסיימים את הגלידה עם רגליים במים.',
       lines: [L('Good idea! Have a great beach picnic!', 'רעיון טוב! פיקניק מהנה בים!')],
-      choices: [BYE, BYE_SILLY],
+      choices: [BYE],
     },
     {
       id: 'end-tower', place: 'shop', chapter: 8, ending: 'tower',
@@ -416,7 +404,6 @@ const STORY: Story = {
     { id: 'freeze', emoji: '🥶', title: 'Brain Freeze', titleHe: 'קפוא במוח', descHe: 'אכלתם מהר מדי — וקיבלתם כאב ראש של קור!', place: 'outside' },
     { id: 'tower', emoji: '🗼', title: 'Ice-Cream Tower', titleHe: 'מגדל גלידה', descHe: 'הזמנתם עשרה כדורים — הגלידה הכי גבוהה בעולם!', place: 'shop', props: [{ e: '🍨', x: 46, y: 30, s: 30 }, { e: '🍦', x: 46, y: 50, s: 36 }] },
   ],
-  soldOut: { text: "Oh no! It's all gone today. Choose another one, please.", he: 'אוי לא! זה נגמר היום. בחרו טעם אחר, בבקשה.' },
 }
 
 export const BUNDLE: SceneBundle = { scene: SCENE, story: STORY }
