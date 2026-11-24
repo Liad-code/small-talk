@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { FlipCard, FlipPanel, ThinkPrompt, FlipButton } from '@/components/step7/Flip'
 import type { FindEvent, Scene, Story, StoryChoice, StoryLine, StoryEnding } from '@/data/step7/types'
 import { sayLine } from '@/utils/sceneAudio'
 import { stopAudio } from '@/utils/audioPlayer'
@@ -47,6 +48,8 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
   const [found, setFound] = useState<string[]>([])
   /** "Pick several" moment: what the child has tapped so far. */
   const [sel, setSel] = useState<string[]>([])
+  /** Answers start face-down: think of your own answer first, then flip (owner, all tabs). */
+  const [revealed, setRevealed] = useState(false)
   const [endingId, setEndingId] = useState<string | null>(null)
   const soldOutUsed = useRef(false)
   const bubbleN = useRef(0)
@@ -79,6 +82,7 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
     }
     if (!alive.current) return
     setSel([])
+    setRevealed(false)
     setStep(n.event ? 'event' : n.pick ? 'pick' : 'choose')
   }
 
@@ -265,19 +269,20 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
 
       {/* action area */}
       {step === 'choose' && (
+        <div className="flex flex-col gap-3">
+        {!revealed && <ThinkPrompt />}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" dir="ltr">
           {choices.map((c, i) => {
             const isWrong = wrong.has(c.say)
             const isSoldOut = soldOut === c.say
             const off = isWrong || isSoldOut
             return (
+              <FlipCard key={nodeId + c.say} revealed={revealed} onReveal={() => setRevealed(true)} delay={i * 140}>
               <button
-                key={c.say}
                 onClick={() => choose(c)}
-                disabled={off}
-                className={`story-pop-up relative flex items-center gap-3 text-left rounded-2xl border-4 px-3 py-2.5 transition-all
+                disabled={off || !revealed}
+                className={`relative w-full h-full flex items-center gap-3 text-left rounded-2xl border-4 px-3 py-2.5 transition-all
                   ${off ? 'border-gray-200 bg-gray-50 opacity-60' : 'border-orange-200 bg-white hover:border-orange-400 active:scale-[0.97] shadow-sm'}`}
-                style={{ animationDelay: `${i * 0.07}s` }}
               >
                 <span className={`text-3xl leading-none flex-shrink-0 ${off ? 'grayscale' : ''}`}>{isWrong ? '🙈' : c.icon}</span>
                 <span className="min-w-0">
@@ -288,13 +293,17 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
                   <span className="absolute -top-2 right-2 rotate-6 bg-red-500 text-white text-[10px] font-black px-2 py-0.5 rounded-md shadow">SOLD OUT</span>
                 )}
               </button>
+              </FlipCard>
             )
           })}
+        </div>
+        {!revealed && <FlipButton onClick={() => setRevealed(true)} />}
         </div>
       )}
 
       {step === 'pick' && node.pick && (
-        <div dir="rtl">
+        <FlipPanel key={nodeId} revealed={revealed} onReveal={() => setRevealed(true)}>
+        <div dir="rtl" className="bg-white rounded-2xl p-1">
           <p className="text-center font-black text-indigo-700 text-sm mb-2">
             {node.pick.promptHe}{node.pick.max ? ` · נבחרו ${sel.length} מתוך ${node.pick.max}` : sel.length ? ` · נבחרו ${sel.length}` : ''}
           </p>
@@ -307,7 +316,7 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
                   key={o.value}
                   type="button"
                   aria-pressed={on}
-                  disabled={full}
+                  disabled={full || !revealed}
                   onClick={() => setSel(s => (s.includes(o.value) ? s.filter(v => v !== o.value) : [...s, o.value]))}
                   className={`story-pop-up relative flex flex-col items-center rounded-2xl border-4 px-1 py-2 transition-all
                     ${on ? 'border-green-400 bg-green-50 scale-[1.03] shadow' : full ? 'border-gray-100 bg-gray-50 opacity-40' : 'border-orange-200 bg-white hover:border-orange-400 active:scale-95'}`}
@@ -324,12 +333,13 @@ export function StoryGame({ scene, story, onAgain }: { scene: Scene; story: Stor
           <button
             type="button"
             onClick={confirmPick}
-            disabled={sel.length < (node.pick.min ?? 1)}
+            disabled={!revealed || sel.length < (node.pick.min ?? 1)}
             className="btn-kid bg-green-500 w-full mt-3 disabled:opacity-40"
           >
             ✓ זהו, אפשר להזמין!
           </button>
         </div>
+        </FlipPanel>
       )}
 
       {step === 'event' && node.event === 'oven' && story.oven && <OvenGame lines={story.oven} speak={l => speak('left', l)} onDone={eventDone} memory={memory} />}

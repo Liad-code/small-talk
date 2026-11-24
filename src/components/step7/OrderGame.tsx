@@ -8,6 +8,7 @@ import { SceneStage, type Bubble } from '@/components/step7/SceneStage'
 import { ResultView } from '@/components/step7/ResultView'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
 import { MultiPicker, composeMulti, sayMulti, multiValue, type MultiItem } from '@/components/step7/MultiPick'
+import { FlipPanel, ThinkPrompt, FlipButton } from '@/components/step7/Flip'
 
 /**
  * Order / Build modes. The character asks, the child answers by choosing the
@@ -161,37 +162,21 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
           )}
 
           {step.multi && mode === 'choose' ? (
-            !revealed ? (
-              <>
-                <p className="bounce-in text-center font-black text-violet-700 bg-violet-50 border-2 border-violet-200 rounded-2xl px-3 py-2 text-[15px]" dir="rtl">
-                  🤔 מה הייתם עונים? חשבו על תשובה משלכם ואמרו אותה בקול — ואז הפכו את הכרטיסים!
-                </p>
-                <div className="grid grid-cols-4 gap-2" dir="ltr">
-                  {step.multi.options.map((o, i) => (
-                    <button key={o.value} type="button" onClick={() => setRevealed(true)}
-                      className="story-pop-up h-16 rounded-2xl border-4 border-violet-300 text-white font-black shadow bg-[repeating-linear-gradient(45deg,#8b5cf6_0_12px,#7c3aed_12px_24px)]"
-                      style={{ animationDelay: `${i * 0.04}s` }} aria-label="קלף הפוך">❓</button>
-                  ))}
-                </div>
-                <button onClick={() => setRevealed(true)} className="btn-kid bg-violet-500 w-full text-lg" dir="rtl">🔄 הפכו את הכרטיסים</button>
-              </>
-            ) : (
-              <MultiPicker key={step.id} items={step.multi.options} max={step.multi.max} promptHe={step.multi.promptHe} disabled={busy}
+            <FlipPanel key={step.id} revealed={revealed} onReveal={() => setRevealed(true)}>
+              <MultiPicker key={step.id} items={step.multi.options} max={step.multi.max} promptHe={step.multi.promptHe} disabled={busy || !revealed}
                 onConfirm={items => { const a = multiAnswer(items); void answer(a.option, a.audio) }} />
-            )
+            </FlipPanel>
           ) : step.multi && mode === 'build' && !buildItems ? (
-            <MultiPicker key={step.id} items={step.multi.options} max={step.multi.max} promptHe={step.multi.promptHe} confirmHe="✓ עכשיו בונים את המשפט" disabled={busy}
-              onConfirm={items => setBuildItems(items)} />
+            <FlipPanel key={step.id} revealed={revealed} onReveal={() => setRevealed(true)}>
+              <MultiPicker key={step.id} items={step.multi.options} max={step.multi.max} promptHe={step.multi.promptHe} confirmHe="✓ עכשיו בונים את המשפט" disabled={busy || !revealed}
+                onConfirm={items => setBuildItems(items)} />
+            </FlipPanel>
           ) : step.multi && mode === 'build' && buildItems ? (
             <BuildAnswer key={`${step.id}-${multiAnswer(buildItems).option.say}`} options={[multiAnswer(buildItems).option]} distractor={step.distractorWord} busy={busy}
               onDone={() => { const a = multiAnswer(buildItems); void answer(a.option, a.audio) }} />
           ) : mode === 'choose' ? (
             <>
-              {!revealed && (
-                <p className="bounce-in text-center font-black text-violet-700 bg-violet-50 border-2 border-violet-200 rounded-2xl px-3 py-2 text-[15px]" dir="rtl">
-                  🤔 מה הייתם עונים? חשבו על תשובה משלכם ואמרו אותה בקול — ואז הפכו את הכרטיסים!
-                </p>
-              )}
+              {!revealed && <ThinkPrompt />}
               <div className="flex flex-col gap-2" dir="ltr">
                 {options.map((o, i) => {
                   const isWrong = wrong.has(o.say)
@@ -226,14 +211,12 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
                   )
                 })}
               </div>
-              {!revealed && (
-                <button onClick={() => setRevealed(true)} className="btn-kid bg-violet-500 w-full text-lg" dir="rtl">
-                  🔄 הפכו את הכרטיסים
-                </button>
-              )}
+              {!revealed && <FlipButton onClick={() => setRevealed(true)} />}
             </>
           ) : (
-            <BuildAnswer key={step.id} options={step.options} distractor={step.distractorWord} busy={busy} onDone={answer} />
+            <FlipPanel key={step.id} revealed={revealed} onReveal={() => setRevealed(true)}>
+              <BuildAnswer key={step.id} options={step.options.filter(o => o.correct)} distractor={step.distractorWord} busy={busy || !revealed} onDone={answer} />
+            </FlipPanel>
           )}
         </>
       )}

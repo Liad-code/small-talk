@@ -4,6 +4,7 @@ import type { KidOption, Scene } from '@/data/step7/types'
 import { sayLine } from '@/utils/sceneAudio'
 import { stopAudio } from '@/utils/audioPlayer'
 import { shuffle } from '@/utils/shuffle'
+import { FlipCard, ThinkPrompt, FlipButton, THINK_ASK_HE } from '@/components/step7/Flip'
 import { composeMulti, sayMulti, multiValue, type MultiItem } from '@/components/step7/MultiPick'
 
 /** What the customer says at a step: one answer, or a "pick several" order (said item by item). */
@@ -65,6 +66,8 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
   const [notes, setNotes] = useState<string[]>([])
   const [made, setMade] = useState<Record<string, string>>({})
   const [showHint, setShowHint] = useState(false)
+  /** The line to say starts face-down: think of your own question first, then flip (owner, all tabs). */
+  const [revealed, setRevealed] = useState(false)
   const alive = useRef(true)
   useEffect(() => () => { alive.current = false; stopAudio() }, [])
 
@@ -103,6 +106,7 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
   function advance() {
     const next = stepIdx + 1
     setWrong(new Set())
+    setRevealed(false)
     if (next < scene.steps.length) { setStepIdx(next); setBusy(false) }
     else { setPhase('finished'); setBusy(false) }
   }
@@ -205,22 +209,25 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
                   {step.swapHintHe}
                 </p>
               )}
+              {!revealed && <ThinkPrompt text={THINK_ASK_HE} />}
               <div className="flex flex-col gap-2" dir="ltr">
-                {lines.map(text => {
+                {lines.map((text, i) => {
                   const isWrong = wrong.has(text)
                   return (
+                    <FlipCard key={step.id + text} revealed={revealed} onReveal={() => setRevealed(true)} delay={i * 140}>
                     <button
-                      key={text}
                       onClick={() => pickLine(text)}
-                      disabled={busy || isWrong}
+                      disabled={busy || isWrong || !revealed}
                       className={`w-full text-left rounded-2xl border-4 px-4 py-3 font-bold text-[17px] transition-all
                         ${isWrong ? 'border-gray-200 bg-gray-50 text-gray-300 line-through' : 'border-orange-200 bg-white text-gray-800 active:scale-[0.98] hover:border-orange-400'}`}
                     >
                       {char.emoji} {text}
                     </button>
+                    </FlipCard>
                   )
                 })}
               </div>
+              {!revealed && <FlipButton one={lines.length === 1} onClick={() => setRevealed(true)} />}
               <p className="text-center text-xs font-bold text-gray-400" dir="rtl">🗣️ {scene.ui.swapSayHe}</p>
             </>
           )}
