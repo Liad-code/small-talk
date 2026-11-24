@@ -117,7 +117,7 @@ export const PIZZERIA: Scene = {
     {
       id: 'pay',
       ask: "Here is your pizza! That's twenty shekels, please.",
-      hintHe: 'שלמו לטוני. Here you are = בבקשה (כשנותנים משהו)',
+      hintHe: 'שלמו לטוני. Here is the money = הנה הכסף',
       swapHintHe: 'הגישו ללקוח את הפיצה ובקשו תשלום.',
       options: [
         { say: 'Here is the money.', correct: true },

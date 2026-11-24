@@ -167,7 +167,7 @@ const SCENE: Scene = {
     {
       id: 'pay',
       ask: ASK_PAY.text,
-      hintHe: 'שלמו לאמה. Here you are = בבקשה (כשנותנים משהו)',
+      hintHe: 'שלמו לאמה. Here is the money = הנה הכסף',
       swapHintHe: 'בקשו מהלקוח לשלם.',
       options: [
         { say: 'Here is the money.', correct: true },
