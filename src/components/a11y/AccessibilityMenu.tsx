@@ -67,7 +67,7 @@ export function AccessibilityMenu() {
         aria-controls="a11y-panel"
         aria-label="תפריט נגישות"
         title="תפריט נגישות"
-        className="fixed z-[60] left-0 top-1/2 -translate-y-1/2 w-11 h-11 rounded-r-xl bg-[#1d4ed8] text-white text-2xl shadow-lg flex items-center justify-center focus-visible:outline focus-visible:outline-4 focus-visible:outline-yellow-400"
+        className="fixed z-[60] left-0 top-[62%] w-9 h-10 -translate-x-2.5 hover:translate-x-0 focus-visible:translate-x-0 transition-transform rounded-r-xl bg-[#1d4ed8]/90 text-white text-lg pl-2 shadow-lg flex items-center justify-center focus-visible:outline focus-visible:outline-4 focus-visible:outline-yellow-400"
       >
         <span aria-hidden="true">♿</span>
       </button>

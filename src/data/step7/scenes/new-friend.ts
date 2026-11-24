@@ -12,19 +12,33 @@ const ASK_COLOUR = "What's your favourite colour?"
 const ASK_PET = 'Do you have a pet?'
 const ASK_GAME = 'What do you like to play?'
 const ASK_PLAY = 'Do you want to play with me?'
+const ASK_FUN = 'That was a fun game!'
+const ASK_NOW = 'What do you want to do now?'
 const ASK_BYE = "It's time to go home. See you tomorrow!"
 
 const SAY_HI = "Hi, Sam! I'm new here."
+const SAY_LIVE = 'No, I live here.'
 const SAY_8 = "I'm eight."
 const SAY_9 = "I'm nine."
 const SAY_10 = "I'm ten."
 const SAY_DOG = 'Yes, I have a dog.'
 const SAY_CAT = 'Yes, I have a cat.'
+const SAY_HAMSTER = 'Yes, I have a hamster.'
+const SAY_TURTLE = 'Yes, I have a turtle.'
+const SAY_RABBIT = 'Yes, I have a rabbit.'
 const SAY_NOPET = "No, I don't have a pet."
 const SAY_FOOTBALL = 'I like to play football.'
+const SAY_BASKETBALL = 'I like to play basketball.'
 const SAY_TAG = 'I like to play tag.'
 const SAY_HIDE = 'I like to play hide and seek.'
 const SAY_YES = "Yes, please! Let's play!"
+const SAY_FUN = 'It was fun!'
+const SAY_GREAT = 'It was a great game!'
+const SAY_AGAIN_TOMORROW = 'Maybe we can play again tomorrow!'
+const SAY_ICECREAM = "Let's eat ice cream!"
+const SAY_HOME = "I want to go home. It's late."
+const SAY_PLAY_AGAIN = "Let's play again!"
+const SAY_NICE = 'It was so nice to meet you!'
 const SAY_BYE = 'See you tomorrow! Bye, Sam!'
 
 const SILLY_BANANA = { say: "Hi! I'm a banana.", reaction: "A banana? No, you're a kid! Try again." }
@@ -39,6 +53,8 @@ const he = {
   pet: 'יש לכם חיית מחמד?',
   game: 'מה אתם אוהבים לשחק?',
   play: 'אתם רוצים לשחק איתי?',
+  fun: 'זה היה משחק כיפי!',
+  now: 'מה אתם רוצים לעשות עכשיו?',
   bye: 'הגיע הזמן ללכת הביתה. נתראה מחר!',
 }
 
@@ -112,10 +128,11 @@ const SCENE: Scene = {
     {
       id: 'greet',
       ask: ASK_GREET,
-      hintHe: "סאם שואל אם אתם חדשים. I'm new here = אני חדש/ה פה",
+      hintHe: "סאם שואל אם אתם חדשים. I'm new here = אני חדש/ה פה, I live here = אני גר/ה פה",
       swapHintHe: 'אתם סאם! הציגו את עצמכם ושאלו אם הילד חדש פה.',
       options: [
-        { say: SAY_HI, correct: true },
+        { say: SAY_HI, correct: true, icon: '😊', label: "I'm new" },
+        { say: SAY_LIVE, correct: true, icon: '🏠', label: 'I live here' },
         { say: SILLY_BANANA.say, correct: false, reaction: SILLY_BANANA.reaction },
       ],
       distractorWord: 'banana',
@@ -154,11 +171,14 @@ const SCENE: Scene = {
     {
       id: 'pet',
       ask: ASK_PET,
-      hintHe: 'יש לכם חיית מחמד? dog = כלב, cat = חתול, No = לא',
+      hintHe: 'יש לכם חיית מחמד? dog = כלב, cat = חתול, hamster = אוגר, turtle = צב, rabbit = ארנב, No = לא',
       swapHintHe: 'שאלו את הילד אם יש לו חיית מחמד.',
       options: [
         { say: SAY_DOG, correct: true, pick: { slot: 'pet', value: 'dog' }, icon: '🐶', label: 'a dog' },
         { say: SAY_CAT, correct: true, pick: { slot: 'pet', value: 'cat' }, icon: '🐱', label: 'a cat' },
+        { say: SAY_HAMSTER, correct: true, pick: { slot: 'pet', value: 'hamster' }, icon: '🐹', label: 'a hamster' },
+        { say: SAY_TURTLE, correct: true, pick: { slot: 'pet', value: 'turtle' }, icon: '🐢', label: 'a turtle' },
+        { say: SAY_RABBIT, correct: true, pick: { slot: 'pet', value: 'rabbit' }, icon: '🐰', label: 'a rabbit' },
         { say: SAY_NOPET, correct: true, pick: { slot: 'pet', value: 'none' }, icon: '🚫', label: 'no pet' },
         { say: SILLY_PET.say, correct: false, reaction: SILLY_PET.reaction },
       ],
@@ -168,10 +188,11 @@ const SCENE: Scene = {
     {
       id: 'game',
       ask: ASK_GAME,
-      hintHe: 'מה אתם אוהבים לשחק? football = כדורגל, tag = תופסת, hide and seek = מחבואים',
+      hintHe: 'מה אתם אוהבים לשחק? football = כדורגל, basketball = כדורסל, tag = תופסת, hide and seek = מחבואים',
       swapHintHe: 'שאלו את הילד מה הוא אוהב לשחק.',
       options: [
         { say: SAY_FOOTBALL, correct: true, pick: { slot: 'game', value: 'football' }, icon: '⚽', label: 'football' },
+        { say: SAY_BASKETBALL, correct: true, pick: { slot: 'game', value: 'basketball' }, icon: '🏀', label: 'basketball' },
         { say: SAY_TAG, correct: true, pick: { slot: 'game', value: 'tag' }, icon: '🏃', label: 'tag' },
         { say: SAY_HIDE, correct: true, pick: { slot: 'game', value: 'hide and seek' }, icon: '🙈', label: 'hide and seek' },
         { say: 'I like to play with my homework.', correct: false, reaction: 'With your homework? Ha ha! Try again.' },
@@ -192,12 +213,39 @@ const SCENE: Scene = {
       swapSilly: { say: 'Do you want to play with a cactus?', reaction: 'A cactus? Ouch! No, thank you!' },
     },
     {
+      id: 'fun',
+      ask: ASK_FUN,
+      hintHe: 'שיחקתם יחד! fun = כיף, a great game = משחק מעולה, again tomorrow = שוב מחר',
+      swapHintHe: 'אמרו לילד החדש שהיה משחק כיפי.',
+      options: [
+        { say: SAY_FUN, correct: true, icon: '😄', label: 'fun' },
+        { say: SAY_GREAT, correct: true, icon: '🏆', label: 'a great game' },
+        { say: SAY_AGAIN_TOMORROW, correct: true, icon: '📅', label: 'again tomorrow' },
+      ],
+      distractorWord: 'pizza',
+      swapSilly: { say: 'That was a boring game!', reaction: 'Boring? No! It was fun!' },
+    },
+    {
+      id: 'now',
+      ask: ASK_NOW,
+      hintHe: "מה עושים עכשיו? Let's eat ice cream = בוא נאכל גלידה, go home = ללכת הביתה, play again = לשחק שוב",
+      swapHintHe: 'שאלו את הילד החדש מה הוא רוצה לעשות עכשיו.',
+      options: [
+        { say: SAY_ICECREAM, correct: true, icon: '🍦', label: 'ice cream' },
+        { say: SAY_HOME, correct: true, icon: '🏠', label: 'go home' },
+        { say: SAY_PLAY_AGAIN, correct: true, icon: '🔁', label: 'play again' },
+      ],
+      distractorWord: 'sleep',
+      swapSilly: { say: 'Do you want to do homework now?', reaction: 'Homework? No! I want to have fun!' },
+    },
+    {
       id: 'goodbye',
       ask: ASK_BYE,
-      hintHe: 'נפרדים מסאם. See you tomorrow = נתראה מחר',
+      hintHe: 'נפרדים מסאם. It was so nice to meet you = איזה כיף שהכרנו, See you tomorrow = נתראה מחר',
       swapHintHe: 'אמרו לילד שהגיע הזמן ללכת ושתתראו מחר.',
       options: [
-        { say: SAY_BYE, correct: true },
+        { say: SAY_NICE, correct: true, icon: '💛', label: 'nice to meet you' },
+        { say: SAY_BYE, correct: true, icon: '👋', label: 'see you tomorrow' },
         { say: SILLY_BYE.say, correct: false, reaction: SILLY_BYE.reaction },
       ],
       distractorWord: 'year',
@@ -220,10 +268,14 @@ const SCENE: Scene = {
     { slot: 'pet', titleHe: 'איזו חיית מחמד?', choices: [
       { value: 'dog', icon: '🐶', label: 'a dog' },
       { value: 'cat', icon: '🐱', label: 'a cat' },
+      { value: 'hamster', icon: '🐹', label: 'a hamster' },
+      { value: 'turtle', icon: '🐢', label: 'a turtle' },
+      { value: 'rabbit', icon: '🐰', label: 'a rabbit' },
       { value: 'none', icon: '🚫', label: 'no pet' },
     ] },
     { slot: 'game', titleHe: 'מה אוהב/ת לשחק?', choices: [
       { value: 'football', icon: '⚽', label: 'football' },
+      { value: 'basketball', icon: '🏀', label: 'basketball' },
       { value: 'tag', icon: '🏃', label: 'tag' },
       { value: 'hide and seek', icon: '🙈', label: 'hide and seek' },
     ] },
@@ -236,6 +288,7 @@ const SCENE: Scene = {
   phrases: [
     { speaker: 'sam', en: ASK_GREET, he: he.greet },
     { speaker: 'kid', en: SAY_HI, he: 'היי, סאם! אני חדש/ה פה.' },
+    { speaker: 'kid', en: SAY_LIVE, he: 'לא, אני גר/ה פה.' },
     { speaker: 'sam', en: ASK_AGE, he: he.age },
     { speaker: 'kid', en: SAY_9, he: 'אני בן/בת תשע.' },
     { speaker: 'sam', en: ASK_COLOUR, he: 'מה הצבע האהוב עליכם?' },
@@ -246,7 +299,12 @@ const SCENE: Scene = {
     { speaker: 'kid', en: SAY_FOOTBALL, he: 'אני אוהב/ת לשחק כדורגל.' },
     { speaker: 'sam', en: ASK_PLAY, he: he.play },
     { speaker: 'kid', en: SAY_YES, he: 'כן, בבקשה! בוא נשחק!' },
+    { speaker: 'sam', en: ASK_FUN, he: he.fun },
+    { speaker: 'kid', en: SAY_GREAT, he: 'זה היה משחק מעולה!' },
+    { speaker: 'sam', en: ASK_NOW, he: he.now },
+    { speaker: 'kid', en: SAY_ICECREAM, he: 'בוא נאכל גלידה!' },
     { speaker: 'sam', en: ASK_BYE, he: he.bye },
+    { speaker: 'kid', en: SAY_NICE, he: 'איזה כיף שהכרנו!' },
     { speaker: 'kid', en: SAY_BYE, he: 'נתראה מחר! ביי, סאם!' },
   ],
 }

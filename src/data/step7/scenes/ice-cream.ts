@@ -7,9 +7,9 @@ import type { SceneBundle, Scene, Story, StoryChoice, StoryLine } from '../types
  */
 
 const ASK_GREET = "Hi! Welcome to Lulu's Ice Cream! What would you like?"
-const ASK_FLAVOUR = 'Yummy! What flavour would you like?'
+const ASK_FLAVOUR = 'Yummy! Which flavours would you like? You can choose up to 3 flavours.'
 const ASK_HOLDER = 'Would you like a cone or a cup?'
-const ASK_SCOOPS = 'How many scoops would you like?'
+const ASK_SCOOPS = 'How many scoops of each flavour?'
 const ASK_SPRINKLES = 'Would you like sprinkles on top?'
 const ASK_PAY = "Here you are! That's ten shekels, please."
 const ASK_BYE = 'Thank you! Enjoy your ice cream!'
@@ -17,16 +17,14 @@ const ASK_BYE = 'Thank you! Enjoy your ice cream!'
 const SAY_ICE = 'I would like an ice cream, please.'
 const SAY_CONE = 'A cone, please.'
 const SAY_CUP = 'A cup, please.'
-const SAY_ONE = 'One scoop, please.'
-const SAY_TWO = 'Two scoops, please.'
-const SAY_THREE = 'Three scoops, please.'
+const SAY_ONE = 'One scoop of each, please.'
+const SAY_TWO = 'Two scoops of each, please.'
 const SAY_YES = 'Yes, please!'
 const SAY_NO = 'No, thank you.'
-const SAY_PAY = 'Here you are.'
+const SAY_PAY = 'Here is the money.'
 const SAY_BYE = 'Thank you! Goodbye!'
 
 const SILLY_GREET = { say: 'I would like a snowman, please.', reaction: 'A snowman? Brrr! This is an ice-cream shop! Try again.' }
-const SILLY_FLAVOUR = { say: 'Onion, please.', reaction: 'Onion ice cream? Yuck! Try again.' }
 const SILLY_HOLDER = { say: 'A shoe, please.', reaction: 'Ice cream in a shoe? Ha ha! Try again.' }
 const SILLY_SCOOPS = { say: 'One hundred scoops, please!', reaction: "One hundred? That's a mountain! Try again." }
 const SILLY_SPRINKLES = { say: 'Yes, ketchup, please!', reaction: 'Ketchup on ice cream? Yuck! Try again.' }
@@ -39,14 +37,20 @@ const FLAVOURS = [
   { v: 'strawberry', icon: '🍓', he: 'תות' },
   { v: 'lemon', icon: '🍋', he: 'לימון' },
   { v: 'mint', icon: '🌿', he: 'מנטה' },
+  { v: 'pistachio', icon: '🥜', he: 'פיסטוק' },
+  { v: 'coffee', icon: '☕', he: 'קפה' },
+  { v: 'salted caramel', icon: '🍮', he: 'קרמל מלוח' },
+  { v: 'passion fruit', icon: '🌺', he: 'פסיפלורה' },
 ]
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1)
+/** The flavours as "pick several" items (Order / Build / role swap and the story). */
+const FLAVOUR_ITEMS = FLAVOURS.map(f => ({ say: cap(f.v), he: f.he, icon: f.icon, value: f.v }))
 
 const he = {
   greet: 'שלום! ברוכים הבאים לגלידה של לולו! מה תרצו?',
-  flavour: 'יאמי! איזה טעם תרצו?',
+  flavour: 'יאמי! אילו טעמים תרצו? אפשר לבחור עד 3 טעמים.',
   holder: 'תרצו גביע או כוס?',
-  scoops: 'כמה כדורים תרצו?',
+  scoops: 'כמה כדורים מכל טעם?',
   sprinkles: 'תרצו סוכריות צבעוניות למעלה?',
   pay: 'בבקשה! זה עשרה שקלים, בבקשה.',
   bye: 'תודה! בתיאבון!',
@@ -135,13 +139,10 @@ const SCENE: Scene = {
     {
       id: 'flavour',
       ask: ASK_FLAVOUR,
-      hintHe: 'בחרו טעם: chocolate = שוקולד, vanilla = וניל, strawberry = תות, lemon = לימון, mint = מנטה',
-      swapHintHe: 'שאלו את הלקוח איזה טעם גלידה הוא רוצה.',
-      showCorrect: 3,
-      options: [
-        ...FLAVOURS.map(f => ({ say: `${cap(f.v)}, please.`, correct: true, pick: { slot: 'flavour', value: f.v }, icon: f.icon, label: f.v })),
-        { say: SILLY_FLAVOUR.say, correct: false, reaction: SILLY_FLAVOUR.reaction },
-      ],
+      hintHe: 'בחרו עד 3 טעמים: chocolate = שוקולד, vanilla = וניל, strawberry = תות, pistachio = פיסטוק, coffee = קפה…',
+      swapHintHe: 'שאלו את הלקוח אילו טעמים הוא רוצה (עד 3).',
+      options: [],
+      multi: { slot: 'flavour', max: 3, promptHe: 'בחרו עד 3 טעמים', closer: 'please.', options: FLAVOUR_ITEMS },
       distractorWord: 'onion',
       swapSilly: { say: 'Do you want fish ice cream?', reaction: 'Fish ice cream? Yuck! No way!' },
     },
@@ -161,12 +162,11 @@ const SCENE: Scene = {
     {
       id: 'scoops',
       ask: ASK_SCOOPS,
-      hintHe: 'כמה כדורים? one = אחד, two = שניים, three = שלושה. scoop = כדור גלידה',
-      swapHintHe: 'שאלו את הלקוח כמה כדורי גלידה הוא רוצה.',
+      hintHe: 'כמה כדורים מכל טעם? one = אחד, two = שניים. scoop = כדור גלידה, of each = מכל אחד',
+      swapHintHe: 'שאלו את הלקוח כמה כדורים הוא רוצה מכל טעם.',
       options: [
-        { say: SAY_ONE, correct: true, pick: { slot: 'scoops', value: '1' }, icon: '1️⃣', label: 'one' },
-        { say: SAY_TWO, correct: true, pick: { slot: 'scoops', value: '2' }, icon: '2️⃣', label: 'two' },
-        { say: SAY_THREE, correct: true, pick: { slot: 'scoops', value: '3' }, icon: '3️⃣', label: 'three' },
+        { say: SAY_ONE, correct: true, pick: { slot: 'scoops', value: '1' }, icon: '1️⃣', label: 'one of each' },
+        { say: SAY_TWO, correct: true, pick: { slot: 'scoops', value: '2' }, icon: '2️⃣', label: 'two of each' },
         { say: SILLY_SCOOPS.say, correct: false, reaction: SILLY_SCOOPS.reaction },
       ],
       distractorWord: 'hundred',
@@ -188,7 +188,7 @@ const SCENE: Scene = {
     {
       id: 'pay',
       ask: ASK_PAY,
-      hintHe: 'שלמו ללולו. Here you are = בבקשה (כשנותנים משהו)',
+      hintHe: 'שלמו ללולו. Here is the money = הנה הכסף',
       swapHintHe: 'הגישו ללקוח את הגלידה ובקשו תשלום.',
       options: [
         { say: SAY_PAY, correct: true },
@@ -212,15 +212,14 @@ const SCENE: Scene = {
   ],
   makeAfterStep: 'sprinkles',
   makeSlots: [
-    { slot: 'flavour', titleHe: 'איזה טעם?', choices: FLAVOURS.map(f => ({ value: f.v, icon: f.icon, label: f.v })) },
+    { slot: 'flavour', titleHe: 'אילו טעמים? (בדיוק מה שהלקוח ביקש)', multi: true, choices: FLAVOURS.map(f => ({ value: f.v, icon: f.icon, label: f.v })) },
     { slot: 'holder', titleHe: 'גביע או כוס?', choices: [
       { value: 'cone', icon: '🍦', label: 'cone' },
       { value: 'cup', icon: '🍨', label: 'cup' },
     ] },
     { slot: 'scoops', titleHe: 'כמה כדורים?', choices: [
-      { value: '1', icon: '1️⃣', label: 'one' },
-      { value: '2', icon: '2️⃣', label: 'two' },
-      { value: '3', icon: '3️⃣', label: 'three' },
+      { value: '1', icon: '1️⃣', label: 'one of each' },
+      { value: '2', icon: '2️⃣', label: 'two of each' },
     ] },
     { slot: 'sprinkles', titleHe: 'סוכריות צבעוניות?', choices: [
       { value: 'yes', icon: '🌈', label: 'sprinkles' },
@@ -236,15 +235,15 @@ const SCENE: Scene = {
     { speaker: 'lulu', en: ASK_GREET, he: he.greet },
     { speaker: 'kid', en: SAY_ICE, he: 'הייתי רוצה גלידה, בבקשה.' },
     { speaker: 'lulu', en: ASK_FLAVOUR, he: he.flavour },
-    { speaker: 'kid', en: 'Chocolate, please.', he: 'שוקולד, בבקשה.' },
+    { speaker: 'kid', en: 'Chocolate, strawberry and pistachio, please.', he: 'שוקולד, תות ופיסטוק, בבקשה.' },
     { speaker: 'lulu', en: ASK_HOLDER, he: he.holder },
     { speaker: 'kid', en: SAY_CONE, he: 'גביע, בבקשה.' },
     { speaker: 'lulu', en: ASK_SCOOPS, he: he.scoops },
-    { speaker: 'kid', en: SAY_TWO, he: 'שני כדורים, בבקשה.' },
+    { speaker: 'kid', en: SAY_ONE, he: 'כדור אחד מכל טעם, בבקשה.' },
     { speaker: 'lulu', en: ASK_SPRINKLES, he: he.sprinkles },
     { speaker: 'kid', en: SAY_YES, he: 'כן, בבקשה!' },
     { speaker: 'lulu', en: ASK_PAY, he: he.pay },
-    { speaker: 'kid', en: SAY_PAY, he: 'בבקשה (הנה הכסף).' },
+    { speaker: 'kid', en: SAY_PAY, he: 'הנה הכסף.' },
     { speaker: 'lulu', en: ASK_BYE, he: he.bye },
     { speaker: 'kid', en: SAY_BYE, he: 'תודה! להתראות!' },
   ],
@@ -256,14 +255,6 @@ const L = (text: string, heText: string): StoryLine => ({ text, he: heText })
 
 const BYE: StoryChoice = { say: SAY_BYE, he: 'תודה! להתראות!', icon: '👋' }
 const COME_IN = L("Hello! Come in, it's nice and cool inside!", 'שלום! היכנסו, בפנים נעים וקריר!')
-/** Story flavours: the Order-mode ones plus a few more (the child picks up to 3). */
-const STORY_FLAVOURS = [
-  ...FLAVOURS,
-  { v: 'pistachio', icon: '🥜', he: 'פיסטוק' },
-  { v: 'coffee', icon: '☕', he: 'קפה' },
-  { v: 'salted caramel', icon: '🍮', he: 'קרמל מלוח' },
-  { v: 'passion fruit', icon: '🌺', he: 'פסיפלורה' },
-]
 
 const STORY: Story = {
   id: 'ice-cream-story',
@@ -314,7 +305,7 @@ const STORY: Story = {
       ],
       pick: {
         key: 'flavour', max: 3, promptHe: 'בחרו עד 3 טעמים', closer: 'please.',
-        options: STORY_FLAVOURS.map(f => ({ say: cap(f.v), he: f.he, icon: f.icon, value: f.v })),
+        options: FLAVOUR_ITEMS,
         reply: L('Yum! Great choice!', 'יאמי! בחירה מצוינת!'),
         next: 'holder',
       },
@@ -331,10 +322,10 @@ const STORY: Story = {
     {
       id: 'scoops', place: 'shop', chapter: 4,
       narrationHe: 'לולו מוכנה עם הכף. כמה כדורים מכל טעם? ואולי… הרבה יותר?',
-      lines: [L('How many scoops of each flavour?', 'כמה כדורים מכל טעם?')],
+      lines: [L(ASK_SCOOPS, he.scoops)],
       choices: [
-        { say: 'One scoop of each, please.', he: 'כדור אחד מכל טעם, בבקשה.', icon: '1️⃣', next: 'sprinkles' },
-        { say: 'Two scoops of each, please.', he: 'שני כדורים מכל טעם, בבקשה.', icon: '2️⃣', next: 'sprinkles' },
+        { say: SAY_ONE, he: 'כדור אחד מכל טעם, בבקשה.', icon: '1️⃣', next: 'sprinkles' },
+        { say: SAY_TWO, he: 'שני כדורים מכל טעם, בבקשה.', icon: '2️⃣', next: 'sprinkles' },
         {
           say: 'Ten scoops, please!', he: 'עשרה כדורים, בבקשה!', icon: '🗼',
           reply: L('Ten scoops? Wow! An ice-cream tower!', 'עשרה כדורים? וואו! מגדל גלידה!'),
@@ -357,7 +348,7 @@ const STORY: Story = {
       lines: [L(ASK_PAY, he.pay)],
       props: [{ e: '🍦', x: 46, y: 46, s: 40 }],
       choices: [
-        { say: 'Here is the money.', he: 'הנה הכסף.', icon: '💰', next: 'outside', nextIf: [{ key: 'tower', value: 'yes', next: 'end-tower' }] },
+        { say: SAY_PAY, he: 'הנה הכסף.', icon: '💰', next: 'outside', nextIf: [{ key: 'tower', value: 'yes', next: 'end-tower' }] },
       ],
     },
     {

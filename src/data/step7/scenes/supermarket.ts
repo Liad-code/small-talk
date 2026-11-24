@@ -1,49 +1,88 @@
 import type { SceneBundle, Scene, Story, StoryChoice, StoryLine } from '../types'
 
 /**
- * Scene — "The Supermarket". The child shops with Mr. Brown's help: what they
- * need, how many, anything else, a bag, paying. Role swap: the child is
- * Mr. Brown and packs exactly the customer's shopping. Story: "Mum's Shopping List".
+ * Scene — "The Supermarket". The child shops with Mr. Brown's help, one
+ * category at a time like Mum's list: vegetables, fruits, milk products,
+ * sweets (each a "pick several"), a bag, paying. Role swap: the child is
+ * Mr. Brown and packs exactly the customer's basket. Story: "Mum's Shopping List".
  */
 
 const ASK_GREET = 'Hello! Can I help you?'
 const ASK_ITEM = 'What do you need?'
-const ASK_AMOUNT = 'How many do you need?'
+const ASK_VEG = 'Which vegetables?'
+const ASK_WHAT_ELSE = 'What else?'
+const ASK_FRUITS = 'Which fruits?'
 const ASK_EXTRA = 'Anything else?'
+const ASK_DAIRY = 'Which milk products?'
+const ASK_LIST = 'Anything else on the list?'
+const ASK_SWEETS = 'Which sweets?'
 const ASK_BAG = 'Do you need a bag?'
 const ASK_PAY = "That's twenty shekels, please."
 const ASK_BYE = 'Thank you! Have a nice day!'
 
 const SAY_GREET = "Yes, please. I'm shopping for my mum."
-const SAY_SIX = 'Six, please.'
-const SAY_TWO = 'Two, please.'
-const SAY_JUICE = 'Yes, juice, please.'
+const SAY_VEG = 'Vegetables, please.'
+const SAY_FRUITS = 'Fruits, please.'
+const SAY_DAIRY = 'Milk products, please.'
+const SAY_SWEETS = 'Sweets, please.'
 const SAY_NO = 'No, thank you.'
 const SAY_YES = 'Yes, please.'
-const SAY_PAY = 'Here you are.'
+const SAY_PAY = 'Here is the money.'
 const SAY_BYE = 'Thank you! You too! Goodbye!'
 
 const SILLY_GREET = { say: 'Yes, I need a dinosaur.', reaction: "A dinosaur? We don't sell dinosaurs! Try again." }
-const SILLY_ITEM = { say: 'I need a rocket, please.', reaction: 'A rocket? This is a supermarket! Try again.' }
-const SILLY_AMOUNT = { say: 'A million, please!', reaction: "A million? That's too many! Try again." }
-const SILLY_EXTRA = { say: 'Yes, a cloud, please.', reaction: "A cloud? I can't sell clouds! Try again." }
 const SILLY_BAG = { say: 'Yes, a sleeping bag, please.', reaction: 'A sleeping bag? Ha ha! Try again.' }
 const SILLY_PAY = { say: 'Can I pay with candy?', reaction: 'Candy? No, I need money! Try again.' }
 const SILLY_BYE = { say: 'Happy birthday!', reaction: "Happy birthday? It's not my birthday! Try again." }
 
-const ITEMS = [
-  { v: 'milk', icon: '🥛', he: 'חלב' },
-  { v: 'bread', icon: '🍞', he: 'לחם' },
-  { v: 'eggs', icon: '🥚', he: 'ביצים' },
-  { v: 'apples', icon: '🍎', he: 'תפוחים' },
-  { v: 'bananas', icon: '🍌', he: 'בננות' },
-]
+/** The shopping, by category — the same items in the story and in Order / Build / role swap. */
+type Item = [say: string, he: string, icon: string]
+const items = (list: Item[]) => list.map(([say, heText, icon]) => ({ say, he: heText, icon, value: say.toLowerCase() }))
+const choicesOf = (list: { value: string; icon: string }[]) => list.map(i => ({ value: i.value, icon: i.icon, label: i.value }))
+const VEG = items([
+  ['Carrots', 'גזר', '🥕'],
+  ['Tomatoes', 'עגבניות', '🍅'],
+  ['Cucumbers', 'מלפפונים', '🥒'],
+  ['Potatoes', 'תפוחי אדמה', '🥔'],
+  ['Onions', 'בצל', '🧅'],
+  ['Peppers', 'פלפלים', '🫑'],
+  ['Broccoli', 'ברוקולי', '🥦'],
+  ['Corn', 'תירס', '🌽'],
+])
+const FRUITS = items([
+  ['Apples', 'תפוחים', '🍎'],
+  ['Bananas', 'בננות', '🍌'],
+  ['Oranges', 'תפוזים', '🍊'],
+  ['Grapes', 'ענבים', '🍇'],
+  ['Strawberries', 'תותים', '🍓'],
+  ['Watermelon', 'אבטיח', '🍉'],
+])
+const DAIRY = items([
+  ['Milk', 'חלב', '🥛'],
+  ['Cheese', 'גבינה', '🧀'],
+  ['Yogurt', 'יוגורט', '🥣'],
+  ['Butter', 'חמאה', '🧈'],
+  ['Eggs', 'ביצים', '🥚'],
+])
+const SWEETS = items([
+  ['Chocolate', 'שוקולד', '🍫'],
+  ['Candies', 'סוכריות', '🍬'],
+  ['Lollipops', 'סוכריות על מקל', '🍭'],
+  ['Gummy bears', 'דובוני גומי', '🧸'],
+  ['Cookies', 'עוגיות', '🍪'],
+])
+const PICK_HE = 'בחרו כמה שתרצו — ואז אשרו'
 
 const he = {
   greet: 'שלום! אפשר לעזור לכם?',
   item: 'מה אתם צריכים?',
-  amount: 'כמה אתם צריכים?',
+  veg: 'אילו ירקות?',
+  whatElse: 'מה עוד?',
+  fruits: 'אילו פירות?',
   extra: 'עוד משהו?',
+  dairy: 'אילו מוצרי חלב?',
+  list: 'עוד משהו ברשימה?',
+  sweets: 'אילו ממתקים?',
   bag: 'אתם צריכים שקית?',
   pay: 'זה עשרים שקלים, בבקשה.',
   bye: 'תודה! שיהיה לכם יום נעים!',
@@ -141,45 +180,80 @@ const SCENE: Scene = {
       swapSilly: { say: 'Can I help you fly?', reaction: "Fly? I'm not a bird!" },
     },
     {
-      id: 'item',
+      id: 'need',
       ask: ASK_ITEM,
-      hintHe: 'מה אתם צריכים? milk = חלב, bread = לחם, eggs = ביצים, apples = תפוחים, bananas = בננות',
+      hintHe: 'מה כתוב ראשון ברשימה של אמא? vegetables = ירקות',
       swapHintHe: 'שאלו את הלקוח מה הוא צריך.',
-      showCorrect: 3,
-      options: [
-        ...ITEMS.map(i => ({ say: `I need ${i.v}, please.`, correct: true, pick: { slot: 'item', value: i.v }, icon: i.icon, label: i.v })),
-        { say: SILLY_ITEM.say, correct: false, reaction: SILLY_ITEM.reaction },
-      ],
+      options: [{ say: SAY_VEG, correct: true }],
       distractorWord: 'rocket',
       swapSilly: { say: 'Do you need a pet tiger?', reaction: 'A tiger? No! I need food!' },
     },
     {
-      id: 'amount',
-      ask: ASK_AMOUNT,
-      hintHe: 'כמה? one = אחד, two = שניים, six = שישה',
-      swapHintHe: 'שאלו את הלקוח כמה הוא צריך.',
-      options: [
-        { say: 'One, please.', correct: true, pick: { slot: 'amount', value: '1' }, icon: '1️⃣', label: 'one' },
-        { say: SAY_TWO, correct: true, pick: { slot: 'amount', value: '2' }, icon: '2️⃣', label: 'two' },
-        { say: SAY_SIX, correct: true, pick: { slot: 'amount', value: '6' }, icon: '6️⃣', label: 'six' },
-        { say: SILLY_AMOUNT.say, correct: false, reaction: SILLY_AMOUNT.reaction },
-      ],
-      distractorWord: 'million',
+      id: 'veg',
+      ask: ASK_VEG,
+      hintHe: 'בחרו ירקות: carrots = גזר, tomatoes = עגבניות, cucumbers = מלפפונים, potatoes = תפוחי אדמה…',
+      swapHintHe: 'שאלו את הלקוח אילו ירקות הוא רוצה.',
+      options: [],
+      multi: { slot: 'veg', promptHe: PICK_HE, closer: 'please.', options: VEG },
+      distractorWord: 'rocket',
+      swapSilly: { say: 'Do you want a blue carrot?', reaction: 'A blue carrot? Carrots are orange!' },
+    },
+    {
+      id: 'what-else',
+      ask: ASK_WHAT_ELSE,
+      hintHe: 'מה הלאה ברשימה? fruits = פירות',
+      swapHintHe: 'שאלו את הלקוח מה עוד הוא צריך.',
+      options: [{ say: SAY_FRUITS, correct: true }],
+      distractorWord: 'cloud',
+      swapSilly: { say: 'Do you want a bath too?', reaction: 'A bath? In a supermarket? No!' },
+    },
+    {
+      id: 'fruits',
+      ask: ASK_FRUITS,
+      hintHe: 'בחרו פירות: apples = תפוחים, bananas = בננות, oranges = תפוזים, grapes = ענבים…',
+      swapHintHe: 'שאלו את הלקוח אילו פירות הוא רוצה.',
+      options: [],
+      multi: { slot: 'fruit', promptHe: PICK_HE, closer: 'please.', options: FRUITS },
+      distractorWord: 'rocket',
+      swapSilly: { say: 'Do you want a square apple?', reaction: 'A square apple? Ha ha! No!' },
+    },
+    {
+      id: 'anything',
+      ask: ASK_EXTRA,
+      hintHe: 'עוד משהו? milk products = מוצרי חלב',
+      swapHintHe: 'שאלו את הלקוח אם הוא צריך עוד משהו.',
+      options: [{ say: SAY_DAIRY, correct: true }],
+      distractorWord: 'cloud',
       swapSilly: { say: 'Do you need one hundred?', reaction: 'One hundred? My bag is too small!' },
     },
     {
-      id: 'extra',
-      ask: ASK_EXTRA,
-      hintHe: 'עוד משהו? cheese = גבינה, juice = מיץ, No, thank you = לא, תודה',
-      swapHintHe: 'שאלו את הלקוח אם הוא צריך עוד משהו.',
-      options: [
-        { say: 'Yes, cheese, please.', correct: true, pick: { slot: 'extra', value: 'cheese' }, icon: '🧀', label: 'cheese' },
-        { say: SAY_JUICE, correct: true, pick: { slot: 'extra', value: 'juice' }, icon: '🧃', label: 'juice' },
-        { say: SAY_NO, correct: true, pick: { slot: 'extra', value: 'none' }, icon: '🚫', label: 'nothing' },
-        { say: SILLY_EXTRA.say, correct: false, reaction: SILLY_EXTRA.reaction },
-      ],
+      id: 'dairy',
+      ask: ASK_DAIRY,
+      hintHe: 'בחרו מוצרי חלב: milk = חלב, cheese = גבינה, yogurt = יוגורט, butter = חמאה, eggs = ביצים',
+      swapHintHe: 'שאלו את הלקוח אילו מוצרי חלב הוא רוצה.',
+      options: [],
+      multi: { slot: 'dairy', promptHe: PICK_HE, closer: 'please.', options: DAIRY },
+      distractorWord: 'rocket',
+      swapSilly: { say: 'Do you want hot ice?', reaction: 'Hot ice? There is no hot ice!' },
+    },
+    {
+      id: 'list',
+      ask: ASK_LIST,
+      hintHe: 'מה כתוב בסוף הרשימה? sweets = ממתקים',
+      swapHintHe: 'שאלו את הלקוח אם יש עוד משהו ברשימה.',
+      options: [{ say: SAY_SWEETS, correct: true }],
       distractorWord: 'cloud',
-      swapSilly: { say: 'Do you want a bath too?', reaction: 'A bath? In a supermarket? No!' },
+      swapSilly: { say: 'Is a dragon on the list?', reaction: 'A dragon? No! Sweets!' },
+    },
+    {
+      id: 'sweets',
+      ask: ASK_SWEETS,
+      hintHe: 'בחרו ממתקים: chocolate = שוקולד, candies = סוכריות, lollipops = סוכריות על מקל, cookies = עוגיות…',
+      swapHintHe: 'שאלו את הלקוח אילו ממתקים הוא רוצה.',
+      options: [],
+      multi: { slot: 'sweets', promptHe: PICK_HE, closer: 'please.', options: SWEETS },
+      distractorWord: 'rocket',
+      swapSilly: { say: 'Do you want soap sweets?', reaction: 'Soap? Yuck! No way!' },
     },
     {
       id: 'bag',
@@ -187,8 +261,8 @@ const SCENE: Scene = {
       hintHe: 'צריכים שקית? bag = שקית. Yes, please = כן, בבקשה. No, thank you = לא, תודה',
       swapHintHe: 'שאלו את הלקוח אם הוא צריך שקית.',
       options: [
-        { say: SAY_YES, correct: true, pick: { slot: 'bag', value: 'yes' }, icon: '🛍️', label: 'a bag' },
-        { say: SAY_NO, correct: true, pick: { slot: 'bag', value: 'no' }, icon: '🚫', label: 'no bag' },
+        { say: SAY_YES, correct: true, icon: '🛍️', label: 'a bag' },
+        { say: SAY_NO, correct: true, icon: '🚫', label: 'no bag' },
         { say: SILLY_BAG.say, correct: false, reaction: SILLY_BAG.reaction },
       ],
       distractorWord: 'sleeping',
@@ -197,7 +271,7 @@ const SCENE: Scene = {
     {
       id: 'pay',
       ask: ASK_PAY,
-      hintHe: 'שלמו למר בראון. Here you are = בבקשה (כשנותנים משהו)',
+      hintHe: 'שלמו למר בראון. Here is the money = הנה הכסף',
       swapHintHe: 'בקשו מהלקוח לשלם.',
       options: [
         { say: SAY_PAY, correct: true },
@@ -219,23 +293,12 @@ const SCENE: Scene = {
       swapSilly: { say: 'Please sleep in the shop!', reaction: 'Sleep here? No! I want to go home!' },
     },
   ],
-  makeAfterStep: 'bag',
+  makeAfterStep: 'sweets',
   makeSlots: [
-    { slot: 'item', titleHe: 'מה הלקוח צריך?', choices: ITEMS.map(i => ({ value: i.v, icon: i.icon, label: i.v })) },
-    { slot: 'amount', titleHe: 'כמה?', choices: [
-      { value: '1', icon: '1️⃣', label: 'one' },
-      { value: '2', icon: '2️⃣', label: 'two' },
-      { value: '6', icon: '6️⃣', label: 'six' },
-    ] },
-    { slot: 'extra', titleHe: 'עוד משהו?', choices: [
-      { value: 'cheese', icon: '🧀', label: 'cheese' },
-      { value: 'juice', icon: '🧃', label: 'juice' },
-      { value: 'none', icon: '🚫', label: 'nothing' },
-    ] },
-    { slot: 'bag', titleHe: 'שקית?', choices: [
-      { value: 'yes', icon: '🛍️', label: 'a bag' },
-      { value: 'no', icon: '🚫', label: 'no bag' },
-    ] },
+    { slot: 'veg', titleHe: 'אילו ירקות? (בדיוק מה שהלקוח ביקש)', multi: true, choices: choicesOf(VEG) },
+    { slot: 'fruit', titleHe: 'אילו פירות?', multi: true, choices: choicesOf(FRUITS) },
+    { slot: 'dairy', titleHe: 'אילו מוצרי חלב?', multi: true, choices: choicesOf(DAIRY) },
+    { slot: 'sweets', titleHe: 'אילו ממתקים?', multi: true, choices: choicesOf(SWEETS) },
   ],
   lines: {
     farewell: 'Goodbye! See you soon!',
@@ -246,15 +309,19 @@ const SCENE: Scene = {
     { speaker: 'mrbrown', en: ASK_GREET, he: he.greet },
     { speaker: 'kid', en: SAY_GREET, he: 'כן, בבקשה. אני קונה בשביל אמא שלי.' },
     { speaker: 'mrbrown', en: ASK_ITEM, he: he.item },
-    { speaker: 'kid', en: 'I need eggs, please.', he: 'אני צריך/ה ביצים, בבקשה.' },
-    { speaker: 'mrbrown', en: ASK_AMOUNT, he: he.amount },
-    { speaker: 'kid', en: SAY_SIX, he: 'שש, בבקשה.' },
+    { speaker: 'kid', en: SAY_VEG, he: 'ירקות, בבקשה.' },
+    { speaker: 'mrbrown', en: ASK_VEG, he: he.veg },
+    { speaker: 'kid', en: 'Carrots, tomatoes and corn, please.', he: 'גזר, עגבניות ותירס, בבקשה.' },
+    { speaker: 'mrbrown', en: ASK_WHAT_ELSE, he: he.whatElse },
+    { speaker: 'kid', en: SAY_FRUITS, he: 'פירות, בבקשה.' },
     { speaker: 'mrbrown', en: ASK_EXTRA, he: he.extra },
-    { speaker: 'kid', en: SAY_JUICE, he: 'כן, מיץ, בבקשה.' },
+    { speaker: 'kid', en: SAY_DAIRY, he: 'מוצרי חלב, בבקשה.' },
+    { speaker: 'mrbrown', en: ASK_LIST, he: he.list },
+    { speaker: 'kid', en: SAY_SWEETS, he: 'ממתקים, בבקשה.' },
     { speaker: 'mrbrown', en: ASK_BAG, he: he.bag },
     { speaker: 'kid', en: SAY_YES, he: 'כן, בבקשה.' },
     { speaker: 'mrbrown', en: ASK_PAY, he: he.pay },
-    { speaker: 'kid', en: SAY_PAY, he: 'בבקשה (הנה הכסף).' },
+    { speaker: 'kid', en: SAY_PAY, he: 'הנה הכסף.' },
     { speaker: 'mrbrown', en: ASK_BYE, he: he.bye },
     { speaker: 'kid', en: SAY_BYE, he: 'תודה! גם לך! להתראות!' },
   ],
@@ -263,12 +330,9 @@ const SCENE: Scene = {
 // ── Story ────────────────────────────────────────────────────────────────
 
 const L = (text: string, heText: string): StoryLine => ({ text, he: heText })
-type Item = [say: string, he: string, icon: string]
-const items = (list: Item[]) => list.map(([say, heText, icon]) => ({ say, he: heText, icon, value: say.toLowerCase() }))
 
 const BYE: StoryChoice = { say: SAY_BYE, he: 'תודה! גם לך! להתראות!', icon: '👋' }
 const LIST = { e: '📝', x: 30, y: 62, s: 30 }
-const PICK_HE = 'בחרו כמה שתרצו — ואז אשרו'
 
 const STORY: Story = {
   id: 'supermarket-story',
@@ -316,26 +380,17 @@ const STORY: Story = {
       lines: [L(ASK_ITEM, he.item)],
       props: [LIST],
       choices: [
-        { say: 'Vegetables, please.', he: 'ירקות, בבקשה.', icon: '🥕', next: 'veg' },
+        { say: SAY_VEG, he: 'ירקות, בבקשה.', icon: '🥕', next: 'veg' },
       ],
     },
     {
       id: 'veg', place: 'fruit', chapter: 2,
       narrationHe: 'מר בראון מוביל אתכם לדוכן הירקות. הכול ירוק, אדום וכתום — וטרי טרי!',
-      lines: [L('Which vegetables?', 'אילו ירקות?')],
+      lines: [L(ASK_VEG, he.veg)],
       props: [{ e: '🥕', x: 36, y: 56, s: 26 }, { e: '🥦', x: 48, y: 56, s: 26 }, { e: '🍅', x: 60, y: 56, s: 26 }],
       pick: {
         key: 'veg', promptHe: PICK_HE, closer: 'please.',
-        options: items([
-          ['Carrots', 'גזר', '🥕'],
-          ['Tomatoes', 'עגבניות', '🍅'],
-          ['Cucumbers', 'מלפפונים', '🥒'],
-          ['Potatoes', 'תפוחי אדמה', '🥔'],
-          ['Onions', 'בצל', '🧅'],
-          ['Peppers', 'פלפלים', '🫑'],
-          ['Broccoli', 'ברוקולי', '🥦'],
-          ['Corn', 'תירס', '🌽'],
-        ]),
+        options: VEG,
         reply: L('Great! Vegetables are good for you!', 'מעולה! ירקות זה בריא!'),
         next: 'what-else',
       },
@@ -343,26 +398,19 @@ const STORY: Story = {
     {
       id: 'what-else', place: 'fruit', chapter: 3,
       narrationHe: 'העגלה כבר מתמלאת. אתם מסמנים ✓ ברשימה ומסתכלים מה הלאה.',
-      lines: [L('What else?', 'מה עוד?')],
+      lines: [L(ASK_WHAT_ELSE, he.whatElse)],
       props: [LIST],
       choices: [
-        { say: 'Fruits, please.', he: 'פירות, בבקשה.', icon: '🍎', next: 'fruits' },
+        { say: SAY_FRUITS, he: 'פירות, בבקשה.', icon: '🍎', next: 'fruits' },
       ],
     },
     {
       id: 'fruits', place: 'fruit', chapter: 3,
       narrationHe: 'ממש ליד הירקות יש הר של פירות צבעוניים. איזה ריח מתוק!',
-      lines: [L('Which fruits?', 'אילו פירות?')],
+      lines: [L(ASK_FRUITS, he.fruits)],
       pick: {
         key: 'fruit', promptHe: PICK_HE, closer: 'please.',
-        options: items([
-          ['Apples', 'תפוחים', '🍎'],
-          ['Bananas', 'בננות', '🍌'],
-          ['Oranges', 'תפוזים', '🍊'],
-          ['Grapes', 'ענבים', '🍇'],
-          ['Strawberries', 'תותים', '🍓'],
-          ['Watermelon', 'אבטיח', '🍉'],
-        ]),
+        options: FRUITS,
         reply: L('Mmm! Your mum will be happy!', 'ממממ! אמא שלכם תשמח!'),
         next: 'anything',
       },
@@ -373,22 +421,16 @@ const STORY: Story = {
       lines: [L(ASK_EXTRA, he.extra)],
       props: [LIST],
       choices: [
-        { say: 'Milk products, please.', he: 'מוצרי חלב, בבקשה.', icon: '🥛', next: 'dairy' },
+        { say: SAY_DAIRY, he: 'מוצרי חלב, בבקשה.', icon: '🥛', next: 'dairy' },
       ],
     },
     {
       id: 'dairy', place: 'aisle', chapter: 4,
       narrationHe: 'מר בראון פותח את דלת המקרר. יש פה חלב, גבינות, יוגורטים ועוד.',
-      lines: [L('Which milk products?', 'אילו מוצרי חלב?')],
+      lines: [L(ASK_DAIRY, he.dairy)],
       pick: {
         key: 'dairy', promptHe: PICK_HE, closer: 'please.',
-        options: items([
-          ['Milk', 'חלב', '🥛'],
-          ['Cheese', 'גבינה', '🧀'],
-          ['Yogurt', 'יוגורט', '🥣'],
-          ['Butter', 'חמאה', '🧈'],
-          ['Eggs', 'ביצים', '🥚'],
-        ]),
+        options: DAIRY,
         reply: L('Good! Everything is cold and fresh!', 'מצוין! הכול קר וטרי!'),
         next: 'list',
       },
@@ -396,26 +438,20 @@ const STORY: Story = {
     {
       id: 'list', place: 'aisle', chapter: 5,
       narrationHe: 'אתם בודקים את הרשימה שוב… ובסוף, באותיות קטנות, אמא כתבה: "משהו מתוק!"',
-      lines: [L('Anything else on the list?', 'עוד משהו ברשימה?')],
+      lines: [L(ASK_LIST, he.list)],
       props: [LIST],
       choices: [
-        { say: 'Sweets, please.', he: 'ממתקים, בבקשה.', icon: '🍬', reply: L('Sweets? My favourite shelf!', 'ממתקים? המדף האהוב עליי!'), next: 'sweets' },
+        { say: SAY_SWEETS, he: 'ממתקים, בבקשה.', icon: '🍬', reply: L('Sweets? My favourite shelf!', 'ממתקים? המדף האהוב עליי!'), next: 'sweets' },
       ],
     },
     {
       id: 'sweets', place: 'aisle', chapter: 5,
       narrationHe: 'מדף הממתקים נוצץ בכל הצבעים. קשה לבחור!',
-      lines: [L('Which sweets?', 'אילו ממתקים?')],
+      lines: [L(ASK_SWEETS, he.sweets)],
       props: [{ e: '🍭', x: 40, y: 54, s: 28 }, { e: '🍫', x: 54, y: 54, s: 28 }],
       pick: {
         key: 'sweets', promptHe: PICK_HE, closer: 'please.',
-        options: items([
-          ['Chocolate', 'שוקולד', '🍫'],
-          ['Candies', 'סוכריות', '🍬'],
-          ['Lollipops', 'סוכריות על מקל', '🍭'],
-          ['Gummy bears', 'דובוני גומי', '🧸'],
-          ['Cookies', 'עוגיות', '🍪'],
-        ]),
+        options: SWEETS,
         reply: L('Mmm! Just a little, okay? Ha ha!', 'ממממ! רק קצת, בסדר? חה חה!'),
         next: 'bag',
       },
@@ -435,7 +471,7 @@ const STORY: Story = {
       lines: [L(ASK_PAY, he.pay)],
       choices: [
         {
-          say: 'Here is the money.', he: 'הנה הכסף.', icon: '💰', next: 'end-home',
+          say: SAY_PAY, he: 'הנה הכסף.', icon: '💰', next: 'end-home',
           nextIf: [{ key: 'bag', value: 'no', next: 'end-juggle' }],
         },
         { say: 'Oh no! I forgot my money!', he: 'אוי לא! שכחתי את הכסף!', icon: '😱', next: 'end-helper' },
