@@ -48,10 +48,19 @@ for (const b of bundles) {
   for (const s of scene.steps) {
     if (stepIds.has(s.id)) err(`duplicate step id ${s.id}`)
     stepIds.add(s.id)
+    if (s.multi) {
+      if (s.multi.options.length < 2) err(`step ${s.id}: multi needs at least 2 options`)
+      if (new Set(s.multi.options.map(o => o.value)).size !== s.multi.options.length) err(`step ${s.id}: multi option values must be unique`)
+      const ms = scene.makeSlots.find(m => m.slot === s.multi.slot)
+      if (ms) {
+        if (!ms.multi) err(`step ${s.id}: make slot "${ms.slot}" must be multi`)
+        for (const o of s.multi.options) if (!ms.choices.some(c => c.value === o.value)) err(`make slot "${ms.slot}" has no choice "${o.value}"`)
+      }
+      continue
+    }
     const good = s.options.filter(o => o.correct)
     const silly = s.options.filter(o => !o.correct)
     if (!good.length) err(`step ${s.id}: no correct option`)
-    if (!silly.length) err(`step ${s.id}: no silly option`)
     for (const o of silly) if (!o.reaction) err(`step ${s.id}: silly option "${o.say}" has no reaction`)
     if (good.length > 1) for (const o of good) if (!o.icon || !o.label) err(`step ${s.id}: choice "${o.say}" needs icon + label (Build mode picker)`)
     const words = good.flatMap(o => o.say.toLowerCase().replace(/[^a-z' ]/g, ' ').split(/\s+/))
@@ -61,9 +70,9 @@ for (const b of bundles) {
   if (!stepIds.has(scene.makeAfterStep)) err(`makeAfterStep "${scene.makeAfterStep}" is not a step`)
   const afterIdx = scene.steps.findIndex(s => s.id === scene.makeAfterStep)
   for (const slot of scene.makeSlots) {
-    const steps = scene.steps.filter((s, i) => i <= afterIdx && s.options.some(o => o.pick?.slot === slot.slot))
+    const steps = scene.steps.filter((s, i) => i <= afterIdx && (s.multi?.slot === slot.slot || s.options.some(o => o.pick?.slot === slot.slot)))
     if (!steps.length) err(`make slot "${slot.slot}": no step up to "${scene.makeAfterStep}" picks it`)
-    for (const s of steps) for (const o of s.options.filter(o => o.correct)) {
+    for (const s of steps) for (const o of s.multi ? [] : s.options.filter(o => o.correct)) {
       if (!o.pick) err(`step ${s.id}: correct option "${o.say}" has no pick (the customer's order would miss "${slot.slot}")`)
       else if (o.pick.slot === slot.slot && !slot.choices.some(c => c.value === o.pick.value)) err(`make slot "${slot.slot}" has no choice "${o.pick.value}"`)
     }

@@ -15,8 +15,10 @@ export function bundleLines({ scene, story }: SceneBundle): { speaker: Speaker; 
       out.push({ speaker: 'kid', text: o.say })
       if (o.reaction) out.push({ speaker: char, text: o.reaction })
     }
-    out.push({ speaker: char, text: s.swapSilly.say })
-    out.push({ speaker: 'kid', text: s.swapSilly.reaction })
+    if (s.multi) {
+      for (const o of s.multi.options) out.push({ speaker: 'kid', text: o.say })
+      out.push({ speaker: 'kid', text: s.multi.closer })
+    }
   }
   out.push({ speaker: char, text: scene.lines.farewell })
   out.push({ speaker: 'kid', text: scene.lines.makeRight })

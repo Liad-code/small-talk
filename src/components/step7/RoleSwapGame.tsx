@@ -4,6 +4,10 @@ import type { KidOption, Scene } from '@/data/step7/types'
 import { sayLine } from '@/utils/sceneAudio'
 import { stopAudio } from '@/utils/audioPlayer'
 import { shuffle } from '@/utils/shuffle'
+import { composeMulti, sayMulti, multiValue, type MultiItem } from '@/components/step7/MultiPick'
+
+/** What the customer says at a step: one answer, or a "pick several" order (said item by item). */
+type CustomerAnswer = KidOption & { items?: MultiItem[]; closer?: string }
 import { SceneStage, type Bubble } from '@/components/step7/SceneStage'
 import { ResultView } from '@/components/step7/ResultView'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
@@ -24,14 +28,21 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
   // from the previous round's.
   const customer = useMemo(() => {
     const roll = () => {
-      const m: Record<string, KidOption> = {}
+      const m: Record<string, CustomerAnswer> = {}
       for (const s of scene.steps) {
+        if (s.multi) {
+          // a random order of 1…max items (up to 3 when there's no max)
+          const max = Math.min(s.multi.max ?? 3, s.multi.options.length)
+          const items = shuffle([...s.multi.options]).slice(0, 1 + Math.floor(Math.random() * max))
+          m[s.id] = { say: composeMulti(items, s.multi.closer), correct: true, pick: { slot: s.multi.slot, value: multiValue(items.map(i => i.value)) }, items, closer: s.multi.closer }
+          continue
+        }
         const correct = s.options.filter(o => o.correct)
         m[s.id] = correct[Math.floor(Math.random() * correct.length)]
       }
       return m
     }
-    const sig = (m: Record<string, KidOption>) => Object.values(m).map(o => o.say).join('|')
+    const sig = (m: Record<string, CustomerAnswer>) => Object.values(m).map(o => o.say).join('|')
     const prev = lastCustomer.get(scene.id)
     let m = roll()
     for (let i = 0; i < 30 && prev && sig(m) === prev; i++) m = roll()
@@ -58,7 +69,8 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
   useEffect(() => () => { alive.current = false; stopAudio() }, [])
 
   const step = scene.steps[stepIdx]
-  const lines = useMemo(() => shuffle([step.ask, step.swapSilly.say]), [step])
+  // No silly line to choose any more (owner, 2026-11-24: no irrelevant answers in any tab)
+  const lines = useMemo(() => [step.ask], [step])
 
   async function speak(side: 'left' | 'right', text: string) {
     setBubble({ side, text })
@@ -73,15 +85,15 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
     setShowHint(false)
     await speak('left', text)
     if (!alive.current) return
-    if (text !== step.ask) {
-      await speak('right', step.swapSilly.reaction)
-      if (!alive.current) return
-      setWrong(w => new Set(w).add(text))
-      setBusy(false)
-      return
-    }
     const reply = customer[step.id]
-    await speak('right', reply.say)
+    if (reply.items) {
+      setBubble({ side: 'right', text: reply.say })
+      setTalking('right')
+      await sayMulti(reply.items, reply.closer ?? 'please.', () => alive.current)
+      if (alive.current) setTalking(null)
+    } else {
+      await speak('right', reply.say)
+    }
     if (!alive.current) return
     setNotes(n => [...n, reply.say])
     if (step.id === scene.makeAfterStep) { setPhase('make'); setBusy(false); return }
@@ -154,9 +166,14 @@ export function RoleSwapGame({ scene, onAgain }: { scene: Scene; onAgain: () => 
                     {slot.choices.map(c => (
                       <button
                         key={c.value}
-                        onClick={() => setMade(m => ({ ...m, [slot.slot]: c.value }))}
+                        onClick={() => setMade(m => {
+                          if (!slot.multi) return { ...m, [slot.slot]: c.value }
+                          const cur = (m[slot.slot] ?? '').split(',').filter(Boolean)
+                          const next = cur.includes(c.value) ? cur.filter(v => v !== c.value) : [...cur, c.value]
+                          return { ...m, [slot.slot]: multiValue(next) }
+                        })}
                         className={`flex flex-col items-center rounded-2xl border-4 px-2.5 py-1.5 min-w-[74px] transition-all
-                          ${made[slot.slot] === c.value ? 'border-orange-500 bg-orange-100 scale-105' : 'border-orange-200 bg-white'}`}
+                          ${(slot.multi ? (made[slot.slot] ?? '').split(',').includes(c.value) : made[slot.slot] === c.value) ? 'border-orange-500 bg-orange-100 scale-105' : 'border-orange-200 bg-white'}`}
                       >
                         <span className="text-3xl leading-none">{c.icon}</span>
                         <span className="text-xs font-black text-gray-700 mt-1">{c.label}</span>

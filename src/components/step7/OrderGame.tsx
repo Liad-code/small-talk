@@ -7,6 +7,7 @@ import { shuffle } from '@/utils/shuffle'
 import { SceneStage, type Bubble } from '@/components/step7/SceneStage'
 import { ResultView } from '@/components/step7/ResultView'
 import { StarOnComplete } from '@/components/shared/StarOnComplete'
+import { MultiPicker, composeMulti, sayMulti, multiValue, type MultiItem } from '@/components/step7/MultiPick'
 
 /**
  * Order / Build modes. The character asks, the child answers by choosing the
@@ -33,13 +34,15 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
   const step = scene.steps[stepIdx]
   const char = scene.character
 
-  // Order mode: which options to show this step (some correct + the silly one), stable per step
+  // Order mode: which options to show this step — relevant answers only (owner, 2026-11-23/24:
+  // no silly answers in any tab), stable per step
   const options = useMemo(() => {
     const correct = step.options.filter(o => o.correct)
-    const silly = step.options.filter(o => !o.correct)
     const shown = step.showCorrect ? shuffle([...correct]).slice(0, step.showCorrect) : correct
-    return shuffle([...shown, ...silly])
+    return shuffle([...shown])
   }, [step])
+  /** Build mode, "pick several" step: the items picked before building the sentence. */
+  const [buildItems, setBuildItems] = useState<MultiItem[] | null>(null)
 
   async function speak(side: 'left' | 'right', text: string) {
     setBubble({ side, text })
@@ -55,12 +58,28 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
     if (alive.current) setBusy(false)
   }
 
-  async function answer(o: KidOption) {
+  /** A "pick several" answer: the composed sentence, said item by item. */
+  function multiAnswer(items: MultiItem[]) {
+    const m = step.multi!
+    return {
+      option: { say: composeMulti(items, m.closer), correct: true, pick: { slot: m.slot, value: multiValue(items.map(i => i.value)) } } as KidOption,
+      audio: () => sayMulti(items, m.closer, () => alive.current),
+    }
+  }
+
+  async function answer(o: KidOption, audio?: () => Promise<void>) {
     if (busy) return
     setBusy(true)
     setShowHint(false)
     setSayAloud(true)
-    await speak('right', o.say)
+    if (audio) {
+      setBubble({ side: 'right', text: o.say })
+      setTalking('right')
+      await audio()
+      if (alive.current) setTalking(null)
+    } else {
+      await speak('right', o.say)
+    }
     if (!alive.current) return
     setSayAloud(false)
     if (!o.correct) {
@@ -77,6 +96,7 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
       setStepIdx(next)
       setWrong(new Set())
       setRevealed(false)
+      setBuildItems(null)
       await speak('left', scene.steps[next].ask)
       if (alive.current) setBusy(false)
     } else {
@@ -140,7 +160,32 @@ export function OrderGame({ scene, mode, onAgain }: { scene: Scene; mode: 'choos
             <p className="bounce-in text-center font-black text-sky-600" dir="rtl">🗣️ אמרו את המשפט בקול, יחד איתי!</p>
           )}
 
-          {mode === 'choose' ? (
+          {step.multi && mode === 'choose' ? (
+            !revealed ? (
+              <>
+                <p className="bounce-in text-center font-black text-violet-700 bg-violet-50 border-2 border-violet-200 rounded-2xl px-3 py-2 text-[15px]" dir="rtl">
+                  🤔 מה הייתם עונים? חשבו על תשובה משלכם ואמרו אותה בקול — ואז הפכו את הכרטיסים!
+                </p>
+                <div className="grid grid-cols-4 gap-2" dir="ltr">
+                  {step.multi.options.map((o, i) => (
+                    <button key={o.value} type="button" onClick={() => setRevealed(true)}
+                      className="story-pop-up h-16 rounded-2xl border-4 border-violet-300 text-white font-black shadow bg-[repeating-linear-gradient(45deg,#8b5cf6_0_12px,#7c3aed_12px_24px)]"
+                      style={{ animationDelay: `${i * 0.04}s` }} aria-label="קלף הפוך">❓</button>
+                  ))}
+                </div>
+                <button onClick={() => setRevealed(true)} className="btn-kid bg-violet-500 w-full text-lg" dir="rtl">🔄 הפכו את הכרטיסים</button>
+              </>
+            ) : (
+              <MultiPicker key={step.id} items={step.multi.options} max={step.multi.max} promptHe={step.multi.promptHe} disabled={busy}
+                onConfirm={items => { const a = multiAnswer(items); void answer(a.option, a.audio) }} />
+            )
+          ) : step.multi && mode === 'build' && !buildItems ? (
+            <MultiPicker key={step.id} items={step.multi.options} max={step.multi.max} promptHe={step.multi.promptHe} confirmHe="✓ עכשיו בונים את המשפט" disabled={busy}
+              onConfirm={items => setBuildItems(items)} />
+          ) : step.multi && mode === 'build' && buildItems ? (
+            <BuildAnswer key={`${step.id}-${multiAnswer(buildItems).option.say}`} options={[multiAnswer(buildItems).option]} distractor={step.distractorWord} busy={busy}
+              onDone={() => { const a = multiAnswer(buildItems); void answer(a.option, a.audio) }} />
+          ) : mode === 'choose' ? (
             <>
               {!revealed && (
                 <p className="bounce-in text-center font-black text-violet-700 bg-violet-50 border-2 border-violet-200 rounded-2xl px-3 py-2 text-[15px]" dir="rtl">

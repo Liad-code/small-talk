@@ -30,6 +30,15 @@ export interface SwapSilly {
   reaction: string  // spoken by the customer (kid voice)
 }
 
+/** Order / Build / role swap: a "pick several" step (toppings, flavours, vegetables…). */
+export interface SceneMulti {
+  slot: string              // what it fills in the order, e.g. 'topping' → 'cheese,olives'
+  max?: number              // any number when omitted
+  promptHe: string          // e.g. 'בחרו עד 3 תוספות'
+  closer: string            // the child's closing word(s), e.g. 'please.' — recorded once
+  options: { say: string; he: string; icon: string; value: string }[]  // each `say` recorded alone
+}
+
 export interface SceneStep {
   id: string
   ask: string            // the character's line that opens this step
@@ -40,12 +49,16 @@ export interface SceneStep {
   swapSilly: SwapSilly
   /** Order / Build: how many correct options to show at once (shuffled). */
   showCorrect?: number
+  /** A "pick several" step instead of single answers (`options` may then be empty). */
+  multi?: SceneMulti
 }
 
 /** A slot the child must "make" in role swap (e.g. the pizza size the customer ordered). */
 export interface MakeSlot {
   slot: string
   titleHe: string
+  /** The customer orders several items here (filled by a `multi` step): toggle, any order. */
+  multi?: boolean
   choices: { value: string; icon: string; label: string }[]
 }
 

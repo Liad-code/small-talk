@@ -9,6 +9,8 @@ function itemFor(scene: Scene, slot: string, value: string): { icon: string; lab
   for (const s of scene.steps) {
     const o = s.options.find(o => o.pick?.slot === slot && o.pick.value === value)
     if (o) return { icon: o.icon ?? '⭐', label: o.label ?? value }
+    const m = s.multi?.slot === slot ? s.multi.options.find(x => x.value === value) : undefined
+    if (m) return { icon: m.icon, label: m.say }
   }
   return { icon: '⭐', label: value }
 }
@@ -33,10 +35,10 @@ export function ResultView({ scene, order, compact = false }: { scene: Scene; or
   if (slots.length === 0) return null
   return (
     <div className={`flex flex-wrap justify-center gap-2 ${compact ? '' : 'my-4'}`} dir="ltr">
-      {slots.map(k => {
-        const it = itemFor(scene, k, order[k])
+      {slots.flatMap(k => order[k].split(',').map(v => ({ k, v }))).map(({ k, v }) => {
+        const it = itemFor(scene, k, v)
         return (
-          <div key={k} className={`bounce-in flex flex-col items-center rounded-2xl border-4 border-white bg-white/90 shadow ${compact ? 'px-2 py-1 min-w-[60px]' : 'px-3 py-2 min-w-[80px]'}`}>
+          <div key={`${k}:${v}`} className={`bounce-in flex flex-col items-center rounded-2xl border-4 border-white bg-white/90 shadow ${compact ? 'px-2 py-1 min-w-[60px]' : 'px-3 py-2 min-w-[80px]'}`}>
             <span className={`${compact ? 'text-2xl' : 'text-4xl'} leading-none`}>{it.icon}</span>
             <span className="text-xs font-black text-gray-700 mt-1">{it.label}</span>
           </div>

@@ -170,7 +170,7 @@ const SCENE: Scene = {
       hintHe: 'שלמו לאמה. Here you are = בבקשה (כשנותנים משהו)',
       swapHintHe: 'בקשו מהלקוח לשלם.',
       options: [
-        { say: 'Here you are.', correct: true },
+        { say: 'Here is the money.', correct: true },
         { say: 'Can I pay with buttons?', correct: false, reaction: 'Buttons? Ha ha! Money, please. Try again.' },
       ],
       distractorWord: 'buttons',
@@ -227,7 +227,7 @@ const SCENE: Scene = {
     { speaker: 'kid', en: "It's too big.", he: 'זה גדול מדי.' },
     { speaker: 'kid', en: "It's too small.", he: 'זה קטן מדי.' },
     { speaker: 'emma', en: ASK_PAY.text, he: ASK_PAY.he },
-    { speaker: 'kid', en: 'Here you are.', he: 'בבקשה (הנה הכסף).' },
+    { speaker: 'kid', en: 'Here is the money.', he: 'הנה הכסף.' },
     { speaker: 'emma', en: BYE_LINE.text, he: BYE_LINE.he },
     { speaker: 'kid', en: 'Thank you! Goodbye!', he: 'תודה! להתראות!' },
   ],
