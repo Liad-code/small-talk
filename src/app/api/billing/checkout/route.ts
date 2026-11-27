@@ -9,6 +9,13 @@ export const dynamic = 'force-dynamic'
 
 const schema = z.object({ plan: z.enum(['parent', 'teacher']), phone: z.string().max(20), tier: z.number().int().min(0).max(2).optional() })
 
+/** The public https origin (Grow rejects a localhost / http return address behind a proxy). */
+function siteOrigin(req: Request): string {
+  const configured = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL
+  if (configured) { try { return new URL(configured).origin } catch { /* fall through */ } }
+  return new URL(req.url).origin
+}
+
 /** Creates a Grow recurring payment link (through Make) and returns its URL. */
 export async function POST(req: Request) {
   if (!rateLimit(req, 'billing-checkout', 5, 60_000)) return NextResponse.json(TOO_MANY, { status: 429 })
@@ -21,7 +28,7 @@ export async function POST(req: Request) {
   if (!phone) return NextResponse.json({ error: 'phone' }, { status: 400 })
 
   try {
-    const url = await startCheckout({ userId, plan: body.data.plan, phone, origin: new URL(req.url).origin, tier: body.data.tier })
+    const url = await startCheckout({ userId, plan: body.data.plan, phone, origin: siteOrigin(req), tier: body.data.tier })
     return NextResponse.json({ url })
   } catch (e) {
     if (e instanceof BillingError) return NextResponse.json({ error: e.message }, { status: 409 })
