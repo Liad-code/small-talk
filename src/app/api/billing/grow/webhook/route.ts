@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { hasGrowWebhookKey, isFromMake } from '@/lib/billing/make'
+import { hasGrowWebhookKey, isFromMake, payloadHasGrowKey } from '@/lib/billing/make'
 import { handleRecurring, payloadWebhookKey } from '@/lib/billing/service'
 
 export const dynamic = 'force-dynamic'
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     if (form) payload = Object.fromEntries(Array.from(form.entries()).map(([k, v]) => [k, String(v)]))
   }
   if (!payload || typeof payload !== 'object') return NextResponse.json({ error: 'invalid' }, { status: 400 })
-  if (!isFromMake(req) && !hasGrowWebhookKey(payloadWebhookKey(payload))) {
+  if (!isFromMake(req) && !hasGrowWebhookKey(payloadWebhookKey(payload)) && !payloadHasGrowKey(payload)) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 })
   }
   const result = await handleRecurring(payload)

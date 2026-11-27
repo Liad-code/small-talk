@@ -118,3 +118,22 @@ export function hasGrowWebhookKey(payloadKey: string | null): boolean {
   const key = process.env.GROW_WEBHOOK_KEY
   return !!key && !!payloadKey && safeEqual(payloadKey, key)
 }
+
+/**
+ * Grow's webhook form has a "פרמטר מזהה" (identifier) field that is echoed in every notice.
+ * The owner sets it to the same long random secret as GROW_WEBHOOK_KEY; the field name Grow
+ * uses for it isn't documented, so any string value in the payload (a few levels deep) may
+ * carry it. Covers the account `webhookKey` too. Requires a key of at least 24 characters.
+ */
+export function payloadHasGrowKey(payload: unknown): boolean {
+  const key = process.env.GROW_WEBHOOK_KEY
+  if (!key || key.length < 24) return false
+  const values: string[] = []
+  const walk = (v: unknown, depth: number) => {
+    if (values.length > 500) return
+    if (typeof v === 'string') values.push(v.trim())
+    else if (v && typeof v === 'object' && depth < 4) for (const x of Object.values(v as Record<string, unknown>)) walk(x, depth + 1)
+  }
+  walk(payload, 0)
+  return values.some(v => v.length === key.length && safeEqual(v, key))
+}
